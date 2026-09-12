@@ -1159,7 +1159,8 @@ TEST(ControlProtocolPromotionPrepareTest,
 
 TEST(ControlProtocolFrozenSourceTest,
      RoundTripsVersionedRequestPreconditionsAndHashedEvidence) {
-  const control::FrozenSourceRequest request{.recovery_generation = 23};
+  const control::FrozenSourceRequest request{.recovery_generation = 23,
+                                             .source_flow_count = 3};
   auto encoded_request = control::EncodeFrozenSourceRequest(request);
   ASSERT_TRUE(encoded_request.ok()) << encoded_request.status();
   auto decoded_request = control::DecodeFrozenSourceRequest(*encoded_request);
@@ -1211,7 +1212,8 @@ TEST(ControlProtocolFrozenSourceTest,
 
 TEST(ControlProtocolFrozenSourceTest,
      RejectsIncompleteNonCanonicalOrMismatchedProofs) {
-  control::FrozenSourceRequest request{.recovery_generation = 0};
+  control::FrozenSourceRequest request{.recovery_generation = 0,
+                                       .source_flow_count = 3};
   EXPECT_EQ(control::EncodeFrozenSourceRequest(request).status().code(),
             absl::StatusCode::kInvalidArgument);
   request.recovery_generation = 1;

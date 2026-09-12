@@ -258,6 +258,7 @@ TEST(MetaDataControlRuntimeStatusTest,
   const auto session = Bytes<16>(0x41);
   const auto projection = RuntimeServingProjection(node_id);
   status.PublishCurrent(node_id, boot_id, session, Bytes<20>(0x51),
+                        /*replication_flow_count=*/3,
                         /*session_generation=*/10,
                         /*leadership_generation=*/11,
                         /*validated_committed_high_water=*/7, projection);
@@ -311,6 +312,7 @@ TEST(MetaDataControlRuntimeStatusTest, DoesNotConfirmAnExpiredGrantAsServing) {
   const auto session = Bytes<16>(0x41);
   const auto projection = RuntimeServingProjection(node_id);
   status.PublishCurrent(node_id, boot_id, session, Bytes<20>(0x51),
+                        /*replication_flow_count=*/3,
                         /*session_generation=*/10,
                         /*leadership_generation=*/11,
                         /*validated_committed_high_water=*/7, projection);
@@ -342,6 +344,7 @@ TEST(MetaDataControlRuntimeStatusTest,
   const auto session = Bytes<16>(0x41);
   auto projection = RuntimeServingProjection(node_id);
   status.PublishCurrent(node_id, boot_id, session, Bytes<20>(0x51),
+                        /*replication_flow_count=*/3,
                         /*session_generation=*/10,
                         /*leadership_generation=*/11,
                         /*validated_committed_high_water=*/7, projection);
@@ -359,6 +362,7 @@ TEST(MetaDataControlRuntimeStatusTest,
   projection = RuntimeServingProjection(node_id, /*hash_byte=*/0x42,
                                         /*grant_revision=*/7);
   status.PublishCurrent(node_id, boot_id, session, Bytes<20>(0x51),
+                        /*replication_flow_count=*/3,
                         /*session_generation=*/10,
                         /*leadership_generation=*/11,
                         /*validated_committed_high_water=*/8, projection);
@@ -384,6 +388,7 @@ TEST(MetaDataControlRuntimeStatusTest,
 
   const auto replacement_session = Bytes<16>(0x52);
   status.PublishCurrent(node_id, boot_id, replacement_session, Bytes<20>(0x51),
+                        /*replication_flow_count=*/3,
                         /*session_generation=*/11,
                         /*leadership_generation=*/11,
                         /*validated_committed_high_water=*/8, projection);
