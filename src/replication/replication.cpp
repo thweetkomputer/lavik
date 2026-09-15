@@ -13783,6 +13783,15 @@ class ReplicationManager::ReplicationGroup {
         celer::CrossWorkerMutex::Guard lock(&master_mutex_);
         FinalizeRetiredMasterSessionsLocked();
         if (MasterHistoryHasConsumersLocked()) continue;
+        if (cluster_enabled_) {
+          // Meta binds source authorizations and population proofs to this
+          // history. Finish retiring disconnected sessions, but leave history
+          // retirement to explicit cluster role/population transitions. The
+          // backlog stays bounded independently; standalone reconnect leases
+          // are unnecessary while the population owns the history lifetime.
+          disconnected_replica_leases_.clear();
+          co_return absl::OkStatus();
+        }
         history_id = history_id_;
       }
 

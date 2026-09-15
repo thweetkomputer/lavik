@@ -49,6 +49,11 @@ Function catalog, full-sync invalidation, population eligibility, and
 promotion base are durable, but native flow cursors and Redis replid/offset
 state are process-local. Every process boot creates a new boot ID, history ID,
 and replica incarnation; a restart therefore requires whole-group full sync.
+In Meta-managed mode the source history belongs to the population lifecycle,
+including intervals before the first replica connects or after all replicas
+disconnect. Protocol probes and idle-consumer cleanup cannot change that
+identity; explicit role or population transitions drain and retire it. Its
+in-memory backlog remains bounded by the configured retention budget.
 
 ## Runtime ownership
 
