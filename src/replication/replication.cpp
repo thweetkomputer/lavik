@@ -7596,6 +7596,10 @@ class ReplicationManager::ReplicationGroup {
       absl::Status status = co_await ServeOwnedNativeConnection(
           stream, std::move(args), client_id);
       UnregisterClientConnection(client_id);
+      if (!status.ok()) {
+        spdlog::warn("replication native handshake failed: {}",
+                     status.message());
+      }
       co_return status;
     }
 

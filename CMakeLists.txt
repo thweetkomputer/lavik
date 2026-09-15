@@ -975,7 +975,9 @@ if (BUILD_TESTING)
         )
         set_tests_properties(meta_integration.gate_cluster_create PROPERTIES
           LABELS meta-integration
-          TIMEOUT 300
+          # Multiple independent creation/recovery scenarios each elect Meta
+          # and wait out finite-lease handoff before checking serving readiness.
+          TIMEOUT 600
           RUN_SERIAL TRUE
         )
 
@@ -1253,7 +1255,10 @@ if (BUILD_TESTING)
       )
       set_tests_properties(cluster_integration.rebuild_protocol_guards PROPERTIES
         LABELS cluster-integration
-        TIMEOUT 120
+        # This entry runs nine process fixtures, including crash/restart and
+        # forced reconnects. Their combined runtime exceeds two minutes on
+        # hosted runners; each fixture retains its own bounded progress waits.
+        TIMEOUT 300
         RUN_SERIAL TRUE
       )
     endif()

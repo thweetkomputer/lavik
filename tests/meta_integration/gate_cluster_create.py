@@ -46,6 +46,17 @@ GROUPS = {
 TRANSIENT_SELF_FENCE = "CLUSTERDOWN Hash slot not served"
 
 
+def creation_raft_args():
+    """Keep finite leases long enough for the real-process creation fixtures."""
+    # The election lower bound also caps Data leases. The shared 300 ms Raft
+    # timing can expire a source's lease while Debug snapshot/TLS work runs on
+    # a hosted runner, deliberately revoking an unfinished rebuild. Creation
+    # checks lifecycle and replication outcomes; dedicated lease/failover
+    # tests exercise expiry with their own short timing and fault barriers.
+    return H.raft_args(snapshot_distance=100_000,
+                       election_ms_low=2000, election_ms_high=4000)
+
+
 def meta_manifest_lines(*metas):
     lines = []
     for meta in sorted(metas, key=lambda node: node.id):
@@ -211,7 +222,7 @@ def run_unrelated_commit_case(workdir):
     scenario = os.path.join(workdir, "unrelated-commit")
     os.makedirs(scenario, mode=0o700)
     meta = H.Node(META, scenario, 1,
-                  args=H.raft_args(snapshot_distance=100_000))
+                  args=creation_raft_args())
     proxy = InitialProjectionBarrier(meta.data_control_port)
     data = DataProcess(DATA, os.path.join(scenario, "data"), DATA_NODE,
                        proxy.endpoint)
@@ -291,7 +302,7 @@ def run_concurrent_case(workdir, transports):
     scenario = os.path.join(workdir, name)
     os.makedirs(scenario, mode=0o700)
     meta = H.Node(META, scenario, 1,
-                  args=H.raft_args(snapshot_distance=100_000))
+                  args=creation_raft_args())
     connections = []
     node_ids = [f"{index + 1:040x}" for index in range(2)]
     endpoints = [f"tcp://127.0.0.1:{H.free_port()}" for _ in node_ids]
@@ -401,7 +412,7 @@ def run_single_meta_client_loss_case(workdir):
     scenario = os.path.join(workdir, "single-meta-client-loss")
     os.makedirs(scenario, mode=0o700)
     meta = H.Node(META, scenario, 1,
-                  args=H.raft_args(snapshot_distance=100_000))
+                  args=creation_raft_args())
     operation_id = os.urandom(16)
     node_id = "0123456789abcdef0123456789abcdef01234567"
     try:
@@ -453,7 +464,7 @@ def run_case(workdir, interactive):
     meta_workdir = os.path.join(scenario, "meta")
     os.makedirs(meta_workdir, mode=0o700)
     meta = H.Node(META, meta_workdir, 1,
-                  args=H.raft_args(snapshot_distance=100_000))
+                  args=creation_raft_args())
     data = DataProcess(DATA, os.path.join(scenario, "data"), DATA_NODE,
                        meta.data_control_endpoint)
     environment = os.environ.copy()
@@ -598,7 +609,7 @@ def run_manifest_bootstrapped_multi_meta_case(workdir, count, late_voter):
     os.makedirs(meta_workdir, mode=0o700)
     metas = H.make_nodes(
         META, meta_workdir, count,
-        args=H.raft_args(snapshot_distance=100_000))
+        args=creation_raft_args())
     data = DataProcess(DATA, os.path.join(scenario, "data"), DATA_NODE,
                        metas[0].data_control_endpoint)
     manifest = os.path.join(scenario, "cluster.toml")
@@ -674,7 +685,7 @@ def run_manifest_bootstrapped_multi_meta_case(workdir, count, late_voter):
         if count == 3:
             post_create_joiner = H.Node(
                 META, meta_workdir, count + 1,
-                args=H.raft_args(snapshot_distance=100_000))
+                args=creation_raft_args())
             post_create_joiner.start()
             leader = H.find_leader(metas)
             H.join_and_verify(leader, post_create_joiner, timeout=30)
@@ -729,7 +740,7 @@ def run_five_meta_response_loss_case(workdir):
     os.makedirs(meta_workdir, mode=0o700)
     metas = H.make_nodes(
         META, meta_workdir, 5,
-        args=H.raft_args(snapshot_distance=100_000))
+        args=creation_raft_args())
     manifest = os.path.join(scenario, "cluster.toml")
     write_manifest(
         manifest, f"tcp://127.0.0.1:{H.free_port()}", metas)
@@ -1147,7 +1158,7 @@ def run_multi_group_case(workdir, automatic, interactive,
     meta_workdir = os.path.join(scenario, "meta")
     os.makedirs(meta_workdir, mode=0o700)
     meta = H.Node(META, meta_workdir, 1,
-                  args=H.raft_args(snapshot_distance=100_000))
+                  args=creation_raft_args())
     # Hold target rebuilds after source initialization so snapshots contain
     # real data. The advertised proxy also captures reconnects and redirects.
     proxy = (DirectiveBarrier(meta.data_control_port,
@@ -1386,7 +1397,7 @@ def run_tls_create_case(workdir, tls_only):
     operator_cert, operator_key = make_leaf(
         certdir, ca, ca_key, "operator", "keylane://operator/create-test")
     meta = H.Node(META, scenario, 1, args=(
-        H.raft_args(snapshot_distance=100_000) +
+        creation_raft_args() +
         H.tls_args(ca, meta_cert, meta_key) +
         ["--ctl-tls-ca", ca, "--ctl-tls-cert", meta_cert,
          "--ctl-tls-key", meta_key]))
@@ -1456,7 +1467,7 @@ def run_group_id_probe_case(workdir):
     scenario = os.path.join(workdir, "group-id-probe")
     os.makedirs(scenario, mode=0o700)
     meta = H.Node(META, scenario, 1,
-                  args=H.raft_args(snapshot_distance=100_000))
+                  args=creation_raft_args())
     nodes = [DataProcess(DATA, os.path.join(scenario, str(index)), node_id,
                          meta.data_control_endpoint)
              for index, node_id in enumerate((PRIMARY_1, PRIMARY_2))]
@@ -1575,7 +1586,7 @@ def run_recovery_case(workdir, phase, snapshot=False, wire=None, crash=False):
     scenario = os.path.join(workdir, name)
     os.makedirs(scenario, mode=0o700)
     meta = H.Node(META, scenario, 1,
-                  args=H.raft_args(snapshot_distance=100_000))
+                  args=creation_raft_args())
     proxy = (DirectiveBarrier(meta.data_control_port, result=wire == "result")
              if wire else None)
     if proxy:
