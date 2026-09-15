@@ -3439,9 +3439,9 @@ Task<std::string> ExecuteZSetMultiKeyLocked(
                                             key->digest_,
                                             &context.input_charges_[argument]);
       } else {
-        input = co_await ReadAggregateInputLocked(request.db_id_,
-                                                  args[argument], key->digest_,
-                                                  &context.input_charges_[argument]);
+        input = co_await ReadAggregateInputLocked(
+            request.db_id_, args[argument], key->digest_,
+            &context.input_charges_[argument]);
       }
       if (!input.ok()) co_return input.status();
       context.inputs_[argument] = std::move(*input);

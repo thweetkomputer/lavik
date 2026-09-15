@@ -20,8 +20,7 @@ namespace keylane::storage {
 
 Task<absl::StatusOr<SortedSetResult>> StorageEngine::ExecuteSortedSet(
     std::uint8_t db_id, std::string_view key,
-    const SortedSetOperation& operation,
-    ReplicationCommandAppend* replication,
+    const SortedSetOperation& operation, ReplicationCommandAppend* replication,
     const MutationPrecondition* mutation_precondition) {
   return impl_->ExecuteSortedSet(db_id, key, operation, replication,
                                  mutation_precondition);
@@ -38,8 +37,7 @@ Task<absl::StatusOr<SortedSetResult>> StorageEngine::ExecuteSortedSetLocked(
 
 Task<absl::StatusOr<SortedSetResult>> StorageEngine::Impl::ExecuteSortedSet(
     std::uint8_t db_id, std::string_view key,
-    const SortedSetOperation& operation,
-    ReplicationCommandAppend* replication,
+    const SortedSetOperation& operation, ReplicationCommandAppend* replication,
     const MutationPrecondition* mutation_precondition) {
   assert(db_id < kLogicalDatabaseCount);
   const Digest digest = ComputeDigest(key);

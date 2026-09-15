@@ -45,9 +45,10 @@ std::uint64_t Get(std::string_view input, std::size_t offset, unsigned width) {
 
 }  // namespace
 
-absl::StatusOr<std::size_t> AppendOrderedEntrySize(
-    OrderedCollectionKind kind, std::size_t encoded_bytes,
-    std::size_t item_bytes, std::size_t max_bytes) {
+absl::StatusOr<std::size_t> AppendOrderedEntrySize(OrderedCollectionKind kind,
+                                                   std::size_t encoded_bytes,
+                                                   std::size_t item_bytes,
+                                                   std::size_t max_bytes) {
   if (!ValidKind(kind))
     return absl::InvalidArgumentError("invalid ordered collection kind");
   const std::size_t framing =
@@ -61,7 +62,8 @@ absl::StatusOr<std::size_t> AppendOrderedEntrySize(
 }
 
 absl::StatusOr<std::string> EncodeOrderedCompactValue(
-    OrderedCollectionKind kind, std::span<const OrderedCollectionEntry> entries) {
+    OrderedCollectionKind kind,
+    std::span<const OrderedCollectionEntry> entries) {
   if (!ValidKind(kind) || entries.empty() ||
       entries.size() > std::numeric_limits<std::uint32_t>::max()) {
     return absl::InvalidArgumentError("invalid ordered full-image kind/count");

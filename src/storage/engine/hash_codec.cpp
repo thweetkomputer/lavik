@@ -65,9 +65,8 @@ absl::StatusOr<std::size_t> AppendHashEntrySize(std::size_t encoded_bytes,
                                                 std::size_t field_bytes,
                                                 std::size_t value_bytes,
                                                 std::size_t max_bytes) {
-  if (max_bytes < 8 ||
-      field_bytes > kMaxStringBytes || value_bytes > kMaxStringBytes ||
-      encoded_bytes > max_bytes - 8 ||
+  if (max_bytes < 8 || field_bytes > kMaxStringBytes ||
+      value_bytes > kMaxStringBytes || encoded_bytes > max_bytes - 8 ||
       field_bytes > max_bytes - encoded_bytes - 8 ||
       value_bytes > max_bytes - encoded_bytes - 8 - field_bytes) {
     return absl::OutOfRangeError("Hash field or value exceeds encoding limits");
@@ -75,7 +74,8 @@ absl::StatusOr<std::size_t> AppendHashEntrySize(std::size_t encoded_bytes,
   return encoded_bytes + 8 + field_bytes + value_bytes;
 }
 
-absl::StatusOr<HashValueReader> HashValueReader::Open(std::string_view payload) {
+absl::StatusOr<HashValueReader> HashValueReader::Open(
+    std::string_view payload) {
   if (payload.size() < kHashValueHeaderBytes) {
     return absl::InternalError("Hash value is truncated");
   }
@@ -124,9 +124,9 @@ absl::StatusOr<HashEntryView> HashValueReader::Next() {
       value_bytes > payload_.size() - offset - field_bytes) {
     return absl::InternalError("Hash entry is truncated");
   }
-  HashEntryView entry{.field_ = payload_.substr(offset, field_bytes),
-                      .value_ = payload_.substr(offset + field_bytes,
-                                               value_bytes)};
+  HashEntryView entry{
+      .field_ = payload_.substr(offset, field_bytes),
+      .value_ = payload_.substr(offset + field_bytes, value_bytes)};
   offset += field_bytes + value_bytes;
   if (remaining_ == 1 && offset != payload_.size()) {
     return absl::InternalError("Hash value has trailing bytes");

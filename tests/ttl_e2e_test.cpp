@@ -237,6 +237,7 @@ class ServerProcess {
           std::to_string(port),
           "--threads",
           std::to_string(thread_count),
+          "--no-pin-workers",
           "--recv-buffers-per-worker",
           "0",
           "--flush-max-ms",
@@ -404,8 +405,7 @@ void VerifyExpirationConfig(RespClient& client, std::uint16_t port) {
 
 class ExpirationAuthorityService final : public celer::Service {
  public:
-  explicit ExpirationAuthorityService(
-      keylane::storage::StorageEngine* storage)
+  explicit ExpirationAuthorityService(keylane::storage::StorageEngine* storage)
       : storage_(storage) {}
 
   void Prepare(unsigned thread_count) override {
@@ -872,9 +872,9 @@ int main(int argc, char** argv) {
       ServerProcess server(argv[1], no_authority_port, no_authority_data_path,
                            no_authority_log_path);
       RespClient client = Connect(no_authority_port);
-      Expect(client.Command({"SET", "authority-deferred", "value", "PX",
-                             "3000"}),
-             "+OK", "no-authority recovery seed");
+      Expect(
+          client.Command({"SET", "authority-deferred", "value", "PX", "3000"}),
+          "+OK", "no-authority recovery seed");
       server.Stop();
     }
     std::this_thread::sleep_for(3100ms);

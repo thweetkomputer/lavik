@@ -71,8 +71,8 @@ struct ControlDeadlineWatchdog::State {
   bool expired_ = false;
 };
 
-ControlDeadlineWatchdog::ControlDeadlineWatchdog(
-    celer::Worker& worker, ExpireCallback expire_callback)
+ControlDeadlineWatchdog::ControlDeadlineWatchdog(celer::Worker& worker,
+                                                 ExpireCallback expire_callback)
     : state_(std::make_shared<State>()) {
   state_->worker_ = &worker;
   state_->expire_callback_ = std::move(expire_callback);
@@ -99,8 +99,8 @@ celer::Task<absl::Status> ControlDeadlineWatchdog::Watch(
       if (state->expire_callback_) state->expire_callback_();
       break;
     }
-    auto timer = celer::CancellableSleepFor(*state->worker_,
-                                            state->deadline_ - now);
+    auto timer =
+        celer::CancellableSleepFor(*state->worker_, state->deadline_ - now);
     state->cancel_ = timer.CancelHandle();
     const absl::Status slept = co_await timer;
     state->cancel_ = {};
@@ -124,8 +124,7 @@ celer::Task<absl::Status> ControlDeadlineWatchdog::Watch(
   co_return absl::OkStatus();
 }
 
-absl::Status ControlDeadlineWatchdog::Arm(
-    std::chrono::nanoseconds timeout) {
+absl::Status ControlDeadlineWatchdog::Arm(std::chrono::nanoseconds timeout) {
   if (timeout.count() <= 0) {
     return absl::InvalidArgumentError("control deadline must be positive");
   }

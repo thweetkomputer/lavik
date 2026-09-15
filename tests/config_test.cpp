@@ -374,11 +374,11 @@ TEST(RedisConfigTest, ClusterModeRejectsStandalonePopulationSources) {
   ServerOptions options;
   ASSERT_TRUE(
       ApplyRedisConfigDirective({"cluster-enabled", "yes"}, &options).ok());
-  ASSERT_TRUE(ApplyRedisConfigDirective(
-                  {"cluster-node-id",
-                   "0123456789abcdef0123456789abcdef01234567"},
-                  &options)
-                  .ok());
+  ASSERT_TRUE(
+      ApplyRedisConfigDirective(
+          {"cluster-node-id", "0123456789abcdef0123456789abcdef01234567"},
+          &options)
+          .ok());
   ASSERT_TRUE(ApplyRedisConfigDirective(
                   {"cluster-meta-seed", "127.0.0.1:17001"}, &options)
                   .ok());
@@ -604,11 +604,11 @@ TEST(RedisConfigTest, AppliesClusterDirectives) {
   ServerOptions options;
   ASSERT_TRUE(
       ApplyRedisConfigDirective({"cluster-enabled", "yes"}, &options).ok());
-  ASSERT_TRUE(ApplyRedisConfigDirective(
-                  {"cluster-node-id",
-                   "0123456789abcdef0123456789abcdef01234567"},
-                  &options)
-                  .ok());
+  ASSERT_TRUE(
+      ApplyRedisConfigDirective(
+          {"cluster-node-id", "0123456789abcdef0123456789abcdef01234567"},
+          &options)
+          .ok());
   ASSERT_TRUE(ApplyRedisConfigDirective(
                   {"cluster-meta-seed", "127.0.0.1:17001"}, &options)
                   .ok());

@@ -117,8 +117,7 @@ absl::Status RemoveFileDurably(const std::string& data_dir,
 }
 
 absl::Status RenameFileDurably(const std::string& data_dir,
-                               const std::string& from,
-                               const std::string& to) {
+                               const std::string& from, const std::string& to) {
   const std::string from_path = data_dir + "/" + from;
   const std::string to_path = data_dir + "/" + to;
   if (::rename(from_path.c_str(), to_path.c_str()) < 0) {
@@ -199,8 +198,8 @@ struct TransportBindingBaseline {
 nuraft::ptr<nuraft::buffer> EncodeTransportBindingBaseline(
     const nuraft::cluster_config& config, std::uint64_t applied_index) {
   const nuraft::ptr<nuraft::buffer> serialized = config.serialize();
-  nuraft::ptr<nuraft::buffer> baseline = nuraft::buffer::alloc(
-      kTransportBindingsHeaderBytes + serialized->size());
+  nuraft::ptr<nuraft::buffer> baseline =
+      nuraft::buffer::alloc(kTransportBindingsHeaderBytes + serialized->size());
   std::memcpy(baseline->data_begin(), kTransportBindingsMarker.data(),
               kTransportBindingsMarker.size());
   EncodeU64(applied_index,
@@ -212,7 +211,8 @@ nuraft::ptr<nuraft::buffer> EncodeTransportBindingBaseline(
 
 absl::StatusOr<TransportBindingBaseline> DecodeTransportBindingBaseline(
     const nuraft::ptr<nuraft::buffer>& baseline) {
-  if (baseline == nullptr || baseline->size() <= kTransportBindingsHeaderBytes ||
+  if (baseline == nullptr ||
+      baseline->size() <= kTransportBindingsHeaderBytes ||
       std::memcmp(baseline->data_begin(), kTransportBindingsMarker.data(),
                   kTransportBindingsMarker.size()) != 0) {
     return absl::DataLossError("invalid durable transport-binding baseline");
@@ -259,7 +259,7 @@ absl::StatusOr<nuraft::ptr<nuraft::buffer>> ReadWholeFile(
     if (errno == ENOENT) return nuraft::ptr<nuraft::buffer>(nullptr);
     return ErrnoStatus("open", path);
   }
-  struct stat file_status {};
+  struct stat file_status{};
   if (::fstat(fd, &file_status) < 0) {
     absl::Status status = ErrnoStatus("fstat", path);
     ::close(fd);
@@ -1066,10 +1066,10 @@ void NuraftStateMgr::save_config(const nuraft::cluster_config& config) {
   std::lock_guard<std::mutex> lock(mutex_);
   if (initial_bindings_pending_.load(std::memory_order_relaxed)) {
     if (!SameMemberDescriptors(initial_binding_config_, next_config)) {
-      FatalStateError(
-          "change membership before genesis bindings converged", data_dir_,
-          absl::FailedPreconditionError(
-              "membership gate invariant was violated"));
+      FatalStateError("change membership before genesis bindings converged",
+                      data_dir_,
+                      absl::FailedPreconditionError(
+                          "membership gate invariant was violated"));
     }
     WriteFileAtomically("cluster_config.dat", *blob, "save_config");
     config_ = std::move(next_config);
@@ -1084,9 +1084,9 @@ void NuraftStateMgr::save_config(const nuraft::cluster_config& config) {
     return;
   }
 
-  const std::uint64_t config_index = std::max(
-      static_cast<std::uint64_t>(next_config->get_log_idx()),
-      static_cast<std::uint64_t>(next_config->get_prev_log_idx()));
+  const std::uint64_t config_index =
+      std::max(static_cast<std::uint64_t>(next_config->get_log_idx()),
+               static_cast<std::uint64_t>(next_config->get_prev_log_idx()));
   const std::uint64_t applied_index =
       std::max(transport_binding_index_, config_index);
   const absl::Status status = PublishTransportBindingBaselineLocked(
@@ -1163,8 +1163,7 @@ absl::Status NuraftStateMgr::CompleteWaitingJoinerCatchupLocked(
       !status.ok()) {
     return status;
   }
-  if (absl::Status status =
-          RemoveFileDurably(data_dir_, "waiting_joiner.dat");
+  if (absl::Status status = RemoveFileDurably(data_dir_, "waiting_joiner.dat");
       !status.ok()) {
     return status;
   }

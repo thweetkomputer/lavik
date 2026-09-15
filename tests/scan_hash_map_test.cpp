@@ -56,7 +56,7 @@ TEST(ScanHashMapTest, CandidatePredicateOnlySeesMatchingKeys) {
             entry);
   EXPECT_EQ(calls, 1);
   EXPECT_EQ(map.FindCandidateIf(ComputeDigest("present"), "present",
-                               [](const auto&) { return false; }),
+                                [](const auto&) { return false; }),
             nullptr);
   EXPECT_EQ(map.Find(ComputeDigest("present"), "present"), entry);
 }
@@ -74,10 +74,11 @@ TEST(ScanHashMapTest, CandidatePredicateFiltersExternalIdentityAndStopsEarly) {
   auto candidates = map.FindCandidates(digest, "external");
   ASSERT_EQ(candidates.size(), 32);
   unsigned calls = 0;
-  EXPECT_EQ(map.FindCandidateIf(digest, "external", [&](const auto&) {
-              ++calls;
-              return true;
-            }),
+  EXPECT_EQ(map.FindCandidateIf(digest, "external",
+                                [&](const auto&) {
+                                  ++calls;
+                                  return true;
+                                }),
             candidates.front());
   EXPECT_EQ(calls, 1);
   calls = 0;
@@ -91,10 +92,11 @@ TEST(ScanHashMapTest, CandidatePredicateFiltersExternalIdentityAndStopsEarly) {
             candidates[20]);
   EXPECT_EQ(calls, 21);
   calls = 0;
-  EXPECT_EQ(map.FindCandidateIf(digest, "external", [&](const auto&) {
-              ++calls;
-              return false;
-            }),
+  EXPECT_EQ(map.FindCandidateIf(digest, "external",
+                                [&](const auto&) {
+                                  ++calls;
+                                  return false;
+                                }),
             nullptr);
   EXPECT_EQ(calls, 32);
 }
@@ -116,20 +118,20 @@ TEST(ScanHashMapTest, CandidatePredicateContinuesIntoRehashTable) {
   ASSERT_NE(wanted, nullptr);
   ASSERT_TRUE(map.rehashing());
   std::vector<std::uint64_t> visited;
-  EXPECT_EQ(map.FindCandidateIf(Digest{63}, "external", [&](const auto& entry) {
-              visited.push_back(entry.value());
-              return entry.value() == 9999;
-            }),
+  EXPECT_EQ(map.FindCandidateIf(Digest{63}, "external",
+                                [&](const auto& entry) {
+                                  visited.push_back(entry.value());
+                                  return entry.value() == 9999;
+                                }),
             wanted);
   EXPECT_EQ(visited, (std::vector<std::uint64_t>{63, 9999}));
   ASSERT_TRUE(map.rehashing());
   for (unsigned i = 0; i < 512 && map.Maintain(); ++i) {
   }
   ASSERT_FALSE(map.rehashing());
-  EXPECT_EQ(map.FindCandidateIf(Digest{63}, "external",
-                               [](const auto& entry) {
-                                 return entry.value() == 9999;
-                               }),
+  EXPECT_EQ(map.FindCandidateIf(
+                Digest{63}, "external",
+                [](const auto& entry) { return entry.value() == 9999; }),
             wanted);
 }
 

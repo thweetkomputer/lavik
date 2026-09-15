@@ -311,8 +311,7 @@ Task<absl::Status> StorageEngine::WriteValueForTransferLocked(
     ReplicationCommandAppend* replication,
     const MutationPrecondition* mutation_precondition) {
   return impl_->WriteValueForTransferLocked(db_id, key, digest, value, tx,
-                                            replication,
-                                            mutation_precondition);
+                                            replication, mutation_precondition);
 }
 
 }  // namespace keylane::storage

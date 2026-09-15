@@ -58,18 +58,16 @@ Task<absl::Status> StorageEngine::Impl::ExecuteCompact(
   auto key_lock = co_await tx::CurrentTxShard().AcquireKey(
       db_id, tx::FingerprintOf(digest),
       read_only ? tx::LockMode::kShared : tx::LockMode::kExclusive);
-  co_return co_await ExecuteCompactLocked(db_id, key, digest, value_type,
-                                          read_only, callback, nullptr, now_ms,
-                                          replication, false,
-                                          mutation_precondition);
+  co_return co_await ExecuteCompactLocked(
+      db_id, key, digest, value_type, read_only, callback, nullptr, now_ms,
+      replication, false, mutation_precondition);
 }
 
 Task<absl::Status> StorageEngine::Impl::ExecuteCompactLocked(
     std::uint8_t db_id, std::string_view key, const Digest& digest,
     ValueType value_type, bool read_only, const CompactValueCallback& callback,
     TxShardWrites* tx, std::uint64_t now_ms,
-    ReplicationCommandAppend* replication,
-    bool prepare_unlocked,
+    ReplicationCommandAppend* replication, bool prepare_unlocked,
     const MutationPrecondition* mutation_precondition) {
   assert(db_id < kLogicalDatabaseCount);
   if (value_type != ValueType::kString && value_type != ValueType::kSortedSet &&

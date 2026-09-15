@@ -116,7 +116,8 @@ TEST(GroupedHashTest, CompactPayloadHasAnExplicitLittleEndianHeader) {
 
 TEST(GroupedHashTest, CompactEncodingMatchesAppendReferenceAtUnalignedLengths) {
   HashValue value;
-  for (const std::size_t length : {0, 1, 7, 15, 16, 127, 128, 255, 256, 65537}) {
+  for (const std::size_t length :
+       {0, 1, 7, 15, 16, 127, 128, 255, 256, 65537}) {
     auto& entry = value.entries_.emplace_back();
     entry.field_.resize(length);
     entry.value_.resize(length + 1);

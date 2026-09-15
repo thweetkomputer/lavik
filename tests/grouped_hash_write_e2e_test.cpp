@@ -116,16 +116,19 @@ TEST(HashReplaceE2e, SemanticsTtlBinaryFieldsAndUnchangedStandardCommands) {
   EXPECT_EQ(client.Command({"EXPIRE", "hash", "3600"}).text_, "1");
   const auto expiry = client.Command({"PEXPIRETIME", "hash"}).text_;
   const std::string binary("f\0x", 3), value("v\0y", 3);
-  EXPECT_EQ(client.Command({"keylane.hreplace", "hash", "a", "first", "a",
-                            "last", binary, value}).text_, "OK");
+  EXPECT_EQ(client
+                .Command({"keylane.hreplace", "hash", "a", "first", "a", "last",
+                          binary, value})
+                .text_,
+            "OK");
   EXPECT_EQ(client.Command({"HLEN", "hash"}).text_, "2");
   EXPECT_EQ(client.Command({"HGET", "hash", "a"}).text_, "last");
   EXPECT_EQ(client.Command({"HGET", "hash", "b"}).text_, "-1");
   EXPECT_EQ(client.Command({"HGET", "hash", binary}).text_, value);
   EXPECT_EQ(client.Command({"PEXPIRETIME", "hash"}).text_, expiry);
   EXPECT_EQ(client.Command({"KEYLANE.HREPLACE", "hash", "odd"}).kind_, '-');
-  EXPECT_EQ(client.Command({"KEYLANE.HREPLACE", "hash", "a", "v", "odd"})
-                .kind_, '-');
+  EXPECT_EQ(client.Command({"KEYLANE.HREPLACE", "hash", "a", "v", "odd"}).kind_,
+            '-');
   EXPECT_EQ(client.Command({"HLEN", "hash"}).text_, "2");
   EXPECT_EQ(client.Command({"PEXPIREAT", "hash", "1"}).text_, "1");
   EXPECT_EQ(client.Command({"KEYLANE.HREPLACE", "hash", "f", "v"}).text_, "-1");
@@ -145,9 +148,8 @@ TEST(HashReplaceE2e, DifferentRequestSizesPreserveLastDuplicateAfterRecovery) {
       ASSERT_EQ(client.Command({"HSET", key, "old-field", "old"}).text_, "1");
       std::vector<std::string> args{"KEYLANE.HREPLACE", key};
       for (unsigned i = 0; i < count; ++i) {
-        std::string field = i % 3 == 0
-                                ? ""
-                                : std::string("f\0", 2) + std::to_string(i % 7);
+        std::string field =
+            i % 3 == 0 ? "" : std::string("f\0", 2) + std::to_string(i % 7);
         std::string value = i % 4 == 0 ? "" : std::string(i * 3, 'v');
         expected[key][field] = value;
         args.push_back(std::move(field));
@@ -166,7 +168,8 @@ TEST(HashReplaceE2e, DifferentRequestSizesPreserveLastDuplicateAfterRecovery) {
   Server recovered(disk, 3);
   Client client(recovered.port());
   for (const auto& [key, fields] : expected) {
-    EXPECT_EQ(client.Command({"HLEN", key}).text_, std::to_string(fields.size()));
+    EXPECT_EQ(client.Command({"HLEN", key}).text_,
+              std::to_string(fields.size()));
     EXPECT_EQ(client.Command({"HEXISTS", key, "old-field"}).text_, "0");
     for (const auto& [field, value] : fields)
       EXPECT_EQ(client.Command({"HGET", key, field}).text_, value);
@@ -185,11 +188,15 @@ TEST(HashReplaceE2e, PromotionUsesFinalDeduplicatedBytes) {
       ASSERT_EQ(client.Command({"HSET", key, "old", "old"}).text_, "1");
       // Only the final duplicate participates in promotion. The overwritten
       // large value must neither force grouping nor leak into the after-image.
-      ASSERT_EQ(client.Command({"KEYLANE.HREPLACE", key, "x",
-                                std::string(32 * 1024, 'd'), "x",
-                                std::string(size, 'v')}).text_, "OK");
+      ASSERT_EQ(client
+                    .Command({"KEYLANE.HREPLACE", key, "x",
+                              std::string(32 * 1024, 'd'), "x",
+                              std::string(size, 'v')})
+                    .text_,
+                "OK");
       EXPECT_EQ(client.Command({"HLEN", key}).text_, "1");
-      EXPECT_EQ(client.Command({"HGET", key, "x"}).text_, std::string(size, 'v'));
+      EXPECT_EQ(client.Command({"HGET", key, "x"}).text_,
+                std::string(size, 'v'));
     }
     client.Durable();
     ASSERT_EQ(server.Wait(true), 0) << server.Log();
@@ -281,8 +288,8 @@ TEST(HashReadOwnershipE2e, FullReadsPreserveCompactAndGroupedValues) {
     EXPECT_EQ(client.Command({"GET", "string"}).text_, "unchanged");
     for (const auto* command : {"HGETALL", "HKEYS", "HVALS"}) {
       EXPECT_TRUE(client.Command({command, "missing"}).items_.empty());
-      EXPECT_TRUE(client.Command({command, "string"})
-                      .text_.starts_with("WRONGTYPE"));
+      EXPECT_TRUE(
+          client.Command({command, "string"}).text_.starts_with("WRONGTYPE"));
     }
     client.Durable();
     ASSERT_EQ(server.Wait(true), 0) << server.Log();
@@ -301,8 +308,9 @@ TEST(HashReplaceE2e, WatchExecAndLua) {
   Client writer(server.port()), watcher(server.port());
   ASSERT_EQ(writer.Command({"HSET", "hash", "a", "1", "b", "2"}).text_, "2");
   ASSERT_EQ(watcher.Command({"WATCH", "hash"}).text_, "OK");
-  ASSERT_EQ(writer.Command({"KEYLANE.HREPLACE", "hash", "a", "1", "b", "2"})
-                .text_, "OK");
+  ASSERT_EQ(
+      writer.Command({"KEYLANE.HREPLACE", "hash", "a", "1", "b", "2"}).text_,
+      "OK");
   ASSERT_EQ(watcher.Command({"MULTI"}).text_, "OK");
   ASSERT_EQ(watcher.Command({"HLEN", "hash"}).text_, "QUEUED");
   EXPECT_EQ(watcher.Command({"EXEC"}).text_, "-1");
@@ -316,9 +324,13 @@ TEST(HashReplaceE2e, WatchExecAndLua) {
   EXPECT_EQ(result.items_[1].text_, "OK");
   EXPECT_EQ(writer.Command({"HLEN", "hash"}).text_, "2");
   EXPECT_EQ(writer.Command({"HGET", "hash", "a"}).text_, "-1");
-  EXPECT_EQ(writer.Command({"EVAL",
-                           "return redis.call('KEYLANE.HREPLACE',KEYS[1],'e','5')",
-                           "1", "hash"}).text_, "OK");
+  EXPECT_EQ(
+      writer
+          .Command({"EVAL",
+                    "return redis.call('KEYLANE.HREPLACE',KEYS[1],'e','5')",
+                    "1", "hash"})
+          .text_,
+      "OK");
   EXPECT_EQ(writer.Command({"HLEN", "hash"}).text_, "1");
   EXPECT_EQ(writer.Command({"HGET", "hash", "e"}).text_, "5");
 }
@@ -385,14 +397,16 @@ TEST(HashReplaceE2e, AuxiliaryOomPreservesOldHashInsideExec) {
     ASSERT_EQ(result.items_.size(), 2);
     EXPECT_TRUE(result.items_[0].text_.starts_with("OOM"));
     EXPECT_EQ(result.items_[1].text_, "OK");
-    EXPECT_EQ(client.Command({"HGET", "hash", "field0"}).text_, std::string(128, 'v'));
+    EXPECT_EQ(client.Command({"HGET", "hash", "field0"}).text_,
+              std::string(128, 'v'));
     client.Durable();
     ASSERT_EQ(server.Wait(true), 0) << server.Log();
   }
   Server recovered(disk);
   Client client(recovered.port());
   EXPECT_EQ(client.Command({"HLEN", "hash"}).text_, "256");
-  EXPECT_EQ(client.Command({"HGET", "hash", "field0"}).text_, std::string(128, 'v'));
+  EXPECT_EQ(client.Command({"HGET", "hash", "field0"}).text_,
+            std::string(128, 'v'));
   EXPECT_EQ(client.Command({"GET", "after"}).text_, "survives");
 }
 
@@ -406,13 +420,17 @@ TEST(HashReplaceE2e, NativeReplicationPreservesReplacementAndAbsoluteTtl) {
     const auto expiry = writer.Command({"PEXPIRETIME", "hash"}).text_;
     Server replica(replica_disk, 3);
     Client follower(replica.port());
-    ASSERT_EQ(follower.Command({"REPLICAOF", "127.0.0.1",
-                                std::to_string(source.port())}).text_, "OK");
+    ASSERT_EQ(
+        follower
+            .Command({"REPLICAOF", "127.0.0.1", std::to_string(source.port())})
+            .text_,
+        "OK");
     const auto until = std::chrono::steady_clock::now() + 60s;
     bool online = false;
     while (std::chrono::steady_clock::now() < until) {
-      if (follower.Command({"INFO", "replication"}).text_.find(
-              "keylane_replication_state:online") != std::string::npos) {
+      if (follower.Command({"INFO", "replication"})
+              .text_.find("keylane_replication_state:online") !=
+          std::string::npos) {
         online = true;
         break;
       }
@@ -424,9 +442,11 @@ TEST(HashReplaceE2e, NativeReplicationPreservesReplacementAndAbsoluteTtl) {
     replacement[0] = "KEYLANE.HREPLACE";
     ASSERT_EQ(writer.Command(replacement).text_, "OK");
     ASSERT_EQ(writer.Command({"MULTI"}).text_, "OK");
-    ASSERT_EQ(writer.Command({"KEYLANE.HREPLACE", "hash", "only", "value"})
-                  .text_, "QUEUED");
-    ASSERT_EQ(writer.Command({"HMSET", "hash", "after", "tail"}).text_, "QUEUED");
+    ASSERT_EQ(
+        writer.Command({"KEYLANE.HREPLACE", "hash", "only", "value"}).text_,
+        "QUEUED");
+    ASSERT_EQ(writer.Command({"HMSET", "hash", "after", "tail"}).text_,
+              "QUEUED");
     const auto replies = writer.Command({"EXEC"});
     ASSERT_EQ(replies.items_.size(), 2);
     ASSERT_EQ(replies.items_[0].text_, "OK");
@@ -826,8 +846,9 @@ TEST(HashReplaceE2e, ColdReplacementDoesNotLoadOldPayload) {
     {
       Server server(disk);
       Client client(server.port());
-      auto seed = grouped ? HashCommand("hash")
-                          : std::vector<std::string>{"HSET", "hash", "old", "v"};
+      auto seed = grouped
+                      ? HashCommand("hash")
+                      : std::vector<std::string>{"HSET", "hash", "old", "v"};
       ASSERT_NE(client.Command(seed).kind_, '-');
       client.Durable();
       ASSERT_EQ(server.Wait(true), 0) << server.Log();
@@ -839,10 +860,12 @@ TEST(HashReplaceE2e, ColdReplacementDoesNotLoadOldPayload) {
         server = std::make_unique<Server>(disk);
       }
       Client client(server->port());
-      EXPECT_NE(client.Command({"HMSET", "hash", "old", "changed"}).text_.find(
-                    "injected value payload read failure"), std::string::npos);
-      ASSERT_EQ(client.Command({"KEYLANE.HREPLACE", "hash", "new", "image"})
-                    .text_, "OK");
+      EXPECT_NE(client.Command({"HMSET", "hash", "old", "changed"})
+                    .text_.find("injected value payload read failure"),
+                std::string::npos);
+      ASSERT_EQ(
+          client.Command({"KEYLANE.HREPLACE", "hash", "new", "image"}).text_,
+          "OK");
       EXPECT_EQ(client.Command({"HLEN", "hash"}).text_, "1");
       client.Durable();
       ASSERT_EQ(server->Wait(true), 0) << server->Log();
@@ -1317,8 +1340,9 @@ TEST_P(GroupedHashWriteCrashE2e, ReplacementNeverRevivesPartialOrOldFields) {
   EXPECT_EQ(client.Command({"HLEN", "hash"}).text_, "256");
   EXPECT_EQ(client.Command({"HGET", "hash", "only"}).text_, "-1");
   for (unsigned i = 0; i < 256; ++i)
-    EXPECT_EQ(client.Command({"HGET", "hash", "field" + std::to_string(i)}).text_,
-              std::string(128, 'v'));
+    EXPECT_EQ(
+        client.Command({"HGET", "hash", "field" + std::to_string(i)}).text_,
+        std::string(128, 'v'));
 }
 
 INSTANTIATE_TEST_SUITE_P(

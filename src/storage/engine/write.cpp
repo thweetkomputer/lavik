@@ -1785,8 +1785,7 @@ Task<absl::Status> StorageEngine::Impl::AppendLocked(
         replica_write_root.has_value() ? &*replica_write_root : nullptr,
         replacement_undo, &partition,
         grouped != nullptr ? grouped->root_ : nullptr,
-        /*mark_watched=*/true,
-        mutation_precondition);
+        /*mark_watched=*/true, mutation_precondition);
     if (!status.ok()) {
       store.worker_->Spawn(ReclaimExtents(&store, *extents));
     }
@@ -1799,8 +1798,7 @@ Task<absl::Status> StorageEngine::Impl::AppendLocked(
         replica_write_root.has_value() ? &*replica_write_root : nullptr,
         replacement_undo, &partition,
         grouped != nullptr ? grouped->root_ : nullptr,
-        /*mark_watched=*/true,
-        mutation_precondition);
+        /*mark_watched=*/true, mutation_precondition);
   }
   if (status.ok() && committed_sequence != nullptr) {
     *committed_sequence = mutation_sequence;

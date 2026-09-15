@@ -103,8 +103,8 @@ TEST(OrderedCompactCodecTest, LargeItemAndInvalidScore) {
 
 TEST(OrderedCompactCodecTest, SizingSeparatesItemsFromAggregateCapacity) {
   const auto limit = std::string().max_size();
-  for (const auto kind : {OrderedCollectionKind::kList,
-                          OrderedCollectionKind::kSortedSet}) {
+  for (const auto kind :
+       {OrderedCollectionKind::kList, OrderedCollectionKind::kSortedSet}) {
     const std::size_t framing =
         kind == OrderedCollectionKind::kSortedSet ? 12 : 4;
     std::size_t bytes = 8;
@@ -115,11 +115,11 @@ TEST(OrderedCompactCodecTest, SizingSeparatesItemsFromAggregateCapacity) {
     }
     EXPECT_EQ(bytes, 8 + 3 * (framing + kMaxStringBytes));
     EXPECT_GT(bytes, kMaxRecordPayloadBytes);
-    EXPECT_FALSE(AppendOrderedEntrySize(kind, 0, kMaxStringBytes + 1, limit)
-                     .ok());
+    EXPECT_FALSE(
+        AppendOrderedEntrySize(kind, 0, kMaxStringBytes + 1, limit).ok());
     EXPECT_FALSE(AppendOrderedEntrySize(kind, 0, 0, framing - 1).ok());
-    EXPECT_FALSE(AppendOrderedEntrySize(kind, limit - framing + 1, 0, limit)
-                     .ok());
+    EXPECT_FALSE(
+        AppendOrderedEntrySize(kind, limit - framing + 1, 0, limit).ok());
     EXPECT_FALSE(AppendOrderedEntrySize(kind, limit - framing, 1, limit).ok());
     auto exact = AppendOrderedEntrySize(kind, limit - framing, 0, limit);
     ASSERT_TRUE(exact.ok());
@@ -134,9 +134,9 @@ void CheckLargeLogicalRoundTrip(OrderedCollectionKind kind) {
   std::vector<OrderedCollectionEntry> entries;
   for (unsigned i = 0; i < 3; ++i) {
     entries.push_back({.value_ = std::string(kItemBytes, 'a' + i),
-                        .score_ = kind == OrderedCollectionKind::kSortedSet
-                                      ? static_cast<double>(i)
-                                      : 0});
+                       .score_ = kind == OrderedCollectionKind::kSortedSet
+                                     ? static_cast<double>(i)
+                                     : 0});
   }
   auto encoded = EncodeOrderedCompactValue(kind, entries);
   ASSERT_TRUE(encoded.ok()) << encoded.status();
@@ -160,7 +160,8 @@ TEST(OrderedCompactCodecTest, DISABLED_LargeListRoundTripsBeyondRecordLimit) {
   CheckLargeLogicalRoundTrip(OrderedCollectionKind::kList);
 }
 
-TEST(OrderedCompactCodecTest, DISABLED_LargeSortedSetRoundTripsBeyondRecordLimit) {
+TEST(OrderedCompactCodecTest,
+     DISABLED_LargeSortedSetRoundTripsBeyondRecordLimit) {
   CheckLargeLogicalRoundTrip(OrderedCollectionKind::kSortedSet);
 }
 

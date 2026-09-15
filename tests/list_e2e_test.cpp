@@ -719,6 +719,7 @@ class ServerProcess {
           std::to_string(port),
           "--threads",
           std::to_string(threads),
+          "--no-pin-workers",
           "--recv-buffers-per-worker",
           std::move(recv_buffers),
           "--max-memory",
@@ -2526,8 +2527,7 @@ TEST(ListE2eTest, NativeFlowCapabilityRejectsSessionHijack) {
 
   const int control = ConnectSocket(port);
   ASSERT_GE(control, 0);
-  const std::string target_identity =
-      "?" + std::string(40, 'a') + ":12345";
+  const std::string target_identity = "?" + std::string(40, 'a') + ":12345";
   SendAll(control,
           EncodeCommand({"KLPSYNC", "1", target_identity, "?", "?",
                          std::string(40, 'b'), std::string(40, 'c'), "?"}));
@@ -2536,9 +2536,9 @@ TEST(ListE2eTest, NativeFlowCapabilityRejectsSessionHijack) {
   std::vector<std::string_view> words;
   for (std::size_t begin = 0; begin < resync_view.size();) {
     const std::size_t end = resync_view.find(' ', begin);
-    words.push_back(resync_view.substr(
-        begin, end == std::string::npos ? resync_view.size() - begin
-                                        : end - begin));
+    words.push_back(resync_view.substr(begin, end == std::string::npos
+                                                  ? resync_view.size() - begin
+                                                  : end - begin));
     if (end == std::string::npos) break;
     begin = end + 1;
   }
@@ -2553,19 +2553,16 @@ TEST(ListE2eTest, NativeFlowCapabilityRejectsSessionHijack) {
 
   const int hijack = ConnectSocket(port);
   ASSERT_GE(hijack, 0);
-  SendAll(hijack,
-          EncodeCommand({"KLFLOW", "1", session_id, "0", "1", "0",
-                         wrong_capability}));
+  SendAll(hijack, EncodeCommand({"KLFLOW", "1", session_id, "0", "1", "0",
+                                 wrong_capability}));
   EXPECT_THROW((void)ReadRespLine(hijack), std::runtime_error);
   ASSERT_EQ(::close(hijack), 0);
 
   const int authorized = ConnectSocket(port);
   ASSERT_GE(authorized, 0);
-  SendAll(authorized,
-          EncodeCommand({"KLFLOW", "1", session_id, "0", "1", "0",
-                         capability}));
-  EXPECT_EQ(ReadRespLine(authorized),
-            "+KLFLOW " + session_id + " 0 FULL");
+  SendAll(authorized, EncodeCommand({"KLFLOW", "1", session_id, "0", "1", "0",
+                                     capability}));
+  EXPECT_EQ(ReadRespLine(authorized), "+KLFLOW " + session_id + " 0 FULL");
   ASSERT_EQ(::close(authorized), 0);
   ASSERT_EQ(::close(control), 0);
 
@@ -2609,11 +2606,11 @@ TEST(ListE2eTest, GracefulShutdownCancelsBackpressuredNativeSource) {
   while (replica_port == source_port || replica_port == metrics_port) {
     replica_port = FindFreePort();
   }
-  ServerProcess source(
-      g_keylane_binary, source_port, source_data, source_log, 1, {},
-      {"--repl-backlog-size", "8388608",
-       "--replication-publish-queue-mb-per-worker", "1", "--metrics-port",
-       std::to_string(metrics_port)});
+  ServerProcess source(g_keylane_binary, source_port, source_data, source_log,
+                       1, {},
+                       {"--repl-backlog-size", "8388608",
+                        "--replication-publish-queue-mb-per-worker", "1",
+                        "--metrics-port", std::to_string(metrics_port)});
   ServerProcess replica(g_keylane_binary, replica_port, replica_data,
                         replica_log, 1);
   RespClient source_client(source_port);

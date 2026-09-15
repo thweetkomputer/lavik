@@ -749,7 +749,7 @@ Task<CommandReply> ExecuteListMultiKey(const CommandRequest& request,
           ShardForKey(args[arg]),
           [db = request.db_id_, key = std::string(args[arg]), digest, op,
            mutation_precondition]() mutable
-          -> Task<absl::StatusOr<storage::ListResult>> {
+              -> Task<absl::StatusOr<storage::ListResult>> {
             co_return co_await g_storage->ExecuteListLocked(
                 db, key, digest, op, nullptr, nullptr, &mutation_precondition);
           });
@@ -793,7 +793,7 @@ Task<CommandReply> ExecuteListMultiKey(const CommandRequest& request,
         ShardForKey(source_key),
         [db = request.db_id_, key = std::string(source_key), digest, op,
          mutation_precondition]() mutable
-        -> Task<absl::StatusOr<storage::ListResult>> {
+            -> Task<absl::StatusOr<storage::ListResult>> {
           co_return co_await g_storage->ExecuteListLocked(
               db, key, digest, op, nullptr, nullptr, &mutation_precondition);
         });

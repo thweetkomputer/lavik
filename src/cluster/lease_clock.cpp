@@ -37,8 +37,8 @@ LeaseTime LeaseClockNow() noexcept {
   }
   const auto seconds = std::chrono::seconds(now.tv_sec);
   const auto nanoseconds = std::chrono::nanoseconds(now.tv_nsec);
-  return LeaseTime(std::chrono::duration_cast<LeaseDuration>(seconds +
-                                                             nanoseconds));
+  return LeaseTime(
+      std::chrono::duration_cast<LeaseDuration>(seconds + nanoseconds));
 }
 
 }  // namespace keylane::cluster

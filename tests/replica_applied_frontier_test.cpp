@@ -44,11 +44,10 @@ class ReplicaAppliedFrontierTestPeer {
   }
 
   static void SetPublisherSequence(ReplicaAppliedFrontier& frontier,
-                                   unsigned publisher,
-                                   std::uint64_t sequence) {
+                                   unsigned publisher, std::uint64_t sequence) {
     frontier.publishers_[publisher].next_sequence_ = sequence;
-    frontier.publishers_[publisher].published_.store(
-        sequence, std::memory_order_relaxed);
+    frontier.publishers_[publisher].published_.store(sequence,
+                                                     std::memory_order_relaxed);
   }
 };
 
@@ -83,10 +82,10 @@ TEST(ReplicaAppliedFrontierTest, AdvancesOnlyTheCompletedEvent) {
             absl::StatusCode::kFailedPrecondition);
   EXPECT_EQ(frontier.AdvanceAfterApply(1, 0).code(),
             absl::StatusCode::kInvalidArgument);
-  EXPECT_EQ(frontier.AdvanceAfterApply(
-                1, std::numeric_limits<std::uint64_t>::max())
-                .code(),
-            absl::StatusCode::kOutOfRange);
+  EXPECT_EQ(
+      frontier.AdvanceAfterApply(1, std::numeric_limits<std::uint64_t>::max())
+          .code(),
+      absl::StatusCode::kOutOfRange);
   EXPECT_EQ(frontier.AdvanceAfterApply(3, 1).code(),
             absl::StatusCode::kInvalidArgument);
 }
@@ -122,8 +121,7 @@ TEST(ReplicaAppliedFrontierTest, SnapshotNeverAcceptsHalfPublishedBatch) {
 
   ReplicaAppliedFrontierTestPeer::StoreNextLsn(frontier, 1, 2);
   ReplicaAppliedFrontierTestPeer::EndPublication(frontier, 0);
-  EXPECT_EQ(frontier.TrySnapshot().value(),
-            (std::vector<std::uint64_t>{2, 2}));
+  EXPECT_EQ(frontier.TrySnapshot().value(), (std::vector<std::uint64_t>{2, 2}));
 }
 
 TEST(ReplicaAppliedFrontierTest, LifecycleInstallPublishesOneVector) {
@@ -137,9 +135,9 @@ TEST(ReplicaAppliedFrontierTest, LifecycleInstallPublishesOneVector) {
 
   EXPECT_EQ(frontier.InstallNextLsns(std::vector<std::uint64_t>{1, 2}).code(),
             absl::StatusCode::kInvalidArgument);
-  EXPECT_EQ(frontier.InstallNextLsns(std::vector<std::uint64_t>{1, 0, 2})
-                .code(),
-            absl::StatusCode::kInvalidArgument);
+  EXPECT_EQ(
+      frontier.InstallNextLsns(std::vector<std::uint64_t>{1, 0, 2}).code(),
+      absl::StatusCode::kInvalidArgument);
   EXPECT_EQ(frontier.TrySnapshot().value(), installed);
 }
 

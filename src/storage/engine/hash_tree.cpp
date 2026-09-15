@@ -80,8 +80,9 @@ bool NeedsGroupedHash(const HashValue& value) {
   return false;
 }
 
-absl::StatusOr<HashResult> ReadCompactHashResult(
-    std::string_view payload, HashOperationKind kind, std::uint64_t count) {
+absl::StatusOr<HashResult> ReadCompactHashResult(std::string_view payload,
+                                                 HashOperationKind kind,
+                                                 std::uint64_t count) {
   auto reader = HashValueReader::Open(payload);
   if (!reader.ok()) return reader.status();
   if (reader->size() != count) {
@@ -109,10 +110,10 @@ absl::StatusOr<HashResult> ReadCompactHashResult(
     auto entry = inspect.Next();
     if (!entry.ok()) return entry.status();
     if (!add_bytes(width * sizeof(std::optional<std::string>)) ||
-        (fields && !add_bytes(std::max(entry->field_.size(), inline_capacity) +
-                              1)) ||
-        (values && !add_bytes(std::max(entry->value_.size(), inline_capacity) +
-                              1))) {
+        (fields &&
+         !add_bytes(std::max(entry->field_.size(), inline_capacity) + 1)) ||
+        (values &&
+         !add_bytes(std::max(entry->value_.size(), inline_capacity) + 1))) {
       RecordMemoryRejection();
       return absl::ResourceExhaustedError("OOM Hash output is too large");
     }

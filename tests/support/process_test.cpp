@@ -15,7 +15,6 @@
  */
 
 #include "tests/support/process.h"
-#include "tests/support/test_data_path.h"
 
 #include <arpa/inet.h>
 #include <netinet/in.h>
@@ -36,6 +35,7 @@
 #include <utility>
 
 #include "gtest/gtest.h"
+#include "tests/support/test_data_path.h"
 
 namespace keylane::test {
 namespace {
@@ -73,7 +73,7 @@ TEST(ProcessSupportTest, AcceptsConfiguredRootWithTrailingSeparator) {
                                   root.path().string() + "/");
     TempDirectory directory("configured-root");
     EXPECT_TRUE(std::filesystem::equivalent(directory.path().parent_path(),
-                                           root.path()));
+                                            root.path()));
   }
   EXPECT_TRUE(std::filesystem::is_empty(root.path()));
 }
@@ -81,8 +81,8 @@ TEST(ProcessSupportTest, AcceptsConfiguredRootWithTrailingSeparator) {
 TEST(ProcessSupportTest, DefaultsToTmpForEmptyConfiguredRoot) {
   ScopedEnvironment environment("KEYLANE_TEST_DATA_DIR", "");
   TempDirectory directory("empty-root");
-  EXPECT_TRUE(std::filesystem::equivalent(directory.path().parent_path(),
-                                         "/tmp"));
+  EXPECT_TRUE(
+      std::filesystem::equivalent(directory.path().parent_path(), "/tmp"));
 }
 
 TEST(ProcessSupportTest, SpawnsWithEnvironmentAndControlsLifecycle) {
@@ -105,7 +105,7 @@ TEST(ProcessSupportTest, SpawnsWithEnvironmentAndControlsLifecycle) {
 TEST(ProcessSupportTest, CreatesTemporaryDirectoriesUnderTestDataRoot) {
   TempDirectory directory("configured-root");
   EXPECT_TRUE(std::filesystem::equivalent(directory.path().parent_path(),
-                                         TestDataDirectory()));
+                                          TestDataDirectory()));
 }
 
 TEST(ProcessSupportTest, HoldsPortUntilExplicitRelease) {

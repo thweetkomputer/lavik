@@ -80,8 +80,9 @@ absl::StatusOr<std::string> EncodeHashValue(const HashValue& value);
 // Used before serialization; failure leaves the caller's running size intact.
 // max_bytes is the destination's capacity bound: a physical group envelope or
 // the output string's max_size() for a materialized logical Hash.
-absl::StatusOr<std::size_t> AppendHashEntrySize(
-    std::size_t encoded_bytes, std::size_t field_bytes, std::size_t value_bytes,
-    std::size_t max_bytes);
+absl::StatusOr<std::size_t> AppendHashEntrySize(std::size_t encoded_bytes,
+                                                std::size_t field_bytes,
+                                                std::size_t value_bytes,
+                                                std::size_t max_bytes);
 
 }  // namespace keylane::storage

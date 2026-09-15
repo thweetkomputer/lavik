@@ -517,8 +517,8 @@ StorageEngine::Impl::RelocateIfCurrent(unsigned key_owner, std::string_view key,
   // first matching record instead of allocating/materializing all candidates.
   RecordIndex::Entry* current = index.FindCandidateIf(
       digest, key, [&](const RecordIndex::Entry& candidate) {
-        return MaterializeIndexLocation(candidate)
-            .SamePhysicalRecord(source_location);
+        return MaterializeIndexLocation(candidate).SamePhysicalRecord(
+            source_location);
       });
   if (current == nullptr) {
     co_return std::optional<RelocationDurabilityFence>{};
@@ -972,7 +972,8 @@ Task<absl::Status> StorageEngine::Impl::SalvageBlockRecords(
           key_owner,
           [this, key_owner, key, value, record, source_location,
            promote = committed_txids != nullptr]() mutable
-          -> Task<absl::StatusOr<std::optional<RelocationDurabilityFence>>> {
+              -> Task<
+                  absl::StatusOr<std::optional<RelocationDurabilityFence>>> {
             co_return co_await RelocateIfCurrent(key_owner, key, value, record,
                                                  source_location, promote);
           });

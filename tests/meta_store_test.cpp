@@ -1120,10 +1120,12 @@ TEST_F(StateMgrTest,
       {.data_dir_ = dir_.string(), .local_member_ = std::move(rebound)});
   ASSERT_TRUE(restarted.ok()) << restarted.status();
   EXPECT_FALSE((*restarted)->initial_bindings_pending());
-  EXPECT_TRUE((*restarted)->transport_binding_replay_pending(
-      /*applied_index=*/0));
-  EXPECT_FALSE((*restarted)->transport_binding_replay_pending(
-      /*applied_index=*/1));
+  EXPECT_TRUE((*restarted)
+                  ->transport_binding_replay_pending(
+                      /*applied_index=*/0));
+  EXPECT_FALSE((*restarted)
+                   ->transport_binding_replay_pending(
+                       /*applied_index=*/1));
 }
 
 TEST_F(StateMgrTest, CompletedZeroIndexGenesisDoesNotResurrectGrace) {
@@ -1132,8 +1134,7 @@ TEST_F(StateMgrTest, CompletedZeroIndexGenesisDoesNotResurrectGrace) {
   PersistInitializedRaftEvidence(**opened);
   ASSERT_TRUE((*opened)->CompleteInitialBindings(/*applied_index=*/1).ok());
   EXPECT_FALSE(std::filesystem::exists(dir_ / "initial_bindings.dat"));
-  EXPECT_TRUE(
-      std::filesystem::exists(dir_ / "initial_bindings_complete.dat"));
+  EXPECT_TRUE(std::filesystem::exists(dir_ / "initial_bindings_complete.dat"));
   opened->reset();
 
   auto restarted = OpenRestart();
@@ -1156,8 +1157,7 @@ TEST_F(StateMgrTest,
   EXPECT_TRUE((*recovered)->initial_bindings_pending());
   EXPECT_TRUE(std::filesystem::exists(dir_ / "initial_bindings.dat"));
   PersistInitializedRaftEvidence(**recovered);
-  ASSERT_TRUE(
-      (*recovered)->CompleteInitialBindings(/*applied_index=*/1).ok());
+  ASSERT_TRUE((*recovered)->CompleteInitialBindings(/*applied_index=*/1).ok());
 
   auto changed = nuraft::cs_new<nuraft::cluster_config>(
       /*log_idx=*/9, /*prev_log_idx=*/5);
@@ -1440,8 +1440,7 @@ TEST_F(StateMgrTest, RecoversBothTransportBaselineTransactionPrefixes) {
   auto opened = OpenInitial();
   ASSERT_TRUE(opened.ok()) << opened.status();
   PersistInitializedRaftEvidence(**opened);
-  ASSERT_TRUE(
-      (*opened)->CompleteInitialBindings(/*applied_index=*/1).ok());
+  ASSERT_TRUE((*opened)->CompleteInitialBindings(/*applied_index=*/1).ok());
   const std::string old_config = ReadFileBytes(dir_ / "cluster_config.dat");
   const std::string old_baseline =
       ReadFileBytes(dir_ / "transport_bindings.dat");

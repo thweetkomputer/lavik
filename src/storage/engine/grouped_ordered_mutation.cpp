@@ -54,11 +54,10 @@ Task<absl::Status> StorageEngine::Impl::CommitGroupedOrderedMutationLocked(
     // The adapter already owns store_state_mutex_; DeleteLocked would try to
     // acquire it again. The tombstone append owns the same graph-retirement
     // and transaction/replication bookkeeping as the ordinary delete path.
-    co_return co_await AppendLocked(store, partition, db_id, key, digest, {},
-                                    RecordKind::kTombstone, ValueType::kNone, 0,
-                                    tx, 0, nullptr, nullptr, replication,
-                                    nullptr, true, nullptr,
-                                    mutation_precondition);
+    co_return co_await AppendLocked(
+        store, partition, db_id, key, digest, {}, RecordKind::kTombstone,
+        ValueType::kNone, 0, tx, 0, nullptr, nullptr, replication, nullptr,
+        true, nullptr, mutation_precondition);
   }
   const auto field_count = plan.root_.item_count_;
   const auto value_type = plan.root_.kind_ == OrderedCollectionKind::kList

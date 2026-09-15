@@ -66,8 +66,7 @@ Task<absl::Status> StorageEngine::Impl::PeriodicFlush(WorkerStore* store) {
           {
             UnlockGuard guard(&store->store_state_mutex_, store->worker_);
             frozen = !store->expiry_cycle_running_ && !store->flush_running_ &&
-                     store->flush_queue_.empty() &&
-                     !RuntimeFailureLatched();
+                     store->flush_queue_.empty() && !RuntimeFailureLatched();
           }
           if (!frozen) {
             shard.status_ = absl::FailedPreconditionError(

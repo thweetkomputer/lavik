@@ -105,8 +105,9 @@ class ReplicaAppliedFrontier {
     std::uint64_t next_sequence_ = 0;
   };
 
-  static_assert(std::atomic<std::uint64_t>::is_always_lock_free,
-                "replica Applied publication requires lock-free uint64 atomics");
+  static_assert(
+      std::atomic<std::uint64_t>::is_always_lock_free,
+      "replica Applied publication requires lock-free uint64 atomics");
   static constexpr unsigned kSnapshotAttempts = 64;
 
   absl::Status ValidateAdvance(unsigned flow_id,

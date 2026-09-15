@@ -98,7 +98,7 @@ if (KEYLANE_ASAN_BUILD AND NOT CMAKE_CXX_COMPILER_ID MATCHES "Clang")
     "AddressSanitizer builds require Clang. GCC does not preserve coroutine "
     "symmetric transfers under ASan and can overflow the native stack.")
 endif()
-set(KEYLANE_CLANG_FORMAT_REQUIRED_VERSION "23.1.0")
+set(KEYLANE_CLANG_FORMAT_REQUIRED_VERSION "23.1.1")
 string(REPLACE "." "\\." KEYLANE_CLANG_FORMAT_VERSION_REGEX
   "${KEYLANE_CLANG_FORMAT_REQUIRED_VERSION}")
 find_program(KEYLANE_CLANG_FORMAT NAMES clang-format-23 clang-format)
@@ -1555,8 +1555,9 @@ if (BUILD_TESTING)
       NAME keylane_grouped_hash_write_e2e
       COMMAND keylane_grouped_hash_write_e2e_test $<TARGET_FILE:keylane>
     )
+    # The complete crash/restart matrix can exceed four minutes in Debug.
     set_tests_properties(keylane_grouped_hash_write_e2e PROPERTIES
-      TIMEOUT 240 RUN_SERIAL TRUE
+      TIMEOUT 600 RUN_SERIAL TRUE
     )
 
     add_executable(keylane_compact_collection_write_e2e_test
