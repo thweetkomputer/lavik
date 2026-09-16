@@ -117,6 +117,9 @@ struct ServerOptions {
   ReplicationOptions replication_options_;
 };
 
+// Selects the configured I/O backends before starting workers and blocks until
+// shutdown. Call before other Celer I/O freezes the process-wide backend
+// choice. Returns nonzero on configuration, initialization, or runtime failure.
 int RunServer(ServerOptions options);
 
 }  // namespace keylane

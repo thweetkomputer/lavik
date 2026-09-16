@@ -148,6 +148,9 @@ else()
 endif()
 
 set(CELER_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+# Use Celer's own test registration so new software regressions also run in
+# Keylane CI against the exact linked runtime revision.
+set(CELER_BUILD_TESTS ${BUILD_TESTING} CACHE BOOL "" FORCE)
 # Keylane exposes one opt-in dependency boundary. Force both Celer capabilities
 # from it so turning bypass off in an existing build also removes those deps.
 set(CELER_WITH_DPDK ${KEYLANE_KERNEL_BYPASS} CACHE BOOL "" FORCE)
@@ -711,6 +714,24 @@ if (BUILD_TESTING)
   set(CMAKE_INTERPROCEDURAL_OPTIMIZATION_RELEASE FALSE)
   set(CMAKE_INTERPROCEDURAL_OPTIMIZATION_RELWITHDEBINFO FALSE)
   set(CMAKE_INTERPROCEDURAL_OPTIMIZATION_MINSIZEREL FALSE)
+  # Celer registers its test executables before this block. Apply the same
+  # test-only IPO policy without changing its production libraries.
+  get_property(celer_targets DIRECTORY "${KEYLANE_CELER_SOURCE_DIR}"
+    PROPERTY BUILDSYSTEM_TARGETS)
+  foreach(celer_target IN LISTS celer_targets)
+    get_target_property(celer_target_type ${celer_target} TYPE)
+    if (celer_target_type STREQUAL "EXECUTABLE")
+      set_target_properties(${celer_target} PROPERTIES
+        INTERPROCEDURAL_OPTIMIZATION_RELEASE FALSE
+        INTERPROCEDURAL_OPTIMIZATION_RELWITHDEBINFO FALSE
+        INTERPROCEDURAL_OPTIMIZATION_MINSIZEREL FALSE)
+      if (KEYLANE_ENABLE_OPT AND KEYLANE_IPO_SUPPORTED AND
+          CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+        target_link_options(${celer_target} PRIVATE
+          "$<$<CONFIG:Release,RelWithDebInfo,MinSizeRel>:-flto=thin>")
+      endif()
+    endif()
+  endforeach()
 
   if (KEYLANE_ENABLE_OPT AND KEYLANE_IPO_SUPPORTED AND
       CMAKE_CXX_COMPILER_ID MATCHES "Clang")
@@ -1085,28 +1106,6 @@ if (BUILD_TESTING)
       message(STATUS "python3 not found; meta integration tests are disabled")
     endif()
   endif()
-
-  # celer's connect/timer verification harness, run under ctest. Keylane
-  # forces CELER_BUILD_EXAMPLES=OFF, so the celer-side example target never
-  # materializes in this build; compile the source directly here instead (it
-  # only uses celer public headers). The suite deliberately sleeps past armed
-  # deadlines to catch stale-timeout dispatches, hence the 90s budget.
-  add_executable(celer_connect_timer_check
-    "${KEYLANE_CELER_SOURCE_DIR}/example/connect_timer_check.cpp"
-  )
-  target_link_libraries(celer_connect_timer_check PRIVATE celer::core)
-  if (CMAKE_CXX_COMPILER_ID MATCHES "Clang|GNU")
-    target_compile_options(celer_connect_timer_check PRIVATE
-      -Wall -Wextra -Wpedantic)
-  endif()
-  add_test(
-    NAME celer_connect_timer_check
-    COMMAND celer_connect_timer_check
-  )
-  set_tests_properties(celer_connect_timer_check PROPERTIES
-    LABELS celer
-    TIMEOUT 90
-  )
 
   add_executable(keylane_cluster_fault
     tests/cluster/fault_harness_main.cpp

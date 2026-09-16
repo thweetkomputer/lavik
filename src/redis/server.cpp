@@ -54,6 +54,7 @@
 #include "absl/strings/str_join.h"
 #include "backup.h"
 #include "blocking_wait.h"
+#include "celer/io/backend_options.h"
 #include "celer/net/server.h"
 #include "celer/net/tcp_service.h"
 #include "celer/net/tcp_stream.h"

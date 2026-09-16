@@ -344,6 +344,9 @@ for the Meta fault gates; the Data fault server alone does not enable them.
 Redis, Python, and TCL are installed before configuration so the conditional
 integration targets are present. The jobs fetch the pinned io_uring runtime
 dependencies; SPDK is not part of this build.
+`BUILD_TESTING=ON` also enables Celer's registered software regressions,
+including connection/timer, connection-storage lifetime, and backend-selection
+checks, through Celer's own CTest definitions.
 Process fixtures that use more than two workers disable CPU pinning, preserving
 cross-worker coverage on two-CPU runners.
 
