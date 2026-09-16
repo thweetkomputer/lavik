@@ -27,8 +27,9 @@ Optimized local builds use the current machine's instruction set by default:
 `KEYLANE_KERNEL_BYPASS` defaults to `OFF`: Keylane and `keylane-meta` build
 with kernel networking and io_uring and do not configure or link DPDK, SPDK or
 the private FreeBSD stack. Set `-DKEYLANE_KERNEL_BYPASS=ON` to include both
-bypass capabilities. Keylane drives Celer's internal capability flags from
-this single option, including when reconfiguring an existing build directory.
+bypass capabilities. Keylane forwards this setting to Celer's
+`CELER_KERNEL_BYPASS` option, including when reconfiguring an existing build
+directory.
 
 This configures `KEYLANE_MARCH=native`, including Celer, mimalloc, and the
 Abseil CRC translation units used by the durable storage format. The latter is

@@ -151,10 +151,9 @@ set(CELER_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 # Use Celer's own test registration so new software regressions also run in
 # Keylane CI against the exact linked runtime revision.
 set(CELER_BUILD_TESTS ${BUILD_TESTING} CACHE BOOL "" FORCE)
-# Keylane exposes one opt-in dependency boundary. Force both Celer capabilities
-# from it so turning bypass off in an existing build also removes those deps.
-set(CELER_WITH_DPDK ${KEYLANE_KERNEL_BYPASS} CACHE BOOL "" FORCE)
-set(CELER_WITH_SPDK_STORAGE ${KEYLANE_KERNEL_BYPASS} CACHE BOOL "" FORCE)
+# Keep the embedded runtime on the same dependency boundary, including when
+# turning bypass off in an existing build directory.
+set(CELER_KERNEL_BYPASS ${KEYLANE_KERNEL_BYPASS} CACHE BOOL "" FORCE)
 # This must be set before Celer's first find_package(OpenSSL). Static release
 # artifacts can then run without libssl.so or libcrypto.so on the target.
 set(OPENSSL_USE_STATIC_LIBS ${KEYLANE_STATIC_OPENSSL} CACHE BOOL
