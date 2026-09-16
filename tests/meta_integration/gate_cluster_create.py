@@ -102,9 +102,13 @@ def command(environment, arguments, input_text=None, timeout=90, expected=0):
 
 
 def cluster_status(meta, admin=None):
+    # These fixtures publish loopback TCP endpoints. A UDS seed can become a
+    # follower during creation, so authorize the CLI to follow its leader.
+    # Explicit transport/TLS cases keep their own admin arguments.
     result = subprocess.run(
         [CTL, "cluster-status", "--json"] +
-        (admin if admin is not None else ["--socket", meta.ctl_path]),
+        (admin if admin is not None else
+         ["--socket", meta.ctl_path, "--allow-plaintext-admin"]),
         capture_output=True, text=True, timeout=5)
     if result.returncode not in (0, 2):
         raise H.Failure(f"cluster-status failed: {result}")
@@ -682,6 +686,12 @@ def run_manifest_bootstrapped_multi_meta_case(workdir, count, late_voter):
                 len(status["meta_members"]) != count):
             raise H.Failure(
                 f"{count}-Meta Cluster Create is not READY: {status}")
+        # Exercise leader discovery even when this run had no incidental
+        # election: a follower's UDS must reach the same ready cluster.
+        current_leader = H.find_leader(metas)
+        follower = next(meta for meta in metas if meta is not current_leader)
+        wait_cluster_ready(
+            follower, f"{count}-Meta follower seed discovers READY", 20)
         if count == 3:
             post_create_joiner = H.Node(
                 META, meta_workdir, count + 1,

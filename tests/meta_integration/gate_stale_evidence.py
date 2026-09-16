@@ -184,15 +184,27 @@ def main():
             raise H.Failure(f"operation advanced on stale evidence: "
                             f"{leader.getop(op_id)}")
 
-        # Retire the operation: the ctl's post-commit RevalidateAll purges
-        # the now-stale evidence, and re-ingestion rejects it.
+        # Admission rejects terminal evidence immediately against committed
+        # facts. The coordinator's dispatch thread separately purges retained
+        # evidence; the commit reply need not wait for that audit record.
         expect_ok(leader.completeop(op_id, "done"), "completeop")
         expect_err(
             leader.obs_evidence(DATA_NODE, BOOT_A, 2, op_id, "phase1",
                                 "proof", GROUP, term=1, manifest=0,
                                 history=55),
             "evidence after terminal", "operation-unknown-or-terminal")
-        audit = leader.obsaudit()
+        audit = ""
+
+        def terminal_evidence_purged():
+            nonlocal audit
+            audit = leader.obsaudit()
+            return "detail=commit-stale:operation-unknown-or-terminal" in audit
+
+        try:
+            H.wait_until("terminal evidence purged and audited", 10,
+                         terminal_evidence_purged)
+        except H.Failure as error:
+            raise H.Failure(f"{error}; obsaudit={audit}") from error
         for needle in ("detail=history-not-bound",
                        "detail=partition-epoch-mismatch",
                        "detail=commit-stale:operation-unknown-or-terminal",
