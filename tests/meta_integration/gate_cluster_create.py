@@ -47,14 +47,14 @@ TRANSIENT_SELF_FENCE = "CLUSTERDOWN Hash slot not served"
 
 
 def creation_raft_args():
-    """Keep finite leases long enough for the real-process creation fixtures."""
-    # The election lower bound also caps Data leases. The shared 300 ms Raft
-    # timing can expire a source's lease while Debug snapshot/TLS work runs on
-    # a hosted runner, deliberately revoking an unfinished rebuild. Creation
-    # checks lifecycle and replication outcomes; dedicated lease/failover
-    # tests exercise expiry with their own short timing and fault barriers.
+    """Keep the initial authority handoff inside the source retry budget."""
+    # The election lower bound D also requires a 2D first-grant quarantine.
+    # At D=2s that quarantine outlasts the target's three one-second retries.
+    # D=500ms leaves room for heartbeat delivery and hosted-runner scheduling.
+    # Later lease expiry only suspends new admission: already-published
+    # POPULATION sessions survive slow Debug snapshot/TLS work.
     return H.raft_args(snapshot_distance=100_000,
-                       election_ms_low=2000, election_ms_high=4000)
+                       election_ms_low=500, election_ms_high=1000)
 
 
 def meta_manifest_lines(*metas):

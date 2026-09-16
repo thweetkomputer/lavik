@@ -1652,8 +1652,7 @@ celer::Task<absl::Status> NodeControlInstaller::FinishExpiredLeaseTransition(
       schedule->session_, schedule->anchor_, schedule->deadline_, now);
   if (expired) {
     spdlog::warn(
-        "cluster lease expired for group {}; revoking unfinished source "
-        "exports",
+        "cluster lease expired for group {}; suspending new source admission",
         schedule->anchor_.group_id_);
   }
   schedule->active_ = false;
