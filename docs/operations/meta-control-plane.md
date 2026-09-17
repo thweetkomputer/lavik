@@ -197,7 +197,6 @@ schema_version = 1
 slot_strategy = "contiguous-even"
 
 [bootstrap_policy]
-automatic_uncontrolled_failover_enabled = true
 automatic_uncontrolled_failover_suspect_after_ms = 5000
 authority_lease_duration_ms = 5000
 
@@ -791,11 +790,17 @@ raw document. The only accepted families and update forms are:
 ```sh
 keylane-ctl --socket /var/lib/keylane/meta-1/meta-admin.sock \
   putpolicy keylane.automatic-uncontrolled-failover-v1 2 \
-  '{"kind":"automatic-uncontrolled-failover-v1","enabled":true,"suspect_after_ms":5000}'
+  '{"kind":"automatic-uncontrolled-failover-v1","suspect_after_ms":5000}'
 keylane-ctl --socket /var/lib/keylane/meta-1/meta-admin.sock \
   putpolicy keylane.authority-lease-v1 2 \
   '{"kind":"authority-lease-v1","duration_ms":5000}'
 ```
+
+Automatic failover is always active. Its Policy configures only the finite
+suspicion threshold; neither the Policy JSON nor the bootstrap manifest accepts
+an enable/disable field. Without an eligible candidate the Group remains fenced
+until a candidate becomes eligible or an operator explicitly accepts data loss
+and selects a recovered population with `promote`.
 
 The same 1,000–86,400,000 ms automatic threshold and 100–86,400,000 ms lease
 range apply to runtime updates. Field reordering is accepted, but whitespace,
