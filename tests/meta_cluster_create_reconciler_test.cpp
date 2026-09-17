@@ -143,7 +143,7 @@ class ClusterCreateV1RecoveryTest : public testing::Test {
       const auto group =
           stores_.topology_.FindGroup(group_declaration->group_id_);
       const auto grant =
-          stores_.grant_.GroupState(group_declaration->group_id_);
+          stores_.topology_.AuthorityFor(group_declaration->group_id_);
       ASSERT_TRUE(group.has_value());
       ASSERT_TRUE(grant.has_value() && grant->grant_.has_value());
       const auto member =
@@ -157,7 +157,7 @@ class ClusterCreateV1RecoveryTest : public testing::Test {
       node.boot_id_ = std::string(40, static_cast<char>('5' + index));
       node.replication_history_id_.fill(static_cast<std::uint8_t>(10 + index));
       node.replication_flow_count_ = index == 0 ? 3 : 2;
-      node.source_meta_applied_index_ = index_;
+      node.control_revision_ = index_;
       node.validated_committed_high_water_ =
           std::numeric_limits<std::uint64_t>::max();
       node.groups_.push_back({group->group_id_, member->assignment_id_,
@@ -246,8 +246,8 @@ class ClusterCreateV1RecoveryTest : public testing::Test {
     // models a Meta restart after detection but before fencing the Group.
     runtime_ = {};
     ApplyPlanned();  // fence group-a
-    EXPECT_FALSE(stores_.grant_.GroupState("group-a")->grant_.has_value());
-    EXPECT_TRUE(stores_.grant_.GroupState("group-b")->grant_.has_value());
+    EXPECT_FALSE(stores_.topology_.AuthorityFor("group-a")->grant_.has_value());
+    EXPECT_TRUE(stores_.topology_.AuthorityFor("group-b")->grant_.has_value());
     ApplyPlanned();  // abort group-a
     ApplyPlanned();  // abort root
     EXPECT_EQ(GroupOperation("group-a").lifecycle_,
@@ -486,8 +486,8 @@ TEST_F(ClusterCreateV1RecoveryTest,
   CommitResult(first, first.current_directives_[1],
                MetaDirectiveResultStatus::kFailed);
   ApplyPlanned();  // fence group-a
-  EXPECT_FALSE(stores_.grant_.GroupState("group-a")->grant_.has_value());
-  EXPECT_TRUE(stores_.grant_.GroupState("group-b")->grant_.has_value());
+  EXPECT_FALSE(stores_.topology_.AuthorityFor("group-a")->grant_.has_value());
+  EXPECT_TRUE(stores_.topology_.AuthorityFor("group-b")->grant_.has_value());
   ApplyPlanned();  // abort group-a
   ApplyPlanned();  // abort root
   EXPECT_EQ(GroupOperation("group-a").lifecycle_,
@@ -506,8 +506,8 @@ TEST_F(ClusterCreateV1RecoveryTest,
   CommitResult(first, first.current_directives_.front(),
                MetaDirectiveResultStatus::kFailed);
   ApplyPlanned();  // fence group-a
-  EXPECT_FALSE(stores_.grant_.GroupState("group-a")->grant_.has_value());
-  EXPECT_TRUE(stores_.grant_.GroupState("group-b")->grant_.has_value());
+  EXPECT_FALSE(stores_.topology_.AuthorityFor("group-a")->grant_.has_value());
+  EXPECT_TRUE(stores_.topology_.AuthorityFor("group-b")->grant_.has_value());
   ApplyPlanned();  // abort group-a
   ApplyPlanned();  // abort root
   EXPECT_EQ(GroupOperation("group-a").lifecycle_,
@@ -529,8 +529,8 @@ TEST_F(ClusterCreateV1RecoveryTest,
 
   ApplyPlanned();  // retain the deterministic failure reason
   ApplyPlanned();  // fence group-a
-  EXPECT_FALSE(stores_.grant_.GroupState("group-a")->grant_.has_value());
-  EXPECT_TRUE(stores_.grant_.GroupState("group-b")->grant_.has_value());
+  EXPECT_FALSE(stores_.topology_.AuthorityFor("group-a")->grant_.has_value());
+  EXPECT_TRUE(stores_.topology_.AuthorityFor("group-b")->grant_.has_value());
   ApplyPlanned();  // abort group-a
   ApplyPlanned();  // abort root
 
@@ -643,7 +643,7 @@ TEST_F(ClusterCreateV1RecoveryTest,
   EXPECT_EQ(GroupOperation("group-a").lifecycle_,
             MetaOperationLifecycle::kCompleted);
   EXPECT_EQ(GroupOperation("group-a").terminal_receipts_, receipts);
-  EXPECT_TRUE(stores_.grant_.GroupState("group-a")->grant_.has_value());
+  EXPECT_TRUE(stores_.topology_.AuthorityFor("group-a")->grant_.has_value());
 }
 
 TEST_F(ClusterCreateV1RecoveryTest,
@@ -694,8 +694,8 @@ TEST_F(ClusterCreateV1RecoveryTest,
 
   EXPECT_EQ(GroupOperation("group-a").lifecycle_,
             MetaOperationLifecycle::kCompleted);
-  EXPECT_TRUE(stores_.grant_.GroupState("group-a")->grant_.has_value());
-  EXPECT_FALSE(stores_.grant_.GroupState("group-b")->grant_.has_value());
+  EXPECT_TRUE(stores_.topology_.AuthorityFor("group-a")->grant_.has_value());
+  EXPECT_FALSE(stores_.topology_.AuthorityFor("group-b")->grant_.has_value());
   EXPECT_EQ(stores_.operation_.FindOperation(root_)->lifecycle_,
             MetaOperationLifecycle::kAborted);
 }

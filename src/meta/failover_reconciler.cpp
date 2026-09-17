@@ -124,7 +124,7 @@ absl::StatusOr<MetaRequestId> NextId(
 }
 
 bool ActiveGrantMatchesGroup(const MetaTopologyGroupView& group,
-                             const MetaGroupGrantState& grant) {
+                             const MetaGroupAuthorityView& grant) {
   return grant.grant_.has_value() &&
          grant.group_term_ == group.record_.group_term_ &&
          grant.grant_->owner_ == group.record_.owner_;
@@ -539,7 +539,7 @@ absl::StatusOr<std::optional<MetaCommand>> PlanControlledTransition(
            .has_value()) {
     return std::nullopt;
   }
-  const auto grant = view.grant().GroupState(group.group_id_);
+  const auto grant = view.topology().AuthorityFor(group.group_id_);
   if (!grant.has_value()) {
     return absl::FailedPreconditionError(
         "controlled transition grant state is absent");
@@ -611,7 +611,7 @@ absl::StatusOr<std::optional<MetaCommand>> PlanUncontrolledTransition(
            .has_value()) {
     return std::nullopt;
   }
-  const auto grant = view.grant().GroupState(group.group_id_);
+  const auto grant = view.topology().AuthorityFor(group.group_id_);
   if (!grant.has_value()) {
     return absl::FailedPreconditionError(
         "uncontrolled transition grant state is absent");
@@ -693,7 +693,7 @@ absl::StatusOr<std::optional<MetaCommand>> PlanSubmittedControlled(
                            "controlled failover group already has a transition",
                            context);
   }
-  const auto grant = view.grant().GroupState(intent->group_id_);
+  const auto grant = view.topology().AuthorityFor(intent->group_id_);
   if (!grant.has_value() || !ActiveGrantMatchesGroup(*group, *grant)) {
     return AbortControlled(operation, intent->group_id_, std::nullopt,
                            "controlled failover grant is unavailable", context);

@@ -46,9 +46,8 @@ std::span<const std::byte> Bytes(std::string_view value) {
 std::uint64_t TransferLimit(TransferKind kind) {
   switch (kind) {
     case TransferKind::kFullDesiredState:
+    case TransferKind::kNodeControlUpdate:
       return kMaxFullDesiredStateBytes;
-    case TransferKind::kObservationEvidence:
-      return kMaxOperationEvidenceTransferBytes;
     case TransferKind::kDirectivePayload:
       return kMaxDirectiveTransferBytes;
     case TransferKind::kDirectiveResult:
@@ -354,7 +353,6 @@ struct ControlSessionWriter::Request {
   TransferKind transfer_kind_ = TransferKind::kFullDesiredState;
   WireId128 object_id_{};
   std::shared_ptr<const std::string> transfer_bytes_;
-  WireHash256 transfer_hash_{};
   TransferPhase transfer_phase_ = TransferPhase::kStart;
   std::size_t next_offset_ = 0;
   std::size_t queued_chunk_bytes_ = 0;
@@ -514,7 +512,6 @@ struct ControlSessionWriter::Impl {
                           .kind = request->transfer_kind_,
                           .object_id = request->object_id_,
                           .total_length = bytes.size(),
-                          .sha256 = request->transfer_hash_,
                       }),
                       request);
   }
@@ -685,7 +682,6 @@ celer::Task<absl::Status> ControlSessionWriter::WriteTransfer(
   request->transfer_kind_ = kind;
   request->object_id_ = std::move(object_id);
   request->transfer_bytes_ = std::move(bytes);
-  request->transfer_hash_ = ComputeSha256(*request->transfer_bytes_);
   if (impl_->active_transfer_ == nullptr) {
     impl_->active_transfer_ = request;
     if (absl::Status queued = impl_->QueueTransferStart(request);
