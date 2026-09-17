@@ -930,6 +930,23 @@ if (BUILD_TESTING)
         RUN_SERIAL TRUE
       )
 
+      # Preparing the large reply commits 2,500 nodes through real Raft.
+      # Keep that setup budget separate from the transport/CLI contract gate;
+      # the slow-reader gate still asserts the production 5-second deadline.
+      add_test(
+        NAME meta_integration.admin_slow_reader
+        COMMAND ${KEYLANE_PYTHON3_EXECUTABLE}
+                ${CMAKE_CURRENT_SOURCE_DIR}/tests/meta_integration/ctl_client.py
+                $<TARGET_FILE:keylane-meta>
+                $<TARGET_FILE:keylane-ctl>
+                --case=slow-reader
+      )
+      set_tests_properties(meta_integration.admin_slow_reader PROPERTIES
+        LABELS meta-integration
+        TIMEOUT 180
+        RUN_SERIAL TRUE
+      )
+
       # Metadata process gates: leader-change safety, WAL/snapshot
       # recovery matrix, membership-change semantics, transport
       # connect/cancel/timeout, mTLS, the observation

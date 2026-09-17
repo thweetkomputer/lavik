@@ -1449,13 +1449,21 @@ def run_tls_create_case(workdir, tls_only):
         # population/replication outcome so missing TLS ports cannot pass.
         wait_cluster_ready(meta, f"{name} reaches READY", 30, admin=admin)
         primary, replica = nodes
+        # Created installs the steady FollowOwner FDS after the initial
+        # population directive. Replacing that ingress may require another
+        # full sync (an empty history's 1:0 cursor cannot CONTINUE), including
+        # all 16,384 partition boundaries. Debug TLS on hosted runners can
+        # take more than 10 seconds. Bound the entire post-create convergence
+        # phase while still requiring every write to reach the replica.
+        replication_deadline = time.monotonic() + 60
         for ordinal in range(3):
             key, value = f"tls-create-{ordinal}", f"replicated-{ordinal}"
             if redis_call(primary, ["SET", key, value]) != "OK":
                 raise H.Failure(f"{name} primary write failed")
             if redis_call(primary, ["GET", key]) != value:
                 raise H.Failure(f"{name} primary read failed")
-            H.wait_until(f"{name} replica receives {key}", 10,
+            H.wait_until(f"{name} replica receives {key}",
+                         max(0, replication_deadline - time.monotonic()),
                          lambda: readonly_get(replica, key) == value)
         H.log(f"{name}: mTLS Admin, Data control and replication reached READY")
         for node in nodes:
