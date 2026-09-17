@@ -31,8 +31,8 @@
 #include <utility>
 #include <vector>
 
-#include "celer/net/server.h"
-#include "celer/runtime/worker.h"
+#include "bycorf/net/server.h"
+#include "bycorf/runtime/worker.h"
 #include "keylane/metrics.h"
 
 namespace keylane::cluster {
@@ -90,7 +90,7 @@ Id ShortId(unsigned value) {
 }
 
 template <typename T>
-T RunTaskSync(celer::Task<T> task) {
+T RunTaskSync(bycorf::Task<T> task) {
   std::promise<void> done;
   std::future<void> signal = done.get_future();
   task.SetCompletionCallback(
@@ -319,23 +319,23 @@ class RecordingActions final : public NodeControlActions {
     return revoke_status_;
   }
 
-  celer::Task<absl::Status> RevokeSourceAuthorizationsAndWait() override {
+  bycorf::Task<absl::Status> RevokeSourceAuthorizationsAndWait() override {
     ++async_revocations_;
     revocation_entered_ = true;
     if (on_async_revocation_) on_async_revocation_();
     while (block_revocation_) {
-      celer::Worker* worker = celer::ThisWorker().self_;
+      bycorf::Worker* worker = bycorf::ThisWorker().self_;
       if (worker == nullptr) {
         co_return absl::FailedPreconditionError(
-            "blocked test revocation requires a Celer worker");
+            "blocked test revocation requires a Bycorf worker");
       }
-      co_await celer::Yield(*worker);
+      co_await bycorf::Yield(*worker);
     }
     revocation_exited_ = true;
     co_return revoke_status_;
   }
 
-  celer::Task<absl::Status>
+  bycorf::Task<absl::Status>
   ClearSourceAuthorizationsForSessionReplacementAndWait(
       bool preserve_established_exports) override {
     ++session_clears_;
@@ -344,18 +344,19 @@ class RecordingActions final : public NodeControlActions {
     session_clear_entered_ = true;
     if (on_async_revocation_) on_async_revocation_();
     while (block_session_clear_) {
-      celer::Worker* worker = celer::ThisWorker().self_;
+      bycorf::Worker* worker = bycorf::ThisWorker().self_;
       if (worker == nullptr) {
         co_return absl::FailedPreconditionError(
-            "blocked test session clear requires a Celer worker");
+            "blocked test session clear requires a Bycorf worker");
       }
-      co_await celer::Yield(*worker);
+      co_await bycorf::Yield(*worker);
     }
     session_clear_exited_ = true;
     co_return revoke_status_;
   }
 
-  celer::Task<absl::Status> RefreshSourceAuthorizationsForFdsReplacementAndWait(
+  bycorf::Task<absl::Status>
+  RefreshSourceAuthorizationsForFdsReplacementAndWait(
       bool preserve_current_population_exports,
       std::size_t expected_authorization_replays) override {
     expected_authorization_replays_.push_back(expected_authorization_replays);
@@ -363,7 +364,7 @@ class RecordingActions final : public NodeControlActions {
         preserve_current_population_exports);
   }
 
-  celer::Task<absl::Status> ReconcileClusterControl(
+  bycorf::Task<absl::Status> ReconcileClusterControl(
       std::optional<DesiredClusterControl> desired) override {
     ++cluster_control_reconciliations_;
     desired_cluster_control_ = std::move(desired);
@@ -372,7 +373,7 @@ class RecordingActions final : public NodeControlActions {
     co_return cluster_control_reconcile_status_;
   }
 
-  celer::Task<absl::Status> ReconcilePopulation(
+  bycorf::Task<absl::Status> ReconcilePopulation(
       std::optional<PopulationReadiness> desired,
       bool population_transition_expected) override {
     ++population_reconciliations_;
@@ -381,7 +382,7 @@ class RecordingActions final : public NodeControlActions {
     co_return population_reconcile_status_;
   }
 
-  celer::Task<absl::Status> ActivatePreparedPromotion(
+  bycorf::Task<absl::Status> ActivatePreparedPromotion(
       PreparedFailoverActivation activation) override {
     ++promotion_activations_;
     promotion_activation_ = std::move(activation);
@@ -389,17 +390,17 @@ class RecordingActions final : public NodeControlActions {
     promotion_activation_entered_ = true;
     if (on_promotion_activation_) on_promotion_activation_();
     while (block_promotion_activation_) {
-      celer::Worker* worker = celer::ThisWorker().self_;
+      bycorf::Worker* worker = bycorf::ThisWorker().self_;
       if (worker == nullptr) {
         co_return absl::FailedPreconditionError(
-            "blocked promotion activation requires a Celer worker");
+            "blocked promotion activation requires a Bycorf worker");
       }
-      co_await celer::Yield(*worker);
+      co_await bycorf::Yield(*worker);
     }
     co_return promotion_activation_status_;
   }
 
-  celer::Task<absl::Status> EnableExpirationAuthorityUntil(
+  bycorf::Task<absl::Status> EnableExpirationAuthorityUntil(
       MonotonicTime deadline) override {
     ++expiration_authority_enables_;
     expiration_authority_deadline_ = deadline;
@@ -409,17 +410,17 @@ class RecordingActions final : public NodeControlActions {
       on_expiration_authority_enable_();
     }
     while (block_expiration_authority_enable_) {
-      celer::Worker* worker = celer::ThisWorker().self_;
+      bycorf::Worker* worker = bycorf::ThisWorker().self_;
       if (worker == nullptr) {
         co_return absl::FailedPreconditionError(
-            "blocked expiration enable requires a Celer worker");
+            "blocked expiration enable requires a Bycorf worker");
       }
-      co_await celer::Yield(*worker);
+      co_await bycorf::Yield(*worker);
     }
     co_return expiration_authority_enable_status_;
   }
 
-  celer::Task<absl::Status> EnableSourceAdmissionForLease(
+  bycorf::Task<absl::Status> EnableSourceAdmissionForLease(
       MonotonicTime deadline) override {
     ++source_admission_enables_;
     source_admission_deadline_ = deadline;
@@ -427,23 +428,23 @@ class RecordingActions final : public NodeControlActions {
     source_admission_enable_entered_ = true;
     if (on_source_admission_enable_) on_source_admission_enable_();
     while (block_source_admission_enable_) {
-      celer::Worker* worker = celer::ThisWorker().self_;
+      bycorf::Worker* worker = bycorf::ThisWorker().self_;
       if (worker == nullptr) {
         co_return absl::FailedPreconditionError(
-            "blocked source admission enable requires a Celer worker");
+            "blocked source admission enable requires a Bycorf worker");
       }
-      co_await celer::Yield(*worker);
+      co_await bycorf::Yield(*worker);
     }
     co_return source_admission_enable_status_;
   }
 
-  celer::Task<absl::Status> RevokeExpirationAuthority() override {
+  bycorf::Task<absl::Status> RevokeExpirationAuthority() override {
     ++expiration_authority_revocations_;
     control_events_.push_back("revoke-expiration");
     co_return expiration_authority_revoke_status_;
   }
 
-  celer::Task<absl::Status> CancelInProgressPopulation(
+  bycorf::Task<absl::Status> CancelInProgressPopulation(
       bool preserve_current_follow_attempt) override {
     ++population_cancellations_;
     population_cancellation_preserve_follow_.push_back(
@@ -452,30 +453,30 @@ class RecordingActions final : public NodeControlActions {
     co_return population_reconcile_status_;
   }
 
-  celer::Task<absl::Status> CancelPopulationForShutdown() override {
+  bycorf::Task<absl::Status> CancelPopulationForShutdown() override {
     ++population_shutdown_cancellations_;
     population_events_.push_back("shutdown-cancel");
     co_return population_reconcile_status_;
   }
 
-  celer::Task<absl::Status> ApplyDirective(NodeDirective directive) override {
+  bycorf::Task<absl::Status> ApplyDirective(NodeDirective directive) override {
     if (on_apply_directive_) on_apply_directive_();
     population_events_.push_back("start");
     directives_.push_back(std::move(directive));
     co_return directive_status_;
   }
 
-  celer::Task<NodeDirectiveCompletion> StartDirective(
+  bycorf::Task<NodeDirectiveCompletion> StartDirective(
       NodeDirective directive) override {
     directive_action_entered_ = true;
     while (block_directive_action_) {
-      celer::Worker* worker = celer::ThisWorker().self_;
+      bycorf::Worker* worker = bycorf::ThisWorker().self_;
       if (worker == nullptr) {
         co_return NodeDirectiveCompletion::Rejected(
             absl::FailedPreconditionError(
-                "blocked directive action requires a Celer worker"));
+                "blocked directive action requires a Bycorf worker"));
       }
-      co_await celer::Yield(*worker);
+      co_await bycorf::Yield(*worker);
     }
     const absl::Status admitted = co_await ApplyDirective(std::move(directive));
     if (!admitted.ok() || !defer_directive_completion_) {
@@ -652,17 +653,17 @@ PreparedFullState ControlledPauseFullState(bool paused,
   return prepared;
 }
 
-class ControlledPauseDrainService final : public celer::Service {
+class ControlledPauseDrainService final : public bycorf::Service {
  public:
-  explicit ControlledPauseDrainService(celer::Server* server)
+  explicit ControlledPauseDrainService(bycorf::Server* server)
       : server_(server) {}
 
   void Prepare(unsigned thread_count) override {
     prepared_ = thread_count == 1;
   }
 
-  celer::Task<absl::Status> Run(celer::Worker& worker,
-                                celer::ServiceContext) override {
+  bycorf::Task<absl::Status> Run(bycorf::Worker& worker,
+                                 bycorf::ServiceContext) override {
     if (!prepared_) {
       result_ = absl::FailedPreconditionError(
           "controlled pause drain test requires one worker");
@@ -706,7 +707,7 @@ class ControlledPauseDrainService final : public celer::Service {
 
   void Stop() noexcept override {}
 
-  celer::Server* server_;
+  bycorf::Server* server_;
   DynamicControl control_;
   bool prepared_ = false;
   bool old_mutation_released_ = false;
@@ -717,8 +718,8 @@ class ControlledPauseDrainService final : public celer::Service {
       absl::UnknownError("controlled pause drain test did not run");
 
  private:
-  celer::Task<absl::Status> ReleaseOldMutation(celer::Worker& worker) {
-    co_await celer::Yield(worker);
+  bycorf::Task<absl::Status> ReleaseOldMutation(bycorf::Worker& worker) {
+    co_await bycorf::Yield(worker);
     const GroupView* current = control_.cache.Current()->FindGroup("group-a");
     pause_published_before_release_ =
         current != nullptr && current->mutations_paused_;
@@ -1016,10 +1017,10 @@ TEST(NodeControlInstallerTest,
 
 TEST(NodeControlInstallerTest,
      ControlledPausePublishesThenDrainsBeforeReconcileAndFullStateAck) {
-  celer::Server server;
+  bycorf::Server server;
   ControlledPauseDrainService service(&server);
   server.AddService(&service);
-  celer::ServerOptions options;
+  bycorf::ServerOptions options;
   options.thread_count_ = 1;
   options.pin_workers_ = false;
   options.recv_buffer_count_ = 0;
@@ -1033,16 +1034,16 @@ TEST(NodeControlInstallerTest,
   EXPECT_TRUE(service.full_state_returned_after_drain_);
 }
 
-class FenceDrainService final : public celer::Service {
+class FenceDrainService final : public bycorf::Service {
  public:
-  explicit FenceDrainService(celer::Server* server) : server_(server) {}
+  explicit FenceDrainService(bycorf::Server* server) : server_(server) {}
 
   void Prepare(unsigned thread_count) override {
     prepared_ = thread_count == 1;
   }
 
-  celer::Task<absl::Status> Run(celer::Worker& worker,
-                                celer::ServiceContext) override {
+  bycorf::Task<absl::Status> Run(bycorf::Worker& worker,
+                                 bycorf::ServiceContext) override {
     if (!prepared_) {
       result_ =
           absl::FailedPreconditionError("fence drain test requires one worker");
@@ -1092,10 +1093,10 @@ class FenceDrainService final : public celer::Service {
   bool saw_fenced_state() const noexcept { return saw_fenced_state_; }
 
  private:
-  celer::Task<absl::Status> ReleaseAfterTransitionSuspends(
-      celer::Worker& worker) {
+  bycorf::Task<absl::Status> ReleaseAfterTransitionSuspends(
+      bycorf::Worker& worker) {
     while (control_.actions.async_revocations_ == 0) {
-      co_await celer::Yield(worker);
+      co_await bycorf::Yield(worker);
     }
     release_ran_while_waiting_ = !transition_returned_;
     const GroupView* fenced = control_.cache.Current()->FindGroup("group-a");
@@ -1104,7 +1105,7 @@ class FenceDrainService final : public celer::Service {
     co_return absl::OkStatus();
   }
 
-  celer::Server* server_;
+  bycorf::Server* server_;
   DynamicControl control_;
   std::shared_ptr<const ServingState> old_;
   std::optional<InFlightGuard> in_flight_;
@@ -1115,7 +1116,7 @@ class FenceDrainService final : public celer::Service {
   absl::Status result_ = absl::UnknownError("fence drain service did not run");
 };
 
-class ProvisionalActivationService final : public celer::Service {
+class ProvisionalActivationService final : public bycorf::Service {
  public:
   enum class Scenario {
     kBlockedSuccess,
@@ -1133,15 +1134,15 @@ class ProvisionalActivationService final : public celer::Service {
     kLeaseLongerThanResolvedDuration,
   };
 
-  ProvisionalActivationService(celer::Server* server, Scenario scenario)
+  ProvisionalActivationService(bycorf::Server* server, Scenario scenario)
       : server_(server), scenario_(scenario) {}
 
   void Prepare(unsigned thread_count) override {
     prepared_ = thread_count == 1;
   }
 
-  celer::Task<absl::Status> Run(celer::Worker& worker,
-                                celer::ServiceContext) override {
+  bycorf::Task<absl::Status> Run(bycorf::Worker& worker,
+                                 bycorf::ServiceContext) override {
     if (!prepared_) {
       result_ = absl::FailedPreconditionError(
           "provisional activation test requires one worker");
@@ -1244,15 +1245,15 @@ class ProvisionalActivationService final : public celer::Service {
       worker.Spawn(ApplyGrant());
       while (control_.actions.block_promotion_activation_ &&
              !control_.actions.promotion_activation_entered_) {
-        co_await celer::Yield(worker);
+        co_await bycorf::Yield(worker);
       }
       while (control_.actions.block_expiration_authority_enable_ &&
              !control_.actions.expiration_authority_enable_entered_) {
-        co_await celer::Yield(worker);
+        co_await bycorf::Yield(worker);
       }
       while (control_.actions.block_source_admission_enable_ &&
              !control_.actions.source_admission_enable_entered_) {
-        co_await celer::Yield(worker);
+        co_await bycorf::Yield(worker);
       }
       no_lease_before_activation_ = !CanWrite();
       expiration_disabled_before_activation_ =
@@ -1274,7 +1275,7 @@ class ProvisionalActivationService final : public celer::Service {
       control_.actions.block_promotion_activation_ = false;
       control_.actions.block_expiration_authority_enable_ = false;
       control_.actions.block_source_admission_enable_ = false;
-      while (!grant_returned_) co_await celer::Yield(worker);
+      while (!grant_returned_) co_await bycorf::Yield(worker);
     } else if (scenario_ == Scenario::kExpiresDuringActivation) {
       control_.actions.on_promotion_activation_ = [] {
         std::this_thread::sleep_for(20ms);
@@ -1313,14 +1314,14 @@ class ProvisionalActivationService final : public celer::Service {
                .kind_ == Decision::Kind::kServe;
   }
 
-  celer::Task<absl::Status> ApplyGrant() {
+  bycorf::Task<absl::Status> ApplyGrant() {
     grant_result_ =
         co_await control_.installer.ApplyLeaseGrantTransition(grant_);
     grant_returned_ = true;
     co_return absl::OkStatus();
   }
 
-  celer::Server* server_;
+  bycorf::Server* server_;
   Scenario scenario_;
   DynamicControl control_;
   bool prepared_ = false;
@@ -1342,9 +1343,9 @@ class ProvisionalActivationService final : public celer::Service {
 };
 
 void RunProvisionalActivationService(ProvisionalActivationService& service,
-                                     celer::Server& server) {
+                                     bycorf::Server& server) {
   server.AddService(&service);
-  celer::ServerOptions options;
+  bycorf::ServerOptions options;
   options.thread_count_ = 1;
   options.pin_workers_ = false;
   options.recv_buffer_count_ = 0;
@@ -1355,7 +1356,7 @@ void RunProvisionalActivationService(ProvisionalActivationService& service,
 
 TEST(NodeControlInstallerTest,
      ProvisionalFailoverGrantDoesNotCreateLeaseBeforeExactActivation) {
-  celer::Server server;
+  bycorf::Server server;
   ProvisionalActivationService service(
       &server, ProvisionalActivationService::Scenario::kBlockedSuccess);
   RunProvisionalActivationService(service, server);
@@ -1385,7 +1386,7 @@ TEST(NodeControlInstallerTest,
 
 TEST(NodeControlInstallerTest,
      FdsReplacementDuringPromotionActivationFailsFinalRecheckWithoutLease) {
-  celer::Server server;
+  bycorf::Server server;
   ProvisionalActivationService service(
       &server, ProvisionalActivationService::Scenario::kProjectionReplacement);
   RunProvisionalActivationService(service, server);
@@ -1401,7 +1402,7 @@ TEST(NodeControlInstallerTest,
 
 TEST(NodeControlInstallerTest,
      FdsReplacementDuringExpirationEnableFailsTheLastRecheckWithoutLease) {
-  celer::Server server;
+  bycorf::Server server;
   ProvisionalActivationService service(&server,
                                        ProvisionalActivationService::Scenario::
                                            kReplacementDuringExpirationEnable);
@@ -1419,7 +1420,7 @@ TEST(NodeControlInstallerTest,
 
 TEST(NodeControlInstallerTest,
      SessionLossDuringPromotionActivationFailsFinalRecheckWithoutLease) {
-  celer::Server server;
+  bycorf::Server server;
   ProvisionalActivationService service(
       &server, ProvisionalActivationService::Scenario::
                    kSessionLossDuringPromotionActivation);
@@ -1441,7 +1442,7 @@ TEST(NodeControlInstallerTest,
 
 TEST(NodeControlInstallerTest,
      SessionLossDuringExpirationEnableFailsFinalRecheckWithoutLease) {
-  celer::Server server;
+  bycorf::Server server;
   ProvisionalActivationService service(&server,
                                        ProvisionalActivationService::Scenario::
                                            kSessionLossDuringExpirationEnable);
@@ -1463,7 +1464,7 @@ TEST(NodeControlInstallerTest,
 
 TEST(NodeControlInstallerTest,
      SessionLossDuringSourceAdmissionEnableFailsClosedAfterInstalledLease) {
-  celer::Server server;
+  bycorf::Server server;
   ProvisionalActivationService service(
       &server, ProvisionalActivationService::Scenario::
                    kSessionLossDuringSourceAdmissionEnable);
@@ -1484,7 +1485,7 @@ TEST(NodeControlInstallerTest,
 
 TEST(NodeControlInstallerTest,
      GrantExpiringDuringPromotionActivationNeverEnablesExpirationOrLease) {
-  celer::Server server;
+  bycorf::Server server;
   ProvisionalActivationService service(
       &server,
       ProvisionalActivationService::Scenario::kExpiresDuringActivation);
@@ -1499,7 +1500,7 @@ TEST(NodeControlInstallerTest,
 
 TEST(NodeControlInstallerTest,
      RestartedCutoverWinnerCannotReusePriorBootActivationActionOrLease) {
-  celer::Server server;
+  bycorf::Server server;
   ProvisionalActivationService service(&server,
                                        ProvisionalActivationService::Scenario::
                                            kRestartedWinnerWithPriorBootAction);
@@ -1517,7 +1518,7 @@ TEST(NodeControlInstallerTest,
 
 TEST(NodeControlInstallerTest,
      SteadyOwnerGrantSkipsPromotionAndEnablesFiniteExpirationFirst) {
-  celer::Server server;
+  bycorf::Server server;
   ProvisionalActivationService service(
       &server, ProvisionalActivationService::Scenario::kSteadyOwner);
   RunProvisionalActivationService(service, server);
@@ -1539,7 +1540,7 @@ TEST(NodeControlInstallerTest,
 
 TEST(NodeControlInstallerTest,
      RejectedDesiredAuthorityIncludesMessageAndDesiredGrantContexts) {
-  celer::Server server;
+  bycorf::Server server;
   ProvisionalActivationService service(
       &server,
       ProvisionalActivationService::Scenario::kMismatchedDesiredAuthority);
@@ -1557,7 +1558,7 @@ TEST(NodeControlInstallerTest,
 }
 
 TEST(NodeControlInstallerTest, RejectsLeaseShorterThanFdsResolvedDuration) {
-  celer::Server server;
+  bycorf::Server server;
   ProvisionalActivationService service(&server,
                                        ProvisionalActivationService::Scenario::
                                            kLeaseShorterThanResolvedDuration);
@@ -1575,7 +1576,7 @@ TEST(NodeControlInstallerTest, RejectsLeaseShorterThanFdsResolvedDuration) {
 
 TEST(NodeControlInstallerTest,
      RejectsLeaseLongerThanFdsResolvedDurationWithBothDurations) {
-  celer::Server server;
+  bycorf::Server server;
   ProvisionalActivationService service(
       &server,
       ProvisionalActivationService::Scenario::kLeaseLongerThanResolvedDuration);
@@ -1591,7 +1592,7 @@ TEST(NodeControlInstallerTest,
 
 TEST(NodeControlInstallerTest,
      SessionLossRevokesFiniteExpirationAuthorityAndTheWriteLease) {
-  celer::Server server;
+  bycorf::Server server;
   ProvisionalActivationService service(
       &server, ProvisionalActivationService::Scenario::kRevocationBoundaries);
   RunProvisionalActivationService(service, server);
@@ -1603,16 +1604,16 @@ TEST(NodeControlInstallerTest,
   EXPECT_FALSE(service.writable_after_);
 }
 
-class LeaseExpiryService final : public celer::Service {
+class LeaseExpiryService final : public bycorf::Service {
  public:
-  explicit LeaseExpiryService(celer::Server* server) : server_(server) {}
+  explicit LeaseExpiryService(bycorf::Server* server) : server_(server) {}
 
   void Prepare(unsigned thread_count) override {
     prepared_ = thread_count == 1;
   }
 
-  celer::Task<absl::Status> Run(celer::Worker& worker,
-                                celer::ServiceContext) override {
+  bycorf::Task<absl::Status> Run(bycorf::Worker& worker,
+                                 bycorf::ServiceContext) override {
     if (!prepared_) {
       result_ =
           absl::FailedPreconditionError("lease timer test requires one worker");
@@ -1647,7 +1648,7 @@ class LeaseExpiryService final : public celer::Service {
       server_->RequestStop();
       co_return result_;
     }
-    absl::Status slept = co_await celer::SleepFor(worker, 60ms);
+    absl::Status slept = co_await bycorf::SleepFor(worker, 60ms);
     if (!slept.ok()) {
       result_ = slept;
       server_->RequestStop();
@@ -1663,7 +1664,7 @@ class LeaseExpiryService final : public celer::Service {
 
     // Cross the original deadline. Its timer must see the renewed deadline
     // and leave the replacement lease and its source capabilities intact.
-    slept = co_await celer::SleepFor(worker, 60ms);
+    slept = co_await bycorf::SleepFor(worker, 60ms);
     if (!slept.ok()) {
       result_ = slept;
       server_->RequestStop();
@@ -1676,7 +1677,7 @@ class LeaseExpiryService final : public celer::Service {
                 .kind_ == Decision::Kind::kServe &&
         control_.actions.session_clears_ == 0;
 
-    slept = co_await celer::SleepFor(worker, 70ms);
+    slept = co_await bycorf::SleepFor(worker, 70ms);
     if (!slept.ok()) {
       result_ = slept;
       server_->RequestStop();
@@ -1701,7 +1702,7 @@ class LeaseExpiryService final : public celer::Service {
 
   void Stop() noexcept override {}
 
-  celer::Server* server_;
+  bycorf::Server* server_;
   DynamicControl control_;
   bool prepared_ = false;
   bool old_timer_preserved_lease_ = false;
@@ -1717,17 +1718,17 @@ class LeaseExpiryService final : public celer::Service {
 // Blocks the sole worker across the first deadline so the ordinary timer
 // cannot run before a renewal is delivered. This models a host resume or an
 // event-loop stall without requiring a privileged suspend operation.
-class DelayedLeaseExpiryRenewalService final : public celer::Service {
+class DelayedLeaseExpiryRenewalService final : public bycorf::Service {
  public:
-  explicit DelayedLeaseExpiryRenewalService(celer::Server* server)
+  explicit DelayedLeaseExpiryRenewalService(bycorf::Server* server)
       : server_(server) {}
 
   void Prepare(unsigned thread_count) override {
     prepared_ = thread_count == 1;
   }
 
-  celer::Task<absl::Status> Run(celer::Worker& /*worker*/,
-                                celer::ServiceContext) override {
+  bycorf::Task<absl::Status> Run(bycorf::Worker& /*worker*/,
+                                 bycorf::ServiceContext) override {
     if (!prepared_) {
       result_ = absl::FailedPreconditionError(
           "delayed lease expiry test requires one worker");
@@ -1790,7 +1791,7 @@ class DelayedLeaseExpiryRenewalService final : public celer::Service {
 
   void Stop() noexcept override {}
 
-  celer::Server* server_;
+  bycorf::Server* server_;
   DynamicControl control_;
   bool prepared_ = false;
   bool old_admitted_ = false;
@@ -1803,17 +1804,17 @@ class DelayedLeaseExpiryRenewalService final : public celer::Service {
       absl::UnknownError("delayed lease expiry renewal service did not run");
 };
 
-class FenceDirectiveAdmissionService final : public celer::Service {
+class FenceDirectiveAdmissionService final : public bycorf::Service {
  public:
-  explicit FenceDirectiveAdmissionService(celer::Server* server)
+  explicit FenceDirectiveAdmissionService(bycorf::Server* server)
       : server_(server) {}
 
   void Prepare(unsigned thread_count) override {
     prepared_ = thread_count == 1;
   }
 
-  celer::Task<absl::Status> Run(celer::Worker& worker,
-                                celer::ServiceContext) override {
+  bycorf::Task<absl::Status> Run(bycorf::Worker& worker,
+                                 bycorf::ServiceContext) override {
     if (!prepared_) {
       result_ = absl::FailedPreconditionError(
           "directive admission test requires one worker");
@@ -1863,7 +1864,7 @@ class FenceDirectiveAdmissionService final : public celer::Service {
     control_.actions.block_directive_action_ = true;
     worker.Spawn(RunDirective());
     while (!control_.actions.directive_action_entered_) {
-      co_await celer::Yield(worker);
+      co_await bycorf::Yield(worker);
     }
     worker.Spawn(ReleaseAfterFencePublication(worker));
 
@@ -1874,14 +1875,14 @@ class FenceDirectiveAdmissionService final : public celer::Service {
         .anchor_ = Anchor(*state),
     });
     fence_returned_ = true;
-    while (!directive_returned_) co_await celer::Yield(worker);
+    while (!directive_returned_) co_await bycorf::Yield(worker);
     server_->RequestStop();
     co_return result_;
   }
 
   void Stop() noexcept override {}
 
-  celer::Server* server_;
+  bycorf::Server* server_;
   DynamicControl control_;
   NodeDirective directive_;
   bool prepared_ = false;
@@ -1896,7 +1897,7 @@ class FenceDirectiveAdmissionService final : public celer::Service {
       absl::UnknownError("fence admission service did not run");
 
  private:
-  celer::Task<absl::Status> RunDirective() {
+  bycorf::Task<absl::Status> RunDirective() {
     NodeDirectiveCompletion completion =
         co_await control_.installer.StartDirective(directive_);
     directive_started_ = completion.started();
@@ -1906,11 +1907,11 @@ class FenceDirectiveAdmissionService final : public celer::Service {
     co_return absl::OkStatus();
   }
 
-  celer::Task<absl::Status> ReleaseAfterFencePublication(
-      celer::Worker& worker) {
+  bycorf::Task<absl::Status> ReleaseAfterFencePublication(
+      bycorf::Worker& worker) {
     const GroupView* group = control_.cache.Current()->FindGroup("group-a");
     while (group != nullptr && group->granted_) {
-      co_await celer::Yield(worker);
+      co_await bycorf::Yield(worker);
       group = control_.cache.Current()->FindGroup("group-a");
     }
     saw_fenced_state_ = group != nullptr && !group->granted_;
@@ -1922,17 +1923,17 @@ class FenceDirectiveAdmissionService final : public celer::Service {
   }
 };
 
-class ReadinessAdmissionInvalidationService final : public celer::Service {
+class ReadinessAdmissionInvalidationService final : public bycorf::Service {
  public:
-  explicit ReadinessAdmissionInvalidationService(celer::Server* server)
+  explicit ReadinessAdmissionInvalidationService(bycorf::Server* server)
       : server_(server) {}
 
   void Prepare(unsigned thread_count) override {
     prepared_ = thread_count == 1;
   }
 
-  celer::Task<absl::Status> Run(celer::Worker& worker,
-                                celer::ServiceContext) override {
+  bycorf::Task<absl::Status> Run(bycorf::Worker& worker,
+                                 bycorf::ServiceContext) override {
     if (!prepared_) {
       result_ = absl::FailedPreconditionError(
           "readiness admission test requires one worker");
@@ -1984,20 +1985,20 @@ class ReadinessAdmissionInvalidationService final : public celer::Service {
     control_.actions.block_revocation_ = true;
     worker.Spawn(RunDirective());
     while (!control_.actions.revocation_entered_) {
-      co_await celer::Yield(worker);
+      co_await bycorf::Yield(worker);
     }
     const GroupView* group = control_.cache.Current()->FindGroup("group-a");
     saw_unready_state_ = group != nullptr && !group->population_ready_;
     result_ = control_.installer.InvalidateSessionNow(Session(1));
     control_.actions.block_revocation_ = false;
-    while (!directive_returned_) co_await celer::Yield(worker);
+    while (!directive_returned_) co_await bycorf::Yield(worker);
     server_->RequestStop();
     co_return result_;
   }
 
   void Stop() noexcept override {}
 
-  celer::Server* server_;
+  bycorf::Server* server_;
   DynamicControl control_;
   NodeDirective directive_;
   bool prepared_ = false;
@@ -2010,7 +2011,7 @@ class ReadinessAdmissionInvalidationService final : public celer::Service {
       absl::UnknownError("readiness admission service did not run");
 
  private:
-  celer::Task<absl::Status> RunDirective() {
+  bycorf::Task<absl::Status> RunDirective() {
     NodeDirectiveCompletion completion =
         co_await control_.installer.StartDirective(directive_);
     directive_started_ = completion.started();
@@ -2021,17 +2022,17 @@ class ReadinessAdmissionInvalidationService final : public celer::Service {
   }
 };
 
-class StorageLossAdmissionService final : public celer::Service {
+class StorageLossAdmissionService final : public bycorf::Service {
  public:
-  explicit StorageLossAdmissionService(celer::Server* server)
+  explicit StorageLossAdmissionService(bycorf::Server* server)
       : server_(server) {}
 
   void Prepare(unsigned thread_count) override {
     prepared_ = thread_count == 1;
   }
 
-  celer::Task<absl::Status> Run(celer::Worker& worker,
-                                celer::ServiceContext) override {
+  bycorf::Task<absl::Status> Run(bycorf::Worker& worker,
+                                 bycorf::ServiceContext) override {
     if (!prepared_) {
       result_ = absl::FailedPreconditionError(
           "storage loss admission test requires one worker");
@@ -2082,13 +2083,13 @@ class StorageLossAdmissionService final : public celer::Service {
     control_.actions.block_directive_action_ = true;
     worker.Spawn(RunDirective());
     while (!control_.actions.directive_action_entered_) {
-      co_await celer::Yield(worker);
+      co_await bycorf::Yield(worker);
     }
     worker.Spawn(ReleaseAfterStorageLossPublication(worker));
 
     result_ = co_await control_.installer.LoseStorageReadinessTransition();
     transition_returned_ = true;
-    while (!directive_returned_) co_await celer::Yield(worker);
+    while (!directive_returned_) co_await bycorf::Yield(worker);
 
     NodeDirectiveCompletion retry =
         co_await control_.installer.StartDirective(directive_);
@@ -2102,7 +2103,7 @@ class StorageLossAdmissionService final : public celer::Service {
 
   void Stop() noexcept override {}
 
-  celer::Server* server_;
+  bycorf::Server* server_;
   DynamicControl control_;
   NodeDirective directive_;
   bool prepared_ = false;
@@ -2122,7 +2123,7 @@ class StorageLossAdmissionService final : public celer::Service {
       absl::UnknownError("storage loss admission service did not run");
 
  private:
-  celer::Task<absl::Status> RunDirective() {
+  bycorf::Task<absl::Status> RunDirective() {
     NodeDirectiveCompletion completion =
         co_await control_.installer.StartDirective(directive_);
     directive_started_ = completion.started();
@@ -2132,10 +2133,10 @@ class StorageLossAdmissionService final : public celer::Service {
     co_return absl::OkStatus();
   }
 
-  celer::Task<absl::Status> ReleaseAfterStorageLossPublication(
-      celer::Worker& worker) {
+  bycorf::Task<absl::Status> ReleaseAfterStorageLossPublication(
+      bycorf::Worker& worker) {
     while (control_.installer.storage_ready()) {
-      co_await celer::Yield(worker);
+      co_await bycorf::Yield(worker);
     }
     saw_storage_unready_ = true;
     transition_waited_for_action_ =
@@ -2146,17 +2147,17 @@ class StorageLossAdmissionService final : public celer::Service {
   }
 };
 
-class StorageLossControlTransitionService final : public celer::Service {
+class StorageLossControlTransitionService final : public bycorf::Service {
  public:
-  explicit StorageLossControlTransitionService(celer::Server* server)
+  explicit StorageLossControlTransitionService(bycorf::Server* server)
       : server_(server) {}
 
   void Prepare(unsigned thread_count) override {
     prepared_ = thread_count == 1;
   }
 
-  celer::Task<absl::Status> Run(celer::Worker& worker,
-                                celer::ServiceContext) override {
+  bycorf::Task<absl::Status> Run(bycorf::Worker& worker,
+                                 bycorf::ServiceContext) override {
     if (!prepared_) {
       result_ = absl::FailedPreconditionError(
           "storage loss transition test requires one worker");
@@ -2180,18 +2181,18 @@ class StorageLossControlTransitionService final : public celer::Service {
     control_.actions.block_session_clear_ = true;
     worker.Spawn(RunFullState());
     while (!control_.actions.session_clear_entered_) {
-      co_await celer::Yield(worker);
+      co_await bycorf::Yield(worker);
     }
     worker.Spawn(RunStorageLoss());
     while (control_.installer.storage_ready()) {
-      co_await celer::Yield(worker);
+      co_await bycorf::Yield(worker);
     }
     storage_loss_waited_for_prior_transition_ =
         !storage_loss_returned_ &&
         control_.actions.population_shutdown_cancellations_ == 0;
     control_.actions.block_session_clear_ = false;
     while (!full_state_returned_ || !storage_loss_returned_) {
-      co_await celer::Yield(worker);
+      co_await bycorf::Yield(worker);
     }
     result_ = storage_loss_result_;
     server_->RequestStop();
@@ -2200,7 +2201,7 @@ class StorageLossControlTransitionService final : public celer::Service {
 
   void Stop() noexcept override {}
 
-  celer::Server* server_;
+  bycorf::Server* server_;
   DynamicControl control_;
   bool prepared_ = false;
   bool full_state_returned_ = false;
@@ -2214,14 +2215,14 @@ class StorageLossControlTransitionService final : public celer::Service {
       absl::UnknownError("storage-loss transition service did not run");
 
  private:
-  celer::Task<absl::Status> RunFullState() {
+  bycorf::Task<absl::Status> RunFullState() {
     full_state_result_ = co_await control_.installer.InstallFullStateTransition(
         FullState(MakeState()), Basis(10));
     full_state_returned_ = true;
     co_return absl::OkStatus();
   }
 
-  celer::Task<absl::Status> RunStorageLoss() {
+  bycorf::Task<absl::Status> RunStorageLoss() {
     storage_loss_result_ =
         co_await control_.installer.LoseStorageReadinessTransition();
     storage_loss_returned_ = true;
@@ -2371,7 +2372,7 @@ TEST(NodeControlInstallerTest,
           .kind_,
       Decision::Kind::kServe);
   // Production supplies this value from CLOCK_BOOTTIME. A host suspend can
-  // jump it past the deadline even when Celer's CLOCK_MONOTONIC timer has not
+  // jump it past the deadline even when Bycorf's CLOCK_MONOTONIC timer has not
   // resumed yet, so the request path itself must fail closed.
   EXPECT_EQ(
       control.guard.CaptureAndAdmit(WriteRequest(slots), before_suspend + 20s)
@@ -2613,10 +2614,10 @@ TEST(NodeControlInstallerTest,
 
 TEST(NodeControlInstallerTest,
      AsyncFenceSuspendsWorkerCoroutineUntilRetiredCounterReachesZero) {
-  celer::Server server;
+  bycorf::Server server;
   FenceDrainService service(&server);
   server.AddService(&service);
-  celer::ServerOptions options;
+  bycorf::ServerOptions options;
   options.thread_count_ = 1;
   options.pin_workers_ = false;
   options.recv_buffer_count_ = 0;
@@ -2630,10 +2631,10 @@ TEST(NodeControlInstallerTest,
 
 TEST(NodeControlInstallerTest,
      FenceWaitsForSuspendedDirectiveAdmissionBeforeFinalCancellation) {
-  celer::Server server;
+  bycorf::Server server;
   FenceDirectiveAdmissionService service(&server);
   server.AddService(&service);
-  celer::ServerOptions options;
+  bycorf::ServerOptions options;
   options.thread_count_ = 1;
   options.pin_workers_ = false;
   options.recv_buffer_count_ = 0;
@@ -2656,10 +2657,10 @@ TEST(NodeControlInstallerTest,
 
 TEST(NodeControlInstallerTest,
      SessionInvalidationDuringReadinessAwaitPreventsDirectiveAction) {
-  celer::Server server;
+  bycorf::Server server;
   ReadinessAdmissionInvalidationService service(&server);
   server.AddService(&service);
-  celer::ServerOptions options;
+  bycorf::ServerOptions options;
   options.thread_count_ = 1;
   options.pin_workers_ = false;
   options.recv_buffer_count_ = 0;
@@ -2676,10 +2677,10 @@ TEST(NodeControlInstallerTest,
 
 TEST(NodeControlInstallerTest,
      StorageLossWaitsForAdmissionCancelsTargetAndLatchesFailure) {
-  celer::Server server;
+  bycorf::Server server;
   StorageLossAdmissionService service(&server);
   server.AddService(&service);
-  celer::ServerOptions options;
+  bycorf::ServerOptions options;
   options.thread_count_ = 1;
   options.pin_workers_ = false;
   options.recv_buffer_count_ = 0;
@@ -2706,10 +2707,10 @@ TEST(NodeControlInstallerTest,
 
 TEST(NodeControlInstallerTest,
      StorageLossJoinsEarlierControlTransitionBeforeFinalCleanup) {
-  celer::Server server;
+  bycorf::Server server;
   StorageLossControlTransitionService service(&server);
   server.AddService(&service);
-  celer::ServerOptions options;
+  bycorf::ServerOptions options;
   options.thread_count_ = 1;
   options.pin_workers_ = false;
   options.recv_buffer_count_ = 0;
@@ -2749,10 +2750,10 @@ TEST(NodeControlInstallerTest, StorageLossRetainsAnUncertainCleanupFailure) {
 
 TEST(NodeControlInstallerTest,
      LeaseTimerExpiresExactLeaseButCannotRevokeItsRenewal) {
-  celer::Server server;
+  bycorf::Server server;
   LeaseExpiryService service(&server);
   server.AddService(&service);
-  celer::ServerOptions options;
+  bycorf::ServerOptions options;
   options.thread_count_ = 1;
   options.pin_workers_ = false;
   options.recv_buffer_count_ = 0;
@@ -2770,10 +2771,10 @@ TEST(NodeControlInstallerTest,
 
 TEST(NodeControlInstallerTest,
      ExpiredLeaseCannotBeRevivedBeforeDelayedTimerRuns) {
-  celer::Server server;
+  bycorf::Server server;
   DelayedLeaseExpiryRenewalService service(&server);
   server.AddService(&service);
-  celer::ServerOptions options;
+  bycorf::ServerOptions options;
   options.thread_count_ = 1;
   options.pin_workers_ = false;
   options.recv_buffer_count_ = 0;

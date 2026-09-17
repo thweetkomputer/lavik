@@ -109,7 +109,7 @@ class DumpReader {
 
 // Applies a streamed or ordinary file entry on its key owner. The reader and
 // entry are borrowed until completion; a collection import is atomic at EOF.
-celer::Task<absl::StatusOr<storage::RestoreRawResult>> RestoreFileEntry(
+bycorf::Task<absl::StatusOr<storage::RestoreRawResult>> RestoreFileEntry(
     storage::StorageEngine* storage, FileReader* reader, const FileEntry& entry,
     bool replace = false);
 

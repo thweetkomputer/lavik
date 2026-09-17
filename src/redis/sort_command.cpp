@@ -42,7 +42,7 @@
 #include "zset_command.h"
 
 namespace keylane {
-using namespace celer;
+using namespace bycorf;
 
 namespace {
 

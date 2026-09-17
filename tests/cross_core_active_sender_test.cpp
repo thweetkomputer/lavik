@@ -21,10 +21,10 @@
 #include <thread>
 #include <vector>
 
-#include "celer/runtime/cross_core.h"
+#include "bycorf/runtime/cross_core.h"
 #include "gtest/gtest.h"
 
-namespace celer {
+namespace bycorf {
 namespace {
 
 TEST(RemoteNotificationTest, AggregateInitializationZeroesOmittedFields) {
@@ -235,4 +235,4 @@ TEST(CrossCoreActiveSenderTest, ConcurrentDrainReactivatesNonemptyLanes) {
 }
 
 }  // namespace
-}  // namespace celer
+}  // namespace bycorf

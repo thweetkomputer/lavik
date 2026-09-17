@@ -32,8 +32,8 @@
 #include <utility>
 #include <vector>
 
-#include "celer/runtime/runtime.h"
-#include "celer/runtime/worker.h"
+#include "bycorf/runtime/runtime.h"
+#include "bycorf/runtime/worker.h"
 #include "gtest/gtest.h"
 #include "keylane/meta/candidate_plan.h"
 #include "keylane/meta/cluster_create.h"
@@ -1917,12 +1917,12 @@ TEST(MetaFailoverReconcilerLifecycleTest,
   for (const auto& command : fixture.committed_commands) commit(command);
 
   meta::MetaObservationStore observations;
-  celer::Runtime runtime;
+  bycorf::Runtime runtime;
   std::promise<absl::Status> initialized;
   auto initialized_result = initialized.get_future();
   runtime.Start(
       1,
-      [&initialized](unsigned, celer::Worker& worker) {
+      [&initialized](unsigned, bycorf::Worker& worker) {
         const absl::Status status = worker.Init();
         initialized.set_value(status);
         if (!status.ok()) return 1;
@@ -1933,7 +1933,7 @@ TEST(MetaFailoverReconcilerLifecycleTest,
       },
       false);
   ASSERT_TRUE(initialized_result.get().ok());
-  const celer::ForeignExecutor executor = runtime.GetForeignExecutor(0);
+  const bycorf::ForeignExecutor executor = runtime.GetForeignExecutor(0);
   meta::MetaCoordinatorOptions coordinator_options;
   coordinator_options.foreign_executor_ = executor;
   auto coordinator = std::make_unique<meta::MetaCoordinator>(
@@ -2225,12 +2225,12 @@ TEST(MetaFailoverReconcilerLifecycleTest,
   ASSERT_NE(std::get_if<meta::CommitControlledFailover>(&**expected), nullptr);
   EXPECT_EQ(expected_ids.consumed(), 1);
 
-  celer::Runtime runtime;
+  bycorf::Runtime runtime;
   std::promise<absl::Status> initialized;
   auto initialized_result = initialized.get_future();
   runtime.Start(
       1,
-      [&initialized](unsigned, celer::Worker& worker) {
+      [&initialized](unsigned, bycorf::Worker& worker) {
         const absl::Status status = worker.Init();
         initialized.set_value(status);
         if (!status.ok()) return 1;
@@ -2241,7 +2241,7 @@ TEST(MetaFailoverReconcilerLifecycleTest,
       },
       false);
   ASSERT_TRUE(initialized_result.get().ok());
-  const celer::ForeignExecutor executor = runtime.GetForeignExecutor(0);
+  const bycorf::ForeignExecutor executor = runtime.GetForeignExecutor(0);
   meta::MetaCoordinatorOptions coordinator_options;
   coordinator_options.foreign_executor_ = executor;
   auto coordinator = std::make_unique<meta::MetaCoordinator>(

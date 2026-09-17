@@ -18,14 +18,14 @@
 #include <chrono>
 
 #include "absl/status/status.h"
-#include "celer/io/storage.h"
-#include "celer/net/server.h"
-#include "celer/net/service.h"
-#include "celer/runtime/sync.h"
-#include "celer/runtime/worker.h"
+#include "bycorf/io/storage.h"
+#include "bycorf/net/server.h"
+#include "bycorf/net/service.h"
+#include "bycorf/runtime/sync.h"
+#include "bycorf/runtime/worker.h"
 #include "gtest/gtest.h"
 
-namespace celer {
+namespace bycorf {
 namespace {
 
 using namespace std::chrono_literals;
@@ -149,4 +149,4 @@ TEST(CrossWorkerMutexTest, SuspendsOnlyTheContendingCoroutine) {
 }
 
 }  // namespace
-}  // namespace celer
+}  // namespace bycorf

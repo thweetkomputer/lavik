@@ -40,9 +40,9 @@
 
 #include "absl/status/status.h"
 #include "absl/strings/str_cat.h"
-#include "celer/net/connection.h"
-#include "celer/net/server.h"
-#include "celer/runtime/cross_core.h"
+#include "bycorf/net/connection.h"
+#include "bycorf/net/server.h"
+#include "bycorf/runtime/cross_core.h"
 #include "gtest/gtest.h"
 #include "keylane/cluster/lease_clock.h"
 #include "keylane/command.h"
@@ -83,8 +83,8 @@ void EnsureTxRuntime() {
   }
 }
 
-celer::Task<absl::Status> AwaitFaultBarrier(const std::filesystem::path& path,
-                                            std::string_view description) {
+bycorf::Task<absl::Status> AwaitFaultBarrier(const std::filesystem::path& path,
+                                             std::string_view description) {
   const auto deadline =
       std::chrono::steady_clock::now() + std::chrono::seconds(5);
   do {
@@ -94,14 +94,14 @@ celer::Task<absl::Status> AwaitFaultBarrier(const std::filesystem::path& path,
       co_return absl::InternalError(absl::StrCat(
           "could not observe ", description, ": ", error.message()));
     }
-    absl::Status waited = co_await celer::SleepFor(
-        *celer::ThisWorker().self_, std::chrono::milliseconds(1));
+    absl::Status waited = co_await bycorf::SleepFor(
+        *bycorf::ThisWorker().self_, std::chrono::milliseconds(1));
     if (!waited.ok()) co_return waited;
   } while (std::chrono::steady_clock::now() < deadline);
   co_return TestFailure(absl::StrCat(description, " was not acknowledged"));
 }
 
-celer::Task<absl::Status> CheckLightweightQueries(
+bycorf::Task<absl::Status> CheckLightweightQueries(
     const keylane::ReplicationManager& replication,
     const std::optional<keylane::ReplicaOfConfig>& expected_upstream,
     std::string_view phase) {
@@ -629,16 +629,16 @@ keylane::RebuildDirective TargetDirective(
   };
 }
 
-celer::Task<absl::Status> WaitForPeerCount(celer::Worker& worker,
-                                           const StallingNativeSource& source,
-                                           bool closed, unsigned expected,
-                                           std::string_view description) {
+bycorf::Task<absl::Status> WaitForPeerCount(bycorf::Worker& worker,
+                                            const StallingNativeSource& source,
+                                            bool closed, unsigned expected,
+                                            std::string_view description) {
   const auto count = [&] {
     return closed ? source.closed() : source.accepted();
   };
   const auto deadline = std::chrono::steady_clock::now() + 5s;
   while (count() < expected && std::chrono::steady_clock::now() < deadline) {
-    absl::Status waited = co_await celer::SleepFor(worker, 1ms);
+    absl::Status waited = co_await bycorf::SleepFor(worker, 1ms);
     if (!waited.ok()) co_return waited;
   }
   if (count() < expected) {
@@ -647,7 +647,7 @@ celer::Task<absl::Status> WaitForPeerCount(celer::Worker& worker,
   co_return absl::OkStatus();
 }
 
-class ReplicationManagerService final : public celer::Service {
+class ReplicationManagerService final : public bycorf::Service {
  public:
   ReplicationManagerService(keylane::storage::StorageEngine* storage,
                             keylane::ReplicationManager* replication,
@@ -664,8 +664,8 @@ class ReplicationManagerService final : public celer::Service {
     }
   }
 
-  celer::Task<absl::Status> Run(celer::Worker& worker,
-                                celer::ServiceContext) override {
+  bycorf::Task<absl::Status> Run(bycorf::Worker& worker,
+                                 bycorf::ServiceContext) override {
     keylane::BindMemoryAccountingShard(worker.id());
     keylane::tx::TxRuntime::Get()->shard(worker.id()).Bind(worker);
     if (result_.ok()) result_ = co_await storage_->InitializeWorker(worker);
@@ -682,7 +682,7 @@ class ReplicationManagerService final : public celer::Service {
   const absl::Status& result() const noexcept { return result_; }
 
  private:
-  celer::Task<absl::Status> Exercise(celer::Worker& worker) {
+  bycorf::Task<absl::Status> Exercise(bycorf::Worker& worker) {
     if (source_->port() == 0 || source_->error() != 0) {
       co_return TestFailure("stalling native source failed to start");
     }
@@ -701,7 +701,7 @@ class ReplicationManagerService final : public celer::Service {
         !query.ok()) {
       co_return query;
     }
-    absl::Status startup_wait = co_await celer::SleepFor(worker, 50ms);
+    absl::Status startup_wait = co_await bycorf::SleepFor(worker, 50ms);
     if (!startup_wait.ok()) co_return startup_wait;
     if (source_->accepted() != 0) {
       co_return TestFailure(
@@ -810,7 +810,7 @@ class ReplicationManagerService final : public celer::Service {
       after_mismatch = co_await replication_->cluster_population_status();
       if (after_mismatch.state_ == keylane::ReplicationGroupState::kNotReady)
         break;
-      absl::Status waited = co_await celer::SleepFor(worker, 1ms);
+      absl::Status waited = co_await bycorf::SleepFor(worker, 1ms);
       if (!waited.ok()) co_return waited;
     } while (std::chrono::steady_clock::now() < mismatch_deadline);
     if (after_mismatch.state_ != keylane::ReplicationGroupState::kNotReady ||
@@ -1016,7 +1016,7 @@ class ReplicationManagerService final : public celer::Service {
   absl::Status result_ = absl::OkStatus();
 };
 
-class TargetLeaseAdmissionRetryService final : public celer::Service {
+class TargetLeaseAdmissionRetryService final : public bycorf::Service {
  public:
   TargetLeaseAdmissionRetryService(keylane::storage::StorageEngine* storage,
                                    keylane::ReplicationManager* replication,
@@ -1035,8 +1035,8 @@ class TargetLeaseAdmissionRetryService final : public celer::Service {
     }
   }
 
-  celer::Task<absl::Status> Run(celer::Worker& worker,
-                                celer::ServiceContext) override {
+  bycorf::Task<absl::Status> Run(bycorf::Worker& worker,
+                                 bycorf::ServiceContext) override {
     keylane::BindMemoryAccountingShard(worker.id());
     keylane::tx::TxRuntime::Get()->shard(worker.id()).Bind(worker);
     if (result_.ok()) result_ = co_await storage_->InitializeWorker(worker);
@@ -1055,7 +1055,7 @@ class TargetLeaseAdmissionRetryService final : public celer::Service {
   const absl::Status& result() const noexcept { return result_; }
 
  private:
-  celer::Task<absl::Status> Exercise(celer::Worker& worker) {
+  bycorf::Task<absl::Status> Exercise(bycorf::Worker& worker) {
     if (source_->port() == 0 || source_->error() != 0) {
       co_return TestFailure("scripted native source failed to start");
     }
@@ -1087,7 +1087,7 @@ class TargetLeaseAdmissionRetryService final : public celer::Service {
       co_return TestFailure("lease admission retries did not use fixed delay");
     }
     const unsigned accepted_at_terminal = source_->accepted();
-    absl::Status waited = co_await celer::SleepFor(worker, 1200ms);
+    absl::Status waited = co_await bycorf::SleepFor(worker, 1200ms);
     if (!waited.ok()) co_return waited;
     if (source_->accepted() != accepted_at_terminal) {
       co_return TestFailure(
@@ -1116,7 +1116,7 @@ enum class EmptyPopulationExpectation {
   kFailedStopped,
 };
 
-class EmptyPopulationService final : public celer::Service {
+class EmptyPopulationService final : public bycorf::Service {
  public:
   EmptyPopulationService(keylane::storage::StorageEngine* storage,
                          keylane::ReplicationManager* replication,
@@ -1132,8 +1132,8 @@ class EmptyPopulationService final : public celer::Service {
     }
   }
 
-  celer::Task<absl::Status> Run(celer::Worker& worker,
-                                celer::ServiceContext) override {
+  bycorf::Task<absl::Status> Run(bycorf::Worker& worker,
+                                 bycorf::ServiceContext) override {
     keylane::BindMemoryAccountingShard(worker.id());
     keylane::tx::TxRuntime::Get()->shard(worker.id()).Bind(worker);
     if (result_.ok()) result_ = co_await storage_->InitializeWorker(worker);
@@ -1150,7 +1150,7 @@ class EmptyPopulationService final : public celer::Service {
   const absl::Status& result() const noexcept { return result_; }
 
  private:
-  celer::Task<absl::Status> Exercise() {
+  bycorf::Task<absl::Status> Exercise() {
     const keylane::ReplicationIdentity local =
         co_await replication_->ObserveIdentity();
     const keylane::ClusterPopulationStatus cold =
@@ -1294,8 +1294,8 @@ class EmptyPopulationService final : public celer::Service {
     if (absent.ok() || absent.status().code() != absl::StatusCode::kNotFound) {
       co_return TestFailure("expiration lease probe was not logically absent");
     }
-    absl::Status waited = co_await celer::SleepFor(
-        *celer::ThisWorker().self_, std::chrono::milliseconds(50));
+    absl::Status waited = co_await bycorf::SleepFor(
+        *bycorf::ThisWorker().self_, std::chrono::milliseconds(50));
     if (!waited.ok()) co_return waited;
     if (storage_->LocalSize(0) != 1) {
       co_return TestFailure(
@@ -1311,8 +1311,8 @@ class EmptyPopulationService final : public celer::Service {
     }
     for (std::size_t attempt = 0; attempt < 1000 && storage_->LocalSize(0) != 0;
          ++attempt) {
-      waited = co_await celer::SleepFor(*celer::ThisWorker().self_,
-                                        std::chrono::milliseconds(1));
+      waited = co_await bycorf::SleepFor(*bycorf::ThisWorker().self_,
+                                         std::chrono::milliseconds(1));
       if (!waited.ok()) co_return waited;
     }
     expiration = co_await replication_->RevokeClusterExpirationAuthority();
@@ -1461,7 +1461,7 @@ class EmptyPopulationService final : public celer::Service {
   absl::Status result_ = absl::OkStatus();
 };
 
-class StandaloneIdentityService final : public celer::Service {
+class StandaloneIdentityService final : public bycorf::Service {
  public:
   StandaloneIdentityService(keylane::ReplicationManager* first,
                             keylane::ReplicationManager* second)
@@ -1469,8 +1469,8 @@ class StandaloneIdentityService final : public celer::Service {
 
   void Prepare(unsigned) override {}
 
-  celer::Task<absl::Status> Run(celer::Worker& worker,
-                                celer::ServiceContext) override {
+  bycorf::Task<absl::Status> Run(bycorf::Worker& worker,
+                                 bycorf::ServiceContext) override {
     result_ = co_await CheckLightweightQueries(*first_, std::nullopt,
                                                "standalone primary");
     if (result_.ok()) {
@@ -1534,7 +1534,7 @@ class StandaloneIdentityService final : public celer::Service {
 // state without dialing a source or mutating a device. This isolates owner
 // routing and snapshot publication from transfer timing and TxRuntime's
 // process-global one-worker fixture used by the storage tests above.
-class CrossWorkerControlService final : public celer::Service {
+class CrossWorkerControlService final : public bycorf::Service {
  public:
   explicit CrossWorkerControlService(keylane::ReplicationManager& replication)
       : replication_(replication) {}
@@ -1542,14 +1542,14 @@ class CrossWorkerControlService final : public celer::Service {
   void Prepare(unsigned) override {}
   void Stop() noexcept override {}
 
-  celer::Task<absl::Status> Run(celer::Worker& worker,
-                                celer::ServiceContext) override {
+  bycorf::Task<absl::Status> Run(bycorf::Worker& worker,
+                                 bycorf::ServiceContext) override {
     if (worker.id() == 1) {
       result_ = co_await Exercise();
       finished_.store(true, std::memory_order_release);
     } else {
       while (!finished_.load(std::memory_order_acquire)) {
-        auto waited = co_await celer::SleepFor(worker, 1ms);
+        auto waited = co_await bycorf::SleepFor(worker, 1ms);
         if (!waited.ok()) co_return waited;
       }
     }
@@ -1563,10 +1563,10 @@ class CrossWorkerControlService final : public celer::Service {
   const absl::Status& result() const { return result_; }
 
  private:
-  celer::Task<absl::Status> CheckEveryWorker(
+  bycorf::Task<absl::Status> CheckEveryWorker(
       std::optional<keylane::ReplicaOfConfig> expected) {
     for (unsigned owner = 0; owner < 2; ++owner) {
-      auto checked = co_await celer::SubmitTaskTo(owner, [this, expected] {
+      auto checked = co_await bycorf::SubmitTaskTo(owner, [this, expected] {
         return CheckLightweightQueries(replication_, expected,
                                        "cross-worker control");
       });
@@ -1574,12 +1574,12 @@ class CrossWorkerControlService final : public celer::Service {
     }
     // A remote observation must return to its originating worker; both this
     // loop and subsequent directive admission intentionally run off-owner.
-    if (celer::ThisWorker().id_ != 1)
+    if (bycorf::ThisWorker().id_ != 1)
       co_return TestFailure("control query migrated its caller");
     co_return absl::OkStatus();
   }
 
-  celer::Task<absl::Status> Exercise() {
+  bycorf::Task<absl::Status> Exercise() {
     auto checked = co_await CheckEveryWorker(std::nullopt);
     if (!checked.ok()) co_return checked;
     const auto initial = co_await replication_.cluster_population_status();
@@ -1609,7 +1609,7 @@ class CrossWorkerControlService final : public celer::Service {
           population.ready_token_.has_value()) {
         co_return TestFailure("remote heartbeat observed an incoherent proof");
       }
-      const bool completed = co_await celer::SubmitTo(0, [this, directive] {
+      const bool completed = co_await bycorf::SubmitTo(0, [this, directive] {
         return replication_.FindCompletedClusterPopulation(directive)
             .has_value();
       });
@@ -1620,7 +1620,7 @@ class CrossWorkerControlService final : public celer::Service {
     ready_for_shutdown_.store(true, std::memory_order_release);
     while (!shutdown_requested_.load(std::memory_order_acquire)) {
       (void)co_await replication_.Observe();
-      auto waited = co_await celer::SleepFor(*celer::ThisWorker().self_, 1ms);
+      auto waited = co_await bycorf::SleepFor(*bycorf::ThisWorker().self_, 1ms);
       if (!waited.ok()) co_return waited;
     }
     auto cancelled = co_await replication_.CancelClusterRebuildForShutdown();
@@ -1659,9 +1659,9 @@ TEST(ReplicationManagerIntegrationTest,
   options.cluster_enabled_ = true;
   keylane::ReplicationManager replication(&storage, options, std::nullopt);
   CrossWorkerControlService service(replication);
-  celer::Server server;
+  bycorf::Server server;
   server.AddService(&service);
-  celer::ServerOptions runtime;
+  bycorf::ServerOptions runtime;
   runtime.thread_count_ = 2;
   runtime.pin_workers_ = false;
   runtime.recv_buffer_count_ = 0;
@@ -1679,7 +1679,7 @@ TEST(ReplicationManagerIntegrationTest,
   EXPECT_TRUE(service.result().ok()) << service.result();
 }
 
-class PromotionPrepareService final : public celer::Service {
+class PromotionPrepareService final : public bycorf::Service {
  public:
   PromotionPrepareService(keylane::storage::StorageEngine* storage,
                           keylane::ReplicationManager* replication,
@@ -1694,8 +1694,8 @@ class PromotionPrepareService final : public celer::Service {
     }
   }
 
-  celer::Task<absl::Status> Run(celer::Worker& worker,
-                                celer::ServiceContext) override {
+  bycorf::Task<absl::Status> Run(bycorf::Worker& worker,
+                                 bycorf::ServiceContext) override {
     keylane::BindMemoryAccountingShard(worker.id());
     keylane::tx::TxRuntime::Get()->shard(worker.id()).Bind(worker);
     if (result_.ok()) result_ = co_await storage_->InitializeWorker(worker);
@@ -1714,7 +1714,7 @@ class PromotionPrepareService final : public celer::Service {
   const absl::Status& result() const noexcept { return result_; }
 
  private:
-  celer::Task<absl::Status> Exercise() {
+  bycorf::Task<absl::Status> Exercise() {
     auto manifest = keylane::PopulationManifest::Create({});
     if (!manifest.ok()) co_return manifest.status();
     const keylane::ClusterPopulationStatus initial =
@@ -1957,9 +1957,9 @@ void RunPromotionPrepareCase(std::string_view fault_stage) {
 
   PromotionPrepareService service(&storage, &replication,
                                   std::string(fault_stage));
-  celer::Server server;
+  bycorf::Server server;
   server.AddService(&service);
-  celer::ServerOptions runtime;
+  bycorf::ServerOptions runtime;
   runtime.thread_count_ = 1;
   runtime.pin_workers_ = false;
   runtime.recv_buffer_count_ = 0;
@@ -1988,7 +1988,7 @@ struct PromotionFaultBarrierPaths {
   std::filesystem::path runner_terminal_;
 };
 
-class FailoverActionReconcileService final : public celer::Service {
+class FailoverActionReconcileService final : public bycorf::Service {
  public:
   FailoverActionReconcileService(
       keylane::storage::StorageEngine* storage,
@@ -2010,8 +2010,8 @@ class FailoverActionReconcileService final : public celer::Service {
     }
   }
 
-  celer::Task<absl::Status> Run(celer::Worker& worker,
-                                celer::ServiceContext) override {
+  bycorf::Task<absl::Status> Run(bycorf::Worker& worker,
+                                 bycorf::ServiceContext) override {
     keylane::BindMemoryAccountingShard(worker.id());
     keylane::tx::TxRuntime::Get()->shard(worker.id()).Bind(worker);
     if (result_.ok()) result_ = co_await storage_->InitializeWorker(worker);
@@ -2058,10 +2058,10 @@ class FailoverActionReconcileService final : public celer::Service {
   const absl::Status& result() const noexcept { return result_; }
 
  private:
-  celer::Task<bool> EveryReplicationLogIs(
+  bycorf::Task<bool> EveryReplicationLogIs(
       keylane::storage::ReplicationLogState expected) {
     for (unsigned worker = 0; worker < storage_->worker_count(); ++worker) {
-      const auto state = co_await celer::SubmitTo(worker, [this] {
+      const auto state = co_await bycorf::SubmitTo(worker, [this] {
         return storage_->LocalReplicationLogInfo().state_;
       });
       if (state != expected) co_return false;
@@ -2069,7 +2069,7 @@ class FailoverActionReconcileService final : public celer::Service {
     co_return true;
   }
 
-  celer::Task<absl::Status> Exercise() {
+  bycorf::Task<absl::Status> Exercise() {
     const keylane::ClusterPopulationStatus population =
         co_await replication_->cluster_population_status();
     keylane::DesiredClusterFailoverAction action;
@@ -2122,8 +2122,8 @@ class FailoverActionReconcileService final : public celer::Service {
       // The short fault watchdog belongs to an installed authorization, not
       // to the earlier desired action. Waiting here longer than that budget
       // must leave the candidate at its one-way authorization gate.
-      absl::Status waited = co_await celer::SleepFor(
-          *celer::ThisWorker().self_, std::chrono::milliseconds(50));
+      absl::Status waited = co_await bycorf::SleepFor(
+          *bycorf::ThisWorker().self_, std::chrono::milliseconds(50));
       if (!waited.ok()) co_return waited;
       status = co_await replication_->cluster_failover_action_status();
       if (status.state_ !=
@@ -2168,8 +2168,8 @@ class FailoverActionReconcileService final : public celer::Service {
         if (status.state_ == keylane::ClusterFailoverActionState::kPreparing) {
           break;
         }
-        absl::Status waited = co_await celer::SleepFor(
-            *celer::ThisWorker().self_, std::chrono::milliseconds(1));
+        absl::Status waited = co_await bycorf::SleepFor(
+            *bycorf::ThisWorker().self_, std::chrono::milliseconds(1));
         if (!waited.ok()) co_return waited;
       } while (std::chrono::steady_clock::now() < preparing_deadline);
       if (status.state_ != keylane::ClusterFailoverActionState::kPreparing) {
@@ -2268,8 +2268,8 @@ class FailoverActionReconcileService final : public celer::Service {
         while ((!continuation_source_->saw_resume_proof() ||
                 !continuation_source_->sent_continue()) &&
                std::chrono::steady_clock::now() < follow_deadline) {
-          absl::Status waited = co_await celer::SleepFor(
-              *celer::ThisWorker().self_, std::chrono::milliseconds(1));
+          absl::Status waited = co_await bycorf::SleepFor(
+              *bycorf::ThisWorker().self_, std::chrono::milliseconds(1));
           if (!waited.ok()) co_return waited;
         }
         if (!continuation_source_->saw_resume_proof() ||
@@ -2325,8 +2325,8 @@ class FailoverActionReconcileService final : public celer::Service {
             status.state_ == keylane::ClusterFailoverActionState::kFailed) {
           break;
         }
-        absl::Status waited = co_await celer::SleepFor(
-            *celer::ThisWorker().self_, std::chrono::milliseconds(1));
+        absl::Status waited = co_await bycorf::SleepFor(
+            *bycorf::ThisWorker().self_, std::chrono::milliseconds(1));
         if (!waited.ok()) co_return waited;
       } while (std::chrono::steady_clock::now() < successor_deadline);
       if (!status.action_.has_value() || *status.action_ != successor ||
@@ -2350,8 +2350,8 @@ class FailoverActionReconcileService final : public celer::Service {
           status.state_ == keylane::ClusterFailoverActionState::kFailed) {
         break;
       }
-      absl::Status waited = co_await celer::SleepFor(
-          *celer::ThisWorker().self_, std::chrono::milliseconds(10));
+      absl::Status waited = co_await bycorf::SleepFor(
+          *bycorf::ThisWorker().self_, std::chrono::milliseconds(10));
       if (!waited.ok()) co_return waited;
     } while (std::chrono::steady_clock::now() < deadline);
     if (expect_watchdog_) {
@@ -2676,7 +2676,7 @@ enum class NativeActionDisposition {
   kShutdownWhilePreparing,
 };
 
-class NativeFailoverActionService final : public celer::Service {
+class NativeFailoverActionService final : public bycorf::Service {
  public:
   NativeFailoverActionService(
       keylane::storage::StorageEngine* storage,
@@ -2694,8 +2694,8 @@ class NativeFailoverActionService final : public celer::Service {
     }
   }
 
-  celer::Task<absl::Status> Run(celer::Worker& worker,
-                                celer::ServiceContext) override {
+  bycorf::Task<absl::Status> Run(bycorf::Worker& worker,
+                                 bycorf::ServiceContext) override {
     keylane::BindMemoryAccountingShard(worker.id());
     keylane::tx::TxRuntime::Get()->shard(worker.id()).Bind(worker);
     if (result_.ok()) result_ = co_await storage_->InitializeWorker(worker);
@@ -2713,10 +2713,10 @@ class NativeFailoverActionService final : public celer::Service {
   const absl::Status& result() const noexcept { return result_; }
 
  private:
-  celer::Task<bool> EveryReplicationLogIs(
+  bycorf::Task<bool> EveryReplicationLogIs(
       keylane::storage::ReplicationLogState expected) {
     for (unsigned worker = 0; worker < storage_->worker_count(); ++worker) {
-      const auto state = co_await celer::SubmitTo(worker, [this] {
+      const auto state = co_await bycorf::SubmitTo(worker, [this] {
         return storage_->LocalReplicationLogInfo().state_;
       });
       if (state != expected) co_return false;
@@ -2724,7 +2724,7 @@ class NativeFailoverActionService final : public celer::Service {
     co_return true;
   }
 
-  celer::Task<absl::Status> Exercise() {
+  bycorf::Task<absl::Status> Exercise() {
     const keylane::ReplicationIdentity local =
         co_await replication_->ObserveIdentity();
     auto manifest = keylane::PopulationManifest::Create({});
@@ -2797,8 +2797,8 @@ class NativeFailoverActionService final : public celer::Service {
         if (status.state_ == keylane::ClusterFailoverActionState::kPreparing) {
           break;
         }
-        absl::Status waited = co_await celer::SleepFor(
-            *celer::ThisWorker().self_, std::chrono::milliseconds(1));
+        absl::Status waited = co_await bycorf::SleepFor(
+            *bycorf::ThisWorker().self_, std::chrono::milliseconds(1));
         if (!waited.ok()) co_return waited;
       } while (std::chrono::steady_clock::now() < preparing_deadline);
       if (status.state_ != keylane::ClusterFailoverActionState::kPreparing) {
@@ -2876,8 +2876,8 @@ class NativeFailoverActionService final : public celer::Service {
           status.state_ == keylane::ClusterFailoverActionState::kFailed) {
         break;
       }
-      absl::Status waited = co_await celer::SleepFor(
-          *celer::ThisWorker().self_, std::chrono::milliseconds(10));
+      absl::Status waited = co_await bycorf::SleepFor(
+          *bycorf::ThisWorker().self_, std::chrono::milliseconds(10));
       if (!waited.ok()) co_return waited;
     } while (std::chrono::steady_clock::now() < deadline);
     if (status.state_ != keylane::ClusterFailoverActionState::kPrepared ||
@@ -2900,7 +2900,7 @@ class NativeFailoverActionService final : public celer::Service {
   absl::Status result_ = absl::OkStatus();
 };
 
-class ClusterSourcePauseService final : public celer::Service {
+class ClusterSourcePauseService final : public bycorf::Service {
  public:
   ClusterSourcePauseService(keylane::storage::StorageEngine* storage,
                             keylane::ReplicationManager* replication)
@@ -2912,8 +2912,8 @@ class ClusterSourcePauseService final : public celer::Service {
     }
   }
 
-  celer::Task<absl::Status> Run(celer::Worker& worker,
-                                celer::ServiceContext) override {
+  bycorf::Task<absl::Status> Run(bycorf::Worker& worker,
+                                 bycorf::ServiceContext) override {
     keylane::BindMemoryAccountingShard(worker.id());
     keylane::tx::TxRuntime::Get()->shard(worker.id()).Bind(worker);
     if (result_.ok()) result_ = co_await storage_->InitializeWorker(worker);
@@ -2935,7 +2935,7 @@ class ClusterSourcePauseService final : public celer::Service {
   const absl::Status& result() const noexcept { return result_; }
 
  private:
-  celer::Task<absl::Status> Exercise() {
+  bycorf::Task<absl::Status> Exercise() {
     const keylane::ReplicationIdentity local =
         co_await replication_->ObserveIdentity();
     auto manifest = keylane::PopulationManifest::Create({});
@@ -3059,7 +3059,7 @@ class ClusterSourcePauseService final : public celer::Service {
   absl::Status result_ = absl::OkStatus();
 };
 
-class FollowOwnerReconcileService final : public celer::Service {
+class FollowOwnerReconcileService final : public bycorf::Service {
  public:
   FollowOwnerReconcileService(keylane::storage::StorageEngine* storage,
                               keylane::ReplicationManager* replication,
@@ -3076,8 +3076,8 @@ class FollowOwnerReconcileService final : public celer::Service {
     }
   }
 
-  celer::Task<absl::Status> Run(celer::Worker& worker,
-                                celer::ServiceContext) override {
+  bycorf::Task<absl::Status> Run(bycorf::Worker& worker,
+                                 bycorf::ServiceContext) override {
     keylane::BindMemoryAccountingShard(worker.id());
     keylane::tx::TxRuntime::Get()->shard(worker.id()).Bind(worker);
     if (result_.ok()) result_ = co_await storage_->InitializeWorker(worker);
@@ -3096,20 +3096,20 @@ class FollowOwnerReconcileService final : public celer::Service {
   const absl::Status& result() const noexcept { return result_; }
 
  private:
-  celer::Task<absl::Status> WaitUntil(celer::Worker& worker,
-                                      const std::function<bool()>& predicate,
-                                      std::string_view failure) {
+  bycorf::Task<absl::Status> WaitUntil(bycorf::Worker& worker,
+                                       const std::function<bool()>& predicate,
+                                       std::string_view failure) {
     const auto deadline = std::chrono::steady_clock::now() + 5s;
     while (!predicate() && std::chrono::steady_clock::now() < deadline) {
-      absl::Status waited = co_await celer::SleepFor(worker, 1ms);
+      absl::Status waited = co_await bycorf::SleepFor(worker, 1ms);
       if (!waited.ok()) co_return waited;
     }
     co_return predicate() ? absl::OkStatus()
                           : absl::DeadlineExceededError(std::string(failure));
   }
 
-  celer::Task<absl::Status> RestartSteadyFollowFull(
-      celer::Worker& worker, const keylane::DesiredClusterUpstream& desired) {
+  bycorf::Task<absl::Status> RestartSteadyFollowFull(
+      bycorf::Worker& worker, const keylane::DesiredClusterUpstream& desired) {
     const unsigned controls_before = replacement_->controls();
     absl::Status reconciled =
         co_await replication_->ReconcileClusterFollowOwner(desired);
@@ -3128,15 +3128,15 @@ class FollowOwnerReconcileService final : public celer::Service {
           replication_->upstream().has_value()) {
         co_return absl::OkStatus();
       }
-      waited = co_await celer::SleepFor(worker, 1ms);
+      waited = co_await bycorf::SleepFor(worker, 1ms);
       if (!waited.ok()) co_return waited;
     } while (std::chrono::steady_clock::now() < deadline);
     co_return absl::DeadlineExceededError(
         "replacement population did not restart steady FollowOwner FULL");
   }
 
-  celer::Task<absl::Status> VerifyPopulationReplacementRetiresFull(
-      celer::Worker& worker,
+  bycorf::Task<absl::Status> VerifyPopulationReplacementRetiresFull(
+      bycorf::Worker& worker,
       const keylane::DesiredClusterUpstream& follow_desired,
       keylane::DesiredClusterPopulation population_replacement,
       std::string_view replacement_kind) {
@@ -3161,7 +3161,7 @@ class FollowOwnerReconcileService final : public celer::Service {
     co_return co_await RestartSteadyFollowFull(worker, follow_desired);
   }
 
-  celer::Task<absl::Status> Exercise(celer::Worker& worker) {
+  bycorf::Task<absl::Status> Exercise(bycorf::Worker& worker) {
     const keylane::ReplicationIdentity local =
         co_await replication_->ObserveIdentity();
     auto manifest = keylane::PopulationManifest::Create({});
@@ -3232,7 +3232,7 @@ class FollowOwnerReconcileService final : public celer::Service {
 
     reconciled = co_await replication_->ReconcileClusterFollowOwner(desired);
     if (!reconciled.ok()) co_return reconciled;
-    waited = co_await celer::SleepFor(worker, 50ms);
+    waited = co_await bycorf::SleepFor(worker, 50ms);
     if (!waited.ok()) co_return waited;
     if (unavailable_->controls() != 1) {
       co_return TestFailure("exact follow desired replay restarted ingress");
@@ -3271,7 +3271,7 @@ class FollowOwnerReconcileService final : public celer::Service {
           keylane::ReplicationGroupState::kRebuilding) {
         break;
       }
-      waited = co_await celer::SleepFor(worker, 1ms);
+      waited = co_await bycorf::SleepFor(worker, 1ms);
       if (!waited.ok()) co_return waited;
     } while (std::chrono::steady_clock::now() < destructive_deadline);
     if (after_export_ready.state_ !=
@@ -3405,7 +3405,7 @@ class FollowOwnerReconcileService final : public celer::Service {
   absl::Status result_ = absl::OkStatus();
 };
 
-class FollowOwnerSourceAuthorizationService final : public celer::Service {
+class FollowOwnerSourceAuthorizationService final : public bycorf::Service {
  public:
   FollowOwnerSourceAuthorizationService(
       keylane::storage::StorageEngine* storage,
@@ -3423,8 +3423,8 @@ class FollowOwnerSourceAuthorizationService final : public celer::Service {
     }
   }
 
-  celer::Task<absl::Status> Run(celer::Worker& worker,
-                                celer::ServiceContext) override {
+  bycorf::Task<absl::Status> Run(bycorf::Worker& worker,
+                                 bycorf::ServiceContext) override {
     keylane::BindMemoryAccountingShard(worker.id());
     keylane::tx::TxRuntime::Get()->shard(worker.id()).Bind(worker);
     if (result_.ok()) result_ = co_await storage_->InitializeWorker(worker);
@@ -3452,11 +3452,11 @@ class FollowOwnerSourceAuthorizationService final : public celer::Service {
   };
 
   struct Peer {
-    std::shared_ptr<celer::TcpStream> stream_;
+    std::shared_ptr<bycorf::TcpStream> stream_;
     int peer_fd_ = -1;
   };
 
-  absl::StatusOr<Peer> OpenPeer(celer::Worker& worker) {
+  absl::StatusOr<Peer> OpenPeer(bycorf::Worker& worker) {
     const int listener = ::socket(AF_INET, SOCK_STREAM | SOCK_CLOEXEC, 0);
     if (listener < 0) return absl::ErrnoToStatus(errno, "socket");
     struct ListenerGuard {
@@ -3499,23 +3499,24 @@ class FollowOwnerSourceAuthorizationService final : public celer::Service {
       (void)::close(accepted);
       return failure;
     }
-    celer::Connection connection;
+    bycorf::Connection connection;
     connection.worker_ = &worker;
     connection.file_.fd_ = accepted;
     connection.closed_ = false;
-    celer::Connection* registered = worker.AddConnection(std::move(connection));
+    bycorf::Connection* registered =
+        worker.AddConnection(std::move(connection));
     if (registered == nullptr) {
       (void)::close(peer);
       (void)::close(accepted);
       return absl::InternalError("could not register native test connection");
     }
     peer_fds_.push_back(peer);
-    return Peer{.stream_ = std::make_shared<celer::TcpStream>(registered),
+    return Peer{.stream_ = std::make_shared<bycorf::TcpStream>(registered),
                 .peer_fd_ = peer};
   }
 
-  celer::Task<absl::Status> RunNativeRequest(
-      std::shared_ptr<celer::TcpStream> stream, std::vector<std::string> args,
+  bycorf::Task<absl::Status> RunNativeRequest(
+      std::shared_ptr<bycorf::TcpStream> stream, std::vector<std::string> args,
       std::uint64_t client_id, RequestResult* result) {
     result->status_ = co_await replication_->ServeNativeConnection(
         *stream, std::move(args), client_id, "127.0.0.1", false);
@@ -3524,15 +3525,15 @@ class FollowOwnerSourceAuthorizationService final : public celer::Service {
     co_return absl::OkStatus();
   }
 
-  celer::Task<absl::Status> RunSourceRevocation(RequestResult* result) {
+  bycorf::Task<absl::Status> RunSourceRevocation(RequestResult* result) {
     result->status_ =
         co_await replication_->RevokeClusterRebuildSourceAuthorizations();
     result->done_ = true;
     co_return absl::OkStatus();
   }
 
-  celer::Task<absl::StatusOr<std::string>> ReadPeerLine(
-      celer::Worker& worker, int peer, std::string_view description) {
+  bycorf::Task<absl::StatusOr<std::string>> ReadPeerLine(
+      bycorf::Worker& worker, int peer, std::string_view description) {
     std::string response;
     const auto deadline = std::chrono::steady_clock::now() + 5s;
     while (response.find("\r\n") == std::string::npos &&
@@ -3550,7 +3551,7 @@ class FollowOwnerSourceAuthorizationService final : public celer::Service {
       if (errno != EINTR && errno != EAGAIN && errno != EWOULDBLOCK) {
         co_return absl::ErrnoToStatus(errno, description);
       }
-      absl::Status waited = co_await celer::SleepFor(worker, 1ms);
+      absl::Status waited = co_await bycorf::SleepFor(worker, 1ms);
       if (!waited.ok()) co_return waited;
     }
     if (response.find("\r\n") == std::string::npos) {
@@ -3560,12 +3561,12 @@ class FollowOwnerSourceAuthorizationService final : public celer::Service {
     co_return response;
   }
 
-  celer::Task<absl::Status> WaitDone(celer::Worker& worker,
-                                     const RequestResult& result,
-                                     std::string_view description) {
+  bycorf::Task<absl::Status> WaitDone(bycorf::Worker& worker,
+                                      const RequestResult& result,
+                                      std::string_view description) {
     const auto deadline = std::chrono::steady_clock::now() + 5s;
     while (!result.done_ && std::chrono::steady_clock::now() < deadline) {
-      absl::Status waited = co_await celer::SleepFor(worker, 1ms);
+      absl::Status waited = co_await bycorf::SleepFor(worker, 1ms);
       if (!waited.ok()) co_return waited;
     }
     co_return result.done_
@@ -3585,7 +3586,7 @@ class FollowOwnerSourceAuthorizationService final : public celer::Service {
     return result;
   }
 
-  celer::Task<absl::Status> Exercise(celer::Worker& worker) {
+  bycorf::Task<absl::Status> Exercise(bycorf::Worker& worker) {
     const keylane::ReplicationIdentity local =
         co_await replication_->ObserveIdentity();
     auto manifest = keylane::PopulationManifest::Create({});
@@ -3790,7 +3791,7 @@ class FollowOwnerSourceAuthorizationService final : public celer::Service {
     // the suspended admission gate. The still-current capability must retain
     // the history it names across that gap; otherwise renewal reopens an
     // authorization that no target can satisfy.
-    waited = co_await celer::SleepFor(worker, 100ms);
+    waited = co_await bycorf::SleepFor(worker, 100ms);
     if (!waited.ok()) co_return waited;
     const keylane::ReplicationIdentity retained =
         co_await replication_->ObserveIdentity();
@@ -3836,7 +3837,7 @@ class FollowOwnerSourceAuthorizationService final : public celer::Service {
     if (replay_gap_result.status_.code() != absl::StatusCode::kUnavailable) {
       co_return TestFailure("FDS replay gap returned the wrong status");
     }
-    waited = co_await celer::SleepFor(worker, 20ms);
+    waited = co_await bycorf::SleepFor(worker, 20ms);
     if (!waited.ok()) co_return waited;
     const keylane::ReplicationIdentity replay_gap_identity =
         co_await replication_->ObserveIdentity();
@@ -3872,7 +3873,7 @@ class FollowOwnerSourceAuthorizationService final : public celer::Service {
                 /*preserve_established_exports=*/true,
                 /*expected_authorization_replays=*/1);
     if (!refreshed.ok()) co_return refreshed;
-    waited = co_await celer::SleepFor(worker, 20ms);
+    waited = co_await bycorf::SleepFor(worker, 20ms);
     if (!waited.ok()) co_return waited;
     if (established_result.done_) {
       co_return TestFailure(
@@ -3885,7 +3886,7 @@ class FollowOwnerSourceAuthorizationService final : public celer::Service {
     absl::Status expiration =
         co_await replication_->RevokeClusterExpirationAuthority();
     if (!expiration.ok()) co_return expiration;
-    waited = co_await celer::SleepFor(worker, 20ms);
+    waited = co_await bycorf::SleepFor(worker, 20ms);
     if (!waited.ok()) co_return waited;
     if (established_result.done_) {
       co_return TestFailure(
@@ -3910,7 +3911,7 @@ class FollowOwnerSourceAuthorizationService final : public celer::Service {
     enabled = co_await replication_->EnableClusterRebuildSourceAdmissionUntil(
         short_deadline.time_since_epoch());
     if (!enabled.ok()) co_return enabled;
-    waited = co_await celer::SleepFor(worker, 10ms);
+    waited = co_await bycorf::SleepFor(worker, 10ms);
     if (!waited.ok()) co_return waited;
     auto deadline_expired = OpenPeer(worker);
     if (!deadline_expired.ok()) co_return deadline_expired.status();
@@ -4015,7 +4016,7 @@ class FollowOwnerSourceAuthorizationService final : public celer::Service {
 
     reconciled = co_await replication_->ReconcileClusterFollowOwner(desired);
     if (!reconciled.ok()) co_return reconciled;
-    waited = co_await celer::SleepFor(worker, 20ms);
+    waited = co_await bycorf::SleepFor(worker, 20ms);
     if (!waited.ok()) co_return waited;
     if (first_control.done_ || second_control.done_) {
       co_return TestFailure(
@@ -4129,9 +4130,9 @@ TEST(ReplicationManagerIntegrationTest,
 
   ReplicationManagerService service(&storage, &replication, &source,
                                     expected_node_id);
-  celer::Server server;
+  bycorf::Server server;
   server.AddService(&service);
-  celer::ServerOptions runtime;
+  bycorf::ServerOptions runtime;
   runtime.thread_count_ = 1;
   runtime.pin_workers_ = false;
   runtime.recv_buffer_count_ = 0;
@@ -4175,9 +4176,9 @@ void RunTargetLeaseAdmissionRetryCase(unsigned suspended_responses,
 
   TargetLeaseAdmissionRetryService service(
       &storage, &replication, &source, expected_connections, expected_terminal);
-  celer::Server server;
+  bycorf::Server server;
   server.AddService(&service);
-  celer::ServerOptions runtime;
+  bycorf::ServerOptions runtime;
   runtime.thread_count_ = 1;
   runtime.pin_workers_ = false;
   runtime.recv_buffer_count_ = 0;
@@ -4227,9 +4228,9 @@ TEST(ReplicationManagerIntegrationTest,
   EnsureTxRuntime();
 
   EmptyPopulationService service(&storage, &replication);
-  celer::Server server;
+  bycorf::Server server;
   server.AddService(&service);
-  celer::ServerOptions runtime;
+  bycorf::ServerOptions runtime;
   runtime.thread_count_ = 1;
   runtime.pin_workers_ = false;
   runtime.recv_buffer_count_ = 0;
@@ -4271,9 +4272,9 @@ TEST(ReplicationManagerIntegrationTest,
 
   EmptyPopulationService service(&storage, &replication,
                                  EmptyPopulationExpectation::kFailedStopped);
-  celer::Server server;
+  bycorf::Server server;
   server.AddService(&service);
-  celer::ServerOptions runtime;
+  bycorf::ServerOptions runtime;
   runtime.thread_count_ = 1;
   runtime.pin_workers_ = false;
   runtime.recv_buffer_count_ = 0;
@@ -4316,9 +4317,9 @@ void RunRecoverableEmptyPopulationFault(const char* environment_name,
 
   EmptyPopulationService service(
       &storage, &replication, EmptyPopulationExpectation::kRecoverableFailure);
-  celer::Server server;
+  bycorf::Server server;
   server.AddService(&service);
-  celer::ServerOptions runtime;
+  bycorf::ServerOptions runtime;
   runtime.thread_count_ = 1;
   runtime.pin_workers_ = false;
   runtime.recv_buffer_count_ = 0;
@@ -4358,9 +4359,9 @@ TEST(ReplicationManagerIntegrationTest,
   keylane::ReplicationManager second(&storage, keylane::ReplicationOptions{},
                                      keylane::ReplicaOfConfig{"127.0.0.1", 1});
   StandaloneIdentityService service(&first, &second);
-  celer::Server server;
+  bycorf::Server server;
   server.AddService(&service);
-  celer::ServerOptions runtime;
+  bycorf::ServerOptions runtime;
   runtime.thread_count_ = 1;
   runtime.pin_workers_ = false;
   runtime.recv_buffer_count_ = 0;
@@ -4504,9 +4505,9 @@ void RunFailoverActionDispositionCase(PreparedActionDisposition disposition,
   FailoverActionReconcileService service(
       &storage, &replication, /*expect_watchdog=*/false, disposition,
       std::move(fault_barriers), continuation_source.get());
-  celer::Server server;
+  bycorf::Server server;
   server.AddService(&service);
-  celer::ServerOptions runtime;
+  bycorf::ServerOptions runtime;
   runtime.thread_count_ = 1;
   runtime.pin_workers_ = false;
   runtime.recv_buffer_count_ = 0;
@@ -4622,9 +4623,9 @@ void RunFailoverActionWatchdogCase(std::string_view fault_variable,
 
   FailoverActionReconcileService service(&storage, &replication,
                                          /*expect_watchdog=*/true);
-  celer::Server server;
+  bycorf::Server server;
   server.AddService(&service);
-  celer::ServerOptions runtime;
+  bycorf::ServerOptions runtime;
   runtime.thread_count_ = 1;
   runtime.pin_workers_ = false;
   runtime.recv_buffer_count_ = 0;
@@ -4677,9 +4678,9 @@ TEST(ReplicationManagerIntegrationTest,
   EnsureTxRuntime();
 
   NativeFailoverActionService service(&storage, &replication);
-  celer::Server server;
+  bycorf::Server server;
   server.AddService(&service);
-  celer::ServerOptions runtime;
+  bycorf::ServerOptions runtime;
   runtime.thread_count_ = 1;
   runtime.pin_workers_ = false;
   runtime.recv_buffer_count_ = 0;
@@ -4744,9 +4745,9 @@ void RunInFlightSelfOriginActionCase(NativeActionDisposition disposition,
 
   NativeFailoverActionService service(&storage, &replication, disposition,
                                       std::move(fault_barriers));
-  celer::Server server;
+  bycorf::Server server;
   server.AddService(&service);
-  celer::ServerOptions runtime;
+  bycorf::ServerOptions runtime;
   runtime.thread_count_ = 1;
   runtime.pin_workers_ = false;
   runtime.recv_buffer_count_ = 0;
@@ -4793,9 +4794,9 @@ TEST(ReplicationManagerIntegrationTest,
   EnsureTxRuntime();
 
   ClusterSourcePauseService service(&storage, &replication);
-  celer::Server server;
+  bycorf::Server server;
   server.AddService(&service);
-  celer::ServerOptions runtime;
+  bycorf::ServerOptions runtime;
   runtime.thread_count_ = 1;
   runtime.pin_workers_ = false;
   runtime.recv_buffer_count_ = 0;
@@ -4843,9 +4844,9 @@ TEST(ReplicationManagerIntegrationTest,
 
   FollowOwnerReconcileService service(&storage, &replication, &unavailable,
                                       &replacement);
-  celer::Server server;
+  bycorf::Server server;
   server.AddService(&service);
-  celer::ServerOptions runtime;
+  bycorf::ServerOptions runtime;
   runtime.thread_count_ = 1;
   runtime.pin_workers_ = false;
   runtime.recv_buffer_count_ = 0;
@@ -4881,9 +4882,9 @@ TEST(ReplicationManagerIntegrationTest,
   EnsureTxRuntime();
 
   FollowOwnerSourceAuthorizationService service(&storage, &replication);
-  celer::Server server;
+  bycorf::Server server;
   server.AddService(&service);
-  celer::ServerOptions runtime;
+  bycorf::ServerOptions runtime;
   runtime.thread_count_ = 1;
   runtime.pin_workers_ = false;
   runtime.recv_buffer_count_ = 0;
@@ -4939,9 +4940,9 @@ TEST(ReplicationManagerIntegrationTest,
 
   FollowOwnerSourceAuthorizationService service(
       &storage, &replication, admission_entered, revocation_closed);
-  celer::Server server;
+  bycorf::Server server;
   server.AddService(&service);
-  celer::ServerOptions runtime;
+  bycorf::ServerOptions runtime;
   runtime.thread_count_ = 1;
   runtime.pin_workers_ = false;
   runtime.recv_buffer_count_ = 0;

@@ -786,7 +786,7 @@ StorageEngine::Impl::ExecuteGroupedSortedSetLocked(
                                          i + 1))) co_return absl::
               UnavailableError("injected ordered-page read failure"););
       if (ReadOnly(operation) || prepared != nullptr) {
-        co_await celer::Yield(*store.worker_);
+        co_await bycorf::Yield(*store.worker_);
         if (shutdown_flush_requested_)
           co_return absl::CancelledError(
               "Sorted Set read cancelled by shutdown");
@@ -973,7 +973,7 @@ StorageEngine::Impl::ExecuteGroupedSortedSetLocked(
       }
       for (const auto id : selected) {
         if (ReadOnly(operation) || prepared != nullptr) {
-          co_await celer::Yield(*store.worker_);
+          co_await bycorf::Yield(*store.worker_);
           if (shutdown_flush_requested_)
             co_return absl::CancelledError("member read cancelled by shutdown");
         }

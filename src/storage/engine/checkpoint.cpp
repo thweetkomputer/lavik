@@ -398,13 +398,13 @@ class CheckpointWriteSlot {
   }
 
  private:
-  struct State final : celer::IoCompletion {
+  struct State final : bycorf::IoCompletion {
     explicit State(std::size_t alignment)
         : data_(static_cast<std::byte*>(
-              celer::AllocateStorageBuffer(kStorageBlockBytes, alignment))),
+              bycorf::AllocateStorageBuffer(kStorageBlockBytes, alignment))),
           alignment_(alignment) {}
 
-    ~State() override { celer::FreeStorageBuffer(data_, alignment_); }
+    ~State() override { bycorf::FreeStorageBuffer(data_, alignment_); }
 
     absl::Status Start(Worker& worker, FixedFile file, std::uint64_t offset,
                        std::size_t write_bytes) {
@@ -605,13 +605,13 @@ class CheckpointPrefetchSlot {
   }
 
  private:
-  struct State final : celer::IoCompletion {
+  struct State final : bycorf::IoCompletion {
     explicit State(std::size_t alignment)
         : data_(static_cast<std::byte*>(
-              celer::AllocateStorageBuffer(kStorageBlockBytes, alignment))),
+              bycorf::AllocateStorageBuffer(kStorageBlockBytes, alignment))),
           alignment_(alignment) {}
 
-    ~State() override { celer::FreeStorageBuffer(data_, alignment_); }
+    ~State() override { bycorf::FreeStorageBuffer(data_, alignment_); }
 
     void Start(Worker& worker, FixedFile file, std::uint64_t offset,
                std::uint64_t block_id, std::uint64_t generation,
@@ -740,7 +740,7 @@ class CheckpointPrefetchSlot {
 Task<absl::Status> StorageEngine::Impl::PersistCheckpointRootOnDeviceLocal(
     std::size_t device_index, const CheckpointRoot& root) {
   DeviceAllocator& allocator = *device_allocators_[device_index];
-  assert(celer::ThisWorker().id_ == allocator.owner_);
+  assert(bycorf::ThisWorker().id_ == allocator.owner_);
   if (epoch_metadata_failed_.load(std::memory_order_acquire)) {
     co_return absl::FailedPreconditionError(
         "checkpoint-root metadata writer is stopped after an IO failure");
@@ -795,7 +795,7 @@ Task<absl::Status> StorageEngine::Impl::PersistCheckpointRootOnDeviceLocal(
         ? absl::InternalError("short checkpoint-root metadata write")
         : written.status();
   }
-  absl::Status synced = co_await celer::Fdatasync(
+  absl::Status synced = co_await bycorf::Fdatasync(
       *store.worker_, store.files_[device.file_index_]);
   if (!synced.ok()) {
     epoch_metadata_failed_.store(true, std::memory_order_release);
@@ -817,12 +817,12 @@ Task<absl::Status> StorageEngine::Impl::PersistCheckpointRoot(
     const CheckpointRoot& root) {
   for (std::size_t device_index = 0; device_index < devices_.size();
        ++device_index) {
-    const celer::WorkerId owner = device_allocators_[device_index]->owner_;
+    const bycorf::WorkerId owner = device_allocators_[device_index]->owner_;
     absl::Status status;
-    if (owner == celer::ThisWorker().id_) {
+    if (owner == bycorf::ThisWorker().id_) {
       status = co_await PersistCheckpointRootOnDeviceLocal(device_index, root);
     } else {
-      status = co_await celer::SubmitTaskTo(
+      status = co_await bycorf::SubmitTaskTo(
           owner, [this, device_index, root]() -> Task<absl::Status> {
             co_return co_await PersistCheckpointRootOnDeviceLocal(device_index,
                                                                   root);
@@ -1156,7 +1156,7 @@ Task<absl::Status> StorageEngine::Impl::BuildShutdownCheckpointShard(
 Task<absl::Status> StorageEngine::Impl::PersistCheckpointBitmapOnDeviceLocal(
     std::size_t device_index, std::vector<std::uint64_t> block_ids) {
   DeviceAllocator& allocator = *device_allocators_[device_index];
-  assert(celer::ThisWorker().id_ == allocator.owner_);
+  assert(bycorf::ThisWorker().id_ == allocator.owner_);
   co_await allocator.mutex_.Lock();
   UnlockGuard unlock(&allocator.mutex_, stores_[allocator.owner_]->worker_);
 
@@ -1233,7 +1233,7 @@ Task<absl::Status> StorageEngine::Impl::PersistCheckpointBitmapOnDeviceLocal(
   // block writes together with the bitmap pages above. It is still required
   // when the bitmap is unchanged: reused block ids may contain a new
   // generation whose data has not otherwise crossed a durability barrier.
-  absl::Status synced = co_await celer::Fdatasync(
+  absl::Status synced = co_await bycorf::Fdatasync(
       *store.worker_, store.files_[device.file_index_]);
   if (!synced.ok()) {
     allocator.checkpoint_bitmap_valid_ = false;
@@ -1255,13 +1255,13 @@ Task<absl::Status> StorageEngine::Impl::PersistCheckpointBitmap(
   }
   for (std::size_t device_index = 0; device_index < devices_.size();
        ++device_index) {
-    const celer::WorkerId owner = device_allocators_[device_index]->owner_;
+    const bycorf::WorkerId owner = device_allocators_[device_index]->owner_;
     absl::Status status;
-    if (owner == celer::ThisWorker().id_) {
+    if (owner == bycorf::ThisWorker().id_) {
       status = co_await PersistCheckpointBitmapOnDeviceLocal(
           device_index, std::move(by_device[device_index]));
     } else {
-      status = co_await celer::SubmitTaskTo(
+      status = co_await bycorf::SubmitTaskTo(
           owner,
           [this, device_index,
            blocks = std::move(
@@ -1320,7 +1320,7 @@ Task<absl::Status> StorageEngine::Impl::DiscoverCheckpoint(
   for (std::size_t device_index = 0; device_index < devices_.size();
        ++device_index) {
     const StorageDevice& device = devices_[device_index];
-    if (celer::SpdkStorageEnabled()) {
+    if (bycorf::SpdkStorageEnabled()) {
       const auto& owners = device_owners_[device_index];
       const auto owner =
           std::lower_bound(owners.begin(), owners.end(), store.worker_->id());
@@ -1347,7 +1347,7 @@ Task<absl::Status> StorageEngine::Impl::DiscoverCheckpoint(
       std::uint64_t& next_device_offset = next_device_offsets[device_index];
       if (next_device_offset >= device.data_block_count_) continue;
       const std::uint64_t device_offset = next_device_offset;
-      if (celer::SpdkStorageEnabled()) {
+      if (bycorf::SpdkStorageEnabled()) {
         next_device_offset += device_owners_[device_index].size();
       } else {
         next_device_offset += worker_count_;
@@ -1472,7 +1472,7 @@ Task<absl::Status> StorageEngine::Impl::DiscoverCheckpoint(
 }
 
 Task<absl::Status> StorageEngine::Impl::PrepareCheckpointIndexes() {
-  assert(celer::ThisWorker().id_ == 0);
+  assert(bycorf::ThisWorker().id_ == 0);
   constexpr std::uint64_t kMissing = std::numeric_limits<std::uint64_t>::max();
   std::vector<std::uint64_t> expected(
       static_cast<std::size_t>(kLogicalStorageShards) * kLogicalDatabaseCount,
@@ -1503,7 +1503,7 @@ Task<absl::Status> StorageEngine::Impl::PrepareCheckpointIndexes() {
         co_return absl::InternalError(
             "checkpoint body block has an invalid owner");
       }
-      if (celer::SpdkStorageEnabled()) {
+      if (bycorf::SpdkStorageEnabled()) {
         const auto& device_owners =
             device_owners_[DeviceIndexForBlock(body.block_id_)];
         if (!std::binary_search(device_owners.begin(), device_owners.end(),
@@ -1595,7 +1595,7 @@ Task<absl::Status> StorageEngine::Impl::PrepareCheckpointIndexes() {
 
 absl::Status StorageEngine::Impl::PreallocateCheckpointIndexes(
     WorkerStore& store) {
-  assert(celer::ThisWorker().id_ == store.worker_->id());
+  assert(bycorf::ThisWorker().id_ == store.worker_->id());
   for (std::size_t partition_index = 0;
        partition_index < store.partitions_.size(); ++partition_index) {
     auto& partition = store.partitions_[partition_index];

@@ -24,7 +24,7 @@
 #include <string>
 #include <utility>
 
-#include "celer/net/connection.h"
+#include "bycorf/net/connection.h"
 #include "gtest/gtest.h"
 #include "keylane/cluster/control_protocol.h"
 #include "keylane/meta/control_projector.h"
@@ -40,7 +40,7 @@ namespace keylane::meta {
 class MetaDataControlServerTestPeer {
  public:
   static std::shared_ptr<MetaDataControlServer> LifecycleHarness(
-      celer::ForeignExecutor executor, bool shutdown_complete) {
+      bycorf::ForeignExecutor executor, bool shutdown_complete) {
     return MetaDataControlServer::LifecycleHarnessForTest(executor,
                                                           shutdown_complete);
   }
@@ -469,7 +469,7 @@ class FailoverHeartbeatFacts final : public HeartbeatFacts {
 TEST(MetaDataControlLifecycleTest,
      CompletedShutdownMakesCancellationAnExecutorIndependentNoOp) {
   auto server = MetaDataControlServerTestPeer::LifecycleHarness(
-      celer::ForeignExecutor{}, /*shutdown_complete=*/true);
+      bycorf::ForeignExecutor{}, /*shutdown_complete=*/true);
   server->Shutdown();
   server->CancelAndWait();
 }
@@ -479,7 +479,7 @@ TEST(MetaDataControlLifecycleDeathTest,
   EXPECT_DEATH(
       {
         auto server = MetaDataControlServerTestPeer::LifecycleHarness(
-            celer::ForeignExecutor{}, /*shutdown_complete=*/false);
+            bycorf::ForeignExecutor{}, /*shutdown_complete=*/false);
         server->CancelAndWait();
       },
       "");
@@ -490,7 +490,7 @@ TEST(MetaDataControlLifecycleDeathTest,
   EXPECT_DEATH(
       {
         auto server = MetaDataControlServerTestPeer::LifecycleHarness(
-            celer::ForeignExecutor{}, /*shutdown_complete=*/false);
+            bycorf::ForeignExecutor{}, /*shutdown_complete=*/false);
         MetaDataControlServerTestPeer::StartWithRejectedExecutor(*server);
       },
       "");
@@ -501,7 +501,7 @@ TEST(MetaDataControlLifecycleDeathTest,
   EXPECT_DEATH(
       {
         auto server = MetaDataControlServerTestPeer::LifecycleHarness(
-            celer::ForeignExecutor{}, /*shutdown_complete=*/false);
+            bycorf::ForeignExecutor{}, /*shutdown_complete=*/false);
         server->Shutdown();
       },
       "");
@@ -549,8 +549,8 @@ TEST(MetaDataControlHandshakeLimitTest,
   BoundNodeSessionRegistry slots;
   auto handshake = limiter.TryAcquire();
   ASSERT_TRUE(handshake.has_value());
-  celer::Connection first;
-  celer::Connection duplicate;
+  bycorf::Connection first;
+  bycorf::Connection duplicate;
   MetaDataControlRuntimeStatus status;
   status.BeginLeadership(/*leadership_generation=*/11);
   status.SetLeaderAuthorityEligible(11, true);
@@ -1461,9 +1461,5 @@ TEST(MetaHeartbeatObservationTest,
   ASSERT_TRUE(observed.has_value());
   EXPECT_EQ(observed->prepared_context_id_, prepared.prepared_context_id);
 }
-
-
-
-
 
 }  // namespace

@@ -38,7 +38,7 @@
 //      with WAL replay).
 //
 // All Propose results are driven through RunTaskSync. The server fixture
-// explicitly opts into inline resume because it has no Celer worker;
+// explicitly opts into inline resume because it has no Bycorf worker;
 // production has no inline fallback and schedules through ForeignExecutor.
 
 #include <unistd.h>
@@ -234,7 +234,7 @@ RegisterNode MakeRegister(std::uint8_t seed) {
 // suspended task destroyed on the timeout path detaches its NuRaft waiter
 // (the coordinator's awaiter contract), so this cannot dangle.
 template <typename T>
-T RunTaskSync(celer::Task<T> task) {
+T RunTaskSync(bycorf::Task<T> task) {
   std::promise<void> done;
   std::future<void> signal = done.get_future();
   // completion_fn is a noexcept function pointer; the lambda must say so.
@@ -423,7 +423,7 @@ TEST_F(MetaCoordinatorComponentTest,
   auto reconciler = std::make_shared<BlockingLeadershipReconciler>();
   coordinator_->RunAsLeader(reconciler);
 
-  // Model a stopped Celer worker during assembly: all three callbacks reach
+  // Model a stopped Bycorf worker during assembly: all three callbacks reach
   // the process bridge before it can attach to the coordinator. The relay and
   // coordinator must retain the ordered edges, not merely the final role.
   MetaLeadershipRelay relay;
@@ -821,7 +821,7 @@ class MetaCoordinatorServerTest : public ::testing::Test {
   void MakeCoordinator(MetaCoordinatorOptions options = {}) {
     nuraft::ptr<nuraft::log_store> store = mgr_->load_log_store();
     wal_ = static_cast<NuraftLogStore*>(store.get());
-    // This fixture drives Tasks from an ordinary test thread and has no Celer
+    // This fixture drives Tasks from an ordinary test thread and has no Bycorf
     // worker. Keep that exceptional execution policy explicit rather than
     // relying on a production-dangerous inline fallback in MetaCoordinator.
     if (!options.foreign_executor_.valid()) {

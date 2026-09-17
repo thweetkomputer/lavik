@@ -86,15 +86,15 @@ Task<absl::Status> StorageEngine::QuiesceTombRaiderForReplica() {
 
 Task<absl::Status> StorageEngine::Impl::ConfigureTombRaider(
     TombRaiderConfigUpdate update) {
-  co_return co_await celer::SubmitTo(
+  co_return co_await bycorf::SubmitTo(
       0, [this, update] { return ApplyTombRaiderConfig(*stores_[0], update); });
 }
 
 Task<absl::Status> StorageEngine::Impl::QuiesceTombRaiderForReplica() {
-  co_return co_await celer::SubmitTaskTo(0, [this]() -> Task<absl::Status> {
+  co_return co_await bycorf::SubmitTaskTo(0, [this]() -> Task<absl::Status> {
     WorkerStore& coordinator = *stores_[0];
     while (tomb_raider_quiescing_) {
-      absl::Status waited = co_await celer::SleepFor(
+      absl::Status waited = co_await bycorf::SleepFor(
           *coordinator.worker_, std::chrono::milliseconds(1));
       if (!waited.ok()) co_return waited;
     }
@@ -250,7 +250,7 @@ Task<absl::Status> StorageEngine::Impl::TombRaiderLoop(
       const auto due = std::chrono::steady_clock::now() +
                        std::chrono::milliseconds(interval);
       while (std::chrono::steady_clock::now() < due) {
-        absl::Status waited = co_await celer::SleepFor(
+        absl::Status waited = co_await bycorf::SleepFor(
             *store->worker_,
             ScheduleSleep(due - std::chrono::steady_clock::now()));
         if (!waited.ok()) {
@@ -269,7 +269,7 @@ Task<absl::Status> StorageEngine::Impl::TombRaiderLoop(
                                "failed to calculate tomb raider daily time");
       }
       while (std::chrono::system_clock::now() < *due) {
-        absl::Status waited = co_await celer::SleepFor(
+        absl::Status waited = co_await bycorf::SleepFor(
             *store->worker_,
             ScheduleSleep(*due - std::chrono::system_clock::now()));
         if (!waited.ok()) {
@@ -321,7 +321,7 @@ Task<absl::Status> StorageEngine::Impl::RunTombRaider() {
       finished_->NotifyAll(*worker_);
     }
   } round_guard{&tomb_raider_running_, &active_settlements_,
-                &tomb_raider_round_finished_, celer::ThisWorker().self_};
+                &tomb_raider_round_finished_, bycorf::ThisWorker().self_};
 
   if (TombRaiderShouldForfeit()) {
     co_return absl::OkStatus();
@@ -330,7 +330,7 @@ Task<absl::Status> StorageEngine::Impl::RunTombRaider() {
   // The reap must not start until every worker's sweep has finished: the
   // record that still needs a candidate may sit in the last unswept block.
   for (unsigned target = 0; target < worker_count_; ++target) {
-    absl::Status marked = co_await celer::SubmitTaskTo(
+    absl::Status marked = co_await bycorf::SubmitTaskTo(
         target, [this, target]() -> Task<absl::Status> {
           co_return co_await TombMarkLocal(*stores_[target]);
         });
@@ -342,7 +342,7 @@ Task<absl::Status> StorageEngine::Impl::RunTombRaider() {
     }
   }
   for (unsigned target = 0; target < worker_count_; ++target) {
-    absl::Status swept = co_await celer::SubmitTaskTo(
+    absl::Status swept = co_await bycorf::SubmitTaskTo(
         target, [this, target]() -> Task<absl::Status> {
           co_return co_await TombSweepLocal(*stores_[target]);
         });
@@ -354,7 +354,7 @@ Task<absl::Status> StorageEngine::Impl::RunTombRaider() {
     }
   }
   for (unsigned target = 0; target < worker_count_; ++target) {
-    absl::Status reaped = co_await celer::SubmitTaskTo(
+    absl::Status reaped = co_await bycorf::SubmitTaskTo(
         target, [this, target]() -> Task<absl::Status> {
           co_return co_await TombReapLocal(*stores_[target]);
         });
@@ -390,7 +390,7 @@ Task<absl::Status> StorageEngine::Impl::TombMarkLocal(WorkerStore& store) {
           }
         });
         if (++steps % 256 == 0) {
-          co_await celer::Yield(*store.worker_);
+          co_await bycorf::Yield(*store.worker_);
         }
       } while (cursor != 0);
     }
@@ -419,7 +419,7 @@ Task<absl::Status> StorageEngine::Impl::TombClaimLocal(
       }
     }
     if (++handled % 256 == 0) {
-      co_await celer::Yield(*store.worker_);
+      co_await bycorf::Yield(*store.worker_);
     }
   }
   co_return absl::OkStatus();
@@ -495,7 +495,7 @@ Task<absl::Status> StorageEngine::Impl::TombSweepLocal(WorkerStore& store) {
     if (owner == store.worker_->id()) {
       co_return co_await TombClaimLocal(store, std::move(batch));
     }
-    co_return co_await celer::SubmitTaskTo(
+    co_return co_await bycorf::SubmitTaskTo(
         owner,
         [this, owner,
          batch = std::move(batch)]() mutable -> Task<absl::Status> {
@@ -636,7 +636,7 @@ Task<absl::Status> StorageEngine::Impl::TombSweepLocal(WorkerStore& store) {
         if (TombRaiderShouldForfeit()) {
           co_return absl::OkStatus();
         }
-        co_await celer::Yield(*store.worker_);
+        co_await bycorf::Yield(*store.worker_);
       }
     }
     // Throttle: one block per sleep bounds the sweep's disk-bandwidth and
@@ -651,7 +651,7 @@ Task<absl::Status> StorageEngine::Impl::TombSweepLocal(WorkerStore& store) {
       const auto sleep_chunk =
           std::min(sleep_remaining, kMaxForfeitCheckpointSleep);
       absl::Status slept =
-          co_await celer::SleepFor(*store.worker_, sleep_chunk);
+          co_await bycorf::SleepFor(*store.worker_, sleep_chunk);
       if (!slept.ok()) {
         co_return slept;
       }
@@ -720,7 +720,7 @@ Task<absl::Status> StorageEngine::Impl::TombReapLocal(WorkerStore& store) {
           }
         });
         if (++steps % 256 == 0) {
-          co_await celer::Yield(*store.worker_);
+          co_await bycorf::Yield(*store.worker_);
         }
       } while (cursor != 0);
     }
@@ -777,7 +777,7 @@ Task<absl::Status> StorageEngine::Impl::TombReapLocal(WorkerStore& store) {
       co_return dead;
     }
     ++reaped;
-    co_await celer::Yield(*store.worker_);
+    co_await bycorf::Yield(*store.worker_);
   }
   if (reaped != 0) {
     tomb_raider_reaped_.fetch_add(reaped, std::memory_order_relaxed);

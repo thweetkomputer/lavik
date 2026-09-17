@@ -198,12 +198,12 @@ Task<absl::Status> StorageEngine::Impl::BeforeGroupedTransaction(
       std::uint64_t free = 0;
       std::uint64_t capacity = 0;
       for (std::size_t index = 0; index < devices_.size(); ++index) {
-        if (celer::SpdkStorageEnabled()) {
+        if (bycorf::SpdkStorageEnabled()) {
           if (std::find(store.home_devices_.begin(), store.home_devices_.end(),
                         index) == store.home_devices_.end())
             continue;
         }
-        const auto available = co_await celer::SubmitTo(
+        const auto available = co_await bycorf::SubmitTo(
             device_allocators_[index]->owner_, [this, index] {
               const auto& allocator = *device_allocators_[index];
               const auto& device = devices_[index];
@@ -240,7 +240,7 @@ Task<absl::Status> StorageEngine::Impl::BeforeGroupedTransaction(
         }
         ++rounds;
       }
-      const auto waited = co_await celer::SleepFor(
+      const auto waited = co_await bycorf::SleepFor(
           *store.worker_, std::chrono::milliseconds(1));
       if (!waited.ok()) co_return waited;
     }
@@ -521,7 +521,7 @@ Task<absl::Status> StorageEngine::Impl::RunTxCleaner(bool shutdown_drain) {
   // Close the current generation only after it has actually received a
   // record. Empty current generations are left in place, so repeated retries
   // of an older blocked generation do not manufacture unbounded empty ones.
-  const unsigned coordinator = celer::ThisWorker().id_;
+  const unsigned coordinator = bycorf::ThisWorker().id_;
   std::uint64_t current =
       current_tx_generation_.load(std::memory_order_seq_cst);
   bool current_has_records = false;
@@ -532,7 +532,7 @@ Task<absl::Status> StorageEngine::Impl::RunTxCleaner(bool shutdown_drain) {
           co_await TxGenerationHasRecordsLocal(*stores_[owner], current);
     } else {
       local_has_records =
-          co_await celer::SubmitTaskTo(owner, [this, owner, current]() {
+          co_await bycorf::SubmitTaskTo(owner, [this, owner, current]() {
             return TxGenerationHasRecordsLocal(*stores_[owner], current);
           });
     }
@@ -563,7 +563,7 @@ Task<absl::Status> StorageEngine::Impl::RunTxCleaner(bool shutdown_drain) {
       local = co_await ListTxGenerationsLocal(*stores_[owner], closed_before);
     } else {
       local =
-          co_await celer::SubmitTaskTo(owner, [this, owner, closed_before]() {
+          co_await bycorf::SubmitTaskTo(owner, [this, owner, closed_before]() {
             return ListTxGenerationsLocal(*stores_[owner], closed_before);
           });
     }
@@ -586,8 +586,8 @@ Task<absl::Status> StorageEngine::Impl::RunTxCleaner(bool shutdown_drain) {
         local = co_await InspectTxGenerationLocal(*stores_[owner], generation,
                                                   false);
       } else {
-        local = co_await celer::SubmitTaskTo(owner, [this, owner,
-                                                     generation]() {
+        local = co_await bycorf::SubmitTaskTo(owner, [this, owner,
+                                                      generation]() {
           return InspectTxGenerationLocal(*stores_[owner], generation, false);
         });
       }
@@ -610,8 +610,8 @@ Task<absl::Status> StorageEngine::Impl::RunTxCleaner(bool shutdown_drain) {
         local = co_await InspectTxGenerationLocal(*stores_[owner], generation,
                                                   true);
       } else {
-        local = co_await celer::SubmitTaskTo(owner, [this, owner,
-                                                     generation]() {
+        local = co_await bycorf::SubmitTaskTo(owner, [this, owner,
+                                                      generation]() {
           return InspectTxGenerationLocal(*stores_[owner], generation, true);
         });
       }
@@ -637,7 +637,7 @@ Task<absl::Status> StorageEngine::Impl::RunTxCleaner(bool shutdown_drain) {
         promoted = co_await PromoteTxGenerationLocal(
             *stores_[owner], generation, frozen_committed, shutdown_drain);
       } else {
-        promoted = co_await celer::SubmitTaskTo(
+        promoted = co_await bycorf::SubmitTaskTo(
             owner,
             [this, owner, generation, frozen_committed, shutdown_drain]() {
               return PromoteTxGenerationLocal(*stores_[owner], generation,
@@ -657,8 +657,8 @@ Task<absl::Status> StorageEngine::Impl::RunTxCleaner(bool shutdown_drain) {
         local = co_await InspectTxGenerationLocal(*stores_[owner], generation,
                                                   false);
       } else {
-        local = co_await celer::SubmitTaskTo(owner, [this, owner,
-                                                     generation]() {
+        local = co_await bycorf::SubmitTaskTo(owner, [this, owner,
+                                                      generation]() {
           return InspectTxGenerationLocal(*stores_[owner], generation, false);
         });
       }
@@ -679,7 +679,7 @@ Task<absl::Status> StorageEngine::Impl::RunTxCleaner(bool shutdown_drain) {
         retired = co_await RetireTxGenerationLocal(*stores_[owner], generation);
       } else {
         retired =
-            co_await celer::SubmitTaskTo(owner, [this, owner, generation]() {
+            co_await bycorf::SubmitTaskTo(owner, [this, owner, generation]() {
               return RetireTxGenerationLocal(*stores_[owner], generation);
             });
       }
@@ -692,7 +692,7 @@ Task<absl::Status> StorageEngine::Impl::RunTxCleaner(bool shutdown_drain) {
             co_await ForgetTxGenerationLocal(*stores_[owner], generation);
       } else {
         forgotten =
-            co_await celer::SubmitTaskTo(owner, [this, owner, generation]() {
+            co_await bycorf::SubmitTaskTo(owner, [this, owner, generation]() {
               return ForgetTxGenerationLocal(*stores_[owner], generation);
             });
       }

@@ -29,6 +29,6 @@
 // Third-party
 #include "spdlog/spdlog.h"
 
-// Celer runtime
+// Bycorf runtime
 #include "absl/status/statusor.h"
-#include "celer/runtime/task.h"
+#include "bycorf/runtime/task.h"

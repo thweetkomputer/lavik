@@ -37,8 +37,8 @@
 #include "absl/hash/hash.h"
 #include "absl/status/status.h"
 #include "absl/status/statusor.h"
-#include "celer/runtime/cross_core.h"
-#include "celer/runtime/worker.h"
+#include "bycorf/runtime/cross_core.h"
+#include "bycorf/runtime/worker.h"
 #include "keylane/cluster/authority.h"
 #include "keylane/cluster/runtime.h"
 #include "keylane/metrics.h"
@@ -46,7 +46,7 @@
 #include "keylane/storage/engine.h"
 
 namespace keylane {
-using namespace celer;
+using namespace bycorf;
 
 void BlockingWakeCascade::Done() noexcept {
   const std::uint64_t previous =
@@ -57,7 +57,7 @@ void BlockingWakeCascade::Done() noexcept {
 
 Task<absl::Status> DrainBlockingWakeCascade(BlockingWakeCascade& cascade) {
   while (!cascade.empty()) {
-    co_await celer::Yield(*celer::ThisWorker().self_);
+    co_await bycorf::Yield(*bycorf::ThisWorker().self_);
   }
   co_return absl::OkStatus();
 }
@@ -67,7 +67,7 @@ BlockingNotificationCapture::BlockingNotificationCapture(unsigned worker_count)
 
 void BlockingNotificationCapture::Record(std::uint8_t db_id, std::string key,
                                          storage::ValueType value_type) {
-  const unsigned worker_id = celer::ThisWorker().id_;
+  const unsigned worker_id = bycorf::ThisWorker().id_;
   assert(worker_id < per_worker_.size());
   per_worker_[worker_id].push_back(
       CapturedBlockingNotification{db_id, std::move(key), value_type});
@@ -173,7 +173,7 @@ using WakeReason = BlockingWakeReason;
 // required rather than worker-local ownership.
 class BlockingWaiter : public std::enable_shared_from_this<BlockingWaiter> {
  public:
-  BlockingWaiter(celer::Worker* worker, std::uint64_t ticket)
+  BlockingWaiter(bycorf::Worker* worker, std::uint64_t ticket)
       : worker_(worker), ticket_(ticket) {}
 
   class Awaiter {
@@ -270,7 +270,7 @@ class BlockingWaiter : public std::enable_shared_from_this<BlockingWaiter> {
     return true;
   }
 
-  celer::Worker* worker_ = nullptr;
+  bycorf::Worker* worker_ = nullptr;
   std::uint64_t ticket_ = 0;
   WakeReason reason_ = WakeReason::kWaiting;
   BlockingWakeCascade* cascade_ = nullptr;
@@ -295,7 +295,7 @@ void RunBlockingReadyNotification(void* context, std::uint64_t) noexcept {
 void SignalBlockingReady(const std::shared_ptr<BlockingWaiter>& waiter,
                          BlockingWakeCascade* cascade) {
   if (cascade != nullptr) cascade->Add();
-  const celer::CurrentWorker& current = celer::ThisWorker();
+  const bycorf::CurrentWorker& current = bycorf::ThisWorker();
   if (waiter->worker_id() == current.id_) {
     if (!waiter->Signal(WakeReason::kReady, cascade) && cascade != nullptr) {
       cascade->Done();
@@ -304,11 +304,11 @@ void SignalBlockingReady(const std::shared_ptr<BlockingWaiter>& waiter,
   }
   auto context = std::make_unique<BlockingReadyNotification>(
       BlockingReadyNotification{waiter, cascade});
-  celer::PostNotification(
+  bycorf::PostNotification(
       current.cross_core_, waiter->worker_id(),
-      celer::RemoteNotification{.context_ = context.release(),
-                                .value_ = 0,
-                                .run_fn_ = &RunBlockingReadyNotification});
+      bycorf::RemoteNotification{.context_ = context.release(),
+                                 .value_ = 0,
+                                 .run_fn_ = &RunBlockingReadyNotification});
 }
 
 class BlockingWaitRegistry {
@@ -512,8 +512,8 @@ Task<absl::Status> TimeoutBlockingWaiter(
     }
     const auto now = std::chrono::steady_clock::now();
     if (now >= deadline) break;
-    absl::Status slept = co_await celer::SleepFor(
-        *celer::ThisWorker().self_,
+    absl::Status slept = co_await bycorf::SleepFor(
+        *bycorf::ThisWorker().self_,
         std::min(
             deadline - now,
             std::chrono::duration_cast<std::chrono::steady_clock::duration>(
@@ -556,7 +556,7 @@ std::optional<CommandReply> RegisterClusterBlockingWriteAttemptImpl(
     const cluster::Decision& decision = admission->decision();
     if (decision.kind_ == cluster::Decision::Kind::kServe) {
       if (runtime->authority_guard_.RegisterAndRecheck(
-              *admission, celer::ThisWorker().id_, cluster::LeaseClockNow(),
+              *admission, bycorf::ThisWorker().id_, cluster::LeaseClockNow(),
               guards) == cluster::RecheckResult::kOk) {
         // Per-type mutation callbacks still perform their owner-side recheck;
         // point them at the same fresh proof protected by `guards`.
@@ -626,27 +626,28 @@ void PostWaiterCleanup(const WaitRegistration& registration,
   if (cascade != nullptr) cascade->Add();
   auto cleanup = std::make_unique<WaiterCleanup>(
       WaiterCleanup{registration.key_, ticket, cascade});
-  const celer::CurrentWorker& current = celer::ThisWorker();
+  const bycorf::CurrentWorker& current = bycorf::ThisWorker();
   if (registration.owner_ == current.id_) {
     RunWaiterCleanup(cleanup.release(), 0);
     return;
   }
-  celer::PostNotification(current.cross_core_, registration.owner_,
-                          celer::RemoteNotification{
-                              .context_ = cleanup.release(),
-                              .value_ = 0,
-                              .run_fn_ = &RunWaiterCleanup,
-                          });
+  bycorf::PostNotification(current.cross_core_, registration.owner_,
+                           bycorf::RemoteNotification{
+                               .context_ = cleanup.release(),
+                               .value_ = 0,
+                               .run_fn_ = &RunWaiterCleanup,
+                           });
 }
 
 Task<absl::Status> RegisterBlockingWaiter(
     const std::shared_ptr<BlockingWaiter>& waiter,
     const std::vector<WaitRegistration>& registrations) {
   for (const WaitRegistration& registration : registrations) {
-    (void)co_await celer::SubmitTo(registration.owner_, [registration, waiter] {
-      LocalBlockingWaiters().Register(registration, waiter);
-      return true;
-    });
+    (void)co_await bycorf::SubmitTo(
+        registration.owner_, [registration, waiter] {
+          LocalBlockingWaiters().Register(registration, waiter);
+          return true;
+        });
   }
   co_return absl::OkStatus();
 }
@@ -683,7 +684,7 @@ void NotifyBlockingKey(std::uint8_t db_id, std::string_view key,
                            stream_id = std::nullopt,
                        BlockingWakeCascade* cascade = nullptr) {
   const unsigned owner = ShardForKey(key);
-  const celer::CurrentWorker& current = celer::ThisWorker();
+  const bycorf::CurrentWorker& current = bycorf::ThisWorker();
   if (owner == current.id_) {
     LocalBlockingWaiters().Notify(db_id, key, value_type, stream_id, cascade);
     return;
@@ -693,12 +694,12 @@ void NotifyBlockingKey(std::uint8_t db_id, std::string_view key,
       std::make_unique<BlockingKeyNotification>(BlockingKeyNotification{
           BlockingKey{db_id, std::string(key), {}, value_type}, stream_id,
           cascade});
-  celer::PostNotification(current.cross_core_, owner,
-                          celer::RemoteNotification{
-                              .context_ = notification.release(),
-                              .value_ = 0,
-                              .run_fn_ = &RunBlockingKeyNotification,
-                          });
+  bycorf::PostNotification(current.cross_core_, owner,
+                           bycorf::RemoteNotification{
+                               .context_ = notification.release(),
+                               .value_ = 0,
+                               .run_fn_ = &RunBlockingKeyNotification,
+                           });
 }
 
 void RunServingGenerationNotification(void*, std::uint64_t) noexcept {
@@ -715,19 +716,19 @@ std::optional<CommandReply> RegisterClusterBlockingWriteAttempt(
 }
 
 void NotifyServingGenerationChanged() noexcept {
-  const celer::CurrentWorker& current = celer::ThisWorker();
+  const bycorf::CurrentWorker& current = bycorf::ThisWorker();
   if (current.self_ == nullptr || current.cross_core_ == nullptr) return;
   for (unsigned worker = 0; worker < current.cross_core_->size(); ++worker) {
     if (worker == current.id_) {
       LocalBlockingWaiters().NotifyAll();
       continue;
     }
-    celer::PostNotification(current.cross_core_, worker,
-                            celer::RemoteNotification{
-                                .context_ = nullptr,
-                                .value_ = 0,
-                                .run_fn_ = &RunServingGenerationNotification,
-                            });
+    bycorf::PostNotification(current.cross_core_, worker,
+                             bycorf::RemoteNotification{
+                                 .context_ = nullptr,
+                                 .value_ = 0,
+                                 .run_fn_ = &RunServingGenerationNotification,
+                             });
   }
 }
 
@@ -790,7 +791,7 @@ Task<absl::StatusOr<std::unique_ptr<BlockingWaitHandle>>> RegisterBlockingWait(
   auto impl = std::make_unique<BlockingWaitHandle::Impl>();
   impl->client_id_ = client_id;
   impl->waiter_ = std::make_shared<BlockingWaiter>(
-      celer::ThisWorker().self_, storage::StorageEngine::AllocateWriteTxid());
+      bycorf::ThisWorker().self_, storage::StorageEngine::AllocateWriteTxid());
   impl->registrations_.reserve(specs.size());
   for (BlockingWaitSpec& spec : specs) {
     WaitRegistration registration{
@@ -814,7 +815,7 @@ Task<absl::StatusOr<std::unique_ptr<BlockingWaitHandle>>> RegisterBlockingWait(
   RegisterBlockedClient(impl->client_id_, impl->waiter_);
   RecordClientBlocked();
   if (deadline.has_value()) {
-    celer::SpawnOnCurrentWorker(
+    bycorf::SpawnOnCurrentWorker(
         TimeoutBlockingWaiter(impl->waiter_, *deadline));
   }
   co_return std::unique_ptr<BlockingWaitHandle>(
@@ -828,11 +829,11 @@ RegisterClientBlockingWait(
   auto impl = std::make_unique<BlockingWaitHandle::Impl>();
   impl->client_id_ = client_id;
   impl->waiter_ = std::make_shared<BlockingWaiter>(
-      celer::ThisWorker().self_, storage::StorageEngine::AllocateWriteTxid());
+      bycorf::ThisWorker().self_, storage::StorageEngine::AllocateWriteTxid());
   RegisterBlockedClient(impl->client_id_, impl->waiter_);
   RecordClientBlocked();
   if (deadline.has_value()) {
-    celer::SpawnOnCurrentWorker(
+    bycorf::SpawnOnCurrentWorker(
         TimeoutBlockingWaiter(impl->waiter_, *deadline));
   }
   co_return std::unique_ptr<BlockingWaitHandle>(
@@ -925,8 +926,8 @@ Task<CommandReply> ExecuteBlockingWaitLoop(
       if (deadline && std::chrono::steady_clock::now() >= *deadline) {
         co_return timeout_reply();
       }
-      absl::Status slept = co_await celer::SleepFor(
-          *celer::ThisWorker().self_, std::chrono::milliseconds(1));
+      absl::Status slept = co_await bycorf::SleepFor(
+          *bycorf::ThisWorker().self_, std::chrono::milliseconds(1));
       if (!slept.ok()) co_return status_reply(slept);
     }
     AttemptDbGuard gate(request.db_id_);
@@ -988,7 +989,7 @@ Task<CommandReply> ExecuteBlockingWaitLoop(
     // positions before the move retries. This is deliberately restricted to
     // moves and costs no timer sleep or ordinary-command latency.
     if (yield_before_retry) {
-      co_await celer::Yield(*celer::ThisWorker().self_);
+      co_await bycorf::Yield(*bycorf::ThisWorker().self_);
     }
   }
 }
@@ -1108,7 +1109,7 @@ Task<absl::Status> FlushBlockingNotifications(
     }
     const std::uint8_t db_id = notifications[begin].db_id_;
     const std::string& key = notifications[begin].key_;
-    const storage::ExpirationInfo info = co_await celer::SubmitTaskTo(
+    const storage::ExpirationInfo info = co_await bycorf::SubmitTaskTo(
         ShardForKey(key),
         [db_id, key] { return g_storage->GetExpiration(db_id, key); });
     if (info.exists_) {
@@ -1136,7 +1137,7 @@ Task<absl::Status> FlushBlockingNotifications(
 
 Task<absl::Status> NotifyBlockingDb(std::uint8_t db_id) {
   for (unsigned worker = 0; worker < g_storage->worker_count(); ++worker) {
-    (void)co_await celer::SubmitTo(worker, [db_id] {
+    (void)co_await bycorf::SubmitTo(worker, [db_id] {
       LocalBlockingWaiters().NotifyDb(db_id);
       return true;
     });

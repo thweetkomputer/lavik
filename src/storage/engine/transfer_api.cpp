@@ -54,11 +54,11 @@ StorageEngine::Impl::ReadValueForTransferLocked(std::uint8_t db_id,
       static Task<absl::Status> Release(Impl* engine,
                                         std::unique_ptr<Source> source) {
         const auto owner = source->store_->worker_->id();
-        if (owner != celer::ThisWorker().id_) {
+        if (owner != bycorf::ThisWorker().id_) {
           // Metadata may be the last owner of source index pages. Destroy that
           // metadata on its owner too, not just the physical block pin
           // counters.
-          co_return co_await celer::SubmitTaskTo(
+          co_return co_await bycorf::SubmitTaskTo(
               owner, [engine, source = std::move(source)]() mutable {
                 return Release(engine, std::move(source));
               });
@@ -82,8 +82,8 @@ StorageEngine::Impl::ReadValueForTransferLocked(std::uint8_t db_id,
           Impl* engine, std::shared_ptr<Source> source) {
         try {
           const auto owner = source->store_->worker_->id();
-          if (owner != celer::ThisWorker().id_) {
-            co_return co_await celer::SubmitTaskTo(
+          if (owner != bycorf::ThisWorker().id_) {
+            co_return co_await bycorf::SubmitTaskTo(
                 owner, [engine, source] { return Read(engine, source); });
           }
           if (!source->Valid(*engine) || source->done_ || source->reading_)
@@ -180,7 +180,7 @@ StorageEngine::Impl::ReadValueForTransferLocked(std::uint8_t db_id,
           page.retained_charge_.Adopt(&*admission, bytes);
           co_return page;
         } catch (const std::bad_alloc&) {
-          // Celer terminates on an uncaught coroutine exception. Admission
+          // Bycorf terminates on an uncaught coroutine exception. Admission
           // bounds logical memory, but an allocator can still reject it.
           co_return absl::ResourceExhaustedError(
               "OOM allocating collection transfer page");
@@ -239,7 +239,7 @@ StorageEngine::Impl::ReadValueForTransferLocked(std::uint8_t db_id,
       active_settlements_.fetch_add(1, std::memory_order_acq_rel);
       std::shared_ptr<Source> source(
           raw_source.release(), [this](Source* value) {
-            celer::ThisWorker().self_->Spawn(
+            bycorf::ThisWorker().self_->Spawn(
                 Source::Release(this, std::unique_ptr<Source>(value)));
           });
       source->key_ = key;
@@ -260,7 +260,7 @@ StorageEngine::Impl::ReadValueForTransferLocked(std::uint8_t db_id,
           // the failed snapshot and yield so neither GC nor pin cleanup
           // starves.
           source.reset();
-          co_await celer::Yield(*store.worker_);
+          co_await bycorf::Yield(*store.worker_);
           continue;
         }
         co_return pinned;
@@ -311,8 +311,7 @@ Task<absl::Status> StorageEngine::WriteValueForTransferLocked(
     ReplicationCommandAppend* replication,
     const MutationPrecondition* mutation_precondition) {
   return impl_->WriteValueForTransferLocked(db_id, key, digest, value, tx,
-                                            replication,
-                                            mutation_precondition);
+                                            replication, mutation_precondition);
 }
 
 }  // namespace keylane::storage

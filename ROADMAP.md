@@ -17,7 +17,7 @@ limitations under the License.
 # keylane Roadmap
 
 Durable backlog for the keylane Redis-compatible server. Runtime-level items live
-in `celer/ROADMAP.md`.
+in `bycorf/ROADMAP.md`.
 
 - **Phase 2: pipeline command batching / squashing.** Coalesce pipelined commands
   per connection to amortize dispatch and cross-shard hops.
