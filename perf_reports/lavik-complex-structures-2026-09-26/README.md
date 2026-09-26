@@ -200,5 +200,6 @@ python3 -m venv .venv
 The SPDK preparation helper verifies the six dedicated controller serial
 numbers and PCI addresses before discarding their scratch datasets. Do not
 prepare devices that contain data to keep. Server commands, binary hashes,
-memtier invocations, fill timings, validation checks, per-run JSON, and stdout
-are retained under `raw/`.
+memtier invocations, fill timings, validation checks, and per-run JSON are
+committed under `raw/`. Console output is retained locally and omitted from
+the branch because the JSON contains the measured data.
