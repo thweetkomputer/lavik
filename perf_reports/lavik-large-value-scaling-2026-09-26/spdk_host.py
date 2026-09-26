@@ -114,6 +114,7 @@ def restore():
     save(ROOT / "spdk-restored.json", {"time": time.time(), "devices": checked_kernel_devices(),
                                        "hugepages": HUGEPAGES.read_text().strip(),
                                        "unsafe_noiommu": UNSAFE.read_text().strip()})
+    (ROOT / "spdk-ready.json").unlink()
 
 
 if __name__ == "__main__":

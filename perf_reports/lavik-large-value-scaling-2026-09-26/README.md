@@ -38,6 +38,15 @@ segmented-String append capacity. The attached code bounds those decision
 leases before starting another standalone String transaction, and the subsequent
 large-value fills and sweeps completed without response errors.
 
+The lease cap in this branch is an **experimental String-path mitigation**, not
+a general bound on transaction-log blocks. A follow-up run replaced the cap
+with the maximum permitted by the record-fit calculation. That version fell
+from 7.0k to 4.6k SET QPS at 32 KiB/1280 connections and from 6.7k to 2.1k
+at 128 KiB/1280 connections, alongside a high transaction-block retirement
+count. Those follow-up points are excluded from the charts, and that change
+was not kept. A general solution needs a bounded window of transaction blocks,
+with backpressure plus reserved progress for commit decisions and relocation.
+
 ## Method
 
 - Server: `172.16.0.4`, pinned to CPUs 0–15. Redis 8.8.0 and Valkey 9.1.0
