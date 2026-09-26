@@ -3814,8 +3814,14 @@ class StorageEngine::Impl {
   // lease, with no store mutex held. A borrowed EXEC lease must never wait for
   // its own generation to become reclaimable. The estimate is only a pressure
   // signal, not a reservation or a second disk-capacity admission policy.
+  // String segment batches also wait for old commit receipts to drain before
+  // leasing a generation, keeping the per-lease decision-page reserve bounded.
+  // Leave half of a transaction append block available to segmented String
+  // writes while outstanding decision leases reserve direct-I/O pages.
+  static constexpr std::uint64_t kMaxStringDecisionLeases = 512;
   Task<absl::Status> BeforeGroupedTransaction(WorkerStore& store,
-                                              std::uint64_t append_bytes);
+                                              std::uint64_t append_bytes,
+                                              bool string_segments = false);
   Task<absl::Status> MaybeRunTxCleaner(bool force = false);
   Task<absl::Status> RunTxCleaner(bool shutdown_drain = false);
 

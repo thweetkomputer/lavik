@@ -96,18 +96,34 @@ Task<absl::Status> StorageEngine::Impl::CommitGroupedOrderedMutationLocked(
     }
     // A borrowed outer transaction must never wait on its own generation.
     // Only standalone admission coordinates reclaim before taking its lease.
-    store.store_state_mutex_.Unlock(*store.worker_);
-    absl::Status space;
-    try {
-      space = co_await BeforeGroupedTransaction(store, append_bytes);
-    } catch (const std::bad_alloc&) {
-      // Even allocation of the pressure coroutine frame must return with the
-      // caller's lock invariant intact.
-      RecordMemoryRejection();
-      space = absl::ResourceExhaustedError("OOM grouped pressure coordinator");
+    for (;;) {
+      store.store_state_mutex_.Unlock(*store.worker_);
+      absl::Status space;
+      try {
+        space = co_await BeforeGroupedTransaction(
+            store, append_bytes, value_type == ValueType::kString);
+      } catch (const std::bad_alloc&) {
+        // Even allocation of the pressure coroutine frame must return with
+        // the caller's lock invariant intact.
+        RecordMemoryRejection();
+        space =
+            absl::ResourceExhaustedError("OOM grouped pressure coordinator");
+      }
+      co_await store.store_state_mutex_.Lock();
+      if (!space.ok()) co_return space;
+      if (value_type != ValueType::kString) break;
+      // Multiple waiters may have observed the same free slot. Recheck while
+      // owning the store lock, immediately before taking this command's
+      // generation lease, so their combined reservations stay below the
+      // segment append limit.
+      const auto generation =
+          current_tx_generation_.load(std::memory_order_acquire);
+      const auto runtime = store.tx_generations_.find(generation);
+      if (runtime == store.tx_generations_.end() ||
+          runtime->second->active_transactions_.load(
+              std::memory_order_acquire) < kMaxStringDecisionLeases)
+        break;
     }
-    co_await store.store_state_mutex_.Lock();
-    if (!space.ok()) co_return space;
     InitializeTxWrites(tx::TxRuntime::Get()->next_txid_.fetch_add(
                            1, std::memory_order_relaxed),
                        std::span(&standalone, 1),

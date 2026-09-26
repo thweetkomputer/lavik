@@ -218,25 +218,96 @@ StorageEngine::Impl::LoadGroupedOrderedValue(
   }
   std::vector<OrderedCollectionEntry> result;
   std::uint64_t logical_size = 0;
-  for (const auto& metadata : object->ordered_directory().groups()) {
-    auto page = co_await LoadOrderedGroupSnapshot(
-        store, partition, db_id, key, digest, object, metadata.id_, pinned);
-    if (!page.ok()) co_return page.status();
-    if (page->snapshot_.previous_ != metadata.previous_ ||
-        page->snapshot_.next_ != metadata.next_ ||
-        OrderedGroupSize(page->snapshot_) != metadata.item_count_) {
-      co_return absl::DataLossError(
-          "ordered page links disagree with directory");
+  const auto& groups = object->ordered_directory().groups();
+  auto append_page = [&](const auto& metadata,
+                         LoadedOrderedGroup& page) -> absl::Status {
+    if (page.snapshot_.previous_ != metadata.previous_ ||
+        page.snapshot_.next_ != metadata.next_ ||
+        OrderedGroupSize(page.snapshot_) != metadata.item_count_) {
+      return absl::DataLossError("ordered page links disagree with directory");
     }
     if (!result.empty()) {
       auto boundary = ValidateOrderedEntryBoundary(
           object->ordered_directory().root().kind_, result.back(),
-          page->snapshot_.entries_.front());
-      if (!boundary.ok()) co_return boundary;
+          page.snapshot_.entries_.front());
+      if (!boundary.ok()) return boundary;
     }
-    logical_size += OrderedGroupSize(page->snapshot_);
-    for (auto& entry : page->snapshot_.entries_) {
+    logical_size += OrderedGroupSize(page.snapshot_);
+    for (auto& entry : page.snapshot_.entries_) {
       result.push_back(std::move(entry));
+    }
+    return absl::OkStatus();
+  };
+  if (object->ordered_directory().root().kind_ ==
+          OrderedCollectionKind::kString &&
+      groups.size() > 1) {
+    // A full String GET reads independent 8 KiB pages. Start a bounded wave
+    // before joining it so SPDK can have several reads in flight per request.
+    // The caller retains the parent key, object, and store lock through Join;
+    // every child finishes before the next wave or any error is returned.
+    struct PageJoin {
+      std::size_t pending_ = 0;
+      std::coroutine_handle<> waiter_;
+      absl::Status error_;
+      void Complete(absl::Status status) {
+        if (!status.ok() && error_.ok()) error_ = std::move(status);
+        if (--pending_ == 0 && waiter_) {
+          const auto waiter = std::exchange(waiter_, {});
+          bycorf::ThisWorker().self_->Enqueue(waiter);
+        }
+      }
+      auto Join() {
+        struct Awaiter {
+          PageJoin* join_;
+          bool await_ready() const noexcept { return join_->pending_ == 0; }
+          void await_suspend(std::coroutine_handle<> waiter) const noexcept {
+            join_->waiter_ = waiter;
+          }
+          void await_resume() const noexcept {}
+        };
+        return Awaiter{this};
+      }
+    };
+    auto read_page = [](Impl* engine, WorkerStore* worker_store,
+                        WorkerStore::PartitionStore* worker_partition,
+                        std::uint8_t database, std::string_view parent_key,
+                        const Digest* parent_digest,
+                        GroupedHashObject::Handle view, std::uint64_t page_id,
+                        bool is_pinned, std::optional<LoadedOrderedGroup>* output,
+                        PageJoin* join) -> Task<absl::Status> {
+      auto page = co_await engine->LoadOrderedGroupSnapshot(
+          *worker_store, *worker_partition, database, parent_key,
+          *parent_digest, std::move(view), page_id, is_pinned);
+      absl::Status status = page.ok() ? absl::OkStatus() : page.status();
+      if (page.ok()) output->emplace(std::move(*page));
+      join->Complete(status);
+      co_return status;
+    };
+    constexpr std::size_t kReadWave = 8;
+    for (std::size_t first = 0; first < groups.size(); first += kReadWave) {
+      const auto count = std::min(kReadWave, groups.size() - first);
+      std::vector<std::optional<LoadedOrderedGroup>> pages(count);
+      PageJoin join;
+      join.pending_ = count;
+      for (std::size_t i = 0; i < count; ++i) {
+        store.worker_->Spawn(read_page(
+            this, &store, &partition, db_id, key, &digest, object,
+            groups[first + i].id_, pinned, &pages[i], &join));
+      }
+      co_await join.Join();
+      if (!join.error_.ok()) co_return join.error_;
+      for (std::size_t i = 0; i < count; ++i) {
+        auto status = append_page(groups[first + i], *pages[i]);
+        if (!status.ok()) co_return status;
+      }
+    }
+  } else {
+    for (const auto& metadata : groups) {
+      auto page = co_await LoadOrderedGroupSnapshot(
+          store, partition, db_id, key, digest, object, metadata.id_, pinned);
+      if (!page.ok()) co_return page.status();
+      auto status = append_page(metadata, *page);
+      if (!status.ok()) co_return status;
     }
   }
   if (logical_size != object->ordered_directory().root().item_count_) {

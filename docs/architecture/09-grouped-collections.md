@@ -64,6 +64,8 @@ For grouped Strings, GETRANGE/GETBIT read only intersecting segments;
 SETRANGE/SETBIT/APPEND replace intersecting segments and any changed tail link
 through the shared grouped publication boundary. General whole-value callbacks
 materialize grouped Strings and reuse unchanged segments in their after-image.
+Whole-value reads load up to eight String segments concurrently per wave, then
+join and validate their directory order before materializing the result.
 Strings below the promotion threshold use compact whole-value reads and writes.
 Dedicated KeyRecords store original key bytes whole regardless of this
 user-value promotion threshold.
@@ -252,6 +254,8 @@ pins that keep prior transaction generations recoverable until retirement.
 
 Before acquiring a standalone transaction's generation lease, grouped writes
 sample foreground space and coordinate old-generation cleaning under pressure.
+Grouped String writers also bound outstanding decision leases, rechecking under
+the store lock before taking one so segment appends retain block capacity.
 The predecessor decision is durable before that cleaning can run. Borrowed
 EXEC/Lua transactions do not wait for their own still-active generation to
 retire. This pressure signal bypasses the periodic cooldown, not explicit

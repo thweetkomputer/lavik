@@ -155,7 +155,30 @@ absl::Status StorageEngine::Impl::ConfigureTxCleanerCooldown(
 }
 
 Task<absl::Status> StorageEngine::Impl::BeforeGroupedTransaction(
-    WorkerStore& store, std::uint64_t append_bytes) {
+    WorkerStore& store, std::uint64_t append_bytes, bool string_segments) {
+  if (string_segments) {
+    // Every unfinished String transaction reserves two direct-I/O pages from
+    // this generation's append block, while the ordinary commit queue can
+    // admit 4096 receipts. Stop leasing well before those reserves consume an
+    // entire 8 MiB block. The caller released store_state_mutex_, so its
+    // worker's commit runner can drain receipts while this coroutine waits.
+    for (;;) {
+      if (shutdown_flush_requested_.load(std::memory_order_acquire))
+        co_return absl::UnavailableError("storage is shutting down");
+      if (store.write_failed_ || RuntimeFailureLatched())
+        co_return absl::FailedPreconditionError("storage writer has stopped");
+      const auto generation =
+          current_tx_generation_.load(std::memory_order_acquire);
+      const auto runtime = store.tx_generations_.find(generation);
+      if (runtime == store.tx_generations_.end() ||
+          runtime->second->active_transactions_.load(
+              std::memory_order_acquire) < kMaxStringDecisionLeases)
+        break;
+      const auto waited = co_await bycorf::SleepFor(
+          *store.worker_, std::chrono::microseconds(50));
+      if (!waited.ok()) co_return waited;
+    }
+  }
   // Ordinary grouped snapshots can fill transaction blocks long before the
   // periodic cooldown expires. Cleaning after this command has acquired the
   // same generation would leave its own lease preventing reclamation.
