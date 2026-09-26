@@ -36,8 +36,17 @@ def main():
         ("valkey-high2k", "Valkey"),
         ("lavik-baseline", "Lavik"), ("lavik-serial", "Lavik serial"),
         ("lavik-parallel", "Lavik"), ("lavik-high", "Lavik"),
+        ("redis-1m-20260926", "Redis"),
+        ("valkey-1m-20260926", "Valkey"),
+        ("lavik-baseline1m-20260926", "Lavik before cleaner"),
+        ("lavik-parallelcleaner1m-20260926", "Lavik"),
+        ("lavik-final1m-20260926", "Lavik"),
     ):
         for row in load(directory, product):
+            # The final read sweep replaces the baseline GET points in the
+            # Lavik series; only SET keeps a separate before-cleaner curve.
+            if directory == "lavik-baseline1m-20260926" and row["operation"] == "GET":
+                row["product"] = "Lavik"
             key = (row["size_bytes"], row["operation"], row["connections"],
                    row["product"])
             rows[key] = row

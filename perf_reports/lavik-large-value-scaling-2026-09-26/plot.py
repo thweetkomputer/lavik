@@ -9,10 +9,11 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 SIZES = {2048: "2K", 4096: "4K", 8192: "8K", 32768: "32K",
-         131072: "128K"}
+         131072: "128K", 1048576: "1M"}
 COLORS = {"Redis": "#dc5038", "Valkey": "#d9901f", "Lavik": "#2367bb",
-          "Lavik serial": "#697486"}
-ORDER = ("Redis", "Valkey", "Lavik serial", "Lavik")
+          "Lavik serial": "#697486", "Lavik before cleaner": "#697486"}
+ORDER = ("Redis", "Valkey", "Lavik serial", "Lavik before cleaner", "Lavik")
+BEFORE = {"Lavik serial", "Lavik before cleaner"}
 
 
 def line(x1, y1, x2, y2, color, width=1, extra=""):
@@ -42,7 +43,8 @@ def panel(rows, kind, top, pieces):
         value = i * step
         y = bottom - value / ceiling * height
         pieces.append(line(left, y, right, y, "#dfe5ed", 1))
-        pieces.append(label(left - 12, y + 5, f"{value/1000:,.0f}k", 14,
+        tick = f"{value:,.0f}" if ceiling < 10000 else f"{value/1000:,.0f}k"
+        pieces.append(label(left - 12, y + 5, tick, 14,
                             "end", "#66758b"))
     for index, connections in enumerate(x_values):
         x = left + index * (right - left) / max(1, len(x_values) - 1)
@@ -61,7 +63,7 @@ def panel(rows, kind, top, pieces):
         coordinates = [(left + x_values.index(x) * (right - left) /
                         max(1, len(x_values) - 1),
                         bottom - y / ceiling * height) for x, y in points]
-        dash = 'stroke-dasharray="8 5"' if product == "Lavik serial" else ""
+        dash = 'stroke-dasharray="8 5"' if product in BEFORE else ""
         path = " ".join(f"{x:.1f},{y:.1f}" for x, y in coordinates)
         pieces.append(f'<polyline points="{path}" fill="none" '
                       f'stroke="{COLORS[product]}" stroke-width="3" {dash}/>')
@@ -83,9 +85,9 @@ def render(size, rows):
         if not any(row["product"] == product for row in rows):
             continue
         pieces.append(line(x, 110, x + 28, 110, COLORS[product], 3,
-                           'stroke-dasharray="8 5"' if product == "Lavik serial" else ""))
+                           'stroke-dasharray="8 5"' if product in BEFORE else ""))
         pieces.append(label(x + 36, 115, product, 15))
-        x += 178
+        x += max(178, 50 + len(product) * 9)
     panel(rows, "GET", 170, pieces)
     panel(rows, "SET", 535, pieces)
     pieces.append('</svg>')

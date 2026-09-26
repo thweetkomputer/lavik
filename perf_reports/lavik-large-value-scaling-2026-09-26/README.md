@@ -1,6 +1,6 @@
 # Large String connection scaling, 2026-09-26
 
-The five charts show memtier QPS against **connection count**. Each chart has a
+The six charts show memtier QPS against **connection count**. Each chart has a
 GET panel and a SET panel. Points at 2560 and 5120 connections were added where
 the earlier sweep left open a possible scaling gain; blank series segments mean
 that product was not measured at that level. [Exact QPS, p99 and run source are
@@ -13,6 +13,7 @@ in the CSV](results.csv).
 | 8 KiB | [8K](charts/8K.svg) | 364k / 364k / 364k | 377k / 383k / 400k |
 | 32 KiB | [32K](charts/32K.svg) | 91.2k / 91.2k / 91.2k | 93.7k / 93.6k / 11.0k |
 | 128 KiB | [128K](charts/128K.svg) | 22.8k / 22.8k / 22.8k | 23.4k / 23.4k / 9.2k |
+| 1 MiB | [1M](charts/1M.svg) | 2.84k / 2.84k / 2.84k | 2.94k / 2.94k / 0.84k |
 
 These are **independent peaks** across the connections tested for each product,
 not QPS at a common connection level. The charts and CSV retain each actual
@@ -46,6 +47,47 @@ at 128 KiB/1280 connections, alongside a high transaction-block retirement
 count. Those follow-up points are excluded from the charts, and that change
 was not kept. A general solution needs a bounded window of transaction blocks,
 with backpressure plus reserved progress for commit decisions and relocation.
+
+## 1 MiB follow-up
+
+The 1 MiB run used the same two hosts, an 8 GiB logical dataset (8,160 keys),
+16 memtier threads, pipeline depth one, 15-second points, and 80, 320, 640,
+1,280 and 2,560 connections. Redis and Valkey used the same no-persistence
+settings as the smaller-size runs. The Lavik baseline was the current
+transaction-backlog and parallel-read branch at `6f59fd4a`, with the default
+8 MiB per-worker Tx backlog limit and six SPDK devices. Its binary SHA-256
+begins `cd5144c7b1546a83`; the Bycorf revision was `4c11a9125ab3`.
+
+The retained Lavik GET reached 2,841 QPS at 80 connections, matching Redis and Valkey at
+about 2,840 QPS. Observed server transmit traffic was 2.77 GB/s for all
+three. The read curve did not need more connections to saturate this network
+path. Redis and Valkey SET reached about 2,940 QPS, with 2.84 GB/s of server
+receive traffic at 80 connections. Their writes were memory-only; Lavik's
+writes included durable transaction records, commit decisions and relocation
+to ordinary blocks.
+
+Lavik's original 1 MiB fill ran at 364 QPS and accumulated 7,534 Tx backlog
+admission waits across 8,160 SETs. At 80 connections, its measured SET rate
+was 359 QPS with 606 ms p99. Raising the runtime backlog limit to 64 MiB
+in an otherwise identical run produced 382 QPS at 80 connections and
+402 QPS at its best level, so the limit alone did not explain the gap.
+
+The follow-up change at `646a7b4e` lets the transaction cleaner promote independent workers'
+sealed blocks concurrently. It waits for every promotion before retiring any
+source or decision block. With the default 8 MiB limit, the final 1 MiB fill
+ran at 845 QPS. At 80 connections, SET rose to 839 QPS and p99 fell to 268 ms;
+the maximum measured SET rate was 842 QPS at 320 connections. The final binary
+SHA-256 begins `d98624e48eeac1aa`. A separate experiment that reduced cleaner yield
+frequency varied between 735 and 849 QPS across the connection levels,
+without consistent benefit; that change was discarded. The chart includes
+the original and final cleaner SET curves and the final GET curve.
+
+Each point is one run. At 1 MiB, high connection counts mainly increased
+queueing latency: the original and final cleaner versions had 22.0 and 15.9 second
+p99 respectively at 2,560 connections. Compare the 80-connection points for
+the clearer latency result. The committed [CSV](results.csv) keeps every
+plotted point and its source directory; the raw memtier and `INFO STATS` logs
+remain on the benchmark hosts.
 
 ## Method
 
@@ -104,3 +146,7 @@ Regenerate the charts from the CSV with `python3 plot.py`.
 ### 128 KiB
 
 ![128 KiB GET and SET QPS by connections](charts/128K.svg)
+
+### 1 MiB
+
+![1 MiB GET and SET QPS by connections](charts/1M.svg)

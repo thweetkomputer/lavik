@@ -23,9 +23,12 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("tag")
     parser.add_argument("--binary", type=Path, default=DEFAULT_BINARY)
+    parser.add_argument("--source-tree", type=Path, default=ROOT.parents[1])
     parser.add_argument("--sizes", default=",".join(map(str, bench.SIZES)))
     parser.add_argument("--levels", default="80,320,640,1280")
     parser.add_argument("--seconds", type=int, default=15)
+    parser.add_argument("--backlog-mb", type=int)
+    parser.add_argument("--kinds", default="GET,SET")
     options = parser.parse_args()
     assert (ROOT / "spdk-ready.json").exists()
     spdk_host.assert_driver("vfio-pci")
@@ -36,6 +39,7 @@ def main():
     assert all(c > 0 and c % 16 == 0 for c in levels)
     bdfs = list(spdk_host.SERIAL_PCI.values())
     binary = options.binary.resolve()
+    source_tree = options.source_tree.resolve()
     command = ["prlimit", "--memlock=unlimited:unlimited", "--nofile=65535:65535",
                "taskset", "-c", "0-15", str(binary), "--network=kernel",
                "--storage=spdk", "--bind=" + bench.HOST, "--port=" + bench.PORT,
@@ -51,10 +55,11 @@ def main():
     bench.save(directory / "server-command.json", command)
     bench.save(directory / "server-provenance.json",
                {"binary": str(binary), "sha256": hashlib.sha256(binary.read_bytes()).hexdigest(),
-                "source_commit": subprocess.check_output(["git", "rev-parse", "HEAD"],
-                                                         text=True).strip(),
+                "source_commit": subprocess.check_output(
+                    ["git", "-C", str(source_tree), "rev-parse", "HEAD"],
+                    text=True).strip(),
                 "bycorf_commit": subprocess.check_output(
-                    ["git", "-C", "/mnt/dev/lavik-main-repro-20260925/bycorf",
+                    ["git", "-C", str(source_tree / "bycorf"),
                      "rev-parse", "HEAD"], text=True).strip(),
                 "bdfs": bdfs})
     if bench.cli_available():
@@ -72,8 +77,13 @@ def main():
         else:
             raise TimeoutError("Lavik startup")
         print("Lavik started", process.pid, flush=True)
+        if options.backlog_mb is not None:
+            assert options.backlog_mb >= 8
+            assert bench.cli("CONFIG", "SET", "tx-backlog-limit-mb-per-worker",
+                             options.backlog_mb) == "OK"
         bench.save(directory / "startup.json", {"dbsize": bench.cli("DBSIZE"),
-                                                 "version": bench.cli("INFO", "SERVER")})
+                                                 "version": bench.cli("INFO", "SERVER"),
+                                                 "backlog_mb": options.backlog_mb or 8})
         for size in sizes:
             keys = (bench.FOOTPRINT // size // bench.CONNECTIONS) * bench.CONNECTIONS
             if (directory / f"{size}-set-c{levels[-1]}.result.json").exists():
@@ -87,13 +97,19 @@ def main():
                 raise RuntimeError(f"Invalid dataset size={size} lengths={lengths}")
             bench.save(directory / f"{size}-validated.json",
                        {"keys": keys, "value_bytes": size, "lengths": lengths})
-            for kind in ("GET", "SET"):
+            for kind in options.kinds.split(","):
+                if kind not in ("GET", "SET"):
+                    raise ValueError(f"Unsupported operation {kind}")
                 for connections in levels:
                     stem = f"{size}-{kind.lower()}-c{connections}"
                     if not (directory / f"{stem}.result.json").exists():
+                        before = bench.cli("INFO", "STATS")
                         bench.run_client(directory, kind, size, keys, options.seconds,
                                          connections=connections, client_threads=16,
                                          sweep=True)
+                        after = bench.cli("INFO", "STATS")
+                        (directory / f"{stem}.info-before.txt").write_text(before + "\n")
+                        (directory / f"{stem}.info-after.txt").write_text(after + "\n")
             if bench.cli("DBSIZE") != str(keys):
                 raise RuntimeError(f"Key count changed for size {size}")
         bench.save(directory / "complete.json", {"time": time.time(), "sizes": sizes,
