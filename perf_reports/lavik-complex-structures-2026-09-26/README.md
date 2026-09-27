@@ -1,4 +1,4 @@
-# Complex Redis collection performance: Redis, Valkey, and Lavik
+# Complex Redis collection performance: Redis, Valkey, Lavik, and Kvrocks
 
 [简体中文](README.zh-CN.md)
 
@@ -18,9 +18,10 @@ connections; the vertical axis is completed commands per second.
 | Stream | XRANGE exact ID | XADD MAXLEN ~ N | XRANGE - + | Append and approximately trim to the seeded length |
 
 For positional reads and overwrites, memtier cycles through eight evenly spaced
-entry positions per key. Each operation chooses one of 64 keys uniformly. Every
-condition starts with 64 keys. Per-key logical payload is either 64 KiB or
-1 MiB, and each field value, member, or element is exactly 128 B or 1 KiB.
+entry positions per key. The original 64 KiB and 1 MiB conditions use 64 keys;
+the 100 MiB extension uses eight keys. Each operation chooses a key uniformly
+within its condition. Each field value, member, or element is exactly 128 B
+or 1 KiB.
 Stream field names and collection metadata are extra. All seeded entries and
 sample payloads are checked before measurement. Cardinality is checked after
 the write sweep. Set toggle commands can return no-op results when their
@@ -35,14 +36,18 @@ combined command rate, not the rate of durable mutations.
   six dedicated SPDK NVMe devices. These are different durability settings.
 - Lavik binary: source commit `646a7b4e` from [PR #203](https://github.com/eloqdata/lavik/pull/203),
   SHA256 `d98624e48eeac1aa942435f53e3c0f56882022f1f2184ae0bc415dfe5e31870a`;
-  the upstream `main` HEAD was `9e31d073` when testing began.
+  the upstream `main` HEAD was `9e31d073` when testing began. The 100 MiB
+  extension reuses this exact binary so differences from the original sizes
+  are not confounded by a source change.
 - Client: 172.16.0.5, 16 vCPUs on AMD EPYC 9V45, memtier_benchmark 2.5.1,
-  16 client threads, pipeline 1,
-  random key selection, 80/320/1280/2560/5120 connections for point operations,
-  16/80 connections for full reads, eight seconds per point.
+  pipeline 1, random key selection, and eight seconds per point. Point
+  operations use 16 client threads and 80/320/1280/2560/5120 connections.
+  Full reads use 16/80 connections for 64 KiB and 1 MiB, and 1/4/16 for
+  100 MiB; the client thread count is capped by the connection count.
 - Each condition is filled from scratch using eight concurrent RESP clients.
   Reads run before writes, and writes preserve approximately the original
-  collection length. The same 64 keys are used at all connection levels.
+  collection length. The same keys are used at all connection levels within
+  a condition. The 100 MiB fill batches 64 commands per client connection.
 - Logical sizes describe payload bytes only, not Redis memory usage or Lavik
   disk consumption. These deliberately hot keys expose contention; they do
   not represent a large key population.
@@ -51,7 +56,10 @@ combined command rate, not the rate of durable mutations.
 
 ## Results
 
-All 720 planned combinations completed. The source-of-truth measurements are
+All 720 original combinations completed. The 100 MiB extension has 519 valid
+results out of 520 attempted combinations; Lavik's 128 B Set `SMEMBERS` at 16
+connections reproducibly returned `OOM grouped operation scratch admission`.
+The source-of-truth measurements are
 [results.csv](results.csv), the per-run JSON and command logs under [raw/](raw/),
 and the plotting script [collect_plot.py](collect_plot.py). Each point is one
 eight-second run; these are measured QPS, not confidence intervals.
@@ -152,7 +160,8 @@ are plausible contributors, not a measured root cause.
 Each cell links to its point-read/write chart and its full-read chart.
 Point charts use a logarithmic connection axis and a logarithmic QPS axis
 for writes, because persistent Lavik writes are two orders of magnitude
-below the memory-only peers. Full-read charts use linear axes.
+below the memory-only peers. The 100 MiB Stream point-read axes are also
+logarithmic to keep every product visible. Full-read charts use linear axes.
 
 | Type | 64 KiB / 128 B | 64 KiB / 1 KiB | 1 MiB / 128 B | 1 MiB / 1 KiB |
 |---|---|---|---|---|
@@ -164,7 +173,8 @@ below the memory-only peers. Full-read charts use linear axes.
 
 ### Interpretation limits
 
-- The 64 keys are intentionally hot and each point is one eight-second run;
+- The original 64 keys and extension's eight keys are intentionally hot.
+  Each point is one eight-second run;
   there are no repeat-based uncertainty bounds or cold-cache measurements.
 - Logical sizes count element payload only. Field names, scores, stream metadata,
   protocol framing, allocator overhead, and Lavik page/index bytes are extra.
@@ -176,6 +186,119 @@ below the memory-only peers. Full-read charts use linear axes.
 - The 1 MiB/128 B Stream seed requires 524,288 XADD commands for 64 keys;
   filling is outside the memtier timing. See each `*.fill.json` for elapsed time.
   Dataset order was fixed rather than randomized.
+
+### 100 MiB per key extension
+
+The added size is exactly 104,857,600 payload bytes per key, across eight
+keys per condition. A 128 B element gives 819,200 entries per key; a 1 KiB
+element gives 102,400. Stream uses one field per message, so these counts
+also determine its XADD fill work. Metadata and protocol bytes are extra.
+Apache Kvrocks v2.16.0 (source commit `28440b5`, binary SHA256
+`e1b91029b6e1ac74034c946428345ce853a9ee5d1b3c851249efdf3d3a5b734f`)
+is included only in this size extension. Its configuration is in
+[kvrocks-perf.conf](kvrocks-perf.conf); the six dedicated scratch NVMe devices
+are combined as RAID0 with XFS, compression and WAL disabled, automatic
+compaction enabled, and an 80 GiB block cache. The exact device checks and
+setup commands are in [kvrocks_host.py](kvrocks_host.py).
+
+### 100 MiB results
+
+Peak single-element read QPS across the five connection levels (80–5120),
+rounded to the nearest thousand except for Lavik's Stream result:
+
+| Type | Element | Redis | Valkey | Lavik | Kvrocks |
+|---|---:|---:|---:|---:|---:|
+| Hash | 128 B | 1,033k | 879k | 242k | 679k |
+| Hash | 1 KiB | 988k | 933k | 362k | 662k |
+| Set | 128 B | 1,045k | 908k | 208k | 655k |
+| Set | 1 KiB | 878k | 873k | 269k | 622k |
+| List | 128 B | 87k | 94k | 68k | 685k |
+| List | 1 KiB | 55k | 47k | 66k | 699k |
+| Sorted Set | 128 B | 1,038k | 990k | 210k | 667k |
+| Sorted Set | 1 KiB | 862k | 708k | 255k | 648k |
+| Stream | 128 B | 319k | 380k | 1.1k | 625k |
+| Stream | 1 KiB | 358k | 381k | 1.5k | 615k |
+
+Kvrocks has the highest large-List point-read rate in both element-size
+conditions. Its 128 B `LINDEX` peak is 685k QPS, compared with 87k for Redis,
+94k for Valkey, and 68k for Lavik. Lavik's exact-ID Stream `XRANGE` falls to
+about 1.1k–1.5k QPS at this size; this is an observed workload result, not a
+profiled root cause. More connections do not recover that gap and raise p99.
+
+At 16 connections Kvrocks completes 21 `SMEMBERS` full reads per second for
+128 B elements; Redis and Valkey complete about four each. Lavik completes
+about two at four connections but returns the scratch-admission OOM at 16,
+on both the original run and a fresh-fill retry. The original and retry logs
+are retained under [raw/lavik-100m/](raw/lavik-100m/). Other 100 MiB full reads
+complete, but each point has only eight seconds of sampling and often fewer
+than 100 replies; treat their small QPS differences cautiously.
+
+For writes, Redis and Valkey have persistence disabled. Kvrocks has WAL
+disabled but retains RocksDB flush and compaction; its 80 GiB cache can hold
+the eight-key working set. Lavik commits to SPDK. The write curves compare
+these exact configurations, not equivalent durability or cold-storage I/O.
+
+### Embedded 100 MiB charts
+
+#### Hash / 128 B
+
+![Hash, 100 MiB per key, 128 B per element: point read and write](charts/hash-104857600-128.png)
+
+![Hash, 100 MiB per key, 128 B per element: full read](charts/hash-104857600-128-full.png)
+
+#### Hash / 1 KiB
+
+![Hash, 100 MiB per key, 1 KiB per element: point read and write](charts/hash-104857600-1024.png)
+
+![Hash, 100 MiB per key, 1 KiB per element: full read](charts/hash-104857600-1024-full.png)
+
+#### Set / 128 B
+
+![Set, 100 MiB per key, 128 B per element: point read and write](charts/set-104857600-128.png)
+
+![Set, 100 MiB per key, 128 B per element: full read](charts/set-104857600-128-full.png)
+
+#### Set / 1 KiB
+
+![Set, 100 MiB per key, 1 KiB per element: point read and write](charts/set-104857600-1024.png)
+
+![Set, 100 MiB per key, 1 KiB per element: full read](charts/set-104857600-1024-full.png)
+
+#### List / 128 B
+
+![List, 100 MiB per key, 128 B per element: point read and write](charts/list-104857600-128.png)
+
+![List, 100 MiB per key, 128 B per element: full read](charts/list-104857600-128-full.png)
+
+#### List / 1 KiB
+
+![List, 100 MiB per key, 1 KiB per element: point read and write](charts/list-104857600-1024.png)
+
+![List, 100 MiB per key, 1 KiB per element: full read](charts/list-104857600-1024-full.png)
+
+#### Sorted Set / 128 B
+
+![Sorted Set, 100 MiB per key, 128 B per element: point read and write](charts/zset-104857600-128.png)
+
+![Sorted Set, 100 MiB per key, 128 B per element: full read](charts/zset-104857600-128-full.png)
+
+#### Sorted Set / 1 KiB
+
+![Sorted Set, 100 MiB per key, 1 KiB per element: point read and write](charts/zset-104857600-1024.png)
+
+![Sorted Set, 100 MiB per key, 1 KiB per element: full read](charts/zset-104857600-1024-full.png)
+
+#### Stream / 128 B
+
+![Stream, 100 MiB per key, 128 B per element: point read and write](charts/stream-104857600-128.png)
+
+![Stream, 100 MiB per key, 128 B per element: full read](charts/stream-104857600-128-full.png)
+
+#### Stream / 1 KiB
+
+![Stream, 100 MiB per key, 1 KiB per element: point read and write](charts/stream-104857600-1024.png)
+
+![Stream, 100 MiB per key, 1 KiB per element: full read](charts/stream-104857600-1024-full.png)
 
 ## Reproduce
 
@@ -194,6 +317,25 @@ sudo python3 run.py lavik --tag backlog64 --types hash --sizes 1048576 \
 sudo python3 spdk_host.py restore
 python3 -m venv .venv
 .venv/bin/pip install -r requirements.txt
+.venv/bin/python collect_plot.py
+```
+
+For the 100 MiB extension, run the four products serially on an idle server.
+The six scratch drives are discarded separately for Lavik SPDK and Kvrocks
+RAID0; both helpers verify their serial numbers and PCI addresses first.
+
+```bash
+large=(--tag 100m --sizes 104857600 --fields 128,1024 --keys 8 \
+  --mode both --levels 80,320,1280,2560,5120 --full-levels 1,4,16 \
+  --seed-pipeline 64 --seconds 8)
+python3 run.py redis "${large[@]}"
+python3 run.py valkey "${large[@]}"
+sudo python3 spdk_host.py prepare --discard-scratch
+sudo python3 run.py lavik "${large[@]}" --continue-on-error
+sudo python3 spdk_host.py restore
+sudo python3 kvrocks_host.py prepare --discard-scratch
+python3 run.py kvrocks "${large[@]}" --continue-on-error
+sudo python3 kvrocks_host.py restore
 .venv/bin/python collect_plot.py
 ```
 

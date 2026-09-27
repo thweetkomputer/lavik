@@ -8,10 +8,12 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
 ROOT = Path(__file__).resolve().parent
-PRODUCTS = ("redis", "valkey", "lavik")
-COLORS = {"redis": "#bd3f43", "valkey": "#008681", "lavik": "#3e5bc7"}
-MARKERS = {"redis": "o", "valkey": "s", "lavik": "^"}
-STYLES = {"redis": "-", "valkey": "--", "lavik": ":"}
+PRODUCTS = ("redis", "valkey", "lavik", "kvrocks")
+ORIGINAL_PRODUCTS = PRODUCTS[:3]
+COLORS = {"redis": "#bd3f43", "valkey": "#008681", "lavik": "#3e5bc7",
+          "kvrocks": "#a75b19"}
+MARKERS = {"redis": "o", "valkey": "s", "lavik": "^", "kvrocks": "D"}
+STYLES = {"redis": "-", "valkey": "--", "lavik": ":", "kvrocks": "-."}
 OPERATIONS = {"hash": ("HGET", "HSET"), "set": ("SISMEMBER", "SADD_SREM"),
               "list": ("LINDEX", "LSET"), "zset": ("ZSCORE", "ZINCRBY"),
               "stream": ("XRANGE", "XADD_MAXLEN")}
@@ -22,8 +24,10 @@ HEADERS = ("product", "type", "logical_bytes", "field_bytes", "entries_per_key",
            "p999_ms", "requests", "elapsed_seconds", "seconds",
            "client_cpu_cores", "rx_mib_s")
 rows = []
+failures = []
 for product in PRODUCTS:
-    folder = ROOT / "raw" / product
+  for tag in ("", "-100m"):
+    folder = ROOT / "raw" / (product + tag)
     if not folder.exists():
         continue
     for path in folder.glob("*.result.json"):
@@ -33,29 +37,53 @@ for product in PRODUCTS:
             raise RuntimeError(f"incomplete result: {path}")
         stats_path = path.with_name(path.name.replace(".result.json", ".json"))
         stats = json.loads(stats_path.read_text())["ALL STATS"]
+        row["product"] = product
         row["client_cpu_cores"] = stats["CPU"]["cpu_cores_used"]
         row["rx_mib_s"] = stats["Totals"]["KB/sec RX"] / 1024
         rows.append(row)
+    for path in folder.glob("*.error.json"):
+        failure = json.loads(path.read_text())
+        failure["product"] = product
+        failures.append(failure)
 rows.sort(key=lambda r: (r["type"], r["logical_bytes"], r["field_bytes"],
                          r["operation"], r["connections"], r["product"]))
 identities = [(r["product"], r["type"], r["logical_bytes"],
                r["field_bytes"], r["operation"], r["connections"]) for r in rows]
 if len(identities) != len(set(identities)):
     raise RuntimeError("duplicate benchmark result")
+failed_identities = {(r["product"], r["type"], r["logical_bytes"],
+                      r["field_bytes"], r["operation"], r["connections"])
+                     for r in failures}
+if len(failures) != len(failed_identities):
+    raise RuntimeError("duplicate benchmark failure")
+if set(identities) & failed_identities:
+    raise RuntimeError("result and failure both recorded for a benchmark point")
 if all((ROOT / "raw" / product / "complete.json").exists()
-       for product in PRODUCTS):
+       for product in ORIGINAL_PRODUCTS):
     expected = {(product, kind, size, field, operation, connection)
-                for product in PRODUCTS for kind, operations in OPERATIONS.items()
+                for product in ORIGINAL_PRODUCTS for kind, operations in OPERATIONS.items()
                 for size in (65536, 1048576) for field in (128, 1024)
                 for operation in operations
                 for connection in (80, 320, 1280, 2560, 5120)}
     expected |= {(product, kind, size, field, operation, connection)
-                 for product in PRODUCTS for kind, operation in FULL_OP.items()
+                 for product in ORIGINAL_PRODUCTS for kind, operation in FULL_OP.items()
                  for size in (65536, 1048576) for field in (128, 1024)
                  for connection in (16, 80)}
-    if set(identities) != expected:
-        raise RuntimeError(f"result grid differs: missing={expected - set(identities)}, "
-                           f"unexpected={set(identities) - expected}")
+    original_expected = set(expected)
+    large_complete = all((ROOT / "raw" / (product + "-100m") / "complete.json").exists()
+                         for product in PRODUCTS)
+    if large_complete:
+        expected |= {(product, kind, 104857600, field, operation, connection)
+                     for product in PRODUCTS for kind, operations in OPERATIONS.items()
+                     for field in (128, 1024) for operation in operations
+                     for connection in (80, 320, 1280, 2560, 5120)}
+        expected |= {(product, kind, 104857600, field, operation, connection)
+                     for product in PRODUCTS for kind, operation in FULL_OP.items()
+                     for field in (128, 1024) for connection in (1, 4, 16)}
+    attempted = set(identities) | failed_identities
+    if not original_expected <= attempted or (large_complete and attempted != expected):
+        raise RuntimeError(f"result grid differs: missing={expected - attempted}, "
+                           f"unexpected={attempted - expected}")
 with (ROOT / "results.csv").open("w", newline="") as output:
     writer = csv.DictWriter(output, fieldnames=HEADERS, lineterminator="\n")
     writer.writeheader()
@@ -67,6 +95,18 @@ plt.rcParams.update({"font.size": 11, "axes.spines.top": False,
                      "axes.spines.right": False, "figure.facecolor": "white"})
 charts = ROOT / "charts"
 charts.mkdir(exist_ok=True)
+
+
+def failure_note(kind, size, field, operations):
+    matching = [r for r in failures if r["type"] == kind
+                and r["logical_bytes"] == size and r["field_bytes"] == field
+                and r["operation"] in operations]
+    return "; ".join(f"{r['product'].capitalize()} {r['operation']} "
+                     f"c{r['connections']}: "
+                     f"{'OOM' if 'OOM' in r['error'] else 'failed'}"
+                     for r in matching)
+
+
 for kind in OPERATIONS:
     for size in sorted({r["logical_bytes"] for r in rows if r["type"] == kind}):
         for field in sorted({r["field_bytes"] for r in rows
@@ -90,11 +130,25 @@ for kind in OPERATIONS:
                 ax.set_xlabel("Connections (log scale)")
                 if index == 0:
                     ax.set_ylabel("Throughput (k QPS)")
-                    ax.set_ylim(bottom=0)
+                    positive = [r["qps"] / 1000 for r in subset if r["qps"] > 0]
+                    if size == 104857600 and positive and max(positive) / min(positive) > 100:
+                        # The 100 MiB Stream read gap hides Lavik at zero on a
+                        # linear axis. Keep every product's curve readable.
+                        ax.set_yscale("log")
+                        ax.set_ylabel("Throughput (k QPS, log scale)")
+                        ax.set_ylim(min(positive) / 2, max(positive) * 2)
+                    else:
+                        ax.set_ylim(bottom=0)
                 else:
                     ax.set_ylabel("Throughput (k QPS, log scale)")
                     ax.set_yscale("log")
-                    ax.set_ylim(1, 2000)
+                    if size == 104857600:
+                        positive = [r["qps"] / 1000 for r in subset if r["qps"] > 0]
+                        if positive:
+                            ax.set_ylim(max(min(positive) / 2, 0.001),
+                                        max(positive) * 2)
+                    else:
+                        ax.set_ylim(1, 2000)
                 ax.set_xscale("log", base=2)
                 ticks = sorted({r["connections"] for r in subset})
                 ax.set_xticks(ticks, [str(x) for x in ticks])
@@ -102,13 +156,16 @@ for kind in OPERATIONS:
             handles, labels = axes[0].get_legend_handles_labels()
             if not handles:
                 handles, labels = axes[1].get_legend_handles_labels()
-            fig.legend(handles, labels, loc="upper center", ncol=3,
+            fig.legend(handles, labels, loc="upper center", ncol=4,
                        frameon=False, bbox_to_anchor=(0.5, 0.89))
             size_label = f"{size // 1048576} MiB" if size >= 1048576 else f"{size // 1024} KiB"
             field_label = f"{field // 1024} KiB" if field >= 1024 else f"{field} B"
             fig.suptitle(f"{kind.title()} | {size_label} per key | {field_label} per element",
                          y=0.99, fontsize=13, fontweight="bold")
-            fig.subplots_adjust(left=0.11, right=0.98, bottom=0.17,
+            note = failure_note(kind, size, field, OPERATIONS[kind])
+            if note:
+                fig.text(0.5, 0.025, note, ha="center", fontsize=9)
+            fig.subplots_adjust(left=0.11, right=0.98, bottom=0.22 if note else 0.17,
                                 top=0.70, wspace=0.31)
             fig.savefig(charts / f"{kind}-{size}-{field}.png", dpi=150,
                         facecolor="white")
@@ -133,11 +190,16 @@ for kind in OPERATIONS:
                 ax.set_xlabel("Connections")
                 ax.set_ylabel("Throughput (QPS)")
                 ax.set_ylim(bottom=0)
-                ax.set_xticks((16, 80))
+                ticks = sorted({r["connections"] for r in full})
+                ax.set_xticks(ticks)
                 ax.grid(axis="y", alpha=0.2)
                 fig.legend(*ax.get_legend_handles_labels(), frameon=False,
-                           ncol=3, loc="upper center", bbox_to_anchor=(0.5, 0.86))
-                fig.subplots_adjust(left=0.15, right=0.96, bottom=0.17,
+                           ncol=4, loc="upper center", bbox_to_anchor=(0.5, 0.86))
+                note = failure_note(kind, size, field, (FULL_OP[kind],))
+                if note:
+                    fig.text(0.5, 0.025, note, ha="center", fontsize=9)
+                fig.subplots_adjust(left=0.15, right=0.96,
+                                    bottom=0.22 if note else 0.17,
                                     top=0.68)
                 fig.savefig(charts / f"{kind}-{size}-{field}-full.png", dpi=150,
                             facecolor="white")
