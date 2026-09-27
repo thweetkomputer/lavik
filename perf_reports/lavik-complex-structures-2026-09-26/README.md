@@ -367,33 +367,30 @@ Redis changes from 265,994 to 251,697 QPS and Valkey from 388,646 to
 367,283 QPS. Lavik's 100 MiB/128 B read p99 is 279 ms at 80 connections;
 at 1,280 connections it is about 3.9 seconds without a material QPS gain.
 
-The tested Lavik code does split ordered collections into pages with an
+The tested Lavik code splits ordered collections into pages with an
 [8 KiB target](https://github.com/eloqdata/lavik/blob/646a7b4e/include/lavik/storage/detail/collection_limits.h#L26).
-The split reduces bytes decoded per page, but an exact-ID Stream read still
-[loads page zero, then binary-searches the directory by loading and decoding
-each probe page](https://github.com/eloqdata/lavik/blob/646a7b4e/src/storage/engine/grouped_stream.cpp#L1690-L1765).
-It finally loads the target page, which can repeat the last probe. A 100 MiB
-Stream has on the order of ten thousand such pages. The range-read function
-has no page cache across requests, and the lower read path explicitly lists
-[coalescing concurrent reads of the same disk page as unfinished work](https://github.com/eloqdata/lavik/blob/646a7b4e/src/storage/engine/read.cpp#L1332-L1354).
-This makes serial probe I/O and repeated decode a concrete scaling cost for
-the one-entry result. More connections cannot remove the serial dependency
-inside each command.
+The measured `XRANGE` takes the streamed-reply path in
+[`PrepareStreamRangeReply`](https://github.com/eloqdata/lavik/blob/646a7b4e/src/redis/stream_command.cpp),
+which calls `ReadValueForTransferLocked`. Before locating the requested ID,
+that path [walks and pins the entire grouped physical graph](https://github.com/eloqdata/lavik/blob/646a7b4e/src/storage/engine/transfer_api.cpp).
+Its boundary search then reads and decodes probe pages and sums preceding
+page counts. [CPU sampling](stream-profile-summary.md) during the 100 MiB read
+run showed substantial time in physical-graph traversal, pin-list preparation,
+hashing and sorting. The
+`ExecuteGroupedStreamRange` callback is a different path and did not explain
+this benchmark's read rate.
 
 The write path has a separate page-count cost. The Stream planner
 [walks every page while checking retired neighbours](https://github.com/eloqdata/lavik/blob/646a7b4e/src/storage/engine/grouped_stream.cpp#L580-L610),
 even when none were retired. On publication,
 [the ordered-directory update copies every existing page and calls `Recover`](https://github.com/eloqdata/lavik/blob/646a7b4e/src/storage/engine/grouped_collection.cpp#L627-L707),
 which rebuilds and validates the whole directory. This work grows with the
-number of pages despite a local `XADD` change. A compact boundary index for
-Stream routing, reuse of decoded hot pages, and an incremental directory
-update are the next code changes to test.
+number of pages despite a local `XADD` change. The optimization results below
+test these two read and write costs separately.
 
 The 1 MiB conditions use 64 keys and the 100 MiB conditions eight, so the
-cross-size QPS ratio also includes a different hot-key distribution. CPU and
-I/O profiling, plus a fixed-key-count control, are still needed to apportion
-the measured loss among page probes, directory rebuilding, storage reads,
-and contention. The durability and cache settings also differ across
+cross-size QPS ratio also includes a different hot-key distribution. The
+durability and cache settings also differ across
 products, as described above.
 
 The other structures do not share this exact Stream routing path. The
@@ -405,6 +402,52 @@ backlog limit from 8 to 64 MiB removed measured backlog waits without a
 material HSET throughput change (focused experiment above), so that limit is not the
 observed write bottleneck. The same-key, page-read, and commit costs need
 separate profiling before attributing the remaining gap.
+
+### Stream optimization follow-up (2026-09-27)
+
+The 100 MiB, 1 KiB field, eight-key condition was rerun with the same server,
+client, connection levels, pipeline of one, and eight-second measurement points.
+This table shows **QPS at 80 connections**. The Lavik column compares the
+original `646a7b4e` binary with optimized `523cb692`.
+
+| Command | Redis | Valkey | Lavik original → optimized | Kvrocks |
+|---|---:|---:|---:|---:|
+| Exact-ID `XRANGE` | 268,447 | 381,093 | 1,303 → 170,001 | 416,758 |
+| `XADD MAXLEN` | 307,585 | 386,913 | 731 → 1,257 | 117,613 |
+
+Optimized Lavik reaches 192,735 `XRANGE` QPS at 320 connections; Kvrocks
+reaches 614,555 at 1,280. At 80 connections Lavik read QPS is about **130×**
+the original, and p99 falls from 201.7 to 1.01 ms. Its peak remains about
+31% of Kvrocks' peak. Write QPS at 80 connections rises about 72%, but is
+still far below Kvrocks' 117,613 QPS. Every point is a single run; differences
+of a few percent are not established improvements.
+
+![100 MiB Stream, 1 KiB field: read and write QPS by connection count for all four databases and both Lavik versions](charts/stream-104857600-1024-optimized.png)
+
+The intermediate runs separate the mechanisms. With only resident Stream page
+bounds, 80-connection `XRANGE` is 1,274 QPS and `XADD MAXLEN` is 932. Avoiding
+a full ordered-directory rebuild for local writes gives 1,293 and 1,331.
+Changing streamed replies to pin only the selected page interval raises reads
+to 127,899 QPS. Reusing the decoded boundary page within the request raises
+them to 170,001. The final build also uses verified direct indexing for
+contiguous page IDs and falls back to binary lookup for other layouts. Bounds
+and probe data are resident only; the durable format is unchanged. Physical
+pin validation and retry still protect reads during GC relocation.
+
+The raw runs are [page bounds](raw/lavik-stream-bounds-100m/),
+[directory update](raw/lavik-stream-directory-fast-100m/),
+[selected-page pins](raw/lavik-stream-selected-pins/), and
+[final probe reuse](raw/lavik-stream-probe-reuse/). The figure is generated
+directly from their JSON files by
+[plot_stream_optimization.py](plot_stream_optimization.py).
+Additional [1 MiB page-boundary runs](raw/lavik-stream-bounds-1m/) used 64
+keys; the 1 MiB points in the selected-page-pin directory used eight. They
+are retained as exploratory data and are excluded from the ratios above.
+Kvrocks has an 80 GiB block cache large enough for these hot keys and has WAL
+disabled; Lavik still commits to SPDK. Other collection types retain their
+baseline measurements above, so Lavik has not yet been shown to exceed
+Kvrocks across structures. Exact-ID reads still fetch the target page, while
+writes retain directory-copy and commit costs.
 
 ### Embedded 100 MiB charts
 
