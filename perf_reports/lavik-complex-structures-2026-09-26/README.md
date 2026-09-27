@@ -409,6 +409,9 @@ The 100 MiB, 1 KiB field, eight-key condition was rerun with the same server,
 client, connection levels, pipeline of one, and eight-second measurement points.
 This table shows **QPS at 80 connections**. The Lavik column compares the
 original `646a7b4e` binary with optimized `523cb692`.
+The Stream changes were subsequently split into [PR #207](https://github.com/eloqdata/lavik/pull/207).
+These measurements used the earlier stacked branch containing [PR #203](https://github.com/eloqdata/lavik/pull/203),
+so the absolute QPS values are not a standalone measurement of PR #207.
 
 | Command | Redis | Valkey | Lavik original → optimized | Kvrocks |
 |---|---:|---:|---:|---:|

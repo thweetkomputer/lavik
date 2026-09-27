@@ -375,6 +375,9 @@ List。写入方面，1 MiB/128 B HSET 在持久化 Lavik 上约 6,500 QPS，
 针对上面的 100 MiB、1 KiB 字段、八个 key 条件，使用相同服务端、客户端、
 连接数、pipeline 1 和八秒测量窗口重跑。下表为 **80 连接 QPS**；Lavik
 一列给出原版 `646a7b4e` 与优化版 `523cb692`。四款数据库都保留在同一表中。
+Stream 改动现已拆分到独立的 [PR #207](https://github.com/eloqdata/lavik/pull/207)。
+本组数据使用的仍是叠加了 [PR #203](https://github.com/eloqdata/lavik/pull/203) 的旧分支，
+因此绝对 QPS 不能直接视为 PR #207 单独应用后的测量结果。
 
 | 命令 | Redis | Valkey | Lavik 原版 → 优化版 | Kvrocks |
 |---|---:|---:|---:|---:|
