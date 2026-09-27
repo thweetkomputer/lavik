@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 
 ROOT = Path(__file__).resolve().parent
 PRODUCTS = ("redis", "valkey", "lavik", "kvrocks")
-ORIGINAL_PRODUCTS = PRODUCTS[:3]
+ORIGINAL_PRODUCTS = PRODUCTS
 COLORS = {"redis": "#bd3f43", "valkey": "#008681", "lavik": "#3e5bc7",
           "kvrocks": "#a75b19"}
 MARKERS = {"redis": "o", "valkey": "s", "lavik": "^", "kvrocks": "D"}
@@ -58,6 +58,10 @@ if len(failures) != len(failed_identities):
     raise RuntimeError("duplicate benchmark failure")
 if set(identities) & failed_identities:
     raise RuntimeError("result and failure both recorded for a benchmark point")
+for product in PRODUCTS:
+    for tag in ("", "-100m"):
+        if not (ROOT / "raw" / (product + tag) / "complete.json").exists():
+            raise RuntimeError(f"incomplete product/size sweep: {product}{tag}")
 if all((ROOT / "raw" / product / "complete.json").exists()
        for product in ORIGINAL_PRODUCTS):
     expected = {(product, kind, size, field, operation, connection)
