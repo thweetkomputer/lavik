@@ -146,11 +146,11 @@ The default 8 MiB per-worker Tx backlog was compared with 64 MiB for the
 backlog waits but did not materially increase throughput. The default remains
 8 MiB.
 
-| Connections | 8 MiB QPS | 8 MiB backlog waits | 64 MiB QPS | 64 MiB backlog waits |
-|---:|---:|---:|---:|---:|
-| 80 | 6,471 | 304 | 6,281 | 0 |
-| 320 | 6,446 | 582 | 6,425 | 0 |
-| 2,560 | 7,018 | 3,899 | 7,128 | 0 |
+At 80 connections, 8 MiB yielded 6,471 QPS and 304 backlog waits, while
+64 MiB yielded 6,281 QPS and no waits. At 320 connections the corresponding
+figures were 6,446 QPS/582 waits and 6,425 QPS/no waits; at 2,560 they were
+7,018 QPS/3,899 waits and 7,128 QPS/no waits. This is a Lavik-only A/B
+experiment, separate from the four-product comparison tables.
 
 The large List point-read gap is worth profiling separately. Current code
 binary-searches the ordered page directory by rank, then
@@ -402,7 +402,7 @@ decodes the selected page, so the result does not imply a full-list scan.
 For writes, a 1 MiB/128 B HSET is about 6.5k QPS on durable Lavik versus
 446k on Redis with persistence disabled. Raising Lavik's per-worker Tx
 backlog limit from 8 to 64 MiB removed measured backlog waits without a
-material HSET throughput change (table above), so that limit is not the
+material HSET throughput change (focused experiment above), so that limit is not the
 observed write bottleneck. The same-key, page-read, and commit costs need
 separate profiling before attributing the remaining gap.
 
