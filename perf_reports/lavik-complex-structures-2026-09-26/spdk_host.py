@@ -64,7 +64,7 @@ def checked_kernel_devices():
 
 
 def no_servers():
-    for name in ("lavik", "redis-server", "valkey-server", "asd"):
+    for name in ("lavik", "redis-server", "valkey-server", "kvrocks"):
         assert subprocess.run(["pgrep", "-x", name],
                               capture_output=True).returncode == 1, name
 

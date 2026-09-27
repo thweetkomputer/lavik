@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Reproducible complex-collection comparison on 64 hot keys and two payload sizes."""
+"""Reproducible complex-collection comparison across configurable key sizes."""
 import argparse
 from concurrent.futures import ThreadPoolExecutor
 import hashlib
@@ -12,12 +12,14 @@ import signal
 import socket
 import subprocess
 import time
+import kvrocks_host
 import spdk_host
 
 ROOT = Path(__file__).resolve().parent
 HOST, CLIENT, PORT = "172.16.0.4", "172.16.0.5", 6379
 PEERS = {"redis": "/mnt/dev/peer-bench/redis/v8.8.0/src/src/redis-server",
-         "valkey": "/mnt/dev/peer-bench/valkey/v9.1.0/src/src/valkey-server"}
+         "valkey": "/mnt/dev/peer-bench/valkey/v9.1.0/src/src/valkey-server",
+         "kvrocks": "/mnt/dev/peer-bench/tiering-beta1-retest-2026-09-18/sources/kvrocks/build/kvrocks"}
 LAVIK = "/mnt/dev/lavik-tx-backlog/build_bench_spdk/lavik"
 TYPES = ("hash", "set", "list", "zset", "stream")
 OPS = {"hash": ("HGET", "HSET"), "set": ("SISMEMBER", "SADD_SREM"),
@@ -69,8 +71,7 @@ def value(i, n):
 def name(i):
     return f"complex_{i}"
 
-def fill_worker(kind, field_bytes, entries, indices):
-    values = [value(i, field_bytes) for i in range(entries)]
+def fill_worker(kind, field_bytes, entries, indices, pipeline):
     done = 0
     with socket.create_connection((HOST, PORT), timeout=300) as sock:
         sock.settimeout(300)
@@ -78,39 +79,64 @@ def fill_worker(kind, field_bytes, entries, indices):
         for index in indices:
             key = name(index)
             step = 1 if kind == "stream" else 16
+            # Drain each bounded batch before sending another so a 100 MiB
+            # key does not turn into unbounded client or server in-flight work.
+            pending = []
             for start in range(0, entries, step):
                 end = min(start + step, entries)
+                values = [value(i, field_bytes) for i in range(start, end)]
                 if kind == "hash":
                     args = ("HSET", key, *(a for i in range(start, end)
-                                             for a in (f"f{i:08d}", values[i])))
+                                             for a in (f"f{i:08d}", values[i-start])))
                 elif kind == "set":
-                    args = ("SADD", key, *values[start:end])
+                    args = ("SADD", key, *values)
                 elif kind == "list":
-                    args = ("RPUSH", key, *values[start:end])
+                    args = ("RPUSH", key, *values)
                 elif kind == "zset":
                     args = ("ZADD", key, *(a for i in range(start, end)
-                                            for a in (i, values[i])))
+                                            for a in (i, values[i-start])))
                 else:
-                    args = ("XADD", key, f"{start + 1}-0", "v", values[start])
-                sock.sendall(resp(*args))
-                if read(stream) is None:
-                    raise RuntimeError("null fill reply")
-                done += 1
+                    args = ("XADD", key, f"{start + 1}-0", "v", values[0])
+                pending.append(resp(*args))
+                if len(pending) == pipeline:
+                    sock.sendall(b"".join(pending))
+                    for _ in pending:
+                        if read(stream) is None:
+                            raise RuntimeError("null fill reply")
+                    done += len(pending)
+                    pending.clear()
+            if pending:
+                sock.sendall(b"".join(pending))
+                for _ in pending:
+                    if read(stream) is None:
+                        raise RuntimeError("null fill reply")
+                done += len(pending)
     return done
 
-def fill(kind, field_bytes, entries, keys):
+def fill(kind, field_bytes, entries, keys, pipeline):
     begin = time.monotonic()
     with ThreadPoolExecutor(max_workers=8) as pool:
         jobs = [pool.submit(fill_worker, kind, field_bytes, entries,
-                            range(i + 1, keys + 1, 8)) for i in range(8)]
+                            range(i + 1, keys + 1, 8), pipeline) for i in range(8)]
         count = sum(job.result() for job in jobs)
+    step = 1 if kind == "stream" else 16
+    expected = keys * ((entries + step - 1) // step)
+    if count != expected:
+        raise RuntimeError(f"{kind} fill sent {count} commands, expected {expected}")
     return {"seconds": time.monotonic() - begin, "commands": count}
 
-def validate(kind, field_bytes, entries, keys, after=False):
-    if query("DBSIZE") != keys:
+def validate(kind, field_bytes, entries, keys, product, after=False):
+    if product == "kvrocks":
+        # Kvrocks DBSIZE returns periodically refreshed stats; a completed
+        # 800 MiB fill can still report zero. Scan the eight actual keys.
+        observed_keys = set(query("KEYS", "*"))
+        expected_keys = {name(i).encode() for i in range(1, keys + 1)}
+        if observed_keys != expected_keys:
+            raise RuntimeError(f"{kind}: incorrect keys {observed_keys}")
+    elif query("DBSIZE") != keys:
         raise RuntimeError(f"{kind}: incorrect key count")
     counts = {name(i): query(COUNT[kind], name(i))
-              for i in (1, keys // 2, keys)}
+              for i in range(1, keys + 1)}
     if after and kind == "set":
         valid = all(entries <= count <= entries + 1 for count in counts.values())
     elif after and kind == "stream":
@@ -163,12 +189,13 @@ def command_lines(op, field_bytes, entries):
         result.append(f"{op} __key__ {args[op]}")
     return result
 
-def measure(directory, kind, size, field_bytes, entries, keys, op, conns, seconds):
+def measure(directory, kind, size, field_bytes, entries, keys, op, conns, seconds,
+            client_threads):
     stem = f"{kind}-{size}-{field_bytes}-{op.lower()}-c{conns}"
     remote = f"/mnt/dev/lavik-complex-20260926-client/{directory.name}/{stem}.json"
     argv = ["taskset", "-c", "0-15", "/usr/local/bin/memtier_benchmark",
             f"--server={HOST}", f"--port={PORT}", "--protocol=redis",
-            "--threads=16", f"--clients={conns//16}", "--pipeline=1",
+            f"--threads={client_threads}", f"--clients={conns//client_threads}", "--pipeline=1",
             f"--test-time={seconds}", "--key-minimum=1", f"--key-maximum={keys}",
             "--key-prefix=complex_", f"--data-size={field_bytes}", "--random-data",
             "--hide-histogram", "--distinct-client-seed",
@@ -213,11 +240,17 @@ def measure(directory, kind, size, field_bytes, entries, keys, op, conns, second
           f"{row['qps']:.0f} QPS p99={row['p99_ms']:.2f} ms", flush=True)
 
 def server(product, directory, binary):
-    if product in PEERS:
+    if product in ("redis", "valkey"):
         return (["taskset", "-c", "0-15", binary, "--bind", HOST,
                  "--protected-mode", "no", "--port", str(PORT), "--daemonize", "no",
                  "--dir", str(directory), "--save", "", "--appendonly", "no",
                  "--maxmemory", "0", "--maxclients", "10000", "--io-threads", "12"], None)
+    if product == "kvrocks":
+        config = (ROOT / "kvrocks-perf.conf").read_text()
+        target = directory / "kvrocks.conf"
+        target.write_text(config)
+        return (["prlimit", "--nofile=65535:65535", "taskset", "-c", "0-15",
+                 binary, "-c", str(target)], None)
     bdfs = list(spdk_host.SERIAL_PCI.values())
     argv = ["prlimit", "--memlock=unlimited:unlimited", "--nofile=65535:65535",
             "taskset", "-c", "0-15", binary, "--network=kernel", "--storage=spdk",
@@ -241,33 +274,49 @@ def main():
     p.add_argument("--fields", default="128,1024")
     p.add_argument("--types", default=",".join(TYPES))
     p.add_argument("--levels", default="80,320,1280,2560,5120")
+    p.add_argument("--full-levels", default="1,4,16")
     p.add_argument("--seconds", type=int, default=8)
-    p.add_argument("--mode", choices=("point", "full"), default="point")
+    p.add_argument("--mode", choices=("point", "full", "both"), default="point")
+    p.add_argument("--client-threads", type=int, default=16)
+    p.add_argument("--seed-pipeline", type=int, default=1)
+    p.add_argument("--continue-on-error", action="store_true")
     p.add_argument("--backlog-mb", type=int)
     p.add_argument("--tag", default="")
     opt = p.parse_args()
     if opt.product == "lavik":
         assert os.geteuid() == 0 and (ROOT / "spdk-ready.json").exists()
         spdk_host.assert_driver("vfio-pci")
+    if opt.product == "kvrocks":
+        assert (ROOT / "kvrocks-raid-ready.json").exists()
+        assert os.path.ismount(kvrocks_host.MOUNT)
     kinds = tuple(opt.types.split(","))
     sizes = tuple(map(int, opt.sizes.split(",")))
     fields = tuple(map(int, opt.fields.split(",")))
     levels = tuple(map(int, opt.levels.split(",")))
+    full_levels = tuple(map(int, opt.full_levels.split(",")))
     assert set(kinds) <= set(TYPES) and opt.keys >= 8
-    assert all(c > 0 and c % 16 == 0 for c in levels)
+    assert 1 <= opt.client_threads <= 16 and opt.seed_pipeline >= 1
+    assert all(c > 0 and c % min(c, opt.client_threads) == 0 for c in levels)
+    assert all(c > 0 for c in full_levels)
     assert all(size >= field and size % field == 0 for size in sizes for field in fields)
     directory = ROOT / "raw" / (opt.product + ("-" + opt.tag if opt.tag else ""))
     directory.mkdir(parents=True, exist_ok=True)
     binary = PEERS.get(opt.product, opt.binary)
     argv, env = server(opt.product, directory, binary)
     save(directory / "server-command.json", argv)
-    save(directory / ("provenance-" + "-".join(map(str, levels)) + ".json"), {
+    save(directory / ("provenance-" + opt.mode + "-" + "-".join(kinds) + "-" +
+                      "-".join(map(str, levels)) + ".json"), {
         "binary": binary, "sha256": hashlib.sha256(Path(binary).read_bytes()).hexdigest(),
         "source_commit": subprocess.check_output(
-            ["git", "-C", "/mnt/dev/lavik-tx-backlog", "rev-parse", "HEAD"],
-            text=True).strip() if opt.product == "lavik" else None,
+            ["git", "-C", ("/mnt/dev/lavik-tx-backlog" if opt.product == "lavik"
+                          else "/mnt/dev/peer-bench/tiering-beta1-retest-2026-09-18/sources/kvrocks"),
+             "rev-parse", "HEAD"], text=True).strip()
+        if opt.product in ("lavik", "kvrocks") else None,
         "fields": fields, "sizes": sizes, "keys": opt.keys, "types": kinds,
-        "levels": levels, "seconds": opt.seconds, "backlog_mb": opt.backlog_mb})
+        "levels": levels, "full_levels": full_levels,
+        "seconds": opt.seconds, "backlog_mb": opt.backlog_mb,
+        "client_threads": opt.client_threads, "seed_pipeline": opt.seed_pipeline,
+        "mode": opt.mode, "continue_on_error": opt.continue_on_error})
     try:
         query("PING")
     except (OSError, EOFError):
@@ -293,7 +342,23 @@ def main():
             if query("CONFIG", "SET", "tx-backlog-limit-mb-per-worker",
                      opt.backlog_mb) != b"OK":
                 raise RuntimeError("unable to set transaction backlog limit")
+        if opt.product == "kvrocks":
+            # A running process can use a different config file than the saved
+            # launch command. Check the effective settings before any fill.
+            settings = {name: query("CONFIG", "GET", name) for name in
+                        ("rocksdb.compression", "rocksdb.wal_compression",
+                         "rocksdb.write_options.disable_wal")}
+            save(directory / "effective-storage-config.json", {
+                name: [item.decode() for item in response]
+                for name, response in settings.items()})
+            expected_settings = {"rocksdb.compression": b"no",
+                                 "rocksdb.wal_compression": b"no",
+                                 "rocksdb.write_options.disable_wal": b"yes"}
+            if any(response[-1].lower() != expected_settings[name]
+                   for name, response in settings.items()):
+                raise RuntimeError(f"unexpected Kvrocks compression/WAL settings: {settings}")
         save(directory / "version.json", {"server": query("INFO", "SERVER").decode()})
+        failures = 0
         for kind in kinds:
             for size in sizes:
                 for field_bytes in fields:
@@ -301,24 +366,48 @@ def main():
                     combo = f"{kind}-{size}-{field_bytes}"
                     print(time.strftime("%F %T", time.gmtime()), directory.name,
                           combo, "fill", flush=True)
-                    if query("FLUSHALL", "SYNC") != b"OK":
+                    flush = ("FLUSHALL",) if opt.product == "kvrocks" else ("FLUSHALL", "SYNC")
+                    if query(*flush) != b"OK":
                         raise RuntimeError("FLUSHALL failed")
                     save(directory / f"{combo}.fill.json",
-                         fill(kind, field_bytes, entries, opt.keys))
+                         fill(kind, field_bytes, entries, opt.keys,
+                              opt.seed_pipeline))
                     save(directory / f"{combo}.validated.json",
-                         validate(kind, field_bytes, entries, opt.keys))
-                    operations = OPS[kind] if opt.mode == "point" else (FULL_OP[kind],)
+                         validate(kind, field_bytes, entries, opt.keys, opt.product))
+                    operations = ((FULL_OP[kind], *OPS[kind]) if opt.mode == "both"
+                                  else OPS[kind] if opt.mode == "point"
+                                  else (FULL_OP[kind],))
                     for op in operations:
-                        for conns in levels:
+                        op_levels = full_levels if op == FULL_OP[kind] and opt.mode == "both" else levels
+                        for conns in op_levels:
                             stem = f"{combo}-{op.lower()}-c{conns}"
-                            if not (directory / f"{stem}.result.json").exists():
+                            result = directory / f"{stem}.result.json"
+                            failure = directory / f"{stem}.error.json"
+                            if result.exists() or failure.exists():
+                                continue
+                            try:
                                 measure(directory, kind, size, field_bytes, entries,
-                                        opt.keys, op, conns, opt.seconds)
+                                        opt.keys, op, conns, opt.seconds,
+                                        min(opt.client_threads, conns))
+                            except Exception as exc:
+                                if not opt.continue_on_error or proc.poll() is not None:
+                                    raise
+                                save(failure, {"product": opt.product, "type": kind,
+                                               "logical_bytes": size,
+                                               "field_bytes": field_bytes,
+                                               "operation": op, "connections": conns,
+                                               "error": str(exc), "time": time.time()})
+                                failures += 1
+                                print(time.strftime("%F %T", time.gmtime()),
+                                      directory.name, stem, "FAILED", str(exc)[:240],
+                                      flush=True)
                     save(directory / f"{combo}.after.json",
-                         validate(kind, field_bytes, entries, opt.keys,
-                                  after=opt.mode == "point"))
+                         validate(kind, field_bytes, entries, opt.keys, opt.product,
+                                  after=opt.mode != "full"))
                     save(directory / f"{combo}.complete.json", {"time": time.time()})
-        save(directory / "complete.json", {"time": time.time()})
+        save(directory / "complete.json", {"time": time.time(),
+                                           "failures_in_this_run": failures,
+                                           "failures_total": len(list(directory.glob("*.error.json")))})
     finally:
         if proc.poll() is None:
             proc.send_signal(signal.SIGTERM)
