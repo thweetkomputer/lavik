@@ -143,19 +143,132 @@ LINDEX 峰值仅约 13.9 万 QPS；1 MiB/1 KiB List 有 1024 个元素，
 
 ### 图表
 
-每个单元格分别链接到“点查/写入”图和“完整读取”图。
 点查/写入图的连接数横轴为对数刻度；写入 QPS 纵轴也是对数刻度，
 以便看清 Lavik 与关闭持久化的两款服务之间的数量级差异。100 MiB
 Stream 的点查纵轴也用对数刻度，以免 Lavik 曲线贴在零线。
 完整读取图使用线性刻度。
 
-| 数据结构 | 64 KiB / 128 B | 64 KiB / 1 KiB | 1 MiB / 128 B | 1 MiB / 1 KiB |
-|---|---|---|---|---|
-| Hash | [点查与写入](charts/hash-65536-128.png) · [完整读取](charts/hash-65536-128-full.png) | [点查与写入](charts/hash-65536-1024.png) · [完整读取](charts/hash-65536-1024-full.png) | [点查与写入](charts/hash-1048576-128.png) · [完整读取](charts/hash-1048576-128-full.png) | [点查与写入](charts/hash-1048576-1024.png) · [完整读取](charts/hash-1048576-1024-full.png) |
-| Set | [点查与写入](charts/set-65536-128.png) · [完整读取](charts/set-65536-128-full.png) | [点查与写入](charts/set-65536-1024.png) · [完整读取](charts/set-65536-1024-full.png) | [点查与写入](charts/set-1048576-128.png) · [完整读取](charts/set-1048576-128-full.png) | [点查与写入](charts/set-1048576-1024.png) · [完整读取](charts/set-1048576-1024-full.png) |
-| List | [点查与写入](charts/list-65536-128.png) · [完整读取](charts/list-65536-128-full.png) | [点查与写入](charts/list-65536-1024.png) · [完整读取](charts/list-65536-1024-full.png) | [点查与写入](charts/list-1048576-128.png) · [完整读取](charts/list-1048576-128-full.png) | [点查与写入](charts/list-1048576-1024.png) · [完整读取](charts/list-1048576-1024-full.png) |
-| Sorted Set | [点查与写入](charts/zset-65536-128.png) · [完整读取](charts/zset-65536-128-full.png) | [点查与写入](charts/zset-65536-1024.png) · [完整读取](charts/zset-65536-1024-full.png) | [点查与写入](charts/zset-1048576-128.png) · [完整读取](charts/zset-1048576-128-full.png) | [点查与写入](charts/zset-1048576-1024.png) · [完整读取](charts/zset-1048576-1024-full.png) |
-| Stream | [点查与写入](charts/stream-65536-128.png) · [完整读取](charts/stream-65536-128-full.png) | [点查与写入](charts/stream-65536-1024.png) · [完整读取](charts/stream-65536-1024-full.png) | [点查与写入](charts/stream-1048576-128.png) · [完整读取](charts/stream-1048576-128-full.png) | [点查与写入](charts/stream-1048576-1024.png) · [完整读取](charts/stream-1048576-1024-full.png) |
+以下按数据结构、每 key 的大小和元素大小，依次直接展示点查/写入图与完整读取图。
+
+#### Hash / 64 KiB / 128 B
+
+![Hash, 64 KiB per key, 128 B per element: point read and write](charts/hash-65536-128.png)
+
+![Hash, 64 KiB per key, 128 B per element: full read](charts/hash-65536-128-full.png)
+
+#### Hash / 64 KiB / 1 KiB
+
+![Hash, 64 KiB per key, 1 KiB per element: point read and write](charts/hash-65536-1024.png)
+
+![Hash, 64 KiB per key, 1 KiB per element: full read](charts/hash-65536-1024-full.png)
+
+#### Hash / 1 MiB / 128 B
+
+![Hash, 1 MiB per key, 128 B per element: point read and write](charts/hash-1048576-128.png)
+
+![Hash, 1 MiB per key, 128 B per element: full read](charts/hash-1048576-128-full.png)
+
+#### Hash / 1 MiB / 1 KiB
+
+![Hash, 1 MiB per key, 1 KiB per element: point read and write](charts/hash-1048576-1024.png)
+
+![Hash, 1 MiB per key, 1 KiB per element: full read](charts/hash-1048576-1024-full.png)
+
+#### Set / 64 KiB / 128 B
+
+![Set, 64 KiB per key, 128 B per element: point read and write](charts/set-65536-128.png)
+
+![Set, 64 KiB per key, 128 B per element: full read](charts/set-65536-128-full.png)
+
+#### Set / 64 KiB / 1 KiB
+
+![Set, 64 KiB per key, 1 KiB per element: point read and write](charts/set-65536-1024.png)
+
+![Set, 64 KiB per key, 1 KiB per element: full read](charts/set-65536-1024-full.png)
+
+#### Set / 1 MiB / 128 B
+
+![Set, 1 MiB per key, 128 B per element: point read and write](charts/set-1048576-128.png)
+
+![Set, 1 MiB per key, 128 B per element: full read](charts/set-1048576-128-full.png)
+
+#### Set / 1 MiB / 1 KiB
+
+![Set, 1 MiB per key, 1 KiB per element: point read and write](charts/set-1048576-1024.png)
+
+![Set, 1 MiB per key, 1 KiB per element: full read](charts/set-1048576-1024-full.png)
+
+#### List / 64 KiB / 128 B
+
+![List, 64 KiB per key, 128 B per element: point read and write](charts/list-65536-128.png)
+
+![List, 64 KiB per key, 128 B per element: full read](charts/list-65536-128-full.png)
+
+#### List / 64 KiB / 1 KiB
+
+![List, 64 KiB per key, 1 KiB per element: point read and write](charts/list-65536-1024.png)
+
+![List, 64 KiB per key, 1 KiB per element: full read](charts/list-65536-1024-full.png)
+
+#### List / 1 MiB / 128 B
+
+![List, 1 MiB per key, 128 B per element: point read and write](charts/list-1048576-128.png)
+
+![List, 1 MiB per key, 128 B per element: full read](charts/list-1048576-128-full.png)
+
+#### List / 1 MiB / 1 KiB
+
+![List, 1 MiB per key, 1 KiB per element: point read and write](charts/list-1048576-1024.png)
+
+![List, 1 MiB per key, 1 KiB per element: full read](charts/list-1048576-1024-full.png)
+
+#### Sorted Set / 64 KiB / 128 B
+
+![Sorted Set, 64 KiB per key, 128 B per element: point read and write](charts/zset-65536-128.png)
+
+![Sorted Set, 64 KiB per key, 128 B per element: full read](charts/zset-65536-128-full.png)
+
+#### Sorted Set / 64 KiB / 1 KiB
+
+![Sorted Set, 64 KiB per key, 1 KiB per element: point read and write](charts/zset-65536-1024.png)
+
+![Sorted Set, 64 KiB per key, 1 KiB per element: full read](charts/zset-65536-1024-full.png)
+
+#### Sorted Set / 1 MiB / 128 B
+
+![Sorted Set, 1 MiB per key, 128 B per element: point read and write](charts/zset-1048576-128.png)
+
+![Sorted Set, 1 MiB per key, 128 B per element: full read](charts/zset-1048576-128-full.png)
+
+#### Sorted Set / 1 MiB / 1 KiB
+
+![Sorted Set, 1 MiB per key, 1 KiB per element: point read and write](charts/zset-1048576-1024.png)
+
+![Sorted Set, 1 MiB per key, 1 KiB per element: full read](charts/zset-1048576-1024-full.png)
+
+#### Stream / 64 KiB / 128 B
+
+![Stream, 64 KiB per key, 128 B per element: point read and write](charts/stream-65536-128.png)
+
+![Stream, 64 KiB per key, 128 B per element: full read](charts/stream-65536-128-full.png)
+
+#### Stream / 64 KiB / 1 KiB
+
+![Stream, 64 KiB per key, 1 KiB per element: point read and write](charts/stream-65536-1024.png)
+
+![Stream, 64 KiB per key, 1 KiB per element: full read](charts/stream-65536-1024-full.png)
+
+#### Stream / 1 MiB / 128 B
+
+![Stream, 1 MiB per key, 128 B per element: point read and write](charts/stream-1048576-128.png)
+
+![Stream, 1 MiB per key, 128 B per element: full read](charts/stream-1048576-128-full.png)
+
+#### Stream / 1 MiB / 1 KiB
+
+![Stream, 1 MiB per key, 1 KiB per element: point read and write](charts/stream-1048576-1024.png)
+
+![Stream, 1 MiB per key, 1 KiB per element: full read](charts/stream-1048576-1024-full.png)
 
 ### 解读边界
 
