@@ -342,25 +342,24 @@ Lavik 提交到 SPDK。图中比较的是这些具体配置，不代表相同持
 Valkey 是 388,646→367,283 QPS。Lavik 的 100 MiB/128 B 读取在 80
 连接时 p99 为 279 ms；增到 1,280 连接，QPS 没有明显提高，p99 约 3.9 秒。
 
-测试版 Lavik 确实把有序结构拆成了[目标约 8 KiB 的页](https://github.com/eloqdata/lavik/blob/646a7b4e/include/lavik/storage/detail/collection_limits.h#L26)，
-减小单页解码量。但指定 ID 的 Stream 读取仍然[先加载第 0 页，再通过逐页
-加载、解码的二分探针定位目标页](https://github.com/eloqdata/lavik/blob/646a7b4e/src/storage/engine/grouped_stream.cpp#L1690-L1765)，
-最后又加载目标页，可能重复最后一次探针。100 MiB Stream 约有上万个这样的
-页。该读取函数没有跨请求页缓存，底层读取路径还明确把[同一磁盘页并发读取的
-合并列为待办](https://github.com/eloqdata/lavik/blob/646a7b4e/src/storage/engine/read.cpp#L1332-L1354)。
-因此，单条结果仍要串行经历多次探针 I/O 和页解码；增加连接数无法消除每条
-命令内部的串行依赖。
+测试版 Lavik 把有序结构拆成了[目标约 8 KiB 的页](https://github.com/eloqdata/lavik/blob/646a7b4e/include/lavik/storage/detail/collection_limits.h#L26)。
+本次测到的 `XRANGE` 实际走
+[`PrepareStreamRangeReply`](https://github.com/eloqdata/lavik/blob/646a7b4e/src/redis/stream_command.cpp)
+的流式回复路径，调用 `ReadValueForTransferLocked`。在定位指定 ID 之前，
+该路径就[遍历并 pin 整棵物理页树](https://github.com/eloqdata/lavik/blob/646a7b4e/src/storage/engine/transfer_api.cpp)；
+之后的边界查找还会读取、解码探针页，并逐页累加前面的记录数。100 MiB
+读测试的 [CPU 采样](stream-profile-summary.md)显示物理树遍历、pin 列表准备、
+哈希和排序占据显著时间。
+`ExecuteGroupedStreamRange` 是另一条路径，不能用它解释本次 `XRANGE` 结果。
 
 写入还有独立的页数成本：Stream 规划器[即使没有退役页也会遍历所有页检查
 相邻关系](https://github.com/eloqdata/lavik/blob/646a7b4e/src/storage/engine/grouped_stream.cpp#L580-L610)；
 提交发布时，[有序目录更新复制全部现有页并调用 `Recover`](https://github.com/eloqdata/lavik/blob/646a7b4e/src/storage/engine/grouped_collection.cpp#L627-L707)，
 重新构建和校验整份目录。即使 `XADD` 只修改局部页，这些操作仍随页数增长。
-下一步值得实测的改动是给 Stream 路由保留页边界索引、复用热点页的解码结果，
-以及增量更新页目录。
+下文的优化复测分别针对读写路径上的这些成本。
 
 1 MiB 条件用 64 个 key，100 MiB 条件用八个，所以跨大小 QPS 比值也混入
-热 key 分布差异。还需要 CPU/I/O 剖析和固定 key 数对照，才能量化探针、
-目录重建、存储读取和竞争各自占了多少损失。各产品的持久化与缓存配置差异
+热 key 分布差异。各产品的持久化与缓存配置差异
 也需按上文解读。
 
 其他结构不走完全相同的 Stream 路由路径。1 MiB/128 B List 点读峰值约
@@ -370,6 +369,44 @@ List。写入方面，1 MiB/128 B HSET 在持久化 Lavik 上约 6,500 QPS，
 8 MiB 提到 64 MiB 后，测得的反压等待消失，但 HSET 吞吐没有明确改善
 （见上文定点实验），因此这个上限不是已观察到的写入瓶颈。剩余差距中的同 key
 竞争、页读取和提交成本还需分别剖析。
+
+### Stream 优化复测（2026-09-27）
+
+针对上面的 100 MiB、1 KiB 字段、八个 key 条件，使用相同服务端、客户端、
+连接数、pipeline 1 和八秒测量窗口重跑。下表为 **80 连接 QPS**；Lavik
+一列给出原版 `646a7b4e` 与优化版 `523cb692`。四款数据库都保留在同一表中。
+
+| 命令 | Redis | Valkey | Lavik 原版 → 优化版 | Kvrocks |
+|---|---:|---:|---:|---:|
+| 指定 ID `XRANGE` | 268,447 | 381,093 | 1,303 → 170,001 | 416,758 |
+| `XADD MAXLEN` | 307,585 | 386,913 | 731 → 1,257 | 117,613 |
+
+优化版 `XRANGE` 在 320 连接达到 192,735 QPS，而 Kvrocks 在 1,280
+连接达到 614,555 QPS。Lavik 的 80 连接读 QPS 为原版约 **130 倍**，
+p99 从 201.7 ms 降至 1.01 ms；但读峰值仍只有 Kvrocks 的约 31%。
+写入 80 连接提升约 72%，与 Kvrocks 的 117,613 QPS 仍有大幅差距。
+这些点各测一次，不能把几百分点的差异当成稳定收益。
+
+![100 MiB Stream、1 KiB 字段：四款数据库及 Lavik 优化前后的读写 QPS 随连接数变化](charts/stream-104857600-1024-optimized.png)
+
+逐版对照解释了读写收益的来源：仅保存 Stream 页边界时，80 连接的
+`XRANGE` 约 1,274 QPS、`XADD MAXLEN` 约 932 QPS；让局部写入跳过整份
+目录重建后分别为 1,293 和 1,331 QPS。真正的读跃升来自把流式回复的
+整棵物理树 pin 改为仅 pin 选定页区间，读 QPS 达到 127,899；最后复用
+同一请求中已解码的边界页，达到 170,001。最后版本对连续页 ID 也增加了
+经核对后直接定位、其他情况回退二分查找的路径。页边界与探针缓存只在内存中，
+持久格式不变；GC 搬迁后的物理身份仍由 pin 校验和重试保护。
+
+原始结果分别在 [边界版](raw/lavik-stream-bounds-100m/)、
+[目录版](raw/lavik-stream-directory-fast-100m/)、
+[选定页 pin 版](raw/lavik-stream-selected-pins/) 和
+[最终版](raw/lavik-stream-probe-reuse/)；图由
+[plot_stream_optimization.py](plot_stream_optimization.py) 直接读取这些 JSON 生成。
+另存的 [1 MiB 页边界测试](raw/lavik-stream-bounds-1m/) 使用 64 个 key，
+而选定页 pin 目录中的 1 MiB 点使用八个 key；这些探索数据不参与上述倍率。
+Kvrocks 配置了可容纳热数据的 80 GiB block cache 且关闭 WAL；Lavik
+仍对 SPDK 提交。其他数据结构沿用上面的基线数据，尚不能说 Lavik 已全面
+超过 Kvrocks。剩余的指定 ID 读取仍需访问目标页，写入仍有目录复制与提交成本。
 
 ### 100 MiB 图表（直接嵌入）
 
