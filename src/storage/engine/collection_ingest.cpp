@@ -303,13 +303,13 @@ StorageEngine::Impl::RestoreCollectionValueLocked(
     // A Sorted Set's first page builds both ordered and member directories.
     // Repeating indexed ZADD for each small ingest batch can touch most member
     // leaves again on every pass. Hash/Set also pay for grouped root and
-    // routing updates at each flush; larger batches amortize those writes for
-    // large imports. Leave 31 parts of available retained headroom for page
-    // plans and other owners, with a lower Hash/Set cap because their encoded
-    // pages can temporarily coexist with the input batch.
+    // routing updates at each flush. A 100 MiB Hash/Set can build its graph
+    // once instead of repeatedly reading and rewriting earlier groups. Leave
+    // 31 parts of available retained headroom for decoded entries, page plans,
+    // and other owners; the cap still bounds a larger object's input batch.
     constexpr std::uint64_t kSortedSetBuildBytes = 24ULL * 1024 * 1024;
     constexpr std::uint64_t kOtherBatchBytes = 1024ULL * 1024;
-    constexpr std::uint64_t kHashSetBuildBytes = 8ULL * 1024 * 1024;
+    constexpr std::uint64_t kHashSetBuildBytes = 128ULL * 1024 * 1024;
     std::uint64_t batch_limit = kOtherBatchBytes;
     if (type == ValueType::kSortedSet || type == ValueType::kHash ||
         type == ValueType::kSet) {
