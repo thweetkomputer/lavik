@@ -63,7 +63,7 @@ cache；Lavik 在六块 NVMe 上用 SPDK 提交。这些配置影响绝对写入
 [HGETALL 内存调查](diagnostics/hgetall-oom-20260929/README.md)。
 
 [同块数据与 Commit 合并刷盘试验](diagnostics/hset-coalescing-20260929/README.md)的正确性检查通过，
-但本轮 HSET 下降，正在复核；主图保留表现更好的上一版曲线。
+但 HSET 的下降经 20 秒复测确认，该改动已撤回；主图保留表现更好的 NVMe 优化曲线。
 
 ## Hash
 
