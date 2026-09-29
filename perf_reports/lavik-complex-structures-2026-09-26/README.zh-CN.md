@@ -17,11 +17,11 @@ SHA256 为 `bd3f942e3b7b0f46c23c716197c8cc4ec8ad963e92cede0d9fa2574ff52a74a9`。
 Set 100 MiB/128 B 已复测为更新后的 `main`
 `37b7e45ace4408c675caf6805af396769b0ff3bb`，二进制 SHA256 为
 `c3ae2b346ec4ee3a332fe05c38a75a55c2f3cbbe11773d70c06fbe6556cf767c`；
-这组 QPS 复用了经 `d1ce200e` 灌入并校验的相同 SPDK 数据。
-Set 100 MiB/128 B 图还叠加导入分支 `1f765b0b92f93dc3597fc8e0e3187d5e281e1ca0`
-（二进制 SHA256 `1476e7c7ca5f18e077f1fe4d6bdb15acda6684dd630a1b184070368f875637d6`）
-的曲线；它也读取这份已灌入的数据，因此这两条 QPS 曲线用于检查稳态命令性能，
-不能证明导入加速。导入耗时 A/B 尚在补测。
+这组 QPS 与 [PR #219](https://github.com/eloqdata/lavik/pull/219)
+`c96d9d0baf01be5ced503f7c3f2d90be4987477a`（二进制 SHA256
+`1dc0f82abba4d708342cace5dfff07ff8d2c59768e39b07631e326641a95adb7`）
+均复用 PR #219 灌入并校验的同一份 SPDK 数据；PR 曲线来自其灌入运行。
+两条曲线用于检查稳态命令性能，导入加速由下面的独立实验测量。
 没有增加数据页缓存。早期 main、PR #212 和 256-key 的运行记录仍保留在
 `raw/`，不作为本轮曲线。
 
@@ -31,15 +31,19 @@ Hash 100 MiB/128 B 图仍是早期八个 key 的条件，待替换。
 每张新图的标题明确标出 key 数。
 
 Set 100 MiB/128 B、500 key 的灌数中，Redis 用 354 秒、Valkey 用 265 秒、
-Kvrocks 用 545 秒；Lavik `d1ce200e` 用 500 次 RESTORE 耗时 10,739 秒。
+Kvrocks 用 545 秒；Lavik PR #219 用 500 次 RESTORE 耗时 **760.5 秒**，
+500 个 key、每 key 819,200 个成员全部校验通过，13 个 QPS 测点均无错误。
+在同一硬件上的耗时分别是 Redis、Valkey、Kvrocks 的约 2.1、2.9、1.4 倍。
+此前 Lavik `d1ce200e` 的 500 次 RESTORE 耗时 10,739 秒；它是较早的
+main 版本，不作为当前 main 的 A/B 基线。
 其他三库采用批量 SADD，且持久化配置不同；这组耗时说明 Lavik 导入路径
-值得单独优化，不能作为同等持久性写入吞吐的排名。
+已进入同一数量级，不能作为同等持久性写入吞吐的排名。
 
 同一个 100 MiB/128 B Set RDB 样本，在每次清空六块 SPDK 盘后用八个客户端
 RESTORE 100 个不同 key：最新 `main` 用 2,072.4 秒，8 MiB 分批及 touched-group
-去重分支用 484.0 秒，128 MiB 分批分支用 151.5 秒，较同版 `main` 快 13.7 倍。
+去重分支用 484.0 秒，PR #219 的 128 MiB 分批用 151.5 秒，较同版 `main` 快 13.7 倍。
 三次运行均校验全部 100 个 key、每 key 819,200 个成员，且无客户端或服务端错误。
-这一诊断负载只有 100 个 key；500-key 全量导入仍在复测。
+这一组是 100-key 空盘 A/B；上面的 500-key 结果是完整负载。
 
 ![Set 100 MiB、128 B、100 key：Lavik RESTORE 导入耗时对照](charts/set-104857600-128-k100-restore-ab.png)
 
