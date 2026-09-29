@@ -18,8 +18,8 @@ has SHA256 `bd3f942e3b7b0f46c23c716197c8cc4ec8ad963e92cede0d9fa2574ff52a74a9`.
 No data-page cache was added. Earlier main, PR #212, and 256-key raw runs remain in `raw/` but are
 not plotted in this retest.
 
-All four Hash/Set 1 MiB figures now use 50,000 keys. The Hash 100 MiB/1 KiB
-figure now uses 500 keys; the other 100 MiB figures still show the earlier
+All four Hash/Set 1 MiB figures now use 50,000 keys. The Hash and Set
+100 MiB/1 KiB figures now use 500 keys; the 128 B figures still show the earlier
 eight-key runs while they are being replaced. Each new figure states its exact
 key count in the title.
 
