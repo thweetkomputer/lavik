@@ -18,16 +18,21 @@ Hash/Set 100 MiB/128 B 均使用新 `main` `4c26af7b122bc64fc902b5e72481de803c1c
 （二进制 SHA256 `b101ccd8bd77ca2dcedc5766cb0658a9bc47bfb8255d07b3b585326ebe1c2221`）
 与 [PR #219](https://github.com/eloqdata/lavik/pull/219) `d1f58febf7d38c7c4f012984fe94b5cdc4a6da6e`
 （二进制 SHA256 `d015f91ca76f9bf2c99196ab6e5b1d78d8deffa3f04b9ced7b89d53e5d0845a6`）；
-每个数据结构的两条 QPS 曲线均复用各自经 PR 灌入并校验的同一份 SPDK 数据。
-两条曲线用于检查稳态命令性能，导入加速由下面的独立实验测量。
+Set 的 main 与 PR #219 复用同一份经灌入和校验的 SPDK 数据。
+Hash 的 PR #219 是前一轮同条件结果，最新 main 与 PR #222 共用重新灌入的数据。
+这些曲线用于检查稳态命令性能，导入加速由下面的独立实验测量。
 Hash 100 MiB/128 B 图新增 [PR #222](https://github.com/eloqdata/lavik/pull/222)
 `4da9167587bad4d5dc58a966c956f6a5aae459ee`（二进制 SHA256
 `73d592a7487ca0f19ee77a24cf22c1b12a26bac1dfae7e3c3767d8a5873329af`）。
 它把分组物理地址索引页改成经过内存配额检查的紧凑数组。
 该轮单独用 PR #219 重新导入并校验 500 个 100 MiB Hash，再复用数据测试 PR #222；
-13 个测点无错误。HSET 为 3.44–4.84 万 QPS，图中 main 为 3.14–4.60 万，
+13 个测点无错误；图中的 Hash main 又在这份数据上重跑了一轮。
+HSET 为 3.44–4.84 万 QPS，重跑的 main 为 3.19–4.73 万，
 Kvrocks 为 32.29–37.40 万；提升有限，仍未达到目标。每点仅一次测量，
-尚不能把小幅差异都归因于改动。其他大小和 Set 图尚未加入 PR #222。
+尚不能把小幅差异都归因于改动。2560 连接下 main 反而略高。
+HSET 开始前的 INFO used_memory 从 main 的约 2.21 GiB 降为 PR 的约 1.93 GiB；
+这是运行时计费内存，RSS 含分配器保留空间，不能混用。
+其他大小和 Set 图尚未加入 PR #222。
 
 没有增加数据页缓存。早期 main、PR #212 和 256-key 的运行记录仍保留在
 `raw/`，不作为本轮曲线。

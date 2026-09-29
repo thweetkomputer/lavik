@@ -21,8 +21,9 @@ Hash/Set 100 MiB/128 B use newer `main` `4c26af7b122bc64fc902b5e72481de803c1c56a
 and [PR #219](https://github.com/eloqdata/lavik/pull/219)
 `d1f58febf7d38c7c4f012984fe94b5cdc4a6da6e`
 (binary SHA256 `d015f91ca76f9bf2c99196ab6e5b1d78d8deffa3f04b9ced7b89d53e5d0845a6`).
-Within each collection type, both QPS curves use the same validated SPDK
-dataset seeded by that PR.
+Set main and PR #219 use the same validated SPDK dataset. Hash PR #219 is
+from the prior run under matching conditions; the latest Hash main and PR #222
+share the newly seeded dataset.
 These QPS curves check steady-state command performance;
 the separate experiment below measures import speed.
 The Hash 100 MiB/128 B plots also include [PR #222](https://github.com/eloqdata/lavik/pull/222),
@@ -30,10 +31,13 @@ commit `4da9167587bad4d5dc58a966c956f6a5aae459ee`, binary SHA256
 `73d592a7487ca0f19ee77a24cf22c1b12a26bac1dfae7e3c3767d8a5873329af`.
 It stores grouped physical coordinates in admitted compact arrays.
 This run reused a separately loaded and validated 500-key dataset seeded with PR #219;
-all 13 points completed without errors. HSET measured 34.4–48.4k QPS, versus
-31.4–46.0k for the plotted main and 322.9–374.0k for Kvrocks. The gain is limited
+all 13 points completed without errors. Hash main was then rerun on this same dataset.
+HSET measured 34.4–48.4k QPS, versus 31.9–47.3k for the rerun main and 322.9–374.0k for Kvrocks. The gain is limited
 and the target remains unmet. Each point is one measurement, so small differences
-cannot all be attributed to the code. Other sizes and Set plots do not yet include PR #222.
+cannot all be attributed to the code; main was slightly faster at 2560 connections.
+INFO used_memory before HSET fell from about 2.21 GiB on main to 1.93 GiB on the PR.
+This is accounted runtime memory, not RSS, which includes allocator retention.
+Other sizes and Set plots do not yet include PR #222.
 
 No data-page cache was added. Earlier main, PR #212, and 256-key raw runs remain in `raw/` but are
 not plotted in this retest.
