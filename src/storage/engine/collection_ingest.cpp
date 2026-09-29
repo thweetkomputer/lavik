@@ -302,14 +302,17 @@ StorageEngine::Impl::RestoreCollectionValueLocked(
     std::uint64_t merged_bytes = 0;
     // A Sorted Set's first page builds both ordered and member directories.
     // Repeating indexed ZADD for each small ingest batch can touch most member
-    // leaves again on every pass. Both directories need substantially more
-    // admitted scratch than the input bytes. Leave 31 parts of available
-    // retained headroom for page plans, the member index, and other owners;
-    // the hard cap bounds the input retained until the one-time build.
+    // leaves again on every pass. Hash/Set also pay for grouped root and
+    // routing updates at each flush; larger batches amortize those writes for
+    // large imports. Leave 31 parts of available retained headroom for page
+    // plans and other owners, with a lower Hash/Set cap because their encoded
+    // pages can temporarily coexist with the input batch.
     constexpr std::uint64_t kSortedSetBuildBytes = 24ULL * 1024 * 1024;
     constexpr std::uint64_t kOtherBatchBytes = 1024ULL * 1024;
+    constexpr std::uint64_t kHashSetBuildBytes = 8ULL * 1024 * 1024;
     std::uint64_t batch_limit = kOtherBatchBytes;
-    if (type == ValueType::kSortedSet) {
+    if (type == ValueType::kSortedSet || type == ValueType::kHash ||
+        type == ValueType::kSet) {
       const auto memory = GetWorkerMemoryStats(store.worker_->id());
       const auto used = memory.retained_bytes_ +
                         memory.admission_pending_bytes_ +
@@ -318,7 +321,9 @@ StorageEngine::Impl::RestoreCollectionValueLocked(
                                  ? 0
                                  : memory.retained_limit_bytes_ - used;
       batch_limit =
-          std::clamp(available / 32, kOtherBatchBytes, kSortedSetBuildBytes);
+          std::clamp(available / 32, kOtherBatchBytes,
+                     type == ValueType::kSortedSet ? kSortedSetBuildBytes
+                                                   : kHashSetBuildBytes);
     }
     bool first_write = true;
     auto flush = [&]() -> Task<absl::Status> {
