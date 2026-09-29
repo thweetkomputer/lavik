@@ -11,6 +11,8 @@ Redis 兼容数据结构。每张图固定数据结构、每个 key 的逻辑数
 PR #203 合并后，用相同的 Hash 和 Set 工作负载复测了 `main`
 （`0920ae56`）和[PR #212](https://github.com/eloqdata/lavik/pull/212)。
 优化版二进制取自 `d3f09324`；PR 后续的 `bca70438` 只调整 clang-format。
+PR #212 已于 2026-09-29 合并为 `bde3120e`；下列现有曲线仍对应实测的
+`d3f09324`，不要将其当成合并提交的实测值。合并版的补测会另加曲线。
 基线二进制 SHA256 为
 `1b8eeb46cd91779eaf9e13b57a28186933a9b2c864e5b25beecb3a1a5b1dc8b6`，
 优化版为
@@ -88,6 +90,15 @@ HSET 阶段 CPU 采样有大量 worker 和存储轮询，但不能据此量化�
 从 9.31k 降至 2.32k QPS。原先 100 MiB 档也只有八个 key，因此它约
 2.3k 的 HSET 不能单独归因于 value 大小；新补的 10 MiB 档使用 64 个 key，
 与 1 MiB 档保持一致。
+
+针对 100 MiB/128 B Hash，另填充 128 个 key 以核对内存容量。
+Redis 填充后 `used_memory` 为 21.44 GB、RSS 21.65 GB；Valkey 分别为
+20.69 GB、20.87 GB，Kvrocks 进程 RSS 为 2.97 GB，数据主要位于 RAID0。
+这说明 128 个 key 在上述三款产品上能完成填充，不能直接证明更高 key 数
+也不会触及主机内存或 Lavik 的 worker 准入限制。依据见
+[Redis](raw/redis-100m-k128-hash128-20260929/)、
+[Valkey](raw/valkey-100m-k128-hash128-20260929/)和
+[Kvrocks](raw/kvrocks-100m-k128-hash128-20260929/)的填充后 `INFO MEMORY`。
 
 两版 Lavik 在 100 MiB/128 B HGETALL 的 16 连接档都返回了
 `OOM grouped operation scratch admission`。图中标明并省略这两个点；
