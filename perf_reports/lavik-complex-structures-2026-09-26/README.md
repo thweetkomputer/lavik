@@ -18,7 +18,8 @@ has SHA256 `bd3f942e3b7b0f46c23c716197c8cc4ec8ad963e92cede0d9fa2574ff52a74a9`.
 No data-page cache was added. Earlier main, PR #212, and 256-key raw runs remain in `raw/` but are
 not plotted in this retest.
 
-The Set 1 MiB/128 B and 1 MiB/1 KiB figures have been replaced. The remaining Hash/Set
+The Set 1 MiB/128 B and 1 MiB/1 KiB figures and the Hash 1 MiB/1 KiB
+figures have been replaced. The remaining Hash/Set
 figures still show the earlier 64-key or eight-key runs while they are being
 replaced; each new figure states its exact key count in the title.
 
@@ -133,10 +134,10 @@ combined command rate, not the rate of durable mutations.
   100 MiB; the client thread count is capped by the connection count.
 - Each condition is filled from scratch using concurrent RESP clients on
   disjoint keys. Earlier runs used the default eight; newer provenance records
-  the seed-client count.
+  the seed-client count, target payload bytes per seed command, and pipeline.
   Reads run before writes, and writes preserve approximately the original
   collection length. The same keys are used at all connection levels within
-  a condition. The 100 MiB fill batches 64 commands per client connection.
+  a condition. Fill pipelines are bounded; each run's provenance gives its depth.
 - Logical sizes describe payload bytes only, not Redis memory usage or Lavik
   disk consumption. The earlier List, Sorted Set, and Stream runs use hot-key
   counts stated in their sections; Hash and Set use 50,000 or 500 keys.
@@ -371,9 +372,11 @@ Run Kvrocks after `kvrocks_host.py prepare --discard-scratch`, then restore
 RAID0. After that, prepare the SPDK devices and run Lavik as root with its
 `--binary`, `--source-commit`, and a `main<first-eight-commit-digits>-` tag
 prefix. Each run's provenance JSON records the exact source revision and
-binary SHA256. Most Lavik conditions use `--fill-workers=64` to seed disjoint
-keys concurrently. The first Set 1 MiB/1 KiB run used the earlier default of
-eight; newer provenance gives the actual value for each run.
+binary SHA256. Most Lavik conditions use
+`--fill-workers=64 --seed-command-bytes=65536` to seed disjoint keys with fewer
+setup commands. The first Set 1 MiB/1 KiB run used the earlier default of
+eight; Set 1 MiB/128 B still used 16 KiB target batches. Newer provenance
+gives the actual value for each run.
 Redraw one condition with:
 
 ```bash
