@@ -64,8 +64,8 @@ def expected_grid(size):
 
 
 def main():
-    # Add a PR to this manifest with one complete run tag per key size. Earlier
-    # variants remain plotted, so each chart preserves the main comparison.
+    # A new variant can be published one completed key size at a time. Earlier
+    # variants remain plotted while its other sizes are still running.
     variants = json.loads((ROOT / "set-hash-variants.json").read_text())[
         "lavik_variants"]
     labels = [variant["label"] for variant in variants]
@@ -108,7 +108,9 @@ def main():
     for size in SIZES:
         for variant in variants:
             name = variant["label"]
-            tag = variant["runs"][str(size)]
+            tag = variant["runs"].get(str(size))
+            if tag is None:
+                continue
             rows, errors = load_run("lavik", tag)
             expected = expected_grid(size)
             if set(rows) | set(errors) != expected:
@@ -134,6 +136,8 @@ def main():
                     plotted = 0
                     for ax, command in zip(axes[0], selected):
                         for name in styles:
+                            if name not in peer_rows and (name, size) not in runs:
+                                continue
                             rows = peer_rows[name] if name in peer_rows else runs[(name, size)]
                             points = sorted(
                                 ((key[-1], float(row["qps"]))
@@ -168,7 +172,7 @@ def main():
                             any(key[:4] == (kind, size, field, command) and
                                 "OOM grouped operation scratch admission" in reason
                                 for key, reason in failures[(name, size)].items())
-                            for name in labels)
+                            for name in labels if (name, size) in failures)
                         if oom_variants:
                             ax.text(0.98, 0.04,
                                     f"{oom_variants} Lavik variants: OOM",
