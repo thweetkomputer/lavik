@@ -13,14 +13,16 @@ After PR #203 merged, the same Hash and Set workloads were rerun on `main`
 (`0920ae56`) and [PR #212](https://github.com/eloqdata/lavik/pull/212).
 The measured optimized binary came from `d3f09324`; the later PR head
 `bca70438` contains clang-format changes only.
-PR #212 merged as `bde3120e` on September 29. The existing plotted PR curve
-still measures `d3f09324`; it must not be read as a measurement of the merge
-commit. A separate merged-main curve will be added after its run.
+PR #212 merged as `bde3120e` on September 29. The plotted PR curve still
+measures `d3f09324`. A separate `Lavik main (#212 merged)` curve measures the
+merge commit for 1 MiB keys; the other sizes retain the two existing curves.
 The baseline binary is SHA256
 `1b8eeb46cd91779eaf9e13b57a28186933a9b2c864e5b25beecb3a1a5b1dc8b6`;
 the optimized binary is
-`f8712ce492f67cf3a3eb0deed33e73e56f86e24ecc69fcd3d20390bc1eeaf561`.
-Both were built as RelWithDebInfo with SPDK and tested on the same host and
+`f8712ce492f67cf3a3eb0deed33e73e56f86e24ecc69fcd3d20390bc1eeaf561`;
+the merged binary is SHA256
+`1acecaa40948d473caedce591d1a775d3d910b260a50b38a68f25bf946a4546e`.
+All three were built as RelWithDebInfo with SPDK and tested on the same host and
 scratch NVMe set. The optimized path scans the selected, checksum-verified
 group without constructing entries for unrelated fields. It serves grouped
 HGET, HEXISTS, HSTRLEN, and SISMEMBER; writes and full reads retain their
@@ -37,25 +39,26 @@ Valkey had persistence disabled and Kvrocks had WAL disabled. Lavik commits
 to SPDK. These configurations materially affect absolute read and write QPS.
 
 At **320 connections**, all four products have a measured point in every row
-below. Values are thousands of completed commands per second; the two Lavik
-columns are current main and PR #212. Every chart overlays main and all
+below. Values are thousands of completed commands per second. The three Lavik
+columns are pre-merge main, early PR #212, and merged main. A dash means
+the merged version has not yet been measured at that size. Every chart overlays main and all
 measured PR variants listed in [set-hash-variants.json](set-hash-variants.json);
 append a run per size there when adding a PR, then regenerate the charts.
 
-| Type | Per key | Entry | Read | Redis | Valkey | Kvrocks | Lavik main | Lavik PR #212 |
-|---|---:|---:|---|---:|---:|---:|---:|---:|
-| Hash | 1 MiB | 128 B | HGET | 763.0 | 741.3 | 750.8 | 542.2 | 675.8 |
-| Hash | 1 MiB | 1 KiB | HGET | 715.5 | 721.8 | 725.7 | 672.4 | 749.4 |
-| Hash | 10 MiB | 128 B | HGET | 780.3 | 742.2 | 724.5 | 480.3 | 640.1 |
-| Hash | 10 MiB | 1 KiB | HGET | 754.4 | 696.6 | 652.6 | 578.6 | 643.4 |
-| Hash | 100 MiB | 128 B | HGET | 779.4 | 785.4 | 663.1 | 278.8 | 421.9 |
-| Hash | 100 MiB | 1 KiB | HGET | 744.8 | 736.4 | 644.3 | 362.0 | 440.5 |
-| Set | 1 MiB | 128 B | SISMEMBER | 768.0 | 854.3 | 715.8 | 447.7 | 680.0 |
-| Set | 1 MiB | 1 KiB | SISMEMBER | 694.3 | 656.2 | 680.7 | 537.4 | 701.6 |
-| Set | 10 MiB | 128 B | SISMEMBER | 771.7 | 803.1 | 699.2 | 394.1 | 643.7 |
-| Set | 10 MiB | 1 KiB | SISMEMBER | 713.3 | 675.3 | 679.5 | 474.6 | 611.7 |
-| Set | 100 MiB | 128 B | SISMEMBER | 778.5 | 781.2 | 646.2 | 212.9 | 410.8 |
-| Set | 100 MiB | 1 KiB | SISMEMBER | 701.6 | 679.5 | 615.2 | 287.8 | 421.0 |
+| Type | Per key | Entry | Read | Redis | Valkey | Kvrocks | Lavik main (before) | Lavik PR #212 | Lavik main (merged) |
+|---|---:|---:|---|---:|---:|---:|---:|---:|---:|
+| Hash | 1 MiB | 128 B | HGET | 763.0 | 741.3 | 750.8 | 542.2 | 675.8 | 677.3 |
+| Hash | 1 MiB | 1 KiB | HGET | 715.5 | 721.8 | 725.7 | 672.4 | 749.4 | 741.4 |
+| Hash | 10 MiB | 128 B | HGET | 780.3 | 742.2 | 724.5 | 480.3 | 640.1 | — |
+| Hash | 10 MiB | 1 KiB | HGET | 754.4 | 696.6 | 652.6 | 578.6 | 643.4 | — |
+| Hash | 100 MiB | 128 B | HGET | 779.4 | 785.4 | 663.1 | 278.8 | 421.9 | — |
+| Hash | 100 MiB | 1 KiB | HGET | 744.8 | 736.4 | 644.3 | 362.0 | 440.5 | — |
+| Set | 1 MiB | 128 B | SISMEMBER | 768.0 | 854.3 | 715.8 | 447.7 | 680.0 | 675.5 |
+| Set | 1 MiB | 1 KiB | SISMEMBER | 694.3 | 656.2 | 680.7 | 537.4 | 701.6 | 724.4 |
+| Set | 10 MiB | 128 B | SISMEMBER | 771.7 | 803.1 | 699.2 | 394.1 | 643.7 | — |
+| Set | 10 MiB | 1 KiB | SISMEMBER | 713.3 | 675.3 | 679.5 | 474.6 | 611.7 | — |
+| Set | 100 MiB | 128 B | SISMEMBER | 778.5 | 781.2 | 646.2 | 212.9 | 410.8 | — |
+| Set | 100 MiB | 1 KiB | SISMEMBER | 701.6 | 679.5 | 615.2 | 287.8 | 421.0 | — |
 
 At the same 320 connections, optimized HGET gains 11–51% and SISMEMBER gains
 29–93%, depending on size. The largest gain is the 100 MiB/128 B Set case:
@@ -71,20 +74,20 @@ the same connection count. HSET stays near 9.3k–9.9k QPS, close to the
 1 MiB/64-key results; the earlier 100 MiB/eight-key write result is therefore
 confounded by hot-key count.
 
-| Type | Per key | Entry | Write | Redis | Valkey | Kvrocks | Lavik main | Lavik PR #212 |
-|---|---:|---:|---|---:|---:|---:|---:|---:|
-| Hash | 1 MiB | 128 B | HSET | 734.7 | 804.3 | 371.6 | 9.4 | 9.4 |
-| Hash | 1 MiB | 1 KiB | HSET | 711.4 | 660.5 | 369.4 | 9.5 | 9.7 |
-| Hash | 10 MiB | 128 B | HSET | 759.0 | 695.2 | 387.1 | 9.3 | 9.3 |
-| Hash | 10 MiB | 1 KiB | HSET | 731.0 | 770.8 | 345.4 | 9.9 | 9.6 |
-| Hash | 100 MiB | 128 B | HSET | 746.4 | 727.4 | 318.4 | 2.3 | 2.3 |
-| Hash | 100 MiB | 1 KiB | HSET | 729.7 | 696.6 | 302.0 | 2.3 | 2.3 |
-| Set | 1 MiB | 128 B | SADD + SREM | 763.1 | 758.0 | 440.8 | 18.6 | 18.7 |
-| Set | 1 MiB | 1 KiB | SADD + SREM | 687.9 | 651.3 | 332.2 | 19.3 | 19.9 |
-| Set | 10 MiB | 128 B | SADD + SREM | 782.2 | 781.1 | 439.2 | 18.6 | 18.4 |
-| Set | 10 MiB | 1 KiB | SADD + SREM | 709.4 | 664.5 | 376.9 | 18.8 | 19.6 |
-| Set | 100 MiB | 128 B | SADD + SREM | 765.3 | 770.1 | 354.2 | 4.8 | 4.9 |
-| Set | 100 MiB | 1 KiB | SADD + SREM | 704.6 | 645.9 | 326.2 | 4.9 | 4.9 |
+| Type | Per key | Entry | Write | Redis | Valkey | Kvrocks | Lavik main (before) | Lavik PR #212 | Lavik main (merged) |
+|---|---:|---:|---|---:|---:|---:|---:|---:|---:|
+| Hash | 1 MiB | 128 B | HSET | 734.7 | 804.3 | 371.6 | 9.4 | 9.4 | 9.4 |
+| Hash | 1 MiB | 1 KiB | HSET | 711.4 | 660.5 | 369.4 | 9.5 | 9.7 | 9.6 |
+| Hash | 10 MiB | 128 B | HSET | 759.0 | 695.2 | 387.1 | 9.3 | 9.3 | — |
+| Hash | 10 MiB | 1 KiB | HSET | 731.0 | 770.8 | 345.4 | 9.9 | 9.6 | — |
+| Hash | 100 MiB | 128 B | HSET | 746.4 | 727.4 | 318.4 | 2.3 | 2.3 | — |
+| Hash | 100 MiB | 1 KiB | HSET | 729.7 | 696.6 | 302.0 | 2.3 | 2.3 | — |
+| Set | 1 MiB | 128 B | SADD + SREM | 763.1 | 758.0 | 440.8 | 18.6 | 18.7 | 18.8 |
+| Set | 1 MiB | 1 KiB | SADD + SREM | 687.9 | 651.3 | 332.2 | 19.3 | 19.9 | 20.1 |
+| Set | 10 MiB | 128 B | SADD + SREM | 782.2 | 781.1 | 439.2 | 18.6 | 18.4 | — |
+| Set | 10 MiB | 1 KiB | SADD + SREM | 709.4 | 664.5 | 376.9 | 18.8 | 19.6 | — |
+| Set | 100 MiB | 128 B | SADD + SREM | 765.3 | 770.1 | 354.2 | 4.8 | 4.9 | — |
+| Set | 100 MiB | 1 KiB | SADD + SREM | 704.6 | 645.9 | 326.2 | 4.9 | 4.9 | — |
 
 Writes are essentially unchanged. A grouped HSET still reads and rewrites a
 complete changed group, updates its in-memory directory, and durably commits
@@ -127,15 +130,15 @@ result, failure, command, and binary hash.
 
 ### Hash / 1 MiB / 128 B
 
-![Hash 1 MiB 128 B, peers and Lavik main/PR #212 point commands](charts/hash-1048576-128-ab.png)
+![Hash 1 MiB 128 B, peers and Lavik main/PR #212 / merged main point commands](charts/hash-1048576-128-ab.png)
 
-![Hash 1 MiB 128 B, peers and Lavik main/PR #212 HGETALL](charts/hash-1048576-128-ab-full.png)
+![Hash 1 MiB 128 B, peers and Lavik main/PR #212 / merged main HGETALL](charts/hash-1048576-128-ab-full.png)
 
 ### Hash / 1 MiB / 1 KiB
 
-![Hash 1 MiB 1 KiB, peers and Lavik main/PR #212 point commands](charts/hash-1048576-1024-ab.png)
+![Hash 1 MiB 1 KiB, peers and Lavik main/PR #212 / merged main point commands](charts/hash-1048576-1024-ab.png)
 
-![Hash 1 MiB 1 KiB, peers and Lavik main/PR #212 HGETALL](charts/hash-1048576-1024-ab-full.png)
+![Hash 1 MiB 1 KiB, peers and Lavik main/PR #212 / merged main HGETALL](charts/hash-1048576-1024-ab-full.png)
 
 ### Hash / 10 MiB / 128 B
 
@@ -163,15 +166,15 @@ result, failure, command, and binary hash.
 
 ### Set / 1 MiB / 128 B
 
-![Set 1 MiB 128 B, peers and Lavik main/PR #212 point commands](charts/set-1048576-128-ab.png)
+![Set 1 MiB 128 B, peers and Lavik main/PR #212 / merged main point commands](charts/set-1048576-128-ab.png)
 
-![Set 1 MiB 128 B, peers and Lavik main/PR #212 SMEMBERS](charts/set-1048576-128-ab-full.png)
+![Set 1 MiB 128 B, peers and Lavik main/PR #212 / merged main SMEMBERS](charts/set-1048576-128-ab-full.png)
 
 ### Set / 1 MiB / 1 KiB
 
-![Set 1 MiB 1 KiB, peers and Lavik main/PR #212 point commands](charts/set-1048576-1024-ab.png)
+![Set 1 MiB 1 KiB, peers and Lavik main/PR #212 / merged main point commands](charts/set-1048576-1024-ab.png)
 
-![Set 1 MiB 1 KiB, peers and Lavik main/PR #212 SMEMBERS](charts/set-1048576-1024-ab-full.png)
+![Set 1 MiB 1 KiB, peers and Lavik main/PR #212 / merged main SMEMBERS](charts/set-1048576-1024-ab-full.png)
 
 ### Set / 10 MiB / 128 B
 
