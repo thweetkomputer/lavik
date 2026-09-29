@@ -355,8 +355,9 @@ static_assert(alignof(BlockState) == 32);
 // acquire owner load observes the epoch initialized before publication; live-
 // byte accounting prevents either field from changing while the entry is
 // current.
+template <typename Entry>
 inline RecordLocation MaterializePublishedIndexLocation(
-    const RecordIndex::Entry& entry, const BlockState& state) noexcept {
+    const Entry& entry, const BlockState& state) noexcept {
   const std::uint16_t owner = state.owner_.load(std::memory_order_acquire);
   const std::uint64_t allocation_epoch = state.allocation_epoch_;
   assert(owner < kMaxMemoryWorkers);
@@ -3415,8 +3416,8 @@ class StorageEngine::Impl {
   // and retirement cannot reset that state until the index stops referencing
   // it. The returned value then owns the epoch snapshot and is safe to carry
   // across suspension even if a later relocation replaces the index entry.
-  RecordLocation MaterializeIndexLocation(
-      const RecordIndex::Entry& entry) const noexcept {
+  template <typename Entry>
+  RecordLocation MaterializeIndexLocation(const Entry& entry) const noexcept {
     const std::uint64_t block_id = entry.value_.block_id();
     const BlockState& state = const_cast<Impl*>(this)->BlockStateAt(block_id);
     RecordLocation location = MaterializePublishedIndexLocation(entry, state);

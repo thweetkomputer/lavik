@@ -74,7 +74,7 @@ The top-level `RecordIndex` still owns each user key, type, expiry and logical
 version. A grouped marker directs collection lookups to that
 partition/database's sparse `ScanHashMap` object index. Its immutable view holds
 a routing directory, the active primary group payload total, one compact
-`RecordIndex` entry per group, and separately owned extent manifests. Retired
+physical index entry per group, and separately owned extent manifests. Retired
 markers and the Sorted Set member index do not contribute to the total.
 Recovery rebuilds it from selected checked group payload lengths. The view
 does not retain field names or values.

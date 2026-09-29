@@ -492,7 +492,7 @@ TEST(GroupedObjectIndexTest, StoresOneCompactPhysicalIndexEntryPerGroup) {
   ASSERT_TRUE(object.ok()) << object.status();
   EXPECT_EQ((*object)->group_count(), input.locations_.size());
   EXPECT_LT((*object)->group_count(), 100);
-  EXPECT_EQ(sizeof(RecordIndex::Entry), 24);
+  EXPECT_EQ(sizeof(GroupedRecordIndexEntry), 24);
   for (unsigned i = 0; i < 100; ++i) {
     const std::string field = "field" + std::to_string(i);
     const auto* route = input.directory_.Find(field);
@@ -502,7 +502,7 @@ TEST(GroupedObjectIndexTest, StoresOneCompactPhysicalIndexEntryPerGroup) {
     EXPECT_EQ(location->value_.block_id(), route->record_token_);
     EXPECT_EQ(location->value_.mutation_sequence_, route->sequence_);
     EXPECT_EQ(location->value_.logical_size(), route->field_count_);
-    EXPECT_FALSE(location->has_extra());
+    EXPECT_FALSE(location->value_.has_expiry());
     EXPECT_EQ(location, (*object)->FindGroup(route->id_));
   }
   EXPECT_EQ((*object)->FindGroup(HashGroupId{1, 0}), nullptr);
