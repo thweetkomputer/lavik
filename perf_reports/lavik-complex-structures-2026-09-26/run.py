@@ -11,6 +11,7 @@ import shlex
 import signal
 import socket
 import subprocess
+import threading
 import time
 import kvrocks_host
 import spdk_host
@@ -143,6 +144,73 @@ def fill(kind, field_bytes, entries, keys, pipeline, workers, target_bytes):
         raise RuntimeError(f"{kind} fill sent {count} commands, expected {expected}")
     return {"seconds": time.monotonic() - begin, "commands": count,
             "entries_per_command": step}
+
+def fill_restore(keys, workers, payload):
+    """Import disjoint keys from one verified RDB object to avoid seed rewrites.
+
+    A large Set/Hash is constructed once outside the measured server. Each
+    RESTORE creates its own grouped graph. Post-fill checks count every key
+    and verify one content sample.
+    """
+    begin = time.monotonic()
+    progress_lock = threading.Lock()
+    total_done = 0
+
+    def worker(indices):
+        nonlocal total_done
+        done = 0
+        with socket.create_connection((HOST, PORT), timeout=900) as sock:
+            sock.settimeout(900)
+            stream = sock.makefile("rb")
+            for index in indices:
+                sock.sendall(resp("RESTORE", name(index), 0, payload))
+                if read(stream) != b"OK":
+                    raise RuntimeError(f"RESTORE failed for {name(index)}")
+                done += 1
+                with progress_lock:
+                    total_done += 1
+                    if total_done % 10 == 0 or total_done == keys:
+                        print(time.strftime("%F %T", time.gmtime()),
+                              "RESTORE fill", total_done, "/", keys,
+                              flush=True)
+        return done
+
+    with ThreadPoolExecutor(max_workers=workers) as pool:
+        jobs = [pool.submit(worker, range(i + 1, keys + 1, workers))
+                for i in range(workers)]
+        count = sum(job.result() for job in jobs)
+    if count != keys:
+        raise RuntimeError(f"RESTORE filled {count} keys, expected {keys}")
+    return {"seconds": time.monotonic() - begin, "commands": count,
+            "entries_per_command": None, "method": "restore"}
+
+def wait_for_tx_cleanup(timeout_seconds=1800):
+    """Measure only after RESTORE's grouped commits and cleaner settle."""
+    begin = time.monotonic()
+    last_log = 0
+    while time.monotonic() - begin < timeout_seconds:
+        info = dict(line.split(":", 1) for line in query("INFO").decode().splitlines()
+                    if ":" in line)
+        backlog = int(info["tx_backlog_bytes_total"])
+        queue = int(info["tx_commit_queue_depth"])
+        cleaning = int(info["tx_cleaner_running"])
+        if backlog <= 2 * 8 * 1024 * 1024 and queue == 0 and cleaning == 0:
+            time.sleep(2)
+            check = dict(line.split(":", 1) for line in
+                         query("INFO").decode().splitlines() if ":" in line)
+            if (int(check["tx_backlog_bytes_total"]) <= 2 * 8 * 1024 * 1024
+                    and int(check["tx_commit_queue_depth"]) == 0
+                    and int(check["tx_cleaner_running"]) == 0):
+                return {"seconds": time.monotonic() - begin,
+                        "max_backlog_bytes": int(check["tx_backlog_bytes_max"]),
+                        "remaining_backlog_bytes": int(check["tx_backlog_bytes_total"])}
+        if time.monotonic() - last_log >= 60:
+            print(time.strftime("%F %T", time.gmtime()),
+                  "RESTORE settle", backlog, "backlog bytes", queue,
+                  "queued commits", flush=True)
+            last_log = time.monotonic()
+        time.sleep(2)
+    raise TimeoutError("RESTORE Tx cleanup did not settle before measurement")
 
 def validate(kind, field_bytes, entries, keys, product, after=False):
     # Large-key-count runs must reuse a connection. Opening one per key can
@@ -325,6 +393,12 @@ def main():
     p.add_argument("--seed-command-bytes", type=int, default=16384,
                    help="Approximate payload bytes per seed command")
     p.add_argument("--continue-on-error", action="store_true")
+    p.add_argument("--reuse-seeded-data", action="store_true",
+                   help="Restart Lavik on an already completed seed without FLUSHALL")
+    p.add_argument("--seed-source-tag",
+                   help="Completed Lavik run that created the retained SPDK dataset")
+    p.add_argument("--seed-dump-path",
+                   help="Validated RDB DUMP payload for one Hash/Set key")
     p.add_argument("--backlog-mb", type=int)
     p.add_argument("--tag", default="")
     p.add_argument("--source-repo", default=str(ROOT.parents[1]),
@@ -350,8 +424,39 @@ def main():
     assert all(c > 0 and c % min(c, opt.client_threads) == 0 for c in levels)
     assert all(c > 0 for c in full_levels)
     assert all(size >= field and size % field == 0 for size in sizes for field in fields)
+    if opt.reuse_seeded_data:
+        assert opt.product == "lavik" and opt.seed_source_tag
+        assert opt.seed_dump_path is None
+        assert len(kinds) == len(sizes) == len(fields) == 1
+        source = ROOT / "raw" / ("lavik-" + opt.seed_source_tag)
+        assert (source / "complete.json").exists(), source
+        source_provenance = list(source.glob("provenance-*.json"))
+        assert len(source_provenance) == 1, source
+        original = json.loads(source_provenance[0].read_text())
+        assert (original["types"], original["sizes"], original["fields"],
+                original["keys"]) == (list(kinds), list(sizes), list(fields),
+                                       opt.keys), source
+    else:
+        assert opt.seed_source_tag is None
+    if opt.seed_dump_path:
+        assert opt.product == "lavik" and not opt.reuse_seeded_data
+        assert len(kinds) == len(sizes) == len(fields) == 1
+        assert kinds[0] in ("hash", "set")
+        dump_path = Path(opt.seed_dump_path)
+        dump_payload = dump_path.read_bytes()
+        assert len(dump_payload) <= 512 * 1024 * 1024
+        dump_metadata = json.loads(dump_path.with_suffix(".json").read_text())
+        assert ((dump_metadata["kind"], dump_metadata["logical_bytes"],
+                 dump_metadata["field_bytes"], dump_metadata["output_sha256"])
+                == (kinds[0], sizes[0], fields[0],
+                    hashlib.sha256(dump_payload).hexdigest()))
+    else:
+        dump_payload = None
+        dump_metadata = None
     directory = ROOT / "raw" / (opt.product + ("-" + opt.tag if opt.tag else ""))
     directory.mkdir(parents=True, exist_ok=True)
+    if dump_metadata is not None:
+        save(directory / "seed-dump-metadata.json", dump_metadata)
     binary = PEERS.get(opt.product, opt.binary)
     argv, env = server(opt.product, directory, binary)
     save(directory / "server-command.json", argv)
@@ -369,6 +474,10 @@ def main():
         "client_threads": opt.client_threads, "seed_pipeline": opt.seed_pipeline,
         "fill_workers": opt.fill_workers,
         "seed_command_bytes": opt.seed_command_bytes, "mode": opt.mode,
+        "reused_seed_from": opt.seed_source_tag,
+        "seed_dump_path": opt.seed_dump_path,
+        "seed_dump_sha256": (hashlib.sha256(dump_payload).hexdigest()
+                             if dump_payload is not None else None),
         "continue_on_error": opt.continue_on_error})
     try:
         query("PING")
@@ -419,15 +528,33 @@ def main():
                     combo = f"{kind}-{size}-{field_bytes}"
                     print(time.strftime("%F %T", time.gmtime()), directory.name,
                           combo, "fill", flush=True)
-                    flush = ("FLUSHALL",) if opt.product == "kvrocks" else ("FLUSHALL", "SYNC")
-                    if query(*flush) != b"OK":
-                        raise RuntimeError("FLUSHALL failed")
-                    save(directory / f"{combo}.fill.json",
-                         fill(kind, field_bytes, entries, opt.keys,
-                              opt.seed_pipeline, opt.fill_workers,
-                              opt.seed_command_bytes))
-                    save(directory / f"{combo}.validated.json",
-                         validate(kind, field_bytes, entries, opt.keys, opt.product))
+                    if opt.reuse_seeded_data:
+                        # Recovery rebuilds the same logical keys. Writes in
+                        # the source run may have changed field payloads or
+                        # left the toggled Set member present, so validate
+                        # cardinality with the normal post-run allowance.
+                        save(directory / f"{combo}.fill.json",
+                             {"reused_seed_from": opt.seed_source_tag})
+                        validated = validate(kind, field_bytes, entries,
+                                             opt.keys, opt.product, after=True)
+                    else:
+                        flush = (("FLUSHALL",) if opt.product == "kvrocks"
+                                 else ("FLUSHALL", "SYNC"))
+                        if query(*flush) != b"OK":
+                            raise RuntimeError("FLUSHALL failed")
+                        seeded = (fill_restore(opt.keys, opt.fill_workers,
+                                               dump_payload)
+                                  if dump_payload is not None else
+                                  fill(kind, field_bytes, entries, opt.keys,
+                                       opt.seed_pipeline, opt.fill_workers,
+                                       opt.seed_command_bytes))
+                        save(directory / f"{combo}.fill.json", seeded)
+                        if dump_payload is not None:
+                            save(directory / f"{combo}.settled.json",
+                                 wait_for_tx_cleanup())
+                        validated = validate(kind, field_bytes, entries,
+                                             opt.keys, opt.product)
+                    save(directory / f"{combo}.validated.json", validated)
                     # Capture the real memory cost of each seeded collection;
                     # logical payload alone misses field and allocator overhead.
                     (directory / f"{combo}.memory-after-fill.txt").write_text(
