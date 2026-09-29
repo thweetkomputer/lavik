@@ -180,6 +180,7 @@ Earlier write-path and HGETALL memory investigations remain available in the [HS
 | Set | SISMEMBER | SADD + SREM | SMEMBERS | Toggle one member; the two commands have an equal ratio |
 | List | LINDEX | LSET | LRANGE 0 -1 | Overwrite an existing element |
 | Sorted Set | ZSCORE | ZINCRBY | ZRANGE WITHSCORES | Increment the score of an existing member |
+| Stream | Exact-ID XRANGE | XADD MAXLEN ~ N | XRANGE - + | Append and approximately trim to the seeded length |
 
 For positional reads and overwrites, memtier cycles through eight evenly spaced
 entry positions per key. The 64 KiB, 1 MiB, and new 10 MiB conditions use
@@ -485,24 +486,6 @@ disabled but retains RocksDB flush and compaction; its 80 GiB cache can hold
 the eight-key working set. Lavik commits to SPDK. The write curves compare
 these exact configurations, not equivalent durability or cold-storage I/O.
 
-### Stream: final optimized variant
-
-Each key holds 100 MiB with 1 KiB entries; there are eight keys. All four
-products use the same five connection counts and eight-second sampling window.
-The Lavik chart contains only the final optimized variant.
-
-| Command, 80 connections | Redis | Valkey | Kvrocks | Lavik final optimized |
-|---|---:|---:|---:|---:|
-| Exact-ID `XRANGE` | 268,447 | 381,093 | 416,758 | 170,001 |
-| `XADD MAXLEN` | 307,585 | 386,913 | 117,613 | 1,257 |
-
-![100 MiB Stream, 1 KiB entries: final optimized Lavik against Redis, Valkey and Kvrocks](charts/stream-104857600-1024-optimized.png)
-
-The Lavik sample here is from final optimization branch commit `523cb692`,
-which also contained the then-current PR #203. It is not a retest of merged
-`main`. See the [raw points](raw/lavik-stream-probe-reuse/) and
-[plot script](plot_stream_optimization.py).
-
 ### Embedded 100 MiB charts
 
 #### Hash / 128 B
@@ -552,6 +535,71 @@ which also contained the then-current PR #203. It is not a retest of merged
 ![Sorted Set, 100 MiB per key, 1 KiB per element: point read and write](charts/zset-104857600-1024.png)
 
 ![Sorted Set, 100 MiB per key, 1 KiB per element: full read](charts/zset-104857600-1024-full.png)
+
+## Stream
+
+Lavik uses merged main `9acd7b6f` with the Stream optimization. Each of 64 hot keys holds 64 KiB or 1 MiB with 128 B or 1 KiB entries. The merged-main 100 MiB retest is pending. The horizontal axis is connection count and the vertical axis is QPS; each figure contains one Lavik main curve.
+
+The table reports point reads and writes at 80 connections, and full reads at 16. Redis and Valkey have persistence disabled; Kvrocks has WAL disabled with an 80 GiB block cache; Lavik commits to SPDK. Write QPS reflects these configurations.
+
+| Per key | Entry | Command | Connections | Redis | Valkey | Kvrocks | Lavik main |
+|---|---|---|---:|---:|---:|---:|---:|
+| 64 KiB | 128 B | Exact-ID `XRANGE` | 80 | 272,008 | 401,385 | 469,188 | 273,500 |
+| 64 KiB | 128 B | `XADD MAXLEN` | 80 | 360,508 | 406,207 | 251,654 | 8,875 |
+| 64 KiB | 128 B | Full `XRANGE - +` | 16 | 7,368 | 7,208 | 19,813 | 4,744 |
+| 64 KiB | 1 KiB | Exact-ID `XRANGE` | 80 | 281,038 | 440,368 | 442,637 | 288,525 |
+| 64 KiB | 1 KiB | `XADD MAXLEN` | 80 | 340,703 | 365,000 | 188,151 | 9,295 |
+| 64 KiB | 1 KiB | Full `XRANGE - +` | 16 | 36,138 | 33,688 | 42,269 | 19,977 |
+| 1 MiB | 128 B | Exact-ID `XRANGE` | 80 | 265,994 | 388,646 | 464,077 | 231,554 |
+| 1 MiB | 128 B | `XADD MAXLEN` | 80 | 358,357 | 464,902 | 192,152 | 8,704 |
+| 1 MiB | 128 B | Full `XRANGE - +` | 16 | 426 | 320 | 1,437 | 261 |
+| 1 MiB | 1 KiB | Exact-ID `XRANGE` | 80 | 288,179 | 417,312 | 460,435 | 246,665 |
+| 1 MiB | 1 KiB | `XADD MAXLEN` | 80 | 323,761 | 393,696 | 157,590 | 9,708 |
+| 1 MiB | 1 KiB | Full `XRANGE - +` | 16 | 1,492 | 779 | 2,780 | 1,125 |
+
+[All points](stream-latest.csv), the [plot script](plot_stream_latest.py), and [Lavik raw run](raw/lavik-main9acd-stream-small-20260929/) retain the evidence. Each point is one eight-second run. Older optimization-stage samples remain under `raw/` and are not plotted.
+
+### Exact-ID `XRANGE`
+
+#### 64 KiB per key
+
+![64 KiB per key, 128 B entries: Exact-ID `XRANGE` QPS by connection count](charts/stream-65536-128-xrange-latest.png)
+
+![64 KiB per key, 1 KiB entries: Exact-ID `XRANGE` QPS by connection count](charts/stream-65536-1024-xrange-latest.png)
+
+#### 1 MiB per key
+
+![1 MiB per key, 128 B entries: Exact-ID `XRANGE` QPS by connection count](charts/stream-1048576-128-xrange-latest.png)
+
+![1 MiB per key, 1 KiB entries: Exact-ID `XRANGE` QPS by connection count](charts/stream-1048576-1024-xrange-latest.png)
+
+### `XADD MAXLEN`
+
+#### 64 KiB per key
+
+![64 KiB per key, 128 B entries: `XADD MAXLEN` QPS by connection count](charts/stream-65536-128-xadd_maxlen-latest.png)
+
+![64 KiB per key, 1 KiB entries: `XADD MAXLEN` QPS by connection count](charts/stream-65536-1024-xadd_maxlen-latest.png)
+
+#### 1 MiB per key
+
+![1 MiB per key, 128 B entries: `XADD MAXLEN` QPS by connection count](charts/stream-1048576-128-xadd_maxlen-latest.png)
+
+![1 MiB per key, 1 KiB entries: `XADD MAXLEN` QPS by connection count](charts/stream-1048576-1024-xadd_maxlen-latest.png)
+
+### Full `XRANGE - +`
+
+#### 64 KiB per key
+
+![64 KiB per key, 128 B entries: Full `XRANGE - +` QPS by connection count](charts/stream-65536-128-xrange_full-latest.png)
+
+![64 KiB per key, 1 KiB entries: Full `XRANGE - +` QPS by connection count](charts/stream-65536-1024-xrange_full-latest.png)
+
+#### 1 MiB per key
+
+![1 MiB per key, 128 B entries: Full `XRANGE - +` QPS by connection count](charts/stream-1048576-128-xrange_full-latest.png)
+
+![1 MiB per key, 1 KiB entries: Full `XRANGE - +` QPS by connection count](charts/stream-1048576-1024-xrange_full-latest.png)
 
 ## Reproduce
 

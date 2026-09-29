@@ -175,6 +175,7 @@ RelWithDebInfo 二进制 SHA256 为
 | Set | SISMEMBER | SADD + SREM | SMEMBERS | 对同一个 member 等比例交替增删 |
 | List | LINDEX | LSET | LRANGE 0 -1 | 覆盖已有元素 |
 | Sorted Set | ZSCORE | ZINCRBY | ZRANGE WITHSCORES | 增加已有 member 的 score |
+| Stream | 指定 ID 的 XRANGE | XADD MAXLEN ~ N | XRANGE - + | 追加并近似裁剪到预填充长度 |
 
 按位置读取和覆盖时，memtier 轮流访问每个 key 内均匀分布的八个位置。
 原先的 64 KiB、1 MiB 及新增的 10 MiB 条件使用 64 个 key；100 MiB 条件
@@ -456,24 +457,6 @@ Redis 和 Valkey 均约 4 QPS。Lavik 在 4 连接约 2 QPS，但 16 连接的
 仍执行 RocksDB flush 和 compaction，且 80 GiB 缓存可容纳这组八个热 key；
 Lavik 提交到 SPDK。图中比较的是这些具体配置，不代表相同持久性或冷盘读取。
 
-### Stream：最终优化版
-
-每 key 100 MiB、1 KiB 元素、八个 key。四款数据库使用同一组连接数
-（80、320、1280、2560、5120）和八秒测量窗口。Lavik 图线只保留
-最终优化版；合并前的测试数据仍在 `raw/`，不参与正文比较。
-
-| 命令 | Redis | Valkey | Kvrocks | Lavik 最终优化版 |
-|---|---:|---:|---:|---:|
-| 指定 ID `XRANGE`，80 连接 | 268,447 | 381,093 | 416,758 | 170,001 |
-| `XADD MAXLEN`，80 连接 | 307,585 | 386,913 | 117,613 | 1,257 |
-
-![100 MiB Stream、1 KiB 元素：最终优化版与 Redis、Valkey、Kvrocks 的读写 QPS](charts/stream-104857600-1024-optimized.png)
-
-Lavik 此处的原始测量来自提交 `523cb692` 的最终优化分支，它叠加了
-PR #203 的当时版本；不能把该值视为合并后 `main` 的复测值。
-[原始测点](raw/lavik-stream-probe-reuse/)和
-[绘图脚本](plot_stream_optimization.py)可用于复核。
-
 ### 100 MiB 图表（直接嵌入）
 
 #### Hash / 128 B
@@ -523,6 +506,71 @@ PR #203 的当时版本；不能把该值视为合并后 `main` 的复测值。
 ![Sorted Set，每 key 100 MiB，1 KiB 元素：点读与写入](charts/zset-104857600-1024.png)
 
 ![Sorted Set，每 key 100 MiB，1 KiB 元素：完整读取](charts/zset-104857600-1024-full.png)
+
+## Stream
+
+Lavik 使用已合并 Stream 优化的最新 main `9acd7b6f`，每个 key 的逻辑大小为 64 KiB 或 1 MiB，64 个热 key，元素为 128 B 或 1 KiB。100 MiB 的合并后 main 正在补测。横轴为连接数，纵轴为 QPS；每图只画一条 Lavik main 曲线。
+
+下表取点查/写入 80 连接、完整读取 16 连接的实测 QPS。Redis 和 Valkey 关闭持久化，Kvrocks 关闭 WAL 且启用 80 GiB block cache，Lavik 提交到 SPDK；写入结果反映这些具体配置。
+
+| 每 key | 元素 | 命令 | 连接 | Redis | Valkey | Kvrocks | Lavik main |
+|---|---|---|---:|---:|---:|---:|---:|
+| 64 KiB | 128 B | 指定 ID `XRANGE` | 80 | 272,008 | 401,385 | 469,188 | 273,500 |
+| 64 KiB | 128 B | `XADD MAXLEN` | 80 | 360,508 | 406,207 | 251,654 | 8,875 |
+| 64 KiB | 128 B | 全范围 `XRANGE - +` | 16 | 7,368 | 7,208 | 19,813 | 4,744 |
+| 64 KiB | 1 KiB | 指定 ID `XRANGE` | 80 | 281,038 | 440,368 | 442,637 | 288,525 |
+| 64 KiB | 1 KiB | `XADD MAXLEN` | 80 | 340,703 | 365,000 | 188,151 | 9,295 |
+| 64 KiB | 1 KiB | 全范围 `XRANGE - +` | 16 | 36,138 | 33,688 | 42,269 | 19,977 |
+| 1 MiB | 128 B | 指定 ID `XRANGE` | 80 | 265,994 | 388,646 | 464,077 | 231,554 |
+| 1 MiB | 128 B | `XADD MAXLEN` | 80 | 358,357 | 464,902 | 192,152 | 8,704 |
+| 1 MiB | 128 B | 全范围 `XRANGE - +` | 16 | 426 | 320 | 1,437 | 261 |
+| 1 MiB | 1 KiB | 指定 ID `XRANGE` | 80 | 288,179 | 417,312 | 460,435 | 246,665 |
+| 1 MiB | 1 KiB | `XADD MAXLEN` | 80 | 323,761 | 393,696 | 157,590 | 9,708 |
+| 1 MiB | 1 KiB | 全范围 `XRANGE - +` | 16 | 1,492 | 779 | 2,780 | 1,125 |
+
+[完整测点](stream-latest.csv)、[绘图脚本](plot_stream_latest.py)和 [Lavik 原始记录](raw/lavik-main9acd-stream-small-20260929/)可复核各点。每点八秒、只测一次；旧优化阶段的结果保留在 `raw/`，不参与当前图表。
+
+### 指定 ID `XRANGE`
+
+#### 64 KiB
+
+![64 KiB、128 B：指定 ID `XRANGE`，四款数据库 QPS 随连接数变化](charts/stream-65536-128-xrange-latest.png)
+
+![64 KiB、1 KiB：指定 ID `XRANGE`，四款数据库 QPS 随连接数变化](charts/stream-65536-1024-xrange-latest.png)
+
+#### 1 MiB
+
+![1 MiB、128 B：指定 ID `XRANGE`，四款数据库 QPS 随连接数变化](charts/stream-1048576-128-xrange-latest.png)
+
+![1 MiB、1 KiB：指定 ID `XRANGE`，四款数据库 QPS 随连接数变化](charts/stream-1048576-1024-xrange-latest.png)
+
+### `XADD MAXLEN`
+
+#### 64 KiB
+
+![64 KiB、128 B：`XADD MAXLEN`，四款数据库 QPS 随连接数变化](charts/stream-65536-128-xadd_maxlen-latest.png)
+
+![64 KiB、1 KiB：`XADD MAXLEN`，四款数据库 QPS 随连接数变化](charts/stream-65536-1024-xadd_maxlen-latest.png)
+
+#### 1 MiB
+
+![1 MiB、128 B：`XADD MAXLEN`，四款数据库 QPS 随连接数变化](charts/stream-1048576-128-xadd_maxlen-latest.png)
+
+![1 MiB、1 KiB：`XADD MAXLEN`，四款数据库 QPS 随连接数变化](charts/stream-1048576-1024-xadd_maxlen-latest.png)
+
+### 全范围 `XRANGE - +`
+
+#### 64 KiB
+
+![64 KiB、128 B：全范围 `XRANGE - +`，四款数据库 QPS 随连接数变化](charts/stream-65536-128-xrange_full-latest.png)
+
+![64 KiB、1 KiB：全范围 `XRANGE - +`，四款数据库 QPS 随连接数变化](charts/stream-65536-1024-xrange_full-latest.png)
+
+#### 1 MiB
+
+![1 MiB、128 B：全范围 `XRANGE - +`，四款数据库 QPS 随连接数变化](charts/stream-1048576-128-xrange_full-latest.png)
+
+![1 MiB、1 KiB：全范围 `XRANGE - +`，四款数据库 QPS 随连接数变化](charts/stream-1048576-1024-xrange_full-latest.png)
 
 ## 复现
 
