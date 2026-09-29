@@ -21,7 +21,7 @@ Hash/Set 100 MiB/128 B 均使用新 `main` `4c26af7b122bc64fc902b5e72481de803c1c
 Set 的 main 与 PR #219 复用同一份经灌入和校验的 SPDK 数据。
 Hash 的 PR #219 是前一轮同条件结果，最新 main 与 PR #222 共用重新灌入的数据。
 这些曲线用于检查稳态命令性能，导入加速由下面的独立实验测量。
-Hash 100 MiB/128 B 图新增 [PR #222](https://github.com/eloqdata/lavik/pull/222)
+Hash 100 MiB/128 B 的前一版测量使用 [PR #222](https://github.com/eloqdata/lavik/pull/222)
 `7463540f73eb67736f5fa2cc5ad12fe53cc334db`（二进制 SHA256
 `e865fc8135b875420b72ff9fa03cd755a4b6abe93666d0d2b7bc28b98af65490`）。
 它把分组物理地址索引页改成经过内存配额检查的紧凑数组，并对同 worker 的
@@ -35,6 +35,15 @@ Kvrocks 为 32.29–37.40 万；提升有限，仍未达到目标。每点仅一
 这是运行时计费内存，RSS 含分配器保留空间，不能混用。
 [分阶段诊断](diagnostics/hset-stages-20260929/README.md)显示，
 这组负载主要等待前一次事务提交；通知机制只带来有限改善，后续继续检查提交 I/O。
+
+随后加入 [Bycorf PR #6](https://github.com/eloqdata/bycorf/pull/6) 的设备能力检查，
+图中以 `PR #222 + Bycorf #6` 替换上一版 PR #222 曲线。
+实测源代码 `d8405fad4101e8d16468e86a1044e551ff90d227`、Bycorf `145479a8579e092739a03eb505775836b8997829`，
+二进制 SHA256 `9548e542fa4be43e24a3a63ef65ded6ac28e689985b9ac6b42724ce33158a16d`。
+六块 NVMe 均声明 VWC=0；仅在 worker 没有未完成 I/O 时省去无效 FLUSH，仍按原顺序完成数据和块头写入。
+同一数据集的 13 个测点零错误，HSET 为 **5.20–7.75 万 QPS**；1280 连接为 7.75 万，
+仍低于 Kvrocks。旧曲线的原始结果保留。其他数据结构尚未验证这项吞吐收益。
+
 其他大小和 Set 图尚未加入 PR #222。
 
 没有增加数据页缓存。早期 main、PR #212 和 256-key 的运行记录仍保留在
