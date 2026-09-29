@@ -290,13 +290,14 @@ This chapter retains the earlier complete four-product comparison. Lavik used `6
 Each point is one eight-second run, without a repeated-run confidence interval. Redis/Valkey have persistence disabled; Kvrocks has WAL disabled with an 80 GiB block cache; Lavik commits to SPDK. Write rates do not compare equivalent durability. Some 100 MiB full-read points completed fewer than 100 replies, so small differences are fragile.
 
 The [HGETALL memory investigation](diagnostics/hgetall-oom-20260929/README.md) and [HSET write diagnostic](diagnostics/hset-20260929/README.md) retain the analysis. Earlier Hash/Set samples remain under `raw/` and are not presented as current-main values.
+
 ## Stream
 
-Lavik uses merged main `9acd7b6f` with the Stream optimization. Each of 64 hot keys holds 64 KiB or 1 MiB with 128 B or 1 KiB entries. The merged-main 100 MiB retest is pending. The horizontal axis is connection count and the vertical axis is QPS; each figure contains one Lavik main curve.
+Lavik uses merged main `9acd7b6f` with the Stream optimization. The 64 KiB and 1 MiB cases use 64 hot keys with 128 B or 1 KiB entries; the 100 MiB case uses eight keys with 1 KiB entries. The horizontal axis is connection count and the vertical axis is QPS; each figure contains one Lavik main curve.
 
-Point reads and writes cover 80–5120 connections; full reads cover 16/80 connections. Redis and Valkey have persistence disabled; Kvrocks has WAL disabled with an 80 GiB block cache; Lavik commits to SPDK. Write QPS reflects these configurations.
+Point reads and writes cover 80–5120 connections. Full reads use 16/80 for the smaller sizes and 1/4/16 for 100 MiB. Redis and Valkey have persistence disabled; Kvrocks has WAL disabled with an 80 GiB block cache; Lavik commits to SPDK. Write QPS reflects these configurations.
 
-[All points](stream-latest.csv), the [plot script](plot_stream_latest.py), and [Lavik raw run](raw/lavik-main9acd-stream-small-20260929/) retain the evidence. Each point is one eight-second run. Older optimization-stage samples remain under `raw/` and are not plotted.
+[All points](stream-latest.csv), the [plot script](plot_stream_latest.py), and Lavik [small](raw/lavik-main9acd-stream-small-20260929/) and [100 MiB](raw/lavik-main9acd-stream-100m-20260929/) raw runs retain the evidence. Each point is one eight-second run. Older optimization-stage samples remain under `raw/` and are not plotted.
 
 ### Exact-ID `XRANGE`
 
@@ -312,6 +313,10 @@ Point reads and writes cover 80–5120 connections; full reads cover 16/80 conne
 
 ![1 MiB per key, 1 KiB entries: Exact-ID `XRANGE` QPS by connection count](charts/stream-1048576-1024-xrange-latest.png)
 
+#### 100 MiB per key
+
+![100 MiB per key, 1 KiB entries: Exact-ID `XRANGE` QPS by connection count](charts/stream-104857600-1024-xrange-latest.png)
+
 ### `XADD MAXLEN`
 
 #### 64 KiB per key
@@ -326,6 +331,10 @@ Point reads and writes cover 80–5120 connections; full reads cover 16/80 conne
 
 ![1 MiB per key, 1 KiB entries: `XADD MAXLEN` QPS by connection count](charts/stream-1048576-1024-xadd_maxlen-latest.png)
 
+#### 100 MiB per key
+
+![100 MiB per key, 1 KiB entries: `XADD MAXLEN` QPS by connection count](charts/stream-104857600-1024-xadd_maxlen-latest.png)
+
 ### Full `XRANGE - +`
 
 #### 64 KiB per key
@@ -339,6 +348,10 @@ Point reads and writes cover 80–5120 connections; full reads cover 16/80 conne
 ![1 MiB per key, 128 B entries: Full `XRANGE - +` QPS by connection count](charts/stream-1048576-128-xrange_full-latest.png)
 
 ![1 MiB per key, 1 KiB entries: Full `XRANGE - +` QPS by connection count](charts/stream-1048576-1024-xrange_full-latest.png)
+
+#### 100 MiB per key
+
+![100 MiB per key, 1 KiB entries: Full `XRANGE - +` QPS by connection count](charts/stream-104857600-1024-xrange_full-latest.png)
 
 ## Reproduce
 

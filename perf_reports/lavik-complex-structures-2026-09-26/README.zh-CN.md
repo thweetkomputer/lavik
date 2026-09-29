@@ -278,13 +278,14 @@ value、member 或元素为 128 B 或 1 KiB。Stream 的字段名和各结构元
 每点运行八秒、只测一次，QPS 没有重复测量置信区间。Redis/Valkey 关闭持久化，Kvrocks 关闭 WAL 并使用 80 GiB block cache，Lavik 向 SPDK 提交；写入曲线不可解释为同等持久性下的排名。100 MiB 的全量读取有些测点不足 100 次完成回复，小差异不宜过度解释。
 
 [HGETALL 内存调查](diagnostics/hgetall-oom-20260929/README.md)和 [HSET 写入诊断](diagnostics/hset-20260929/README.md)保存了问题分析；Hash/Set 的旧版测点仍在 `raw/`，不作为当前 main 的曲线。
+
 ## Stream
 
-Lavik 使用已合并 Stream 优化的最新 main `9acd7b6f`，每个 key 的逻辑大小为 64 KiB 或 1 MiB，64 个热 key，元素为 128 B 或 1 KiB。100 MiB 的合并后 main 正在补测。横轴为连接数，纵轴为 QPS；每图只画一条 Lavik main 曲线。
+Lavik 使用已合并 Stream 优化的最新 main `9acd7b6f`。64 KiB 和 1 MiB 档使用 64 个热 key、128 B 或 1 KiB 元素；100 MiB 档使用八个 key、1 KiB 元素。横轴为连接数，纵轴为 QPS；每图只画一条 Lavik main 曲线。
 
-点查和写入覆盖 80–5120 连接，完整读取覆盖 16/80 连接。Redis 和 Valkey 关闭持久化，Kvrocks 关闭 WAL 且启用 80 GiB block cache，Lavik 提交到 SPDK；写入结果反映这些具体配置。
+点查和写入覆盖 80–5120 连接；小档完整读取覆盖 16/80 连接，100 MiB 档覆盖 1/4/16 连接。Redis 和 Valkey 关闭持久化，Kvrocks 关闭 WAL 且启用 80 GiB block cache，Lavik 提交到 SPDK；写入结果反映这些具体配置。
 
-[完整测点](stream-latest.csv)、[绘图脚本](plot_stream_latest.py)和 [Lavik 原始记录](raw/lavik-main9acd-stream-small-20260929/)可复核各点。每点八秒、只测一次；旧优化阶段的结果保留在 `raw/`，不参与当前图表。
+[完整测点](stream-latest.csv)、[绘图脚本](plot_stream_latest.py)、Lavik [小档](raw/lavik-main9acd-stream-small-20260929/)与 [100 MiB 档](raw/lavik-main9acd-stream-100m-20260929/)的原始记录可复核各点。每点八秒、只测一次；旧优化阶段的结果保留在 `raw/`，不参与当前图表。
 
 ### 指定 ID `XRANGE`
 
@@ -300,6 +301,10 @@ Lavik 使用已合并 Stream 优化的最新 main `9acd7b6f`，每个 key 的逻
 
 ![1 MiB、1 KiB：指定 ID `XRANGE`，四款数据库 QPS 随连接数变化](charts/stream-1048576-1024-xrange-latest.png)
 
+#### 100 MiB
+
+![100 MiB、1 KiB：指定 ID `XRANGE`，四款数据库 QPS 随连接数变化](charts/stream-104857600-1024-xrange-latest.png)
+
 ### `XADD MAXLEN`
 
 #### 64 KiB
@@ -314,6 +319,10 @@ Lavik 使用已合并 Stream 优化的最新 main `9acd7b6f`，每个 key 的逻
 
 ![1 MiB、1 KiB：`XADD MAXLEN`，四款数据库 QPS 随连接数变化](charts/stream-1048576-1024-xadd_maxlen-latest.png)
 
+#### 100 MiB
+
+![100 MiB、1 KiB：`XADD MAXLEN`，四款数据库 QPS 随连接数变化](charts/stream-104857600-1024-xadd_maxlen-latest.png)
+
 ### 全范围 `XRANGE - +`
 
 #### 64 KiB
@@ -327,6 +336,10 @@ Lavik 使用已合并 Stream 优化的最新 main `9acd7b6f`，每个 key 的逻
 ![1 MiB、128 B：全范围 `XRANGE - +`，四款数据库 QPS 随连接数变化](charts/stream-1048576-128-xrange_full-latest.png)
 
 ![1 MiB、1 KiB：全范围 `XRANGE - +`，四款数据库 QPS 随连接数变化](charts/stream-1048576-1024-xrange_full-latest.png)
+
+#### 100 MiB
+
+![100 MiB、1 KiB：全范围 `XRANGE - +`，四款数据库 QPS 随连接数变化](charts/stream-104857600-1024-xrange_full-latest.png)
 
 ## 复现
 
