@@ -25,8 +25,18 @@ The 12-second [CPU profile](perf.data) captured 7,682 samples **during the
 `bycorf::Worker::PollStorage`; these include busy polling. CPU sampling does
 not measure time waiting for IO or identify a dominant wall-clock HSET stage.
 
+With the same 1 MiB/128 B value and 320 connections, a separate 15-second
+`key8-hset` run changed only the hot-key count from 64 to eight. HSET fell to
+2,316 QPS (p99 342.01 ms). This is close to the roughly 2.3k QPS measured
+for 100 MiB keys with eight hot keys in the main report. Thus the original
+1 MiB versus 100 MiB HSET comparison changes both key size and hot-key count;
+it cannot attribute that QPS difference to size. The code also waits for a
+key's previous grouped commit decision before starting its successor, which
+is consistent with the observed sensitivity to hot-key count. One run does not
+measure the contribution of every wait stage.
+
 The per-run command, result, provenance, and INFO snapshots are in this
 directory. `run.py` was invoked with `--types=hash --sizes=1048576
---fields=128 --mode=point --levels=320 --keys=64`, with the durations and
-tags shown above. The cleaner-off setting applied only between that run's
+--fields=128 --mode=point --levels=320`, with the durations, tags, and key
+counts shown above. The cleaner-off setting applied only between that run's
 HGET and HSET measurements; the server was stopped afterward.

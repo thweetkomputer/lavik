@@ -378,6 +378,10 @@ def main():
                               opt.seed_pipeline))
                     save(directory / f"{combo}.validated.json",
                          validate(kind, field_bytes, entries, opt.keys, opt.product))
+                    # Capture the real memory cost of each seeded collection;
+                    # logical payload alone misses field and allocator overhead.
+                    (directory / f"{combo}.memory-after-fill.txt").write_text(
+                        query("INFO", "MEMORY").decode())
                     operations = ((FULL_OP[kind], *OPS[kind]) if opt.mode == "both"
                                   else OPS[kind] if opt.mode == "point"
                                   else (FULL_OP[kind],))
