@@ -11,9 +11,8 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
 ROOT = Path(__file__).resolve().parent
-SIZES = (1048576, 10485760, 104857600)
+SIZES = (1048576, 104857600)
 FIELDS = (128, 1024)
-PEER_10M_TAG = "10m-k64-20260929"
 COMMANDS = {
     "hash": ("HGET", "HSET", "HGETALL"),
     "set": ("SISMEMBER", "SADD_SREM", "SMEMBERS"),
@@ -53,7 +52,7 @@ def load_run(product, tag):
 
 def expected_grid(size):
     point_levels = (80, 320, 1280, 2560, 5120)
-    full_levels = {1048576: (16, 80), 10485760: (4, 16),
+    full_levels = {1048576: (16, 80),
                    104857600: (1, 4, 16)}[size]
     return {(kind, size, field, command, connections)
             for kind, commands in COMMANDS.items()
@@ -88,16 +87,6 @@ def main():
             if key in peer_rows[name]:
                 raise RuntimeError(f"duplicate peer result: {name} {key}")
             peer_rows[name][key] = row
-    for name in peer_rows:
-        rows, errors = load_run(name.lower(), PEER_10M_TAG)
-        expected = expected_grid(10485760)
-        if set(rows) | set(errors) != expected:
-            raise RuntimeError(f"wrong {name} 10 MiB grid: "
-                               f"missing={expected - set(rows) - set(errors)}, "
-                               f"extra={(set(rows) | set(errors)) - expected}")
-        if errors:
-            raise RuntimeError(f"{name} 10 MiB failures: {errors}")
-        peer_rows[name].update(rows)
     for name, rows in peer_rows.items():
         for size in SIZES:
             missing = expected_grid(size) - set(rows)
@@ -204,7 +193,7 @@ def main():
                         ax.legend(fontsize=8)
                     if not plotted:
                         raise RuntimeError((kind, size, field, full))
-                    size_label = {1048576: "1 MiB", 10485760: "10 MiB",
+                    size_label = {1048576: "1 MiB",
                                   104857600: "100 MiB"}[size]
                     fig.suptitle(f"{kind.capitalize()} · {size_label}/key · {field} B/entry")
                     fig.tight_layout()

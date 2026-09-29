@@ -13,21 +13,21 @@ Only `main` after merged [PR #212](https://github.com/eloqdata/lavik/pull/212)
 is plotted for Lavik. The 1 MiB run uses commit `bde3120e` and a SPDK
 RelWithDebInfo binary with SHA256
 `1acecaa40948d473caedce591d1a775d3d910b260a50b38a68f25bf946a4546e`.
-The three peers have completed 10 MiB and 100 MiB runs. Set at 10 MiB now
-uses merged main `9acd7b6f`; large Hash and 100 MiB Set remain to be measured.
+The three peers have completed the old 100 MiB runs. The four products are
+being retested with 50,000 keys at 1 MiB and 500 keys at 100 MiB.
 Earlier main and PR #212 raw
 runs remain in `raw/` but are not represented as current main results.
 
-The 1 MiB and 10 MiB runs use 64 keys; 100 MiB uses eight. Entry sizes are
+The current old charts use 64 keys at 1 MiB and eight at 100 MiB; the new
+charts will use 50,000 and 500 keys, respectively. Entry sizes are
 128 B and 1 KiB. Point commands use 80/320/1280/2560/5120 connections;
-full reads use 16/80 for 1 MiB, 4/16 for 10 MiB, and 1/4/16 for 100 MiB.
+full reads use 16/80 for 1 MiB and 1/4/16 for 100 MiB.
 Each point runs for eight seconds. Redis and Valkey disable persistence;
 Kvrocks uses uncompressed RAID0, WAL disabled, an 80 GiB block cache and
 blob cache. Lavik commits to six NVMe devices via SPDK. These settings affect
 absolute write throughput.
 
-The 1 MiB/64-key HGET and SISMEMBER points and the 10 MiB/64-key SISMEMBER
-points use merged main. No data-page cache was added.
+The old 1 MiB/64-key HGET and SISMEMBER points use merged main. No data-page cache was added.
 
 At 1 MiB/64 keys, merged main HSET is about 9.4–9.6k QPS and mixed
 SADD/SREM about 18.8–20.1k QPS; the latter includes no-op replies.
@@ -55,7 +55,7 @@ Earlier write-path and HGETALL memory investigations remain available in the [HS
 
 ## Hash
 
-Each point-read/write chart contains both commands. The 1 MiB Lavik line is from merged main; the 10 MiB and 100 MiB merged-main points are pending.
+Each point-read/write chart contains both commands. The current 1 MiB Lavik line is from merged main; 100 MiB awaits the new key-count run.
 
 ### HGET / HSET
 
@@ -64,12 +64,6 @@ Each point-read/write chart contains both commands. The 1 MiB Lavik line is from
 ![Hash 1 MiB per key, 128 B entries: HGET and HSET QPS by connection count](charts/hash-1048576-128-ab.png)
 
 ![Hash 1 MiB per key, 1 KiB entries: HGET and HSET QPS by connection count](charts/hash-1048576-1024-ab.png)
-
-#### 10 MiB per key
-
-![Hash 10 MiB per key, 128 B entries: HGET and HSET QPS by connection count](charts/hash-10485760-128-ab.png)
-
-![Hash 10 MiB per key, 1 KiB entries: HGET and HSET QPS by connection count](charts/hash-10485760-1024-ab.png)
 
 #### 100 MiB per key
 
@@ -91,12 +85,6 @@ Each point-read/write chart contains both commands. The 1 MiB Lavik line is from
 
 ![Hash 1 MiB per key, 1 KiB entries: HGETALL QPS by connection count](charts/hash-1048576-1024-ab-full.png)
 
-#### 10 MiB per key
-
-![Hash 10 MiB per key, 128 B entries: HGETALL QPS by connection count](charts/hash-10485760-128-ab-full.png)
-
-![Hash 10 MiB per key, 1 KiB entries: HGETALL QPS by connection count](charts/hash-10485760-1024-ab-full.png)
-
 #### 100 MiB per key
 
 ![Hash 100 MiB per key, 128 B entries: HGETALL QPS by connection count](charts/hash-104857600-128-ab-full.png)
@@ -105,7 +93,7 @@ Each point-read/write chart contains both commands. The 1 MiB Lavik line is from
 
 ## Set
 
-Each point-read/write chart contains both commands. The 1 MiB and 10 MiB Lavik lines are from merged main; 100 MiB is pending.
+Each point-read/write chart contains both commands. The current 1 MiB Lavik line is from merged main; 100 MiB awaits the new key-count run.
 
 ### SISMEMBER / SADD/SREM
 
@@ -114,12 +102,6 @@ Each point-read/write chart contains both commands. The 1 MiB and 10 MiB Lavik l
 ![Set 1 MiB per key, 128 B entries: SISMEMBER and SADD/SREM QPS by connection count](charts/set-1048576-128-ab.png)
 
 ![Set 1 MiB per key, 1 KiB entries: SISMEMBER and SADD/SREM QPS by connection count](charts/set-1048576-1024-ab.png)
-
-#### 10 MiB per key
-
-![Set 10 MiB per key, 128 B entries: SISMEMBER and SADD/SREM QPS by connection count](charts/set-10485760-128-ab.png)
-
-![Set 10 MiB per key, 1 KiB entries: SISMEMBER and SADD/SREM QPS by connection count](charts/set-10485760-1024-ab.png)
 
 #### 100 MiB per key
 
@@ -141,12 +123,6 @@ Each point-read/write chart contains both commands. The 1 MiB and 10 MiB Lavik l
 
 ![Set 1 MiB per key, 1 KiB entries: SMEMBERS QPS by connection count](charts/set-1048576-1024-ab-full.png)
 
-#### 10 MiB per key
-
-![Set 10 MiB per key, 128 B entries: SMEMBERS QPS by connection count](charts/set-10485760-128-ab-full.png)
-
-![Set 10 MiB per key, 1 KiB entries: SMEMBERS QPS by connection count](charts/set-10485760-1024-ab-full.png)
-
 #### 100 MiB per key
 
 ![Set 100 MiB per key, 128 B entries: SMEMBERS QPS by connection count](charts/set-104857600-128-ab-full.png)
@@ -156,8 +132,9 @@ Each point-read/write chart contains both commands. The 1 MiB and 10 MiB Lavik l
 ## Workloads
 
 For positional reads and overwrites, memtier cycles through eight evenly spaced
-entry positions per key. The 64 KiB, 1 MiB, and new 10 MiB conditions use
-64 keys; the 100 MiB extension uses eight keys. Each operation chooses a key uniformly
+entry positions per key. The earlier 64 KiB and 1 MiB conditions use 64
+keys, and the 100 MiB extension uses eight. New Hash/Set runs use 50,000
+keys at 1 MiB and 500 at 100 MiB. Each operation chooses a key uniformly
 within its condition. Each field value, member, or element is exactly 128 B
 or 1 KiB.
 Stream field names and collection metadata are extra. All seeded entries and
