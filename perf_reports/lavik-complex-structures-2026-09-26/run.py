@@ -273,6 +273,16 @@ def server(product, directory, binary):
                  "--maxmemory", "0", "--maxclients", "10000", "--io-threads", "12"], None)
     if product == "kvrocks":
         config = (ROOT / "kvrocks-perf.conf").read_text()
+        # FLUSHALL leaves old LSM files and compaction debt behind. Give each
+        # measured condition a fresh DB on the same RAID0 so earlier fills
+        # cannot change its write or read path. The RAID is discarded after
+        # the suite, while the generated config records the exact location.
+        source_dir = f"dir {kvrocks_host.MOUNT}/data\n"
+        if config.count(source_dir) != 1:
+            raise RuntimeError("Kvrocks config has no unique RAID data directory")
+        data_dir = kvrocks_host.MOUNT / "data" / f"{directory.name}-{time.time_ns()}"
+        data_dir.mkdir()
+        config = config.replace(source_dir, f"dir {data_dir}\n", 1)
         target = directory / "kvrocks.conf"
         target.write_text(config)
         return (["prlimit", "--nofile=65535:65535", "taskset", "-c", "0-15",
