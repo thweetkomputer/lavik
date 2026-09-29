@@ -300,16 +300,12 @@ StorageEngine::Impl::RestoreCollectionValueLocked(
     std::vector<RetainedMemoryCharge> input_charges;
     CollectionPage merged{.value_type_ = type};
     std::uint64_t merged_bytes = 0;
-    // A Sorted Set's first page builds both ordered and member directories.
-    // Repeating indexed ZADD for each small ingest batch can touch most member
-    // leaves again on every pass. Hash/Set also pay for grouped root and
-    // routing updates at each flush. A 100 MiB Hash/Set can build its graph
-    // once instead of repeatedly reading and rewriting earlier groups. Leave
-    // 31 parts of available retained headroom for decoded entries, page plans,
-    // and other owners; the cap still bounds a larger object's input batch.
-    constexpr std::uint64_t kSortedSetBuildBytes = 24ULL * 1024 * 1024;
+    // Small ingest batches repeatedly rebuild grouped roots and, for Sorted
+    // Sets, indexed member leaves. Grow a batch with the worker's available
+    // retained headroom so larger collections can build one graph when memory
+    // permits. Leave 31 parts for decoded entries, page plans, indexes, and
+    // other owners; page and merge admission still reject actual overuse.
     constexpr std::uint64_t kOtherBatchBytes = 1024ULL * 1024;
-    constexpr std::uint64_t kHashSetBuildBytes = 128ULL * 1024 * 1024;
     std::uint64_t batch_limit = kOtherBatchBytes;
     if (type == ValueType::kSortedSet || type == ValueType::kHash ||
         type == ValueType::kSet) {
@@ -320,10 +316,7 @@ StorageEngine::Impl::RestoreCollectionValueLocked(
       const auto available = used >= memory.retained_limit_bytes_
                                  ? 0
                                  : memory.retained_limit_bytes_ - used;
-      batch_limit =
-          std::clamp(available / 32, kOtherBatchBytes,
-                     type == ValueType::kSortedSet ? kSortedSetBuildBytes
-                                                   : kHashSetBuildBytes);
+      batch_limit = std::max(available / 32, kOtherBatchBytes);
     }
     bool first_write = true;
     auto flush = [&]() -> Task<absl::Status> {
