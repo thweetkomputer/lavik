@@ -156,6 +156,16 @@ The [RESTORE A/B measurements](set-104857600-128-k100-restore-ab.csv) and
 [plot script](plot_restore_import_ab.py) record source commits, binary hashes,
 and checks on the identical RDB payload.
 
+#### 256 MiB boundary validation
+
+To check that larger objects still import after removing the fixed 128 MiB
+batch maximum, PR #219 also
+RESTOREd eight 256 MiB Set keys with 1 KiB members in 20.2 seconds. All eight
+keys and their 262,144 members validated; peak reported memory was about
+1.28 GiB. This is a single-product correctness and memory check, separate
+from the four-product performance charts. The [raw run](raw/lavik-import-d1f58feb-set-256m-k8-f1024-20260929/)
+keeps seed provenance, build identification, and validation results.
+
 ## Workloads
 
 For positional reads and overwrites, memtier cycles through eight evenly spaced

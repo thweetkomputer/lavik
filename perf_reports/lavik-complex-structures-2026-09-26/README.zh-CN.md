@@ -142,6 +142,14 @@ RESTORE 100 个不同 key：最新 `main` 用 2,072.4 秒，8 MiB 分批及 touc
 [RESTORE A/B 测点](set-104857600-128-k100-restore-ab.csv)和
 [绘图脚本](plot_restore_import_ab.py)保留了版本、二进制校验和及相同 RDB 样本的校验。
 
+#### 256 MiB 边界验证
+
+为了检验去掉固定 128 MiB 批量上限后更大的对象仍可导入，PR #219 还 RESTORE 了八个
+256 MiB/1 KiB 成员的 Set key，用时 20.2 秒；八个 key 的 262,144 个成员
+均通过校验，内存峰值约 1.28 GiB。这是单产品功能与内存验证，未纳入上面的
+四库性能图。[原始记录](raw/lavik-import-d1f58feb-set-256m-k8-f1024-20260929/)
+保留样本摘要、版本和校验结果。
+
 ## 工作负载
 
 按位置读取和覆盖时，memtier 轮流访问每个 key 内均匀分布的八个位置。
