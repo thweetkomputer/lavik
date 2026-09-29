@@ -17,7 +17,8 @@ Lavik 的同条件结果。Lavik 使用已合并
 没有增加数据页缓存。早期 main、PR #212 和 256-key 的运行记录仍保留在
 `raw/`，不作为本轮曲线。
 
-当前已覆盖 Set 的 1 MiB/128 B 和 1 MiB/1 KiB 图；其他 Hash/Set 图仍是早期
+当前已覆盖 Set 的 1 MiB/128 B、1 MiB/1 KiB 和 Hash 的 1 MiB/1 KiB 图；
+其他 Hash/Set 图仍是早期
 64-key 或 8-key 条件，正依次替换。每张新图的标题明确标出 key 数。
 
 点查和写入测 80/320/1280/2560/5120 连接，完整读取测 1 MiB 档的
@@ -122,9 +123,10 @@ value、member 或元素为 128 B 或 1 KiB。Stream 的字段名和各结构元
   80/320/1280/2560/5120 个连接；64 KiB 和 1 MiB 完整读取用 16/80
   个连接，100 MiB 完整读取用 1/4/16 个连接，客户端线程数不超过连接数。
 - 每种条件由访问不同 key 的并发 RESP 客户端重新填充；旧运行默认八个，
-  新运行的并发数保存在 provenance JSON 中。先读后写，写入过程使结构长度
+  新运行的并发数、每条预填充命令的目标字节数与 pipeline 保存在 provenance JSON 中。
+  先读后写，写入过程使结构长度
   基本保持在初始水平；同一条件下不同连接数访问相同的 key。100 MiB 条件
-  的每个预填充连接按 64 条命令做有界 pipeline。
+  的每个预填充连接使用有界 pipeline，准确深度见各次 provenance。
 - 这里的大小只计算 payload 字节，不等于 Redis 内存占用或 Lavik 磁盘用量。
   List、Sorted Set 和 Stream 的早期 64-key 图会显露单对象竞争；Hash/Set 使用本轮标注的 key 数。
 - QPS 和延迟来自 memtier JSON；脚本拒绝连接错误、中断和服务端错误。
@@ -354,8 +356,9 @@ Valkey 使用同样参数。Kvrocks 在 `kvrocks_host.py prepare --discard-scrat
 运行，并在全部结束后调用 `restore`。Lavik 则在恢复 RAID0、调用
 `spdk_host.py prepare --discard-scratch` 后，以 root 运行 `run.py lavik`，
 加上 `--binary`、`--source-commit`，并在 tag 前加 `main<提交前八位>-`。
-Lavik 大部分条件用 `--fill-workers=64` 提高不同 key 的预填充并发；
-第一组 Set 1 MiB/1 KiB 使用旧默认值八个；后续每次实际值以原始
+Lavik 大部分条件用 `--fill-workers=64 --seed-command-bytes=65536`
+提高不同 key 的预填充并发并减少预填充命令数；第一组 Set 1 MiB/1 KiB
+使用旧默认值八个，Set 1 MiB/128 B 仍使用 16 KiB 目标批次；后续每次实际值以原始
 provenance 为准。
 每次运行的 provenance JSON 保存了准确提交和二进制 SHA256。重绘单一条件图：
 
