@@ -68,11 +68,15 @@ gap.
 Writes are essentially unchanged. A grouped HSET still reads and rewrites a
 complete changed group, updates its in-memory directory, and durably commits
 the command; this read-only optimization does not shorten that sequence. The
-Set write number combines SADD and SREM and can include no-op replies. A
-12-second CPU sample during the **pipelined Hash prefill**, not the single-field
-HSET measurement, attributed 25% of on-CPU samples to the worker run loop,
-15% to storage polling, and 4% to physical group-index update. It does not
-isolate an HSET bottleneck or measure time waiting for IO.
+Set write number combines SADD and SREM and can include no-op replies.
+
+A separate [HSET diagnostic](diagnostics/hset-20260929/README.md) at 1 MiB,
+128 B and 320 connections measured 9.31k QPS and about 283 ms p99. Disabling
+TxCleaner only for the 15-second HSET interval measured 9.33k QPS with the
+same p99; the 0.15% difference is not evidence of a useful gain. The commit
+queue peaked at 52 of 4096 slots with no backpressure waits. An actual HSET
+CPU profile spent much of its on-CPU time in worker and storage polling; it
+does not attribute wall-clock latency or prove a remaining IO bottleneck.
 
 Both Lavik binaries returned `OOM grouped operation scratch admission` for
 100 MiB/128 B HGETALL at 16 connections. Those two points are omitted and
