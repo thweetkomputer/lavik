@@ -20,6 +20,7 @@ SIZES = {1048576: ("1m", 50000, "1 MiB"),
 COMMANDS = {"hash": ("HGET", "HSET", "HGETALL"),
             "set": ("SISMEMBER", "SADD_SREM", "SMEMBERS")}
 PRODUCTS = ("redis", "valkey", "kvrocks", "lavik")
+MAIN_COMMIT = "d1ce200e174adcb07820b5431c77b024350e85b6"
 LABELS = {"redis": "Redis", "valkey": "Valkey", "kvrocks": "Kvrocks",
           "lavik": "Lavik main"}
 STYLES = {"redis": ("#bd3f43", "o", "-"),
@@ -32,7 +33,7 @@ def load(product, kind, size, field):
     size_tag, keys, _ = SIZES[size]
     tag = f"{kind}-{size_tag}-k{keys}-f{field}-20260929"
     if product == "lavik":
-        tag = "main9acd-" + tag
+        tag = f"main{MAIN_COMMIT[:8]}-" + tag
     folder = ROOT / "raw" / f"{product}-{tag}"
     if not (folder / "complete.json").exists():
         raise RuntimeError(f"run is incomplete: {folder}")
@@ -47,8 +48,8 @@ def load(product, kind, size, field):
     for name, expected in expected_options.items():
         if options.get(name) != expected:
             raise RuntimeError(f"{folder}: {name}={options.get(name)}, expected {expected}")
-    if product == "lavik" and options.get("source_commit", "")[:8] != "9acd7b6f":
-        raise RuntimeError(f"{folder}: not the measured main 9acd7b6f")
+    if product == "lavik" and options.get("source_commit") != MAIN_COMMIT:
+        raise RuntimeError(f"{folder}: not the measured main {MAIN_COMMIT}")
     if not (folder / f"{kind}-{size}-{field}.validated.json").exists():
         raise RuntimeError(f"seed was not validated: {folder}")
     results = {}
