@@ -10,45 +10,24 @@ Redis 兼容数据结构。每张图固定数据结构、每个 key 的逻辑数
 
 Hash 和 Set 的 1 MiB 档使用 50,000 个 key，100 MiB 档使用 500 个 key；
 每个元素为 128 B 或 1 KiB。每张图比较 Redis、Valkey、Kvrocks 与
-Lavik 的同条件结果。除 Set 100 MiB/128 B 外，本轮 Lavik 曲线来自已合并
+Lavik 的同条件结果。除 Hash/Set 100 MiB/128 B 外，本轮 Lavik 曲线来自已合并
 [PR #212](https://github.com/eloqdata/lavik/pull/212) 的 `main`
 `d1ce200e174adcb07820b5431c77b024350e85b6`，SPDK 服务端二进制
 SHA256 为 `bd3f942e3b7b0f46c23c716197c8cc4ec8ad963e92cede0d9fa2574ff52a74a9`。
-Set 100 MiB/128 B 已复测为更新后的 `main`
+Hash/Set 100 MiB/128 B 已复测为更新后的 `main`
 `37b7e45ace4408c675caf6805af396769b0ff3bb`，二进制 SHA256 为
 `c3ae2b346ec4ee3a332fe05c38a75a55c2f3cbbe11773d70c06fbe6556cf767c`；
 这组 QPS 与 [PR #219](https://github.com/eloqdata/lavik/pull/219)
 `c96d9d0baf01be5ced503f7c3f2d90be4987477a`（二进制 SHA256
 `1dc0f82abba4d708342cace5dfff07ff8d2c59768e39b07631e326641a95adb7`）
-均复用 PR #219 灌入并校验的同一份 SPDK 数据；PR 曲线来自其灌入运行。
+均在各自数据结构内复用 PR #219 灌入并校验的同一份 SPDK 数据；PR 曲线来自其灌入运行。
 两条曲线用于检查稳态命令性能，导入加速由下面的独立实验测量。
 没有增加数据页缓存。早期 main、PR #212 和 256-key 的运行记录仍保留在
 `raw/`，不作为本轮曲线。
 
 Hash/Set 的四组 1 MiB 图已全部覆盖为 50,000-key 结果。Hash 和 Set 的
-100 MiB/1 KiB 图以及 Set 100 MiB/128 B 图已覆盖为 500-key 结果；
-Hash 100 MiB/128 B 图仍是早期八个 key 的条件，待替换。
+100 MiB 两种元素大小的图也已覆盖为 500-key 结果。
 每张新图的标题明确标出 key 数。
-
-Set 100 MiB/128 B、500 key 的灌数中，Redis 用 354 秒、Valkey 用 265 秒、
-Kvrocks 用 545 秒；Lavik PR #219 用 500 次 RESTORE 耗时 **760.5 秒**，
-500 个 key、每 key 819,200 个成员全部校验通过，13 个 QPS 测点均无错误。
-在同一硬件上的耗时分别是 Redis、Valkey、Kvrocks 的约 2.1、2.9、1.4 倍。
-此前 Lavik `d1ce200e` 的 500 次 RESTORE 耗时 10,739 秒；它是较早的
-main 版本，不作为当前 main 的 A/B 基线。
-其他三库采用批量 SADD，且持久化配置不同；这组耗时说明 Lavik 导入路径
-已进入同一数量级，不能作为同等持久性写入吞吐的排名。
-
-同一个 100 MiB/128 B Set RDB 样本，在每次清空六块 SPDK 盘后用八个客户端
-RESTORE 100 个不同 key：最新 `main` 用 2,072.4 秒，8 MiB 分批及 touched-group
-去重分支用 484.0 秒，PR #219 的 128 MiB 分批用 151.5 秒，较同版 `main` 快 13.7 倍。
-三次运行均校验全部 100 个 key、每 key 819,200 个成员，且无客户端或服务端错误。
-这一组是 100-key 空盘 A/B；上面的 500-key 结果是完整负载。
-
-![Set 100 MiB、128 B、100 key：Lavik RESTORE 导入耗时对照](charts/set-104857600-128-k100-restore-ab.png)
-
-[RESTORE 测点](set-104857600-128-k100-restore-ab.csv)和
-[绘图脚本](plot_restore_import_ab.py)保留了版本、二进制校验和及相同 RDB 样本的校验。
 
 点查和写入测 80/320/1280/2560/5120 连接，完整读取测 1 MiB 档的
 16/80、100 MiB 档的 1/4/16 连接；每点八秒。Redis、Valkey 不持久化，
@@ -91,6 +70,19 @@ cache；Lavik 在六块 NVMe 上用 SPDK 提交。这些配置影响绝对写入
 
 ![Hash 100 MiB、1 KiB：HGETALL QPS 随连接数变化](charts/hash-104857600-1024-ab-full.png)
 
+### RESTORE
+
+#### 100 MiB
+
+![Hash 100 MiB、128 B、500 key：四款数据库的灌数耗时](charts/hash-104857600-128-k500-fill.png)
+
+PR #219 在空盘上用八个客户端 RESTORE 500 个 Hash key，耗时 591.3 秒；
+500 个 key、每 key 819,200 个 field 全部校验通过。Redis、Valkey、Kvrocks
+分别用批量 HSET 灌数 328.6、276.3、488.8 秒。各库的写入命令和持久化配置
+不同，这张图只显示这组负载的耗时，不能作为同等持久性吞吐排名。
+[测点](hash-104857600-128-k500-fill.csv)和[绘图脚本](plot_fill_reference.py)
+可复核原始记录。
+
 ## Set
 
 下列点查/写入图每张包含两个命令；1 MiB 和 100 MiB 档分别使用 50,000 和 500 个 key。
@@ -122,6 +114,30 @@ cache；Lavik 在六块 NVMe 上用 SPDK 提交。这些配置影响绝对写入
 ![Set 100 MiB、128 B：SMEMBERS QPS 随连接数变化](charts/set-104857600-128-ab-full.png)
 
 ![Set 100 MiB、1 KiB：SMEMBERS QPS 随连接数变化](charts/set-104857600-1024-ab-full.png)
+
+### RESTORE
+
+#### 100 MiB
+
+![Set 100 MiB、128 B、500 key：四款数据库的灌数耗时](charts/set-104857600-128-k500-fill.png)
+
+PR #219 在空盘上用八个客户端 RESTORE 500 个 Set key，耗时 760.5 秒；
+500 个 key、每 key 819,200 个成员全部校验通过。Redis、Valkey、Kvrocks
+分别用批量 SADD 灌数 354.0、264.5、545.0 秒。各库的写入命令和持久化
+配置不同，这张图只显示这组负载的耗时，不能作为同等持久性吞吐排名。
+[测点](set-104857600-128-k500-fill.csv)和[绘图脚本](plot_fill_reference.py)
+可复核原始记录。此前 Lavik `d1ce200e` 的 500 次 RESTORE 耗时 10,739 秒；
+它是较早的 main 版本，不作为当前 main 的 A/B 基线。
+
+同一个 100 MiB/128 B Set RDB 样本，在每次清空六块 SPDK 盘后用八个客户端
+RESTORE 100 个不同 key：最新 `main` 用 2,072.4 秒，8 MiB 分批及 touched-group
+去重分支用 484.0 秒，PR #219 的 128 MiB 分批用 151.5 秒，较同版 `main`
+快 13.7 倍。三次运行均校验全部 100 个 key、每 key 819,200 个成员，且无错误。
+
+![Set 100 MiB、128 B、100 key：Lavik RESTORE 导入耗时对照](charts/set-104857600-128-k100-restore-ab.png)
+
+[RESTORE A/B 测点](set-104857600-128-k100-restore-ab.csv)和
+[绘图脚本](plot_restore_import_ab.py)保留了版本、二进制校验和及相同 RDB 样本的校验。
 
 ## 工作负载
 
