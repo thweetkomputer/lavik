@@ -18,7 +18,7 @@ has SHA256 `bd3f942e3b7b0f46c23c716197c8cc4ec8ad963e92cede0d9fa2574ff52a74a9`.
 No data-page cache was added. Earlier main, PR #212, and 256-key raw runs remain in `raw/` but are
 not plotted in this retest.
 
-The Set 1 MiB/1 KiB figures have been replaced. The remaining Hash/Set
+The Set 1 MiB/128 B and 1 MiB/1 KiB figures have been replaced. The remaining Hash/Set
 figures still show the earlier 64-key or eight-key runs while they are being
 replaced; each new figure states its exact key count in the title.
 

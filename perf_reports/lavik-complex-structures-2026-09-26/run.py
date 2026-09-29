@@ -71,22 +71,23 @@ def value(i, n):
 def name(i):
     return f"complex_{i}"
 
-def seed_step(kind, field_bytes):
+def seed_step(kind, field_bytes, target_bytes):
     if kind == "stream":
         return 1
-    # Bound each seed command near 16 KiB of payload. Small entries otherwise
-    # multiply command count without changing the measured collection shape.
-    return min(128, max(16, 16384 // field_bytes))
+    # Keep batches bounded while allowing larger seed commands when the
+    # benchmark setup is dominated by per-command durable decisions. This
+    # changes only how a disjoint key is populated, not its final contents.
+    return min(1024, max(16, target_bytes // field_bytes))
 
 def fill_worker(kind, field_bytes, entries, indices, pipeline, seed_values,
-                seed_fields):
+                seed_fields, target_bytes):
     done = 0
     with socket.create_connection((HOST, PORT), timeout=300) as sock:
         sock.settimeout(300)
         stream = sock.makefile("rb")
         for index in indices:
             key = name(index)
-            step = seed_step(kind, field_bytes)
+            step = seed_step(kind, field_bytes, target_bytes)
             # Drain each bounded batch before sending another so a 100 MiB
             # key does not turn into unbounded client or server in-flight work.
             pending = []
@@ -121,7 +122,7 @@ def fill_worker(kind, field_bytes, entries, indices, pipeline, seed_values,
                 done += len(pending)
     return done
 
-def fill(kind, field_bytes, entries, keys, pipeline, workers):
+def fill(kind, field_bytes, entries, keys, pipeline, workers, target_bytes):
     begin = time.monotonic()
     # Every key receives the same deterministic elements. Materialize one
     # immutable copy per fill so a 50,000-key, 128 B run does not format the
@@ -134,9 +135,9 @@ def fill(kind, field_bytes, entries, keys, pipeline, workers):
     with ThreadPoolExecutor(max_workers=workers) as pool:
         jobs = [pool.submit(fill_worker, kind, field_bytes, entries,
                             range(i + 1, keys + 1, workers), pipeline, seed_values,
-                            seed_fields) for i in range(workers)]
+                            seed_fields, target_bytes) for i in range(workers)]
         count = sum(job.result() for job in jobs)
-    step = seed_step(kind, field_bytes)
+    step = seed_step(kind, field_bytes, target_bytes)
     expected = keys * ((entries + step - 1) // step)
     if count != expected:
         raise RuntimeError(f"{kind} fill sent {count} commands, expected {expected}")
@@ -235,7 +236,9 @@ def measure(directory, kind, size, field_bytes, entries, keys, op, conns, second
     ssh = (["sudo", "-u", "azureuser"] if os.geteuid() == 0 else []) + [
         "ssh", "-o", "BatchMode=yes", CLIENT]
     shell = "mkdir -p " + shlex.quote(str(Path(remote).parent)) + "; ulimit -n 65535; exec " + shlex.join(argv)
-    before = query("INFO", "STATS")
+    # Capture all Lavik sections, including TxShard queue counters outside
+    # STATS; these distinguish commit pressure from key-order contention.
+    before = query("INFO")
     start = time.monotonic()
     with (directory / f"{stem}.txt").open("w") as output:
         subprocess.run([*ssh, shell], stdout=output, stderr=subprocess.STDOUT,
@@ -244,7 +247,7 @@ def measure(directory, kind, size, field_bytes, entries, keys, op, conns, second
     (directory / f"{stem}.info-before.txt").write_bytes(
         before.replace(b"\r\n", b"\n").rstrip(b"\n") + b"\n")
     (directory / f"{stem}.info-after.txt").write_bytes(
-        query("INFO", "STATS").replace(b"\r\n", b"\n").rstrip(b"\n") + b"\n")
+        query("INFO").replace(b"\r\n", b"\n").rstrip(b"\n") + b"\n")
     with (directory / f"{stem}.json").open("w") as output:
         subprocess.run([*ssh, "cat " + shlex.quote(remote)], stdout=output,
                        check=True, timeout=60)
@@ -319,6 +322,8 @@ def main():
     p.add_argument("--seed-pipeline", type=int, default=1)
     p.add_argument("--fill-workers", type=int, default=8,
                    help="Concurrent seed clients; keys stay disjoint")
+    p.add_argument("--seed-command-bytes", type=int, default=16384,
+                   help="Approximate payload bytes per seed command")
     p.add_argument("--continue-on-error", action="store_true")
     p.add_argument("--backlog-mb", type=int)
     p.add_argument("--tag", default="")
@@ -341,6 +346,7 @@ def main():
     assert set(kinds) <= set(TYPES) and opt.keys >= 8
     assert 1 <= opt.client_threads <= 16 and opt.seed_pipeline >= 1
     assert 1 <= opt.fill_workers <= 128
+    assert 4096 <= opt.seed_command_bytes <= 131072
     assert all(c > 0 and c % min(c, opt.client_threads) == 0 for c in levels)
     assert all(c > 0 for c in full_levels)
     assert all(size >= field and size % field == 0 for size in sizes for field in fields)
@@ -361,7 +367,8 @@ def main():
         "levels": levels, "full_levels": full_levels,
         "seconds": opt.seconds, "backlog_mb": opt.backlog_mb,
         "client_threads": opt.client_threads, "seed_pipeline": opt.seed_pipeline,
-        "fill_workers": opt.fill_workers, "mode": opt.mode,
+        "fill_workers": opt.fill_workers,
+        "seed_command_bytes": opt.seed_command_bytes, "mode": opt.mode,
         "continue_on_error": opt.continue_on_error})
     try:
         query("PING")
@@ -417,7 +424,8 @@ def main():
                         raise RuntimeError("FLUSHALL failed")
                     save(directory / f"{combo}.fill.json",
                          fill(kind, field_bytes, entries, opt.keys,
-                              opt.seed_pipeline, opt.fill_workers))
+                              opt.seed_pipeline, opt.fill_workers,
+                              opt.seed_command_bytes))
                     save(directory / f"{combo}.validated.json",
                          validate(kind, field_bytes, entries, opt.keys, opt.product))
                     # Capture the real memory cost of each seeded collection;
