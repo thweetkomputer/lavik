@@ -307,10 +307,20 @@ TEST(GroupedObjectIndexTest, PartialConstructionFailureUnwindsGroupEntries) {
   ASSERT_TRUE(old.ok());
   GroupedObjectIndex index;
   ASSERT_TRUE(index.Publish("hash", nullptr, *old).ok());
-  // Thousands of leaf entries cannot fit one arena page. The first page is
-  // populated before a later entry reaches the deterministic capacity limit.
+  // Extent manifests still use the sparse arena map. Populate enough to hit
+  // its deterministic capacity limit after physical array pages were built.
   auto input = Input(6, 1, 5000, 256);
   ASSERT_GT(input.locations_.size(), 2000);
+  for (std::size_t i = 0; i < input.locations_.size(); ++i) {
+    auto& group = input.locations_[i];
+    group.location_ = GroupLocation(group.location_.block_id(), 6,
+                                    group.location_.logical_size_, false, true);
+    group.extents_ = std::make_shared<const std::vector<ExtentRef>>(
+        std::vector<ExtentRef>{{.block_id_ = 1000000 + i,
+                                .allocation_epoch_ = 17,
+                                .payload_bytes_ = 1,
+                                .payload_checksum_ = 0}});
+  }
   auto arena = std::make_shared<ScanHashMapEntryArena>(1, true, false);
   for (unsigned attempt = 0; attempt < 3; ++attempt) {
     auto rejected = GroupedHashObject::Create(input.version_, input.directory_,
@@ -346,7 +356,7 @@ TEST(GroupedObjectIndexTest,
   }
   ASSERT_GT(complete_bytes, 1024);
   ASSERT_EQ(WorkerMemoryAccountingBytes(0), baseline);
-  // Leave enough capacity to start populating an arena, but not to retain
+  // Leave enough capacity to start populating physical pages, but not to retain
   // the whole object. This exercises the real maxmemory gate, not an injected
   // status or the deterministic maximum-page-ID limit.
   const auto steady = baseline + complete_bytes - 1024;
@@ -359,9 +369,9 @@ TEST(GroupedObjectIndexTest,
   EXPECT_EQ(rejected.status().code(), absl::StatusCode::kResourceExhausted);
   EXPECT_TRUE(rejected.status().message().starts_with("OOM "));
   EXPECT_EQ(arena->allocated_pages(), 0);
-  // The arena's recycled-page directory is allocated only after a page has
-  // been admitted. Its remaining charge proves this was a mid-build failure.
-  EXPECT_GT(WorkerMemoryAccountingBytes(0), baseline);
+  // Inline groups use admitted arrays, so failed construction releases every
+  // byte rather than retaining an arena's recycled-page directory.
+  EXPECT_EQ(WorkerMemoryAccountingBytes(0), baseline);
   RefreshMemoryStats();
   EXPECT_EQ(GetMemoryStats().admission_pending_bytes_, 0);
   ASSERT_TRUE(InitMemoryLimit(1024ULL * 1024 * 1024, 1).ok());

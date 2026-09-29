@@ -102,7 +102,7 @@ class GroupedHashObject {
       HashGroupDirectory directory,
       std::span<const HashGroupLocation> changed_locations);
 
-  // Ordered collections share the same bounded physical RecordIndex pages.
+  // Ordered collections share the same bounded physical index pages.
   // For indexed Sorted Sets, locations include BOTH the ordered graph and
   // member-prefix graph; either incomplete graph rejects publication.
   static absl::StatusOr<Handle> CreateOrdered(
