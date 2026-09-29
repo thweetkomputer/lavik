@@ -34,13 +34,15 @@ EXTRA_VARIANT_STYLES = (("#b25f84", "P", "-."),
                         ("#6f6f6f", "*", ":"))
 
 
-def load(product, kind, size, field, variant=None):
+def load(product, kind, size, field, variant=None, main=None):
+    main = main or {"tag": None, "commit": MAIN_COMMIT,
+                    "sha256": MAIN_BINARY_SHA256}
     size_tag, keys, _ = SIZES[size]
     tag = f"{kind}-{size_tag}-k{keys}-f{field}-20260929"
     if variant is not None:
         tag = variant["tag"]
     elif product == "lavik":
-        tag = f"main{MAIN_COMMIT[:8]}-" + tag
+        tag = main["tag"] or f"main{main['commit'][:8]}-" + tag
     prefix = "lavik" if variant is not None else product
     folder = ROOT / "raw" / f"{prefix}-{tag}"
     if not (folder / "complete.json").exists():
@@ -56,9 +58,9 @@ def load(product, kind, size, field, variant=None):
     for name, expected in expected_options.items():
         if options.get(name) != expected:
             raise RuntimeError(f"{folder}: {name}={options.get(name)}, expected {expected}")
-    if product == "lavik" and options.get("source_commit") != MAIN_COMMIT:
-        raise RuntimeError(f"{folder}: not the measured main {MAIN_COMMIT}")
-    if product == "lavik" and options.get("sha256") != MAIN_BINARY_SHA256:
+    if product == "lavik" and options.get("source_commit") != main["commit"]:
+        raise RuntimeError(f"{folder}: not the measured main {main['commit']}")
+    if product == "lavik" and options.get("sha256") != main["sha256"]:
         raise RuntimeError(f"{folder}: unexpected Lavik binary SHA256")
     if variant is not None:
         if options.get("source_commit") != variant["commit"]:
@@ -149,6 +151,11 @@ def main():
     parser.add_argument("kind", choices=COMMANDS)
     parser.add_argument("size", type=int, choices=SIZES)
     parser.add_argument("field", type=int, choices=(128, 1024))
+    parser.add_argument("--main-tag", help="Completed Lavik main run tag")
+    parser.add_argument("--main-commit", default=MAIN_COMMIT,
+                        help="Exact main source commit")
+    parser.add_argument("--main-sha256", default=MAIN_BINARY_SHA256,
+                        help="Exact main binary SHA256")
     parser.add_argument("--variant-tag", action="append",
                         help="Completed Lavik run tag; repeat for each PR")
     parser.add_argument("--variant-label", action="append",
@@ -168,6 +175,8 @@ def main():
         for index, (tag, label, commit, sha256) in enumerate(zip(*variant_options))}
     if len({variant["tag"] for variant in variants.values()}) != len(variants):
         parser.error("variant tags must be distinct")
+    main_run = {"tag": args.main_tag, "commit": args.main_commit,
+                "sha256": args.main_sha256}
     products = (*PRODUCTS, *variants)
     labels = dict(LABELS)
     for index, (product, variant) in enumerate(variants.items()):
@@ -175,7 +184,7 @@ def main():
         if index:
             STYLES[product] = EXTRA_VARIANT_STYLES[(index - 1) % len(EXTRA_VARIANT_STYLES)]
     datasets = {product: load(product, args.kind, args.size, args.field,
-                              variants.get(product))
+                              variants.get(product), main_run)
                 for product in products}
     draw(args.kind, args.size, args.field, False, datasets, products, labels)
     draw(args.kind, args.size, args.field, True, datasets, products, labels)
