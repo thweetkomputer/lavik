@@ -282,6 +282,10 @@ def main():
     p.add_argument("--continue-on-error", action="store_true")
     p.add_argument("--backlog-mb", type=int)
     p.add_argument("--tag", default="")
+    p.add_argument("--source-repo", default=str(ROOT.parents[1]),
+                   help="Lavik source checkout used to build --binary")
+    p.add_argument("--source-commit",
+                   help="Exact Lavik source commit used to build --binary")
     opt = p.parse_args()
     if opt.product == "lavik":
         assert os.geteuid() == 0 and (ROOT / "spdk-ready.json").exists()
@@ -307,8 +311,8 @@ def main():
     save(directory / ("provenance-" + opt.mode + "-" + "-".join(kinds) + "-" +
                       "-".join(map(str, levels)) + ".json"), {
         "binary": binary, "sha256": hashlib.sha256(Path(binary).read_bytes()).hexdigest(),
-        "source_commit": subprocess.check_output(
-            ["git", "-C", ("/mnt/dev/lavik-tx-backlog" if opt.product == "lavik"
+        "source_commit": opt.source_commit or subprocess.check_output(
+            ["git", "-C", (opt.source_repo if opt.product == "lavik"
                           else "/mnt/dev/peer-bench/tiering-beta1-retest-2026-09-18/sources/kvrocks"),
              "rev-parse", "HEAD"], text=True).strip()
         if opt.product in ("lavik", "kvrocks") else None,

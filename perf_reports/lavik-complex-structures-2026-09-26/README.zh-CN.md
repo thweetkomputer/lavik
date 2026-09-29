@@ -6,6 +6,120 @@
 Redis 兼容数据结构。每张图固定数据结构、每个 key 的逻辑数据量和
 每个元素的字节数。横轴为连接数，纵轴为每秒完成的命令数。
 
+## 2026-09-29 补测：分组 Hash 与 Set
+
+PR #203 合并后，用相同的 Hash 和 Set 工作负载复测了当前 `main`
+（`0920ae56`）和[PR #212](https://github.com/eloqdata/lavik/pull/212)（`d3f09324`）。基线二进制 SHA256 为
+`1b8eeb46cd91779eaf9e13b57a28186933a9b2c864e5b25beecb3a1a5b1dc8b6`，
+优化版为
+`f8712ce492f67cf3a3eb0deed33e73e56f86e24ecc69fcd3d20390bc1eeaf561`。
+两者均为使用 SPDK 的 RelWithDebInfo 构建，在同一台机器和同组六块临时 NVMe
+上测试。优化后的 HGET、HEXISTS、HSTRLEN、SISMEMBER 对分组对象只扫描
+选中分组的已校验编码，不再为无关 field 构造字符串和查找 digest。写入和
+完整读取路径保持原样，也没有新增内存数据页缓存。
+
+新 Lavik 测点使用每 key 1 MiB 时 64 个 key、每 key 100 MiB 时八个 key，
+每个元素为 128 B 或 1 KiB。每个点是一次八秒 memtier 测试。点操作的
+连接数为 80/320/1280/2560/5120；1 MiB 完整读取为 16/80，100 MiB
+完整读取为 1/4/16。Redis、Valkey 和 Kvrocks 曲线复用先前相同工作负载的
+原始测点，**没有在 9 月 29 日重测**。Kvrocks 启用 80 GiB RocksDB block
+cache 和 blob cache；Redis、Valkey 关闭持久化，Kvrocks 关闭 WAL，而
+Lavik 向 SPDK 提交。这些配置会明显影响读写绝对 QPS。
+
+下表统一取 **320 连接**，单位为千 QPS；每行的四款产品都有实测数据，
+Lavik 的两列分别是当前 main 和 PR #212。每张图叠加 main 与
+[运行清单](set-hash-variants.json)中所有已测优化 PR 的曲线；新增 PR 时在清单中
+追加两档运行记录并重新绘图。
+
+| 结构 | 每 key | 元素 | 读命令 | Redis | Valkey | Kvrocks | Lavik main | Lavik PR #212 |
+|---|---:|---:|---|---:|---:|---:|---:|---:|
+| Hash | 1 MiB | 128 B | HGET | 763.0 | 741.3 | 750.8 | 542.2 | 675.8 |
+| Hash | 1 MiB | 1 KiB | HGET | 715.5 | 721.8 | 725.7 | 672.4 | 749.4 |
+| Hash | 100 MiB | 128 B | HGET | 779.4 | 785.4 | 663.1 | 278.8 | 421.9 |
+| Hash | 100 MiB | 1 KiB | HGET | 744.8 | 736.4 | 644.3 | 362.0 | 440.5 |
+| Set | 1 MiB | 128 B | SISMEMBER | 768.0 | 854.3 | 715.8 | 447.7 | 680.0 |
+| Set | 1 MiB | 1 KiB | SISMEMBER | 694.3 | 656.2 | 680.7 | 537.4 | 701.6 |
+| Set | 100 MiB | 128 B | SISMEMBER | 778.5 | 781.2 | 646.2 | 212.9 | 410.8 |
+| Set | 100 MiB | 1 KiB | SISMEMBER | 701.6 | 679.5 | 615.2 | 287.8 | 421.0 |
+
+固定在 320 连接时，HGET 提升 11%–51%，SISMEMBER 提升 31%–93%。
+提升最大的是 100 MiB/128 B Set，从约 21.3 万增至 41.1 万 QPS。
+1 MiB/1 KiB Set 达到 70.2 万，超过同连接数下 Kvrocks 的 68.1 万。
+100 MiB 点读仍低于带大缓存的 Kvrocks；这组 A/B 不能证明全部差距
+都来自分组解码。
+
+| 结构 | 每 key | 元素 | 写命令 | Redis | Valkey | Kvrocks | Lavik main | Lavik PR #212 |
+|---|---:|---:|---|---:|---:|---:|---:|---:|
+| Hash | 1 MiB | 128 B | HSET | 734.7 | 804.3 | 371.6 | 9.4 | 9.4 |
+| Hash | 1 MiB | 1 KiB | HSET | 711.4 | 660.5 | 369.4 | 9.5 | 9.7 |
+| Hash | 100 MiB | 128 B | HSET | 746.4 | 727.4 | 318.4 | 2.3 | 2.3 |
+| Hash | 100 MiB | 1 KiB | HSET | 729.7 | 696.6 | 302.0 | 2.3 | 2.3 |
+| Set | 1 MiB | 128 B | SADD + SREM | 763.1 | 758.0 | 440.8 | 18.6 | 18.7 |
+| Set | 1 MiB | 1 KiB | SADD + SREM | 687.9 | 651.3 | 332.2 | 19.3 | 19.9 |
+| Set | 100 MiB | 128 B | SADD + SREM | 765.3 | 770.1 | 354.2 | 4.8 | 4.9 |
+| Set | 100 MiB | 1 KiB | SADD + SREM | 704.6 | 645.9 | 326.2 | 4.9 | 4.9 |
+
+写入基本没有变化。分组 HSET 仍需读取并重写被修改的完整分组、更新内存中
+的目录，并持久化提交命令；本次只改了读取路径。Set 的写入数字合并了
+SADD/SREM，其中可能包含无需落盘的空操作。在 **Hash 批量预填充**
+期间采集的 12 秒 CPU 样本中，worker 运行循环约占 25%、存储轮询约占
+15%、物理分组索引更新约占 4%。这不是单字段 HSET 压测的 profile，
+也无法量化等待 IO 的时间。
+
+两版 Lavik 在 100 MiB/128 B HGETALL 的 16 连接档都返回了
+`OOM grouped operation scratch admission`。图中标明并省略这两个点；
+其他新测点均完成。每个点只测一次，没有置信区间。可用
+[A/B 数据 CSV](set-hash-ab.csv)、[原始运行记录](raw/)和
+[绘图脚本](plot_set_hash_ab.py)核对每个结果、失败、命令和二进制哈希。
+
+### Hash / 1 MiB / 128 B
+
+![Hash 1 MiB 128 B：四款产品及 Lavik main/PR #212点操作](charts/hash-1048576-128-ab.png)
+
+![Hash 1 MiB 128 B：四款产品及 Lavik main/PR #212 HGETALL](charts/hash-1048576-128-ab-full.png)
+
+### Hash / 1 MiB / 1 KiB
+
+![Hash 1 MiB 1 KiB：四款产品及 Lavik main/PR #212点操作](charts/hash-1048576-1024-ab.png)
+
+![Hash 1 MiB 1 KiB：四款产品及 Lavik main/PR #212 HGETALL](charts/hash-1048576-1024-ab-full.png)
+
+### Hash / 100 MiB / 128 B
+
+![Hash 100 MiB 128 B：四款产品及 Lavik main/PR #212点操作](charts/hash-104857600-128-ab.png)
+
+![Hash 100 MiB 128 B：四款产品及 Lavik main/PR #212 HGETALL](charts/hash-104857600-128-ab-full.png)
+
+### Hash / 100 MiB / 1 KiB
+
+![Hash 100 MiB 1 KiB：四款产品及 Lavik main/PR #212点操作](charts/hash-104857600-1024-ab.png)
+
+![Hash 100 MiB 1 KiB：四款产品及 Lavik main/PR #212 HGETALL](charts/hash-104857600-1024-ab-full.png)
+
+### Set / 1 MiB / 128 B
+
+![Set 1 MiB 128 B：四款产品及 Lavik main/PR #212点操作](charts/set-1048576-128-ab.png)
+
+![Set 1 MiB 128 B：四款产品及 Lavik main/PR #212 SMEMBERS](charts/set-1048576-128-ab-full.png)
+
+### Set / 1 MiB / 1 KiB
+
+![Set 1 MiB 1 KiB：四款产品及 Lavik main/PR #212点操作](charts/set-1048576-1024-ab.png)
+
+![Set 1 MiB 1 KiB：四款产品及 Lavik main/PR #212 SMEMBERS](charts/set-1048576-1024-ab-full.png)
+
+### Set / 100 MiB / 128 B
+
+![Set 100 MiB 128 B：四款产品及 Lavik main/PR #212点操作](charts/set-104857600-128-ab.png)
+
+![Set 100 MiB 128 B：四款产品及 Lavik main/PR #212 SMEMBERS](charts/set-104857600-128-ab-full.png)
+
+### Set / 100 MiB / 1 KiB
+
+![Set 100 MiB 1 KiB：四款产品及 Lavik main/PR #212点操作](charts/set-104857600-1024-ab.png)
+
+![Set 100 MiB 1 KiB：四款产品及 Lavik main/PR #212 SMEMBERS](charts/set-104857600-1024-ab-full.png)
+
 ## 工作负载
 
 | 数据结构 | 点查 | 写入 | 完整读取 | 写入行为 |
@@ -36,7 +150,9 @@ value、member 或元素为 128 B 或 1 KiB。Stream 的字段名和各结构元
   测试开始时上游 `main` 为 `9e31d073`。100 MiB 扩展沿用同一二进制，
   避免把代码版本变化混入大小对比。
 - Kvrocks 在三个大小档位使用相同配置。64 KiB 与 1 MiB 于 2026-09-27
-  后补测，工作负载参数与原始档位一致。
+  后补测，工作负载参数与原始档位一致。保存的配置启用了 80 GiB RocksDB
+  block cache 和 blob cache；它的热读 QPS 因而包含大容量内存缓存的收益，
+  与 Lavik 的数据页读取路径不同。
 - 客户端 172.16.0.5，AMD EPYC 9V45 的 16 个 vCPU，memtier_benchmark 2.5.1，
   pipeline 1、随机选 key，每个点测八秒。点查和写入用 16 个客户端线程、
   80/320/1280/2560/5120 个连接；64 KiB 和 1 MiB 完整读取用 16/80
@@ -521,3 +637,13 @@ SPDK 准备脚本在丢弃临时数据前，会核对六块专用控制器的序
 地址。不要对需要保留数据的设备执行准备命令。服务端命令、二进制哈希、
 memtier 命令、填充耗时、校验结果与各次运行的 JSON 已提交到 `raw/`。
 控制台输出留在本机，分支中的 JSON 已包含测量数据，因此没有提交重复日志。
+
+复现 9 月 29 日补测时，分别构建本报告开头列出的两版 Lavik，用各自二进制
+执行 `run.py lavik`，共同参数为 `--types hash,set --fields 128,1024`、
+`--mode both --levels 80,320,1280,2560,5120 --seconds 8`。1 MiB 使用
+`--sizes 1048576 --keys 64 --full-levels 16,80`；100 MiB 使用
+`--sizes 104857600 --keys 8`、`--seed-pipeline 64 --full-levels 1,4,16`
+和 `--continue-on-error`。四个 tag 分别为 `main-20260929`、`opt-20260929`
+及各自的 `-100m` 版本。用 `--source-commit` 指定准确源码提交；原始运行目录
+中的 provenance JSON 同时记录源码提交和二进制 SHA256。恢复 SPDK 驱动后，
+运行 `.venv/bin/python plot_set_hash_ab.py` 重绘新图和 CSV。

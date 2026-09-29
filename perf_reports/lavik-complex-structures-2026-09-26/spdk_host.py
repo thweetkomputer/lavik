@@ -14,14 +14,14 @@ import time
 
 
 ROOT = Path(__file__).resolve().parent
-SETUP = Path("/mnt/dev/lavik-tx-backlog/bycorf/third_party/spdk/scripts/setup.sh")
+SETUP = Path(__file__).resolve().parents[2] / "bycorf/third_party/spdk/scripts/setup.sh"
 SERIAL_PCI = {
-    "9971393486cee1f00001": "3d64:00:00.0",
-    "9971393486cee1f00002": "e440:00:00.0",
-    "9971393486cee1f00003": "c30a:00:00.0",
-    "9971393486cee1f00004": "825f:00:00.0",
-    "9971393486cee1f00005": "e051:00:00.0",
-    "9971393486cee1f00006": "7292:00:00.0",
+    "74cf37b6f71c530e0001": "e986:00:00.0",
+    "74cf37b6f71c530e0002": "2dbd:00:00.0",
+    "74cf37b6f71c530e0003": "e5dd:00:00.0",
+    "74cf37b6f71c530e0004": "a8cb:00:00.0",
+    "74cf37b6f71c530e0005": "4403:00:00.0",
+    "74cf37b6f71c530e0006": "919c:00:00.0",
 }
 PCI_ALLOWED = " ".join(SERIAL_PCI.values())
 HUGEPAGES = Path("/sys/kernel/mm/hugepages/hugepages-2048kB/nr_hugepages")
