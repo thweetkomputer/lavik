@@ -52,6 +52,8 @@ cache；Lavik 在六块 NVMe 上用 SPDK 提交。这些配置影响绝对写入
 [同块数据与 Commit 合并刷盘试验](diagnostics/hset-coalescing-20260929/README.md)的正确性检查通过，
 但 HSET 的下降经 20 秒复测确认，该改动已撤回；主图显示当前 NVMe 优化版本。
 
+[I/O 计数诊断](diagnostics/hset-io-20260929/README.md)记录了 HSET 的存储读写量（包含后台清理）。
+
 ## Hash
 
 下列点查/写入图每张包含两个命令；1 MiB 和 100 MiB 档分别使用 50,000 和 500 个 key。
