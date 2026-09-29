@@ -73,6 +73,9 @@ write-path and memory investigations remain available in the
 [HSET diagnostic](diagnostics/hset-20260929/README.md) and
 [HGETALL memory investigation](diagnostics/hgetall-oom-20260929/README.md).
 
+[Same-block data/commit coalescing trial](diagnostics/hset-coalescing-20260929/README.md) passed correctness checks,
+but HSET regressed in this run and is being repeated. The main plots retain the better preceding variant.
+
 ## Hash
 
 Each point-read/write chart contains both commands. The 1 MiB and 100 MiB runs use 50,000 and 500 keys, respectively.
