@@ -687,6 +687,7 @@ Task<absl::Status> StorageEngine::Impl::CommitTxWrites(
             GroupedCommitDecision::State::kDurable, std::memory_order_release);
       }
     }
+    store.durability_progress_.NotifyAll(*store.worker_);
   }
   dependency_guard.completed_ = true;
   co_return absl::OkStatus();
@@ -922,6 +923,10 @@ Task<absl::Status> StorageEngine::Impl::DrainTxCommitQueue(WorkerStore* store) {
         spdlog::warn("transaction batch decision flush failed: {}",
                      decisions_durable.message());
     }
+    // Local grouped successors wait for the decision, not merely its last
+    // data/header flush. Wake after outcome publication, also when a failed
+    // CommitTxWrites poisoned the decision while unwinding its guard.
+    store->durability_progress_.NotifyAll(*store->worker_);
     for (std::size_t index = 0; index < batch.size(); ++index)
       NoteTxCommitFinished();
   }

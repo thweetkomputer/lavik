@@ -15,6 +15,7 @@
  */
 
 #include <cerrno>
+#include <future>
 #include <memory>
 #include <optional>
 
@@ -37,6 +38,70 @@ struct HashDiskLayout {
   GroupedHashRoot root_;
   bool empty_tail_ = false;
 };
+
+TEST(GroupedHashWriteE2e, ConcurrentSuccessorsWakeAfterLocalAndExecCommits) {
+  PrivateDisk disk;
+  disk.PreserveOnFailure();
+  constexpr unsigned kWriters = 8;
+  constexpr unsigned kUpdates = 64;
+  const std::string large_member(17000, 'm');
+  {
+    // Independent keys share commit batches. Each key immediately follows a
+    // pending standalone decision, and periodically an EXEC decision whose
+    // coordinator may be a different worker. A partial flush wake must not be
+    // mistaken for a commit, and final decision publication must wake again.
+    Server server(disk, 3, {}, {}, false, 2, "1G", {}, {}, 100);
+    server.PreserveOnFailure();
+    std::vector<std::future<void>> writers;
+    for (unsigned writer = 0; writer < kWriters; ++writer) {
+      writers.push_back(std::async(std::launch::async, [&, writer] {
+        Client client(server.port());
+        const auto hash = "wake-hash-" + std::to_string(writer);
+        const auto set = "wake-set-" + std::to_string(writer);
+        Check(client.Command(HashCommand(hash)).text_ == "256", "seed Hash");
+        Check(client.Command({"SADD", set, large_member}).text_ == "1",
+              "seed Set");
+        for (unsigned i = 0; i < kUpdates; ++i) {
+          const auto value = std::to_string(i);
+          if (i % 8 == 0) {
+            Check(client.Command({"MULTI"}).text_ == "OK", "begin EXEC");
+            Check(client.Command({"HSET", hash, "counter", value}).text_ ==
+                      "QUEUED",
+                  "queue Hash update");
+            Check(client.Command({"SADD", set, value}).text_ == "QUEUED",
+                  "queue Set update");
+            Check(client.Command({"EXEC"}).kind_ == '*', "finish EXEC");
+          }
+          Check(client.Command({"HSET", hash, "counter", value}).kind_ == ':',
+                "standalone Hash successor");
+          Check(client.Command({"SADD", set, value}).kind_ == ':',
+                "standalone Set successor");
+          if (i != 0)
+            Check(client.Command({"SREM", set, std::to_string(i - 1)}).text_ ==
+                      "1",
+                  "Set removal successor");
+        }
+        client.Durable();
+      }));
+    }
+    for (auto& writer : writers) writer.get();
+    ASSERT_EQ(server.Wait(true), 0) << server.Log();
+  }
+  Server recovered(disk, 2);
+  Client client(recovered.port());
+  for (unsigned writer = 0; writer < kWriters; ++writer) {
+    const auto hash = "wake-hash-" + std::to_string(writer);
+    const auto set = "wake-set-" + std::to_string(writer);
+    EXPECT_EQ(client.Command({"HLEN", hash}).text_, "257");
+    EXPECT_EQ(client.Command({"HGET", hash, "counter"}).text_,
+              std::to_string(kUpdates - 1));
+    EXPECT_EQ(client.Command({"SCARD", set}).text_, "2");
+    EXPECT_EQ(client.Command({"SISMEMBER", set, large_member}).text_, "1");
+    EXPECT_EQ(
+        client.Command({"SISMEMBER", set, std::to_string(kUpdates - 1)}).text_,
+        "1");
+  }
+}
 
 HashDiskLayout InspectHashLayout(const PrivateDisk& disk,
                                  std::string_view key) {

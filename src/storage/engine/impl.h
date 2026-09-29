@@ -3817,8 +3817,10 @@ class StorageEngine::Impl {
     GroupRecordWrite* root_ = nullptr;
   };
 
+  // local_completion requires commit/failure to finish on this worker. Only
+  // standalone grouped receipts have that guarantee, not borrowed EXEC/Lua.
   absl::StatusOr<std::shared_ptr<GroupedCommitDecision>> PrepareGroupedDecision(
-      TxShardWrites& tx);
+      TxShardWrites& tx, bool local_completion = false);
   // Retains the existing store mutex contract: releases it only while
   // awaiting a prior independent transaction's durable commit, then restores
   // ownership on every return. Caller revalidates key/population afterward.
