@@ -126,17 +126,43 @@ def fill(kind, field_bytes, entries, keys, pipeline):
     return {"seconds": time.monotonic() - begin, "commands": count}
 
 def validate(kind, field_bytes, entries, keys, product, after=False):
-    if product == "kvrocks":
-        # Kvrocks DBSIZE returns periodically refreshed stats; a completed
-        # 800 MiB fill can still report zero. Scan the eight actual keys.
-        observed_keys = set(query("KEYS", "*"))
-        expected_keys = {name(i).encode() for i in range(1, keys + 1)}
-        if observed_keys != expected_keys:
-            raise RuntimeError(f"{kind}: incorrect keys {observed_keys}")
-    elif query("DBSIZE") != keys:
-        raise RuntimeError(f"{kind}: incorrect key count")
-    counts = {name(i): query(COUNT[kind], name(i))
-              for i in range(1, keys + 1)}
+    # Large-key-count runs must reuse a connection. Opening one per key can
+    # exhaust the client's ephemeral ports before cardinality is validated.
+    with socket.create_connection((HOST, PORT), timeout=120) as sock:
+        sock.settimeout(120)
+        stream = sock.makefile("rb")
+
+        def check(*args):
+            sock.sendall(resp(*args))
+            return read(stream)
+
+        if product == "kvrocks":
+            # Kvrocks DBSIZE returns periodically refreshed stats, so check
+            # the actual keys even when the collection is newly filled.
+            observed_keys = set(check("KEYS", "*"))
+            expected_keys = {name(i).encode() for i in range(1, keys + 1)}
+            if observed_keys != expected_keys:
+                raise RuntimeError(f"{kind}: incorrect key count or names")
+        elif check("DBSIZE") != keys:
+            raise RuntimeError(f"{kind}: incorrect key count")
+        counts = {name(i): check(COUNT[kind], name(i))
+                  for i in range(1, keys + 1)}
+        if not after:
+            mid = entries // 2
+            expected = value(mid, field_bytes)
+            if kind == "hash":
+                got = check("HGET", name(1), f"f{mid:08d}")
+            elif kind == "set":
+                got = expected if check("SISMEMBER", name(1), expected) == 1 else None
+            elif kind == "list":
+                got = check("LINDEX", name(1), mid)
+            elif kind == "zset":
+                got = expected if check("ZSCORE", name(1), expected) is not None else None
+            else:
+                rows = check("XRANGE", name(1), f"{mid+1}-0", f"{mid+1}-0")
+                got = rows[0][1][1] if rows else None
+            if got != expected:
+                raise RuntimeError(f"{kind}: incorrect seeded payload")
     if after and kind == "set":
         valid = all(entries <= count <= entries + 1 for count in counts.values())
     elif after and kind == "stream":
@@ -145,22 +171,6 @@ def validate(kind, field_bytes, entries, keys, product, after=False):
         valid = set(counts.values()) == {entries}
     if not valid:
         raise RuntimeError(f"{kind}: cardinality {counts}")
-    if not after:
-        mid = entries // 2
-        expected = value(mid, field_bytes)
-        if kind == "hash":
-            got = query("HGET", name(1), f"f{mid:08d}")
-        elif kind == "set":
-            got = expected if query("SISMEMBER", name(1), expected) == 1 else None
-        elif kind == "list":
-            got = query("LINDEX", name(1), mid)
-        elif kind == "zset":
-            got = expected if query("ZSCORE", name(1), expected) is not None else None
-        else:
-            rows = query("XRANGE", name(1), f"{mid+1}-0", f"{mid+1}-0")
-            got = rows[0][1][1] if rows else None
-        if got != expected:
-            raise RuntimeError(f"{kind}: incorrect seeded payload")
     return {"keys": keys, "entries_per_key": entries,
             "field_bytes": field_bytes, "sample_cardinalities": counts}
 
