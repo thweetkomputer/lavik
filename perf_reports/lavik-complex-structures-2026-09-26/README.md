@@ -9,8 +9,10 @@ connections; the vertical axis is completed commands per second.
 
 ## 2026-09-29 follow-up: grouped Hash and Set
 
-After PR #203 merged, the same Hash and Set workloads were rerun on current
-`main` (`0920ae56`) and on [PR #212](https://github.com/eloqdata/lavik/pull/212) (`d3f09324`).
+After PR #203 merged, the same Hash and Set workloads were rerun on `main`
+(`0920ae56`) and [PR #212](https://github.com/eloqdata/lavik/pull/212).
+The measured optimized binary came from `d3f09324`; the later PR head
+`bca70438` contains clang-format changes only.
 The baseline binary is SHA256
 `1b8eeb46cd91779eaf9e13b57a28186933a9b2c864e5b25beecb3a1a5b1dc8b6`;
 the optimized binary is
@@ -21,11 +23,12 @@ group without constructing entries for unrelated fields. It serves grouped
 HGET, HEXISTS, HSTRLEN, and SISMEMBER; writes and full reads retain their
 previous paths. It adds no data-page cache.
 
-The new Lavik runs use 64 keys at 1 MiB and eight keys at 100 MiB, with 128 B
-or 1 KiB entries. Every point is one eight-second memtier run. Point commands
-use 80/320/1280/2560/5120 connections; full reads use 16/80 at 1 MiB and
-1/4/16 at 100 MiB. Redis, Valkey, and Kvrocks lines reuse the earlier raw
-runs with the same workload settings; they were **not** rerun on September 29.
+The new Lavik runs use 64 keys at 1 MiB and 10 MiB, and eight keys at
+100 MiB, with 128 B or 1 KiB entries. Every point is one eight-second memtier
+run. Point commands use 80/320/1280/2560/5120 connections; full reads use
+16/80 at 1 MiB, 4/16 at 10 MiB, and 1/4/16 at 100 MiB. All four products
+were measured for 10 MiB on September 29; the 1 MiB and 100 MiB Redis,
+Valkey, and Kvrocks lines reuse earlier raw runs with matching workloads.
 Kvrocks used an 80 GiB RocksDB block cache with blob caching, while Redis and
 Valkey had persistence disabled and Kvrocks had WAL disabled. Lavik commits
 to SPDK. These configurations materially affect absolute read and write QPS.
@@ -34,34 +37,49 @@ At **320 connections**, all four products have a measured point in every row
 below. Values are thousands of completed commands per second; the two Lavik
 columns are current main and PR #212. Every chart overlays main and all
 measured PR variants listed in [set-hash-variants.json](set-hash-variants.json);
-append a run pair there when adding a PR, then regenerate the charts.
+append a run per size there when adding a PR, then regenerate the charts.
 
 | Type | Per key | Entry | Read | Redis | Valkey | Kvrocks | Lavik main | Lavik PR #212 |
 |---|---:|---:|---|---:|---:|---:|---:|---:|
 | Hash | 1 MiB | 128 B | HGET | 763.0 | 741.3 | 750.8 | 542.2 | 675.8 |
 | Hash | 1 MiB | 1 KiB | HGET | 715.5 | 721.8 | 725.7 | 672.4 | 749.4 |
+| Hash | 10 MiB | 128 B | HGET | 780.3 | 742.2 | 724.5 | 480.3 | 640.1 |
+| Hash | 10 MiB | 1 KiB | HGET | 754.4 | 696.6 | 652.6 | 578.6 | 643.4 |
 | Hash | 100 MiB | 128 B | HGET | 779.4 | 785.4 | 663.1 | 278.8 | 421.9 |
 | Hash | 100 MiB | 1 KiB | HGET | 744.8 | 736.4 | 644.3 | 362.0 | 440.5 |
 | Set | 1 MiB | 128 B | SISMEMBER | 768.0 | 854.3 | 715.8 | 447.7 | 680.0 |
 | Set | 1 MiB | 1 KiB | SISMEMBER | 694.3 | 656.2 | 680.7 | 537.4 | 701.6 |
+| Set | 10 MiB | 128 B | SISMEMBER | 771.7 | 803.1 | 699.2 | 394.1 | 643.7 |
+| Set | 10 MiB | 1 KiB | SISMEMBER | 713.3 | 675.3 | 679.5 | 474.6 | 611.7 |
 | Set | 100 MiB | 128 B | SISMEMBER | 778.5 | 781.2 | 646.2 | 212.9 | 410.8 |
 | Set | 100 MiB | 1 KiB | SISMEMBER | 701.6 | 679.5 | 615.2 | 287.8 | 421.0 |
 
 At the same 320 connections, optimized HGET gains 11–51% and SISMEMBER gains
-31–93%, depending on size. The largest gain is the 100 MiB/128 B Set case:
+29–93%, depending on size. The largest gain is the 100 MiB/128 B Set case:
 213k to 411k QPS. The 1 MiB/1 KiB Set case reaches 702k QPS versus Kvrocks'
 681k at this connection count. The 100 MiB point reads remain below cached
 Kvrocks; this A/B does not establish that page decoding explains the entire
 gap.
 
+The new 10 MiB runs hold the hot-key count at 64, matching the 1 MiB runs.
+At 320 connections PR #212 improves HGET by about 11–33% and SISMEMBER by
+29–63% over main. All four point-read combinations remain below Kvrocks at
+the same connection count. HSET stays near 9.3k–9.9k QPS, close to the
+1 MiB/64-key results; the earlier 100 MiB/eight-key write result is therefore
+confounded by hot-key count.
+
 | Type | Per key | Entry | Write | Redis | Valkey | Kvrocks | Lavik main | Lavik PR #212 |
 |---|---:|---:|---|---:|---:|---:|---:|---:|
 | Hash | 1 MiB | 128 B | HSET | 734.7 | 804.3 | 371.6 | 9.4 | 9.4 |
 | Hash | 1 MiB | 1 KiB | HSET | 711.4 | 660.5 | 369.4 | 9.5 | 9.7 |
+| Hash | 10 MiB | 128 B | HSET | 759.0 | 695.2 | 387.1 | 9.3 | 9.3 |
+| Hash | 10 MiB | 1 KiB | HSET | 731.0 | 770.8 | 345.4 | 9.9 | 9.6 |
 | Hash | 100 MiB | 128 B | HSET | 746.4 | 727.4 | 318.4 | 2.3 | 2.3 |
 | Hash | 100 MiB | 1 KiB | HSET | 729.7 | 696.6 | 302.0 | 2.3 | 2.3 |
 | Set | 1 MiB | 128 B | SADD + SREM | 763.1 | 758.0 | 440.8 | 18.6 | 18.7 |
 | Set | 1 MiB | 1 KiB | SADD + SREM | 687.9 | 651.3 | 332.2 | 19.3 | 19.9 |
+| Set | 10 MiB | 128 B | SADD + SREM | 782.2 | 781.1 | 439.2 | 18.6 | 18.4 |
+| Set | 10 MiB | 1 KiB | SADD + SREM | 709.4 | 664.5 | 376.9 | 18.8 | 19.6 |
 | Set | 100 MiB | 128 B | SADD + SREM | 765.3 | 770.1 | 354.2 | 4.8 | 4.9 |
 | Set | 100 MiB | 1 KiB | SADD + SREM | 704.6 | 645.9 | 326.2 | 4.9 | 4.9 |
 
@@ -77,10 +95,18 @@ same p99; the 0.15% difference is not evidence of a useful gain. The commit
 queue peaked at 52 of 4096 slots with no backpressure waits. An actual HSET
 CPU profile spent much of its on-CPU time in worker and storage polling; it
 does not attribute wall-clock latency or prove a remaining IO bottleneck.
+A separate 1 MiB run with eight hot keys produced 2.32k HSET QPS, versus
+9.31k with 64 keys. The previous 100 MiB run also used eight keys, so its
+roughly 2.3k HSET QPS cannot be explained by value size alone. The new 10 MiB
+measurements use 64 keys to hold hot-key count fixed against the 1 MiB run.
 
 Both Lavik binaries returned `OOM grouped operation scratch admission` for
 100 MiB/128 B HGETALL at 16 connections. Those two points are omitted and
-marked on the chart; the other new Lavik points all completed. This is one
+marked on the chart. This is Lavik's scratch admission rejection: HGETALL
+reads every group of that key and reserves at least 1.172 GiB per request
+against worker-local memory limits; HGET reads only the selected field's group.
+The [calculation and raw errors](diagnostics/hgetall-oom-20260929/README.md)
+document the finding. The other new Lavik points all completed. This is one
 run per point, without confidence intervals. The [A/B CSV](set-hash-ab.csv),
 [raw runs](raw/), and [plotting script](plot_set_hash_ab.py) preserve every
 result, failure, command, and binary hash.
@@ -96,6 +122,18 @@ result, failure, command, and binary hash.
 ![Hash 1 MiB 1 KiB, peers and Lavik main/PR #212 point commands](charts/hash-1048576-1024-ab.png)
 
 ![Hash 1 MiB 1 KiB, peers and Lavik main/PR #212 HGETALL](charts/hash-1048576-1024-ab-full.png)
+
+### Hash / 10 MiB / 128 B
+
+![Hash 10 MiB 128 B, peers and Lavik main/PR #212 point commands](charts/hash-10485760-128-ab.png)
+
+![Hash 10 MiB 128 B, peers and Lavik main/PR #212 HGETALL](charts/hash-10485760-128-ab-full.png)
+
+### Hash / 10 MiB / 1 KiB
+
+![Hash 10 MiB 1 KiB, peers and Lavik main/PR #212 point commands](charts/hash-10485760-1024-ab.png)
+
+![Hash 10 MiB 1 KiB, peers and Lavik main/PR #212 HGETALL](charts/hash-10485760-1024-ab-full.png)
 
 ### Hash / 100 MiB / 128 B
 
@@ -121,6 +159,18 @@ result, failure, command, and binary hash.
 
 ![Set 1 MiB 1 KiB, peers and Lavik main/PR #212 SMEMBERS](charts/set-1048576-1024-ab-full.png)
 
+### Set / 10 MiB / 128 B
+
+![Set 10 MiB 128 B, peers and Lavik main/PR #212 point commands](charts/set-10485760-128-ab.png)
+
+![Set 10 MiB 128 B, peers and Lavik main/PR #212 SMEMBERS](charts/set-10485760-128-ab-full.png)
+
+### Set / 10 MiB / 1 KiB
+
+![Set 10 MiB 1 KiB, peers and Lavik main/PR #212 point commands](charts/set-10485760-1024-ab.png)
+
+![Set 10 MiB 1 KiB, peers and Lavik main/PR #212 SMEMBERS](charts/set-10485760-1024-ab-full.png)
+
 ### Set / 100 MiB / 128 B
 
 ![Set 100 MiB 128 B, peers and Lavik main/PR #212 point commands](charts/set-104857600-128-ab.png)
@@ -144,8 +194,8 @@ result, failure, command, and binary hash.
 | Stream | XRANGE exact ID | XADD MAXLEN ~ N | XRANGE - + | Append and approximately trim to the seeded length |
 
 For positional reads and overwrites, memtier cycles through eight evenly spaced
-entry positions per key. The original 64 KiB and 1 MiB conditions use 64 keys;
-the 100 MiB extension uses eight keys. Each operation chooses a key uniformly
+entry positions per key. The 64 KiB, 1 MiB, and new 10 MiB conditions use
+64 keys; the 100 MiB extension uses eight keys. Each operation chooses a key uniformly
 within its condition. Each field value, member, or element is exactly 128 B
 or 1 KiB.
 Stream field names and collection metadata are extra. All seeded entries and

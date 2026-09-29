@@ -8,8 +8,10 @@ Redis 兼容数据结构。每张图固定数据结构、每个 key 的逻辑数
 
 ## 2026-09-29 补测：分组 Hash 与 Set
 
-PR #203 合并后，用相同的 Hash 和 Set 工作负载复测了当前 `main`
-（`0920ae56`）和[PR #212](https://github.com/eloqdata/lavik/pull/212)（`d3f09324`）。基线二进制 SHA256 为
+PR #203 合并后，用相同的 Hash 和 Set 工作负载复测了 `main`
+（`0920ae56`）和[PR #212](https://github.com/eloqdata/lavik/pull/212)。
+优化版二进制取自 `d3f09324`；PR 后续的 `bca70438` 只调整 clang-format。
+基线二进制 SHA256 为
 `1b8eeb46cd91779eaf9e13b57a28186933a9b2c864e5b25beecb3a1a5b1dc8b6`，
 优化版为
 `f8712ce492f67cf3a3eb0deed33e73e56f86e24ecc69fcd3d20390bc1eeaf561`。
@@ -18,44 +20,58 @@ PR #203 合并后，用相同的 Hash 和 Set 工作负载复测了当前 `main`
 选中分组的已校验编码，不再为无关 field 构造字符串和查找 digest。写入和
 完整读取路径保持原样，也没有新增内存数据页缓存。
 
-新 Lavik 测点使用每 key 1 MiB 时 64 个 key、每 key 100 MiB 时八个 key，
-每个元素为 128 B 或 1 KiB。每个点是一次八秒 memtier 测试。点操作的
-连接数为 80/320/1280/2560/5120；1 MiB 完整读取为 16/80，100 MiB
-完整读取为 1/4/16。Redis、Valkey 和 Kvrocks 曲线复用先前相同工作负载的
-原始测点，**没有在 9 月 29 日重测**。Kvrocks 启用 80 GiB RocksDB block
+新 Lavik 测点使用每 key 1 MiB 和 10 MiB 时 64 个 key、每 key 100 MiB
+时八个 key，每个元素为 128 B 或 1 KiB。每个点是一次八秒 memtier 测试。
+点操作的连接数为 80/320/1280/2560/5120；1 MiB 完整读取为 16/80，
+10 MiB 为 4/16，100 MiB 为 1/4/16。10 MiB 档的四款产品均在 9 月 29 日
+补测；1 MiB 和 100 MiB 档的 Redis、Valkey、Kvrocks 曲线复用先前相同
+工作负载的原始测点。Kvrocks 启用 80 GiB RocksDB block
 cache 和 blob cache；Redis、Valkey 关闭持久化，Kvrocks 关闭 WAL，而
 Lavik 向 SPDK 提交。这些配置会明显影响读写绝对 QPS。
 
 下表统一取 **320 连接**，单位为千 QPS；每行的四款产品都有实测数据，
 Lavik 的两列分别是当前 main 和 PR #212。每张图叠加 main 与
 [运行清单](set-hash-variants.json)中所有已测优化 PR 的曲线；新增 PR 时在清单中
-追加两档运行记录并重新绘图。
+追加每个数据大小的运行记录并重新绘图。
 
 | 结构 | 每 key | 元素 | 读命令 | Redis | Valkey | Kvrocks | Lavik main | Lavik PR #212 |
 |---|---:|---:|---|---:|---:|---:|---:|---:|
 | Hash | 1 MiB | 128 B | HGET | 763.0 | 741.3 | 750.8 | 542.2 | 675.8 |
 | Hash | 1 MiB | 1 KiB | HGET | 715.5 | 721.8 | 725.7 | 672.4 | 749.4 |
+| Hash | 10 MiB | 128 B | HGET | 780.3 | 742.2 | 724.5 | 480.3 | 640.1 |
+| Hash | 10 MiB | 1 KiB | HGET | 754.4 | 696.6 | 652.6 | 578.6 | 643.4 |
 | Hash | 100 MiB | 128 B | HGET | 779.4 | 785.4 | 663.1 | 278.8 | 421.9 |
 | Hash | 100 MiB | 1 KiB | HGET | 744.8 | 736.4 | 644.3 | 362.0 | 440.5 |
 | Set | 1 MiB | 128 B | SISMEMBER | 768.0 | 854.3 | 715.8 | 447.7 | 680.0 |
 | Set | 1 MiB | 1 KiB | SISMEMBER | 694.3 | 656.2 | 680.7 | 537.4 | 701.6 |
+| Set | 10 MiB | 128 B | SISMEMBER | 771.7 | 803.1 | 699.2 | 394.1 | 643.7 |
+| Set | 10 MiB | 1 KiB | SISMEMBER | 713.3 | 675.3 | 679.5 | 474.6 | 611.7 |
 | Set | 100 MiB | 128 B | SISMEMBER | 778.5 | 781.2 | 646.2 | 212.9 | 410.8 |
 | Set | 100 MiB | 1 KiB | SISMEMBER | 701.6 | 679.5 | 615.2 | 287.8 | 421.0 |
 
-固定在 320 连接时，HGET 提升 11%–51%，SISMEMBER 提升 31%–93%。
+固定在 320 连接时，HGET 提升 11%–51%，SISMEMBER 提升 29%–93%。
 提升最大的是 100 MiB/128 B Set，从约 21.3 万增至 41.1 万 QPS。
 1 MiB/1 KiB Set 达到 70.2 万，超过同连接数下 Kvrocks 的 68.1 万。
 100 MiB 点读仍低于带大缓存的 Kvrocks；这组 A/B 不能证明全部差距
 都来自分组解码。
 
+新增的 10 MiB 档与 1 MiB 档同为 64 个热 key。在 320 连接下，PR #212
+的 HGET 相对 main 提升约 11%–33%，SISMEMBER 提升约 29%–63%；四个
+点读组合仍低于同条件 Kvrocks。HSET 约 9.3k–9.9k QPS，接近 1 MiB/64 key
+的水平，说明先前 100 MiB/八 key 的低写入值受到热 key 数量影响。
+
 | 结构 | 每 key | 元素 | 写命令 | Redis | Valkey | Kvrocks | Lavik main | Lavik PR #212 |
 |---|---:|---:|---|---:|---:|---:|---:|---:|
 | Hash | 1 MiB | 128 B | HSET | 734.7 | 804.3 | 371.6 | 9.4 | 9.4 |
 | Hash | 1 MiB | 1 KiB | HSET | 711.4 | 660.5 | 369.4 | 9.5 | 9.7 |
+| Hash | 10 MiB | 128 B | HSET | 759.0 | 695.2 | 387.1 | 9.3 | 9.3 |
+| Hash | 10 MiB | 1 KiB | HSET | 731.0 | 770.8 | 345.4 | 9.9 | 9.6 |
 | Hash | 100 MiB | 128 B | HSET | 746.4 | 727.4 | 318.4 | 2.3 | 2.3 |
 | Hash | 100 MiB | 1 KiB | HSET | 729.7 | 696.6 | 302.0 | 2.3 | 2.3 |
 | Set | 1 MiB | 128 B | SADD + SREM | 763.1 | 758.0 | 440.8 | 18.6 | 18.7 |
 | Set | 1 MiB | 1 KiB | SADD + SREM | 687.9 | 651.3 | 332.2 | 19.3 | 19.9 |
+| Set | 10 MiB | 128 B | SADD + SREM | 782.2 | 781.1 | 439.2 | 18.6 | 18.4 |
+| Set | 10 MiB | 1 KiB | SADD + SREM | 709.4 | 664.5 | 376.9 | 18.8 | 19.6 |
 | Set | 100 MiB | 128 B | SADD + SREM | 765.3 | 770.1 | 354.2 | 4.8 | 4.9 |
 | Set | 100 MiB | 1 KiB | SADD + SREM | 704.6 | 645.9 | 326.2 | 4.9 | 4.9 |
 
@@ -68,11 +84,17 @@ SADD/SREM，其中可能包含无需落盘的空操作。
 TxCleaner 后得到 9.33k QPS、相同 p99；0.15% 的差别不能证明有效提升。
 事务提交队列峰值为 52，远低于 4096 的上限，也没有反压等待。真正的
 HSET 阶段 CPU 采样有大量 worker 和存储轮询，但不能据此量化等待 IO 的
-时间或断定剩余瓶颈。
+时间或断定剩余瓶颈。另将 1 MiB 档的热 key 从 64 个降至八个，HSET
+从 9.31k 降至 2.32k QPS。原先 100 MiB 档也只有八个 key，因此它约
+2.3k 的 HSET 不能单独归因于 value 大小；新补的 10 MiB 档使用 64 个 key，
+与 1 MiB 档保持一致。
 
 两版 Lavik 在 100 MiB/128 B HGETALL 的 16 连接档都返回了
 `OOM grouped operation scratch admission`。图中标明并省略这两个点；
-其他新测点均完成。每个点只测一次，没有置信区间。可用
+这是 Lavik 主动拒绝暂存空间申请：HGETALL 会读取该 key 的全部分组，
+单次读取至少预留 1.172 GiB，并按 worker 分配内存额度；HGET 只读取目标
+field 所在的分组。[计算与原始错误记录](diagnostics/hgetall-oom-20260929/README.md)
+列出了证据。其他新测点均完成。每个点只测一次，没有置信区间。可用
 [A/B 数据 CSV](set-hash-ab.csv)、[原始运行记录](raw/)和
 [绘图脚本](plot_set_hash_ab.py)核对每个结果、失败、命令和二进制哈希。
 
@@ -87,6 +109,18 @@ HSET 阶段 CPU 采样有大量 worker 和存储轮询，但不能据此量化�
 ![Hash 1 MiB 1 KiB：四款产品及 Lavik main/PR #212点操作](charts/hash-1048576-1024-ab.png)
 
 ![Hash 1 MiB 1 KiB：四款产品及 Lavik main/PR #212 HGETALL](charts/hash-1048576-1024-ab-full.png)
+
+### Hash / 10 MiB / 128 B
+
+![Hash 10 MiB 128 B：四款产品及 Lavik main/PR #212 点操作](charts/hash-10485760-128-ab.png)
+
+![Hash 10 MiB 128 B：四款产品及 Lavik main/PR #212 HGETALL](charts/hash-10485760-128-ab-full.png)
+
+### Hash / 10 MiB / 1 KiB
+
+![Hash 10 MiB 1 KiB：四款产品及 Lavik main/PR #212 点操作](charts/hash-10485760-1024-ab.png)
+
+![Hash 10 MiB 1 KiB：四款产品及 Lavik main/PR #212 HGETALL](charts/hash-10485760-1024-ab-full.png)
 
 ### Hash / 100 MiB / 128 B
 
@@ -112,6 +146,18 @@ HSET 阶段 CPU 采样有大量 worker 和存储轮询，但不能据此量化�
 
 ![Set 1 MiB 1 KiB：四款产品及 Lavik main/PR #212 SMEMBERS](charts/set-1048576-1024-ab-full.png)
 
+### Set / 10 MiB / 128 B
+
+![Set 10 MiB 128 B：四款产品及 Lavik main/PR #212 点操作](charts/set-10485760-128-ab.png)
+
+![Set 10 MiB 128 B：四款产品及 Lavik main/PR #212 SMEMBERS](charts/set-10485760-128-ab-full.png)
+
+### Set / 10 MiB / 1 KiB
+
+![Set 10 MiB 1 KiB：四款产品及 Lavik main/PR #212 点操作](charts/set-10485760-1024-ab.png)
+
+![Set 10 MiB 1 KiB：四款产品及 Lavik main/PR #212 SMEMBERS](charts/set-10485760-1024-ab-full.png)
+
 ### Set / 100 MiB / 128 B
 
 ![Set 100 MiB 128 B：四款产品及 Lavik main/PR #212点操作](charts/set-104857600-128-ab.png)
@@ -135,8 +181,8 @@ HSET 阶段 CPU 采样有大量 worker 和存储轮询，但不能据此量化�
 | Stream | 指定 ID 的 XRANGE | XADD MAXLEN ~ N | XRANGE - + | 追加并近似裁剪到预填充长度 |
 
 按位置读取和覆盖时，memtier 轮流访问每个 key 内均匀分布的八个位置。
-原先的 64 KiB 和 1 MiB 条件使用 64 个 key；新增的 100 MiB 条件使用
-8 个 key。每个命令在当前条件的 key 中均匀随机选取一个。每个 field
+原先的 64 KiB、1 MiB 及新增的 10 MiB 条件使用 64 个 key；100 MiB 条件
+使用八个 key。每个命令在当前条件的 key 中均匀随机选取一个。每个 field
 value、member 或元素为 128 B 或 1 KiB。Stream 的字段名和各结构元数据
 不计入逻辑 payload。测量前检查元素数量和抽样内容，写入后再次检查元素
 数量。Set 的增删在随机命中相同 key 时可能产生空操作，因此该项目报告
