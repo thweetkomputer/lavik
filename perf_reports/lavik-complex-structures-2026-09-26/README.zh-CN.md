@@ -21,29 +21,16 @@ Hash/Set 100 MiB/128 B 均使用新 `main` `4c26af7b122bc64fc902b5e72481de803c1c
 Set 的 main 与 PR #219 复用同一份经灌入和校验的 SPDK 数据。
 Hash 的 PR #219 是前一轮同条件结果，最新 main 与 PR #222 共用重新灌入的数据。
 这些曲线用于检查稳态命令性能，导入加速由下面的独立实验测量。
-Hash 100 MiB/128 B 的前一版测量使用 [PR #222](https://github.com/eloqdata/lavik/pull/222)
-`7463540f73eb67736f5fa2cc5ad12fe53cc334db`（二进制 SHA256
-`e865fc8135b875420b72ff9fa03cd755a4b6abe93666d0d2b7bc28b98af65490`）。
-它把分组物理地址索引页改成经过内存配额检查的紧凑数组，并对同 worker 的
-独立事务使用提交完成通知。前一次 Commit 落盘的依赖顺序保持不变。
-该轮单独用 PR #219 重新导入并校验 500 个 100 MiB Hash，再复用数据测试 PR #222；
-13 个测点无错误；图中的 Hash main 又在这份数据上重跑了一轮。
-HSET 为 3.50–5.03 万 QPS，重跑的 main 为 3.19–4.73 万，
-Kvrocks 为 32.29–37.40 万；提升有限，仍未达到目标。每点仅一次测量，
-尚不能把小幅差异都归因于改动。2560 连接下 main 反而略高。
-第一版（仅数组索引）HSET 开始前的 INFO used_memory 从 main 的约 2.21 GiB 降为 PR 的约 1.93 GiB；
-这是运行时计费内存，RSS 含分配器保留空间，不能混用。
-[分阶段诊断](diagnostics/hset-stages-20260929/README.md)显示，
-这组负载主要等待前一次事务提交；通知机制只带来有限改善，后续继续检查提交 I/O。
-
-随后加入 [Bycorf PR #6](https://github.com/eloqdata/bycorf/pull/6) 的设备能力检查，
-图中以 `PR #222 + Bycorf #6` 替换上一版 PR #222 曲线。
-实测源代码 `d8405fad4101e8d16468e86a1044e551ff90d227`、Bycorf `145479a8579e092739a03eb505775836b8997829`，
-二进制 SHA256 `9548e542fa4be43e24a3a63ef65ded6ac28e689985b9ac6b42724ce33158a16d`。
-六块 NVMe 均声明 VWC=0；仅在 worker 没有未完成 I/O 时省去无效 FLUSH，仍按原顺序完成数据和块头写入。
-同一数据集的 13 个测点零错误，HSET 为 **5.20–7.75 万 QPS**；1280 连接为 7.75 万，
-仍低于 Kvrocks。旧曲线的原始结果保留。其他数据结构尚未验证这项吞吐收益。
-
+Hash 100 MiB/128 B 图中的 [PR #222](https://github.com/eloqdata/lavik/pull/222)
+包含紧凑物理地址索引、同 worker 提交完成通知，以及 [Bycorf PR #6](https://github.com/eloqdata/bycorf/pull/6)。
+六块 NVMe 均声明没有易失写缓存（VWC=0），因此省去无效 FLUSH，仍按原顺序完成数据和块头写入；
+事务数据先于 Commit 落盘的规则保持不变。
+当前实测源代码 `5a5c749da22fea98811060bc2f9fc44389edb20b`，Bycorf `fe23c7c102261b552785272cd49d1b36b3dbf0cd`，
+二进制 SHA256 `9a0f448525410e5ab155c32c1c564e6f18ec606683156aec94623596a1cb3969`。
+复用同一份经过校验的 500-key 数据，13 个测点零错误。
+HSET 为 **3.59–7.06 万 QPS**，main 为 3.19–4.73 万，Kvrocks 为 32.29–37.40 万，仍未达到目标。
+当前版本并非所有连接数都更快；每点仅一次测量，后续继续检查提交批次和反压等待。
+[分阶段诊断](diagnostics/hset-stages-20260929/README.md)及原始运行数据保留；
 其他大小和 Set 图尚未加入 PR #222。
 
 没有增加数据页缓存。早期 main、PR #212 和 256-key 的运行记录仍保留在
@@ -63,7 +50,7 @@ cache；Lavik 在六块 NVMe 上用 SPDK 提交。这些配置影响绝对写入
 [HGETALL 内存调查](diagnostics/hgetall-oom-20260929/README.md)。
 
 [同块数据与 Commit 合并刷盘试验](diagnostics/hset-coalescing-20260929/README.md)的正确性检查通过，
-但 HSET 的下降经 20 秒复测确认，该改动已撤回；主图保留表现更好的 NVMe 优化曲线。
+但 HSET 的下降经 20 秒复测确认，该改动已撤回；主图显示当前 NVMe 优化版本。
 
 ## Hash
 
