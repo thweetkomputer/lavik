@@ -109,16 +109,39 @@ def main():
         for variant in variants:
             name = variant["label"]
             tag = variant["runs"].get(str(size))
-            if tag is None:
-                continue
-            rows, errors = load_run("lavik", tag)
-            expected = expected_grid(size)
-            if set(rows) | set(errors) != expected:
-                raise RuntimeError(f"wrong {tag} grid: "
-                                   f"missing={expected - set(rows) - set(errors)}, "
-                                   f"extra={(set(rows) | set(errors)) - expected}")
-            runs[(name, size)] = rows
-            failures[(name, size)] = errors
+            if tag is not None:
+                rows, errors = load_run("lavik", tag)
+                expected = expected_grid(size)
+                if set(rows) | set(errors) != expected:
+                    raise RuntimeError(f"wrong {tag} grid: "
+                                       f"missing={expected - set(rows) - set(errors)}, "
+                                       f"extra={(set(rows) | set(errors)) - expected}")
+                for kind in COMMANDS:
+                    runs[(name, size, kind)] = {
+                        key: row for key, row in rows.items() if key[0] == kind}
+                    failures[(name, size, kind)] = {
+                        key: error for key, error in errors.items()
+                        if key[0] == kind}
+            # Large collections can be measured one structure at a time. A
+            # partial run is valid only for its own structure and must not be
+            # used to fill a missing point for the other structure.
+            for kind, partial_tag in variant.get("by_type", {}).items():
+                if kind not in COMMANDS:
+                    raise RuntimeError(f"unknown structure: {kind}")
+                tag = partial_tag.get(str(size))
+                if tag is None:
+                    continue
+                if (name, size, kind) in runs:
+                    raise RuntimeError(f"duplicate Lavik run: {name} {size} {kind}")
+                rows, errors = load_run("lavik", tag)
+                expected = {key for key in expected_grid(size)
+                            if key[0] == kind}
+                if set(rows) | set(errors) != expected:
+                    raise RuntimeError(f"wrong {tag} grid: "
+                                       f"missing={expected - set(rows) - set(errors)}, "
+                                       f"extra={(set(rows) | set(errors)) - expected}")
+                runs[(name, size, kind)] = rows
+                failures[(name, size, kind)] = errors
 
     chart_dir = ROOT / "charts"
     chart_dir.mkdir(exist_ok=True)
@@ -136,9 +159,10 @@ def main():
                     plotted = 0
                     for ax, command in zip(axes[0], selected):
                         for name in styles:
-                            if name not in peer_rows and (name, size) not in runs:
+                            if name not in peer_rows and (name, size, kind) not in runs:
                                 continue
-                            rows = peer_rows[name] if name in peer_rows else runs[(name, size)]
+                            rows = (peer_rows[name] if name in peer_rows
+                                    else runs[(name, size, kind)])
                             points = sorted(
                                 ((key[-1], float(row["qps"]))
                                  for key, row in rows.items()
@@ -171,8 +195,8 @@ def main():
                         oom_variants = sum(
                             any(key[:4] == (kind, size, field, command) and
                                 "OOM grouped operation scratch admission" in reason
-                                for key, reason in failures[(name, size)].items())
-                            for name in labels if (name, size) in failures)
+                                for key, reason in failures[(name, size, kind)].items())
+                            for name in labels if (name, size, kind) in failures)
                         if oom_variants:
                             ax.text(0.98, 0.04,
                                     f"{oom_variants} Lavik variants: OOM",
@@ -189,16 +213,16 @@ def main():
                                 dpi=150)
                     plt.close(fig)
     with (ROOT / "set-hash-ab.csv").open("w", newline="") as output:
-        writer = csv.writer(output)
+        writer = csv.writer(output, lineterminator="\n")
         writer.writerow(("product", "type", "logical_bytes", "field_bytes",
                          "operation", "connections", "qps"))
         writer.writerows(summary)
-    for (name, size), errors in failures.items():
+    for (name, size, kind), errors in failures.items():
         for key, message in errors.items():
             reason = ("OOM grouped operation scratch admission"
                       if "OOM grouped operation scratch admission" in message
                       else message.splitlines()[0][:120])
-            print(f"{name} {size} {key}: {reason}")
+            print(f"{name} {size} {kind} {key}: {reason}")
 
 
 if __name__ == "__main__":

@@ -13,9 +13,9 @@ Only `main` after merged [PR #212](https://github.com/eloqdata/lavik/pull/212)
 is plotted for Lavik. The 1 MiB run uses commit `bde3120e` and a SPDK
 RelWithDebInfo binary with SHA256
 `1acecaa40948d473caedce591d1a775d3d910b260a50b38a68f25bf946a4546e`.
-The three peers have completed 10 MiB and 100 MiB runs; the merged main has
-not yet been measured at those sizes. Those charts currently show peers only,
-until Lavik is measured under the same workload. Earlier main and PR #212 raw
+The three peers have completed 10 MiB and 100 MiB runs. Set at 10 MiB now
+uses merged main `9acd7b6f`; large Hash and 100 MiB Set remain to be measured.
+Earlier main and PR #212 raw
 runs remain in `raw/` but are not represented as current main results.
 
 The 1 MiB and 10 MiB runs use 64 keys; 100 MiB uses eight. Entry sizes are
@@ -26,8 +26,8 @@ Kvrocks uses uncompressed RAID0, WAL disabled, an 80 GiB block cache and
 blob cache. Lavik commits to six NVMe devices via SPDK. These settings affect
 absolute write throughput.
 
-The 1 MiB/64-key HGET and SISMEMBER points use merged main. Lavik's
-larger-key point and full reads are pending. No data-page cache was added.
+The 1 MiB/64-key HGET and SISMEMBER points and the 10 MiB/64-key SISMEMBER
+points use merged main. No data-page cache was added.
 
 At 1 MiB/64 keys, merged main HSET is about 9.4–9.6k QPS and mixed
 SADD/SREM about 18.8–20.1k QPS; the latter includes no-op replies.
@@ -105,7 +105,7 @@ Each point-read/write chart contains both commands. The 1 MiB Lavik line is from
 
 ## Set
 
-Each point-read/write chart contains both commands. The 1 MiB Lavik line is from merged main; the 10 MiB and 100 MiB merged-main points are pending.
+Each point-read/write chart contains both commands. The 1 MiB and 10 MiB Lavik lines are from merged main; 100 MiB is pending.
 
 ### SISMEMBER / SADD/SREM
 
