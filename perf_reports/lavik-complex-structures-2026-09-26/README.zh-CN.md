@@ -13,7 +13,7 @@ Lavik 只展示已合并 [PR #212](https://github.com/eloqdata/lavik/pull/212)
 RelWithDebInfo 二进制 SHA256 为
 `1acecaa40948d473caedce591d1a775d3d910b260a50b38a68f25bf946a4546e`。
 10 MiB 和 100 MiB 档已测完三个对照数据库，合并后 main 还未补测；
-图中暂只显示三个对照库，表里用 `—` 标记缺失值。早期 main 和 PR #212
+图中暂只显示三个对照库。早期 main 和 PR #212
 的原始运行记录仍保留在 `raw/`，但不再当作当前 main 的数据展示。
 
 1 MiB 和 10 MiB 使用 64 个 key；100 MiB 使用八个 key。每个元素为
@@ -23,41 +23,8 @@ RelWithDebInfo 二进制 SHA256 为
 启用 80 GiB block cache 和 blob cache；Lavik 在六块 NVMe 上用 SPDK
 提交。这些配置影响绝对写入 QPS。
 
-下表取 320 连接，单位千 QPS；每行列出四款数据库，缺失的 Lavik 点
-会在同条件补测后填入。
-
-| 结构 | 每 key | 元素 | 读命令 | Redis | Valkey | Kvrocks | Lavik main |
-|---|---:|---:|---|---:|---:|---:|---:|
-| Hash | 1 MiB | 128 B | HGET | 763.0 | 741.3 | 750.8 | 677.3 |
-| Hash | 1 MiB | 1 KiB | HGET | 715.5 | 721.8 | 725.7 | 741.4 |
-| Hash | 10 MiB | 128 B | HGET | 780.3 | 742.2 | 724.5 | — |
-| Hash | 10 MiB | 1 KiB | HGET | 754.4 | 696.6 | 652.6 | — |
-| Hash | 100 MiB | 128 B | HGET | 779.4 | 785.4 | 663.1 | — |
-| Hash | 100 MiB | 1 KiB | HGET | 744.8 | 736.4 | 644.3 | — |
-| Set | 1 MiB | 128 B | SISMEMBER | 768.0 | 854.3 | 715.8 | 675.5 |
-| Set | 1 MiB | 1 KiB | SISMEMBER | 694.3 | 656.2 | 680.7 | 724.4 |
-| Set | 10 MiB | 128 B | SISMEMBER | 771.7 | 803.1 | 699.2 | — |
-| Set | 10 MiB | 1 KiB | SISMEMBER | 713.3 | 675.3 | 679.5 | — |
-| Set | 100 MiB | 128 B | SISMEMBER | 778.5 | 781.2 | 646.2 | — |
-| Set | 100 MiB | 1 KiB | SISMEMBER | 701.6 | 679.5 | 615.2 | — |
-
 目前 1 MiB/64-key 的 HGET、SISMEMBER 已采用合并后 main；
 大 key 的 Lavik 点读及完整读取结果待补。没有给 Lavik 增加数据页缓存。
-
-| 结构 | 每 key | 元素 | 写命令 | Redis | Valkey | Kvrocks | Lavik main |
-|---|---:|---:|---|---:|---:|---:|---:|
-| Hash | 1 MiB | 128 B | HSET | 734.7 | 804.3 | 371.6 | 9.4 |
-| Hash | 1 MiB | 1 KiB | HSET | 711.4 | 660.5 | 369.4 | 9.6 |
-| Hash | 10 MiB | 128 B | HSET | 759.0 | 695.2 | 387.1 | — |
-| Hash | 10 MiB | 1 KiB | HSET | 731.0 | 770.8 | 345.4 | — |
-| Hash | 100 MiB | 128 B | HSET | 746.4 | 727.4 | 318.4 | — |
-| Hash | 100 MiB | 1 KiB | HSET | 729.7 | 696.6 | 302.0 | — |
-| Set | 1 MiB | 128 B | SADD + SREM | 763.1 | 758.0 | 440.8 | 18.8 |
-| Set | 1 MiB | 1 KiB | SADD + SREM | 687.9 | 651.3 | 332.2 | 20.1 |
-| Set | 10 MiB | 128 B | SADD + SREM | 782.2 | 781.1 | 439.2 | — |
-| Set | 10 MiB | 1 KiB | SADD + SREM | 709.4 | 664.5 | 376.9 | — |
-| Set | 100 MiB | 128 B | SADD + SREM | 765.3 | 770.1 | 354.2 | — |
-| Set | 100 MiB | 1 KiB | SADD + SREM | 704.6 | 645.9 | 326.2 | — |
 
 1 MiB/64-key 的 HSET 和 SADD/SREM 在合并后 main 中分别约为
 9.4–9.6k 与 18.8–20.1k QPS；SADD/SREM 混合结果含空操作。
@@ -68,24 +35,11 @@ RelWithDebInfo 二进制 SHA256 为
 针对热 key 偏少的问题，四款产品统一填充 256 个 1 MiB key，元素分别为
 128 B 和 1 KiB；命令、八秒测量、连接数和持久化配置与上面的 64-key 档相同。
 这里的 Lavik 只画最新 main (`9acd7b6f`)，没有重复画早期 PR。
-下表取 320 连接，单位千 QPS：
-
-| 结构 | 元素 | 命令 | Redis | Valkey | Kvrocks | Lavik main |
-|---|---:|---|---:|---:|---:|---:|
-| Hash | 128 B | HSET | 733.3 | 699.9 | 348.8 | 19.2 |
-| Hash | 1 KiB | HSET | 698.0 | 657.4 | 339.2 | 19.8 |
-| Set | 128 B | SADD + SREM | 772.6 | 746.9 | 434.9 | 36.1 |
-| Set | 1 KiB | SADD + SREM | 708.6 | 634.0 | 363.1 | 36.3 |
-
 256 key 相比 64 key，把 128 B HSET 的 320 连接吞吐从约 9.4k 提到
 19.2k QPS，Set 的 SADD/SREM 从 18.8k 提到 36.1k；仍远低于 Kvrocks。
 80 连接时 Lavik 的 HSET 达 29.7k，而 320 连接回落至 19.2k，说明仅增加
 连接不能消除写入等待。图的纵轴使用对数刻度，保留了 Lavik 与三个对照库的
 数量级差距。
-
-![Hash HSET：256 key、每 key 1 MiB、四款产品](charts/hash-hset-1048576-k256.png)
-
-![Set SADD/SREM：256 key、每 key 1 MiB、四款产品](charts/set-sadd_srem-1048576-k256.png)
 
 [完整测点 CSV](write-256.csv)、[绘图脚本](plot_write_256.py)及
 [Redis](raw/redis-1m-k256-write-20260929/)、
@@ -95,87 +49,107 @@ RelWithDebInfo 二进制 SHA256 为
 
 合并前的写入诊断与 HGETALL 内存调查保留在 [HSET 诊断](diagnostics/hset-20260929/README.md)和 [HGETALL 内存调查](diagnostics/hgetall-oom-20260929/README.md)，不作为当前 main 的实测值。每点仅测一次，没有置信区间；可用 [当前数据 CSV](set-hash-ab.csv)、[原始运行记录](raw/)和 [绘图脚本](plot_set_hash_ab.py)复核。
 
-### Hash / 1 MiB / 128 B
+## Hash
 
-![Hash/Set 当前 main 与对照库](charts/hash-1048576-128-ab.png)
+下列点查/写入图每张包含两个命令；1 MiB 的 Lavik 为合并后 main，10 MiB 和 100 MiB 仍待同条件补测。
 
-![Hash/Set 当前 main 与对照库](charts/hash-1048576-128-ab-full.png)
+### HGET / HSET
 
-### Hash / 1 MiB / 1 KiB
+#### 1 MiB
 
-![Hash/Set 当前 main 与对照库](charts/hash-1048576-1024-ab.png)
+![Hash 1 MiB、128 B：HGET 与 HSET QPS 随连接数变化](charts/hash-1048576-128-ab.png)
 
-![Hash/Set 当前 main 与对照库](charts/hash-1048576-1024-ab-full.png)
+![Hash 1 MiB、1 KiB：HGET 与 HSET QPS 随连接数变化](charts/hash-1048576-1024-ab.png)
 
-### Hash / 10 MiB / 128 B
+#### 10 MiB
 
-![Hash/Set 当前 main 与对照库](charts/hash-10485760-128-ab.png)
+![Hash 10 MiB、128 B：HGET 与 HSET QPS 随连接数变化](charts/hash-10485760-128-ab.png)
 
-![Hash/Set 当前 main 与对照库](charts/hash-10485760-128-ab-full.png)
+![Hash 10 MiB、1 KiB：HGET 与 HSET QPS 随连接数变化](charts/hash-10485760-1024-ab.png)
 
-### Hash / 10 MiB / 1 KiB
+#### 100 MiB
 
-![Hash/Set 当前 main 与对照库](charts/hash-10485760-1024-ab.png)
+![Hash 100 MiB、128 B：HGET 与 HSET QPS 随连接数变化](charts/hash-104857600-128-ab.png)
 
-![Hash/Set 当前 main 与对照库](charts/hash-10485760-1024-ab-full.png)
+![Hash 100 MiB、1 KiB：HGET 与 HSET QPS 随连接数变化](charts/hash-104857600-1024-ab.png)
 
-### Hash / 100 MiB / 128 B
+### HSET / 256 个热 key
 
-![Hash/Set 当前 main 与对照库](charts/hash-104857600-128-ab.png)
+每 key 1 MiB，128 B 和 1 KiB 元素；Lavik 是最新 main `9acd7b6f`。
 
-![Hash/Set 当前 main 与对照库](charts/hash-104857600-128-ab-full.png)
+![Hash HSET，256 key，四款数据库](charts/hash-hset-1048576-k256.png)
 
-### Hash / 100 MiB / 1 KiB
+### HGETALL
 
-![Hash/Set 当前 main 与对照库](charts/hash-104857600-1024-ab.png)
+#### 1 MiB
 
-![Hash/Set 当前 main 与对照库](charts/hash-104857600-1024-ab-full.png)
+![Hash 1 MiB、128 B：HGETALL QPS 随连接数变化](charts/hash-1048576-128-ab-full.png)
 
-### Set / 1 MiB / 128 B
+![Hash 1 MiB、1 KiB：HGETALL QPS 随连接数变化](charts/hash-1048576-1024-ab-full.png)
 
-![Hash/Set 当前 main 与对照库](charts/set-1048576-128-ab.png)
+#### 10 MiB
 
-![Hash/Set 当前 main 与对照库](charts/set-1048576-128-ab-full.png)
+![Hash 10 MiB、128 B：HGETALL QPS 随连接数变化](charts/hash-10485760-128-ab-full.png)
 
-### Set / 1 MiB / 1 KiB
+![Hash 10 MiB、1 KiB：HGETALL QPS 随连接数变化](charts/hash-10485760-1024-ab-full.png)
 
-![Hash/Set 当前 main 与对照库](charts/set-1048576-1024-ab.png)
+#### 100 MiB
 
-![Hash/Set 当前 main 与对照库](charts/set-1048576-1024-ab-full.png)
+![Hash 100 MiB、128 B：HGETALL QPS 随连接数变化](charts/hash-104857600-128-ab-full.png)
 
-### Set / 10 MiB / 128 B
+![Hash 100 MiB、1 KiB：HGETALL QPS 随连接数变化](charts/hash-104857600-1024-ab-full.png)
 
-![Hash/Set 当前 main 与对照库](charts/set-10485760-128-ab.png)
+## Set
 
-![Hash/Set 当前 main 与对照库](charts/set-10485760-128-ab-full.png)
+下列点查/写入图每张包含两个命令；1 MiB 的 Lavik 为合并后 main，10 MiB 和 100 MiB 仍待同条件补测。
 
-### Set / 10 MiB / 1 KiB
+### SISMEMBER / SADD/SREM
 
-![Hash/Set 当前 main 与对照库](charts/set-10485760-1024-ab.png)
+#### 1 MiB
 
-![Hash/Set 当前 main 与对照库](charts/set-10485760-1024-ab-full.png)
+![Set 1 MiB、128 B：SISMEMBER 与 SADD/SREM QPS 随连接数变化](charts/set-1048576-128-ab.png)
 
-### Set / 100 MiB / 128 B
+![Set 1 MiB、1 KiB：SISMEMBER 与 SADD/SREM QPS 随连接数变化](charts/set-1048576-1024-ab.png)
 
-![Hash/Set 当前 main 与对照库](charts/set-104857600-128-ab.png)
+#### 10 MiB
 
-![Hash/Set 当前 main 与对照库](charts/set-104857600-128-ab-full.png)
+![Set 10 MiB、128 B：SISMEMBER 与 SADD/SREM QPS 随连接数变化](charts/set-10485760-128-ab.png)
 
-### Set / 100 MiB / 1 KiB
+![Set 10 MiB、1 KiB：SISMEMBER 与 SADD/SREM QPS 随连接数变化](charts/set-10485760-1024-ab.png)
 
-![Hash/Set 当前 main 与对照库](charts/set-104857600-1024-ab.png)
+#### 100 MiB
 
-![Hash/Set 当前 main 与对照库](charts/set-104857600-1024-ab-full.png)
+![Set 100 MiB、128 B：SISMEMBER 与 SADD/SREM QPS 随连接数变化](charts/set-104857600-128-ab.png)
+
+![Set 100 MiB、1 KiB：SISMEMBER 与 SADD/SREM QPS 随连接数变化](charts/set-104857600-1024-ab.png)
+
+### SADD/SREM / 256 个热 key
+
+每 key 1 MiB，128 B 和 1 KiB 元素；Lavik 是最新 main `9acd7b6f`。
+
+![Set SADD/SREM，256 key，四款数据库](charts/set-sadd_srem-1048576-k256.png)
+
+### SMEMBERS
+
+#### 1 MiB
+
+![Set 1 MiB、128 B：SMEMBERS QPS 随连接数变化](charts/set-1048576-128-ab-full.png)
+
+![Set 1 MiB、1 KiB：SMEMBERS QPS 随连接数变化](charts/set-1048576-1024-ab-full.png)
+
+#### 10 MiB
+
+![Set 10 MiB、128 B：SMEMBERS QPS 随连接数变化](charts/set-10485760-128-ab-full.png)
+
+![Set 10 MiB、1 KiB：SMEMBERS QPS 随连接数变化](charts/set-10485760-1024-ab-full.png)
+
+#### 100 MiB
+
+![Set 100 MiB、128 B：SMEMBERS QPS 随连接数变化](charts/set-104857600-128-ab-full.png)
+
+![Set 100 MiB、1 KiB：SMEMBERS QPS 随连接数变化](charts/set-104857600-1024-ab-full.png)
 
 ## 工作负载
-
-| 数据结构 | 点查 | 写入 | 完整读取 | 写入行为 |
-|---|---|---|---|---|
-| Hash | HGET | HSET | HGETALL | 覆盖已有 field 的 value |
-| Set | SISMEMBER | SADD + SREM | SMEMBERS | 对同一个 member 等比例交替增删 |
-| List | LINDEX | LSET | LRANGE 0 -1 | 覆盖已有元素 |
-| Sorted Set | ZSCORE | ZINCRBY | ZRANGE WITHSCORES | 增加已有 member 的 score |
-| Stream | 指定 ID 的 XRANGE | XADD MAXLEN ~ N | XRANGE - + | 追加并近似裁剪到预填充长度 |
 
 按位置读取和覆盖时，memtier 轮流访问每个 key 内均匀分布的八个位置。
 原先的 64 KiB、1 MiB 及新增的 10 MiB 条件使用 64 个 key；100 MiB 条件
@@ -191,11 +165,9 @@ value、member 或元素为 128 B 或 1 KiB。Stream 的字段名和各结构元
   Redis 8.8.0 与 Valkey 9.1.0 使用
   12 个 I/O 线程，关闭 RDB/AOF；Lavik 使用 12 个 worker、内核 TCP
   和六块专用 SPDK NVMe。三者的持久化配置不同。
-- Lavik 二进制来自 [PR #203](https://github.com/eloqdata/lavik/pull/203) 的
-  `646a7b4e` 提交，SHA256 为
-  `d98624e48eeac1aa942435f53e3c0f56882022f1f2184ae0bc415dfe5e31870a`；
-  测试开始时上游 `main` 为 `9e31d073`。100 MiB 扩展沿用同一二进制，
-  避免把代码版本变化混入大小对比。
+- List 和 Sorted Set 章节的 Lavik 是早期 [PR #203](https://github.com/eloqdata/lavik/pull/203) 的
+  `646a7b4e` 二进制；Hash/Set 与 Stream 的当前 main 版本在各自章节注明。
+  不同版本的数据不组成一条 Lavik 曲线。
 - Kvrocks 在三个大小档位使用相同配置。64 KiB 与 1 MiB 于 2026-09-27
   后补测，工作负载参数与原始档位一致。保存的配置启用了 80 GiB RocksDB
   block cache 和 blob cache；它的热读 QPS 因而包含大容量内存缓存的收益，
@@ -211,322 +183,106 @@ value、member 或元素为 128 B 或 1 KiB。Stream 的字段名和各结构元
   64 个热 key 会显露单对象竞争，不代表海量 key 的负载。
 - QPS 和延迟来自 memtier JSON；脚本拒绝连接错误、中断和服务端错误。
 
-## 结果
-
-64 KiB 和 1 MiB 的四款产品共 960 个组合均已完成。100 MiB 扩展的 520 个组合中有 519 个
-有效结果；Lavik 的 128 B Set 在 16 连接执行 `SMEMBERS` 时可复现地返回
-`OOM grouped operation scratch admission`。原始依据包括
-[results.csv](results.csv)、[raw/](raw/) 下的每次运行 JSON 与命令记录，
-以及绘图脚本 [collect_plot.py](collect_plot.py)。每个点只测一次、时长八秒；
-下列 QPS 没有重复测量的置信区间。
-
-对 1 MiB 对象，Lavik 的单元素读取通常在 320 个连接以内达到峰值，
-Redis 则经常继续升至 1280–2560 个连接。128 B 元素时，Lavik 的
-HGET、SISMEMBER、LINDEX、ZSCORE 峰值分别约为
-50.2 万、40.8 万、13.9 万、37.8 万 QPS。5120 个连接显著增加排队延迟：以 1 MiB/128 B HGET 为例，
-Lavik 从 320 连接时的 50.2 万 QPS、p99 1.9 ms，降为 5120 连接时的
-31.6 万 QPS、p99 127 ms。Redis 的 Hash/Set/Sorted Set 峰值点已占用
-客户端 16 个 CPU 核中的约 15 个，高连接数曲线也受客户端容量影响。
+## List
 
-完整读取表现不同。80 连接、1 MiB/128 B 下，Lavik 的 HGETALL
-（1524 QPS）、SMEMBERS（1544）及含 score 的 ZRANGE（1488）达到或
-超过 Redis；LRANGE（949）则更慢。
-元素为 1 KiB 时，Lavik 和 Redis 的若干 1 MiB 完整读取达到约
-2.8 GiB/s 客户端接收速率，接近本环境观察到的回复带宽平台。
+这一章保留早期完整四产品对照：Lavik 使用 `646a7b4e` 版本，尚未在最新 main 上复测。图仅代表该版本，原始数据见 [results.csv](results.csv)。
 
-写入必须结合持久化配置理解：Redis 与 Valkey 关闭 RDB/AOF，Kvrocks
-关闭 WAL，Lavik 则提交到 SPDK。Lavik 的 HSET、LSET 和 ZINCRBY
-在 80 连接下多数为 5000–7000 QPS。继续增加连接数对 QPS 帮助很小，
-却把 p99 推到秒级。Set 的 SADD/SREM 行表示命令吞吐，其中可能有空操作。
+### LINDEX / LSET
 
-### 单元素读取峰值 QPS（括号内为连接数）
+#### 64 KiB
 
-| 数据结构 | 元素大小 | 命令 | Redis | Valkey | Lavik | Kvrocks |
-|---|---:|---|---:|---:|---:|---:|
-| Hash | 128 B | HGET | 1,001,626（2560） | 837,629（2560） | 502,460（320） | 769,372（1280） |
-| Hash | 1 KiB | HGET | 968,662（2560） | 931,407（2560） | 645,839（320） | 762,361（1280） |
-| Set | 128 B | SISMEMBER | 1,038,463（2560） | 908,383（1280） | 408,024（320） | 742,570（1280） |
-| Set | 1 KiB | SISMEMBER | 815,565（1280） | 837,087（2560） | 501,939（320） | 684,015（1280） |
-| List | 128 B | LINDEX | 753,041（2560） | 682,135（320） | 138,566（80） | 736,307（1280） |
-| List | 1 KiB | LINDEX | 795,571（1280） | 669,135（1280） | 677,413（320） | 712,042（1280） |
-| Sorted Set | 128 B | ZSCORE | 989,218（2560） | 857,403（2560） | 378,358（320） | 723,626（1280） |
-| Sorted Set | 1 KiB | ZSCORE | 800,531（1280） | 824,607（1280） | 453,124（320） | 693,107（1280） |
+![List 64 KiB、128 B：LINDEX / LSET QPS 随连接数变化](charts/list-65536-128.png)
 
-### 80 连接时的写入命令 QPS
+![List 64 KiB、1 KiB：LINDEX / LSET QPS 随连接数变化](charts/list-65536-1024.png)
 
-| 数据结构 | 元素大小 | 命令 | Redis | Valkey | Lavik | Kvrocks |
-|---|---:|---|---:|---:|---:|---:|
-| Hash | 128 B | HSET | 445,582 | 541,152 | 6,471 | 344,105 |
-| Hash | 1 KiB | HSET | 438,749 | 532,240 | 6,436 | 335,743 |
-| Set | 128 B | SADD + SREM | 449,673 | 560,382 | 13,287 | 369,514 |
-| Set | 1 KiB | SADD + SREM | 436,456 | 537,995 | 13,137 | 357,828 |
-| List | 128 B | LSET | 426,554 | 483,039 | 6,319 | 342,282 |
-| List | 1 KiB | LSET | 430,357 | 466,391 | 6,575 | 327,471 |
-| Sorted Set | 128 B | ZINCRBY | 402,062 | 531,647 | 6,102 | 235,031 |
-| Sorted Set | 1 KiB | ZINCRBY | 407,553 | 490,732 | 6,445 | 181,761 |
+#### 1 MiB
 
-### 80 连接时的完整读取 QPS
+![List 1 MiB、128 B：LINDEX / LSET QPS 随连接数变化](charts/list-1048576-128.png)
 
-| 数据结构 | 元素大小 | 命令 | Redis | Valkey | Lavik | Kvrocks |
-|---|---:|---|---:|---:|---:|---:|
-| Hash | 128 B | HGETALL | 1,137 | 295 | 1,524 | 1,855 |
-| Hash | 1 KiB | HGETALL | 2,771 | 1,235 | 2,807 | 2,799 |
-| Set | 128 B | SMEMBERS | 999 | 464 | 1,544 | 2,702 |
-| Set | 1 KiB | SMEMBERS | 2,847 | 1,252 | 2,846 | 2,844 |
-| List | 128 B | LRANGE | 2,322 | 938 | 949 | 2,702 |
-| List | 1 KiB | LRANGE | 2,849 | 1,073 | 1,380 | 2,843 |
-| Sorted Set | 128 B | ZRANGE | 1,441 | 537 | 1,488 | 1,943 |
-| Sorted Set | 1 KiB | ZRANGE | 2,823 | 1,035 | 2,824 | 2,819 |
+![List 1 MiB、1 KiB：LINDEX / LSET QPS 随连接数变化](charts/list-1048576-1024.png)
 
-### Tx 积压上限定点 A/B
+#### 100 MiB
 
-在 1 MiB Hash、128 B field value 的 HSET 上，将每 worker Tx
-积压上限从默认 8 MiB 调到 64 MiB。更大的上限消除了测得的反压等待，
-却没有带来明确吞吐收益；默认值仍保持 8 MiB。
+![List 100 MiB、128 B：LINDEX / LSET QPS 随连接数变化](charts/list-104857600-128.png)
 
-80 连接时，8 MiB 为 6,471 QPS、304 次反压等待；64 MiB 为 6,281
-QPS、0 次等待。320 连接时分别为 6,446 QPS/582 次等待和 6,425
-QPS/0 次等待；2,560 连接时分别为 7,018 QPS/3,899 次等待和
-7,128 QPS/0 次等待。这是 Lavik 单产品 A/B 实验，与四产品对比表分开。
+![List 100 MiB、1 KiB：LINDEX / LSET QPS 随连接数变化](charts/list-104857600-1024.png)
 
-大 List 的点读值得继续剖析。当前代码按 rank 二分定位有序页，
-再[加载并解码选中的整页](../../src/storage/engine/grouped_list.cpp)，
-并非每次 LINDEX 都扫描整个 List。1 MiB/128 B List 有 8192 个元素，
-LINDEX 峰值仅约 13.9 万 QPS；1 MiB/1 KiB List 有 1024 个元素，
-峰值约 67.7 万。页内解码与分配是合理候选原因，尚未通过剖析确认为根因。
+### LRANGE 0 -1
 
-### 图表
+#### 64 KiB
 
-点查/写入图的连接数横轴为对数刻度；写入 QPS 纵轴也是对数刻度，
-以便看清 Lavik 与关闭持久化的两款服务之间的数量级差异。
-完整读取图使用线性刻度。
+![List 64 KiB、128 B：LRANGE 0 -1 QPS 随连接数变化](charts/list-65536-128-full.png)
 
-以下按数据结构、每 key 的大小和元素大小，依次直接展示点查/写入图与完整读取图。
+![List 64 KiB、1 KiB：LRANGE 0 -1 QPS 随连接数变化](charts/list-65536-1024-full.png)
 
-#### Hash / 64 KiB / 128 B
+#### 1 MiB
 
-![Hash, 64 KiB per key, 128 B per element: point read and write](charts/hash-65536-128.png)
+![List 1 MiB、128 B：LRANGE 0 -1 QPS 随连接数变化](charts/list-1048576-128-full.png)
 
-![Hash, 64 KiB per key, 128 B per element: full read](charts/hash-65536-128-full.png)
+![List 1 MiB、1 KiB：LRANGE 0 -1 QPS 随连接数变化](charts/list-1048576-1024-full.png)
 
-#### Hash / 64 KiB / 1 KiB
+#### 100 MiB
 
-![Hash, 64 KiB per key, 1 KiB per element: point read and write](charts/hash-65536-1024.png)
+![List 100 MiB、128 B：LRANGE 0 -1 QPS 随连接数变化](charts/list-104857600-128-full.png)
 
-![Hash, 64 KiB per key, 1 KiB per element: full read](charts/hash-65536-1024-full.png)
+![List 100 MiB、1 KiB：LRANGE 0 -1 QPS 随连接数变化](charts/list-104857600-1024-full.png)
 
-#### Hash / 1 MiB / 128 B
+1 MiB/128 B 的 `LINDEX` 中，Lavik 峰值约 139k QPS；1 KiB 元素时约 677k。该差距与页内元素个数相关，但尚无足够剖析证据把它归因于单一操作。
 
-![Hash, 1 MiB per key, 128 B per element: point read and write](charts/hash-1048576-128.png)
+## Sorted Set
 
-![Hash, 1 MiB per key, 128 B per element: full read](charts/hash-1048576-128-full.png)
+这一章保留早期完整四产品对照：Lavik 使用 `646a7b4e` 版本，尚未在最新 main 上复测。图仅代表该版本，原始数据见 [results.csv](results.csv)。
 
-#### Hash / 1 MiB / 1 KiB
+### ZSCORE / ZINCRBY
 
-![Hash, 1 MiB per key, 1 KiB per element: point read and write](charts/hash-1048576-1024.png)
+#### 64 KiB
 
-![Hash, 1 MiB per key, 1 KiB per element: full read](charts/hash-1048576-1024-full.png)
+![Sorted Set 64 KiB、128 B：ZSCORE / ZINCRBY QPS 随连接数变化](charts/zset-65536-128.png)
 
-#### Set / 64 KiB / 128 B
+![Sorted Set 64 KiB、1 KiB：ZSCORE / ZINCRBY QPS 随连接数变化](charts/zset-65536-1024.png)
 
-![Set, 64 KiB per key, 128 B per element: point read and write](charts/set-65536-128.png)
+#### 1 MiB
 
-![Set, 64 KiB per key, 128 B per element: full read](charts/set-65536-128-full.png)
+![Sorted Set 1 MiB、128 B：ZSCORE / ZINCRBY QPS 随连接数变化](charts/zset-1048576-128.png)
 
-#### Set / 64 KiB / 1 KiB
+![Sorted Set 1 MiB、1 KiB：ZSCORE / ZINCRBY QPS 随连接数变化](charts/zset-1048576-1024.png)
 
-![Set, 64 KiB per key, 1 KiB per element: point read and write](charts/set-65536-1024.png)
+#### 100 MiB
 
-![Set, 64 KiB per key, 1 KiB per element: full read](charts/set-65536-1024-full.png)
+![Sorted Set 100 MiB、128 B：ZSCORE / ZINCRBY QPS 随连接数变化](charts/zset-104857600-128.png)
 
-#### Set / 1 MiB / 128 B
+![Sorted Set 100 MiB、1 KiB：ZSCORE / ZINCRBY QPS 随连接数变化](charts/zset-104857600-1024.png)
 
-![Set, 1 MiB per key, 128 B per element: point read and write](charts/set-1048576-128.png)
+### ZRANGE WITHSCORES
 
-![Set, 1 MiB per key, 128 B per element: full read](charts/set-1048576-128-full.png)
+#### 64 KiB
 
-#### Set / 1 MiB / 1 KiB
+![Sorted Set 64 KiB、128 B：ZRANGE WITHSCORES QPS 随连接数变化](charts/zset-65536-128-full.png)
 
-![Set, 1 MiB per key, 1 KiB per element: point read and write](charts/set-1048576-1024.png)
+![Sorted Set 64 KiB、1 KiB：ZRANGE WITHSCORES QPS 随连接数变化](charts/zset-65536-1024-full.png)
 
-![Set, 1 MiB per key, 1 KiB per element: full read](charts/set-1048576-1024-full.png)
+#### 1 MiB
 
-#### List / 64 KiB / 128 B
+![Sorted Set 1 MiB、128 B：ZRANGE WITHSCORES QPS 随连接数变化](charts/zset-1048576-128-full.png)
 
-![List, 64 KiB per key, 128 B per element: point read and write](charts/list-65536-128.png)
+![Sorted Set 1 MiB、1 KiB：ZRANGE WITHSCORES QPS 随连接数变化](charts/zset-1048576-1024-full.png)
 
-![List, 64 KiB per key, 128 B per element: full read](charts/list-65536-128-full.png)
+#### 100 MiB
 
-#### List / 64 KiB / 1 KiB
+![Sorted Set 100 MiB、128 B：ZRANGE WITHSCORES QPS 随连接数变化](charts/zset-104857600-128-full.png)
 
-![List, 64 KiB per key, 1 KiB per element: point read and write](charts/list-65536-1024.png)
+![Sorted Set 100 MiB、1 KiB：ZRANGE WITHSCORES QPS 随连接数变化](charts/zset-104857600-1024-full.png)
 
-![List, 64 KiB per key, 1 KiB per element: full read](charts/list-65536-1024-full.png)
+## 测量边界
 
-#### List / 1 MiB / 128 B
+每点运行八秒、只测一次，QPS 没有重复测量置信区间。Redis/Valkey 关闭持久化，Kvrocks 关闭 WAL 并使用 80 GiB block cache，Lavik 向 SPDK 提交；写入曲线不可解释为同等持久性下的排名。100 MiB 的全量读取有些测点不足 100 次完成回复，小差异不宜过度解释。
 
-![List, 1 MiB per key, 128 B per element: point read and write](charts/list-1048576-128.png)
-
-![List, 1 MiB per key, 128 B per element: full read](charts/list-1048576-128-full.png)
-
-#### List / 1 MiB / 1 KiB
-
-![List, 1 MiB per key, 1 KiB per element: point read and write](charts/list-1048576-1024.png)
-
-![List, 1 MiB per key, 1 KiB per element: full read](charts/list-1048576-1024-full.png)
-
-#### Sorted Set / 64 KiB / 128 B
-
-![Sorted Set, 64 KiB per key, 128 B per element: point read and write](charts/zset-65536-128.png)
-
-![Sorted Set, 64 KiB per key, 128 B per element: full read](charts/zset-65536-128-full.png)
-
-#### Sorted Set / 64 KiB / 1 KiB
-
-![Sorted Set, 64 KiB per key, 1 KiB per element: point read and write](charts/zset-65536-1024.png)
-
-![Sorted Set, 64 KiB per key, 1 KiB per element: full read](charts/zset-65536-1024-full.png)
-
-#### Sorted Set / 1 MiB / 128 B
-
-![Sorted Set, 1 MiB per key, 128 B per element: point read and write](charts/zset-1048576-128.png)
-
-![Sorted Set, 1 MiB per key, 128 B per element: full read](charts/zset-1048576-128-full.png)
-
-#### Sorted Set / 1 MiB / 1 KiB
-
-![Sorted Set, 1 MiB per key, 1 KiB per element: point read and write](charts/zset-1048576-1024.png)
-
-![Sorted Set, 1 MiB per key, 1 KiB per element: full read](charts/zset-1048576-1024-full.png)
-
-### 解读边界
-
-- 原先的 64 个 key 和扩展条件的 8 个 key 都是刻意设置的热 key；
-  每个点仅跑一次八秒，没有重复测量误差范围，
-  也没有冷缓存测试。
-- 逻辑大小只计算元素 payload；field 名、score、Stream 元数据、协议编码、
-  分配器开销与 Lavik 页/索引字节都不计入。
-- Set 的 SADD/SREM 等比例访问独立随机 key，可能返回空操作。
-  Stream 的 XADD 使用近似 MAXLEN，实际物理写入及保留条数会略有波动。
-- Redis/Valkey 关闭持久化，Kvrocks 关闭 WAL，Lavik 提交到 SPDK。写入 QPS 是这些配置下的比较，
-  不是同等持久性条件下的性能。
-- 1 MiB/128 B Stream 的 64 个 key 共需 524,288 次 XADD 预填充；
-  填充时间不计入 memtier 测量。各组耗时见 `*.fill.json`。
-  数据组按固定顺序执行，没有随机化。
-
-### 每 key 100 MiB 扩展
-
-新增档位每个 key 恰好有 104,857,600 字节逻辑 payload，每个条件使用八个
-key。128 B 元素对应每 key 819,200 个条目，1 KiB 元素对应 102,400 个。
-Stream 每条消息只有一个字段，因此这些数量也决定了 XADD 预填充工作量。
-元数据和协议字节额外计算。Apache Kvrocks v2.16.0（源码提交
-`28440b5`，二进制 SHA256
-`e1b91029b6e1ac74034c946428345ce853a9ee5d1b3c851249efdf3d3a5b734f`）
-在三个大小档位均已测量；其配置见
-[kvrocks-perf.conf](kvrocks-perf.conf)。六块专用临时 NVMe 组成 RAID0，
-格式化为 XFS；关闭压缩和 WAL，保留自动 compaction，配置 80 GiB block
-cache。设备核对与准备命令见 [kvrocks_host.py](kvrocks_host.py)。
-
-### 100 MiB 结果
-
-下表是 80–5120 连接五个档位中单元素读取的峰值 QPS，
-数值四舍五入到千位；精确值及对应连接数见图和 [results.csv](results.csv)。
-
-| 数据结构 | 元素 | Redis | Valkey | Lavik | Kvrocks |
-|---|---:|---:|---:|---:|---:|
-| Hash | 128 B | 1,033k | 879k | 242k | 679k |
-| Hash | 1 KiB | 988k | 933k | 362k | 662k |
-| Set | 128 B | 1,045k | 908k | 208k | 655k |
-| Set | 1 KiB | 878k | 873k | 269k | 622k |
-| List | 128 B | 87k | 94k | 68k | 685k |
-| List | 1 KiB | 55k | 47k | 66k | 699k |
-| Sorted Set | 128 B | 1,038k | 990k | 210k | 667k |
-| Sorted Set | 1 KiB | 862k | 708k | 255k | 648k |
-
-大 List 的点查中，Kvrocks 在两种元素大小下都是最快：128 B 的
-`LINDEX` 峰值约 68.5 万 QPS，Redis 约 8.7 万、Valkey 约 9.4 万、
-Lavik 约 6.8 万。
-
-在 16 连接下，Kvrocks 的 128 B 元素 `SMEMBERS` 全量读约 21 QPS，
-Redis 和 Valkey 均约 4 QPS。Lavik 在 4 连接约 2 QPS，但 16 连接的
-原始测试和重新填充后的复测均触发暂存空间准入 OOM。两次日志保存在
-[raw/lavik-100m/](raw/lavik-100m/) 中。其余 100 MiB 全量读都完成了，
-但单点仅测八秒，很多点不足 100 次完整回复，较小的 QPS 差异应谨慎解读。
-
-写入结果需结合配置解读：Redis、Valkey 关闭持久化；Kvrocks 关闭 WAL，
-仍执行 RocksDB flush 和 compaction，且 80 GiB 缓存可容纳这组八个热 key；
-Lavik 提交到 SPDK。图中比较的是这些具体配置，不代表相同持久性或冷盘读取。
-
-### 100 MiB 图表（直接嵌入）
-
-#### Hash / 128 B
-
-![Hash，每 key 100 MiB，128 B 元素：点读与写入](charts/hash-104857600-128.png)
-
-![Hash，每 key 100 MiB，128 B 元素：完整读取](charts/hash-104857600-128-full.png)
-
-#### Hash / 1 KiB
-
-![Hash，每 key 100 MiB，1 KiB 元素：点读与写入](charts/hash-104857600-1024.png)
-
-![Hash，每 key 100 MiB，1 KiB 元素：完整读取](charts/hash-104857600-1024-full.png)
-
-#### Set / 128 B
-
-![Set，每 key 100 MiB，128 B 元素：点读与写入](charts/set-104857600-128.png)
-
-![Set，每 key 100 MiB，128 B 元素：完整读取](charts/set-104857600-128-full.png)
-
-#### Set / 1 KiB
-
-![Set，每 key 100 MiB，1 KiB 元素：点读与写入](charts/set-104857600-1024.png)
-
-![Set，每 key 100 MiB，1 KiB 元素：完整读取](charts/set-104857600-1024-full.png)
-
-#### List / 128 B
-
-![List，每 key 100 MiB，128 B 元素：点读与写入](charts/list-104857600-128.png)
-
-![List，每 key 100 MiB，128 B 元素：完整读取](charts/list-104857600-128-full.png)
-
-#### List / 1 KiB
-
-![List，每 key 100 MiB，1 KiB 元素：点读与写入](charts/list-104857600-1024.png)
-
-![List，每 key 100 MiB，1 KiB 元素：完整读取](charts/list-104857600-1024-full.png)
-
-#### Sorted Set / 128 B
-
-![Sorted Set，每 key 100 MiB，128 B 元素：点读与写入](charts/zset-104857600-128.png)
-
-![Sorted Set，每 key 100 MiB，128 B 元素：完整读取](charts/zset-104857600-128-full.png)
-
-#### Sorted Set / 1 KiB
-
-![Sorted Set，每 key 100 MiB，1 KiB 元素：点读与写入](charts/zset-104857600-1024.png)
-
-![Sorted Set，每 key 100 MiB，1 KiB 元素：完整读取](charts/zset-104857600-1024-full.png)
-
+[HGETALL 内存调查](diagnostics/hgetall-oom-20260929/README.md)和 [HSET 写入诊断](diagnostics/hset-20260929/README.md)保存了问题分析；Hash/Set 的旧版测点仍在 `raw/`，不作为当前 main 的曲线。
 ## Stream
 
 Lavik 使用已合并 Stream 优化的最新 main `9acd7b6f`，每个 key 的逻辑大小为 64 KiB 或 1 MiB，64 个热 key，元素为 128 B 或 1 KiB。100 MiB 的合并后 main 正在补测。横轴为连接数，纵轴为 QPS；每图只画一条 Lavik main 曲线。
 
-下表取点查/写入 80 连接、完整读取 16 连接的实测 QPS。Redis 和 Valkey 关闭持久化，Kvrocks 关闭 WAL 且启用 80 GiB block cache，Lavik 提交到 SPDK；写入结果反映这些具体配置。
-
-| 每 key | 元素 | 命令 | 连接 | Redis | Valkey | Kvrocks | Lavik main |
-|---|---|---|---:|---:|---:|---:|---:|
-| 64 KiB | 128 B | 指定 ID `XRANGE` | 80 | 272,008 | 401,385 | 469,188 | 273,500 |
-| 64 KiB | 128 B | `XADD MAXLEN` | 80 | 360,508 | 406,207 | 251,654 | 8,875 |
-| 64 KiB | 128 B | 全范围 `XRANGE - +` | 16 | 7,368 | 7,208 | 19,813 | 4,744 |
-| 64 KiB | 1 KiB | 指定 ID `XRANGE` | 80 | 281,038 | 440,368 | 442,637 | 288,525 |
-| 64 KiB | 1 KiB | `XADD MAXLEN` | 80 | 340,703 | 365,000 | 188,151 | 9,295 |
-| 64 KiB | 1 KiB | 全范围 `XRANGE - +` | 16 | 36,138 | 33,688 | 42,269 | 19,977 |
-| 1 MiB | 128 B | 指定 ID `XRANGE` | 80 | 265,994 | 388,646 | 464,077 | 231,554 |
-| 1 MiB | 128 B | `XADD MAXLEN` | 80 | 358,357 | 464,902 | 192,152 | 8,704 |
-| 1 MiB | 128 B | 全范围 `XRANGE - +` | 16 | 426 | 320 | 1,437 | 261 |
-| 1 MiB | 1 KiB | 指定 ID `XRANGE` | 80 | 288,179 | 417,312 | 460,435 | 246,665 |
-| 1 MiB | 1 KiB | `XADD MAXLEN` | 80 | 323,761 | 393,696 | 157,590 | 9,708 |
-| 1 MiB | 1 KiB | 全范围 `XRANGE - +` | 16 | 1,492 | 779 | 2,780 | 1,125 |
+点查和写入覆盖 80–5120 连接，完整读取覆盖 16/80 连接。Redis 和 Valkey 关闭持久化，Kvrocks 关闭 WAL 且启用 80 GiB block cache，Lavik 提交到 SPDK；写入结果反映这些具体配置。
 
 [完整测点](stream-latest.csv)、[绘图脚本](plot_stream_latest.py)和 [Lavik 原始记录](raw/lavik-main9acd-stream-small-20260929/)可复核各点。每点八秒、只测一次；旧优化阶段的结果保留在 `raw/`，不参与当前图表。
 
