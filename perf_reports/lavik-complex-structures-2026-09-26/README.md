@@ -20,6 +20,11 @@ Set 100 MiB/128 B uses newer `main` commit
 `37b7e45ace4408c675caf6805af396769b0ff3bb`, binary SHA256
 `c3ae2b346ec4ee3a332fe05c38a75a55c2f3cbbe11773d70c06fbe6556cf767c`.
 Its QPS run reused the same validated SPDK data seeded by `d1ce200e`.
+The Set 100 MiB/128 B plots also show import branch
+`1f765b0b92f93dc3597fc8e0e3187d5e281e1ca0` (binary SHA256
+`1476e7c7ca5f18e077f1fe4d6bdb15acda6684dd630a1b184070368f875637d6`).
+It reads the same seeded data. These QPS curves check steady-state command
+performance, not import speed; the import-time A/B is still in progress.
 No data-page cache was added. Earlier main, PR #212, and 256-key raw runs remain in `raw/` but are
 not plotted in this retest.
 
