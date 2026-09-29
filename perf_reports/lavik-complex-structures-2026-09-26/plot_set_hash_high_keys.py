@@ -28,17 +28,20 @@ STYLES = {"redis": ("#bd3f43", "o", "-"),
           "valkey": ("#008681", "s", "-"),
           "kvrocks": ("#a75b19", "D", "-"),
           "lavik": ("#6574bc", "^", "--"),
-          "variant": ("#7b4d9f", "v", ":")}
+          "variant0": ("#7b4d9f", "v", ":")}
+EXTRA_VARIANT_STYLES = (("#b25f84", "P", "-."),
+                        ("#556b2f", "X", "--"),
+                        ("#6f6f6f", "*", ":"))
 
 
 def load(product, kind, size, field, variant=None):
     size_tag, keys, _ = SIZES[size]
     tag = f"{kind}-{size_tag}-k{keys}-f{field}-20260929"
-    if product == "variant":
+    if variant is not None:
         tag = variant["tag"]
     elif product == "lavik":
         tag = f"main{MAIN_COMMIT[:8]}-" + tag
-    prefix = "lavik" if product == "variant" else product
+    prefix = "lavik" if variant is not None else product
     folder = ROOT / "raw" / f"{prefix}-{tag}"
     if not (folder / "complete.json").exists():
         raise RuntimeError(f"run is incomplete: {folder}")
@@ -57,7 +60,7 @@ def load(product, kind, size, field, variant=None):
         raise RuntimeError(f"{folder}: not the measured main {MAIN_COMMIT}")
     if product == "lavik" and options.get("sha256") != MAIN_BINARY_SHA256:
         raise RuntimeError(f"{folder}: unexpected Lavik binary SHA256")
-    if product == "variant":
+    if variant is not None:
         if options.get("source_commit") != variant["commit"]:
             raise RuntimeError(f"{folder}: unexpected variant source commit")
         if options.get("sha256") != variant["sha256"]:
@@ -146,22 +149,33 @@ def main():
     parser.add_argument("kind", choices=COMMANDS)
     parser.add_argument("size", type=int, choices=SIZES)
     parser.add_argument("field", type=int, choices=(128, 1024))
-    parser.add_argument("--variant-tag", help="Completed Lavik run tag")
-    parser.add_argument("--variant-label", help="Legend label, such as Lavik PR #123")
-    parser.add_argument("--variant-commit", help="Exact variant source commit")
-    parser.add_argument("--variant-sha256", help="Exact variant binary SHA256")
+    parser.add_argument("--variant-tag", action="append",
+                        help="Completed Lavik run tag; repeat for each PR")
+    parser.add_argument("--variant-label", action="append",
+                        help="Legend label, such as Lavik PR #123")
+    parser.add_argument("--variant-commit", action="append",
+                        help="Exact variant source commit")
+    parser.add_argument("--variant-sha256", action="append",
+                        help="Exact variant binary SHA256")
     args = parser.parse_args()
-    variant_options = (args.variant_tag, args.variant_label,
-                       args.variant_commit, args.variant_sha256)
-    if any(variant_options) and not all(variant_options):
-        parser.error("all four --variant-* options are required together")
-    variant = ({"tag": args.variant_tag, "commit": args.variant_commit,
-                "sha256": args.variant_sha256} if args.variant_tag else None)
-    products = (*PRODUCTS, "variant") if variant else PRODUCTS
+    variant_options = tuple(option or [] for option in
+                            (args.variant_tag, args.variant_label,
+                             args.variant_commit, args.variant_sha256))
+    if len(set(map(len, variant_options))) != 1:
+        parser.error("repeat all four --variant-* options for each PR")
+    variants = {f"variant{index}": {
+        "tag": tag, "label": label, "commit": commit, "sha256": sha256}
+        for index, (tag, label, commit, sha256) in enumerate(zip(*variant_options))}
+    if len({variant["tag"] for variant in variants.values()}) != len(variants):
+        parser.error("variant tags must be distinct")
+    products = (*PRODUCTS, *variants)
     labels = dict(LABELS)
-    if variant:
-        labels["variant"] = args.variant_label
-    datasets = {product: load(product, args.kind, args.size, args.field, variant)
+    for index, (product, variant) in enumerate(variants.items()):
+        labels[product] = variant["label"]
+        if index:
+            STYLES[product] = EXTRA_VARIANT_STYLES[(index - 1) % len(EXTRA_VARIANT_STYLES)]
+    datasets = {product: load(product, args.kind, args.size, args.field,
+                              variants.get(product))
                 for product in products}
     draw(args.kind, args.size, args.field, False, datasets, products, labels)
     draw(args.kind, args.size, args.field, True, datasets, products, labels)
@@ -172,7 +186,7 @@ def main():
                          "keys", "operation", "connections", "qps", "error"))
         for product in products:
             results, failures, folder = datasets[product]
-            product_name = folder.name if product == "variant" else product
+            product_name = folder.name if product in variants else product
             for (command, connections), row in sorted(results.items()):
                 writer.writerow((product_name, args.kind, args.size, args.field,
                                  SIZES[args.size][1], command, connections,
