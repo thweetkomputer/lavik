@@ -406,6 +406,13 @@ def main():
     p.add_argument("--source-commit",
                    help="Exact Lavik source commit used to build --binary")
     opt = p.parse_args()
+    if opt.product == "lavik" and opt.source_commit:
+        resolved = subprocess.run(
+            ["git", "-C", opt.source_repo, "rev-parse", "--verify",
+             opt.source_commit + "^{commit}"],
+            capture_output=True, text=True, check=False)
+        if resolved.returncode or resolved.stdout.strip() != opt.source_commit:
+            raise ValueError("--source-commit must name an exact existing commit")
     if opt.product == "lavik":
         assert os.geteuid() == 0 and (ROOT / "spdk-ready.json").exists()
         spdk_host.assert_driver("vfio-pci")
