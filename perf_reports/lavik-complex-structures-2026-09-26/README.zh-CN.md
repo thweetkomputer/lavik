@@ -12,8 +12,8 @@ Lavik 只展示已合并 [PR #212](https://github.com/eloqdata/lavik/pull/212)
 后的 `main` 实测。当前 1 MiB 档使用提交 `bde3120e`，SPDK
 RelWithDebInfo 二进制 SHA256 为
 `1acecaa40948d473caedce591d1a775d3d910b260a50b38a68f25bf946a4546e`。
-10 MiB 和 100 MiB 档已测完三个对照数据库，合并后 main 还未补测；
-图中暂只显示三个对照库。早期 main 和 PR #212
+10 MiB 和 100 MiB 档已测完三个对照数据库；Set 的 10 MiB 档已补测
+`9acd7b6f` main，Hash 的大 key 与 Set 的 100 MiB 仍待补测。早期 main 和 PR #212
 的原始运行记录仍保留在 `raw/`，但不再当作当前 main 的数据展示。
 
 1 MiB 和 10 MiB 使用 64 个 key；100 MiB 使用八个 key。每个元素为
@@ -23,8 +23,8 @@ RelWithDebInfo 二进制 SHA256 为
 启用 80 GiB block cache 和 blob cache；Lavik 在六块 NVMe 上用 SPDK
 提交。这些配置影响绝对写入 QPS。
 
-目前 1 MiB/64-key 的 HGET、SISMEMBER 已采用合并后 main；
-大 key 的 Lavik 点读及完整读取结果待补。没有给 Lavik 增加数据页缓存。
+目前 1 MiB/64-key 的 HGET、SISMEMBER 和 10 MiB/64-key 的
+SISMEMBER 已采用合并后 main。没有给 Lavik 增加数据页缓存。
 
 1 MiB/64-key 的 HSET 和 SADD/SREM 在合并后 main 中分别约为
 9.4–9.6k 与 18.8–20.1k QPS；SADD/SREM 混合结果含空操作。
@@ -101,7 +101,7 @@ RelWithDebInfo 二进制 SHA256 为
 
 ## Set
 
-下列点查/写入图每张包含两个命令；1 MiB 的 Lavik 为合并后 main，10 MiB 和 100 MiB 仍待同条件补测。
+下列点查/写入图每张包含两个命令；1 MiB 和 10 MiB 的 Lavik 为合并后 main，100 MiB 仍待同条件补测。
 
 ### SISMEMBER / SADD/SREM
 
