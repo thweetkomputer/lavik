@@ -14,13 +14,18 @@ Lavik 的同条件结果。除 Hash/Set 100 MiB/128 B 外，本轮 Lavik 曲线�
 [PR #212](https://github.com/eloqdata/lavik/pull/212) 的 `main`
 `d1ce200e174adcb07820b5431c77b024350e85b6`，SPDK 服务端二进制
 SHA256 为 `bd3f942e3b7b0f46c23c716197c8cc4ec8ad963e92cede0d9fa2574ff52a74a9`。
-Hash/Set 100 MiB/128 B 已复测为更新后的 `main`
+Hash 100 MiB/128 B 已复测为 `main`
 `37b7e45ace4408c675caf6805af396769b0ff3bb`，二进制 SHA256 为
 `c3ae2b346ec4ee3a332fe05c38a75a55c2f3cbbe11773d70c06fbe6556cf767c`；
-这组 QPS 与 [PR #219](https://github.com/eloqdata/lavik/pull/219)
+它与 [PR #219](https://github.com/eloqdata/lavik/pull/219)
 `c96d9d0baf01be5ced503f7c3f2d90be4987477a`（二进制 SHA256
 `1dc0f82abba4d708342cace5dfff07ff8d2c59768e39b07631e326641a95adb7`）
-均在各自数据结构内复用 PR #219 灌入并校验的同一份 SPDK 数据；PR 曲线来自其灌入运行。
+复用同一份经 PR 灌入并校验的 SPDK 数据。
+Set 100 MiB/128 B 使用新 `main` `4c26af7b122bc64fc902b5e72481de803c1c56af`
+（二进制 SHA256 `b101ccd8bd77ca2dcedc5766cb0658a9bc47bfb8255d07b3b585326ebe1c2221`）
+与 PR #219 `d1f58febf7d38c7c4f012984fe94b5cdc4a6da6e`
+（二进制 SHA256 `d015f91ca76f9bf2c99196ab6e5b1d78d8deffa3f04b9ced7b89d53e5d0845a6`）；
+两条 QPS 曲线也复用这轮 PR 灌入并校验的同一份 SPDK 数据。
 两条曲线用于检查稳态命令性能，导入加速由下面的独立实验测量。
 没有增加数据页缓存。早期 main、PR #212 和 256-key 的运行记录仍保留在
 `raw/`，不作为本轮曲线。
@@ -121,18 +126,22 @@ PR #219 在空盘上用八个客户端 RESTORE 500 个 Hash key，耗时 591.3 �
 
 ![Set 100 MiB、128 B、500 key：四款数据库的灌数耗时](charts/set-104857600-128-k500-fill.png)
 
-PR #219 在空盘上用八个客户端 RESTORE 500 个 Set key，耗时 760.5 秒；
+PR #219 最新版本在空盘上用八个客户端 RESTORE 500 个 Set key，耗时 548.7 秒；
 500 个 key、每 key 819,200 个成员全部校验通过。Redis、Valkey、Kvrocks
 分别用批量 SADD 灌数 354.0、264.5、545.0 秒。各库的写入命令和持久化
 配置不同，这张图只显示这组负载的耗时，不能作为同等持久性吞吐排名。
 [测点](set-104857600-128-k500-fill.csv)和[绘图脚本](plot_fill_reference.py)
-可复核原始记录。此前 Lavik `d1ce200e` 的 500 次 RESTORE 耗时 10,739 秒；
-它是较早的 main 版本，不作为当前 main 的 A/B 基线。
+可复核原始记录。PR #219 上一版固定 128 MiB 上限时耗时 760.5 秒；
+较早的 Lavik `d1ce200e` 用 10,739 秒完成 500 次 RESTORE，均不作为
+最新 main 的 A/B 基线。
 
 同一个 100 MiB/128 B Set RDB 样本，在每次清空六块 SPDK 盘后用八个客户端
 RESTORE 100 个不同 key：最新 `main` 用 2,072.4 秒，8 MiB 分批及 touched-group
-去重分支用 484.0 秒，PR #219 的 128 MiB 分批用 151.5 秒，较同版 `main`
-快 13.7 倍。三次运行均校验全部 100 个 key、每 key 819,200 个成员，且无错误。
+去重分支用 484.0 秒，固定 128 MiB 上限的版本用 151.5 秒，按可用内存
+动态分批并改进重复校验索引的版本用 112.3 秒，较同一版 `main` 快 18.5 倍。
+四次运行均校验全部 100 个 key、每 key 819,200 个成员，且无错误。
+这一 100-key 动态版测点使用 rebase 前的提交 `a998d79d`；上面的 500-key
+最新 PR 测点来自盖在 `4c26af7b` 上的 `d1f58feb`。
 
 ![Set 100 MiB、128 B、100 key：Lavik RESTORE 导入耗时对照](charts/set-104857600-128-k100-restore-ab.png)
 

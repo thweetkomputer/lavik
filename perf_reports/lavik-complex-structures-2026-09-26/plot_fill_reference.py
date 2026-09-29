@@ -31,9 +31,9 @@ def read_json(path):
     return json.loads(path.read_text())
 
 
-def read_run(kind, product):
-    prefix = ("import128m-c96d9d0b-" if product == "lavik" else "")
-    tag = f"{prefix}{kind}-100m-k500-f128-20260929"
+def read_run(kind, product, lavik_run):
+    tag = (lavik_run["tag"] if product == "lavik" else
+           f"{kind}-100m-k500-f128-20260929")
     folder = ROOT / "raw" / f"{product}-{tag}"
     complete = read_json(folder / "complete.json")
     if complete["failures_total"] or read_json(folder / "server-exit.json")["code"]:
@@ -49,8 +49,9 @@ def read_run(kind, product):
     for name, value in expected.items():
         if options.get(name) != value:
             raise RuntimeError(f"{folder}: unexpected {name}")
-    if product == "lavik" and (options.get("source_commit") != PR_COMMIT or
-                               options.get("sha256") != PR_SHA256):
+    if product == "lavik" and (
+            options.get("source_commit") != lavik_run["commit"] or
+            options.get("sha256") != lavik_run["sha256"]):
         raise RuntimeError(f"unexpected Lavik PR build: {folder}")
     stem = f"{kind}-{SIZE}-{FIELD}"
     filled = read_json(folder / f"{stem}.fill.json")
@@ -76,8 +77,17 @@ def read_run(kind, product):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("kind", choices=("hash", "set"))
+    parser.add_argument("--lavik-tag", help="Completed Lavik PR run tag")
+    parser.add_argument("--lavik-commit", default=PR_COMMIT)
+    parser.add_argument("--lavik-sha256", default=PR_SHA256)
     args = parser.parse_args()
-    rows = [read_run(args.kind, product) for product, _, _ in PRODUCTS]
+    lavik_run = {
+        "tag": (args.lavik_tag or
+                f"import128m-c96d9d0b-{args.kind}-100m-k500-f128-20260929"),
+        "commit": args.lavik_commit, "sha256": args.lavik_sha256,
+    }
+    rows = [read_run(args.kind, product, lavik_run)
+            for product, _, _ in PRODUCTS]
 
     fig, ax = plt.subplots(figsize=(9.2, 4.8))
     labels = [f"{label} · {row['method']}" for row, (_, label, _) in
