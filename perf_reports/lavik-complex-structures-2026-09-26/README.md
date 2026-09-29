@@ -39,6 +39,21 @@ commands. The other products used batched SADD and different persistence
 settings. These times motivate a separate Lavik import optimization; they do
 not rank writes at equal durability.
 
+For a controlled Set 100 MiB/128 B RESTORE comparison, each Lavik build
+loaded the same RDB payload into 100 distinct keys with eight clients after
+clearing the six SPDK devices. Current `main` took 2,072.4 seconds; the 8 MiB
+batch and touched-group deduplication branch took 484.0 seconds; the 128 MiB
+batch branch took 151.5 seconds, 13.7 times faster than the same `main`.
+All three runs validated every key and its 819,200 members without client or
+server errors. This diagnostic has 100 keys; the full 500-key import retest
+is still underway.
+
+![Set 100 MiB, 128 B, 100 keys: Lavik RESTORE fill-time comparison](charts/set-104857600-128-k100-restore-ab.png)
+
+The [RESTORE measurements](set-104857600-128-k100-restore-ab.csv) and
+[plot script](plot_restore_import_ab.py) record source commits, binary hashes,
+and checks on the identical RDB payload.
+
 Point reads and writes use 80/320/1280/2560/5120 connections. Full reads use
 16/80 for 1 MiB and 1/4/16 for 100 MiB. Each point runs for eight seconds.
 Redis and Valkey disable persistence; Kvrocks uses uncompressed RAID0, WAL
