@@ -16,18 +16,13 @@ Lavik uses `main` after merged
 [PR #212](https://github.com/eloqdata/lavik/pull/212), at commit
 `d1ce200e174adcb07820b5431c77b024350e85b6`. Its SPDK server binary
 has SHA256 `bd3f942e3b7b0f46c23c716197c8cc4ec8ad963e92cede0d9fa2574ff52a74a9`.
-Hash 100 MiB/128 B uses `main` commit
-`37b7e45ace4408c675caf6805af396769b0ff3bb`, binary SHA256
-`c3ae2b346ec4ee3a332fe05c38a75a55c2f3cbbe11773d70c06fbe6556cf767c`.
-Its QPS run and [PR #219](https://github.com/eloqdata/lavik/pull/219)
-`c96d9d0baf01be5ced503f7c3f2d90be4987477a` (binary SHA256
-`1dc0f82abba4d708342cace5dfff07ff8d2c59768e39b07631e326641a95adb7`)
-use the same validated Hash SPDK data seeded by PR #219.
-Set 100 MiB/128 B uses newer `main` `4c26af7b122bc64fc902b5e72481de803c1c56af`
+Hash/Set 100 MiB/128 B use newer `main` `4c26af7b122bc64fc902b5e72481de803c1c56af`
 (binary SHA256 `b101ccd8bd77ca2dcedc5766cb0658a9bc47bfb8255d07b3b585326ebe1c2221`)
-and PR #219 `d1f58febf7d38c7c4f012984fe94b5cdc4a6da6e`
+and [PR #219](https://github.com/eloqdata/lavik/pull/219)
+`d1f58febf7d38c7c4f012984fe94b5cdc4a6da6e`
 (binary SHA256 `d015f91ca76f9bf2c99196ab6e5b1d78d8deffa3f04b9ced7b89d53e5d0845a6`).
-Both QPS curves use the same validated Set SPDK dataset seeded by that PR.
+Within each collection type, both QPS curves use the same validated SPDK
+dataset seeded by that PR.
 These QPS curves check steady-state command performance;
 the separate experiment below measures import speed.
 No data-page cache was added. Earlier main, PR #212, and 256-key raw runs remain in `raw/` but are
@@ -86,13 +81,15 @@ Each point-read/write chart contains both commands. The 1 MiB and 100 MiB runs u
 
 ![Hash 100 MiB, 128 B, 500 keys: fill times across four databases](charts/hash-104857600-128-k500-fill.png)
 
-PR #219 used eight RESTORE clients to fill 500 Hash keys on empty SPDK devices
-in 591.3 seconds. All 500 keys and 819,200 fields per key validated. Redis,
+The latest PR #219 used eight RESTORE clients to fill 500 Hash keys on empty SPDK devices
+in 362.7 seconds. All 500 keys and 819,200 fields per key validated. Redis,
 Valkey, and Kvrocks took 328.6, 276.3, and 488.8 seconds with batched HSET.
 The commands and persistence settings differ, so the figure records elapsed
 time for this workload rather than equal durability throughput. The
 [measurements](hash-104857600-128-k500-fill.csv) and
-[plot script](plot_fill_reference.py) point to the raw runs.
+[plot script](plot_fill_reference.py) point to the raw runs. The previous PR
+version with a fixed 128 MiB cap took 591.3 seconds. Peak reported memory
+was about 5.15 GiB in the latest run versus 4.83 GiB previously.
 
 ## Set
 

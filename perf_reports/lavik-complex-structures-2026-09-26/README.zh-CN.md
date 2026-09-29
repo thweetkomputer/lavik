@@ -14,18 +14,11 @@ Lavik 的同条件结果。除 Hash/Set 100 MiB/128 B 外，本轮 Lavik 曲线�
 [PR #212](https://github.com/eloqdata/lavik/pull/212) 的 `main`
 `d1ce200e174adcb07820b5431c77b024350e85b6`，SPDK 服务端二进制
 SHA256 为 `bd3f942e3b7b0f46c23c716197c8cc4ec8ad963e92cede0d9fa2574ff52a74a9`。
-Hash 100 MiB/128 B 已复测为 `main`
-`37b7e45ace4408c675caf6805af396769b0ff3bb`，二进制 SHA256 为
-`c3ae2b346ec4ee3a332fe05c38a75a55c2f3cbbe11773d70c06fbe6556cf767c`；
-它与 [PR #219](https://github.com/eloqdata/lavik/pull/219)
-`c96d9d0baf01be5ced503f7c3f2d90be4987477a`（二进制 SHA256
-`1dc0f82abba4d708342cace5dfff07ff8d2c59768e39b07631e326641a95adb7`）
-复用同一份经 PR 灌入并校验的 SPDK 数据。
-Set 100 MiB/128 B 使用新 `main` `4c26af7b122bc64fc902b5e72481de803c1c56af`
+Hash/Set 100 MiB/128 B 均使用新 `main` `4c26af7b122bc64fc902b5e72481de803c1c56af`
 （二进制 SHA256 `b101ccd8bd77ca2dcedc5766cb0658a9bc47bfb8255d07b3b585326ebe1c2221`）
-与 PR #219 `d1f58febf7d38c7c4f012984fe94b5cdc4a6da6e`
+与 [PR #219](https://github.com/eloqdata/lavik/pull/219) `d1f58febf7d38c7c4f012984fe94b5cdc4a6da6e`
 （二进制 SHA256 `d015f91ca76f9bf2c99196ab6e5b1d78d8deffa3f04b9ced7b89d53e5d0845a6`）；
-两条 QPS 曲线也复用这轮 PR 灌入并校验的同一份 SPDK 数据。
+每个数据结构的两条 QPS 曲线均复用各自经 PR 灌入并校验的同一份 SPDK 数据。
 两条曲线用于检查稳态命令性能，导入加速由下面的独立实验测量。
 没有增加数据页缓存。早期 main、PR #212 和 256-key 的运行记录仍保留在
 `raw/`，不作为本轮曲线。
@@ -81,12 +74,13 @@ cache；Lavik 在六块 NVMe 上用 SPDK 提交。这些配置影响绝对写入
 
 ![Hash 100 MiB、128 B、500 key：四款数据库的灌数耗时](charts/hash-104857600-128-k500-fill.png)
 
-PR #219 在空盘上用八个客户端 RESTORE 500 个 Hash key，耗时 591.3 秒；
+PR #219 最新版本在空盘上用八个客户端 RESTORE 500 个 Hash key，耗时 362.7 秒；
 500 个 key、每 key 819,200 个 field 全部校验通过。Redis、Valkey、Kvrocks
 分别用批量 HSET 灌数 328.6、276.3、488.8 秒。各库的写入命令和持久化配置
 不同，这张图只显示这组负载的耗时，不能作为同等持久性吞吐排名。
 [测点](hash-104857600-128-k500-fill.csv)和[绘图脚本](plot_fill_reference.py)
-可复核原始记录。
+可复核原始记录。PR #219 上一版固定 128 MiB 上限时耗时 591.3 秒；
+最终版的内存峰值约 5.15 GiB，上版约 4.83 GiB。
 
 ## Set
 
