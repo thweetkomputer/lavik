@@ -7,55 +7,35 @@ remote memtier client. Each chart fixes the collection type, logical payload per
 key, and payload bytes per entry. The horizontal axis is simultaneous
 connections; the vertical axis is completed commands per second.
 
-## 2026-09-29 grouped Hash and Set retest
+## 2026-09-29 Hash and Set retest
 
-Only `main` after merged [PR #212](https://github.com/eloqdata/lavik/pull/212)
-is plotted for Lavik. The 1 MiB run uses commit `bde3120e` and a SPDK
-RelWithDebInfo binary with SHA256
-`1acecaa40948d473caedce591d1a775d3d910b260a50b38a68f25bf946a4546e`.
-The three peers have completed the old 100 MiB runs. The four products are
-being retested with 50,000 keys at 1 MiB and 500 keys at 100 MiB.
-Earlier main and PR #212 raw
-runs remain in `raw/` but are not represented as current main results.
+Hash and Set use 50,000 keys at 1 MiB per key and 500 keys at 100 MiB per
+key, with 128 B or 1 KiB entries. Every chart compares Redis, Valkey,
+Kvrocks, and Lavik under the same workload. Lavik uses `main` after merged
+[PR #212](https://github.com/eloqdata/lavik/pull/212), at commit
+`d1ce200e174adcb07820b5431c77b024350e85b6`. The SPDK server binary
+has SHA256 `bd3f942e3b7b0f46c23c716197c8cc4ec8ad963e92cede0d9fa2574ff52a74a9`.
+No data-page cache was added. Earlier main, PR #212, and 256-key raw runs remain in `raw/` but are
+not plotted in this retest.
 
-The current old charts use 64 keys at 1 MiB and eight at 100 MiB; the new
-charts will use 50,000 and 500 keys, respectively. Entry sizes are
-128 B and 1 KiB. Point commands use 80/320/1280/2560/5120 connections;
-full reads use 16/80 for 1 MiB and 1/4/16 for 100 MiB.
-Each point runs for eight seconds. Redis and Valkey disable persistence;
-Kvrocks uses uncompressed RAID0, WAL disabled, an 80 GiB block cache and
-blob cache. Lavik commits to six NVMe devices via SPDK. These settings affect
-absolute write throughput.
+The Set 1 MiB/1 KiB figures have been replaced. The remaining Hash/Set
+figures still show the earlier 64-key or eight-key runs while they are being
+replaced; each new figure states its exact key count in the title.
 
-The old 1 MiB/64-key HGET and SISMEMBER points use merged main. No data-page cache was added.
-
-At 1 MiB/64 keys, merged main HSET is about 9.4–9.6k QPS and mixed
-SADD/SREM about 18.8–20.1k QPS; the latter includes no-op replies.
-The next section compares a larger hot-key set.
-
-### Write retest with 256 hot keys
-
-All four products were seeded with 256 keys of 1 MiB each, with 128 B and
-1 KiB entries. Commands, eight-second measurements, connection counts, and
-persistence settings match the 64-key runs above. Only the latest main
-(`9acd7b6f`) is plotted for Lavik. With 128 B entries, increasing hot keys
-from 64 to 256 raised Lavik's
-320-connection HSET from about 9.4k to 19.2k QPS and SADD/SREM from 18.8k
-to 36.1k. Both remain far below Kvrocks. At 80 connections, Lavik HSET
-reached 29.7k QPS, then fell to 19.2k at 320 connections. The charts use
-logarithmic throughput axes to retain the full four-product gap.
-
-The [complete points](write-256.csv), [plot script](plot_write_256.py), and
-raw [Redis](raw/redis-1m-k256-write-20260929/),
-[Valkey](raw/valkey-1m-k256-write-20260929/),
-[Kvrocks](raw/kvrocks-1m-k256-write-20260929/), and
-[Lavik](raw/lavik-main9acd-1m-k256-20260929/) runs retain the evidence.
-
-Earlier write-path and HGETALL memory investigations remain available in the [HSET diagnostic](diagnostics/hset-20260929/README.md) and [HGETALL memory investigation](diagnostics/hgetall-oom-20260929/README.md); they are not current-main measurements. Each point has one run, without a confidence interval. The [current CSV](set-hash-ab.csv), [raw runs](raw/), and [plot script](plot_set_hash_ab.py) retain the evidence.
+Point reads and writes use 80/320/1280/2560/5120 connections. Full reads use
+16/80 for 1 MiB and 1/4/16 for 100 MiB. Each point runs for eight seconds.
+Redis and Valkey disable persistence; Kvrocks uses uncompressed RAID0, WAL
+disabled, an 80 GiB block cache and blob cache. Lavik commits to six NVMe
+devices via SPDK. These settings affect absolute write throughput. Every point
+has one run and no confidence interval. The [raw runs](raw/) and
+[plot script](plot_set_hash_high_keys.py) retain the evidence. Earlier
+write-path and memory investigations remain available in the
+[HSET diagnostic](diagnostics/hset-20260929/README.md) and
+[HGETALL memory investigation](diagnostics/hgetall-oom-20260929/README.md).
 
 ## Hash
 
-Each point-read/write chart contains both commands. The current 1 MiB Lavik line is from merged main; 100 MiB awaits the new key-count run.
+Each point-read/write chart contains both commands. The 1 MiB and 100 MiB runs use 50,000 and 500 keys, respectively.
 
 ### HGET / HSET
 
@@ -70,12 +50,6 @@ Each point-read/write chart contains both commands. The current 1 MiB Lavik line
 ![Hash 100 MiB per key, 128 B entries: HGET and HSET QPS by connection count](charts/hash-104857600-128-ab.png)
 
 ![Hash 100 MiB per key, 1 KiB entries: HGET and HSET QPS by connection count](charts/hash-104857600-1024-ab.png)
-
-### HSET / 256 hot keys
-
-1 MiB per key with 128 B and 1 KiB entries; Lavik is latest main `9acd7b6f`.
-
-![Hash HSET，256 key，四款数据库](charts/hash-hset-1048576-k256.png)
 
 ### HGETALL
 
@@ -93,7 +67,7 @@ Each point-read/write chart contains both commands. The current 1 MiB Lavik line
 
 ## Set
 
-Each point-read/write chart contains both commands. The current 1 MiB Lavik line is from merged main; 100 MiB awaits the new key-count run.
+Each point-read/write chart contains both commands. The 1 MiB and 100 MiB runs use 50,000 and 500 keys, respectively.
 
 ### SISMEMBER / SADD/SREM
 
@@ -108,12 +82,6 @@ Each point-read/write chart contains both commands. The current 1 MiB Lavik line
 ![Set 100 MiB per key, 128 B entries: SISMEMBER and SADD/SREM QPS by connection count](charts/set-104857600-128-ab.png)
 
 ![Set 100 MiB per key, 1 KiB entries: SISMEMBER and SADD/SREM QPS by connection count](charts/set-104857600-1024-ab.png)
-
-### SADD/SREM / 256 hot keys
-
-1 MiB per key with 128 B and 1 KiB entries; Lavik is latest main `9acd7b6f`.
-
-![Set SADD/SREM，256 key，四款数据库](charts/set-sadd_srem-1048576-k256.png)
 
 ### SMEMBERS
 
@@ -133,7 +101,7 @@ Each point-read/write chart contains both commands. The current 1 MiB Lavik line
 
 For positional reads and overwrites, memtier cycles through eight evenly spaced
 entry positions per key. The earlier 64 KiB and 1 MiB conditions use 64
-keys, and the 100 MiB extension uses eight. New Hash/Set runs use 50,000
+keys, and the 100 MiB extension uses eight. This Hash/Set retest uses 50,000
 keys at 1 MiB and 500 at 100 MiB. Each operation chooses a key uniformly
 within its condition. Each field value, member, or element is exactly 128 B
 or 1 KiB.
@@ -152,9 +120,10 @@ combined command rate, not the rate of durable mutations.
 - List and Sorted Set Lavik samples used early [PR #203](https://github.com/eloqdata/lavik/pull/203)
   binary `646a7b4e`. The Hash/Set and Stream chapters state their merged-main
   versions. Measurements from different versions are not joined into one Lavik curve.
-- Kvrocks uses the same configuration at all three sizes. Its 64 KiB and
-  1 MiB points were measured on 2026-09-27 in a later pass with identical
-  workload settings. The saved configuration enables an 80 GiB RocksDB block
+- Kvrocks uses the same cache and compression settings across sizes. The
+  List and Sorted Set 64 KiB and 1 MiB points were retested on 2026-09-27;
+  Hash and Set were freshly filled with this retest's key counts. The saved
+  configuration enables an 80 GiB RocksDB block
   cache and blob caching; its hot-read QPS therefore includes a large memory
   cache, unlike Lavik's data-page path.
 - Client: 172.16.0.5, 16 vCPUs on AMD EPYC 9V45, memtier_benchmark 2.5.1,
@@ -162,13 +131,15 @@ combined command rate, not the rate of durable mutations.
   operations use 16 client threads and 80/320/1280/2560/5120 connections.
   Full reads use 16/80 connections for 64 KiB and 1 MiB, and 1/4/16 for
   100 MiB; the client thread count is capped by the connection count.
-- Each condition is filled from scratch using eight concurrent RESP clients.
+- Each condition is filled from scratch using concurrent RESP clients on
+  disjoint keys. Earlier runs used the default eight; newer provenance records
+  the seed-client count.
   Reads run before writes, and writes preserve approximately the original
   collection length. The same keys are used at all connection levels within
   a condition. The 100 MiB fill batches 64 commands per client connection.
 - Logical sizes describe payload bytes only, not Redis memory usage or Lavik
-  disk consumption. These deliberately hot keys expose contention; they do
-  not represent a large key population.
+  disk consumption. The earlier List, Sorted Set, and Stream runs use hot-key
+  counts stated in their sections; Hash and Set use 50,000 or 500 keys.
 - QPS and latency come from memtier's JSON output. The script rejects
   connection errors, interrupted runs, and server error responses.
 
@@ -381,14 +352,30 @@ memtier invocations, fill timings, validation checks, and per-run JSON are
 committed under `raw/`. Console output is retained locally and omitted from
 the branch because the JSON contains the measured data.
 
-For the September 29 follow-up, build the two Lavik commits identified at the
-top of this report and run `run.py lavik` for each binary with `--types hash,set`,
-`--fields 128,1024`, `--mode both`, `--levels 80,320,1280,2560,5120`, and
-`--seconds 8`. Use `--sizes 1048576 --keys 64 --full-levels 16,80` for the
-1 MiB runs. For 100 MiB use `--sizes 104857600 --keys 8`,
-`--seed-pipeline 64 --full-levels 1,4,16`, and `--continue-on-error`.
-The four run tags are
-`main-20260929`, `opt-20260929`, and their `-100m` variants. Pass the exact
-source revision with `--source-commit`; the per-run provenance JSON records
-both that revision and the binary SHA256. After restoring SPDK, regenerate the
-new figures and CSV with `.venv/bin/python plot_set_hash_ab.py`.
+The commands above reproduce the earlier 64/8-key figures. This Hash/Set
+retest fills one collection type, size, and entry length per run. The tag
+matches the raw directory name. For example, Redis Hash at 1 MiB per key,
+50,000 keys, and 128 B per field:
+
+```bash
+python3 run_with_memory_guard.py --minimum-available-gib=20 -- \
+  python3 run.py redis --tag=hash-1m-k50000-f128-20260929 \
+  --types=hash --sizes=1048576 --fields=128 --keys=50000 \
+  --levels=80,320,1280,2560,5120 --full-levels=16,80 \
+  --seconds=8 --mode=both --seed-pipeline=64 --continue-on-error
+```
+
+For 100 MiB use `--sizes=104857600 --keys=500 --full-levels=1,4,16`.
+Run both 128 B and 1 KiB for Hash and Set. Valkey uses the same arguments.
+Run Kvrocks after `kvrocks_host.py prepare --discard-scratch`, then restore
+RAID0. After that, prepare the SPDK devices and run Lavik as root with its
+`--binary`, `--source-commit`, and a `main<first-eight-commit-digits>-` tag
+prefix. Each run's provenance JSON records the exact source revision and
+binary SHA256. Most Lavik conditions use `--fill-workers=64` to seed disjoint
+keys concurrently. The first Set 1 MiB/1 KiB run used the earlier default of
+eight; newer provenance gives the actual value for each run.
+Redraw one condition with:
+
+```bash
+.venv/bin/python plot_set_hash_high_keys.py hash 1048576 128
+```
