@@ -16,14 +16,19 @@ Lavik uses `main` after merged
 [PR #212](https://github.com/eloqdata/lavik/pull/212), at commit
 `d1ce200e174adcb07820b5431c77b024350e85b6`. Its SPDK server binary
 has SHA256 `bd3f942e3b7b0f46c23c716197c8cc4ec8ad963e92cede0d9fa2574ff52a74a9`.
-Hash/Set 100 MiB/128 B uses newer `main` commit
+Hash 100 MiB/128 B uses `main` commit
 `37b7e45ace4408c675caf6805af396769b0ff3bb`, binary SHA256
 `c3ae2b346ec4ee3a332fe05c38a75a55c2f3cbbe11773d70c06fbe6556cf767c`.
 Its QPS run and [PR #219](https://github.com/eloqdata/lavik/pull/219)
 `c96d9d0baf01be5ced503f7c3f2d90be4987477a` (binary SHA256
 `1dc0f82abba4d708342cace5dfff07ff8d2c59768e39b07631e326641a95adb7`)
-use the same validated SPDK data seeded by PR #219 within each collection
-type. The PR curve comes from that seed run. These QPS curves check steady-state command performance;
+use the same validated Hash SPDK data seeded by PR #219.
+Set 100 MiB/128 B uses newer `main` `4c26af7b122bc64fc902b5e72481de803c1c56af`
+(binary SHA256 `b101ccd8bd77ca2dcedc5766cb0658a9bc47bfb8255d07b3b585326ebe1c2221`)
+and PR #219 `d1f58febf7d38c7c4f012984fe94b5cdc4a6da6e`
+(binary SHA256 `d015f91ca76f9bf2c99196ab6e5b1d78d8deffa3f04b9ced7b89d53e5d0845a6`).
+Both QPS curves use the same validated Set SPDK dataset seeded by that PR.
+These QPS curves check steady-state command performance;
 the separate experiment below measures import speed.
 No data-page cache was added. Earlier main, PR #212, and 256-key raw runs remain in `raw/` but are
 not plotted in this retest.
@@ -127,22 +132,26 @@ Each point-read/write chart contains both commands. The 1 MiB and 100 MiB runs u
 
 ![Set 100 MiB, 128 B, 500 keys: fill times across four databases](charts/set-104857600-128-k500-fill.png)
 
-PR #219 used eight RESTORE clients to fill 500 Set keys on empty SPDK devices
-in 760.5 seconds. All 500 keys and 819,200 members per key validated. Redis,
+The latest PR #219 used eight RESTORE clients to fill 500 Set keys on empty SPDK devices
+in 548.7 seconds. All 500 keys and 819,200 members per key validated. Redis,
 Valkey, and Kvrocks took 354.0, 264.5, and 545.0 seconds with batched SADD.
 The commands and persistence settings differ, so the figure records elapsed
 time for this workload rather than equal durability throughput. The
 [measurements](set-104857600-128-k500-fill.csv) and
-[plot script](plot_fill_reference.py) point to the raw runs. Earlier Lavik
-`d1ce200e` took 10,739 seconds for 500 RESTORE commands, but is not the
-current main A/B baseline.
+[plot script](plot_fill_reference.py) point to the raw runs. The previous PR
+version with a fixed 128 MiB cap took 760.5 seconds; older Lavik `d1ce200e`
+took 10,739 seconds for 500 RESTORE commands. Neither is the latest main A/B
+baseline.
 
 For a controlled Set 100 MiB/128 B RESTORE comparison, each Lavik build
 loaded the same RDB payload into 100 distinct keys with eight clients after
 clearing the six SPDK devices. Current `main` took 2,072.4 seconds; the 8 MiB
-batch and touched-group deduplication branch took 484.0 seconds; PR #219's
-128 MiB batch took 151.5 seconds, 13.7 times faster than the same `main`.
-All three runs validated every key and its 819,200 members without errors.
+batch and touched-group deduplication branch took 484.0 seconds; the fixed
+128 MiB cap took 151.5 seconds; the memory-scaled batch and hash-indexed
+duplicate validation took 112.3 seconds, 18.5 times faster than the same
+`main`. All four runs validated every key and its 819,200 members without
+errors. The 100-key dynamic-batch result is from pre-rebase commit `a998d79d`;
+the 500-key current PR result above is from `d1f58feb` based on `4c26af7b`.
 
 ![Set 100 MiB, 128 B, 100 keys: Lavik RESTORE fill-time comparison](charts/set-104857600-128-k100-restore-ab.png)
 
