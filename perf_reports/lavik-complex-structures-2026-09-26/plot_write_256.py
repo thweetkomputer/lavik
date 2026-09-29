@@ -15,7 +15,7 @@ RUNS = {
     "Redis": "redis-1m-k256-write-20260929",
     "Valkey": "valkey-1m-k256-write-20260929",
     "Kvrocks": "kvrocks-1m-k256-write-20260929",
-    "Lavik main": "lavik-merged212-1m-k256-20260929",
+    "Lavik main": "lavik-main9acd-1m-k256-20260929",
 }
 COLORS = {"Redis": "#bd3f43", "Valkey": "#008681",
           "Kvrocks": "#a75b19", "Lavik main": "#4254b4"}
@@ -85,7 +85,7 @@ def main():
                     dpi=150)
         plt.close(fig)
     with (ROOT / "write-256.csv").open("w", newline="") as output:
-        writer = csv.writer(output)
+        writer = csv.writer(output, lineterminator="\n")
         writer.writerow(("product", "type", "logical_bytes", "keys",
                          "field_bytes", "operation", "connections", "qps"))
         for key, qps in sorted(rows.items()):

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Plot the 100 MiB Stream follow-up beside the original four products."""
+"""Plot the final measured Stream variant against the three peers."""
 
 import json
 from pathlib import Path
@@ -14,9 +14,8 @@ CONNECTIONS = (80, 320, 1280, 2560, 5120)
 SERIES = (
     ("Redis", "redis-100m", "#bd3f43", "-"),
     ("Valkey", "valkey-100m", "#008681", "-"),
-    ("Lavik baseline", "lavik-100m", "#8294d2", "--"),
-    ("Lavik optimized", "lavik-stream-probe-reuse", "#2448a8", "-"),
     ("Kvrocks", "kvrocks-100m", "#a75b19", "-"),
+    ("Lavik final (523cb692)", "lavik-stream-probe-reuse", "#2448a8", "-"),
 )
 
 
@@ -50,7 +49,7 @@ for ax, (operation, title) in zip(
     ax.grid(True, which="major", color="#d6dbe4", linewidth=0.6)
     ax.grid(True, which="minor", color="#ecedf1", linewidth=0.4)
 fig.legend(*axes[0].get_legend_handles_labels(), loc="lower center",
-           bbox_to_anchor=(0.5, -0.035), ncol=5, frameon=False)
+           bbox_to_anchor=(0.5, -0.035), ncol=4, frameon=False)
 fig.suptitle("100 MiB Stream per key · 1 KiB field · eight keys · pipeline 1")
 fig.tight_layout(rect=(0, 0.08, 1, 0.95))
 output = ROOT / "charts" / "stream-104857600-1024-optimized.png"
