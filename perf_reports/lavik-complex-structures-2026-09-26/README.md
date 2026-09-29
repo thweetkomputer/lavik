@@ -13,6 +13,9 @@ After PR #203 merged, the same Hash and Set workloads were rerun on `main`
 (`0920ae56`) and [PR #212](https://github.com/eloqdata/lavik/pull/212).
 The measured optimized binary came from `d3f09324`; the later PR head
 `bca70438` contains clang-format changes only.
+PR #212 merged as `bde3120e` on September 29. The existing plotted PR curve
+still measures `d3f09324`; it must not be read as a measurement of the merge
+commit. A separate merged-main curve will be added after its run.
 The baseline binary is SHA256
 `1b8eeb46cd91779eaf9e13b57a28186933a9b2c864e5b25beecb3a1a5b1dc8b6`;
 the optimized binary is
@@ -99,6 +102,17 @@ A separate 1 MiB run with eight hot keys produced 2.32k HSET QPS, versus
 9.31k with 64 keys. The previous 100 MiB run also used eight keys, so its
 roughly 2.3k HSET QPS cannot be explained by value size alone. The new 10 MiB
 measurements use 64 keys to hold hot-key count fixed against the 1 MiB run.
+
+As a separate capacity check, 128 Hash keys of 100 MiB/128 B each were filled.
+Redis reported 21.44 GB `used_memory` and 21.65 GB RSS; Valkey reported
+20.69 GB and 20.87 GB. Kvrocks' process RSS was 2.97 GB with its data mainly
+on RAID0. These observations establish that those three products completed
+the 128-key fill; they do not establish a safe upper key count or Lavik's
+worker admission behavior.
+The [Redis](raw/redis-100m-k128-hash128-20260929/),
+[Valkey](raw/valkey-100m-k128-hash128-20260929/), and
+[Kvrocks](raw/kvrocks-100m-k128-hash128-20260929/) run folders include the
+post-fill `INFO MEMORY` snapshots.
 
 Both Lavik binaries returned `OOM grouped operation scratch admission` for
 100 MiB/128 B HGETALL at 16 connections. Those two points are omitted and
