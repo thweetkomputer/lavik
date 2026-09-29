@@ -25,6 +25,16 @@ Within each collection type, both QPS curves use the same validated SPDK
 dataset seeded by that PR.
 These QPS curves check steady-state command performance;
 the separate experiment below measures import speed.
+The Hash 100 MiB/128 B plots also include [PR #222](https://github.com/eloqdata/lavik/pull/222),
+commit `4da9167587bad4d5dc58a966c956f6a5aae459ee`, binary SHA256
+`73d592a7487ca0f19ee77a24cf22c1b12a26bac1dfae7e3c3767d8a5873329af`.
+It stores grouped physical coordinates in admitted compact arrays.
+This run reused a separately loaded and validated 500-key dataset seeded with PR #219;
+all 13 points completed without errors. HSET measured 34.4–48.4k QPS, versus
+31.4–46.0k for the plotted main and 322.9–374.0k for Kvrocks. The gain is limited
+and the target remains unmet. Each point is one measurement, so small differences
+cannot all be attributed to the code. Other sizes and Set plots do not yet include PR #222.
+
 No data-page cache was added. Earlier main, PR #212, and 256-key raw runs remain in `raw/` but are
 not plotted in this retest.
 
