@@ -21,6 +21,7 @@ COMMANDS = {"hash": ("HGET", "HSET", "HGETALL"),
             "set": ("SISMEMBER", "SADD_SREM", "SMEMBERS")}
 PRODUCTS = ("redis", "valkey", "kvrocks", "lavik")
 MAIN_COMMIT = "d1ce200e174adcb07820b5431c77b024350e85b6"
+MAIN_BINARY_SHA256 = "bd3f942e3b7b0f46c23c716197c8cc4ec8ad963e92cede0d9fa2574ff52a74a9"
 LABELS = {"redis": "Redis", "valkey": "Valkey", "kvrocks": "Kvrocks",
           "lavik": "Lavik main"}
 STYLES = {"redis": ("#bd3f43", "o", "-"),
@@ -50,6 +51,8 @@ def load(product, kind, size, field):
             raise RuntimeError(f"{folder}: {name}={options.get(name)}, expected {expected}")
     if product == "lavik" and options.get("source_commit") != MAIN_COMMIT:
         raise RuntimeError(f"{folder}: not the measured main {MAIN_COMMIT}")
+    if product == "lavik" and options.get("sha256") != MAIN_BINARY_SHA256:
+        raise RuntimeError(f"{folder}: unexpected Lavik binary SHA256")
     if not (folder / f"{kind}-{size}-{field}.validated.json").exists():
         raise RuntimeError(f"seed was not validated: {folder}")
     results = {}
@@ -93,9 +96,16 @@ def draw(kind, size, field, full, datasets):
             if points:
                 color, marker, line = STYLES[product]
                 scale = 1 if full else 1000
+                # Equal throughput can put products directly on top of one
+                # another (notably 1 MiB SMEMBERS). An open Redis marker on
+                # top keeps those measurements visible at their exact x value.
                 ax.plot([level for level, _ in points],
                         [qps / scale for _, qps in points],
                         color=color, marker=marker, linestyle=line, linewidth=2,
+                        markersize=9 if product == "redis" else 6,
+                        markerfacecolor="none" if product == "redis" else color,
+                        markeredgewidth=1.8 if product == "redis" else 1,
+                        zorder=5 if product == "redis" else 3,
                         label=("Kvrocks (80 GiB cache)" if product == "kvrocks"
                                else LABELS[product]))
             failed = [level for (op, level) in failures if op == command]

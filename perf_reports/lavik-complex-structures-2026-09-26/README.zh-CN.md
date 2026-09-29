@@ -6,52 +6,32 @@
 Redis 兼容数据结构。每张图固定数据结构、每个 key 的逻辑数据量和
 每个元素的字节数。横轴为连接数，纵轴为每秒完成的命令数。
 
-## 2026-09-29 分组 Hash 与 Set 复测
+## 2026-09-29 Hash 与 Set 复测
 
-Lavik 只展示已合并 [PR #212](https://github.com/eloqdata/lavik/pull/212)
-后的 `main` 实测。当前 1 MiB 档使用提交 `bde3120e`，SPDK
-RelWithDebInfo 二进制 SHA256 为
-`1acecaa40948d473caedce591d1a775d3d910b260a50b38a68f25bf946a4546e`。
-100 MiB 档已测完三个对照数据库，50,000-key 的 1 MiB 与 500-key 的
-100 MiB 档正在按四款产品重测。早期 main 和 PR #212
-的原始运行记录仍保留在 `raw/`，但不再当作当前 main 的数据展示。
+Hash 和 Set 的 1 MiB 档使用 50,000 个 key，100 MiB 档使用 500 个 key；
+每个元素为 128 B 或 1 KiB。每张图比较 Redis、Valkey、Kvrocks 与
+Lavik 的同条件结果。Lavik 使用已合并
+[PR #212](https://github.com/eloqdata/lavik/pull/212) 的 `main`，
+本轮提交为 `d1ce200e174adcb07820b5431c77b024350e85b6`，SPDK 服务端
+二进制 SHA256 为 `bd3f942e3b7b0f46c23c716197c8cc4ec8ad963e92cede0d9fa2574ff52a74a9`。
+没有增加数据页缓存。早期 main、PR #212 和 256-key 的运行记录仍保留在
+`raw/`，不作为本轮曲线。
 
-当前旧图的 1 MiB 使用 64 个 key，100 MiB 使用八个 key；新图将分别改为
-50,000 和 500 个 key。每个元素为
-128 B 或 1 KiB。点命令测 80/320/1280/2560/5120 连接，完整读取
-测 1 MiB 的 16/80、100 MiB 的 1/4/16 连接；
-每点八秒。Redis、Valkey 不持久化，Kvrocks 使用无压缩 RAID0、关闭 WAL、
-启用 80 GiB block cache 和 blob cache；Lavik 在六块 NVMe 上用 SPDK
-提交。这些配置影响绝对写入 QPS。
+当前已覆盖 Set 的 1 MiB/1 KiB 图；其他 Hash/Set 图仍是早期
+64-key 或 8-key 条件，正依次替换。每张新图的标题明确标出 key 数。
 
-目前旧图的 1 MiB/64-key HGET、SISMEMBER 已采用合并后 main。没有给 Lavik 增加数据页缓存。
-
-1 MiB/64-key 的 HSET 和 SADD/SREM 在合并后 main 中分别约为
-9.4–9.6k 与 18.8–20.1k QPS；SADD/SREM 混合结果含空操作。
-更多热 key 的同条件对照见下节。
-
-### 256 个热 key 的写入复测
-
-针对热 key 偏少的问题，四款产品统一填充 256 个 1 MiB key，元素分别为
-128 B 和 1 KiB；命令、八秒测量、连接数和持久化配置与上面的 64-key 档相同。
-这里的 Lavik 只画最新 main (`9acd7b6f`)，没有重复画早期 PR。
-256 key 相比 64 key，把 128 B HSET 的 320 连接吞吐从约 9.4k 提到
-19.2k QPS，Set 的 SADD/SREM 从 18.8k 提到 36.1k；仍远低于 Kvrocks。
-80 连接时 Lavik 的 HSET 达 29.7k，而 320 连接回落至 19.2k，说明仅增加
-连接不能消除写入等待。图的纵轴使用对数刻度，保留了 Lavik 与三个对照库的
-数量级差距。
-
-[完整测点 CSV](write-256.csv)、[绘图脚本](plot_write_256.py)及
-[Redis](raw/redis-1m-k256-write-20260929/)、
-[Valkey](raw/valkey-1m-k256-write-20260929/)、
-[Kvrocks](raw/kvrocks-1m-k256-write-20260929/)、
-[Lavik](raw/lavik-main9acd-1m-k256-20260929/)的运行记录可复核所有点。
-
-合并前的写入诊断与 HGETALL 内存调查保留在 [HSET 诊断](diagnostics/hset-20260929/README.md)和 [HGETALL 内存调查](diagnostics/hgetall-oom-20260929/README.md)，不作为当前 main 的实测值。每点仅测一次，没有置信区间；可用 [当前数据 CSV](set-hash-ab.csv)、[原始运行记录](raw/)和 [绘图脚本](plot_set_hash_ab.py)复核。
+点查和写入测 80/320/1280/2560/5120 连接，完整读取测 1 MiB 档的
+16/80、100 MiB 档的 1/4/16 连接；每点八秒。Redis、Valkey 不持久化，
+Kvrocks 使用无压缩 RAID0、关闭 WAL、启用 80 GiB block cache 和 blob
+cache；Lavik 在六块 NVMe 上用 SPDK 提交。这些配置影响绝对写入 QPS。
+每点仅测一次，没有置信区间。原始运行记录见 [raw/](raw/)，绘图代码见
+[plot_set_hash_high_keys.py](plot_set_hash_high_keys.py)；早期写入与内存调查
+分别见 [HSET 诊断](diagnostics/hset-20260929/README.md)和
+[HGETALL 内存调查](diagnostics/hgetall-oom-20260929/README.md)。
 
 ## Hash
 
-下列点查/写入图每张包含两个命令；当前 1 MiB 的 Lavik 为合并后 main，100 MiB 仍待新 key 数的同条件补测。
+下列点查/写入图每张包含两个命令；1 MiB 和 100 MiB 档分别使用 50,000 和 500 个 key。
 
 ### HGET / HSET
 
@@ -66,12 +46,6 @@ RelWithDebInfo 二进制 SHA256 为
 ![Hash 100 MiB、128 B：HGET 与 HSET QPS 随连接数变化](charts/hash-104857600-128-ab.png)
 
 ![Hash 100 MiB、1 KiB：HGET 与 HSET QPS 随连接数变化](charts/hash-104857600-1024-ab.png)
-
-### HSET / 256 个热 key
-
-每 key 1 MiB，128 B 和 1 KiB 元素；Lavik 是最新 main `9acd7b6f`。
-
-![Hash HSET，256 key，四款数据库](charts/hash-hset-1048576-k256.png)
 
 ### HGETALL
 
@@ -89,7 +63,7 @@ RelWithDebInfo 二进制 SHA256 为
 
 ## Set
 
-下列点查/写入图每张包含两个命令；当前 1 MiB 的 Lavik 为合并后 main，100 MiB 仍待新 key 数的同条件补测。
+下列点查/写入图每张包含两个命令；1 MiB 和 100 MiB 档分别使用 50,000 和 500 个 key。
 
 ### SISMEMBER / SADD/SREM
 
@@ -104,12 +78,6 @@ RelWithDebInfo 二进制 SHA256 为
 ![Set 100 MiB、128 B：SISMEMBER 与 SADD/SREM QPS 随连接数变化](charts/set-104857600-128-ab.png)
 
 ![Set 100 MiB、1 KiB：SISMEMBER 与 SADD/SREM QPS 随连接数变化](charts/set-104857600-1024-ab.png)
-
-### SADD/SREM / 256 个热 key
-
-每 key 1 MiB，128 B 和 1 KiB 元素；Lavik 是最新 main `9acd7b6f`。
-
-![Set SADD/SREM，256 key，四款数据库](charts/set-sadd_srem-1048576-k256.png)
 
 ### SMEMBERS
 
@@ -129,7 +97,7 @@ RelWithDebInfo 二进制 SHA256 为
 
 按位置读取和覆盖时，memtier 轮流访问每个 key 内均匀分布的八个位置。
 原先的 64 KiB、1 MiB 条件使用 64 个 key；100 MiB 条件使用八个 key。
-新一轮 Hash/Set 将改用 1 MiB/50,000 key、100 MiB/500 key。每个命令在当前条件的 key 中均匀随机选取一个。每个 field
+本轮 Hash/Set 使用 1 MiB/50,000 key、100 MiB/500 key。每个命令在当前条件的 key 中均匀随机选取一个。每个 field
 value、member 或元素为 128 B 或 1 KiB。Stream 的字段名和各结构元数据
 不计入逻辑 payload。测量前检查元素数量和抽样内容，写入后再次检查元素
 数量。Set 的增删在随机命中相同 key 时可能产生空操作，因此该项目报告
@@ -144,19 +112,21 @@ value、member 或元素为 128 B 或 1 KiB。Stream 的字段名和各结构元
 - List 和 Sorted Set 章节的 Lavik 是早期 [PR #203](https://github.com/eloqdata/lavik/pull/203) 的
   `646a7b4e` 二进制；Hash/Set 与 Stream 的当前 main 版本在各自章节注明。
   不同版本的数据不组成一条 Lavik 曲线。
-- Kvrocks 在三个大小档位使用相同配置。64 KiB 与 1 MiB 于 2026-09-27
-  后补测，工作负载参数与原始档位一致。保存的配置启用了 80 GiB RocksDB
+- Kvrocks 在各大小档位使用相同缓存与压缩配置。List、Sorted Set 的 64 KiB 与
+  1 MiB 于 2026-09-27 后补测；Hash/Set 使用本轮 key 数重新填充。
+  保存的配置启用了 80 GiB RocksDB
   block cache 和 blob cache；它的热读 QPS 因而包含大容量内存缓存的收益，
   与 Lavik 的数据页读取路径不同。
 - 客户端 172.16.0.5，AMD EPYC 9V45 的 16 个 vCPU，memtier_benchmark 2.5.1，
   pipeline 1、随机选 key，每个点测八秒。点查和写入用 16 个客户端线程、
   80/320/1280/2560/5120 个连接；64 KiB 和 1 MiB 完整读取用 16/80
   个连接，100 MiB 完整读取用 1/4/16 个连接，客户端线程数不超过连接数。
-- 每种条件由八个并发 RESP 客户端重新填充。先读后写，写入过程使结构长度
+- 每种条件由访问不同 key 的并发 RESP 客户端重新填充；旧运行默认八个，
+  新运行的并发数保存在 provenance JSON 中。先读后写，写入过程使结构长度
   基本保持在初始水平；同一条件下不同连接数访问相同的 key。100 MiB 条件
   的每个预填充连接按 64 条命令做有界 pipeline。
 - 这里的大小只计算 payload 字节，不等于 Redis 内存占用或 Lavik 磁盘用量。
-  64 个热 key 会显露单对象竞争，不代表海量 key 的负载。
+  List、Sorted Set 和 Stream 的早期 64-key 图会显露单对象竞争；Hash/Set 使用本轮标注的 key 数。
 - QPS 和延迟来自 memtier JSON；脚本拒绝连接错误、中断和服务端错误。
 
 ## List
@@ -366,12 +336,29 @@ SPDK 准备脚本在丢弃临时数据前，会核对六块专用控制器的序
 memtier 命令、填充耗时、校验结果与各次运行的 JSON 已提交到 `raw/`。
 控制台输出留在本机，分支中的 JSON 已包含测量数据，因此没有提交重复日志。
 
-复现 9 月 29 日补测时，分别构建本报告开头列出的两版 Lavik，用各自二进制
-执行 `run.py lavik`，共同参数为 `--types hash,set --fields 128,1024`、
-`--mode both --levels 80,320,1280,2560,5120 --seconds 8`。1 MiB 使用
-`--sizes 1048576 --keys 64 --full-levels 16,80`；100 MiB 使用
-`--sizes 104857600 --keys 8`、`--seed-pipeline 64 --full-levels 1,4,16`
-和 `--continue-on-error`。四个 tag 分别为 `main-20260929`、`opt-20260929`
-及各自的 `-100m` 版本。用 `--source-commit` 指定准确源码提交；原始运行目录
-中的 provenance JSON 同时记录源码提交和二进制 SHA256。恢复 SPDK 驱动后，
-运行 `.venv/bin/python plot_set_hash_ab.py` 重绘新图和 CSV。
+上面的命令保留了早期 64/8-key 图的复现方式。本轮 Hash/Set 每次运行只填充
+一种数据结构、大小和元素长度；`--tag` 依照原始目录命名。例如 1 MiB、
+50,000 key、128 B Hash 的 Redis 运行：
+
+```bash
+python3 run_with_memory_guard.py --minimum-available-gib=20 -- \
+  python3 run.py redis --tag=hash-1m-k50000-f128-20260929 \
+  --types=hash --sizes=1048576 --fields=128 --keys=50000 \
+  --levels=80,320,1280,2560,5120 --full-levels=16,80 \
+  --seconds=8 --mode=both --seed-pipeline=64 --continue-on-error
+```
+
+100 MiB 档将 `--sizes` 改成 `104857600`、`--keys` 改成 `500`，
+`--full-levels` 改成 `1,4,16`；依次运行 128 B、1 KiB 的 Hash 与 Set。
+Valkey 使用同样参数。Kvrocks 在 `kvrocks_host.py prepare --discard-scratch` 后
+运行，并在全部结束后调用 `restore`。Lavik 则在恢复 RAID0、调用
+`spdk_host.py prepare --discard-scratch` 后，以 root 运行 `run.py lavik`，
+加上 `--binary`、`--source-commit`，并在 tag 前加 `main<提交前八位>-`。
+Lavik 大部分条件用 `--fill-workers=64` 提高不同 key 的预填充并发；
+第一组 Set 1 MiB/1 KiB 使用旧默认值八个；后续每次实际值以原始
+provenance 为准。
+每次运行的 provenance JSON 保存了准确提交和二进制 SHA256。重绘单一条件图：
+
+```bash
+.venv/bin/python plot_set_hash_high_keys.py hash 1048576 128
+```

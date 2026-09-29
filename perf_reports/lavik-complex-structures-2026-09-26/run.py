@@ -121,7 +121,7 @@ def fill_worker(kind, field_bytes, entries, indices, pipeline, seed_values,
                 done += len(pending)
     return done
 
-def fill(kind, field_bytes, entries, keys, pipeline):
+def fill(kind, field_bytes, entries, keys, pipeline, workers):
     begin = time.monotonic()
     # Every key receives the same deterministic elements. Materialize one
     # immutable copy per fill so a 50,000-key, 128 B run does not format the
@@ -129,10 +129,12 @@ def fill(kind, field_bytes, entries, keys, pipeline):
     seed_values = tuple(value(i, field_bytes) for i in range(entries))
     seed_fields = (tuple(f"f{i:08d}" for i in range(entries))
                    if kind == "hash" else ())
-    with ThreadPoolExecutor(max_workers=8) as pool:
+    # Each worker owns disjoint keys. More seed clients expose independent
+    # objects to Lavik's workers without changing the measured collection.
+    with ThreadPoolExecutor(max_workers=workers) as pool:
         jobs = [pool.submit(fill_worker, kind, field_bytes, entries,
-                            range(i + 1, keys + 1, 8), pipeline, seed_values,
-                            seed_fields) for i in range(8)]
+                            range(i + 1, keys + 1, workers), pipeline, seed_values,
+                            seed_fields) for i in range(workers)]
         count = sum(job.result() for job in jobs)
     step = seed_step(kind, field_bytes)
     expected = keys * ((entries + step - 1) // step)
@@ -315,6 +317,8 @@ def main():
     p.add_argument("--mode", choices=("point", "full", "both"), default="point")
     p.add_argument("--client-threads", type=int, default=16)
     p.add_argument("--seed-pipeline", type=int, default=1)
+    p.add_argument("--fill-workers", type=int, default=8,
+                   help="Concurrent seed clients; keys stay disjoint")
     p.add_argument("--continue-on-error", action="store_true")
     p.add_argument("--backlog-mb", type=int)
     p.add_argument("--tag", default="")
@@ -336,6 +340,7 @@ def main():
     full_levels = tuple(map(int, opt.full_levels.split(",")))
     assert set(kinds) <= set(TYPES) and opt.keys >= 8
     assert 1 <= opt.client_threads <= 16 and opt.seed_pipeline >= 1
+    assert 1 <= opt.fill_workers <= 128
     assert all(c > 0 and c % min(c, opt.client_threads) == 0 for c in levels)
     assert all(c > 0 for c in full_levels)
     assert all(size >= field and size % field == 0 for size in sizes for field in fields)
@@ -356,7 +361,8 @@ def main():
         "levels": levels, "full_levels": full_levels,
         "seconds": opt.seconds, "backlog_mb": opt.backlog_mb,
         "client_threads": opt.client_threads, "seed_pipeline": opt.seed_pipeline,
-        "mode": opt.mode, "continue_on_error": opt.continue_on_error})
+        "fill_workers": opt.fill_workers, "mode": opt.mode,
+        "continue_on_error": opt.continue_on_error})
     try:
         query("PING")
     except (OSError, EOFError):
@@ -411,7 +417,7 @@ def main():
                         raise RuntimeError("FLUSHALL failed")
                     save(directory / f"{combo}.fill.json",
                          fill(kind, field_bytes, entries, opt.keys,
-                              opt.seed_pipeline))
+                              opt.seed_pipeline, opt.fill_workers))
                     save(directory / f"{combo}.validated.json",
                          validate(kind, field_bytes, entries, opt.keys, opt.product))
                     # Capture the real memory cost of each seeded collection;
