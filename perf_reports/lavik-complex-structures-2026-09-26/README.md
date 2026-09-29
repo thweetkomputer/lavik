@@ -7,6 +7,128 @@ remote memtier client. Each chart fixes the collection type, logical payload per
 key, and payload bytes per entry. The horizontal axis is simultaneous
 connections; the vertical axis is completed commands per second.
 
+## 2026-09-29 follow-up: grouped Hash and Set
+
+After PR #203 merged, the same Hash and Set workloads were rerun on current
+`main` (`0920ae56`) and on [PR #212](https://github.com/eloqdata/lavik/pull/212) (`d3f09324`).
+The baseline binary is SHA256
+`1b8eeb46cd91779eaf9e13b57a28186933a9b2c864e5b25beecb3a1a5b1dc8b6`;
+the optimized binary is
+`f8712ce492f67cf3a3eb0deed33e73e56f86e24ecc69fcd3d20390bc1eeaf561`.
+Both were built as RelWithDebInfo with SPDK and tested on the same host and
+scratch NVMe set. The optimized path scans the selected, checksum-verified
+group without constructing entries for unrelated fields. It serves grouped
+HGET, HEXISTS, HSTRLEN, and SISMEMBER; writes and full reads retain their
+previous paths. It adds no data-page cache.
+
+The new Lavik runs use 64 keys at 1 MiB and eight keys at 100 MiB, with 128 B
+or 1 KiB entries. Every point is one eight-second memtier run. Point commands
+use 80/320/1280/2560/5120 connections; full reads use 16/80 at 1 MiB and
+1/4/16 at 100 MiB. Redis, Valkey, and Kvrocks lines reuse the earlier raw
+runs with the same workload settings; they were **not** rerun on September 29.
+Kvrocks used an 80 GiB RocksDB block cache with blob caching, while Redis and
+Valkey had persistence disabled and Kvrocks had WAL disabled. Lavik commits
+to SPDK. These configurations materially affect absolute read and write QPS.
+
+At **320 connections**, all four products have a measured point in every row
+below. Values are thousands of completed commands per second; the two Lavik
+columns are current main and PR #212. Every chart overlays main and all
+measured PR variants listed in [set-hash-variants.json](set-hash-variants.json);
+append a run pair there when adding a PR, then regenerate the charts.
+
+| Type | Per key | Entry | Read | Redis | Valkey | Kvrocks | Lavik main | Lavik PR #212 |
+|---|---:|---:|---|---:|---:|---:|---:|---:|
+| Hash | 1 MiB | 128 B | HGET | 763.0 | 741.3 | 750.8 | 542.2 | 675.8 |
+| Hash | 1 MiB | 1 KiB | HGET | 715.5 | 721.8 | 725.7 | 672.4 | 749.4 |
+| Hash | 100 MiB | 128 B | HGET | 779.4 | 785.4 | 663.1 | 278.8 | 421.9 |
+| Hash | 100 MiB | 1 KiB | HGET | 744.8 | 736.4 | 644.3 | 362.0 | 440.5 |
+| Set | 1 MiB | 128 B | SISMEMBER | 768.0 | 854.3 | 715.8 | 447.7 | 680.0 |
+| Set | 1 MiB | 1 KiB | SISMEMBER | 694.3 | 656.2 | 680.7 | 537.4 | 701.6 |
+| Set | 100 MiB | 128 B | SISMEMBER | 778.5 | 781.2 | 646.2 | 212.9 | 410.8 |
+| Set | 100 MiB | 1 KiB | SISMEMBER | 701.6 | 679.5 | 615.2 | 287.8 | 421.0 |
+
+At the same 320 connections, optimized HGET gains 11–51% and SISMEMBER gains
+31–93%, depending on size. The largest gain is the 100 MiB/128 B Set case:
+213k to 411k QPS. The 1 MiB/1 KiB Set case reaches 702k QPS versus Kvrocks'
+681k at this connection count. The 100 MiB point reads remain below cached
+Kvrocks; this A/B does not establish that page decoding explains the entire
+gap.
+
+| Type | Per key | Entry | Write | Redis | Valkey | Kvrocks | Lavik main | Lavik PR #212 |
+|---|---:|---:|---|---:|---:|---:|---:|---:|
+| Hash | 1 MiB | 128 B | HSET | 734.7 | 804.3 | 371.6 | 9.4 | 9.4 |
+| Hash | 1 MiB | 1 KiB | HSET | 711.4 | 660.5 | 369.4 | 9.5 | 9.7 |
+| Hash | 100 MiB | 128 B | HSET | 746.4 | 727.4 | 318.4 | 2.3 | 2.3 |
+| Hash | 100 MiB | 1 KiB | HSET | 729.7 | 696.6 | 302.0 | 2.3 | 2.3 |
+| Set | 1 MiB | 128 B | SADD + SREM | 763.1 | 758.0 | 440.8 | 18.6 | 18.7 |
+| Set | 1 MiB | 1 KiB | SADD + SREM | 687.9 | 651.3 | 332.2 | 19.3 | 19.9 |
+| Set | 100 MiB | 128 B | SADD + SREM | 765.3 | 770.1 | 354.2 | 4.8 | 4.9 |
+| Set | 100 MiB | 1 KiB | SADD + SREM | 704.6 | 645.9 | 326.2 | 4.9 | 4.9 |
+
+Writes are essentially unchanged. A grouped HSET still reads and rewrites a
+complete changed group, updates its in-memory directory, and durably commits
+the command; this read-only optimization does not shorten that sequence. The
+Set write number combines SADD and SREM and can include no-op replies. A
+12-second CPU sample during the **pipelined Hash prefill**, not the single-field
+HSET measurement, attributed 25% of on-CPU samples to the worker run loop,
+15% to storage polling, and 4% to physical group-index update. It does not
+isolate an HSET bottleneck or measure time waiting for IO.
+
+Both Lavik binaries returned `OOM grouped operation scratch admission` for
+100 MiB/128 B HGETALL at 16 connections. Those two points are omitted and
+marked on the chart; the other new Lavik points all completed. This is one
+run per point, without confidence intervals. The [A/B CSV](set-hash-ab.csv),
+[raw runs](raw/), and [plotting script](plot_set_hash_ab.py) preserve every
+result, failure, command, and binary hash.
+
+### Hash / 1 MiB / 128 B
+
+![Hash 1 MiB 128 B, peers and Lavik main/PR #212 point commands](charts/hash-1048576-128-ab.png)
+
+![Hash 1 MiB 128 B, peers and Lavik main/PR #212 HGETALL](charts/hash-1048576-128-ab-full.png)
+
+### Hash / 1 MiB / 1 KiB
+
+![Hash 1 MiB 1 KiB, peers and Lavik main/PR #212 point commands](charts/hash-1048576-1024-ab.png)
+
+![Hash 1 MiB 1 KiB, peers and Lavik main/PR #212 HGETALL](charts/hash-1048576-1024-ab-full.png)
+
+### Hash / 100 MiB / 128 B
+
+![Hash 100 MiB 128 B, peers and Lavik main/PR #212 point commands](charts/hash-104857600-128-ab.png)
+
+![Hash 100 MiB 128 B, peers and Lavik main/PR #212 HGETALL](charts/hash-104857600-128-ab-full.png)
+
+### Hash / 100 MiB / 1 KiB
+
+![Hash 100 MiB 1 KiB, peers and Lavik main/PR #212 point commands](charts/hash-104857600-1024-ab.png)
+
+![Hash 100 MiB 1 KiB, peers and Lavik main/PR #212 HGETALL](charts/hash-104857600-1024-ab-full.png)
+
+### Set / 1 MiB / 128 B
+
+![Set 1 MiB 128 B, peers and Lavik main/PR #212 point commands](charts/set-1048576-128-ab.png)
+
+![Set 1 MiB 128 B, peers and Lavik main/PR #212 SMEMBERS](charts/set-1048576-128-ab-full.png)
+
+### Set / 1 MiB / 1 KiB
+
+![Set 1 MiB 1 KiB, peers and Lavik main/PR #212 point commands](charts/set-1048576-1024-ab.png)
+
+![Set 1 MiB 1 KiB, peers and Lavik main/PR #212 SMEMBERS](charts/set-1048576-1024-ab-full.png)
+
+### Set / 100 MiB / 128 B
+
+![Set 100 MiB 128 B, peers and Lavik main/PR #212 point commands](charts/set-104857600-128-ab.png)
+
+![Set 100 MiB 128 B, peers and Lavik main/PR #212 SMEMBERS](charts/set-104857600-128-ab-full.png)
+
+### Set / 100 MiB / 1 KiB
+
+![Set 100 MiB 1 KiB, peers and Lavik main/PR #212 point commands](charts/set-104857600-1024-ab.png)
+
+![Set 100 MiB 1 KiB, peers and Lavik main/PR #212 SMEMBERS](charts/set-104857600-1024-ab-full.png)
+
 ## Workloads
 
 | Type | Point read | Write | Full read | Write behavior |
@@ -41,7 +163,9 @@ combined command rate, not the rate of durable mutations.
   are not confounded by a source change.
 - Kvrocks uses the same configuration at all three sizes. Its 64 KiB and
   1 MiB points were measured on 2026-09-27 in a later pass with identical
-  workload settings.
+  workload settings. The saved configuration enables an 80 GiB RocksDB block
+  cache and blob caching; its hot-read QPS therefore includes a large memory
+  cache, unlike Lavik's data-page path.
 - Client: 172.16.0.5, 16 vCPUs on AMD EPYC 9V45, memtier_benchmark 2.5.1,
   pipeline 1, random key selection, and eight seconds per point. Point
   operations use 16 client threads and 80/320/1280/2560/5120 connections.
@@ -564,3 +688,15 @@ prepare devices that contain data to keep. Server commands, binary hashes,
 memtier invocations, fill timings, validation checks, and per-run JSON are
 committed under `raw/`. Console output is retained locally and omitted from
 the branch because the JSON contains the measured data.
+
+For the September 29 follow-up, build the two Lavik commits identified at the
+top of this report and run `run.py lavik` for each binary with `--types hash,set`,
+`--fields 128,1024`, `--mode both`, `--levels 80,320,1280,2560,5120`, and
+`--seconds 8`. Use `--sizes 1048576 --keys 64 --full-levels 16,80` for the
+1 MiB runs. For 100 MiB use `--sizes 104857600 --keys 8`,
+`--seed-pipeline 64 --full-levels 1,4,16`, and `--continue-on-error`.
+The four run tags are
+`main-20260929`, `opt-20260929`, and their `-100m` variants. Pass the exact
+source revision with `--source-commit`; the per-run provenance JSON records
+both that revision and the binary SHA256. After restoring SPDK, regenerate the
+new figures and CSV with `.venv/bin/python plot_set_hash_ab.py`.
