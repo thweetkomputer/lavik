@@ -10,16 +10,26 @@ Redis 兼容数据结构。每张图固定数据结构、每个 key 的逻辑数
 
 Hash 和 Set 的 1 MiB 档使用 50,000 个 key，100 MiB 档使用 500 个 key；
 每个元素为 128 B 或 1 KiB。每张图比较 Redis、Valkey、Kvrocks 与
-Lavik 的同条件结果。Lavik 使用已合并
-[PR #212](https://github.com/eloqdata/lavik/pull/212) 的 `main`，
-本轮提交为 `d1ce200e174adcb07820b5431c77b024350e85b6`，SPDK 服务端
-二进制 SHA256 为 `bd3f942e3b7b0f46c23c716197c8cc4ec8ad963e92cede0d9fa2574ff52a74a9`。
+Lavik 的同条件结果。除 Set 100 MiB/128 B 外，本轮 Lavik 曲线来自已合并
+[PR #212](https://github.com/eloqdata/lavik/pull/212) 的 `main`
+`d1ce200e174adcb07820b5431c77b024350e85b6`，SPDK 服务端二进制
+SHA256 为 `bd3f942e3b7b0f46c23c716197c8cc4ec8ad963e92cede0d9fa2574ff52a74a9`。
+Set 100 MiB/128 B 已复测为更新后的 `main`
+`37b7e45ace4408c675caf6805af396769b0ff3bb`，二进制 SHA256 为
+`c3ae2b346ec4ee3a332fe05c38a75a55c2f3cbbe11773d70c06fbe6556cf767c`；
+这组 QPS 复用了经 `d1ce200e` 灌入并校验的相同 SPDK 数据。
 没有增加数据页缓存。早期 main、PR #212 和 256-key 的运行记录仍保留在
 `raw/`，不作为本轮曲线。
 
 Hash/Set 的四组 1 MiB 图已全部覆盖为 50,000-key 结果。Hash 和 Set 的
-100 MiB/1 KiB 图已覆盖为 500-key 结果；128 B 图仍是早期八个 key 的条件，
-正依次替换。每张新图的标题明确标出 key 数。
+100 MiB/1 KiB 图以及 Set 100 MiB/128 B 图已覆盖为 500-key 结果；
+Hash 100 MiB/128 B 图仍是早期八个 key 的条件，待替换。
+每张新图的标题明确标出 key 数。
+
+Set 100 MiB/128 B、500 key 的灌数中，Redis 用 354 秒、Valkey 用 265 秒、
+Kvrocks 用 545 秒；Lavik `d1ce200e` 用 500 次 RESTORE 耗时 10,739 秒。
+其他三库采用批量 SADD，且持久化配置不同；这组耗时说明 Lavik 导入路径
+值得单独优化，不能作为同等持久性写入吞吐的排名。
 
 点查和写入测 80/320/1280/2560/5120 连接，完整读取测 1 MiB 档的
 16/80、100 MiB 档的 1/4/16 连接；每点八秒。Redis、Valkey 不持久化，

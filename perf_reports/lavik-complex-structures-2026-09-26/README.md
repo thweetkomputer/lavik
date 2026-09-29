@@ -11,17 +11,28 @@ connections; the vertical axis is completed commands per second.
 
 Hash and Set use 50,000 keys at 1 MiB per key and 500 keys at 100 MiB per
 key, with 128 B or 1 KiB entries. Every chart compares Redis, Valkey,
-Kvrocks, and Lavik under the same workload. Lavik uses `main` after merged
+Kvrocks, and Lavik under the same workload. Except for Set 100 MiB/128 B,
+Lavik uses `main` after merged
 [PR #212](https://github.com/eloqdata/lavik/pull/212), at commit
-`d1ce200e174adcb07820b5431c77b024350e85b6`. The SPDK server binary
+`d1ce200e174adcb07820b5431c77b024350e85b6`. Its SPDK server binary
 has SHA256 `bd3f942e3b7b0f46c23c716197c8cc4ec8ad963e92cede0d9fa2574ff52a74a9`.
+Set 100 MiB/128 B uses newer `main` commit
+`37b7e45ace4408c675caf6805af396769b0ff3bb`, binary SHA256
+`c3ae2b346ec4ee3a332fe05c38a75a55c2f3cbbe11773d70c06fbe6556cf767c`.
+Its QPS run reused the same validated SPDK data seeded by `d1ce200e`.
 No data-page cache was added. Earlier main, PR #212, and 256-key raw runs remain in `raw/` but are
 not plotted in this retest.
 
 All four Hash/Set 1 MiB figures now use 50,000 keys. The Hash and Set
-100 MiB/1 KiB figures now use 500 keys; the 128 B figures still show the earlier
-eight-key runs while they are being replaced. Each new figure states its exact
-key count in the title.
+100 MiB/1 KiB figures and Set 100 MiB/128 B now use 500 keys. Hash
+100 MiB/128 B still shows the earlier eight-key run pending replacement.
+Each new figure states its exact key count in the title.
+
+For the 500-key Set 100 MiB/128 B seed, Redis took 354 seconds, Valkey 265,
+and Kvrocks 545. Lavik `d1ce200e` took 10,739 seconds for 500 RESTORE
+commands. The other products used batched SADD and different persistence
+settings. These times motivate a separate Lavik import optimization; they do
+not rank writes at equal durability.
 
 Point reads and writes use 80/320/1280/2560/5120 connections. Full reads use
 16/80 for 1 MiB and 1/4/16 for 100 MiB. Each point runs for eight seconds.
