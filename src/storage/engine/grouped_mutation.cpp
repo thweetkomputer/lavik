@@ -18,6 +18,7 @@
 
 #include "impl.h"
 #include "lavik/storage/detail/grouped_scratch.h"
+#include "write_stage_diagnostic.h"
 
 namespace lavik::storage {
 namespace {
@@ -169,6 +170,8 @@ Task<absl::Status> StorageEngine::Impl::CommitGroupedHashMutationLocked(
     store.store_state_mutex_.Unlock(*store.worker_);
     absl::Status space;
     try {
+      write_stage_diagnostic::Stage pressure_stage(
+          write_stage_diagnostic::kPressure);
       space = co_await BeforeGroupedTransaction(store, append_bytes);
     } catch (const std::bad_alloc&) {
       // Even allocation of the pressure coroutine frame must return with the
@@ -440,6 +443,8 @@ Task<absl::Status> StorageEngine::Impl::CommitGroupedHashMutationLocked(
           co_return absl::ResourceExhaustedError(
               "OOM injected grouped auxiliary admission failure");
         });
+    write_stage_diagnostic::Stage auxiliary_stage(
+        write_stage_diagnostic::kAuxiliary);
     auto group = co_await WriteHashGroupRecordLocked(
         store, partition, db_id, key, digest, snapshot,
         std::move(encoders[written.size()]), revision, *tx, value_type,
@@ -517,10 +522,12 @@ Task<absl::Status> StorageEngine::Impl::CommitGroupedHashMutationLocked(
       .root_incarnation_ = plan->root_.incarnation_};
   GroupMutationWrite mutation{.sequence_ = sequence, .root_ = &root_write};
   LAVIK_MAYBE_CRASH_AT("group-batch-before-root");
+  write_stage_diagnostic::Stage root_stage(write_stage_diagnostic::kRoot);
   const auto appended = co_await AppendLocked(
       store, partition, db_id, key, digest, *root_payload, RecordKind::kValue,
       value_type, expire_at_ms, tx, field_count, nullptr, nullptr, replication,
       true, nullptr, mutation_precondition, &mutation);
+  root_stage.Finish();
   if (!appended.ok()) {
     if (store.write_failed_) {
       // A root may already be staged/published on a fail-stopped path. Its

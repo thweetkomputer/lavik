@@ -15,6 +15,7 @@
  */
 
 #include "impl.h"
+#include "write_stage_diagnostic.h"
 
 namespace lavik::storage {
 
@@ -44,6 +45,8 @@ StorageEngine::Impl::PrepareGroupedDecision(TxShardWrites& tx) {
 Task<absl::Status> StorageEngine::Impl::AwaitGroupedDependencyLocked(
     WorkerStore& store, const GroupedHashObject::Handle& object,
     std::uint64_t successor_txid) {
+  write_stage_diagnostic::Stage dependency_stage(
+      write_stage_diagnostic::kDependency);
   auto decision = object == nullptr ? nullptr : object->version().decision_;
   if (decision == nullptr || decision->txid_ == successor_txid) {
     co_return absl::OkStatus();

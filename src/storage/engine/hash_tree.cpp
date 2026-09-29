@@ -28,6 +28,7 @@
 #include "lavik/redis_parse.h"
 #include "lavik/storage/detail/grouped_scratch.h"
 #include "lavik/storage/detail/hash_read.h"
+#include "write_stage_diagnostic.h"
 
 namespace lavik::storage {
 
@@ -391,6 +392,9 @@ Task<absl::StatusOr<HashResult>> StorageEngine::Impl::ExecuteHashLikeLocked(
     const MutationPrecondition* mutation_precondition) {
   // Private preparation allocations must unwind here: Bycorf terminates on
   // exceptions escaping a coroutine body, even when its caller has a catch.
+  write_stage_diagnostic::Stage command_stage(
+      write_stage_diagnostic::kCommand,
+      operation.kind_ == HashOperationKind::kSet);
   try {
     assert(db_id < kLogicalDatabaseCount);
     const bool replace = operation.kind_ == HashOperationKind::kReplaceOnly;
@@ -407,7 +411,11 @@ Task<absl::StatusOr<HashResult>> StorageEngine::Impl::ExecuteHashLikeLocked(
 
     WorkerStore& store = CurrentStore();
     auto& partition = PartitionForKey(store, key);
+    write_stage_diagnostic::Stage initial_lock(
+        write_stage_diagnostic::kInitialLock,
+        operation.kind_ == HashOperationKind::kSet);
     co_await store.store_state_mutex_.Lock();
+    initial_lock.Finish();
     UnlockGuard unlock(&store.store_state_mutex_, store.worker_);
 
     auto& index = partition.indexes_[db_id];
@@ -755,6 +763,9 @@ Task<absl::StatusOr<HashResult>> StorageEngine::Impl::ExecuteHashLikeLocked(
         // group.
         for (const auto id : selected) {
           if (unlocked_grouped_write) co_await bycorf::Yield(*store.worker_);
+          write_stage_diagnostic::Stage read_stage(
+              write_stage_diagnostic::kRead,
+              operation.kind_ == HashOperationKind::kSet);
           auto loaded = co_await LoadHashGroupSnapshot(
               store, partition, db_id, key, digest, grouped, id);
           if (!loaded.ok()) {
@@ -1218,6 +1229,7 @@ Task<absl::StatusOr<HashResult>> StorageEngine::Impl::ExecuteHashLikeLocked(
       if (result.changed_ && result.key_exists_) {
         const std::vector<HashGroupId> changed(changed_groups.begin(),
                                                changed_groups.end());
+        write_stage_diagnostic::Stage plan_stage(write_stage_diagnostic::kPlan);
         auto prepared =
             PrepareGroupedHashMutation(grouped, std::move(compact), changed,
                                        result.length_, grouped->revision());
@@ -1315,6 +1327,8 @@ Task<absl::StatusOr<HashResult>> StorageEngine::Impl::ExecuteHashLikeLocked(
         (grouped != nullptr || ((unlocked_compact_write || unlocked_create)
                                     ? compact_write_promotes
                                     : NeedsGroupedHash(compact)))) {
+      write_stage_diagnostic::Stage commit_stage(
+          write_stage_diagnostic::kCommit);
       absl::Status written = co_await CommitGroupedHashMutationLocked(
           store, partition, db_id, key, digest, grouped, std::move(compact),
           std::vector<HashGroupId>(changed_groups.begin(),
