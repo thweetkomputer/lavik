@@ -71,23 +71,31 @@ def value(i, n):
 def name(i):
     return f"complex_{i}"
 
-def fill_worker(kind, field_bytes, entries, indices, pipeline):
+def seed_step(kind, field_bytes):
+    if kind == "stream":
+        return 1
+    # Bound each seed command near 16 KiB of payload. Small entries otherwise
+    # multiply command count without changing the measured collection shape.
+    return min(128, max(16, 16384 // field_bytes))
+
+def fill_worker(kind, field_bytes, entries, indices, pipeline, seed_values,
+                seed_fields):
     done = 0
     with socket.create_connection((HOST, PORT), timeout=300) as sock:
         sock.settimeout(300)
         stream = sock.makefile("rb")
         for index in indices:
             key = name(index)
-            step = 1 if kind == "stream" else 16
+            step = seed_step(kind, field_bytes)
             # Drain each bounded batch before sending another so a 100 MiB
             # key does not turn into unbounded client or server in-flight work.
             pending = []
             for start in range(0, entries, step):
                 end = min(start + step, entries)
-                values = [value(i, field_bytes) for i in range(start, end)]
+                values = seed_values[start:end]
                 if kind == "hash":
-                    args = ("HSET", key, *(a for i in range(start, end)
-                                             for a in (f"f{i:08d}", values[i-start])))
+                    args = ("HSET", key, *(a for pair in zip(seed_fields[start:end], values)
+                                             for a in pair))
                 elif kind == "set":
                     args = ("SADD", key, *values)
                 elif kind == "list":
@@ -115,15 +123,23 @@ def fill_worker(kind, field_bytes, entries, indices, pipeline):
 
 def fill(kind, field_bytes, entries, keys, pipeline):
     begin = time.monotonic()
+    # Every key receives the same deterministic elements. Materialize one
+    # immutable copy per fill so a 50,000-key, 128 B run does not format the
+    # same 8,192 member values hundreds of millions of times in Python.
+    seed_values = tuple(value(i, field_bytes) for i in range(entries))
+    seed_fields = (tuple(f"f{i:08d}" for i in range(entries))
+                   if kind == "hash" else ())
     with ThreadPoolExecutor(max_workers=8) as pool:
         jobs = [pool.submit(fill_worker, kind, field_bytes, entries,
-                            range(i + 1, keys + 1, 8), pipeline) for i in range(8)]
+                            range(i + 1, keys + 1, 8), pipeline, seed_values,
+                            seed_fields) for i in range(8)]
         count = sum(job.result() for job in jobs)
-    step = 1 if kind == "stream" else 16
+    step = seed_step(kind, field_bytes)
     expected = keys * ((entries + step - 1) // step)
     if count != expected:
         raise RuntimeError(f"{kind} fill sent {count} commands, expected {expected}")
-    return {"seconds": time.monotonic() - begin, "commands": count}
+    return {"seconds": time.monotonic() - begin, "commands": count,
+            "entries_per_command": step}
 
 def validate(kind, field_bytes, entries, keys, product, after=False):
     # Large-key-count runs must reuse a connection. Opening one per key can
