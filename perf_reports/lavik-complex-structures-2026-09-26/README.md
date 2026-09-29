@@ -26,33 +26,17 @@ from the prior run under matching conditions; the latest Hash main and PR #222
 share the newly seeded dataset.
 These QPS curves check steady-state command performance;
 the separate experiment below measures import speed.
-The preceding Hash 100 MiB/128 B measurement used [PR #222](https://github.com/eloqdata/lavik/pull/222),
-commit `7463540f73eb67736f5fa2cc5ad12fe53cc334db`, binary SHA256
-`e865fc8135b875420b72ff9fa03cd755a4b6abe93666d0d2b7bc28b98af65490`.
-It stores grouped physical coordinates in admitted compact arrays and wakes
-same-worker standalone successors on commit completion. Predecessor durability
-ordering is unchanged.
-This run reused a separately loaded and validated 500-key dataset seeded with PR #219;
-all 13 points completed without errors. Hash main was then rerun on this same dataset.
-HSET measured 35.0–50.3k QPS, versus 31.9–47.3k for the rerun main and 322.9–374.0k for Kvrocks. The gain is limited
-and the target remains unmet. Each point is one measurement, so small differences
-cannot all be attributed to the code; main was slightly faster at 2560 connections.
-For the first array-only version, INFO used_memory before HSET fell from about 2.21 GiB on main to 1.93 GiB on the PR.
-This is accounted runtime memory, not RSS, which includes allocator retention.
-[Phase timing](diagnostics/hset-stages-20260929/README.md) identifies predecessor
-commit waiting as the dominant storage interval here. Notifications provide only
-a limited gain; commit IO remains under investigation.
-
-The plotted PR curve now includes [Bycorf PR #6](https://github.com/eloqdata/bycorf/pull/6),
-labeled `PR #222 + Bycorf #6`. Measured source is `d8405fad4101e8d16468e86a1044e551ff90d227`,
-Bycorf `145479a8579e092739a03eb505775836b8997829`, binary SHA256
-`9548e542fa4be43e24a3a63ef65ded6ac28e689985b9ac6b42724ce33158a16d`.
-All six NVMe controllers advertise VWC=0. The optimization omits an ineffective FLUSH
-only when the worker has no outstanding I/O; data/header write ordering is preserved.
-All 13 points on the same dataset passed without errors. HSET reached **52.0–77.5k QPS**,
-including 77.5k at 1280 connections, still below Kvrocks. Previous raw results remain;
-throughput gains for other structures are not yet verified.
-
+The Hash 100 MiB/128 B [PR #222](https://github.com/eloqdata/lavik/pull/222) curve includes compact
+physical indexes, same-worker commit notifications, and [Bycorf PR #6](https://github.com/eloqdata/bycorf/pull/6).
+All six NVMe controllers advertise VWC=0, so ineffective FLUSH commands complete in software;
+data/header write ordering and data-before-decision durability are preserved.
+Measured source: `5a5c749da22fea98811060bc2f9fc44389edb20b`; Bycorf: `fe23c7c102261b552785272cd49d1b36b3dbf0cd`;
+binary SHA256: `9a0f448525410e5ab155c32c1c564e6f18ec606683156aec94623596a1cb3969`.
+All 13 points reused the validated 500-key dataset and completed without errors.
+HSET reached **35.9–70.6k QPS**, versus 31.9–47.3k for main and 322.9–374.0k for Kvrocks.
+The target remains unmet, and not every connection count improves. Each point is one measurement;
+commit batching and admission waits remain under investigation.
+[Phase timing](diagnostics/hset-stages-20260929/README.md) and previous raw runs remain available.
 Other sizes and Set plots do not yet include PR #222.
 
 No data-page cache was added. Earlier main, PR #212, and 256-key raw runs remain in `raw/` but are
@@ -74,7 +58,7 @@ write-path and memory investigations remain available in the
 [HGETALL memory investigation](diagnostics/hgetall-oom-20260929/README.md).
 
 [Same-block data/commit coalescing trial](diagnostics/hset-coalescing-20260929/README.md) passed correctness checks,
-but HSET regressed in both the grid and a 20-second repeat. The change was reverted; main plots retain the better NVMe variant.
+but HSET regressed in both the grid and a 20-second repeat. The change was reverted; main plots show the current NVMe variant.
 
 ## Hash
 
