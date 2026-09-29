@@ -785,12 +785,12 @@ TEST(GroupedObjectIndexTest, ExternalGroupManifestIsSparseAndRequired) {
 TEST(GroupedObjectIndexTest, ArenaCapacityFailurePublishesNothing) {
   auto arena = std::make_shared<ScanHashMapEntryArena>(0, true, false);
   auto input = Input();
-  auto rejected = GroupedHashObject::Create(input.version_, input.directory_,
-                                            input.locations_, arena);
-  EXPECT_EQ(rejected.status().code(), absl::StatusCode::kResourceExhausted);
+  // Inline physical coordinates need no arena slots. The keyed publication
+  // still must fail without exposing an object when that arena has no space.
+  auto object = GroupedHashObject::Create(input.version_, input.directory_,
+                                          input.locations_, arena);
+  ASSERT_TRUE(object.ok()) << object.status();
   EXPECT_EQ(arena->allocated_pages(), 0);
-  auto object = Create(Input());
-  ASSERT_TRUE(object.ok());
   GroupedObjectIndex index(arena);
   EXPECT_EQ(index.Publish("key", nullptr, *object).code(),
             absl::StatusCode::kResourceExhausted);
