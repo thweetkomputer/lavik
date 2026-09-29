@@ -360,7 +360,24 @@ Lavik 大部分条件用 `--fill-workers=64 --seed-command-bytes=65536`
 提高不同 key 的预填充并发并减少预填充命令数；第一组 Set 1 MiB/1 KiB
 使用旧默认值八个，Set 1 MiB/128 B 仍使用 16 KiB 目标批次；后续每次实际值以原始
 provenance 为准。
-每次运行的 provenance JSON 保存了准确提交和二进制 SHA256。重绘单一条件图：
+每次运行的 provenance JSON 保存了准确提交和二进制 SHA256。
+
+100 MiB/128 B 的 Lavik 预填充使用 [RDB 种子生成器](make_rdb_seed_dump.py)
+创建单个 819,200 元素的 Hash 或 Set，再用 `RESTORE` 写入 500 个不同 key。
+生成器核对 Redis 原始校验和，并为 Lavik 的 RDB v11 读取器重新计算校验和；
+运行记录保存种子 SHA256。生成 Set 种子的命令为：
+
+```bash
+python3 make_rdb_seed_dump.py set 104857600 128 /tmp/lavik-set-100m-f128-generated.dump \
+  --redis-binary=/mnt/dev/peer-bench/redis/v8.8.0/src/src/redis-server
+```
+
+相应的 Lavik 运行在上述公共参数之外使用
+`--fill-workers=8 --seed-dump-path=/tmp/lavik-set-100m-f128-generated.dump`；
+Hash 将 `set` 改成 `hash` 并使用单独生成的文件。正式测点在全部 key 的数量和样本内容校验、
+以及 TxCleaner 积压稳定后才开始。
+
+重绘单一条件图：
 
 ```bash
 .venv/bin/python plot_set_hash_high_keys.py hash 1048576 128
