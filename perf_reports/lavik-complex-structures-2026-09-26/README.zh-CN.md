@@ -35,6 +35,17 @@ Kvrocks 用 545 秒；Lavik `d1ce200e` 用 500 次 RESTORE 耗时 10,739 秒。
 其他三库采用批量 SADD，且持久化配置不同；这组耗时说明 Lavik 导入路径
 值得单独优化，不能作为同等持久性写入吞吐的排名。
 
+同一个 100 MiB/128 B Set RDB 样本，在每次清空六块 SPDK 盘后用八个客户端
+RESTORE 100 个不同 key：最新 `main` 用 2,072.4 秒，8 MiB 分批及 touched-group
+去重分支用 484.0 秒，128 MiB 分批分支用 151.5 秒，较同版 `main` 快 13.7 倍。
+三次运行均校验全部 100 个 key、每 key 819,200 个成员，且无客户端或服务端错误。
+这一诊断负载只有 100 个 key；500-key 全量导入仍在复测。
+
+![Set 100 MiB、128 B、100 key：Lavik RESTORE 导入耗时对照](charts/set-104857600-128-k100-restore-ab.png)
+
+[RESTORE 测点](set-104857600-128-k100-restore-ab.csv)和
+[绘图脚本](plot_restore_import_ab.py)保留了版本、二进制校验和及相同 RDB 样本的校验。
+
 点查和写入测 80/320/1280/2560/5120 连接，完整读取测 1 MiB 档的
 16/80、100 MiB 档的 1/4/16 连接；每点八秒。Redis、Valkey 不持久化，
 Kvrocks 使用无压缩 RAID0、关闭 WAL、启用 80 GiB block cache 和 blob
