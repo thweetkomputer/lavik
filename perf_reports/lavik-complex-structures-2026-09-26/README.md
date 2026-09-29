@@ -94,6 +94,37 @@ complete changed group, updates its in-memory directory, and durably commits
 the command; this read-only optimization does not shorten that sequence. The
 Set write number combines SADD and SREM and can include no-op replies.
 
+### Write retest with 256 hot keys
+
+All four products were seeded with 256 keys of 1 MiB each, with 128 B and
+1 KiB entries. Commands, eight-second measurements, connection counts, and
+persistence settings match the 64-key runs above. Only the merged #212 main
+(`bde3120e`) is plotted for Lavik. At 320 connections, values are thousands
+of completed commands per second:
+
+| Type | Entry | Command | Redis | Valkey | Kvrocks | Lavik main |
+|---|---:|---|---:|---:|---:|---:|
+| Hash | 128 B | HSET | 733.3 | 699.9 | 348.8 | 19.4 |
+| Hash | 1 KiB | HSET | 698.0 | 657.4 | 339.2 | 18.2 |
+| Set | 128 B | SADD + SREM | 772.6 | 746.9 | 434.9 | 35.6 |
+| Set | 1 KiB | SADD + SREM | 708.6 | 634.0 | 363.1 | 37.7 |
+
+With 128 B entries, increasing hot keys from 64 to 256 raised Lavik's
+320-connection HSET from about 9.4k to 19.4k QPS and SADD/SREM from 18.8k
+to 35.6k. Both remain far below Kvrocks. At 80 connections, Lavik HSET
+reached 29.6k QPS, then fell to 19.4k at 320 connections. The charts use
+logarithmic throughput axes to retain the full four-product gap.
+
+![Hash HSET, 256 keys of 1 MiB, four products](charts/hash-hset-1048576-k256.png)
+
+![Set SADD/SREM, 256 keys of 1 MiB, four products](charts/set-sadd_srem-1048576-k256.png)
+
+The [complete points](write-256.csv), [plot script](plot_write_256.py), and
+raw [Redis](raw/redis-1m-k256-write-20260929/),
+[Valkey](raw/valkey-1m-k256-write-20260929/),
+[Kvrocks](raw/kvrocks-1m-k256-write-20260929/), and
+[Lavik](raw/lavik-merged212-1m-k256-20260929/) runs retain the evidence.
+
 A separate [HSET diagnostic](diagnostics/hset-20260929/README.md) at 1 MiB,
 128 B and 320 connections measured 9.31k QPS and about 283 ms p99. Disabling
 TxCleaner only for the 15-second HSET interval measured 9.33k QPS with the

@@ -85,6 +85,36 @@ Lavik 的前三列分别是合并前 main、早期 PR #212 和合并后 main；�
 的目录，并持久化提交命令；本次只改了读取路径。Set 的写入数字合并了
 SADD/SREM，其中可能包含无需落盘的空操作。
 
+### 256 个热 key 的写入复测
+
+针对热 key 偏少的问题，四款产品统一填充 256 个 1 MiB key，元素分别为
+128 B 和 1 KiB；命令、八秒测量、连接数和持久化配置与上面的 64-key 档相同。
+这里的 Lavik 只画已合并 #212 的 main (`bde3120e`)，没有重复画早期 PR。
+下表取 320 连接，单位千 QPS：
+
+| 结构 | 元素 | 命令 | Redis | Valkey | Kvrocks | Lavik main |
+|---|---:|---|---:|---:|---:|---:|
+| Hash | 128 B | HSET | 733.3 | 699.9 | 348.8 | 19.4 |
+| Hash | 1 KiB | HSET | 698.0 | 657.4 | 339.2 | 18.2 |
+| Set | 128 B | SADD + SREM | 772.6 | 746.9 | 434.9 | 35.6 |
+| Set | 1 KiB | SADD + SREM | 708.6 | 634.0 | 363.1 | 37.7 |
+
+256 key 相比 64 key，把 128 B HSET 的 320 连接吞吐从约 9.4k 提到
+19.4k QPS，Set 的 SADD/SREM 从 18.8k 提到 35.6k；仍远低于 Kvrocks。
+80 连接时 Lavik 的 HSET 达 29.6k，而 320 连接回落至 19.4k，说明仅增加
+连接不能消除写入等待。图的纵轴使用对数刻度，保留了 Lavik 与三个对照库的
+数量级差距。
+
+![Hash HSET：256 key、每 key 1 MiB、四款产品](charts/hash-hset-1048576-k256.png)
+
+![Set SADD/SREM：256 key、每 key 1 MiB、四款产品](charts/set-sadd_srem-1048576-k256.png)
+
+[完整测点 CSV](write-256.csv)、[绘图脚本](plot_write_256.py)及
+[Redis](raw/redis-1m-k256-write-20260929/)、
+[Valkey](raw/valkey-1m-k256-write-20260929/)、
+[Kvrocks](raw/kvrocks-1m-k256-write-20260929/)、
+[Lavik](raw/lavik-merged212-1m-k256-20260929/)的运行记录可复核所有点。
+
 另做的 [HSET 诊断](diagnostics/hset-20260929/README.md)在 1 MiB、128 B、
 320 连接时测得约 9.31k QPS、p99 约 283 ms。只在 15 秒 HSET 阶段关闭
 TxCleaner 后得到 9.33k QPS、相同 p99；0.15% 的差别不能证明有效提升。
