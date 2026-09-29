@@ -61,10 +61,14 @@ Lavik 的两列分别是当前 main 和 PR #212。每张图叠加 main 与
 
 写入基本没有变化。分组 HSET 仍需读取并重写被修改的完整分组、更新内存中
 的目录，并持久化提交命令；本次只改了读取路径。Set 的写入数字合并了
-SADD/SREM，其中可能包含无需落盘的空操作。在 **Hash 批量预填充**
-期间采集的 12 秒 CPU 样本中，worker 运行循环约占 25%、存储轮询约占
-15%、物理分组索引更新约占 4%。这不是单字段 HSET 压测的 profile，
-也无法量化等待 IO 的时间。
+SADD/SREM，其中可能包含无需落盘的空操作。
+
+另做的 [HSET 诊断](diagnostics/hset-20260929/README.md)在 1 MiB、128 B、
+320 连接时测得约 9.31k QPS、p99 约 283 ms。只在 15 秒 HSET 阶段关闭
+TxCleaner 后得到 9.33k QPS、相同 p99；0.15% 的差别不能证明有效提升。
+事务提交队列峰值为 52，远低于 4096 的上限，也没有反压等待。真正的
+HSET 阶段 CPU 采样有大量 worker 和存储轮询，但不能据此量化等待 IO 的
+时间或断定剩余瓶颈。
 
 两版 Lavik 在 100 MiB/128 B HGETALL 的 16 连接档都返回了
 `OOM grouped operation scratch admission`。图中标明并省略这两个点；
