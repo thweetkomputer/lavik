@@ -22,16 +22,19 @@ Set 的 main 与 PR #219 复用同一份经灌入和校验的 SPDK 数据。
 Hash 的 PR #219 是前一轮同条件结果，最新 main 与 PR #222 共用重新灌入的数据。
 这些曲线用于检查稳态命令性能，导入加速由下面的独立实验测量。
 Hash 100 MiB/128 B 图新增 [PR #222](https://github.com/eloqdata/lavik/pull/222)
-`4da9167587bad4d5dc58a966c956f6a5aae459ee`（二进制 SHA256
-`73d592a7487ca0f19ee77a24cf22c1b12a26bac1dfae7e3c3767d8a5873329af`）。
-它把分组物理地址索引页改成经过内存配额检查的紧凑数组。
+`7463540f73eb67736f5fa2cc5ad12fe53cc334db`（二进制 SHA256
+`e865fc8135b875420b72ff9fa03cd755a4b6abe93666d0d2b7bc28b98af65490`）。
+它把分组物理地址索引页改成经过内存配额检查的紧凑数组，并对同 worker 的
+独立事务使用提交完成通知。前一次 Commit 落盘的依赖顺序保持不变。
 该轮单独用 PR #219 重新导入并校验 500 个 100 MiB Hash，再复用数据测试 PR #222；
 13 个测点无错误；图中的 Hash main 又在这份数据上重跑了一轮。
-HSET 为 3.44–4.84 万 QPS，重跑的 main 为 3.19–4.73 万，
+HSET 为 3.50–5.03 万 QPS，重跑的 main 为 3.19–4.73 万，
 Kvrocks 为 32.29–37.40 万；提升有限，仍未达到目标。每点仅一次测量，
 尚不能把小幅差异都归因于改动。2560 连接下 main 反而略高。
-HSET 开始前的 INFO used_memory 从 main 的约 2.21 GiB 降为 PR 的约 1.93 GiB；
+第一版（仅数组索引）HSET 开始前的 INFO used_memory 从 main 的约 2.21 GiB 降为 PR 的约 1.93 GiB；
 这是运行时计费内存，RSS 含分配器保留空间，不能混用。
+[分阶段诊断](diagnostics/hset-stages-20260929/README.md)显示，
+这组负载主要等待前一次事务提交；通知机制只带来有限改善，后续继续检查提交 I/O。
 其他大小和 Set 图尚未加入 PR #222。
 
 没有增加数据页缓存。早期 main、PR #212 和 256-key 的运行记录仍保留在

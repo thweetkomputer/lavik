@@ -27,16 +27,21 @@ share the newly seeded dataset.
 These QPS curves check steady-state command performance;
 the separate experiment below measures import speed.
 The Hash 100 MiB/128 B plots also include [PR #222](https://github.com/eloqdata/lavik/pull/222),
-commit `4da9167587bad4d5dc58a966c956f6a5aae459ee`, binary SHA256
-`73d592a7487ca0f19ee77a24cf22c1b12a26bac1dfae7e3c3767d8a5873329af`.
-It stores grouped physical coordinates in admitted compact arrays.
+commit `7463540f73eb67736f5fa2cc5ad12fe53cc334db`, binary SHA256
+`e865fc8135b875420b72ff9fa03cd755a4b6abe93666d0d2b7bc28b98af65490`.
+It stores grouped physical coordinates in admitted compact arrays and wakes
+same-worker standalone successors on commit completion. Predecessor durability
+ordering is unchanged.
 This run reused a separately loaded and validated 500-key dataset seeded with PR #219;
 all 13 points completed without errors. Hash main was then rerun on this same dataset.
-HSET measured 34.4–48.4k QPS, versus 31.9–47.3k for the rerun main and 322.9–374.0k for Kvrocks. The gain is limited
+HSET measured 35.0–50.3k QPS, versus 31.9–47.3k for the rerun main and 322.9–374.0k for Kvrocks. The gain is limited
 and the target remains unmet. Each point is one measurement, so small differences
 cannot all be attributed to the code; main was slightly faster at 2560 connections.
-INFO used_memory before HSET fell from about 2.21 GiB on main to 1.93 GiB on the PR.
+For the first array-only version, INFO used_memory before HSET fell from about 2.21 GiB on main to 1.93 GiB on the PR.
 This is accounted runtime memory, not RSS, which includes allocator retention.
+[Phase timing](diagnostics/hset-stages-20260929/README.md) identifies predecessor
+commit waiting as the dominant storage interval here. Notifications provide only
+a limited gain; commit IO remains under investigation.
 Other sizes and Set plots do not yet include PR #222.
 
 No data-page cache was added. Earlier main, PR #212, and 256-key raw runs remain in `raw/` but are
