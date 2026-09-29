@@ -18,9 +18,10 @@ has SHA256 `bd3f942e3b7b0f46c23c716197c8cc4ec8ad963e92cede0d9fa2574ff52a74a9`.
 No data-page cache was added. Earlier main, PR #212, and 256-key raw runs remain in `raw/` but are
 not plotted in this retest.
 
-All four Hash/Set 1 MiB figures now use 50,000 keys. The 100 MiB figures
-still show the earlier eight-key runs while they are being replaced with
-500-key results. Each new figure states its exact key count in the title.
+All four Hash/Set 1 MiB figures now use 50,000 keys. The Hash 100 MiB/1 KiB
+figure now uses 500 keys; the other 100 MiB figures still show the earlier
+eight-key runs while they are being replaced. Each new figure states its exact
+key count in the title.
 
 Point reads and writes use 80/320/1280/2560/5120 connections. Full reads use
 16/80 for 1 MiB and 1/4/16 for 100 MiB. Each point runs for eight seconds.
