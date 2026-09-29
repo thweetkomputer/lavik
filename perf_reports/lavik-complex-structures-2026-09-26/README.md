@@ -71,21 +71,21 @@ The next section compares a larger hot-key set.
 
 All four products were seeded with 256 keys of 1 MiB each, with 128 B and
 1 KiB entries. Commands, eight-second measurements, connection counts, and
-persistence settings match the 64-key runs above. Only the merged #212 main
-(`bde3120e`) is plotted for Lavik. At 320 connections, values are thousands
+persistence settings match the 64-key runs above. Only the latest main
+(`9acd7b6f`) is plotted for Lavik. At 320 connections, values are thousands
 of completed commands per second:
 
 | Type | Entry | Command | Redis | Valkey | Kvrocks | Lavik main |
 |---|---:|---|---:|---:|---:|---:|
-| Hash | 128 B | HSET | 733.3 | 699.9 | 348.8 | 19.4 |
-| Hash | 1 KiB | HSET | 698.0 | 657.4 | 339.2 | 18.2 |
-| Set | 128 B | SADD + SREM | 772.6 | 746.9 | 434.9 | 35.6 |
-| Set | 1 KiB | SADD + SREM | 708.6 | 634.0 | 363.1 | 37.7 |
+| Hash | 128 B | HSET | 733.3 | 699.9 | 348.8 | 19.2 |
+| Hash | 1 KiB | HSET | 698.0 | 657.4 | 339.2 | 19.8 |
+| Set | 128 B | SADD + SREM | 772.6 | 746.9 | 434.9 | 36.1 |
+| Set | 1 KiB | SADD + SREM | 708.6 | 634.0 | 363.1 | 36.3 |
 
 With 128 B entries, increasing hot keys from 64 to 256 raised Lavik's
-320-connection HSET from about 9.4k to 19.4k QPS and SADD/SREM from 18.8k
-to 35.6k. Both remain far below Kvrocks. At 80 connections, Lavik HSET
-reached 29.6k QPS, then fell to 19.4k at 320 connections. The charts use
+320-connection HSET from about 9.4k to 19.2k QPS and SADD/SREM from 18.8k
+to 36.1k. Both remain far below Kvrocks. At 80 connections, Lavik HSET
+reached 29.7k QPS, then fell to 19.2k at 320 connections. The charts use
 logarithmic throughput axes to retain the full four-product gap.
 
 ![Hash HSET, 256 keys of 1 MiB, four products](charts/hash-hset-1048576-k256.png)
@@ -96,7 +96,7 @@ The [complete points](write-256.csv), [plot script](plot_write_256.py), and
 raw [Redis](raw/redis-1m-k256-write-20260929/),
 [Valkey](raw/valkey-1m-k256-write-20260929/),
 [Kvrocks](raw/kvrocks-1m-k256-write-20260929/), and
-[Lavik](raw/lavik-merged212-1m-k256-20260929/) runs retain the evidence.
+[Lavik](raw/lavik-main9acd-1m-k256-20260929/) runs retain the evidence.
 
 Earlier write-path and HGETALL memory investigations remain available in the [HSET diagnostic](diagnostics/hset-20260929/README.md) and [HGETALL memory investigation](diagnostics/hgetall-oom-20260929/README.md); they are not current-main measurements. Each point has one run, without a confidence interval. The [current CSV](set-hash-ab.csv), [raw runs](raw/), and [plot script](plot_set_hash_ab.py) retain the evidence.
 
@@ -180,7 +180,6 @@ Earlier write-path and HGETALL memory investigations remain available in the [HS
 | Set | SISMEMBER | SADD + SREM | SMEMBERS | Toggle one member; the two commands have an equal ratio |
 | List | LINDEX | LSET | LRANGE 0 -1 | Overwrite an existing element |
 | Sorted Set | ZSCORE | ZINCRBY | ZRANGE WITHSCORES | Increment the score of an existing member |
-| Stream | XRANGE exact ID | XADD MAXLEN ~ N | XRANGE - + | Append and approximately trim to the seeded length |
 
 For positional reads and overwrites, memtier cycles through eight evenly spaced
 entry positions per key. The 64 KiB, 1 MiB, and new 10 MiB conditions use
@@ -238,8 +237,7 @@ eight-second run; these are measured QPS, not confidence intervals.
 For 1 MiB collections, the point-read peak usually occurs by 320 connections
 for Lavik, whereas Redis often continues rising to 1280–2560. In the
 128 B-element case Lavik reaches 502k HGET, 408k SISMEMBER, 139k LINDEX,
-378k ZSCORE, and 44k one-entry XRANGE QPS. The List and Stream gaps are the
-largest. At 5120 connections, queueing raises p99 sharply; for example,
+and 378k ZSCORE QPS. At 5120 connections, queueing raises p99 sharply; for example,
 Lavik's 1 MiB/128 B HGET falls to 316k QPS with 127 ms p99, versus its
 502k-QPS peak with 1.9 ms p99 at 320 connections. Redis's Hash/Set/ZSet
 peak points use roughly 15 of the client's 16 CPU cores, so their upper-end
@@ -247,17 +245,15 @@ curves also reflect client capacity.
 
 Full reads tell a different story. At 80 connections with 1 MiB/128 B data,
 Lavik's HGETALL (1,524 QPS), SMEMBERS (1,544), and ZRANGE WITHSCORES (1,488)
-are at or above Redis, while LRANGE (949) and XRANGE - + (251) are lower.
+are at or above Redis, while LRANGE (949) is lower.
 With 1 KiB elements, Lavik and Redis both receive about 2.8 GiB/s on several
 1 MiB full-read commands; those points are close to this setup's observed
-response-bandwidth plateau. Small elements create many more reply items:
-a 1 MiB Stream has 8,192 messages at 128 B but 1,024 at 1 KiB. Lavik's
-full XRANGE rises from 251 to 1,526 QPS across those conditions.
+response-bandwidth plateau.
 
 Writes should be read with the durability settings in mind: Redis and Valkey
 have RDB/AOF disabled, Kvrocks has WAL disabled, and Lavik commits to SPDK.
 Lavik's HSET, LSET,
-ZINCRBY, and bounded XADD are mostly 5k–7k QPS at 80 connections. More
+and ZINCRBY are mostly 5k–7k QPS at 80 connections. More
 connections do little for their QPS and bring p99 into seconds. The Set
 SADD/SREM row is a command-rate measurement and can include no-op replies.
 
@@ -273,8 +269,6 @@ SADD/SREM row is a command-rate measurement and can include no-op replies.
 | List | 1 KiB | LINDEX | 795,571 (1280) | 669,135 (1280) | 677,413 (320) | 712,042 (1280) |
 | Sorted Set | 128 B | ZSCORE | 989,218 (2560) | 857,403 (2560) | 378,358 (320) | 723,626 (1280) |
 | Sorted Set | 1 KiB | ZSCORE | 800,531 (1280) | 824,607 (1280) | 453,124 (320) | 693,107 (1280) |
-| Stream | 128 B | XRANGE | 336,558 (2560) | 403,711 (320) | 43,545 (320) | 692,963 (1280) |
-| Stream | 1 KiB | XRANGE | 349,674 (1280) | 436,291 (320) | 58,595 (320) | 653,968 (1280) |
 
 ### Write-command QPS at 80 connections
 
@@ -288,8 +282,6 @@ SADD/SREM row is a command-rate measurement and can include no-op replies.
 | List | 1 KiB | LSET | 430,357 | 466,391 | 6,575 | 327,471 |
 | Sorted Set | 128 B | ZINCRBY | 402,062 | 531,647 | 6,102 | 235,031 |
 | Sorted Set | 1 KiB | ZINCRBY | 407,553 | 490,732 | 6,445 | 181,761 |
-| Stream | 128 B | XADD MAXLEN | 358,357 | 464,902 | 4,715 | 192,152 |
-| Stream | 1 KiB | XADD MAXLEN | 323,761 | 393,696 | 5,576 | 157,590 |
 
 ### Full-read QPS at 80 connections
 
@@ -303,8 +295,6 @@ SADD/SREM row is a command-rate measurement and can include no-op replies.
 | List | 1 KiB | LRANGE | 2,849 | 1,073 | 1,380 | 2,843 |
 | Sorted Set | 128 B | ZRANGE | 1,441 | 537 | 1,488 | 1,943 |
 | Sorted Set | 1 KiB | ZRANGE | 2,823 | 1,035 | 2,824 | 2,819 |
-| Stream | 128 B | XRANGE - + | 424 | 327 | 251 | 1,721 |
-| Stream | 1 KiB | XRANGE - + | 1,346 | 885 | 1,526 | 2,775 |
 
 ### Focused backlog-limit experiment
 
@@ -432,30 +422,6 @@ These charts directly show point reads and writes, followed by full reads, for e
 
 ![Sorted Set, 1 MiB per key, 1 KiB per element: full read](charts/zset-1048576-1024-full.png)
 
-#### Stream / 64 KiB / 128 B
-
-![Stream, 64 KiB per key, 128 B per element: point read and write](charts/stream-65536-128.png)
-
-![Stream, 64 KiB per key, 128 B per element: full read](charts/stream-65536-128-full.png)
-
-#### Stream / 64 KiB / 1 KiB
-
-![Stream, 64 KiB per key, 1 KiB per element: point read and write](charts/stream-65536-1024.png)
-
-![Stream, 64 KiB per key, 1 KiB per element: full read](charts/stream-65536-1024-full.png)
-
-#### Stream / 1 MiB / 128 B
-
-![Stream, 1 MiB per key, 128 B per element: point read and write](charts/stream-1048576-128.png)
-
-![Stream, 1 MiB per key, 128 B per element: full read](charts/stream-1048576-128-full.png)
-
-#### Stream / 1 MiB / 1 KiB
-
-![Stream, 1 MiB per key, 1 KiB per element: point read and write](charts/stream-1048576-1024.png)
-
-![Stream, 1 MiB per key, 1 KiB per element: full read](charts/stream-1048576-1024-full.png)
-
 ### Interpretation limits
 
 - The original 64 keys and extension's eight keys are intentionally hot.
@@ -489,7 +455,7 @@ setup commands are in [kvrocks_host.py](kvrocks_host.py).
 ### 100 MiB results
 
 Peak single-element read QPS across the five connection levels (80–5120),
-rounded to the nearest thousand except for Lavik's Stream result:
+rounded to the nearest thousand:
 
 | Type | Element | Redis | Valkey | Lavik | Kvrocks |
 |---|---:|---:|---:|---:|---:|
@@ -501,15 +467,10 @@ rounded to the nearest thousand except for Lavik's Stream result:
 | List | 1 KiB | 55k | 47k | 66k | 699k |
 | Sorted Set | 128 B | 1,038k | 990k | 210k | 667k |
 | Sorted Set | 1 KiB | 862k | 708k | 255k | 648k |
-| Stream | 128 B | 319k | 380k | 1.1k | 625k |
-| Stream | 1 KiB | 358k | 381k | 1.5k | 615k |
 
 Kvrocks has the highest large-List point-read rate in both element-size
 conditions. Its 128 B `LINDEX` peak is 685k QPS, compared with 87k for Redis,
-94k for Valkey, and 68k for Lavik. Lavik's exact-ID Stream `XRANGE` falls to
-about 1.1k–1.5k QPS at this size. More connections do not recover that gap and
-raise p99. The code-path diagnosis below explains the avoidable work; its
-individual share of the observed gap has not been measured with a profiler.
+94k for Valkey, and 68k for Lavik.
 
 At 16 connections Kvrocks completes 21 `SMEMBERS` full reads per second for
 128 B elements; Redis and Valkey complete about four each. Lavik completes
@@ -524,100 +485,23 @@ disabled but retains RocksDB flush and compaction; its 80 GiB cache can hold
 the eight-key working set. Lavik commits to SPDK. The write curves compare
 these exact configurations, not equivalent durability or cold-storage I/O.
 
-### Why Lavik's large Stream QPS is low
+### Stream: final optimized variant
 
-At 80 connections, Lavik's exact-ID `XRANGE` drops from 41,804 to 943 QPS
-with 128 B entries and from 57,451 to 1,303 QPS with 1 KiB entries when the
-key grows from 1 MiB to 100 MiB. The corresponding `XADD MAXLEN` rates fall
-from 4,715 to 621 and from 5,576 to 731 QPS. For 128 B exact-ID reads,
-Redis changes from 265,994 to 251,697 QPS and Valkey from 388,646 to
-367,283 QPS. Lavik's 100 MiB/128 B read p99 is 279 ms at 80 connections;
-at 1,280 connections it is about 3.9 seconds without a material QPS gain.
+Each key holds 100 MiB with 1 KiB entries; there are eight keys. All four
+products use the same five connection counts and eight-second sampling window.
+The Lavik chart contains only the final optimized variant.
 
-The tested Lavik code splits ordered collections into pages with an
-[8 KiB target](https://github.com/eloqdata/lavik/blob/646a7b4e/include/lavik/storage/detail/collection_limits.h#L26).
-The measured `XRANGE` takes the streamed-reply path in
-[`PrepareStreamRangeReply`](https://github.com/eloqdata/lavik/blob/646a7b4e/src/redis/stream_command.cpp),
-which calls `ReadValueForTransferLocked`. Before locating the requested ID,
-that path [walks and pins the entire grouped physical graph](https://github.com/eloqdata/lavik/blob/646a7b4e/src/storage/engine/transfer_api.cpp).
-Its boundary search then reads and decodes probe pages and sums preceding
-page counts. [CPU sampling](stream-profile-summary.md) during the 100 MiB read
-run showed substantial time in physical-graph traversal, pin-list preparation,
-hashing and sorting. The
-`ExecuteGroupedStreamRange` callback is a different path and did not explain
-this benchmark's read rate.
-
-The write path has a separate page-count cost. The Stream planner
-[walks every page while checking retired neighbours](https://github.com/eloqdata/lavik/blob/646a7b4e/src/storage/engine/grouped_stream.cpp#L580-L610),
-even when none were retired. On publication,
-[the ordered-directory update copies every existing page and calls `Recover`](https://github.com/eloqdata/lavik/blob/646a7b4e/src/storage/engine/grouped_collection.cpp#L627-L707),
-which rebuilds and validates the whole directory. This work grows with the
-number of pages despite a local `XADD` change. The optimization results below
-test these two read and write costs separately.
-
-The 1 MiB conditions use 64 keys and the 100 MiB conditions eight, so the
-cross-size QPS ratio also includes a different hot-key distribution. The
-durability and cache settings also differ across
-products, as described above.
-
-The other structures do not share this exact Stream routing path. The
-1 MiB/128 B List point read peaks at 139k QPS; its code routes by rank and
-decodes the selected page, so the result does not imply a full-list scan.
-For writes, a 1 MiB/128 B HSET is about 6.5k QPS on durable Lavik versus
-446k on Redis with persistence disabled. Raising Lavik's per-worker Tx
-backlog limit from 8 to 64 MiB removed measured backlog waits without a
-material HSET throughput change (focused experiment above), so that limit is not the
-observed write bottleneck. The same-key, page-read, and commit costs need
-separate profiling before attributing the remaining gap.
-
-### Stream optimization follow-up (2026-09-27)
-
-The 100 MiB, 1 KiB field, eight-key condition was rerun with the same server,
-client, connection levels, pipeline of one, and eight-second measurement points.
-This table shows **QPS at 80 connections**. The Lavik column compares the
-original `646a7b4e` binary with optimized `523cb692`.
-The Stream changes were subsequently split into [PR #207](https://github.com/eloqdata/lavik/pull/207).
-These measurements used the earlier stacked branch containing [PR #203](https://github.com/eloqdata/lavik/pull/203),
-so the absolute QPS values are not a standalone measurement of PR #207.
-
-| Command | Redis | Valkey | Lavik original → optimized | Kvrocks |
+| Command, 80 connections | Redis | Valkey | Kvrocks | Lavik final optimized |
 |---|---:|---:|---:|---:|
-| Exact-ID `XRANGE` | 268,447 | 381,093 | 1,303 → 170,001 | 416,758 |
-| `XADD MAXLEN` | 307,585 | 386,913 | 731 → 1,257 | 117,613 |
+| Exact-ID `XRANGE` | 268,447 | 381,093 | 416,758 | 170,001 |
+| `XADD MAXLEN` | 307,585 | 386,913 | 117,613 | 1,257 |
 
-Optimized Lavik reaches 192,735 `XRANGE` QPS at 320 connections; Kvrocks
-reaches 614,555 at 1,280. At 80 connections Lavik read QPS is about **130×**
-the original, and p99 falls from 201.7 to 1.01 ms. Its peak remains about
-31% of Kvrocks' peak. Write QPS at 80 connections rises about 72%, but is
-still far below Kvrocks' 117,613 QPS. Every point is a single run; differences
-of a few percent are not established improvements.
+![100 MiB Stream, 1 KiB entries: final optimized Lavik against Redis, Valkey and Kvrocks](charts/stream-104857600-1024-optimized.png)
 
-![100 MiB Stream, 1 KiB field: read and write QPS by connection count for all four databases and both Lavik versions](charts/stream-104857600-1024-optimized.png)
-
-The intermediate runs separate the mechanisms. With only resident Stream page
-bounds, 80-connection `XRANGE` is 1,274 QPS and `XADD MAXLEN` is 932. Avoiding
-a full ordered-directory rebuild for local writes gives 1,293 and 1,331.
-Changing streamed replies to pin only the selected page interval raises reads
-to 127,899 QPS. Reusing the decoded boundary page within the request raises
-them to 170,001. The final build also uses verified direct indexing for
-contiguous page IDs and falls back to binary lookup for other layouts. Bounds
-and probe data are resident only; the durable format is unchanged. Physical
-pin validation and retry still protect reads during GC relocation.
-
-The raw runs are [page bounds](raw/lavik-stream-bounds-100m/),
-[directory update](raw/lavik-stream-directory-fast-100m/),
-[selected-page pins](raw/lavik-stream-selected-pins/), and
-[final probe reuse](raw/lavik-stream-probe-reuse/). The figure is generated
-directly from their JSON files by
-[plot_stream_optimization.py](plot_stream_optimization.py).
-Additional [1 MiB page-boundary runs](raw/lavik-stream-bounds-1m/) used 64
-keys; the 1 MiB points in the selected-page-pin directory used eight. They
-are retained as exploratory data and are excluded from the ratios above.
-Kvrocks has an 80 GiB block cache large enough for these hot keys and has WAL
-disabled; Lavik still commits to SPDK. Other collection types retain their
-baseline measurements above, so Lavik has not yet been shown to exceed
-Kvrocks across structures. Exact-ID reads still fetch the target page, while
-writes retain directory-copy and commit costs.
+The Lavik sample here is from final optimization branch commit `523cb692`,
+which also contained the then-current PR #203. It is not a retest of merged
+`main`. See the [raw points](raw/lavik-stream-probe-reuse/) and
+[plot script](plot_stream_optimization.py).
 
 ### Embedded 100 MiB charts
 
@@ -668,18 +552,6 @@ writes retain directory-copy and commit costs.
 ![Sorted Set, 100 MiB per key, 1 KiB per element: point read and write](charts/zset-104857600-1024.png)
 
 ![Sorted Set, 100 MiB per key, 1 KiB per element: full read](charts/zset-104857600-1024-full.png)
-
-#### Stream / 128 B
-
-![Stream, 100 MiB per key, 128 B per element: point read and write](charts/stream-104857600-128.png)
-
-![Stream, 100 MiB per key, 128 B per element: full read](charts/stream-104857600-128-full.png)
-
-#### Stream / 1 KiB
-
-![Stream, 100 MiB per key, 1 KiB per element: point read and write](charts/stream-104857600-1024.png)
-
-![Stream, 100 MiB per key, 1 KiB per element: full read](charts/stream-104857600-1024-full.png)
 
 ## Reproduce
 

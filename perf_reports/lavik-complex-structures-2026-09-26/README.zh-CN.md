@@ -67,19 +67,19 @@ RelWithDebInfo 二进制 SHA256 为
 
 针对热 key 偏少的问题，四款产品统一填充 256 个 1 MiB key，元素分别为
 128 B 和 1 KiB；命令、八秒测量、连接数和持久化配置与上面的 64-key 档相同。
-这里的 Lavik 只画已合并 #212 的 main (`bde3120e`)，没有重复画早期 PR。
+这里的 Lavik 只画最新 main (`9acd7b6f`)，没有重复画早期 PR。
 下表取 320 连接，单位千 QPS：
 
 | 结构 | 元素 | 命令 | Redis | Valkey | Kvrocks | Lavik main |
 |---|---:|---|---:|---:|---:|---:|
-| Hash | 128 B | HSET | 733.3 | 699.9 | 348.8 | 19.4 |
-| Hash | 1 KiB | HSET | 698.0 | 657.4 | 339.2 | 18.2 |
-| Set | 128 B | SADD + SREM | 772.6 | 746.9 | 434.9 | 35.6 |
-| Set | 1 KiB | SADD + SREM | 708.6 | 634.0 | 363.1 | 37.7 |
+| Hash | 128 B | HSET | 733.3 | 699.9 | 348.8 | 19.2 |
+| Hash | 1 KiB | HSET | 698.0 | 657.4 | 339.2 | 19.8 |
+| Set | 128 B | SADD + SREM | 772.6 | 746.9 | 434.9 | 36.1 |
+| Set | 1 KiB | SADD + SREM | 708.6 | 634.0 | 363.1 | 36.3 |
 
 256 key 相比 64 key，把 128 B HSET 的 320 连接吞吐从约 9.4k 提到
-19.4k QPS，Set 的 SADD/SREM 从 18.8k 提到 35.6k；仍远低于 Kvrocks。
-80 连接时 Lavik 的 HSET 达 29.6k，而 320 连接回落至 19.4k，说明仅增加
+19.2k QPS，Set 的 SADD/SREM 从 18.8k 提到 36.1k；仍远低于 Kvrocks。
+80 连接时 Lavik 的 HSET 达 29.7k，而 320 连接回落至 19.2k，说明仅增加
 连接不能消除写入等待。图的纵轴使用对数刻度，保留了 Lavik 与三个对照库的
 数量级差距。
 
@@ -91,7 +91,7 @@ RelWithDebInfo 二进制 SHA256 为
 [Redis](raw/redis-1m-k256-write-20260929/)、
 [Valkey](raw/valkey-1m-k256-write-20260929/)、
 [Kvrocks](raw/kvrocks-1m-k256-write-20260929/)、
-[Lavik](raw/lavik-merged212-1m-k256-20260929/)的运行记录可复核所有点。
+[Lavik](raw/lavik-main9acd-1m-k256-20260929/)的运行记录可复核所有点。
 
 合并前的写入诊断与 HGETALL 内存调查保留在 [HSET 诊断](diagnostics/hset-20260929/README.md)和 [HGETALL 内存调查](diagnostics/hgetall-oom-20260929/README.md)，不作为当前 main 的实测值。每点仅测一次，没有置信区间；可用 [当前数据 CSV](set-hash-ab.csv)、[原始运行记录](raw/)和 [绘图脚本](plot_set_hash_ab.py)复核。
 
@@ -175,7 +175,6 @@ RelWithDebInfo 二进制 SHA256 为
 | Set | SISMEMBER | SADD + SREM | SMEMBERS | 对同一个 member 等比例交替增删 |
 | List | LINDEX | LSET | LRANGE 0 -1 | 覆盖已有元素 |
 | Sorted Set | ZSCORE | ZINCRBY | ZRANGE WITHSCORES | 增加已有 member 的 score |
-| Stream | 指定 ID 的 XRANGE | XADD MAXLEN ~ N | XRANGE - + | 追加并近似裁剪到预填充长度 |
 
 按位置读取和覆盖时，memtier 轮流访问每个 key 内均匀分布的八个位置。
 原先的 64 KiB、1 MiB 及新增的 10 MiB 条件使用 64 个 key；100 MiB 条件
@@ -222,24 +221,20 @@ value、member 或元素为 128 B 或 1 KiB。Stream 的字段名和各结构元
 
 对 1 MiB 对象，Lavik 的单元素读取通常在 320 个连接以内达到峰值，
 Redis 则经常继续升至 1280–2560 个连接。128 B 元素时，Lavik 的
-HGET、SISMEMBER、LINDEX、ZSCORE 和单条 XRANGE 峰值分别约为
-50.2 万、40.8 万、13.9 万、37.8 万和 4.4 万 QPS；List 与 Stream
-差距最大。5120 个连接显著增加排队延迟：以 1 MiB/128 B HGET 为例，
+HGET、SISMEMBER、LINDEX、ZSCORE 峰值分别约为
+50.2 万、40.8 万、13.9 万、37.8 万 QPS。5120 个连接显著增加排队延迟：以 1 MiB/128 B HGET 为例，
 Lavik 从 320 连接时的 50.2 万 QPS、p99 1.9 ms，降为 5120 连接时的
 31.6 万 QPS、p99 127 ms。Redis 的 Hash/Set/Sorted Set 峰值点已占用
 客户端 16 个 CPU 核中的约 15 个，高连接数曲线也受客户端容量影响。
 
 完整读取表现不同。80 连接、1 MiB/128 B 下，Lavik 的 HGETALL
 （1524 QPS）、SMEMBERS（1544）及含 score 的 ZRANGE（1488）达到或
-超过 Redis；LRANGE（949）与全范围 XRANGE（251）则更慢。
+超过 Redis；LRANGE（949）则更慢。
 元素为 1 KiB 时，Lavik 和 Redis 的若干 1 MiB 完整读取达到约
 2.8 GiB/s 客户端接收速率，接近本环境观察到的回复带宽平台。
-较小元素会产生更多回复条目：1 MiB Stream 在 128 B 时有 8192 条消息，
-在 1 KiB 时有 1024 条；Lavik 全范围 XRANGE 因而从 251 升至
-1526 QPS。
 
 写入必须结合持久化配置理解：Redis 与 Valkey 关闭 RDB/AOF，Kvrocks
-关闭 WAL，Lavik 则提交到 SPDK。Lavik 的 HSET、LSET、ZINCRBY 和限长 XADD
+关闭 WAL，Lavik 则提交到 SPDK。Lavik 的 HSET、LSET 和 ZINCRBY
 在 80 连接下多数为 5000–7000 QPS。继续增加连接数对 QPS 帮助很小，
 却把 p99 推到秒级。Set 的 SADD/SREM 行表示命令吞吐，其中可能有空操作。
 
@@ -255,8 +250,6 @@ Lavik 从 320 连接时的 50.2 万 QPS、p99 1.9 ms，降为 5120 连接时的
 | List | 1 KiB | LINDEX | 795,571（1280） | 669,135（1280） | 677,413（320） | 712,042（1280） |
 | Sorted Set | 128 B | ZSCORE | 989,218（2560） | 857,403（2560） | 378,358（320） | 723,626（1280） |
 | Sorted Set | 1 KiB | ZSCORE | 800,531（1280） | 824,607（1280） | 453,124（320） | 693,107（1280） |
-| Stream | 128 B | XRANGE | 336,558（2560） | 403,711（320） | 43,545（320） | 692,963（1280） |
-| Stream | 1 KiB | XRANGE | 349,674（1280） | 436,291（320） | 58,595（320） | 653,968（1280） |
 
 ### 80 连接时的写入命令 QPS
 
@@ -270,8 +263,6 @@ Lavik 从 320 连接时的 50.2 万 QPS、p99 1.9 ms，降为 5120 连接时的
 | List | 1 KiB | LSET | 430,357 | 466,391 | 6,575 | 327,471 |
 | Sorted Set | 128 B | ZINCRBY | 402,062 | 531,647 | 6,102 | 235,031 |
 | Sorted Set | 1 KiB | ZINCRBY | 407,553 | 490,732 | 6,445 | 181,761 |
-| Stream | 128 B | XADD MAXLEN | 358,357 | 464,902 | 4,715 | 192,152 |
-| Stream | 1 KiB | XADD MAXLEN | 323,761 | 393,696 | 5,576 | 157,590 |
 
 ### 80 连接时的完整读取 QPS
 
@@ -285,8 +276,6 @@ Lavik 从 320 连接时的 50.2 万 QPS、p99 1.9 ms，降为 5120 连接时的
 | List | 1 KiB | LRANGE | 2,849 | 1,073 | 1,380 | 2,843 |
 | Sorted Set | 128 B | ZRANGE | 1,441 | 537 | 1,488 | 1,943 |
 | Sorted Set | 1 KiB | ZRANGE | 2,823 | 1,035 | 2,824 | 2,819 |
-| Stream | 128 B | XRANGE - + | 424 | 327 | 251 | 1,721 |
-| Stream | 1 KiB | XRANGE - + | 1,346 | 885 | 1,526 | 2,775 |
 
 ### Tx 积压上限定点 A/B
 
@@ -308,8 +297,7 @@ LINDEX 峰值仅约 13.9 万 QPS；1 MiB/1 KiB List 有 1024 个元素，
 ### 图表
 
 点查/写入图的连接数横轴为对数刻度；写入 QPS 纵轴也是对数刻度，
-以便看清 Lavik 与关闭持久化的两款服务之间的数量级差异。100 MiB
-Stream 的点查纵轴也用对数刻度，以免 Lavik 曲线贴在零线。
+以便看清 Lavik 与关闭持久化的两款服务之间的数量级差异。
 完整读取图使用线性刻度。
 
 以下按数据结构、每 key 的大小和元素大小，依次直接展示点查/写入图与完整读取图。
@@ -410,30 +398,6 @@ Stream 的点查纵轴也用对数刻度，以免 Lavik 曲线贴在零线。
 
 ![Sorted Set, 1 MiB per key, 1 KiB per element: full read](charts/zset-1048576-1024-full.png)
 
-#### Stream / 64 KiB / 128 B
-
-![Stream, 64 KiB per key, 128 B per element: point read and write](charts/stream-65536-128.png)
-
-![Stream, 64 KiB per key, 128 B per element: full read](charts/stream-65536-128-full.png)
-
-#### Stream / 64 KiB / 1 KiB
-
-![Stream, 64 KiB per key, 1 KiB per element: point read and write](charts/stream-65536-1024.png)
-
-![Stream, 64 KiB per key, 1 KiB per element: full read](charts/stream-65536-1024-full.png)
-
-#### Stream / 1 MiB / 128 B
-
-![Stream, 1 MiB per key, 128 B per element: point read and write](charts/stream-1048576-128.png)
-
-![Stream, 1 MiB per key, 128 B per element: full read](charts/stream-1048576-128-full.png)
-
-#### Stream / 1 MiB / 1 KiB
-
-![Stream, 1 MiB per key, 1 KiB per element: point read and write](charts/stream-1048576-1024.png)
-
-![Stream, 1 MiB per key, 1 KiB per element: full read](charts/stream-1048576-1024-full.png)
-
 ### 解读边界
 
 - 原先的 64 个 key 和扩展条件的 8 个 key 都是刻意设置的热 key；
@@ -464,7 +428,7 @@ cache。设备核对与准备命令见 [kvrocks_host.py](kvrocks_host.py)。
 
 ### 100 MiB 结果
 
-下表是 80–5120 连接五个档位中单元素读取的峰值 QPS。除 Lavik Stream 外，
+下表是 80–5120 连接五个档位中单元素读取的峰值 QPS，
 数值四舍五入到千位；精确值及对应连接数见图和 [results.csv](results.csv)。
 
 | 数据结构 | 元素 | Redis | Valkey | Lavik | Kvrocks |
@@ -477,14 +441,10 @@ cache。设备核对与准备命令见 [kvrocks_host.py](kvrocks_host.py)。
 | List | 1 KiB | 55k | 47k | 66k | 699k |
 | Sorted Set | 128 B | 1,038k | 990k | 210k | 667k |
 | Sorted Set | 1 KiB | 862k | 708k | 255k | 648k |
-| Stream | 128 B | 319k | 380k | 1.1k | 625k |
-| Stream | 1 KiB | 358k | 381k | 1.5k | 615k |
 
 大 List 的点查中，Kvrocks 在两种元素大小下都是最快：128 B 的
 `LINDEX` 峰值约 68.5 万 QPS，Redis 约 8.7 万、Valkey 约 9.4 万、
-Lavik 约 6.8 万。Lavik 对指定 ID 的 Stream `XRANGE` 在这个大小下仅约
-1100–1500 QPS。增加连接数没有弥合差距，却提高了 p99 延迟。下文的代码路径
-分析定位了可避免的工作，但尚未用性能剖析量化各部分在实际差距中的占比。
+Lavik 约 6.8 万。
 
 在 16 连接下，Kvrocks 的 128 B 元素 `SMEMBERS` 全量读约 21 QPS，
 Redis 和 Valkey 均约 4 QPS。Lavik 在 4 连接约 2 QPS，但 16 连接的
@@ -496,83 +456,23 @@ Redis 和 Valkey 均约 4 QPS。Lavik 在 4 连接约 2 QPS，但 16 连接的
 仍执行 RocksDB flush 和 compaction，且 80 GiB 缓存可容纳这组八个热 key；
 Lavik 提交到 SPDK。图中比较的是这些具体配置，不代表相同持久性或冷盘读取。
 
-### Lavik 大 Stream 的 QPS 为什么低
+### Stream：最终优化版
 
-80 连接下，key 从 1 MiB 增至 100 MiB 时，Lavik 指定 ID 的 `XRANGE`
-在 128 B 元素下从 41,804 降到 943 QPS，在 1 KiB 元素下从 57,451 降到
-1,303 QPS；`XADD MAXLEN` 则分别从 4,715 降到 621、从 5,576 降到
-731 QPS。128 B 指定 ID 读取中，Redis 是 265,994→251,697 QPS，
-Valkey 是 388,646→367,283 QPS。Lavik 的 100 MiB/128 B 读取在 80
-连接时 p99 为 279 ms；增到 1,280 连接，QPS 没有明显提高，p99 约 3.9 秒。
+每 key 100 MiB、1 KiB 元素、八个 key。四款数据库使用同一组连接数
+（80、320、1280、2560、5120）和八秒测量窗口。Lavik 图线只保留
+最终优化版；合并前的测试数据仍在 `raw/`，不参与正文比较。
 
-测试版 Lavik 把有序结构拆成了[目标约 8 KiB 的页](https://github.com/eloqdata/lavik/blob/646a7b4e/include/lavik/storage/detail/collection_limits.h#L26)。
-本次测到的 `XRANGE` 实际走
-[`PrepareStreamRangeReply`](https://github.com/eloqdata/lavik/blob/646a7b4e/src/redis/stream_command.cpp)
-的流式回复路径，调用 `ReadValueForTransferLocked`。在定位指定 ID 之前，
-该路径就[遍历并 pin 整棵物理页树](https://github.com/eloqdata/lavik/blob/646a7b4e/src/storage/engine/transfer_api.cpp)；
-之后的边界查找还会读取、解码探针页，并逐页累加前面的记录数。100 MiB
-读测试的 [CPU 采样](stream-profile-summary.md)显示物理树遍历、pin 列表准备、
-哈希和排序占据显著时间。
-`ExecuteGroupedStreamRange` 是另一条路径，不能用它解释本次 `XRANGE` 结果。
-
-写入还有独立的页数成本：Stream 规划器[即使没有退役页也会遍历所有页检查
-相邻关系](https://github.com/eloqdata/lavik/blob/646a7b4e/src/storage/engine/grouped_stream.cpp#L580-L610)；
-提交发布时，[有序目录更新复制全部现有页并调用 `Recover`](https://github.com/eloqdata/lavik/blob/646a7b4e/src/storage/engine/grouped_collection.cpp#L627-L707)，
-重新构建和校验整份目录。即使 `XADD` 只修改局部页，这些操作仍随页数增长。
-下文的优化复测分别针对读写路径上的这些成本。
-
-1 MiB 条件用 64 个 key，100 MiB 条件用八个，所以跨大小 QPS 比值也混入
-热 key 分布差异。各产品的持久化与缓存配置差异
-也需按上文解读。
-
-其他结构不走完全相同的 Stream 路由路径。1 MiB/128 B List 点读峰值约
-13.9 万 QPS；代码按 rank 定位并解码目标页，不能据此说每次都扫描整条
-List。写入方面，1 MiB/128 B HSET 在持久化 Lavik 上约 6,500 QPS，
-而关闭持久化的 Redis 约 44.6 万。将 Lavik 每 worker 的 Tx 积压上限从
-8 MiB 提到 64 MiB 后，测得的反压等待消失，但 HSET 吞吐没有明确改善
-（见上文定点实验），因此这个上限不是已观察到的写入瓶颈。剩余差距中的同 key
-竞争、页读取和提交成本还需分别剖析。
-
-### Stream 优化复测（2026-09-27）
-
-针对上面的 100 MiB、1 KiB 字段、八个 key 条件，使用相同服务端、客户端、
-连接数、pipeline 1 和八秒测量窗口重跑。下表为 **80 连接 QPS**；Lavik
-一列给出原版 `646a7b4e` 与优化版 `523cb692`。四款数据库都保留在同一表中。
-Stream 改动现已拆分到独立的 [PR #207](https://github.com/eloqdata/lavik/pull/207)。
-本组数据使用的仍是叠加了 [PR #203](https://github.com/eloqdata/lavik/pull/203) 的旧分支，
-因此绝对 QPS 不能直接视为 PR #207 单独应用后的测量结果。
-
-| 命令 | Redis | Valkey | Lavik 原版 → 优化版 | Kvrocks |
+| 命令 | Redis | Valkey | Kvrocks | Lavik 最终优化版 |
 |---|---:|---:|---:|---:|
-| 指定 ID `XRANGE` | 268,447 | 381,093 | 1,303 → 170,001 | 416,758 |
-| `XADD MAXLEN` | 307,585 | 386,913 | 731 → 1,257 | 117,613 |
+| 指定 ID `XRANGE`，80 连接 | 268,447 | 381,093 | 416,758 | 170,001 |
+| `XADD MAXLEN`，80 连接 | 307,585 | 386,913 | 117,613 | 1,257 |
 
-优化版 `XRANGE` 在 320 连接达到 192,735 QPS，而 Kvrocks 在 1,280
-连接达到 614,555 QPS。Lavik 的 80 连接读 QPS 为原版约 **130 倍**，
-p99 从 201.7 ms 降至 1.01 ms；但读峰值仍只有 Kvrocks 的约 31%。
-写入 80 连接提升约 72%，与 Kvrocks 的 117,613 QPS 仍有大幅差距。
-这些点各测一次，不能把几百分点的差异当成稳定收益。
+![100 MiB Stream、1 KiB 元素：最终优化版与 Redis、Valkey、Kvrocks 的读写 QPS](charts/stream-104857600-1024-optimized.png)
 
-![100 MiB Stream、1 KiB 字段：四款数据库及 Lavik 优化前后的读写 QPS 随连接数变化](charts/stream-104857600-1024-optimized.png)
-
-逐版对照解释了读写收益的来源：仅保存 Stream 页边界时，80 连接的
-`XRANGE` 约 1,274 QPS、`XADD MAXLEN` 约 932 QPS；让局部写入跳过整份
-目录重建后分别为 1,293 和 1,331 QPS。真正的读跃升来自把流式回复的
-整棵物理树 pin 改为仅 pin 选定页区间，读 QPS 达到 127,899；最后复用
-同一请求中已解码的边界页，达到 170,001。最后版本对连续页 ID 也增加了
-经核对后直接定位、其他情况回退二分查找的路径。页边界与探针缓存只在内存中，
-持久格式不变；GC 搬迁后的物理身份仍由 pin 校验和重试保护。
-
-原始结果分别在 [边界版](raw/lavik-stream-bounds-100m/)、
-[目录版](raw/lavik-stream-directory-fast-100m/)、
-[选定页 pin 版](raw/lavik-stream-selected-pins/) 和
-[最终版](raw/lavik-stream-probe-reuse/)；图由
-[plot_stream_optimization.py](plot_stream_optimization.py) 直接读取这些 JSON 生成。
-另存的 [1 MiB 页边界测试](raw/lavik-stream-bounds-1m/) 使用 64 个 key，
-而选定页 pin 目录中的 1 MiB 点使用八个 key；这些探索数据不参与上述倍率。
-Kvrocks 配置了可容纳热数据的 80 GiB block cache 且关闭 WAL；Lavik
-仍对 SPDK 提交。其他数据结构沿用上面的基线数据，尚不能说 Lavik 已全面
-超过 Kvrocks。剩余的指定 ID 读取仍需访问目标页，写入仍有目录复制与提交成本。
+Lavik 此处的原始测量来自提交 `523cb692` 的最终优化分支，它叠加了
+PR #203 的当时版本；不能把该值视为合并后 `main` 的复测值。
+[原始测点](raw/lavik-stream-probe-reuse/)和
+[绘图脚本](plot_stream_optimization.py)可用于复核。
 
 ### 100 MiB 图表（直接嵌入）
 
@@ -623,18 +523,6 @@ Kvrocks 配置了可容纳热数据的 80 GiB block cache 且关闭 WAL；Lavik
 ![Sorted Set，每 key 100 MiB，1 KiB 元素：点读与写入](charts/zset-104857600-1024.png)
 
 ![Sorted Set，每 key 100 MiB，1 KiB 元素：完整读取](charts/zset-104857600-1024-full.png)
-
-#### Stream / 128 B
-
-![Stream，每 key 100 MiB，128 B 元素：点读与写入](charts/stream-104857600-128.png)
-
-![Stream，每 key 100 MiB，128 B 元素：完整读取](charts/stream-104857600-128-full.png)
-
-#### Stream / 1 KiB
-
-![Stream，每 key 100 MiB，1 KiB 元素：点读与写入](charts/stream-104857600-1024.png)
-
-![Stream，每 key 100 MiB，1 KiB 元素：完整读取](charts/stream-104857600-1024-full.png)
 
 ## 复现
 
