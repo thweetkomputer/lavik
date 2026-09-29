@@ -60,6 +60,8 @@ write-path and memory investigations remain available in the
 [Same-block data/commit coalescing trial](diagnostics/hset-coalescing-20260929/README.md) passed correctness checks,
 but HSET regressed in both the grid and a 20-second repeat. The change was reverted; main plots show the current NVMe variant.
 
+[I/O counter diagnostics](diagnostics/hset-io-20260929/README.md) record HSET storage traffic, including background cleaning.
+
 ## Hash
 
 Each point-read/write chart contains both commands. The 1 MiB and 100 MiB runs use 50,000 and 500 keys, respectively.
