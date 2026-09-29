@@ -377,6 +377,22 @@ binary SHA256. Most Lavik conditions use
 setup commands. The first Set 1 MiB/1 KiB run used the earlier default of
 eight; Set 1 MiB/128 B still used 16 KiB target batches. Newer provenance
 gives the actual value for each run.
+For Lavik's 100 MiB/128 B runs, the [RDB seed generator](make_rdb_seed_dump.py)
+creates one 819,200-entry Hash or Set, which `RESTORE` imports into 500 distinct
+keys. The generator verifies Redis's checksum and recalculates it for Lavik's
+RDB v11 reader. The run records the seed SHA256. Generate the Set seed with:
+
+```bash
+python3 make_rdb_seed_dump.py set 104857600 128 /tmp/lavik-set-100m-f128-generated.dump \
+  --redis-binary=/mnt/dev/peer-bench/redis/v8.8.0/src/src/redis-server
+```
+
+The Lavik run also uses
+`--fill-workers=8 --seed-dump-path=/tmp/lavik-set-100m-f128-generated.dump`.
+For Hash, change `set` to `hash` and use a separate output file. Formal points
+start after validation of every key's cardinality, one content sample, and
+settled TxCleaner backlog.
+
 Redraw one condition with:
 
 ```bash
