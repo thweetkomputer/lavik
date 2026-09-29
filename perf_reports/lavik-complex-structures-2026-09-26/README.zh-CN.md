@@ -12,19 +12,19 @@ Lavik 只展示已合并 [PR #212](https://github.com/eloqdata/lavik/pull/212)
 后的 `main` 实测。当前 1 MiB 档使用提交 `bde3120e`，SPDK
 RelWithDebInfo 二进制 SHA256 为
 `1acecaa40948d473caedce591d1a775d3d910b260a50b38a68f25bf946a4546e`。
-10 MiB 和 100 MiB 档已测完三个对照数据库；Set 的 10 MiB 档已补测
-`9acd7b6f` main，Hash 的大 key 与 Set 的 100 MiB 仍待补测。早期 main 和 PR #212
+100 MiB 档已测完三个对照数据库，50,000-key 的 1 MiB 与 500-key 的
+100 MiB 档正在按四款产品重测。早期 main 和 PR #212
 的原始运行记录仍保留在 `raw/`，但不再当作当前 main 的数据展示。
 
-1 MiB 和 10 MiB 使用 64 个 key；100 MiB 使用八个 key。每个元素为
+当前旧图的 1 MiB 使用 64 个 key，100 MiB 使用八个 key；新图将分别改为
+50,000 和 500 个 key。每个元素为
 128 B 或 1 KiB。点命令测 80/320/1280/2560/5120 连接，完整读取
-测 1 MiB 的 16/80、10 MiB 的 4/16、100 MiB 的 1/4/16 连接；
+测 1 MiB 的 16/80、100 MiB 的 1/4/16 连接；
 每点八秒。Redis、Valkey 不持久化，Kvrocks 使用无压缩 RAID0、关闭 WAL、
 启用 80 GiB block cache 和 blob cache；Lavik 在六块 NVMe 上用 SPDK
 提交。这些配置影响绝对写入 QPS。
 
-目前 1 MiB/64-key 的 HGET、SISMEMBER 和 10 MiB/64-key 的
-SISMEMBER 已采用合并后 main。没有给 Lavik 增加数据页缓存。
+目前旧图的 1 MiB/64-key HGET、SISMEMBER 已采用合并后 main。没有给 Lavik 增加数据页缓存。
 
 1 MiB/64-key 的 HSET 和 SADD/SREM 在合并后 main 中分别约为
 9.4–9.6k 与 18.8–20.1k QPS；SADD/SREM 混合结果含空操作。
@@ -51,7 +51,7 @@ SISMEMBER 已采用合并后 main。没有给 Lavik 增加数据页缓存。
 
 ## Hash
 
-下列点查/写入图每张包含两个命令；1 MiB 的 Lavik 为合并后 main，10 MiB 和 100 MiB 仍待同条件补测。
+下列点查/写入图每张包含两个命令；当前 1 MiB 的 Lavik 为合并后 main，100 MiB 仍待新 key 数的同条件补测。
 
 ### HGET / HSET
 
@@ -60,12 +60,6 @@ SISMEMBER 已采用合并后 main。没有给 Lavik 增加数据页缓存。
 ![Hash 1 MiB、128 B：HGET 与 HSET QPS 随连接数变化](charts/hash-1048576-128-ab.png)
 
 ![Hash 1 MiB、1 KiB：HGET 与 HSET QPS 随连接数变化](charts/hash-1048576-1024-ab.png)
-
-#### 10 MiB
-
-![Hash 10 MiB、128 B：HGET 与 HSET QPS 随连接数变化](charts/hash-10485760-128-ab.png)
-
-![Hash 10 MiB、1 KiB：HGET 与 HSET QPS 随连接数变化](charts/hash-10485760-1024-ab.png)
 
 #### 100 MiB
 
@@ -87,12 +81,6 @@ SISMEMBER 已采用合并后 main。没有给 Lavik 增加数据页缓存。
 
 ![Hash 1 MiB、1 KiB：HGETALL QPS 随连接数变化](charts/hash-1048576-1024-ab-full.png)
 
-#### 10 MiB
-
-![Hash 10 MiB、128 B：HGETALL QPS 随连接数变化](charts/hash-10485760-128-ab-full.png)
-
-![Hash 10 MiB、1 KiB：HGETALL QPS 随连接数变化](charts/hash-10485760-1024-ab-full.png)
-
 #### 100 MiB
 
 ![Hash 100 MiB、128 B：HGETALL QPS 随连接数变化](charts/hash-104857600-128-ab-full.png)
@@ -101,7 +89,7 @@ SISMEMBER 已采用合并后 main。没有给 Lavik 增加数据页缓存。
 
 ## Set
 
-下列点查/写入图每张包含两个命令；1 MiB 和 10 MiB 的 Lavik 为合并后 main，100 MiB 仍待同条件补测。
+下列点查/写入图每张包含两个命令；当前 1 MiB 的 Lavik 为合并后 main，100 MiB 仍待新 key 数的同条件补测。
 
 ### SISMEMBER / SADD/SREM
 
@@ -110,12 +98,6 @@ SISMEMBER 已采用合并后 main。没有给 Lavik 增加数据页缓存。
 ![Set 1 MiB、128 B：SISMEMBER 与 SADD/SREM QPS 随连接数变化](charts/set-1048576-128-ab.png)
 
 ![Set 1 MiB、1 KiB：SISMEMBER 与 SADD/SREM QPS 随连接数变化](charts/set-1048576-1024-ab.png)
-
-#### 10 MiB
-
-![Set 10 MiB、128 B：SISMEMBER 与 SADD/SREM QPS 随连接数变化](charts/set-10485760-128-ab.png)
-
-![Set 10 MiB、1 KiB：SISMEMBER 与 SADD/SREM QPS 随连接数变化](charts/set-10485760-1024-ab.png)
 
 #### 100 MiB
 
@@ -137,12 +119,6 @@ SISMEMBER 已采用合并后 main。没有给 Lavik 增加数据页缓存。
 
 ![Set 1 MiB、1 KiB：SMEMBERS QPS 随连接数变化](charts/set-1048576-1024-ab-full.png)
 
-#### 10 MiB
-
-![Set 10 MiB、128 B：SMEMBERS QPS 随连接数变化](charts/set-10485760-128-ab-full.png)
-
-![Set 10 MiB、1 KiB：SMEMBERS QPS 随连接数变化](charts/set-10485760-1024-ab-full.png)
-
 #### 100 MiB
 
 ![Set 100 MiB、128 B：SMEMBERS QPS 随连接数变化](charts/set-104857600-128-ab-full.png)
@@ -152,8 +128,8 @@ SISMEMBER 已采用合并后 main。没有给 Lavik 增加数据页缓存。
 ## 工作负载
 
 按位置读取和覆盖时，memtier 轮流访问每个 key 内均匀分布的八个位置。
-原先的 64 KiB、1 MiB 及新增的 10 MiB 条件使用 64 个 key；100 MiB 条件
-使用八个 key。每个命令在当前条件的 key 中均匀随机选取一个。每个 field
+原先的 64 KiB、1 MiB 条件使用 64 个 key；100 MiB 条件使用八个 key。
+新一轮 Hash/Set 将改用 1 MiB/50,000 key、100 MiB/500 key。每个命令在当前条件的 key 中均匀随机选取一个。每个 field
 value、member 或元素为 128 B 或 1 KiB。Stream 的字段名和各结构元数据
 不计入逻辑 payload。测量前检查元素数量和抽样内容，写入后再次检查元素
 数量。Set 的增删在随机命中相同 key 时可能产生空操作，因此该项目报告
