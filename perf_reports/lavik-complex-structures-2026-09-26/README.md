@@ -140,9 +140,13 @@ Each point-read/write chart contains both commands. The 1 MiB and 100 MiB runs u
 
 #### 100 MiB
 
-#219 is merged. Its intermediate import comparison plots have been removed;
-merged-main import measurements are pending. [Historical raw measurements](set-104857600-128-k500-fill.csv)
-remain available for inspection and do not represent current main.
+![Set 100 MiB per key, 500 keys, 128 B entries: fill time](charts/set-104857600-128-k500-fill.png)
+
+Main `ebe28dd5` imported 500 keys with eight concurrent RESTORE clients in **544.4 seconds**.
+All 500 cardinalities were checked at 819,200 members per key. Redis, Valkey, and
+Kvrocks use batched SADD. Commands and persistence settings differ; the figure
+reports elapsed fill time under each recorded configuration.
+[Measurements and sources](set-104857600-128-k500-fill.csv).
 
 ## Workloads
 
