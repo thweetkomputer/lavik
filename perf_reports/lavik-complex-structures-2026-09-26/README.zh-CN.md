@@ -203,11 +203,12 @@ value、member 或元素为 128 B 或 1 KiB。Stream 的字段名和各结构元
 - List 和 Sorted Set 章节的 Lavik 是早期 [PR #203](https://github.com/eloqdata/lavik/pull/203) 的
   `646a7b4e` 二进制；Hash/Set 与 Stream 的当前 main 版本在各自章节注明。
   不同版本的数据不组成一条 Lavik 曲线。
-- Kvrocks 在各大小档位使用相同缓存与压缩配置。List、Sorted Set 的 64 KiB 与
+- Kvrocks 使用 16 个 worker，各大小档位使用相同缓存与压缩配置。List、Sorted Set 的 64 KiB 与
   1 MiB 于 2026-09-27 后补测；Hash/Set 使用本轮 key 数重新填充。
   保存的配置启用了 80 GiB RocksDB
   block cache 和 blob cache；它的热读 QPS 因而包含大容量内存缓存的收益，
   与 Lavik 的数据页读取路径不同。
+- 批量导入由服务端本机的 Python 客户端发送；点查和写命令的 QPS 使用下面独立主机上的 memtier。新的导入对比共用预编码的元素字节，仍保持相同 RESP 命令、连接数和 pipeline。
 - 客户端 172.16.0.5，AMD EPYC 9V45 的 16 个 vCPU，memtier_benchmark 2.5.1，
   pipeline 1、随机选 key，每个点测八秒。点查和写入用 16 个客户端线程、
   80/320/1280/2560/5120 个连接；64 KiB 和 1 MiB 完整读取用 16/80
