@@ -1,0 +1,37 @@
+{
+  "operation": "HGET",
+  "logical_bytes": 104857600,
+  "field_bytes": 1024,
+  "keys": 500,
+  "connections": 1280,
+  "seconds": 30,
+  "repetitions": 3,
+  "versions": {
+    "main": {
+      "tag": "pointcheck-maina6d-hash-100m-k500-f1024-20260930",
+      "source_commit": "a6e93d3d508bddec310ec4e5d8a61ae6d26d8afa",
+      "binary_sha256": "4990e5b39e1af087c9b74154e5d68afe83ec7fbf9528102c66be9ed9fffb0f95",
+      "qps": [
+        417998.05,
+        417249.96,
+        441911.33
+      ],
+      "mean_qps": 425719.78,
+      "reused_seed_from": "worktrim8079-hash-100m-k500-f1024-20260930"
+    },
+    "pr": {
+      "tag": "pointcheck-worktrim8079-hash-100m-k500-f1024-20260930",
+      "source_commit": "80792c41b71223415d48e3638a53754d9223ad31",
+      "binary_sha256": "ffc46b56c98d56c1f4221b76ca7cfc817c86b05f81d0ee2cb33e481177539996",
+      "qps": [
+        412563.36,
+        405787.55,
+        411345.0
+      ],
+      "mean_qps": 409898.63666666666,
+      "reused_seed_from": "worktrim8079-hash-100m-k500-f1024-20260930"
+    }
+  },
+  "pr_over_main_mean": 0.9628367201229565,
+  "notes": "Main then PR on one unchanged logical dataset; no writes or perf between repeats. Sequential runs, no confidence intervals. Original eight-second grid remains unchanged."
+}

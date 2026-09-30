@@ -69,7 +69,7 @@ RESTORE only prepares the dataset; after cleanup settles, both main and PR resta
 
 RESTORE only prepares the dataset; after cleanup settles, both main and PR restart/recover before measurement. This is not an import-speed comparison with batched SADD/HSET. [Seed provenance](raw/lavik-seedmaina6d-hash-100m-k500-f1024-20260930/).
 
-**HGET drop under investigation:** In this eight-second grid, PR is about 23% / 20% below main at 1,280 / 2,560 connections. These points remain in the curves. Longer read-only repeats on one fixed dataset are running; the PR remains draft.
+**HGET check on fixed data:** The original eight-second curves retain PR results about 23% / 20% below main at 1,280 / 2,560 connections. On one fixed dataset, with no writes or perf, three 30-second HGET repeats at 1,280 connections in main → PR order yield main **417,998 / 417,250 / 441,911 QPS** and PR **412,563 / 405,788 / 411,345 QPS**; the PR mean remains **3.7% lower**. All 500 key cardinalities are unchanged, with zero errors. The approximately 20% gap did not recur in this fixed-data check, but these few sequential repeats cannot rule out a smaller regression; no read-speed gain is claimed. [Results](hash-104857600-1024-point-read-repeats.json), [main raw](raw/lavik-pointcheck-maina6d-hash-100m-k500-f1024-20260930/), [PR raw](raw/lavik-pointcheck-worktrim8079-hash-100m-k500-f1024-20260930/), [script](repeat_grouped_point_reads.py).
 
 ### HGETALL
 
@@ -212,6 +212,8 @@ the write sweep. Set toggle commands can return no-op results when their
 randomly chosen key is already in the target state, so their throughput is the
 combined command rate, not the rate of durable mutations.
 
+The eight-second grid reuses data in main-then-PR order; each version runs full reads, point reads, then writes. Intervening writes change accessed field values and physical layout, so short-run read differences cannot be attributed entirely to the code version. Extra read-only checks switch binaries on one fixed dataset without intervening writes.
+
 ## Test configuration
 
 Bulk imports use a Python client on the server host; point-command QPS uses memtier on the separate client host. New import comparisons share pre-encoded operand bytes while preserving RESP commands, connection counts and pipelines. Kvrocks uses 16 workers.
@@ -344,7 +346,7 @@ The [HGETALL memory investigation](diagnostics/hgetall-oom-20260929/README.md) a
 
 ## Stream
 
-Lavik uses merged main `9acd7b6f` with the Stream optimization. The 64 KiB and 1 MiB cases use 64 hot keys with 128 B or 1 KiB entries; the 100 MiB case uses eight keys with 1 KiB entries. The horizontal axis is connection count and the vertical axis is QPS; each figure contains one Lavik main curve.
+Stream retains the measured merged main `9acd7b6f` with its Stream optimization; this structure was not retested in the current round. The 64 KiB and 1 MiB cases use 64 hot keys with 128 B or 1 KiB entries; the 100 MiB case uses eight keys with 1 KiB entries. The horizontal axis is connection count and the vertical axis is QPS; each figure contains one Lavik main curve.
 
 Point reads and writes cover 80–5120 connections. Full reads use 16/80 for the smaller sizes and 1/4/16 for 100 MiB. Redis and Valkey have persistence disabled; Kvrocks has WAL disabled with an 80 GiB block cache; Lavik commits to SPDK. Write QPS reflects these configurations.
 
