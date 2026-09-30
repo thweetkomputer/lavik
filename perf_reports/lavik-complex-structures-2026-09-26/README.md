@@ -222,7 +222,7 @@ Bulk imports use a Python client on the server host; point-command QPS uses memt
   Redis 8.8.0 and Valkey 9.1.0 use 12 I/O
   threads, with RDB and AOF disabled. Lavik uses 12 workers, kernel TCP, and
   six dedicated SPDK NVMe devices. These are different durability settings.
-- List and Sorted Set Lavik samples used early [PR #203](https://github.com/eloqdata/lavik/pull/203)
+- List and Sorted Set 100 MiB / 1 KiB samples now use main `a6e93d3d`; other conditions retain early [PR #203](https://github.com/eloqdata/lavik/pull/203)
   binary `646a7b4e`. The Hash/Set and Stream chapters state their merged-main
   versions. Measurements from different versions are not joined into one Lavik curve.
 - Kvrocks uses the same cache and compression settings across sizes. The
@@ -270,7 +270,10 @@ This chapter retains the earlier complete four-product comparison. Lavik used `6
 
 ![List 100 MiB per key, 128 B entries: LINDEX / LSET QPS by connection count](charts/list-104857600-128.png)
 
-![List 100 MiB per key, 1 KiB entries: LINDEX / LSET QPS by connection count](charts/list-104857600-1024.png)
+![List 100 MiB per key, 1 KiB entries: LINDEX / LSET QPS by connection count](charts/list-104857600-1024-ab.png)
+
+**2026-09-30: freshly measured main `a6e93d3d`.** 8 × 100 MiB keys, 1 KiB entries; 13 unprofiled point/read/write and full-read points. Peer results retain the original matching workload; peers were not rerun. All points have zero errors; every key passed cardinality checks. [Raw data](raw/lavik-maina6-ordered-list-100m-k8-f1024-20260930/) · [Plot provenance](ordered-published.json).
+
 
 ### LRANGE 0 -1
 
@@ -290,7 +293,7 @@ This chapter retains the earlier complete four-product comparison. Lavik used `6
 
 ![List 100 MiB per key, 128 B entries: LRANGE 0 -1 QPS by connection count](charts/list-104857600-128-full.png)
 
-![List 100 MiB per key, 1 KiB entries: LRANGE 0 -1 QPS by connection count](charts/list-104857600-1024-full.png)
+![List 100 MiB per key, 1 KiB entries: LRANGE 0 -1 QPS by connection count](charts/list-104857600-1024-ab-full.png)
 
 For 1 MiB `LINDEX`, Lavik peaked near 139k QPS with 128 B entries and 677k with 1 KiB entries. The entry-count difference matters, but the available profiling does not isolate one cause.
 
@@ -316,7 +319,10 @@ This chapter retains the earlier complete four-product comparison. Lavik used `6
 
 ![Sorted Set 100 MiB per key, 128 B entries: ZSCORE / ZINCRBY QPS by connection count](charts/zset-104857600-128.png)
 
-![Sorted Set 100 MiB per key, 1 KiB entries: ZSCORE / ZINCRBY QPS by connection count](charts/zset-104857600-1024.png)
+![Sorted Set 100 MiB per key, 1 KiB entries: ZSCORE / ZINCRBY QPS by connection count](charts/zset-104857600-1024-ab.png)
+
+**2026-09-30: freshly measured main `a6e93d3d`.** 8 × 100 MiB keys, 1 KiB entries; 13 unprofiled point/read/write and full-read points. Peer results retain the original matching workload; peers were not rerun. All points have zero errors; every key passed cardinality checks. [Raw data](raw/lavik-maina6-ordered-zset-100m-k8-f1024-20260930/) · [Plot provenance](ordered-published.json).
+
 
 ### ZRANGE WITHSCORES
 
@@ -336,7 +342,7 @@ This chapter retains the earlier complete four-product comparison. Lavik used `6
 
 ![Sorted Set 100 MiB per key, 128 B entries: ZRANGE WITHSCORES QPS by connection count](charts/zset-104857600-128-full.png)
 
-![Sorted Set 100 MiB per key, 1 KiB entries: ZRANGE WITHSCORES QPS by connection count](charts/zset-104857600-1024-full.png)
+![Sorted Set 100 MiB per key, 1 KiB entries: ZRANGE WITHSCORES QPS by connection count](charts/zset-104857600-1024-ab-full.png)
 
 ## Measurement limits
 
