@@ -14,24 +14,23 @@ Lavik 的同条件结果。除 Hash/Set 100 MiB/128 B 外，本轮 Lavik 曲线�
 [PR #212](https://github.com/eloqdata/lavik/pull/212) 的 `main`
 `d1ce200e174adcb07820b5431c77b024350e85b6`，SPDK 服务端二进制
 SHA256 为 `bd3f942e3b7b0f46c23c716197c8cc4ec8ad963e92cede0d9fa2574ff52a74a9`。
-Hash/Set 100 MiB/128 B 均使用新 `main` `4c26af7b122bc64fc902b5e72481de803c1c56af`
-（二进制 SHA256 `b101ccd8bd77ca2dcedc5766cb0658a9bc47bfb8255d07b3b585326ebe1c2221`）
-与 [PR #219](https://github.com/eloqdata/lavik/pull/219) `d1f58febf7d38c7c4f012984fe94b5cdc4a6da6e`
-（二进制 SHA256 `d015f91ca76f9bf2c99196ab6e5b1d78d8deffa3f04b9ced7b89d53e5d0845a6`）；
-Set 的 main 与 PR #219 复用同一份经灌入和校验的 SPDK 数据。
-Hash 的 PR #219 是前一轮同条件结果，最新 main 与 PR #222 共用重新灌入的数据。
-这些曲线用于检查稳态命令性能，导入加速由下面的独立实验测量。
-Hash 100 MiB/128 B 图中的 [PR #222](https://github.com/eloqdata/lavik/pull/222)
-包含紧凑物理地址索引、同 worker 提交完成通知，以及 [Bycorf PR #6](https://github.com/eloqdata/bycorf/pull/6)。
-六块 NVMe 均声明没有易失写缓存（VWC=0），因此省去无效 FLUSH，仍按原顺序完成数据和块头写入；
-事务数据先于 Commit 落盘的规则保持不变。
-当前实测源代码 `5a5c749da22fea98811060bc2f9fc44389edb20b`，Bycorf `fe23c7c102261b552785272cd49d1b36b3dbf0cd`，
-二进制 SHA256 `9a0f448525410e5ab155c32c1c564e6f18ec606683156aec94623596a1cb3969`。
-复用同一份经过校验的 500-key 数据，13 个测点零错误。
-HSET 为 **3.59–7.06 万 QPS**，main 为 3.19–4.73 万，Kvrocks 为 32.29–37.40 万，仍未达到目标。
-当前版本并非所有连接数都更快；每点仅一次测量，后续继续检查提交批次和反压等待。
-[分阶段诊断](diagnostics/hset-stages-20260929/README.md)及原始运行数据保留；
-其他大小和 Set 图尚未加入 PR #222。
+**2026-09-30 更新：Hash 100 MiB/128 B 图已经替换为合并 #219 后的 main 与新版 PR #222。**
+实测 main 为 `e5d6492662d9dd2868f9b326b7d7ce2c31fd0677`，PR 为 `c98ef732435a5eee21e5a91f58b5bc6e15684a0d`；
+二进制 SHA256 分别为 `257037f7faf0f5121d9792764c4e91c92824e96a553c2dc78cb5a4e86a8d4c42`、
+`84be1f2ea40bdf644d762a9f02ce6394cdec9f0573dcd8500e2bebee7ca9419e`。
+双方复用同一份 500-key 数据，各完成 13 个测点、零错误。
+HSET：main **3.27–4.89 万 QPS**，PR **7.72–9.74 万 QPS**；
+相同连接数下提升 **1.99–2.40 倍**。Kvrocks 为 32.29–37.40 万，写入目标尚未达到。
+
+[PR #222](https://github.com/eloqdata/lavik/pull/222) 包含紧凑物理索引、提交完成通知、
+已结束事务的反压检查复用，以及多参数 SADD/HSET 的字段位置索引。
+[Bycorf #6](https://github.com/eloqdata/bycorf/pull/6) 省去 VWC=0 控制器的无效 FLUSH；
+数据先于 Commit 落盘的规则保持不变。单字段 HSET 测试不使用多参数字段位置索引，不能把本图收益归给该项。
+压测期间 main 又合入 #223（Meta 连接）；代码正同步 rebase，图中版本以本段实测提交为准。
+Set 100 MiB/128 B 仍是上一轮 main `4c26af7b` 与 PR #219 `d1f58feb`，正在补测；
+其他大小尚未加入 PR #222。每点八秒、只测一次。
+[原始 Hash main 数据](raw/lavik-maine5-hash-100m-k500-f128-20260930/)与
+[原始 PR 数据](raw/lavik-pr222c98-hash-100m-k500-f128-20260930/)可复核。
 
 没有增加数据页缓存。早期 main、PR #212 和 256-key 的运行记录仍保留在
 `raw/`，不作为本轮曲线。
