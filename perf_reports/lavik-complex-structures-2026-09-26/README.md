@@ -16,28 +16,26 @@ Lavik uses `main` after merged
 [PR #212](https://github.com/eloqdata/lavik/pull/212), at commit
 `d1ce200e174adcb07820b5431c77b024350e85b6`. Its SPDK server binary
 has SHA256 `bd3f942e3b7b0f46c23c716197c8cc4ec8ad963e92cede0d9fa2574ff52a74a9`.
-Hash/Set 100 MiB/128 B use newer `main` `4c26af7b122bc64fc902b5e72481de803c1c56af`
-(binary SHA256 `b101ccd8bd77ca2dcedc5766cb0658a9bc47bfb8255d07b3b585326ebe1c2221`)
-and [PR #219](https://github.com/eloqdata/lavik/pull/219)
-`d1f58febf7d38c7c4f012984fe94b5cdc4a6da6e`
-(binary SHA256 `d015f91ca76f9bf2c99196ab6e5b1d78d8deffa3f04b9ced7b89d53e5d0845a6`).
-Set main and PR #219 use the same validated SPDK dataset. Hash PR #219 is
-from the prior run under matching conditions; the latest Hash main and PR #222
-share the newly seeded dataset.
-These QPS curves check steady-state command performance;
-the separate experiment below measures import speed.
-The Hash 100 MiB/128 B [PR #222](https://github.com/eloqdata/lavik/pull/222) curve includes compact
-physical indexes, same-worker commit notifications, and [Bycorf PR #6](https://github.com/eloqdata/bycorf/pull/6).
-All six NVMe controllers advertise VWC=0, so ineffective FLUSH commands complete in software;
-data/header write ordering and data-before-decision durability are preserved.
-Measured source: `5a5c749da22fea98811060bc2f9fc44389edb20b`; Bycorf: `fe23c7c102261b552785272cd49d1b36b3dbf0cd`;
-binary SHA256: `9a0f448525410e5ab155c32c1c564e6f18ec606683156aec94623596a1cb3969`.
-All 13 points reused the validated 500-key dataset and completed without errors.
-HSET reached **35.9–70.6k QPS**, versus 31.9–47.3k for main and 322.9–374.0k for Kvrocks.
-The target remains unmet, and not every connection count improves. Each point is one measurement;
-commit batching and admission waits remain under investigation.
-[Phase timing](diagnostics/hset-stages-20260929/README.md) and previous raw runs remain available.
-Other sizes and Set plots do not yet include PR #222.
+**2026-09-30: Hash 100 MiB/128 B plots now compare main after #219 with the updated PR #222.**
+Measured main: `e5d6492662d9dd2868f9b326b7d7ce2c31fd0677`; PR: `c98ef732435a5eee21e5a91f58b5bc6e15684a0d`.
+Binary SHA256 respectively: `257037f7faf0f5121d9792764c4e91c92824e96a553c2dc78cb5a4e86a8d4c42` and
+`84be1f2ea40bdf644d762a9f02ce6394cdec9f0573dcd8500e2bebee7ca9419e`.
+Both reused the same 500-key dataset and passed all 13 points without errors.
+HSET: main **32.7–48.9k QPS**, PR **77.2–97.4k QPS**,
+a **1.99–2.40×** improvement at matching connection counts.
+Kvrocks remains at 322.9–374.0k; the write-throughput target is not met.
+
+[PR #222](https://github.com/eloqdata/lavik/pull/222) combines compact physical indexes,
+commit notifications, reuse of owner-verified settled transaction admission state, and positional
+multi-field SADD/HSET indexes. [Bycorf #6](https://github.com/eloqdata/bycorf/pull/6) avoids
+ineffective FLUSH commands on VWC=0 controllers; data-before-commit ordering is preserved.
+This single-field HSET workload does not exercise the multi-field index optimization.
+Main merged #223 (Meta connection handling) during measurement; the code is being rebased,
+and these curves identify the exact measured commits above.
+Set 100 MiB/128 B still shows the preceding main `4c26af7b` and PR #219 `d1f58feb`, pending its rerun.
+Other sizes do not yet include PR #222. Each point is one eight-second measurement.
+[Raw Hash main data](raw/lavik-maine5-hash-100m-k500-f128-20260930/) and
+[PR data](raw/lavik-pr222c98-hash-100m-k500-f128-20260930/) are available for inspection.
 
 No data-page cache was added. Earlier main, PR #212, and 256-key raw runs remain in `raw/` but are
 not plotted in this retest.
