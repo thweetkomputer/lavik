@@ -418,6 +418,13 @@ Lavik 大部分条件用 `--fill-workers=64 --seed-command-bytes=65536`
 provenance 为准。
 每次运行的 provenance JSON 保存了准确提交和二进制 SHA256。
 
+2026-09-30 新增的 1 MiB main/PR 对比统一用批量 HSET/SADD 预填充：
+`--fill-workers=8 --seed-pipeline=64 --seed-command-bytes=16384`，不传 `--seed-dump-path`。
+128 B 元素每条命令 128 个，1 KiB 元素每条 16 个，与三库已有导入测点一致。
+main 从空的基准盘灌入；PR 使用 `--reuse-seeded-data --seed-source-tag=<main-tag>`
+恢复同一批 key，前后都逐 key 校验数量。批量导入图只比较同命令、同批大小的结果。
+下面的 RDB 步骤仅用于独立的 RESTORE 测量和先前的 100 MiB 压测预填充。
+
 100 MiB/128 B 的 Lavik 预填充使用 [RDB 种子生成器](make_rdb_seed_dump.py)
 创建单个 819,200 元素的 Hash 或 Set，再用 `RESTORE` 写入 500 个不同 key。
 生成器核对 Redis 原始校验和，并为 Lavik 的 RDB v11 读取器重新计算校验和；
@@ -436,5 +443,12 @@ Hash 将 `set` 改成 `hash` 并使用单独生成的文件。正式测点在全
 重绘单一条件图：
 
 ```bash
-.venv/bin/python plot_set_hash_high_keys.py hash 1048576 128
+.venv/bin/python plot_set_hash_high_keys.py set 1048576 128 \
+  --main-tag mainebe-set-1m-k50000-f128-sadd-20260930 \
+  --main-commit ebe28dd5a60b083c13826580c93623c6c5686b2d \
+  --main-sha256 e615cacfa119e36f9f2f566e5848ad01ea3909ccb5f77a9237a75ba08a888ec3 \
+  --variant-tag pr222817-set-1m-k50000-f128-sadd-20260930 \
+  --variant-label 'Lavik PR #222' \
+  --variant-commit 817473b731a1d314080bff3fd2c5fc68d1246099 \
+  --variant-sha256 bb61cba8c4771bc2c50266a948f02379e2e40680b572a1310b06d9aa804446ea
 ```
