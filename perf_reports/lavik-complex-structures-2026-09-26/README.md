@@ -11,7 +11,7 @@ connections; the vertical axis is completed commands per second.
 
 [PR #222](https://github.com/eloqdata/lavik/pull/222) is merged; current main is `a6e93d3d`. Merged PR curves have been removed. The new [PR #228](https://github.com/eloqdata/lavik/pull/228) is overlaid only where its A/B measurement is complete.
 
-**Fresh main measurements: Set/128 B (50,000 × 1 MiB keys).** Other 1 MiB conditions temporarily reuse measured merged implementation `faef28d9`, not new `a6e93d3d` runs. The 500 × 100 MiB conditions remain explicitly labeled historical, awaiting fresh main measurements. Exact versions, binary hashes and unmerged PR sources are in the [plot manifest](published-main.json). Stream, List and Sorted Set results and charts remain available.
+**Fresh main measurements: Hash/1 MiB/128 B, Set/1 MiB/128 B.** Other 1 MiB conditions temporarily reuse measured merged implementation `faef28d9`, not new `a6e93d3d` runs. Any 500 × 100 MiB conditions still awaiting a fresh run remain explicitly labeled historical. Exact versions, binary hashes and unmerged PR sources are in the [plot manifest](published-main.json). Stream, List and Sorted Set results and charts remain available.
 
 This round uses perf first to identify allocations, copies and repeated work. PR #228 trims temporary containers, metadata queries and extra scheduling, without adding a data cache or changing the durable format. **Write throughput has not reached Kvrocks.** Clean chart runs do not run perf; separate 30-second diagnostics are retained in raw directories. The [profiling script](profile_grouped_writes.py) reproduces the process.
 
@@ -27,7 +27,10 @@ Each point-read/write chart contains both commands. The 1 MiB and 100 MiB runs u
 
 ![Hash 1 MiB per key, 128 B entries: HGET and HSET QPS by connection count](charts/hash-1048576-128-ab.png)
 
-Measured merged implementation: `faef28d9`, 50,000 keys, 128 B entries. [Raw data](raw/lavik-pr222faef28d9-hash-1m-k50000-f128-leaf-c64-20260930/).
+**Fresh main `a6e93d3d` vs [PR #228](https://github.com/eloqdata/lavik/pull/228) `b6ed4df1`.** 50,000 × 1 MiB keys, 128 B entries; 12 points per version, zero errors, every key validated before/after. HSET is **1.05–1.13×** main at matching connections. Curves use unprofiled eight-second runs; single-run differences are not established gains. Where sampled, perf diagnostics are retained separately.
+[main raw](raw/lavik-maina6r-hash-1m-k50000-f128-20260930/), [PR raw](raw/lavik-worktrimb6ed-hash-1m-k50000-f128-20260930/).
+
+Both versions were measured after restart/recovery. Separate 30-second perf diagnostics at 1,280/5,120 connections yielded **122,560/106,513 QPS** for main and **130,264/115,284 QPS** for the PR. The eight-second HGETALL point at 80 connections was about 5.3% lower; it remains plotted, pending a longer check.
 
 ![Hash 1 MiB per key, 1 KiB entries: HGET and HSET QPS by connection count](charts/hash-1048576-1024-ab.png)
 
