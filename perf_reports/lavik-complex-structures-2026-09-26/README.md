@@ -436,6 +436,15 @@ binary SHA256. Most Lavik conditions use
 setup commands. The first Set 1 MiB/1 KiB run used the earlier default of
 eight; Set 1 MiB/128 B still used 16 KiB target batches. Newer provenance
 gives the actual value for each run.
+The new 2026-09-30 1 MiB main/PR comparisons seed with batched HSET/SADD:
+`--fill-workers=8 --seed-pipeline=64 --seed-command-bytes=16384`, without `--seed-dump-path`.
+Each command contains 128 entries at 128 B or 16 entries at 1 KiB, matching the
+recorded peer fills. Main starts on empty benchmark devices; PR uses
+`--reuse-seeded-data --seed-source-tag=<main-tag>` to recover the same keys.
+Every key's cardinality is validated before and after measurements. Import charts
+compare matching commands and batches. The RDB procedure below is only for
+standalone RESTORE measurements and the earlier 100 MiB benchmark preparation.
+
 For Lavik's 100 MiB/128 B runs, the [RDB seed generator](make_rdb_seed_dump.py)
 creates one 819,200-entry Hash or Set, which `RESTORE` imports into 500 distinct
 keys. The generator verifies Redis's checksum and recalculates it for Lavik's
@@ -455,5 +464,12 @@ settled TxCleaner backlog.
 Redraw one condition with:
 
 ```bash
-.venv/bin/python plot_set_hash_high_keys.py hash 1048576 128
+.venv/bin/python plot_set_hash_high_keys.py set 1048576 128 \
+  --main-tag mainebe-set-1m-k50000-f128-sadd-20260930 \
+  --main-commit ebe28dd5a60b083c13826580c93623c6c5686b2d \
+  --main-sha256 e615cacfa119e36f9f2f566e5848ad01ea3909ccb5f77a9237a75ba08a888ec3 \
+  --variant-tag pr222817-set-1m-k50000-f128-sadd-20260930 \
+  --variant-label 'Lavik PR #222' \
+  --variant-commit 817473b731a1d314080bff3fd2c5fc68d1246099 \
+  --variant-sha256 bb61cba8c4771bc2c50266a948f02379e2e40680b572a1310b06d9aa804446ea
 ```
