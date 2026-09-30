@@ -6,20 +6,13 @@
 Redis 兼容数据结构。每张图固定数据结构、每个 key 的逻辑数据量和
 每个元素的字节数。横轴为连接数，纵轴为每秒完成的命令数。
 
-## 2026-09-30 Hash 与 Set 更新
+## 2026-09-30 main 更新
 
-本轮已刷新 **1 MiB/key × 50,000 key** 的 Hash、Set 两章，分别测试 128 B 和 1 KiB 元素。
-实测 main 为 `31a1e130`，未合并 [PR #222](https://github.com/eloqdata/lavik/pull/222) 为 `faef28d9`。
-四组 main/PR 对比各完成 12 个测点，共 96 个测点，零错误，测量前后均逐 key 校验。
-本轮 1 MiB 图保留 main、最新实测 PR，以及已有 Redis、Valkey、Kvrocks 基线；同一张图不拼接不同版本的 Lavik 测点。
-具体 QPS、倍数和原始记录在对应命令的图下。批量导入与点写分别记录，连接和批次参数不同的导入结果不混比。
+[PR #222](https://github.com/eloqdata/lavik/pull/222) 已合并；当前 main 为 `a6e93d3d`。Hash/Set 图已删除旧 main 与已合并 PR 的重复曲线，保留 Redis、Valkey、Kvrocks 和一条 Lavik 曲线。
 
-本轮优化减少分组内修改时的临时字符串、重复哈希和事务租约扫描。
-PR 还包含紧凑物理索引、提交完成通知、多参数 SADD/HSET 位置索引，以及已合并 Bycorf 的 VWC=0 FLUSH 优化。
-没有增加数据页缓存，数据先于 Commit 落盘的规则保持不变。整体写入仍未达到 Kvrocks；少数测点超过它，不代表整条曲线已超过。
+1 MiB/key × 50,000 key 暂沿用合并实现的 `faef28d9` 实测数据（四组各 12 点，零错误），图例归为 main；**这不是 `a6e93d3d` 的新运行**。新 main 复测完成后逐图替换。100 MiB/key × 500 key 暂保留最新历史测量，并明确标为历史结果，不冒充最新 main。精确版本与二进制摘要见 [绘图来源](published-main.json)。Stream、List、Sorted Set 的结果和图继续保留。
 
-**100 MiB/key × 500 key 的图尚未刷新到本次实现。** 图旁明确注明旧测量版本；128 B 元素保留前一轮 main/PR 对比，1 KiB 元素仍只有旧 main。
-Stream、List、Sorted Set 的结果继续保留。更早的 PR 和少 key 运行记录保存在 `raw/`，不作为新曲线。
+接下来先对最新 main 的 Set/Hash 写入进行 perf 采样，检查分配、拷贝和重复工作，再考虑算法调整；新优化有实测后再增加未合并 PR 曲线。
 
 点查和写入测 80/320/1280/2560/5120 连接，完整读取测 1 MiB 档的
 16/80、100 MiB 档的 1/4/16 连接；每点八秒。Redis、Valkey 不持久化，
@@ -45,30 +38,21 @@ cache；Lavik 在六块 NVMe 上用 SPDK 提交。这些配置影响绝对写入
 
 ![Hash 1 MiB、128 B：HGET 与 HSET QPS 随连接数变化](charts/hash-1048576-128-ab.png)
 
-**2026-09-30 分组写入优化复测：main `31a1e130` 与 PR #222 `faef28d9`。** 50,000 key，128 B 元素，双方各 12 个测点、零错误。HSET 同连接数下 PR 为 main 的 **3.23–6.07 倍**。本次 seed 用 64 个连接、128 KiB 批次、pipeline 8；main 与 PR 复用同一份数据，仍逐 key 校验。图已覆盖旧 PR 结果。
-[main raw](raw/lavik-main31-hash-1m-k50000-f128-leaf-c64-20260930/), [PR raw](raw/lavik-pr222faef28d9-hash-1m-k50000-f128-leaf-c64-20260930/).
+已合并实现的实测结果：`faef28d9`，50,000 key，128 B 元素。[原始数据](raw/lavik-pr222faef28d9-hash-1m-k50000-f128-leaf-c64-20260930/)。
 
 ![Hash 1 MiB、1 KiB：HGET 与 HSET QPS 随连接数变化](charts/hash-1048576-1024-ab.png)
 
-**2026-09-30 分组写入优化复测：main `31a1e130` 与 PR #222 `faef28d9`。** 50,000 key，1024 B 元素，双方各 12 个测点、零错误。HSET 同连接数下 PR 为 main 的 **2.92–7.07 倍**。本次 seed 用 64 个连接、128 KiB 批次、pipeline 8；main 与 PR 复用同一份数据，仍逐 key 校验。图已覆盖旧 PR 结果。
-[main raw](raw/lavik-main31-hash-1m-k50000-f1024-leaf-c64-20260930/), [PR raw](raw/lavik-pr222faef28d9-hash-1m-k50000-f1024-leaf-c64-20260930/).
+已合并实现的实测结果：`faef28d9`，50,000 key，1024 B 元素。[原始数据](raw/lavik-pr222faef28d9-hash-1m-k50000-f1024-leaf-c64-20260930/)。
 
 #### 100 MiB
 
 ![Hash 100 MiB、128 B：HGET 与 HSET QPS 随连接数变化](charts/hash-104857600-128-ab.png)
 
-前一轮测量：main `ebe28dd5`、PR #222 `817473b7`，500 key；两版各 13 个测点、零错误。这张图尚未复测 `faef28d9`。 [main raw](raw/lavik-mainebe-hash-100m-k500-f128-20260930/), [PR raw](raw/lavik-pr222817-hash-100m-k500-f128-20260930/).
-
-这一轮 HGET 在 1280/2560/5120 连接下，PR 比 main 分别低约 26%、19%、10%；
-不能把 HSET 的提升理解为所有命令都变快。交换顺序的 1280 连接、20 秒复测中，HGET 为 main **395,420**、PR **402,036 QPS**，
-之前的下降没有复现；HSET 为 main **31,409**、PR **80,592 QPS**。读性能存在明显运行间波动，
-保留原始八秒完整曲线，不用复测替换其中单个点。
-[main 复测原始数据](raw/lavik-repeatebe-hash-100m-k500-f128-c1280-20260930/)、
-[PR 复测原始数据](raw/lavik-repeat817-hash-100m-k500-f128-c1280-20260930/)。
+历史测量，等待最新 main 复测：`817473b7`，500 key，128 B 元素。[原始数据](raw/lavik-pr222817-hash-100m-k500-f128-20260930/)。
 
 ![Hash 100 MiB、1 KiB：HGET 与 HSET QPS 随连接数变化](charts/hash-104857600-1024-ab.png)
 
-保留原测 main `d1ce200e`，尚无本次 PR 的完整曲线。 [Raw data](raw/lavik-maind1ce200e-hash-100m-k500-f1024-20260929/).
+历史测量，等待最新 main 复测：`d1ce200e`，500 key，1024 B 元素。[原始数据](raw/lavik-maind1ce200e-hash-100m-k500-f1024-20260929/)。
 
 ### HGETALL
 
@@ -114,29 +98,21 @@ cache；Lavik 在六块 NVMe 上用 SPDK 提交。这些配置影响绝对写入
 
 ![Set 1 MiB、128 B：SISMEMBER 与 SADD/SREM QPS 随连接数变化](charts/set-1048576-128-ab.png)
 
-**2026-09-30 分组写入优化复测：main `31a1e130` 与 PR #222 `faef28d9`。** 50,000 key，128 B 元素，双方各 12 个测点、零错误。SADD + SREM 同连接数下 PR 为 main 的 **3.53–9.78 倍**。本次 seed 用 64 个连接、128 KiB 批次、pipeline 8；main 与 PR 复用同一份数据，仍逐 key 校验。图已覆盖旧 PR 结果。
-[main raw](raw/lavik-main31-set-1m-k50000-f128-leaf-c64-20260930/), [PR raw](raw/lavik-pr222faef28d9-set-1m-k50000-f128-leaf-c64-20260930/).
-
-本轮还优化了事务租约检查：5,120 连接从上一版的 **16,112 QPS / p99 4,391 ms** 升至 **148,157 QPS / p99 154 ms**。当前 PR 峰值 **188,135 QPS**，仍低于 Kvrocks 的 **344,333–441,167 QPS**。之前的热点是反压路径反复扫描旧事务租约，采样占 CPU 的 **51.47%**；新实现复用块内租约判断，并优先检查上次仍有写入者的块。 [Profile evidence](raw/lavik-diagnostic-pr222d1-set-1m-k50000-f128-c5120-20260930/profile-provenance.json), [hot functions](raw/lavik-diagnostic-pr222d1-set-1m-k50000-f128-c5120-20260930/profile-summary.txt).
-
-优化后的同条件采样中，租约检查合计约 **0.03%** CPU；30 秒诊断测到 **145,182 QPS / p99 147 ms**。这次运行包含 perf 采样，单独保留，未替换上图的无采样数据。 [Updated profile](raw/lavik-diagnostic-pr222faef-set-1m-k50000-f128-c5120-20260930/profile-summary.txt), [provenance](raw/lavik-diagnostic-pr222faef-set-1m-k50000-f128-c5120-20260930/profile-provenance.json).
+已合并实现的实测结果：`faef28d9`，50,000 key，128 B 元素。[原始数据](raw/lavik-pr222faef28d9-set-1m-k50000-f128-leaf-c64-20260930/)。
 
 ![Set 1 MiB、1 KiB：SISMEMBER 与 SADD/SREM QPS 随连接数变化](charts/set-1048576-1024-ab.png)
 
-**2026-09-30 分组写入优化复测：main `31a1e130` 与 PR #222 `faef28d9`。** 50,000 key，1024 B 元素，双方各 12 个测点、零错误。SADD + SREM 同连接数下 PR 为 main 的 **3.59–5.88 倍**。本次 seed 用 64 个连接、128 KiB 批次、pipeline 8；main 与 PR 复用同一份数据，仍逐 key 校验。图已覆盖旧 PR 结果。
-[main raw](raw/lavik-main31-set-1m-k50000-f1024-leaf-c64-20260930/), [PR raw](raw/lavik-pr222faef28d9-set-1m-k50000-f1024-leaf-c64-20260930/).
-
-这组 SADD/SREM 在 320、1,280、2,560 连接下超过现有 Kvrocks 基线；80 和 5,120 连接下仍低于它。PR 在 5,120 连接为 **150,285 QPS / p99 161 ms**。
+已合并实现的实测结果：`faef28d9`，50,000 key，1024 B 元素。[原始数据](raw/lavik-pr222faef28d9-set-1m-k50000-f1024-leaf-c64-20260930/)。
 
 #### 100 MiB
 
 ![Set 100 MiB、128 B：SISMEMBER 与 SADD/SREM QPS 随连接数变化](charts/set-104857600-128-ab.png)
 
-前一轮测量：main `ebe28dd5`、PR #222 `817473b7`，500 key；两版各 13 个测点、零错误。这张图尚未复测 `faef28d9`。 [main raw](raw/lavik-mainebe-set-100m-k500-f128-20260930/), [PR raw](raw/lavik-pr222817-set-100m-k500-f128-20260930/).
+历史测量，等待最新 main 复测：`817473b7`，500 key，128 B 元素。[原始数据](raw/lavik-pr222817-set-100m-k500-f128-20260930/)。
 
 ![Set 100 MiB、1 KiB：SISMEMBER 与 SADD/SREM QPS 随连接数变化](charts/set-104857600-1024-ab.png)
 
-保留原测 main `d1ce200e`，尚无本次 PR 的完整曲线。 [Raw data](raw/lavik-maind1ce200e-set-100m-k500-f1024-20260929/).
+历史测量，等待最新 main 复测：`d1ce200e`，500 key，1024 B 元素。[原始数据](raw/lavik-maind1ce200e-set-100m-k500-f1024-20260929/)。
 
 ### SMEMBERS
 
@@ -166,7 +142,7 @@ cache；Lavik 在六块 NVMe 上用 SPDK 提交。这些配置影响绝对写入
 
 四库统一用 SADD，每条 128 个元素、8 个连接、pipeline 64；main 灌入耗时 **1724.2 秒**。持久化配置仍不同。
 
-另测 Lavik main `31a1e130` 与 PR #222 `faef28d9`：64 连接、每条 1,024 个成员、pipeline 8，使用相同客户端重新灌入 50,000 个 1 MiB key，耗时分别为 **352.3 秒**和 **166.7 秒**，PR 吞吐为 main 的 **2.11 倍**；均逐 key 校验通过。这是另一组导入参数，不与上图的旧参数结果横向比较。 [main raw](raw/lavik-main31-set-1m-k50000-f128-b128k-c64-p8-encoded-20260930/), [PR raw](raw/lavik-pr222faef28d9-set-1m-k50000-f128-b128k-c64-p8-encoded-20260930/).
+另测 Lavik main `31a1e130` 与 已合并实现 `faef28d9`：64 连接、每条 1,024 个成员、pipeline 8，使用相同客户端重新灌入 50,000 个 1 MiB key，耗时分别为 **352.3 秒**和 **166.7 秒**，PR 吞吐为 main 的 **2.11 倍**；均逐 key 校验通过。这是另一组导入参数，不与上图的旧参数结果横向比较。 [main raw](raw/lavik-main31-set-1m-k50000-f128-b128k-c64-p8-encoded-20260930/), [PR raw](raw/lavik-pr222faef28d9-set-1m-k50000-f128-b128k-c64-p8-encoded-20260930/).
 
 100 MiB 的同命令 SADD 导入尚无本轮完整结果。
 此前 Lavik RESTORE 与其他数据库 SADD 混用的对比图已撤下。
@@ -471,11 +447,7 @@ Hash 将 `set` 改成 `hash` 并使用单独生成的文件。正式测点在全
 
 ```bash
 .venv/bin/python plot_set_hash_high_keys.py set 1048576 128 \
-  --main-tag mainebe-set-1m-k50000-f128-sadd-20260930 \
-  --main-commit ebe28dd5a60b083c13826580c93623c6c5686b2d \
-  --main-sha256 e615cacfa119e36f9f2f566e5848ad01ea3909ccb5f77a9237a75ba08a888ec3 \
-  --variant-tag pr222817-set-1m-k50000-f128-sadd-20260930 \
-  --variant-label 'Lavik PR #222' \
-  --variant-commit 817473b731a1d314080bff3fd2c5fc68d1246099 \
-  --variant-sha256 bb61cba8c4771bc2c50266a948f02379e2e40680b572a1310b06d9aa804446ea
+  --main-tag pr222faef28d9-set-1m-k50000-f128-leaf-c64-20260930 \
+  --main-commit faef28d9411fa32ae5f3a39915a6ca2c2b01f191 \
+  --main-sha256 b0c664967357b9c648f066b11ff33febb10540bf941c36b6ac0973690d212b8c
 ```

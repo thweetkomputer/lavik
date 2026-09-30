@@ -151,6 +151,7 @@ def main():
     parser.add_argument("kind", choices=COMMANDS)
     parser.add_argument("size", type=int, choices=SIZES)
     parser.add_argument("field", type=int, choices=(128, 1024))
+    parser.add_argument("--main-label", default="Lavik main")
     parser.add_argument("--main-tag", help="Completed Lavik main run tag")
     parser.add_argument("--main-commit", default=MAIN_COMMIT,
                         help="Exact main source commit")
@@ -179,6 +180,7 @@ def main():
                 "sha256": args.main_sha256}
     products = (*PRODUCTS, *variants)
     labels = dict(LABELS)
+    labels["lavik"] = args.main_label
     for index, (product, variant) in enumerate(variants.items()):
         labels[product] = variant["label"]
         if index:
