@@ -129,16 +129,15 @@ cache；Lavik 在六块 NVMe 上用 SPDK 提交。这些配置影响绝对写入
 
 ![Set 100 MiB、1 KiB：SMEMBERS QPS 随连接数变化](charts/set-104857600-1024-ab-full.png)
 
+### 批量导入（SADD）
+
+四个数据库统一使用批量 SADD，Lavik 的同命令导入结果正在补测。
+此前 Lavik RESTORE 与其他数据库 SADD 混用的对比图已撤下。
+
 ### RESTORE
 
-#### 100 MiB
-
-![Set 100 MiB、500 key、128 B：导入耗时](charts/set-104857600-128-k500-fill.png)
-
-main `ebe28dd5` 用八个并发 RESTORE 客户端导入 500 个 key，共 **544.4 秒**，
-全部 key 的 819,200 个成员均已核对。图中的 Redis、Valkey、Kvrocks 使用批量 SADD；
-命令与持久化配置不同，这张图表示各自配置下的导入耗时。
-[测点与来源](set-104857600-128-k500-fill.csv)。
+main `ebe28dd5` 用八个并发 RESTORE 客户端导入 500 个 100 MiB key，耗时 **544.4 秒**。
+这个独立结果不与 SADD 导入耗时混画。[原始记录](raw/lavik-mainebe-set-100m-k500-f128-20260930/set-104857600-128.fill.json)。
 
 ## 工作负载
 
