@@ -121,6 +121,9 @@ Historical measurement; current-main retest pending: `d1ce200e`, 500 keys, 1024 
 
 ![Set 1 MiB per key, 128 B entries: SMEMBERS QPS by connection count](charts/set-1048576-128-ab-full.png)
 
+**80-connection long-run check:** three consecutive unprofiled 30-second repetitions per version: main **1,966, 1,967, 1,945 QPS**, PR **1,909, 1,922, 1,941 QPS**; mean ratio **0.982×**. Both recover the same dataset; all 50,000 key cardinalities are unchanged and runs have zero errors. The chart retains its original eight-second points. Versions run sequentially; three repetitions do not provide confidence intervals. [Results](set-1048576-128-full-read-repeats.json), [main raw](raw/lavik-fullcheck-maina6d-set-1m-k50000-f128-20260930/), [PR raw](raw/lavik-fullcheck-worktrim8079-set-1m-k50000-f128-20260930/), [script](repeat_grouped_full_reads.py).
+
+
 ![Set 1 MiB per key, 1 KiB entries: SMEMBERS QPS by connection count](charts/set-1048576-1024-ab-full.png)
 
 #### 100 MiB per key

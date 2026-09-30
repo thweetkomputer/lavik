@@ -132,6 +132,9 @@ cache；Lavik 在六块 NVMe 上用 SPDK 提交。这些配置影响绝对写入
 
 ![Set 1 MiB、128 B：SMEMBERS QPS 随连接数变化](charts/set-1048576-128-ab-full.png)
 
+**80 连接长测核对：** 每个版本连续三次 30 秒、不启用 perf，main 为 **1,966, 1,967, 1,945 QPS**，PR 为 **1,909, 1,922, 1,941 QPS**；均值比为 **0.982×**。两端使用同一份已恢复数据，50,000 个 key 测前测后基数完全一致，零错误。以上曲线仍使用原八秒测点；长测按版本先后执行，仅三次重复，不提供置信区间。 [Results](set-1048576-128-full-read-repeats.json), [main raw](raw/lavik-fullcheck-maina6d-set-1m-k50000-f128-20260930/), [PR raw](raw/lavik-fullcheck-worktrim8079-set-1m-k50000-f128-20260930/), [script](repeat_grouped_full_reads.py).
+
+
 ![Set 1 MiB、1 KiB：SMEMBERS QPS 随连接数变化](charts/set-1048576-1024-ab-full.png)
 
 #### 100 MiB
