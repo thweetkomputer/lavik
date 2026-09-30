@@ -6,6 +6,8 @@
 Redis 兼容数据结构。每张图固定数据结构、每个 key 的逻辑数据量和
 每个元素的字节数。横轴为连接数，纵轴为每秒完成的命令数。
 
+**正在更新 PR #222：** 已 rebase 到 main `31a1e130`，新增 SADD/SREM/HSET 分组内修改，减少临时字符串和重复哈希。新一轮结果在每张图下标明版本；尚未复测的图保留原测量版本，不能当作新代码结果。
+
 ## 2026-09-29 Hash 与 Set 复测
 
 Hash 和 Set 的 1 MiB 档使用 50,000 个 key，100 MiB 档使用 500 个 key；
@@ -15,7 +17,7 @@ Lavik 的同条件结果。新测图下方注明 main/PR 版本；尚未补测�
 `d1ce200e174adcb07820b5431c77b024350e85b6`，SPDK 服务端二进制
 SHA256 为 `bd3f942e3b7b0f46c23c716197c8cc4ec8ad963e92cede0d9fa2574ff52a74a9`。
 **2026-09-30 更新：100 MiB/128 B 的新图比较 main 与未合并的 PR #222。**
-最新一轮实测 main：`ebe28dd5a60b083c13826580c93623c6c5686b2d`（已包含 #219、#223）；
+100 MiB/128 B 这一轮实测 main：`ebe28dd5a60b083c13826580c93623c6c5686b2d`（已包含 #219、#223）；
 PR：`817473b731a1d314080bff3fd2c5fc68d1246099`，Bycorf 指向已合并的 `629dcb9ca737a073735ae4fc62b945a951d7ae69`。
 main 与 PR 二进制 SHA256 分别为 `e615cacfa119e36f9f2f566e5848ad01ea3909ccb5f77a9237a75ba08a888ec3`、
 `bb61cba8c4771bc2c50266a948f02379e2e40680b572a1310b06d9aa804446ea`。
@@ -116,8 +118,7 @@ cache；Lavik 在六块 NVMe 上用 SPDK 提交。这些配置影响绝对写入
 
 #### 100 MiB
 
-#219 已合并。旧优化阶段的导入对照图已移除，合并后 main 的新结果待补测；
-[历史原始测点](hash-104857600-128-k500-fill.csv)保留供复核，不代表当前 main。
+本轮没有重新计时 Hash RESTORE；批量 HSET 的导入结果见上一节，二者分开记录。
 
 ## Set
 
@@ -129,10 +130,10 @@ cache；Lavik 在六块 NVMe 上用 SPDK 提交。这些配置影响绝对写入
 
 ![Set 1 MiB、128 B：SISMEMBER 与 SADD/SREM QPS 随连接数变化](charts/set-1048576-128-ab.png)
 
-**2026-09-30 已补测：main `ebe28dd5` 与 PR #222 `817473b7`。** 50,000 key，128 B 元素；双方各 12 个测点、零错误。SADD + SREM 同连接数下 PR 为 main 的 **0.72–3.66 倍**。
-[main raw](raw/lavik-mainebe-set-1m-k50000-f128-sadd-20260930/), [PR raw](raw/lavik-pr222817-set-1m-k50000-f128-sadd-20260930/).
+**2026-09-30 分组写入优化复测：main `31a1e130` 与 PR #222 `d1f6ac34`。** 50,000 key，128 B 元素，双方各 12 个测点、零错误。SADD + SREM 同连接数下 PR 为 main 的 **1.06–4.82 倍**。本次 seed 用 64 个连接、128 KiB 批次、pipeline 8；main 与 PR 复用同一份数据，仍逐 key 校验。图已覆盖旧 PR 结果。
+[main raw](raw/lavik-main31-set-1m-k50000-f128-leaf-c64-20260930/), [PR raw](raw/lavik-pr222d1f6ac34-set-1m-k50000-f128-leaf-c64-20260930/).
 
-5,120 连接的写入点 PR 为 **14,103 QPS**，低于 main 的 **19,488 QPS**；其余四个连接档提升。这是单次八秒测量，下降尚未复测，图中保留原值。
+高连接数问题仍存在：PR 从 80 连接的 **147,933 QPS** 降到 5,120 连接的 **16,112 QPS**（main 为 **15,153**），仍明显低于 Kvrocks。这轮没有解决高并发下降，正在单独采样定位。
 
 ![Set 1 MiB、1 KiB：SISMEMBER 与 SADD/SREM QPS 随连接数变化](charts/set-1048576-1024-ab.png)
 
