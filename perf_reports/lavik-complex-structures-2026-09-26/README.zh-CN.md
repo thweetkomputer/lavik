@@ -12,7 +12,7 @@ Redis 兼容数据结构。每张图固定数据结构、每个 key 的逻辑数
 
 **最新 main 已复测：Hash/1 MiB/128 B, Hash/1 MiB/1024 B, Set/1 MiB/128 B, Set/1 MiB/1024 B。** 尚未复测的 100 MiB/key × 500 key 条件仍明确标为历史测量。精确版本、二进制摘要和未合并 PR 来源见 [绘图来源](published-main.json)。Stream、List、Sorted Set 的结果和图继续保留。
 
-PR #228 当前代码为 `80792c41`。部分图暂保留 PR 的上一测量版本，各图注明实际提交，正在逐组替换。
+PR #228 当前代码为 `80792c41`。已发布的 PR 曲线均对应此提交。
 
 本轮先用 perf 找分配、拷贝和重复工作，PR #228 减少临时容器、元数据查询和额外调度，没有增加数据缓存或改变落盘格式。**尚未在所有写入负载上达到 Kvrocks 水平。** 图中主测点不运行 perf，30 秒工作负载中的 20 秒采样另存原始目录；[采样脚本](profile_grouped_writes.py)可复现相同流程。
 
@@ -50,10 +50,8 @@ PR 将单页写入的临时数组放进协程帧，取消临时树容器和重�
 
 ![Hash 1 MiB、128 B：HGET 与 HSET QPS 随连接数变化](charts/hash-1048576-128-ab.png)
 
-**最新 main `a6e93d3d` 与 [PR #228](https://github.com/eloqdata/lavik/pull/228) `b6ed4df1` 实测。** 50,000 × 1 MiB key，128 B 元素，各 12 个测点、零错误，测量前后逐 key 校验。HSET 同连接数下为 main 的 **1.05–1.13 倍**。曲线使用无采样的八秒测点；单次差异不能视为稳定收益，perf 诊断在有采样的条件下单独保存。
-[main raw](raw/lavik-maina6r-hash-1m-k50000-f128-20260930/), [PR raw](raw/lavik-worktrimb6ed-hash-1m-k50000-f128-20260930/).
-
-双方均重启恢复后测量。30 秒 perf 诊断中，1,280/5,120 连接 HSET 分别为 main **122,560/106,513**、PR **130,264/115,284 QPS**。80 连接 HGETALL 的八秒测点低约 5.3%，仍保留在图中，待长测核对。
+**最新 main `a6e93d3d` 与 [PR #228](https://github.com/eloqdata/lavik/pull/228) `80792c41` 实测。** 50,000 × 1 MiB key，128 B 元素，各 12 个测点、零错误，测量前后逐 key 校验。HSET 同连接数下为 main 的 **1.01–1.16 倍**。曲线使用无采样的八秒测点；单次差异不能视为稳定收益，perf 诊断在有采样的条件下单独保存。
+[main raw](raw/lavik-maina6d-hash-1m-k50000-f128-20260930/), [PR raw](raw/lavik-worktrim8079-hash-1m-k50000-f128-20260930/).
 
 ![Hash 1 MiB、1 KiB：HGET 与 HSET QPS 随连接数变化](charts/hash-1048576-1024-ab.png)
 
