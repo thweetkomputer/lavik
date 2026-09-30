@@ -290,6 +290,12 @@ value、member 或元素为 128 B 或 1 KiB。Stream 的字段名和各结构元
 
 Main 为 83.7–100.9k QPS，PR 为 115.2–142.0k QPS；同连接数比值为 1.32–1.41×。 全部 key 在测前、测后完成元素数量校验，所有测点零错误。 [Main raw](raw/lavik-lset-large-maina8-1048576-k50000-f1024-20260930/) · [PR raw](raw/lavik-lset-large-pr233-759832d8-1048576-k50000-f1024-20260930/) · [CSV](list-lset-1048576-1024-k50000-main-pr.csv).
 
+#### 100 MiB/key × 500 keys
+
+![LSET 100 MiB, 500 keys: main / PR #233](charts/list-lset-104857600-1024-k500-main-pr.png)
+
+Main 为 7.2–7.4k QPS，PR 为 82.1–107.2k QPS；同连接数比值为 11.24–14.53×。 全部 key 在测前、测后完成元素数量校验，所有测点零错误。 [Main raw](raw/lavik-lset-large-maina8-104857600-k500-f1024-20260930/) · [PR raw](raw/lavik-lset-large-pr233-759832d8-104857600-k500-f1024-clean-grid-20260930/) · [CSV](list-lset-104857600-1024-k500-main-pr.csv).
+
 ### LRANGE 0 -1
 
 #### 64 KiB
@@ -314,7 +320,7 @@ Main 为 83.7–100.9k QPS，PR 为 115.2–142.0k QPS；同连接数比值为 1
 
 ## Sorted Set
 
-这一章保留早期完整四产品对照：Lavik 使用 `646a7b4e` 版本，尚未在最新 main 上复测。图仅代表该版本，原始数据见 [results.csv](results.csv)。
+本章各图注明实际版本与 key 数量。100 MiB / 1 KiB 的小 key 数对照使用 main `a8c926d4` 与 PR #233；新增的大 key 数 LSET 对照独立列出。其余早期四产品曲线的 Lavik 为 `646a7b4e`，原始版本见 [results.csv](results.csv)。
 
 ### ZSCORE / ZINCRBY
 

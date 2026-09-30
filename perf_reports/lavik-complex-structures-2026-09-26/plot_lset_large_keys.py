@@ -84,7 +84,7 @@ def main():
         ax.legend()
         fig.tight_layout()
         name = f'list-lset-{size}-1024-k{keys}-main-pr'
-        fig.savefig(ROOT / 'charts' / (name + '.png'), dpi=160, bbox_inches='tight')
+        fig.savefig(ROOT / 'charts' / (name + '.png'), dpi=160, bbox_inches='tight', pad_inches=0.2)
         chart.plt.close(fig)
         with (ROOT / (name + '.csv')).open('w', newline='') as out:
             writer = csv.DictWriter(out, fieldnames=list(records[0]), lineterminator='\n')

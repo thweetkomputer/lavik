@@ -287,6 +287,12 @@ Use 50,000 keys at 1 MiB/key and 500 keys at 100 MiB/key, with 1 KiB elements. E
 
 Main: 83.7–100.9k QPS; PR: 115.2–142.0k QPS, or 1.32–1.41× at matching connection counts. All keys passed before/after cardinality validation; all points completed with zero errors. [Main raw](raw/lavik-lset-large-maina8-1048576-k50000-f1024-20260930/) · [PR raw](raw/lavik-lset-large-pr233-759832d8-1048576-k50000-f1024-20260930/) · [CSV](list-lset-1048576-1024-k50000-main-pr.csv).
 
+#### 100 MiB/key × 500 keys
+
+![LSET 100 MiB, 500 keys: main / PR #233](charts/list-lset-104857600-1024-k500-main-pr.png)
+
+Main: 7.2–7.4k QPS; PR: 82.1–107.2k QPS, or 11.24–14.53× at matching connection counts. All keys passed before/after cardinality validation; all points completed with zero errors. [Main raw](raw/lavik-lset-large-maina8-104857600-k500-f1024-20260930/) · [PR raw](raw/lavik-lset-large-pr233-759832d8-104857600-k500-f1024-clean-grid-20260930/) · [CSV](list-lset-104857600-1024-k500-main-pr.csv).
+
 ### LRANGE 0 -1
 
 #### 64 KiB per key
@@ -311,7 +317,7 @@ For 1 MiB `LINDEX`, Lavik peaked near 139k QPS with 128 B entries and 677k with 
 
 ## Sorted Set
 
-This chapter retains the earlier complete four-product comparison. Lavik used `646a7b4e` and has not been retested on the latest main for these commands. The [raw CSV](results.csv) identifies the measured version.
+Each figure identifies its measured revision and key count. The 100 MiB / 1 KiB small-key-count comparison uses main `a8c926d4` and PR #233; the new LSET comparisons with more independent keys are separate. Other earlier four-product curves use Lavik `646a7b4e`, as recorded in the [raw CSV](results.csv).
 
 ### ZSCORE / ZINCRBY
 
