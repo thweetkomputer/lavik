@@ -321,7 +321,7 @@ This chapter retains the earlier complete four-product comparison. Lavik used `6
 
 ![Sorted Set 100 MiB per key, 1 KiB entries: ZSCORE / ZINCRBY QPS by connection count](charts/zset-104857600-1024-ab.png)
 
-**2026-09-30: freshly measured main `a6e93d3d`.** 8 × 100 MiB keys, 1 KiB entries; 13 unprofiled point/read/write and full-read points. Peer results retain the original matching workload; peers were not rerun. All points have zero errors; every key passed cardinality checks. [Raw data](raw/lavik-maina6-ordered-zset-100m-k8-f1024-20260930/) · [Plot provenance](ordered-published.json).
+**2026-09-30 main `a8c926d4` and [PR #233](https://github.com/eloqdata/lavik/pull/233) `5b1c3064` measured.** 8 × 100 MiB keys, 1 KiB entries; 13 unprofiled points per version cover point reads/writes at 80–5120 connections and full reads at 1/4/16. Peers retain the original matching workload. Both binaries were seeded independently from the same initial logical data. All points have zero errors; every key passed cardinality validation. [Main raw](raw/lavik-maina8-ordered-zset-100m-k8-f1024-20260930/) · [PR raw](raw/lavik-fresh5b1c3064-zset-100m-k8-f1024-20260930/) · [Plot provenance](ordered-published.json). **With independent seeding, ZINCRBY improves about 70–76% at every connection level, peaking at 8,935 QPS; it remains far below Kvrocks. ZSCORE is about 2–8% lower, while full ZRANGE at 16 connections is about 13% higher. Remaining write bottlenecks and point-read regressions need further investigation.**
 
 
 ### ZRANGE WITHSCORES

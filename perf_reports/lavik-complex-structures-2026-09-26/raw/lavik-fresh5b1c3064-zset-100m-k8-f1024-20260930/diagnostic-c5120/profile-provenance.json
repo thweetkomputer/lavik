@@ -1,0 +1,31 @@
+{
+  "source_commit": "5b1c3064de78cea73364cd1778654c978218254d",
+  "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-pr233-5b1c3064-20260930",
+  "pid": 320788,
+  "argv": [
+    "perf",
+    "record",
+    "-e",
+    "task-clock",
+    "-F",
+    "99",
+    "-g",
+    "--call-graph",
+    "dwarf,16384",
+    "-p",
+    "320788",
+    "-o",
+    "/mnt/dev/lavik-set-hash-20260929/perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-fresh5b1c3064-zset-100m-k8-f1024-20260930/diagnostic-c5120/cpu.perf",
+    "--",
+    "sleep",
+    "20"
+  ],
+  "time": 1790773873.2494895,
+  "condition": {
+    "type": "zset",
+    "bytes_per_key": 104857600,
+    "field_bytes": 1024,
+    "keys": 8,
+    "connections": 5120
+  }
+}

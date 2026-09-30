@@ -324,7 +324,7 @@ value、member 或元素为 128 B 或 1 KiB。Stream 的字段名和各结构元
 
 ![Sorted Set 100 MiB、1 KiB：ZSCORE / ZINCRBY QPS 随连接数变化](charts/zset-104857600-1024-ab.png)
 
-**2026-09-30 最新 main `a6e93d3d` 复测。** 8 × 100 MiB key、1 KiB 元素，读写及全量读取共 13 个无采样测点；其他数据库保留同负载的原始结果，未重跑。 所有测点零错误，逐 key 校验通过。 [Raw data](raw/lavik-maina6-ordered-zset-100m-k8-f1024-20260930/) · [Plot provenance](ordered-published.json).
+**2026-09-30 main `a8c926d4` 与 [PR #233](https://github.com/eloqdata/lavik/pull/233) `5b1c3064` 实测。** 8 × 100 MiB key、1 KiB 元素；每版 13 个无采样测点，覆盖 80–5120 连接的点查和写入及 1/4/16 连接的全量读取。其他数据库保留同负载原始结果。 两版均重新灌入相同初始逻辑数据。 所有测点零错误，逐 key 数量校验通过。 [Main raw](raw/lavik-maina8-ordered-zset-100m-k8-f1024-20260930/) · [PR raw](raw/lavik-fresh5b1c3064-zset-100m-k8-f1024-20260930/) · [Plot provenance](ordered-published.json). **新灌数据下 ZINCRBY 在五档连接数均提升约 70%–76%，峰值 8,935 QPS；仍远低于 Kvrocks。ZSCORE 低约 2%–8%，16 连接全量 ZRANGE 高约 13%；后续继续定位写入瓶颈和点读回退。**
 
 
 ### ZRANGE WITHSCORES
