@@ -136,17 +136,16 @@ Each point-read/write chart contains both commands. The 1 MiB and 100 MiB runs u
 
 ![Set 100 MiB per key, 1 KiB entries: SMEMBERS QPS by connection count](charts/set-104857600-1024-ab-full.png)
 
+### Batched import (SADD)
+
+The comparison uses batched SADD for all four databases; the matching Lavik
+measurement is pending. The previous mixed RESTORE/SADD figure has been removed.
+
 ### RESTORE
 
-#### 100 MiB
-
-![Set 100 MiB per key, 500 keys, 128 B entries: fill time](charts/set-104857600-128-k500-fill.png)
-
-Main `ebe28dd5` imported 500 keys with eight concurrent RESTORE clients in **544.4 seconds**.
-All 500 cardinalities were checked at 819,200 members per key. Redis, Valkey, and
-Kvrocks use batched SADD. Commands and persistence settings differ; the figure
-reports elapsed fill time under each recorded configuration.
-[Measurements and sources](set-104857600-128-k500-fill.csv).
+Main `ebe28dd5` imported 500 × 100 MiB keys with eight concurrent RESTORE clients
+in **544.4 seconds**. This standalone measurement is not plotted against SADD fills.
+[Raw measurement](raw/lavik-mainebe-set-100m-k500-f128-20260930/set-104857600-128.fill.json).
 
 ## Workloads
 
