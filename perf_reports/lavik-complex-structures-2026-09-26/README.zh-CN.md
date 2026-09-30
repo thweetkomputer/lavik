@@ -63,8 +63,8 @@ cache；Lavik 在六块 NVMe 上用 SPDK 提交。这些配置影响绝对写入
 
 ![Hash 1 MiB、128 B：HGET 与 HSET QPS 随连接数变化](charts/hash-1048576-128-ab.png)
 
-**2026-09-30 已补测：main `ebe28dd5` 与 PR #222 `817473b7`。** 50,000 key，128 B 元素；双方各 12 个测点、零错误。HSET 同连接数下 PR 为 main 的 **1.39–3.89 倍**。
-[main raw](raw/lavik-mainebe-hash-1m-k50000-f128-hset-20260930/), [PR raw](raw/lavik-pr222817-hash-1m-k50000-f128-hset-20260930/).
+**2026-09-30 分组写入优化复测：main `31a1e130` 与 PR #222 `faef28d9`。** 50,000 key，128 B 元素，双方各 12 个测点、零错误。HSET 同连接数下 PR 为 main 的 **3.23–6.07 倍**。本次 seed 用 64 个连接、128 KiB 批次、pipeline 8；main 与 PR 复用同一份数据，仍逐 key 校验。图已覆盖旧 PR 结果。
+[main raw](raw/lavik-main31-hash-1m-k50000-f128-leaf-c64-20260930/), [PR raw](raw/lavik-pr222faef28d9-hash-1m-k50000-f128-leaf-c64-20260930/).
 
 ![Hash 1 MiB、1 KiB：HGET 与 HSET QPS 随连接数变化](charts/hash-1048576-1024-ab.png)
 
@@ -134,6 +134,8 @@ cache；Lavik 在六块 NVMe 上用 SPDK 提交。这些配置影响绝对写入
 [main raw](raw/lavik-main31-set-1m-k50000-f128-leaf-c64-20260930/), [PR raw](raw/lavik-pr222faef28d9-set-1m-k50000-f128-leaf-c64-20260930/).
 
 本轮还优化了事务租约检查：5,120 连接从上一版的 **16,112 QPS / p99 4,391 ms** 升至 **148,157 QPS / p99 154 ms**。当前 PR 峰值 **188,135 QPS**，仍低于 Kvrocks 的 **344,333–441,167 QPS**。之前的热点是反压路径反复扫描旧事务租约，采样占 CPU 的 **51.47%**；新实现复用块内租约判断，并优先检查上次仍有写入者的块。 [Profile evidence](raw/lavik-diagnostic-pr222d1-set-1m-k50000-f128-c5120-20260930/profile-provenance.json), [hot functions](raw/lavik-diagnostic-pr222d1-set-1m-k50000-f128-c5120-20260930/profile-summary.txt).
+
+优化后的同条件采样中，租约检查合计约 **0.03%** CPU；30 秒诊断测到 **145,182 QPS / p99 147 ms**。这次运行包含 perf 采样，单独保留，未替换上图的无采样数据。 [Updated profile](raw/lavik-diagnostic-pr222faef-set-1m-k50000-f128-c5120-20260930/profile-summary.txt), [provenance](raw/lavik-diagnostic-pr222faef-set-1m-k50000-f128-c5120-20260930/profile-provenance.json).
 
 ![Set 1 MiB、1 KiB：SISMEMBER 与 SADD/SREM QPS 随连接数变化](charts/set-1048576-1024-ab.png)
 

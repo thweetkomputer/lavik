@@ -69,8 +69,8 @@ Each point-read/write chart contains both commands. The 1 MiB and 100 MiB runs u
 
 ![Hash 1 MiB per key, 128 B entries: HGET and HSET QPS by connection count](charts/hash-1048576-128-ab.png)
 
-**2026-09-30: main `ebe28dd5` vs PR #222 `817473b7`.** 50,000 keys, 128 B entries; both 12-point grids completed without errors. HSET reached **1.39–3.89×** main at matching connection counts.
-[main raw](raw/lavik-mainebe-hash-1m-k50000-f128-hset-20260930/), [PR raw](raw/lavik-pr222817-hash-1m-k50000-f128-hset-20260930/).
+**2026-09-30 leaf-write retest: main `31a1e130` vs PR #222 `faef28d9`.** 50,000 keys, 128 B entries, 12 points per version and zero errors. HSET reached **3.23–6.07×** main at matching connection counts. This seed uses 64 clients, 128 KiB batches and pipeline 8; both versions reuse the same dataset and validate every key. These plots replace the older PR measurements.
+[main raw](raw/lavik-main31-hash-1m-k50000-f128-leaf-c64-20260930/), [PR raw](raw/lavik-pr222faef28d9-hash-1m-k50000-f128-leaf-c64-20260930/).
 
 ![Hash 1 MiB per key, 1 KiB entries: HGET and HSET QPS by connection count](charts/hash-1048576-1024-ab.png)
 
@@ -140,6 +140,8 @@ Each point-read/write chart contains both commands. The 1 MiB and 100 MiB runs u
 [main raw](raw/lavik-main31-set-1m-k50000-f128-leaf-c64-20260930/), [PR raw](raw/lavik-pr222faef28d9-set-1m-k50000-f128-leaf-c64-20260930/).
 
 The transaction-lease probe optimization raises the 5,120-connection point from the previous version’s **16,112 QPS / p99 4,391 ms** to **148,157 QPS / p99 154 ms**. Current PR peak: **188,135 QPS**, still below Kvrocks (**344,333–441,167 QPS** across the five levels). Repeated scans of historical transaction leases accounted for **51.47%** of sampled CPU in the earlier admission path. The new implementation reuses block-local lease proofs and first revisits the last block with a live writer. [Profile evidence](raw/lavik-diagnostic-pr222d1-set-1m-k50000-f128-c5120-20260930/profile-provenance.json), [hot functions](raw/lavik-diagnostic-pr222d1-set-1m-k50000-f128-c5120-20260930/profile-summary.txt).
+
+A matching profile after the optimization attributes about **0.03%** CPU to lease probes. The 30-second diagnostic measured **145,182 QPS / p99 147 ms**. This instrumented run is retained separately and does not replace the unprofiled grid above. [Updated profile](raw/lavik-diagnostic-pr222faef-set-1m-k50000-f128-c5120-20260930/profile-summary.txt), [provenance](raw/lavik-diagnostic-pr222faef-set-1m-k50000-f128-c5120-20260930/profile-provenance.json).
 
 ![Set 1 MiB per key, 1 KiB entries: SISMEMBER and SADD/SREM QPS by connection count](charts/set-1048576-1024-ab.png)
 

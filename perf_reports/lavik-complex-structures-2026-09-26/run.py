@@ -81,7 +81,7 @@ def seed_step(kind, field_bytes, target_bytes):
     return min(1024, max(16, target_bytes // field_bytes))
 
 def fill_worker(kind, field_bytes, entries, indices, pipeline, seed_values,
-                seed_fields, target_bytes):
+                seed_fields, target_bytes, encoded_batches=None):
     done = 0
     with socket.create_connection((HOST, PORT), timeout=300) as sock:
         sock.settimeout(300)
@@ -89,13 +89,17 @@ def fill_worker(kind, field_bytes, entries, indices, pipeline, seed_values,
         for completed_keys, index in enumerate(indices, 1):
             key = name(index)
             step = seed_step(kind, field_bytes, target_bytes)
+            key_wire = f"${len(key)}\r\n{key}\r\n".encode()
             # Drain each bounded batch before sending another so a 100 MiB
             # key does not turn into unbounded client or server in-flight work.
             pending = []
             for start in range(0, entries, step):
                 end = min(start + step, entries)
                 values = seed_values[start:end]
-                if kind == "hash":
+                if encoded_batches is not None:
+                    prefix, body = encoded_batches[start // step]
+                    pending.append(prefix + key_wire + body)
+                elif kind == "hash":
                     args = ("HSET", key, *(a for pair in zip(seed_fields[start:end], values)
                                              for a in pair))
                 elif kind == "set":
@@ -107,7 +111,8 @@ def fill_worker(kind, field_bytes, entries, indices, pipeline, seed_values,
                                             for a in (i, values[i-start])))
                 else:
                     args = ("XADD", key, f"{start + 1}-0", "v", values[0])
-                pending.append(resp(*args))
+                if encoded_batches is None:
+                    pending.append(resp(*args))
                 if len(pending) == pipeline:
                     sock.sendall(b"".join(pending))
                     for _ in pending:
@@ -135,19 +140,41 @@ def fill(kind, field_bytes, entries, keys, pipeline, workers, target_bytes):
     seed_values = tuple(value(i, field_bytes) for i in range(entries))
     seed_fields = (tuple(f"f{i:08d}" for i in range(entries))
                    if kind == "hash" else ())
+    encoded_batches = None
+    if kind in ("hash", "set"):
+        # Every key has identical operands. Encode those bytes once so the
+        # Python GIL does not serialize hundreds of millions of identical
+        # fields before a server sees them. Only the key differs on the wire;
+        # command sizes, pipelines, ordering and replies remain identical.
+        # Shared templates retain at most one key's wire image, not the dataset.
+        encoded_batches = []
+        step = seed_step(kind, field_bytes, target_bytes)
+        command = "HSET" if kind == "hash" else "SADD"
+        command_wire = resp(command).partition(b"\r\n")[2]
+        for start in range(0, entries, step):
+            end = min(start + step, entries)
+            values = seed_values[start:end]
+            operands = (tuple(a for pair in zip(seed_fields[start:end], values)
+                              for a in pair) if kind == "hash" else values)
+            prefix = f"*{len(operands) + 2}\r\n".encode() + command_wire
+            body = resp(*operands).partition(b"\r\n")[2]
+            encoded_batches.append((prefix, body))
     # Each worker owns disjoint keys. More seed clients expose independent
     # objects to Lavik's workers without changing the measured collection.
     with ThreadPoolExecutor(max_workers=workers) as pool:
         jobs = [pool.submit(fill_worker, kind, field_bytes, entries,
                             range(i + 1, keys + 1, workers), pipeline, seed_values,
-                            seed_fields, target_bytes) for i in range(workers)]
+                            seed_fields, target_bytes, encoded_batches)
+                for i in range(workers)]
         count = sum(job.result() for job in jobs)
     step = seed_step(kind, field_bytes, target_bytes)
     expected = keys * ((entries + step - 1) // step)
     if count != expected:
         raise RuntimeError(f"{kind} fill sent {count} commands, expected {expected}")
     return {"seconds": time.monotonic() - begin, "commands": count,
-            "entries_per_command": step}
+            "entries_per_command": step,
+            "client_encoding": ("shared-operands-v1" if encoded_batches is not None
+                                else "per-command")}
 
 def fill_restore(keys, workers, payload):
     """Import disjoint keys from one verified RDB object to avoid seed rewrites.

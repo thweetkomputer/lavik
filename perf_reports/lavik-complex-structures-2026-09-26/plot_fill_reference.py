@@ -54,6 +54,8 @@ def read_run(kind, product, lavik_run, size, field, fill):
         raise RuntimeError(f"unexpected Lavik build: {folder}")
     stem = f"{kind}-{size}-{field}"
     filled = read_json(folder / f"{stem}.fill.json")
+    if fill["client_encoding"] and filled.get("client_encoding") != fill["client_encoding"]:
+        raise RuntimeError(f"unexpected client encoding: {folder}")
     command = "SADD" if kind == "set" else "HSET"
     method = f"batched {command}"
     expected_commands = keys * entries // step
@@ -85,6 +87,7 @@ def main():
     parser.add_argument("--fill-workers", type=int, default=8)
     parser.add_argument("--pipeline", type=int, default=64)
     parser.add_argument("--batch-bytes", type=int, default=16384)
+    parser.add_argument("--client-encoding", help="Require the same fill client implementation")
     parser.add_argument("--lavik-label", default="Lavik main")
     parser.add_argument("--pr-tag", help="Completed fresh PR fill; never a reused seed")
     parser.add_argument("--pr-commit")
@@ -99,7 +102,8 @@ def main():
         "commit": args.lavik_commit, "sha256": args.lavik_sha256,
     }
     fill = {"peer_tag": args.peer_tag, "workers": args.fill_workers,
-            "pipeline": args.pipeline, "batch_bytes": args.batch_bytes}
+            "pipeline": args.pipeline, "batch_bytes": args.batch_bytes,
+            "client_encoding": args.client_encoding}
     rows = [read_run(args.kind, product, lavik_run, args.size, args.field, fill)
             for product, _, _ in PRODUCTS]
 
