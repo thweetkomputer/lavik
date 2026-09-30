@@ -80,7 +80,7 @@ PR 将单页写入的临时数组放进协程帧，取消临时树容器和重�
 
 数据仅用 RESTORE 预置，待事务清理完成后，main 与 PR 均重启恢复再测；不与批量 SADD/HSET 导入耗时混比。 [Seed provenance](raw/lavik-seedmaina6d-hash-100m-k500-f1024-20260930/).
 
-**HGET 下降待核对：** 本组八秒测点中，PR 在 1,280 / 2,560 连接下比 main 低约 23% / 20%。曲线保留这些结果；正在同一份固定数据上做长时间只读复测，PR 暂保持草稿。
+**HGET 固定数据长测核对：** 原八秒曲线中，PR 在 1,280 / 2,560 连接下比 main 低约 23% / 20%，这些点保留。之后在同一份数据上、无写入和 perf，按 main → PR 顺序各做三次 30 秒、1,280 连接 HGET：main 为 **417,998 / 417,250 / 441,911 QPS**，PR 为 **412,563 / 405,788 / 411,345 QPS**，PR 均值仍低 **3.7%**。500 个 key 的基数测前测后完全一致，零错误。约 20% 的差距未在这组固定数据复测中重现，但这几次顺序重复也不能排除较小的回退，不能声称读性能提升。 [Results](hash-104857600-1024-point-read-repeats.json), [main raw](raw/lavik-pointcheck-maina6d-hash-100m-k500-f1024-20260930/), [PR raw](raw/lavik-pointcheck-worktrim8079-hash-100m-k500-f1024-20260930/), [script](repeat_grouped_point_reads.py).
 
 ### HGETALL
 
@@ -221,6 +221,8 @@ value、member 或元素为 128 B 或 1 KiB。Stream 的字段名和各结构元
 数量。Set 的增删在随机命中相同 key 时可能产生空操作，因此该项目报告
 两种命令合计的 QPS，而不是实际持久化修改的 QPS。
 
+本轮八秒主测按 main、PR 顺序复用数据，每版依次执行完整读取、点查和写入。中间的写入会改变被访问字段的值和物理布局，因此不能把短测读 QPS 的差异全部归因于代码版本。额外的只读复测不穿插写入，在同一份固定数据上切换二进制。
+
 ## 测试配置
 
 - 服务端 172.16.0.4，AMD EPYC 9V74 的 16 个 vCPU（0–15），100 Gb/s 网卡。
@@ -347,7 +349,7 @@ value、member 或元素为 128 B 或 1 KiB。Stream 的字段名和各结构元
 
 ## Stream
 
-Lavik 使用已合并 Stream 优化的最新 main `9acd7b6f`。64 KiB 和 1 MiB 档使用 64 个热 key、128 B 或 1 KiB 元素；100 MiB 档使用八个 key、1 KiB 元素。横轴为连接数，纵轴为 QPS；每图只画一条 Lavik main 曲线。
+Stream 保留已合并优化后的 main `9acd7b6f` 实测，本轮未复测该结构。64 KiB 和 1 MiB 档使用 64 个热 key、128 B 或 1 KiB 元素；100 MiB 档使用八个 key、1 KiB 元素。横轴为连接数，纵轴为 QPS；每图只画一条 Lavik main 曲线。
 
 点查和写入覆盖 80–5120 连接；小档完整读取覆盖 16/80 连接，100 MiB 档覆盖 1/4/16 连接。Redis 和 Valkey 关闭持久化，Kvrocks 关闭 WAL 且启用 80 GiB block cache，Lavik 提交到 SPDK；写入结果反映这些具体配置。
 
