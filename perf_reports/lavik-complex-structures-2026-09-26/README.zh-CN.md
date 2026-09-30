@@ -14,23 +14,21 @@ Lavik 的同条件结果。除 Hash/Set 100 MiB/128 B 外，本轮 Lavik 曲线�
 [PR #212](https://github.com/eloqdata/lavik/pull/212) 的 `main`
 `d1ce200e174adcb07820b5431c77b024350e85b6`，SPDK 服务端二进制
 SHA256 为 `bd3f942e3b7b0f46c23c716197c8cc4ec8ad963e92cede0d9fa2574ff52a74a9`。
-**2026-09-30 更新：Hash 100 MiB/128 B 图已经替换为合并 #219 后的 main 与新版 PR #222。**
-实测 main 为 `e5d6492662d9dd2868f9b326b7d7ce2c31fd0677`，PR 为 `c98ef732435a5eee21e5a91f58b5bc6e15684a0d`；
-二进制 SHA256 分别为 `257037f7faf0f5121d9792764c4e91c92824e96a553c2dc78cb5a4e86a8d4c42`、
-`84be1f2ea40bdf644d762a9f02ce6394cdec9f0573dcd8500e2bebee7ca9419e`。
-双方复用同一份 500-key 数据，各完成 13 个测点、零错误。
-HSET：main **3.27–4.89 万 QPS**，PR **7.72–9.74 万 QPS**；
-相同连接数下提升 **1.99–2.40 倍**。Kvrocks 为 32.29–37.40 万，写入目标尚未达到。
+**2026-09-30 更新：100 MiB/128 B 的新图比较 main 与未合并的 PR #222。**
+最新一轮实测 main：`ebe28dd5a60b083c13826580c93623c6c5686b2d`（已包含 #219、#223）；
+PR：`817473b731a1d314080bff3fd2c5fc68d1246099`，Bycorf 指向已合并的 `629dcb9ca737a073735ae4fc62b945a951d7ae69`。
+main 与 PR 二进制 SHA256 分别为 `e615cacfa119e36f9f2f566e5848ad01ea3909ccb5f77a9237a75ba08a888ec3`、
+`bb61cba8c4771bc2c50266a948f02379e2e40680b572a1310b06d9aa804446ea`。
+每个结构双方复用同一份经过逐 key 校验的 500-key 数据，各完成 13 个测点、零错误。
+
+- HSET：main **3.25–4.85 万 QPS**；PR **7.98–10.10 万 QPS**。同连接数下为 main 的 **2.08–2.46 倍**。[Hash main 原始数据](raw/lavik-mainebe-hash-100m-k500-f128-20260930/)、[PR 原始数据](raw/lavik-pr222817-hash-100m-k500-f128-20260930/)。
 
 [PR #222](https://github.com/eloqdata/lavik/pull/222) 包含紧凑物理索引、提交完成通知、
 已结束事务的反压检查复用，以及多参数 SADD/HSET 的字段位置索引。
-已合并的 [Bycorf #6](https://github.com/eloqdata/bycorf/pull/6) 省去 VWC=0 控制器的无效 FLUSH；
-数据先于 Commit 落盘的规则保持不变。单字段 HSET 测试不使用多参数字段位置索引，不能把本图收益归给该项。
-压测期间 main 又合入 #223（Meta 连接）；代码正同步 rebase，图中版本以本段实测提交为准。
-Set 100 MiB/128 B 暂时只保留上一轮 main `4c26af7b`，正在补测新版 main 与 PR #222；
-其他大小尚未加入 PR #222。每点八秒、只测一次。
-[原始 Hash main 数据](raw/lavik-maine5-hash-100m-k500-f128-20260930/)与
-[原始 PR 数据](raw/lavik-pr222c98-hash-100m-k500-f128-20260930/)可复核。
+已合并的 Bycorf 优化省去 VWC=0 控制器的无效 FLUSH；数据先于 Commit 落盘的规则保持不变。
+本轮是单字段/成员命令，不使用多参数字段位置索引，不能把图中的收益归给该项。
+每点八秒、只测一次，尚未达到 Kvrocks 写入水平。其他大小尚未加入 PR #222。
+Set 100 MiB/128 B 暂时只显示上一轮 main `4c26af7b`，新版 main 与 PR 的对比正在补测。
 
 没有增加数据页缓存。早期 main、PR #212 和 256-key 的运行记录仍保留在
 `raw/`，不作为本轮曲线。
@@ -68,6 +66,9 @@ cache；Lavik 在六块 NVMe 上用 SPDK 提交。这些配置影响绝对写入
 #### 100 MiB
 
 ![Hash 100 MiB、128 B：HGET 与 HSET QPS 随连接数变化](charts/hash-104857600-128-ab.png)
+
+这一轮 HGET 在 1280/2560/5120 连接下，PR 比 main 分别低约 26%、19%、10%；
+不能把 HSET 的提升理解为所有命令都变快。正在交换顺序做 1280 连接、20 秒复测。
 
 ![Hash 100 MiB、1 KiB：HGET 与 HSET QPS 随连接数变化](charts/hash-104857600-1024-ab.png)
 
