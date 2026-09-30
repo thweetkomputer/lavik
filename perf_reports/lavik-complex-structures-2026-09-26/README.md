@@ -272,7 +272,7 @@ This chapter retains the earlier complete four-product comparison. Lavik used `6
 
 ![List 100 MiB per key, 1 KiB entries: LINDEX / LSET QPS by connection count](charts/list-104857600-1024-ab.png)
 
-**2026-09-30: freshly measured main `a6e93d3d`.** 8 × 100 MiB keys, 1 KiB entries; 13 unprofiled point/read/write and full-read points. Peer results retain the original matching workload; peers were not rerun. All points have zero errors; every key passed cardinality checks. [Raw data](raw/lavik-maina6-ordered-list-100m-k8-f1024-20260930/) · [Plot provenance](ordered-published.json).
+**2026-09-30 main `a8c926d4` and [PR #233](https://github.com/eloqdata/lavik/pull/233) `721097a7` measured.** 8 × 100 MiB keys, 1 KiB entries; 13 unprofiled points per version cover point reads/writes at 80–5120 connections and full reads at 1/4/16. Peers retain the original matching workload. All points have zero errors; every key passed cardinality validation. [Main raw](raw/lavik-maina8-ordered-list-100m-k8-f1024-20260930/) · [PR raw](raw/lavik-chunks721097a7-list-100m-k8-f1024-20260930/) · [Plot provenance](ordered-published.json). **LINDEX improves about 5.9–8.5× and LSET about 71–83%. LSET peaks at 24.6k QPS and remains below Kvrocks. Directory Apply falls to about 1.1% of self samples; worker-loop/storage-poll samples now dominate. Next investigate unnecessary neighbour-page reads.**
 
 
 ### LRANGE 0 -1
