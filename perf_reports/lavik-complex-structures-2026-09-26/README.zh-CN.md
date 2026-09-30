@@ -355,11 +355,11 @@ value、member 或元素为 128 B 或 1 KiB。Stream 的字段名和各结构元
 
 ## Stream
 
-Stream 保留已合并优化后的 main `9acd7b6f` 实测，本轮未复测该结构。64 KiB 和 1 MiB 档使用 64 个热 key、128 B 或 1 KiB 元素；100 MiB 档使用八个 key、1 KiB 元素。横轴为连接数，纵轴为 QPS；每图只画一条 Lavik main 曲线。
+Stream 的 100 MiB / 1 KiB 已更新为 main `a6e93d3d`；小档保留已合并优化后的 main `9acd7b6f` 实测。64 KiB 和 1 MiB 档使用 64 个热 key、128 B 或 1 KiB 元素；100 MiB 档使用八个 key、1 KiB 元素。横轴为连接数，纵轴为 QPS；每图只画一条 Lavik main 曲线。
 
 点查和写入覆盖 80–5120 连接；小档完整读取覆盖 16/80 连接，100 MiB 档覆盖 1/4/16 连接。Redis 和 Valkey 关闭持久化，Kvrocks 关闭 WAL 且启用 80 GiB block cache，Lavik 提交到 SPDK；写入结果反映这些具体配置。
 
-[完整测点](stream-latest.csv)、[绘图脚本](plot_stream_latest.py)、Lavik [小档](raw/lavik-main9acd-stream-small-20260929/)与 [100 MiB 档](raw/lavik-main9acd-stream-100m-20260929/)的原始记录可复核各点。每点八秒、只测一次；旧优化阶段的结果保留在 `raw/`，不参与当前图表。
+[小档测点及历史 100 MiB 测点](stream-latest.csv)、[当前 100 MiB 测点](stream-104857600-1024-current.csv)、[当前绘图来源](ordered-published.json)；Lavik [小档](raw/lavik-main9acd-stream-small-20260929/)与 [100 MiB 档](raw/lavik-main9acd-stream-100m-20260929/)的原始记录可复核各点。每点八秒、只测一次；旧优化阶段的结果保留在 `raw/`，不参与当前图表。
 
 ### 指定 ID `XRANGE`
 
@@ -396,6 +396,9 @@ Stream 保留已合并优化后的 main `9acd7b6f` 实测，本轮未复测该�
 #### 100 MiB
 
 ![100 MiB、1 KiB：`XADD MAXLEN`，四款数据库 QPS 随连接数变化](charts/stream-104857600-1024-xadd_maxlen-latest.png)
+
+**2026-09-30 最新 main `a6e93d3d` 复测。** 8 × 100 MiB key、1 KiB 元素，读写及全量读取共 13 个无采样测点；其他数据库保留同负载的原始结果，未重跑。 所有测点零错误，逐 key 校验通过。 [Raw data](raw/lavik-maina6-ordered-stream-100m-k8-f1024-20260930/) · [Plot provenance](ordered-published.json).
+
 
 ### 全范围 `XRANGE - +`
 

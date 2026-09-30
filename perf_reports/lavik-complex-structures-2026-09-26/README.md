@@ -352,11 +352,11 @@ The [HGETALL memory investigation](diagnostics/hgetall-oom-20260929/README.md) a
 
 ## Stream
 
-Stream retains the measured merged main `9acd7b6f` with its Stream optimization; this structure was not retested in the current round. The 64 KiB and 1 MiB cases use 64 hot keys with 128 B or 1 KiB entries; the 100 MiB case uses eight keys with 1 KiB entries. The horizontal axis is connection count and the vertical axis is QPS; each figure contains one Lavik main curve.
+Stream 100 MiB / 1 KiB now uses main `a6e93d3d`; smaller cases retain measured merged main `9acd7b6f`. The 64 KiB and 1 MiB cases use 64 hot keys with 128 B or 1 KiB entries; the 100 MiB case uses eight keys with 1 KiB entries. The horizontal axis is connection count and the vertical axis is QPS; each figure contains one Lavik main curve.
 
 Point reads and writes cover 80–5120 connections. Full reads use 16/80 for the smaller sizes and 1/4/16 for 100 MiB. Redis and Valkey have persistence disabled; Kvrocks has WAL disabled with an 80 GiB block cache; Lavik commits to SPDK. Write QPS reflects these configurations.
 
-[All points](stream-latest.csv), the [plot script](plot_stream_latest.py), and Lavik [small](raw/lavik-main9acd-stream-small-20260929/) and [100 MiB](raw/lavik-main9acd-stream-100m-20260929/) raw runs retain the evidence. Each point is one eight-second run. Older optimization-stage samples remain under `raw/` and are not plotted.
+[Small and historical 100 MiB points](stream-latest.csv), [current 100 MiB points](stream-104857600-1024-current.csv), and [current plot provenance](ordered-published.json); Lavik [small](raw/lavik-main9acd-stream-small-20260929/) and [100 MiB](raw/lavik-main9acd-stream-100m-20260929/) raw runs retain the evidence. Each point is one eight-second run. Older optimization-stage samples remain under `raw/` and are not plotted.
 
 ### Exact-ID `XRANGE`
 
@@ -393,6 +393,9 @@ Point reads and writes cover 80–5120 connections. Full reads use 16/80 for the
 #### 100 MiB per key
 
 ![100 MiB per key, 1 KiB entries: `XADD MAXLEN` QPS by connection count](charts/stream-104857600-1024-xadd_maxlen-latest.png)
+
+**2026-09-30: freshly measured main `a6e93d3d`.** 8 × 100 MiB keys, 1 KiB entries; 13 unprofiled point/read/write and full-read points. Peer results retain the original matching workload; peers were not rerun. All points have zero errors; every key passed cardinality checks. [Raw data](raw/lavik-maina6-ordered-stream-100m-k8-f1024-20260930/) · [Plot provenance](ordered-published.json).
+
 
 ### Full `XRANGE - +`
 

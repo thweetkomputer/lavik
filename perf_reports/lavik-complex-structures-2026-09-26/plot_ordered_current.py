@@ -102,7 +102,7 @@ def draw_stream(size, field, keys, datasets, labels):
                      f"{field} B/entry\n{command.replace('_', ' ')}")
         fig.tight_layout()
         destination = ROOT / "charts" / f"stream-{size}-{field}-{command.lower()}-latest.png"
-        fig.savefig(destination, dpi=150)
+        fig.savefig(destination, dpi=150, bbox_inches="tight")
         chart.plt.close(fig)
         print(destination)
 
