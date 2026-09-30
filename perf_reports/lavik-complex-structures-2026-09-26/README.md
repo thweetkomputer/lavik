@@ -13,7 +13,7 @@ connections; the vertical axis is completed commands per second.
 
 **Completed main `a6e93d3d` measurements: Hash/1 MiB/128 B, Hash/1 MiB/1024 B, Hash/100 MiB/128 B, Hash/100 MiB/1024 B, Set/1 MiB/128 B, Set/1 MiB/1024 B, Set/100 MiB/128 B, Set/100 MiB/1024 B.** Exact versions, binary hashes and unmerged PR sources are in the [plot manifest](published-main.json). Stream, List and Sorted Set results and charts remain available.
 
-PR #228 is rebased onto `a8c926d4` as `31f09884`, with an unchanged optimization patch. Published curves still measure `a6e93d3d` / `80792c41`; new measurements will replace each figure when complete, preserving exact provenance.
+PR #228 is rebased onto `a8c926d4` as `31f09884`, with an unchanged optimization patch. Published Hash/Set curves still measure `a6e93d3d` / `80792c41`; new measurements will replace each figure when complete, preserving exact provenance.
 
 This round uses perf first to identify allocations, copies and repeated work. PR #228 trims temporary containers, metadata queries and extra scheduling, without adding a data cache or changing the durable format. **Parity with Kvrocks across all write workloads has not been achieved.** Clean chart runs do not run perf; separate 30-second diagnostic workloads include 20 seconds of perf sampling, retained in raw directories. The [profiling script](profile_grouped_writes.py) reproduces the process.
 
@@ -222,7 +222,7 @@ Bulk imports use a Python client on the server host; point-command QPS uses memt
   Redis 8.8.0 and Valkey 9.1.0 use 12 I/O
   threads, with RDB and AOF disabled. Lavik uses 12 workers, kernel TCP, and
   six dedicated SPDK NVMe devices. These are different durability settings.
-- List and Sorted Set 100 MiB / 1 KiB samples now use main `a6e93d3d`; other conditions retain early [PR #203](https://github.com/eloqdata/lavik/pull/203)
+- List and Sorted Set 100 MiB / 1 KiB samples use the main revisions identified with each figure; other conditions retain early [PR #203](https://github.com/eloqdata/lavik/pull/203)
   binary `646a7b4e`. The Hash/Set and Stream chapters state their merged-main
   versions. Measurements from different versions are not joined into one Lavik curve.
 - Kvrocks uses the same cache and compression settings across sizes. The
@@ -352,7 +352,7 @@ The [HGETALL memory investigation](diagnostics/hgetall-oom-20260929/README.md) a
 
 ## Stream
 
-Stream 100 MiB / 1 KiB now uses main `a6e93d3d`; smaller cases retain measured merged main `9acd7b6f`. The 64 KiB and 1 MiB cases use 64 hot keys with 128 B or 1 KiB entries; the 100 MiB case uses eight keys with 1 KiB entries. The horizontal axis is connection count and the vertical axis is QPS; each figure contains one Lavik main curve.
+Stream 100 MiB / 1 KiB now compares main `a8c926d4` with the current optimization PR; smaller cases retain measured merged main `9acd7b6f`. The 64 KiB and 1 MiB cases use 64 hot keys with 128 B or 1 KiB entries; the 100 MiB case uses eight keys with 1 KiB entries. The horizontal axis is connection count and the vertical axis is QPS; each figure contains one Lavik main curve, plus any measured unmerged optimization PR.
 
 Point reads and writes cover 80–5120 connections. Full reads use 16/80 for the smaller sizes and 1/4/16 for 100 MiB. Redis and Valkey have persistence disabled; Kvrocks has WAL disabled with an 80 GiB block cache; Lavik commits to SPDK. Write QPS reflects these configurations.
 
@@ -394,7 +394,7 @@ Point reads and writes cover 80–5120 connections. Full reads use 16/80 for the
 
 ![100 MiB per key, 1 KiB entries: `XADD MAXLEN` QPS by connection count](charts/stream-104857600-1024-xadd_maxlen-latest.png)
 
-**2026-09-30: freshly measured main `a6e93d3d`.** 8 × 100 MiB keys, 1 KiB entries; 13 unprofiled point/read/write and full-read points. Peer results retain the original matching workload; peers were not rerun. All points have zero errors; every key passed cardinality checks. [Raw data](raw/lavik-maina6-ordered-stream-100m-k8-f1024-20260930/) · [Plot provenance](ordered-published.json).
+**2026-09-30 main `a8c926d4` and [PR #233](https://github.com/eloqdata/lavik/pull/233) `721097a7` measured.** 8 × 100 MiB keys, 1 KiB entries; 13 unprofiled points per version cover point reads/writes at 80–5120 connections and full reads at 1/4/16. Peers retain the original matching workload. All points have zero errors; every key passed cardinality validation. [Main raw](raw/lavik-maina8-ordered-stream-100m-k8-f1024-20260930/) · [PR raw](raw/lavik-chunks721097a7-stream-100m-k8-f1024-20260930/) · [Plot provenance](ordered-published.json). **Stream writes have not improved in this revision: throughput is approximately 2–15% below main across 80–5120 connections. New perf samples attribute about 34% to directory lookup and 12% to write planning; the PR remains a draft while whole-chain repeated work is removed.**
 
 
 ### Full `XRANGE - +`
