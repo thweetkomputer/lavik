@@ -25,13 +25,13 @@ def read_json(path):
     return json.loads(path.read_text())
 
 
-def read_run(kind, product, lavik_run, size, field):
+def read_run(kind, product, lavik_run, size, field, fill):
     keys = 50000 if size == 1048576 else 500
     entries = size // field
-    step = 16384 // field
+    step = min(1024, max(16, fill["batch_bytes"] // field))
     size_tag = "1m" if size == 1048576 else "100m"
     tag = (lavik_run["tag"] if product == "lavik" else
-           f"{kind}-{size_tag}-k{keys}-f{field}-20260929")
+           fill["peer_tag"] or f"{kind}-{size_tag}-k{keys}-f{field}-20260929")
     folder = ROOT / "raw" / f"{product}-{tag}"
     complete = read_json(folder / "complete.json")
     if complete["failures_total"] or read_json(folder / "server-exit.json")["code"]:
@@ -41,10 +41,10 @@ def read_run(kind, product, lavik_run, size, field):
         raise RuntimeError(f"expected one provenance file: {folder}")
     options = read_json(provenance[0])
     expected = {"keys": keys, "types": [kind], "sizes": [size],
-                "fields": [field], "seed_pipeline": 64}
-    if product == "lavik":
-        expected["fill_workers"] = 8
-        expected["seed_command_bytes"] = 16384
+                "fields": [field], "seed_pipeline": fill["pipeline"]}
+    if product == "lavik" or fill["peer_tag"]:
+        expected["fill_workers"] = fill["workers"]
+        expected["seed_command_bytes"] = fill["batch_bytes"]
     for name, value in expected.items():
         if options.get(name) != value:
             raise RuntimeError(f"{folder}: unexpected {name}")
@@ -81,22 +81,43 @@ def main():
     parser.add_argument("--lavik-tag", required=True, help="Completed Lavik run tag")
     parser.add_argument("--lavik-commit", required=True)
     parser.add_argument("--lavik-sha256", required=True)
+    parser.add_argument("--peer-tag", help="Common fresh run tag for Redis, Valkey and Kvrocks")
+    parser.add_argument("--fill-workers", type=int, default=8)
+    parser.add_argument("--pipeline", type=int, default=64)
+    parser.add_argument("--batch-bytes", type=int, default=16384)
     parser.add_argument("--lavik-label", default="Lavik main")
+    parser.add_argument("--pr-tag", help="Completed fresh PR fill; never a reused seed")
+    parser.add_argument("--pr-commit")
+    parser.add_argument("--pr-sha256")
+    parser.add_argument("--pr-label", default="Lavik PR #222")
     args = parser.parse_args()
+    if any((args.pr_tag, args.pr_commit, args.pr_sha256)) and not all(
+            (args.pr_tag, args.pr_commit, args.pr_sha256)):
+        parser.error("--pr-tag, --pr-commit and --pr-sha256 are required together")
     lavik_run = {
         "tag": args.lavik_tag,
         "commit": args.lavik_commit, "sha256": args.lavik_sha256,
     }
-    rows = [read_run(args.kind, product, lavik_run, args.size, args.field)
+    fill = {"peer_tag": args.peer_tag, "workers": args.fill_workers,
+            "pipeline": args.pipeline, "batch_bytes": args.batch_bytes}
+    rows = [read_run(args.kind, product, lavik_run, args.size, args.field, fill)
             for product, _, _ in PRODUCTS]
 
+    products = list(PRODUCTS)
+    if args.pr_tag:
+        pr = read_run(args.kind, "lavik", {
+            "tag": args.pr_tag, "commit": args.pr_commit,
+            "sha256": args.pr_sha256}, args.size, args.field, fill)
+        pr["product"] = "lavik-pr"
+        rows.append(pr)
+        products.append(("lavik-pr", args.pr_label, "#7b4d9f"))
     keys = 50000 if args.size == 1048576 else 500
     size_mib = args.size // 1048576
     fig, ax = plt.subplots(figsize=(9.2, 4.8))
     labels = [f"{args.lavik_label if product == 'lavik' else label} · {row['method']}"
-              for row, (product, label, _) in zip(rows, PRODUCTS)]
+              for row, (product, label, _) in zip(rows, products)]
     seconds = [row["seconds"] for row in rows]
-    colors = [color for _, _, color in PRODUCTS]
+    colors = [color for _, _, color in products]
     bars = ax.barh(labels, seconds, color=colors, height=0.58)
     ax.invert_yaxis()
     ax.set_xlim(0, max(seconds) * 1.24)
@@ -109,7 +130,7 @@ def main():
                 bar.get_y() + bar.get_height() / 2,
                 f"{value:,.1f} s", va="center", fontsize=10)
     fig.text(0.5, 0.01,
-             f"All {keys:,} keys validated · same write batches · persistence settings differ",
+             f"{args.fill_workers} clients · {min(1024, max(16, args.batch_bytes // args.field))} entries/command · pipeline {args.pipeline} · persistence settings differ",
              ha="center", fontsize=9, color="#555555")
     fig.tight_layout(rect=(0, 0.05, 1, 1))
     destination = ROOT / "charts" / f"{args.kind}-{args.size}-{args.field}-k{keys}-fill.png"

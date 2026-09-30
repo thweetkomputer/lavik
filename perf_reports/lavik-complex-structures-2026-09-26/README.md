@@ -7,6 +7,8 @@ remote memtier client. Each chart fixes the collection type, logical payload per
 key, and payload bytes per entry. The horizontal axis is simultaneous
 connections; the vertical axis is completed commands per second.
 
+**PR #222 refresh:** rebased onto main `31a1e130`, adding per-leaf edits for SADD/SREM/HSET to reduce temporary strings and repeated hashing. Updated plots identify their measured revisions below; plots awaiting retesting retain their previous measured revisions.
+
 ## 2026-09-29 Hash and Set retest
 
 Hash and Set use 50,000 keys at 1 MiB per key and 500 keys at 100 MiB per
@@ -17,7 +19,7 @@ plots awaiting a refresh use `main` after merged
 `d1ce200e174adcb07820b5431c77b024350e85b6`. Its SPDK server binary
 has SHA256 `bd3f942e3b7b0f46c23c716197c8cc4ec8ad963e92cede0d9fa2574ff52a74a9`.
 **2026-09-30: refreshed 100 MiB/128 B plots compare main with unmerged PR #222.**
-Measured main: `ebe28dd5a60b083c13826580c93623c6c5686b2d` (including #219 and #223).
+Measured main for the 100 MiB/128 B plots: `ebe28dd5a60b083c13826580c93623c6c5686b2d` (including #219 and #223).
 PR: `817473b731a1d314080bff3fd2c5fc68d1246099`, pinning merged Bycorf `629dcb9ca737a073735ae4fc62b945a951d7ae69`.
 Main and PR binary SHA256 respectively: `e615cacfa119e36f9f2f566e5848ad01ea3909ccb5f77a9237a75ba08a888ec3` and
 `bb61cba8c4771bc2c50266a948f02379e2e40680b572a1310b06d9aa804446ea`.
@@ -122,9 +124,7 @@ All four use HSET, 128 entries per command, eight clients and pipeline 64. Main 
 
 #### 100 MiB
 
-#219 is merged. Its intermediate import comparison plots have been removed;
-merged-main import measurements are pending. [Historical raw measurements](hash-104857600-128-k500-fill.csv)
-remain available for inspection and do not represent current main.
+Hash RESTORE was not retimed in this round. Batched HSET import results are recorded separately above.
 
 ## Set
 
@@ -136,10 +136,10 @@ Each point-read/write chart contains both commands. The 1 MiB and 100 MiB runs u
 
 ![Set 1 MiB per key, 128 B entries: SISMEMBER and SADD/SREM QPS by connection count](charts/set-1048576-128-ab.png)
 
-**2026-09-30: main `ebe28dd5` vs PR #222 `817473b7`.** 50,000 keys, 128 B entries; both 12-point grids completed without errors. SADD + SREM reached **0.72–3.66×** main at matching connection counts.
-[main raw](raw/lavik-mainebe-set-1m-k50000-f128-sadd-20260930/), [PR raw](raw/lavik-pr222817-set-1m-k50000-f128-sadd-20260930/).
+**2026-09-30 leaf-write retest: main `31a1e130` vs PR #222 `d1f6ac34`.** 50,000 keys, 128 B entries, 12 points per version and zero errors. SADD + SREM reached **1.06–4.82×** main at matching connection counts. This seed uses 64 clients, 128 KiB batches and pipeline 8; both versions reuse the same dataset and validate every key. These plots replace the older PR measurements.
+[main raw](raw/lavik-main31-set-1m-k50000-f128-leaf-c64-20260930/), [PR raw](raw/lavik-pr222d1f6ac34-set-1m-k50000-f128-leaf-c64-20260930/).
 
-At 5,120 connections, PR write throughput was **14,103 QPS**, below main **19,488 QPS**; the other four connection levels improved. This is a single eight-second measurement; the drop has not been repeated and remains plotted unchanged.
+High-concurrency degradation remains: PR falls from **147,933 QPS** at 80 connections to **16,112 QPS** at 5,120 (main: **15,153**), still well below Kvrocks. This change does not resolve that drop; separate diagnostic sampling is in progress.
 
 ![Set 1 MiB per key, 1 KiB entries: SISMEMBER and SADD/SREM QPS by connection count](charts/set-1048576-1024-ab.png)
 
