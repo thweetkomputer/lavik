@@ -63,6 +63,13 @@ Historical measurement; current-main retest pending: `d1ce200e`, 500 keys, 1024 
 
 ![Hash 1 MiB per key, 128 B entries: HGETALL QPS by connection count](charts/hash-1048576-128-ab-full.png)
 
+**80-connection long-run check:** three consecutive unprofiled 30-second repetitions per version: main **1,830, 1,815, 1,797 QPS**, PR **1,861, 1,857, 1,842 QPS**; mean ratio **1.022×**. Both recover the same dataset; all 50,000 key cardinalities are unchanged and runs have zero errors. The chart retains its original eight-second points. Versions run sequentially; three repetitions do not provide confidence intervals. [Results](hash-1048576-128-full-read-repeats.json), [main raw](raw/lavik-fullcheck-maina6d-hash-1m-k50000-f128-20260930/), [PR raw](raw/lavik-fullcheck-worktrim8079-hash-1m-k50000-f128-20260930/), [script](repeat_grouped_full_reads.py).
+
+**Return-to-main check:** retaining the same dataset after PR, main produces **1,842, 1,838, 1,842 QPS** over three more repetitions; PR / return-main mean ratio is **1.007×**, with every key validated and zero errors. These checks do not establish a stable HGETALL regression. [Raw](raw/lavik-fullcheck-returnmaina6d-hash-1m-k50000-f128-20260930/).
+
+Separate HGETALL diagnostics, excluded from the three clean repetitions, put memory-move self samples at **16.63% / 15.89%** for main / PR, and Hash-entry vector append at **9.68% / 9.18%**. Both versions have these hotspots. `LoadGroupedHashValue` appends entries without reserving the known total, a candidate for a further experiment; not all append samples are avoidable growth cost. [main profile](raw/lavik-fullcheck-maina6d-hash-1m-k50000-f128-20260930/diagnostic-full/self.txt), [PR profile](raw/lavik-fullcheck-worktrim8079-hash-1m-k50000-f128-20260930/diagnostic-full/self.txt). Add `--profile-full-read` to reproduce the separate profile after the three clean repetitions.
+
+
 ![Hash 1 MiB per key, 1 KiB entries: HGETALL QPS by connection count](charts/hash-1048576-1024-ab-full.png)
 
 #### 100 MiB per key
