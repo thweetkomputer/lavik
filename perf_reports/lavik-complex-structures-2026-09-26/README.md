@@ -11,7 +11,7 @@ connections; the vertical axis is completed commands per second.
 
 [PR #222](https://github.com/eloqdata/lavik/pull/222) is merged; current main is `a6e93d3d`. Merged PR curves have been removed. The new [PR #228](https://github.com/eloqdata/lavik/pull/228) is overlaid only where its A/B measurement is complete.
 
-**Fresh main measurements: Hash/1 MiB/128 B, Set/1 MiB/128 B, Set/1 MiB/1024 B.** Other 1 MiB conditions temporarily reuse measured merged implementation `faef28d9`, not new `a6e93d3d` runs. Any 500 × 100 MiB conditions still awaiting a fresh run remain explicitly labeled historical. Exact versions, binary hashes and unmerged PR sources are in the [plot manifest](published-main.json). Stream, List and Sorted Set results and charts remain available.
+**Fresh main measurements: Hash/1 MiB/128 B, Hash/1 MiB/1024 B, Set/1 MiB/128 B, Set/1 MiB/1024 B.** Any 500 × 100 MiB conditions still awaiting a fresh run remain explicitly labeled historical. Exact versions, binary hashes and unmerged PR sources are in the [plot manifest](published-main.json). Stream, List and Sorted Set results and charts remain available.
 
 PR #228 currently contains `80792c41`. Some plots retain an earlier measured PR revision, identified below each plot, while retesting proceeds.
 
@@ -36,7 +36,8 @@ Both versions were measured after restart/recovery. Separate 30-second perf diag
 
 ![Hash 1 MiB per key, 1 KiB entries: HGET and HSET QPS by connection count](charts/hash-1048576-1024-ab.png)
 
-Measured merged implementation: `faef28d9`, 50,000 keys, 1024 B entries. [Raw data](raw/lavik-pr222faef28d9-hash-1m-k50000-f1024-leaf-c64-20260930/).
+**Fresh main `a6e93d3d` vs [PR #228](https://github.com/eloqdata/lavik/pull/228) `80792c41`.** 50,000 × 1 MiB keys, 1024 B entries; 12 points per version, zero errors, every key validated before/after. HSET is **1.02–1.19×** main at matching connections. Curves use unprofiled eight-second runs; single-run differences are not established gains. Where sampled, perf diagnostics are retained separately.
+[main raw](raw/lavik-maina6d-hash-1m-k50000-f1024-20260930/), [PR raw](raw/lavik-worktrim8079-hash-1m-k50000-f1024-20260930/).
 
 #### 100 MiB per key
 

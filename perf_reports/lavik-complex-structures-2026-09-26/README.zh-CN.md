@@ -10,7 +10,7 @@ Redis 兼容数据结构。每张图固定数据结构、每个 key 的逻辑数
 
 [PR #222](https://github.com/eloqdata/lavik/pull/222) 已合并，当前 main 为 `a6e93d3d`。图中已移除已合并 PR 的独立曲线；本轮新优化 [PR #228](https://github.com/eloqdata/lavik/pull/228) 只在完成 A/B 的条件下叠加显示。
 
-**最新 main 已复测：Hash/1 MiB/128 B, Set/1 MiB/128 B, Set/1 MiB/1024 B。** 其余 1 MiB 条件暂沿用已合并实现 `faef28d9` 的实测数据，不是 `a6e93d3d` 的新运行。尚未复测的 100 MiB/key × 500 key 条件仍明确标为历史测量。精确版本、二进制摘要和未合并 PR 来源见 [绘图来源](published-main.json)。Stream、List、Sorted Set 的结果和图继续保留。
+**最新 main 已复测：Hash/1 MiB/128 B, Hash/1 MiB/1024 B, Set/1 MiB/128 B, Set/1 MiB/1024 B。** 尚未复测的 100 MiB/key × 500 key 条件仍明确标为历史测量。精确版本、二进制摘要和未合并 PR 来源见 [绘图来源](published-main.json)。Stream、List、Sorted Set 的结果和图继续保留。
 
 PR #228 当前代码为 `80792c41`。部分图暂保留 PR 的上一测量版本，各图注明实际提交，正在逐组替换。
 
@@ -47,7 +47,8 @@ cache；Lavik 在六块 NVMe 上用 SPDK 提交。这些配置影响绝对写入
 
 ![Hash 1 MiB、1 KiB：HGET 与 HSET QPS 随连接数变化](charts/hash-1048576-1024-ab.png)
 
-已合并实现的实测结果：`faef28d9`，50,000 key，1024 B 元素。[原始数据](raw/lavik-pr222faef28d9-hash-1m-k50000-f1024-leaf-c64-20260930/)。
+**最新 main `a6e93d3d` 与 [PR #228](https://github.com/eloqdata/lavik/pull/228) `80792c41` 实测。** 50,000 × 1 MiB key，1024 B 元素，各 12 个测点、零错误，测量前后逐 key 校验。HSET 同连接数下为 main 的 **1.02–1.19 倍**。曲线使用无采样的八秒测点；单次差异不能视为稳定收益，perf 诊断在有采样的条件下单独保存。
+[main raw](raw/lavik-maina6d-hash-1m-k50000-f1024-20260930/), [PR raw](raw/lavik-worktrim8079-hash-1m-k50000-f1024-20260930/).
 
 #### 100 MiB
 
