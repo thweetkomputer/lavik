@@ -32,7 +32,7 @@ multi-field SADD/HSET indexes. The merged Bycorf optimization avoids ineffective
 on VWC=0 controllers; data-before-commit ordering is preserved.
 These single-field/member commands do not exercise the multi-field index optimization.
 Each point is one eight-second run. Kvrocks write throughput has not yet been reached.
-The 1 MiB PR #222 comparisons are updated individually, with versions and raw data below each plot. The 100 MiB/1 KiB plots do not yet include PR #222.
+All four 1 MiB PR #222 comparisons are complete, with versions and raw data below each plot. The 100 MiB/1 KiB plots do not yet include PR #222.
 
 No data-page cache was added. Earlier main, PR #212, and 256-key raw runs remain in `raw/` but are
 not plotted in this retest.
@@ -74,6 +74,8 @@ Each point-read/write chart contains both commands. The 1 MiB and 100 MiB runs u
 
 **2026-09-30: main `ebe28dd5` vs PR #222 `817473b7`.** 50,000 keys, 1024 B entries; both 12-point grids completed without errors. HSET reached **0.57–3.89×** main at matching connection counts.
 [main raw](raw/lavik-mainebe-hash-1m-k50000-f1024-hset-20260930/), [PR raw](raw/lavik-pr222817-hash-1m-k50000-f1024-hset-20260930/).
+
+At 5,120 connections HSET regressed: PR **14,027 QPS**, main **24,766 QPS**. The other four connection levels improved. The drop has not been repeated and remains plotted unchanged.
 
 #### 100 MiB per key
 
