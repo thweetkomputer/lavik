@@ -130,10 +130,10 @@ cache；Lavik 在六块 NVMe 上用 SPDK 提交。这些配置影响绝对写入
 
 ![Set 1 MiB、128 B：SISMEMBER 与 SADD/SREM QPS 随连接数变化](charts/set-1048576-128-ab.png)
 
-**2026-09-30 分组写入优化复测：main `31a1e130` 与 PR #222 `d1f6ac34`。** 50,000 key，128 B 元素，双方各 12 个测点、零错误。SADD + SREM 同连接数下 PR 为 main 的 **1.06–4.82 倍**。本次 seed 用 64 个连接、128 KiB 批次、pipeline 8；main 与 PR 复用同一份数据，仍逐 key 校验。图已覆盖旧 PR 结果。
-[main raw](raw/lavik-main31-set-1m-k50000-f128-leaf-c64-20260930/), [PR raw](raw/lavik-pr222d1f6ac34-set-1m-k50000-f128-leaf-c64-20260930/).
+**2026-09-30 分组写入优化复测：main `31a1e130` 与 PR #222 `faef28d9`。** 50,000 key，128 B 元素，双方各 12 个测点、零错误。SADD + SREM 同连接数下 PR 为 main 的 **3.53–9.78 倍**。本次 seed 用 64 个连接、128 KiB 批次、pipeline 8；main 与 PR 复用同一份数据，仍逐 key 校验。图已覆盖旧 PR 结果。
+[main raw](raw/lavik-main31-set-1m-k50000-f128-leaf-c64-20260930/), [PR raw](raw/lavik-pr222faef28d9-set-1m-k50000-f128-leaf-c64-20260930/).
 
-高连接数问题仍存在：PR 从 80 连接的 **147,933 QPS** 降到 5,120 连接的 **16,112 QPS**（main 为 **15,153**），仍明显低于 Kvrocks。这轮没有解决高并发下降，正在单独采样定位。
+本轮还优化了事务租约检查：5,120 连接从上一版的 **16,112 QPS / p99 4,391 ms** 升至 **148,157 QPS / p99 154 ms**。当前 PR 峰值 **188,135 QPS**，仍低于 Kvrocks 的 **344,333–441,167 QPS**。之前的热点是反压路径反复扫描旧事务租约，采样占 CPU 的 **51.47%**；新实现复用块内租约判断，并优先检查上次仍有写入者的块。 [Profile evidence](raw/lavik-diagnostic-pr222d1-set-1m-k50000-f128-c5120-20260930/profile-provenance.json), [hot functions](raw/lavik-diagnostic-pr222d1-set-1m-k50000-f128-c5120-20260930/profile-summary.txt).
 
 ![Set 1 MiB、1 KiB：SISMEMBER 与 SADD/SREM QPS 随连接数变化](charts/set-1048576-1024-ab.png)
 

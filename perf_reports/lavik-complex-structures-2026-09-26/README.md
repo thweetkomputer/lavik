@@ -136,10 +136,10 @@ Each point-read/write chart contains both commands. The 1 MiB and 100 MiB runs u
 
 ![Set 1 MiB per key, 128 B entries: SISMEMBER and SADD/SREM QPS by connection count](charts/set-1048576-128-ab.png)
 
-**2026-09-30 leaf-write retest: main `31a1e130` vs PR #222 `d1f6ac34`.** 50,000 keys, 128 B entries, 12 points per version and zero errors. SADD + SREM reached **1.06–4.82×** main at matching connection counts. This seed uses 64 clients, 128 KiB batches and pipeline 8; both versions reuse the same dataset and validate every key. These plots replace the older PR measurements.
-[main raw](raw/lavik-main31-set-1m-k50000-f128-leaf-c64-20260930/), [PR raw](raw/lavik-pr222d1f6ac34-set-1m-k50000-f128-leaf-c64-20260930/).
+**2026-09-30 leaf-write retest: main `31a1e130` vs PR #222 `faef28d9`.** 50,000 keys, 128 B entries, 12 points per version and zero errors. SADD + SREM reached **3.53–9.78×** main at matching connection counts. This seed uses 64 clients, 128 KiB batches and pipeline 8; both versions reuse the same dataset and validate every key. These plots replace the older PR measurements.
+[main raw](raw/lavik-main31-set-1m-k50000-f128-leaf-c64-20260930/), [PR raw](raw/lavik-pr222faef28d9-set-1m-k50000-f128-leaf-c64-20260930/).
 
-High-concurrency degradation remains: PR falls from **147,933 QPS** at 80 connections to **16,112 QPS** at 5,120 (main: **15,153**), still well below Kvrocks. This change does not resolve that drop; separate diagnostic sampling is in progress.
+The transaction-lease probe optimization raises the 5,120-connection point from the previous version’s **16,112 QPS / p99 4,391 ms** to **148,157 QPS / p99 154 ms**. Current PR peak: **188,135 QPS**, still below Kvrocks (**344,333–441,167 QPS** across the five levels). Repeated scans of historical transaction leases accounted for **51.47%** of sampled CPU in the earlier admission path. The new implementation reuses block-local lease proofs and first revisits the last block with a live writer. [Profile evidence](raw/lavik-diagnostic-pr222d1-set-1m-k50000-f128-c5120-20260930/profile-provenance.json), [hot functions](raw/lavik-diagnostic-pr222d1-set-1m-k50000-f128-c5120-20260930/profile-summary.txt).
 
 ![Set 1 MiB per key, 1 KiB entries: SISMEMBER and SADD/SREM QPS by connection count](charts/set-1048576-1024-ab.png)
 
