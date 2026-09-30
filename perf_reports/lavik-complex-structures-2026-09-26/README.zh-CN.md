@@ -6,38 +6,20 @@
 Redis 兼容数据结构。每张图固定数据结构、每个 key 的逻辑数据量和
 每个元素的字节数。横轴为连接数，纵轴为每秒完成的命令数。
 
-**正在更新 PR #222：** 已 rebase 到 main `31a1e130`，新增 SADD/SREM/HSET 分组内修改，减少临时字符串和重复哈希。新一轮结果在每张图下标明版本；尚未复测的图保留原测量版本，不能当作新代码结果。
+## 2026-09-30 Hash 与 Set 更新
 
-## 2026-09-29 Hash 与 Set 复测
+本轮已刷新 **1 MiB/key × 50,000 key** 的 Hash、Set 两章，分别测试 128 B 和 1 KiB 元素。
+实测 main 为 `31a1e130`，未合并 [PR #222](https://github.com/eloqdata/lavik/pull/222) 为 `faef28d9`。
+四组 main/PR 对比各完成 12 个测点，共 96 个测点，零错误，测量前后均逐 key 校验。
+本轮 1 MiB 图保留 main、最新实测 PR，以及已有 Redis、Valkey、Kvrocks 基线；同一张图不拼接不同版本的 Lavik 测点。
+具体 QPS、倍数和原始记录在对应命令的图下。批量导入与点写分别记录，连接和批次参数不同的导入结果不混比。
 
-Hash 和 Set 的 1 MiB 档使用 50,000 个 key，100 MiB 档使用 500 个 key；
-每个元素为 128 B 或 1 KiB。每张图比较 Redis、Valkey、Kvrocks 与
-Lavik 的同条件结果。新测图下方注明 main/PR 版本；尚未补测的图沿用已合并
-[PR #212](https://github.com/eloqdata/lavik/pull/212) 的 `main`
-`d1ce200e174adcb07820b5431c77b024350e85b6`，SPDK 服务端二进制
-SHA256 为 `bd3f942e3b7b0f46c23c716197c8cc4ec8ad963e92cede0d9fa2574ff52a74a9`。
-**2026-09-30 更新：100 MiB/128 B 的新图比较 main 与未合并的 PR #222。**
-100 MiB/128 B 这一轮实测 main：`ebe28dd5a60b083c13826580c93623c6c5686b2d`（已包含 #219、#223）；
-PR：`817473b731a1d314080bff3fd2c5fc68d1246099`，Bycorf 指向已合并的 `629dcb9ca737a073735ae4fc62b945a951d7ae69`。
-main 与 PR 二进制 SHA256 分别为 `e615cacfa119e36f9f2f566e5848ad01ea3909ccb5f77a9237a75ba08a888ec3`、
-`bb61cba8c4771bc2c50266a948f02379e2e40680b572a1310b06d9aa804446ea`。
-每个结构双方复用同一份经过逐 key 校验的 500-key 数据，各完成 13 个测点、零错误。
+本轮优化减少分组内修改时的临时字符串、重复哈希和事务租约扫描。
+PR 还包含紧凑物理索引、提交完成通知、多参数 SADD/HSET 位置索引，以及已合并 Bycorf 的 VWC=0 FLUSH 优化。
+没有增加数据页缓存，数据先于 Commit 落盘的规则保持不变。整体写入仍未达到 Kvrocks；少数测点超过它，不代表整条曲线已超过。
 
-- HSET：main **3.25–4.85 万 QPS**；PR **7.98–10.10 万 QPS**。同连接数下为 main 的 **2.08–2.46 倍**。[Hash main 原始数据](raw/lavik-mainebe-hash-100m-k500-f128-20260930/)、[PR 原始数据](raw/lavik-pr222817-hash-100m-k500-f128-20260930/)。
-- SADD + SREM：main **6.23–9.13 万 QPS**；PR **14.15–16.81 万 QPS**。同连接数下为 main 的 **1.84–2.27 倍**。[Set main 原始数据](raw/lavik-mainebe-set-100m-k500-f128-20260930/)、[PR 原始数据](raw/lavik-pr222817-set-100m-k500-f128-20260930/)。
-
-[PR #222](https://github.com/eloqdata/lavik/pull/222) 包含紧凑物理索引、提交完成通知、
-已结束事务的反压检查复用，以及多参数 SADD/HSET 的字段位置索引。
-已合并的 Bycorf 优化省去 VWC=0 控制器的无效 FLUSH；数据先于 Commit 落盘的规则保持不变。
-本轮是单字段/成员命令，不使用多参数字段位置索引，不能把图中的收益归给该项。
-每点八秒、只测一次，尚未达到 Kvrocks 写入水平。1 MiB 的四组 PR #222 对比均已补齐，版本与原始记录见各图下方。100 MiB/1 KiB 尚未加入 PR #222。
-
-没有增加数据页缓存。早期 main、PR #212 和 256-key 的运行记录仍保留在
-`raw/`，不作为本轮曲线。
-
-Hash/Set 的四组 1 MiB 图已全部覆盖为 50,000-key 结果。Hash 和 Set 的
-100 MiB 两种元素大小的图也已覆盖为 500-key 结果。
-每张新图的标题明确标出 key 数。
+**100 MiB/key × 500 key 的图尚未刷新到本次实现。** 图旁明确注明旧测量版本；128 B 元素保留前一轮 main/PR 对比，1 KiB 元素仍只有旧 main。
+Stream、List、Sorted Set 的结果继续保留。更早的 PR 和少 key 运行记录保存在 `raw/`，不作为新曲线。
 
 点查和写入测 80/320/1280/2560/5120 连接，完整读取测 1 MiB 档的
 16/80、100 MiB 档的 1/4/16 连接；每点八秒。Redis、Valkey 不持久化，
@@ -75,6 +57,8 @@ cache；Lavik 在六块 NVMe 上用 SPDK 提交。这些配置影响绝对写入
 
 ![Hash 100 MiB、128 B：HGET 与 HSET QPS 随连接数变化](charts/hash-104857600-128-ab.png)
 
+前一轮测量：main `ebe28dd5`、PR #222 `817473b7`，500 key；两版各 13 个测点、零错误。这张图尚未复测 `faef28d9`。 [main raw](raw/lavik-mainebe-hash-100m-k500-f128-20260930/), [PR raw](raw/lavik-pr222817-hash-100m-k500-f128-20260930/).
+
 这一轮 HGET 在 1280/2560/5120 连接下，PR 比 main 分别低约 26%、19%、10%；
 不能把 HSET 的提升理解为所有命令都变快。交换顺序的 1280 连接、20 秒复测中，HGET 为 main **395,420**、PR **402,036 QPS**，
 之前的下降没有复现；HSET 为 main **31,409**、PR **80,592 QPS**。读性能存在明显运行间波动，
@@ -83,6 +67,8 @@ cache；Lavik 在六块 NVMe 上用 SPDK 提交。这些配置影响绝对写入
 [PR 复测原始数据](raw/lavik-repeat817-hash-100m-k500-f128-c1280-20260930/)。
 
 ![Hash 100 MiB、1 KiB：HGET 与 HSET QPS 随连接数变化](charts/hash-104857600-1024-ab.png)
+
+保留原测 main `d1ce200e`，尚无本次 PR 的完整曲线。 [Raw data](raw/lavik-maind1ce200e-hash-100m-k500-f1024-20260929/).
 
 ### HGETALL
 
@@ -137,14 +123,20 @@ cache；Lavik 在六块 NVMe 上用 SPDK 提交。这些配置影响绝对写入
 
 ![Set 1 MiB、1 KiB：SISMEMBER 与 SADD/SREM QPS 随连接数变化](charts/set-1048576-1024-ab.png)
 
-**2026-09-30 已补测：main `ebe28dd5` 与 PR #222 `817473b7`。** 50,000 key，1024 B 元素；双方各 12 个测点、零错误。SADD + SREM 同连接数下 PR 为 main 的 **1.37–4.63 倍**。
-[main raw](raw/lavik-mainebe-set-1m-k50000-f1024-sadd-20260930/), [PR raw](raw/lavik-pr222817-set-1m-k50000-f1024-sadd-20260930/).
+**2026-09-30 分组写入优化复测：main `31a1e130` 与 PR #222 `faef28d9`。** 50,000 key，1024 B 元素，双方各 12 个测点、零错误。SADD + SREM 同连接数下 PR 为 main 的 **3.59–5.88 倍**。本次 seed 用 64 个连接、128 KiB 批次、pipeline 8；main 与 PR 复用同一份数据，仍逐 key 校验。图已覆盖旧 PR 结果。
+[main raw](raw/lavik-main31-set-1m-k50000-f1024-leaf-c64-20260930/), [PR raw](raw/lavik-pr222faef28d9-set-1m-k50000-f1024-leaf-c64-20260930/).
+
+这组 SADD/SREM 在 320、1,280、2,560 连接下超过现有 Kvrocks 基线；80 和 5,120 连接下仍低于它。PR 在 5,120 连接为 **150,285 QPS / p99 161 ms**。
 
 #### 100 MiB
 
 ![Set 100 MiB、128 B：SISMEMBER 与 SADD/SREM QPS 随连接数变化](charts/set-104857600-128-ab.png)
 
+前一轮测量：main `ebe28dd5`、PR #222 `817473b7`，500 key；两版各 13 个测点、零错误。这张图尚未复测 `faef28d9`。 [main raw](raw/lavik-mainebe-set-100m-k500-f128-20260930/), [PR raw](raw/lavik-pr222817-set-100m-k500-f128-20260930/).
+
 ![Set 100 MiB、1 KiB：SISMEMBER 与 SADD/SREM QPS 随连接数变化](charts/set-104857600-1024-ab.png)
+
+保留原测 main `d1ce200e`，尚无本次 PR 的完整曲线。 [Raw data](raw/lavik-maind1ce200e-set-100m-k500-f1024-20260929/).
 
 ### SMEMBERS
 

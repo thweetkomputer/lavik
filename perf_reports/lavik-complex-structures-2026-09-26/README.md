@@ -7,41 +7,20 @@ remote memtier client. Each chart fixes the collection type, logical payload per
 key, and payload bytes per entry. The horizontal axis is simultaneous
 connections; the vertical axis is completed commands per second.
 
-**PR #222 refresh:** rebased onto main `31a1e130`, adding per-leaf edits for SADD/SREM/HSET to reduce temporary strings and repeated hashing. Updated plots identify their measured revisions below; plots awaiting retesting retain their previous measured revisions.
+## 2026-09-30 Hash and Set update
 
-## 2026-09-29 Hash and Set retest
+The **1 MiB/key × 50,000-key** Hash and Set sections are refreshed for both 128 B and 1 KiB entries.
+Measured main is `31a1e130`; unmerged [PR #222](https://github.com/eloqdata/lavik/pull/222) is `faef28d9`.
+The four main/PR pairs each contain 12 points per version: 96 points, zero errors, with every key validated before and after measurement.
+Each refreshed 1 MiB chart retains main, the newest measured PR, and the existing Redis, Valkey and Kvrocks baselines. A Lavik curve never combines points from different versions.
+QPS, speedups and raw records appear below the relevant command plots. Bulk import is recorded separately from point writes; import timings with different client and batch parameters are not mixed.
 
-Hash and Set use 50,000 keys at 1 MiB per key and 500 keys at 100 MiB per
-key, with 128 B or 1 KiB entries. Every chart compares Redis, Valkey,
-Kvrocks, and Lavik under the same workload. Updated plots state their main/PR versions below;
-plots awaiting a refresh use `main` after merged
-[PR #212](https://github.com/eloqdata/lavik/pull/212), at commit
-`d1ce200e174adcb07820b5431c77b024350e85b6`. Its SPDK server binary
-has SHA256 `bd3f942e3b7b0f46c23c716197c8cc4ec8ad963e92cede0d9fa2574ff52a74a9`.
-**2026-09-30: refreshed 100 MiB/128 B plots compare main with unmerged PR #222.**
-Measured main for the 100 MiB/128 B plots: `ebe28dd5a60b083c13826580c93623c6c5686b2d` (including #219 and #223).
-PR: `817473b731a1d314080bff3fd2c5fc68d1246099`, pinning merged Bycorf `629dcb9ca737a073735ae4fc62b945a951d7ae69`.
-Main and PR binary SHA256 respectively: `e615cacfa119e36f9f2f566e5848ad01ea3909ccb5f77a9237a75ba08a888ec3` and
-`bb61cba8c4771bc2c50266a948f02379e2e40680b572a1310b06d9aa804446ea`.
-Both versions reuse the same validated 500-key dataset for each type; all 13 points per version complete without errors.
+With per-leaf edits, this round reduces temporary strings, repeated hashing and transaction-lease scans during grouped writes.
+The PR also contains compact physical indexes, commit notifications, multi-field SADD/HSET positional indexes and the merged Bycorf VWC=0 FLUSH optimization.
+No data-page cache is added, and data-before-Commit durability ordering is preserved. Overall write throughput still trails Kvrocks; isolated points above it do not establish a lead across the curve.
 
-- HSET: main **32.5–48.5k QPS**; PR **79.8–101.0k QPS**, **2.08–2.46×** main at matching connection counts. [Raw Hash main data](raw/lavik-mainebe-hash-100m-k500-f128-20260930/), [PR data](raw/lavik-pr222817-hash-100m-k500-f128-20260930/).
-- SADD + SREM: main **62.3–91.3k QPS**; PR **141.5–168.1k QPS**, **1.84–2.27×** main at matching connection counts. [Raw Set main data](raw/lavik-mainebe-set-100m-k500-f128-20260930/), [PR data](raw/lavik-pr222817-set-100m-k500-f128-20260930/).
-
-[PR #222](https://github.com/eloqdata/lavik/pull/222) includes compact physical indexes,
-commit notifications, reuse of owner-verified settled transaction admission state, and positional
-multi-field SADD/HSET indexes. The merged Bycorf optimization avoids ineffective FLUSH commands
-on VWC=0 controllers; data-before-commit ordering is preserved.
-These single-field/member commands do not exercise the multi-field index optimization.
-Each point is one eight-second run. Kvrocks write throughput has not yet been reached.
-All four 1 MiB PR #222 comparisons are complete, with versions and raw data below each plot. The 100 MiB/1 KiB plots do not yet include PR #222.
-
-No data-page cache was added. Earlier main, PR #212, and 256-key raw runs remain in `raw/` but are
-not plotted in this retest.
-
-All four Hash/Set 1 MiB figures now use 50,000 keys. The Hash and Set
-100 MiB figures at both entry sizes now use 500 keys.
-Each new figure states its exact key count in the title.
+**The 100 MiB/key × 500-key plots have not been refreshed to this implementation.** Their measured versions are stated beside the plots: 128 B entries retain the previous main/PR pair, and 1 KiB entries still have only the older main baseline.
+Stream, List and Sorted Set results are retained. Earlier PR and smaller-key-count runs remain in `raw/` and do not form new curves.
 
 Point reads and writes use 80/320/1280/2560/5120 connections. Full reads use
 16/80 for 1 MiB and 1/4/16 for 100 MiB. Each point runs for eight seconds.
@@ -81,6 +60,8 @@ Each point-read/write chart contains both commands. The 1 MiB and 100 MiB runs u
 
 ![Hash 100 MiB per key, 128 B entries: HGET and HSET QPS by connection count](charts/hash-104857600-128-ab.png)
 
+Previous measurement: main `ebe28dd5`, PR #222 `817473b7`, 500 keys; 13 points per version with zero errors. This plot has not been retested with `faef28d9`. [main raw](raw/lavik-mainebe-hash-100m-k500-f128-20260930/), [PR raw](raw/lavik-pr222817-hash-100m-k500-f128-20260930/).
+
 In this run, PR HGET was about 26%, 19%, and 10% below main at 1280, 2560, and 5120 connections.
 The HSET gain is not an across-command improvement. In the reversed-order 20-second repeat at 1280 connections, HGET reached main **395,420** and PR **402,036 QPS**;
 the drop did not reproduce. HSET reached main **31,409** and PR **80,592 QPS**. Read performance shows
@@ -89,6 +70,8 @@ substantial run-to-run variation. The original eight-second grid remains plotted
 [PR repeat](raw/lavik-repeat817-hash-100m-k500-f128-c1280-20260930/).
 
 ![Hash 100 MiB per key, 1 KiB entries: HGET and HSET QPS by connection count](charts/hash-104857600-1024-ab.png)
+
+Retains measured main `d1ce200e`; no complete current-PR curve is available for this workload. [Raw data](raw/lavik-maind1ce200e-hash-100m-k500-f1024-20260929/).
 
 ### HGETALL
 
@@ -143,14 +126,20 @@ A matching profile after the optimization attributes about **0.03%** CPU to leas
 
 ![Set 1 MiB per key, 1 KiB entries: SISMEMBER and SADD/SREM QPS by connection count](charts/set-1048576-1024-ab.png)
 
-**2026-09-30: main `ebe28dd5` vs PR #222 `817473b7`.** 50,000 keys, 1024 B entries; both 12-point grids completed without errors. SADD + SREM reached **1.37–4.63×** main at matching connection counts.
-[main raw](raw/lavik-mainebe-set-1m-k50000-f1024-sadd-20260930/), [PR raw](raw/lavik-pr222817-set-1m-k50000-f1024-sadd-20260930/).
+**2026-09-30 leaf-write retest: main `31a1e130` vs PR #222 `faef28d9`.** 50,000 keys, 1024 B entries, 12 points per version and zero errors. SADD + SREM reached **3.59–5.88×** main at matching connection counts. This seed uses 64 clients, 128 KiB batches and pipeline 8; both versions reuse the same dataset and validate every key. These plots replace the older PR measurements.
+[main raw](raw/lavik-main31-set-1m-k50000-f1024-leaf-c64-20260930/), [PR raw](raw/lavik-pr222faef28d9-set-1m-k50000-f1024-leaf-c64-20260930/).
+
+For this SADD/SREM workload the PR exceeds the existing Kvrocks baseline at 320, 1,280 and 2,560 connections, but remains below it at 80 and 5,120. At 5,120 connections the PR records **150,285 QPS / p99 161 ms**.
 
 #### 100 MiB per key
 
 ![Set 100 MiB per key, 128 B entries: SISMEMBER and SADD/SREM QPS by connection count](charts/set-104857600-128-ab.png)
 
+Previous measurement: main `ebe28dd5`, PR #222 `817473b7`, 500 keys; 13 points per version with zero errors. This plot has not been retested with `faef28d9`. [main raw](raw/lavik-mainebe-set-100m-k500-f128-20260930/), [PR raw](raw/lavik-pr222817-set-100m-k500-f128-20260930/).
+
 ![Set 100 MiB per key, 1 KiB entries: SISMEMBER and SADD/SREM QPS by connection count](charts/set-104857600-1024-ab.png)
+
+Retains measured main `d1ce200e`; no complete current-PR curve is available for this workload. [Raw data](raw/lavik-maind1ce200e-set-100m-k500-f1024-20260929/).
 
 ### SMEMBERS
 
