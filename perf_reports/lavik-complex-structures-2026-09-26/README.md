@@ -74,10 +74,8 @@ Each point-read/write chart contains both commands. The 1 MiB and 100 MiB runs u
 
 ![Hash 1 MiB per key, 1 KiB entries: HGET and HSET QPS by connection count](charts/hash-1048576-1024-ab.png)
 
-**2026-09-30: main `ebe28dd5` vs PR #222 `817473b7`.** 50,000 keys, 1024 B entries; both 12-point grids completed without errors. HSET reached **0.57–3.89×** main at matching connection counts.
-[main raw](raw/lavik-mainebe-hash-1m-k50000-f1024-hset-20260930/), [PR raw](raw/lavik-pr222817-hash-1m-k50000-f1024-hset-20260930/).
-
-At 5,120 connections HSET regressed: PR **14,027 QPS**, main **24,766 QPS**. The other four connection levels improved. The drop has not been repeated and remains plotted unchanged.
+**2026-09-30 leaf-write retest: main `31a1e130` vs PR #222 `faef28d9`.** 50,000 keys, 1024 B entries, 12 points per version and zero errors. HSET reached **2.92–7.07×** main at matching connection counts. This seed uses 64 clients, 128 KiB batches and pipeline 8; both versions reuse the same dataset and validate every key. These plots replace the older PR measurements.
+[main raw](raw/lavik-main31-hash-1m-k50000-f1024-leaf-c64-20260930/), [PR raw](raw/lavik-pr222faef28d9-hash-1m-k50000-f1024-leaf-c64-20260930/).
 
 #### 100 MiB per key
 
