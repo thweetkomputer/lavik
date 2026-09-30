@@ -6,6 +6,8 @@
 Redis 兼容数据结构。每张图固定数据结构、每个 key 的逻辑数据量和
 每个元素的字节数。横轴为连接数，纵轴为每秒完成的命令数。
 
+**LSET 增加 key 的复测：** [main / PR #233 新曲线](#lset增加独立-key)，1 MiB/key × 50,000 key、100 MiB/key × 500 key，元素均为 1 KiB；[perf 诊断与复现](diagnostics/lset-20260930/README.md)。
+
 ## 2026-09-30 main 与 PR #228
 
 [PR #229](https://github.com/eloqdata/lavik/pull/229) 已合并，当前 main 为 `a8c926d4`；它修复导入时遗漏首次索引发布空间的 OOM。图中已移除已合并 PR 的独立曲线；本轮新优化 [PR #228](https://github.com/eloqdata/lavik/pull/228) 只在完成 A/B 的条件下叠加显示。
@@ -253,7 +255,7 @@ value、member 或元素为 128 B 或 1 KiB。Stream 的字段名和各结构元
 
 ## List
 
-这一章保留早期完整四产品对照：Lavik 使用 `646a7b4e` 版本，尚未在最新 main 上复测。图仅代表该版本，原始数据见 [results.csv](results.csv)。
+本章各图注明实际版本与 key 数量。100 MiB / 1 KiB 的小 key 数对照使用 main `a8c926d4` 与 PR #233；新增的大 key 数 LSET 对照独立列出。其余早期四产品曲线的 Lavik 为 `646a7b4e`，原始版本见 [results.csv](results.csv)。
 
 ### LINDEX / LSET
 
@@ -277,6 +279,16 @@ value、member 或元素为 128 B 或 1 KiB。Stream 的字段名和各结构元
 
 **2026-09-30 main `a8c926d4` 与 [PR #233](https://github.com/eloqdata/lavik/pull/233) `759832d8` 实测。** 8 × 100 MiB key、1 KiB 元素；每版 13 个无采样测点，覆盖 80–5120 连接的点查和写入及 1/4/16 连接的全量读取。其他数据库保留同负载原始结果。 两版均重新灌入相同初始逻辑数据。 所有测点零错误，逐 key 数量校验通过。 [Main raw](raw/lavik-maina8-ordered-list-100m-k8-f1024-20260930/) · [PR raw](raw/lavik-fresh759832d8-list-100m-k8-f1024-20260930/) · [Plot provenance](ordered-published.json). `759832d8` 释放分组 List 读取期间的 worker 状态锁后，LINDEX 提升为 main 的 3.67–6.10 倍；LRANGE 在 16 连接下提升至 2.39 倍。LSET 五档依次为 main 的 1.72、1.27、0.97、0.72、0.73 倍，高并发写入仍需优化，PR 保持草稿。此前复用数据的 LINDEX 大幅提升已撤回：同一旧版二进制在 LSET 前后也出现 58.7k / 433.2k 的采样 QPS，因此不能用它证明代码收益。 [Same-binary diagnostic](raw/lavik-diagnostic-list-layout-5b1c3064-20260930/).
 
+
+### LSET：增加独立 key
+
+1 MiB/key 使用 50,000 个 key，100 MiB/key 使用 500 个 key；本轮元素均为 1 KiB。每个版本独立灌入相同初始数据，32 个导入连接、128 KiB RPUSH 批次、导入 pipeline=4；正式 memtier 为单元素 LSET、pipeline=1、每点 10 秒，覆盖 80/320/1280/2560/5120 连接。全部连接数测完后再单独运行 CPU 采样，采样测点不混入曲线。早期四库图使用不同 key 数量，保留在各自负载下。
+
+#### 1 MiB/key × 50,000 keys
+
+![LSET 1 MiB, 50,000 keys: main / PR #233](charts/list-lset-1048576-1024-k50000-main-pr.png)
+
+Main 为 83.7–100.9k QPS，PR 为 115.2–142.0k QPS；同连接数比值为 1.32–1.41×。 全部 key 在测前、测后完成元素数量校验，所有测点零错误。 [Main raw](raw/lavik-lset-large-maina8-1048576-k50000-f1024-20260930/) · [PR raw](raw/lavik-lset-large-pr233-759832d8-1048576-k50000-f1024-20260930/) · [CSV](list-lset-1048576-1024-k50000-main-pr.csv).
 
 ### LRANGE 0 -1
 

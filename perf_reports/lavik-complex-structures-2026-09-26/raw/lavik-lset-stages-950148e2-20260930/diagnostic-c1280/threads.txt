@@ -1,0 +1,123 @@
+# To display the perf.data header info, please use --header/--header-only options.
+#
+#
+# Total Lost Samples: 0
+#
+# Samples: 19K of event 'task-clock'
+# Event count (approx.): 95834158875
+#
+# Overhead  Pid:Command  Command  Symbol  IPC  [IPC Coverage]
+# ........  .......................  ...............  .....................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................  ....................
+#
+  9.16%  333559:lavik-lset-stag  lavik-lset-stag  [.] bycorf::Worker::RunOnce(bool)  -  -
+  8.90%  333569:lavik-lset-stag  lavik-lset-stag  [.] bycorf::Worker::RunOnce(bool)  -  -
+  7.30%  333569:lavik-lset-stag  lavik-lset-stag  [.] bycorf::Worker::PollStorage() [clone .part.0]  -  -
+  6.83%  333559:lavik-lset-stag  lavik-lset-stag  [.] bycorf::Worker::PollStorage() [clone .part.0]  -  -
+  2.75%  333566:lavik-lset-stag  lavik-lset-stag  [.] bycorf::Worker::RunOnce(bool)  -  -
+  2.64%  333564:lavik-lset-stag  lavik-lset-stag  [.] bycorf::Worker::RunOnce(bool)  -  -
+  1.57%  333561:lavik-lset-stag  lavik-lset-stag  [.] bycorf::Worker::RunOnce(bool)  -  -
+  1.53%  333560:lavik-lset-stag  lavik-lset-stag  [.] bycorf::Worker::RunOnce(bool)  -  -
+  1.50%  333562:lavik-lset-stag  lavik-lset-stag  [.] bycorf::Worker::RunOnce(bool)  -  -
+  1.49%  333565:lavik-lset-stag  lavik-lset-stag  [.] bycorf::Worker::RunOnce(bool)  -  -
+  1.47%  333563:lavik-lset-stag  lavik-lset-stag  [.] bycorf::Worker::RunOnce(bool)  -  -
+  1.46%  333568:lavik-lset-stag  lavik-lset-stag  [.] bycorf::Worker::RunOnce(bool)  -  -
+  1.35%  333558:lavik-lset-stag  lavik-lset-stag  [.] bycorf::Worker::RunOnce(bool)  -  -
+  1.32%  333567:lavik-lset-stag  lavik-lset-stag  [.] bycorf::Worker::RunOnce(bool)  -  -
+  1.15%  333564:lavik-lset-stag  lavik-lset-stag  [.] bycorf::Worker::PollStorage() [clone .part.0]  -  -
+  1.12%  333566:lavik-lset-stag  lavik-lset-stag  [.] bycorf::Worker::PollStorage() [clone .part.0]  -  -
+  0.83%  333569:lavik-lset-stag  lavik-lset-stag  [.] nvme_pcie_qpair_process_completions  -  -
+  0.80%  333559:lavik-lset-stag  lavik-lset-stag  [.] nvme_pcie_qpair_process_completions  -  -
+  0.77%  333559:lavik-lset-stag  lavik-lset-stag  [.] spdk_nvme_qpair_process_completions  -  -
+  0.62%  333559:lavik-lset-stag  lavik-lset-stag  [.] bycorf::Worker::DrainCrossCore()  -  -
+  0.60%  333569:lavik-lset-stag  lavik-lset-stag  [.] spdk_nvme_qpair_process_completions  -  -
+  0.55%  333569:lavik-lset-stag  lavik-lset-stag  [.] bycorf::Worker::DrainCrossCore()  -  -
+  0.44%  333559:lavik-lset-stag  lavik-lset-stag  [.] bycorf::IoUringBackend::ReapCompletions()  -  -
+  0.39%  333569:lavik-lset-stag  lavik-lset-stag  [.] bycorf::IoUringBackend::ReapCompletions()  -  -
+  0.39%  333569:lavik-lset-stag  lavik-lset-stag  [k] do_syscall_64  -  -
+  0.36%  333559:lavik-lset-stag  lavik-lset-stag  [.] lavik::storage::OrderedGroupDirectory::Apply(lavik::storage::OrderedCollectionRoot const&, unsigned long, std::span<lavik::storage::RecoveredOrderedGroup const, 18446744073709551615ul>, unsigned long, std::span<lavik::storage::RecoveredHashGroup const, 18446744073709551615ul>) const  -  -
+  0.36%  333559:lavik-lset-stag  lavik-lset-stag  [k] do_syscall_64  -  -
+  0.34%  333564:lavik-lset-stag  lavik-lset-stag  [k] do_syscall_64  -  -
+  0.33%  333566:lavik-lset-stag  lavik-lset-stag  [k] do_syscall_64  -  -
+  0.29%  333559:lavik-lset-stag  lavik-lset-stag  [k] _raw_spin_unlock_irqrestore  -  -
+  0.28%  333566:lavik-lset-stag  lavik-lset-stag  [.] lavik::storage::OrderedGroupDirectory::Apply(lavik::storage::OrderedCollectionRoot const&, unsigned long, std::span<lavik::storage::RecoveredOrderedGroup const, 18446744073709551615ul>, unsigned long, std::span<lavik::storage::RecoveredHashGroup const, 18446744073709551615ul>) const  -  -
+  0.28%  333569:lavik-lset-stag  lavik-lset-stag  [k] _raw_spin_unlock_irqrestore  -  -
+  0.27%  333564:lavik-lset-stag  lavik-lset-stag  [.] __memmove_avx512_unaligned_erms  -  -
+  0.27%  333569:lavik-lset-stag  lavik-lset-stag  [.] lavik::storage::OrderedGroupDirectory::Apply(lavik::storage::OrderedCollectionRoot const&, unsigned long, std::span<lavik::storage::RecoveredOrderedGroup const, 18446744073709551615ul>, unsigned long, std::span<lavik::storage::RecoveredHashGroup const, 18446744073709551615ul>) const  -  -
+  0.27%  333559:lavik-lset-stag  lavik-lset-stag  [.] _mi_theap_malloc_zero  -  -
+  0.27%  333564:lavik-lset-stag  lavik-lset-stag  [.] lavik::storage::OrderedGroupDirectory::Apply(lavik::storage::OrderedCollectionRoot const&, unsigned long, std::span<lavik::storage::RecoveredOrderedGroup const, 18446744073709551615ul>, unsigned long, std::span<lavik::storage::RecoveredHashGroup const, 18446744073709551615ul>) const  -  -
+  0.25%  333566:lavik-lset-stag  lavik-lset-stag  [.] _mi_theap_malloc_zero  -  -
+  0.25%  333569:lavik-lset-stag  lavik-lset-stag  [k] handle_softirqs  -  -
+  0.24%  333566:lavik-lset-stag  lavik-lset-stag  [k] _raw_spin_unlock_irqrestore  -  -
+  0.24%  333569:lavik-lset-stag  lavik-lset-stag  [.] _mi_theap_malloc_zero  -  -
+  0.23%  333564:lavik-lset-stag  lavik-lset-stag  [.] lavik::storage::StorageEngine::Impl::WriteRecordLocked(lavik::storage::StorageEngine::Impl::WriteRecordLocked(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::RecordWriteRequest const&, std::shared_ptr<std::vector<lavik::storage::ExtentRef, std::allocator<lavik::storage::ExtentRef> > const>, std::unique_ptr<std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> >, std::default_delete<std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> > > >)::_ZN5lavik7storage13StorageEngine4Impl17WriteRecordLockedERNS2_11WorkerStoreERKNS2_18RecordWriteRequestESt10shared_ptrIKSt6vectorINS0_9ExtentRefESaISA_EEESt10unique_ptrIS9_INS0_13RetiredRecordESaISG_EESt14default_deleteISI_EE.Frame*) [clone .actor] [clone .lto_priv.0]  -  -
+  0.21%  333559:lavik-lset-stag  lavik-lset-stag  [k] handle_softirqs  -  -
+  0.21%  333559:lavik-lset-stag  lavik-lset-stag  [.] nvme_transport_qpair_process_completions  -  -
+  0.21%  333564:lavik-lset-stag  lavik-lset-stag  [k] _raw_spin_unlock_irqrestore  -  -
+  0.21%  333566:lavik-lset-stag  lavik-lset-stag  [.] bycorf::Worker::DrainCrossCore()  -  -
+  0.21%  333566:lavik-lset-stag  lavik-lset-stag  [.] io_uring_submit_and_get_events  -  -
+  0.20%  333559:lavik-lset-stag  lavik-lset-stag  [.] __memmove_avx512_unaligned_erms  -  -
+  0.20%  333564:lavik-lset-stag  lavik-lset-stag  [.] absl::lts_20250512::crc_internal::(anonymous namespace)::CRC32AcceleratedX86ARMCombinedMultipleStreams<3ul, 0ul, (absl::lts_20250512::crc_internal::(anonymous namespace)::CutoffStrategy)0>::Extend(unsigned int*, void const*, unsigned long) const  -  -
+  0.20%  333564:lavik-lset-stag  lavik-lset-stag  [.] nvme_pcie_qpair_process_completions  -  -
+  0.20%  333566:lavik-lset-stag  lavik-lset-stag  [.] lavik::storage::StorageEngine::Impl::WriteRecordLocked(lavik::storage::StorageEngine::Impl::WriteRecordLocked(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::RecordWriteRequest const&, std::shared_ptr<std::vector<lavik::storage::ExtentRef, std::allocator<lavik::storage::ExtentRef> > const>, std::unique_ptr<std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> >, std::default_delete<std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> > > >)::_ZN5lavik7storage13StorageEngine4Impl17WriteRecordLockedERNS2_11WorkerStoreERKNS2_18RecordWriteRequestESt10shared_ptrIKSt6vectorINS0_9ExtentRefESaISA_EEESt10unique_ptrIS9_INS0_13RetiredRecordESaISG_EESt14default_deleteISI_EE.Frame*) [clone .actor] [clone .lto_priv.0]  -  -
+  0.20%  333569:lavik-lset-stag  lavik-lset-stag  [.] __memmove_avx512_unaligned_erms  -  -
+  0.19%  333566:lavik-lset-stag  lavik-lset-stag  [.] __memmove_avx512_unaligned_erms  -  -
+  0.19%  333566:lavik-lset-stag  lavik-lset-stag  [.] absl::lts_20250512::crc_internal::(anonymous namespace)::CRC32AcceleratedX86ARMCombinedMultipleStreams<3ul, 0ul, (absl::lts_20250512::crc_internal::(anonymous namespace)::CutoffStrategy)0>::Extend(unsigned int*, void const*, unsigned long) const  -  -
+  0.19%  333566:lavik-lset-stag  lavik-lset-stag  [.] lavik::local_shared_detail::Allocation<lavik::storage::GroupedMetadataArray<lavik::storage::RecoveredOrderedGroup, 32ul>::Storage, lavik::storage::RetainedAllocator<lavik::storage::GroupedMetadataArray<lavik::storage::RecoveredOrderedGroup, 32ul>::Storage> >::Destroy(lavik::local_shared_detail::Control<lavik::storage::GroupedMetadataArray<lavik::storage::RecoveredOrderedGroup, 32ul>::Storage>*)  -  -
+  0.18%  333564:lavik-lset-stag  lavik-lset-stag  [.] bycorf::Worker::DrainCrossCore()  -  -
+  0.18%  333564:lavik-lset-stag  lavik-lset-stag  [k] handle_softirqs  -  -
+  0.17%  333568:lavik-lset-stag  lavik-lset-stag  [k] finish_task_switch.isra.0  -  -
+  0.17%  333569:lavik-lset-stag  lavik-lset-stag  [.] lavik::storage::StorageEngine::Impl::WriteRecordLocked(lavik::storage::StorageEngine::Impl::WriteRecordLocked(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::RecordWriteRequest const&, std::shared_ptr<std::vector<lavik::storage::ExtentRef, std::allocator<lavik::storage::ExtentRef> > const>, std::unique_ptr<std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> >, std::default_delete<std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> > > >)::_ZN5lavik7storage13StorageEngine4Impl17WriteRecordLockedERNS2_11WorkerStoreERKNS2_18RecordWriteRequestESt10shared_ptrIKSt6vectorINS0_9ExtentRefESaISA_EEESt10unique_ptrIS9_INS0_13RetiredRecordESaISG_EESt14default_deleteISI_EE.Frame*) [clone .actor] [clone .lto_priv.0]  -  -
+  0.17%  333567:lavik-lset-stag  lavik-lset-stag  [k] finish_task_switch.isra.0  -  -
+  0.16%  333559:lavik-lset-stag  lavik-lset-stag  [.] io_uring_submit_and_get_events  -  -
+  0.16%  333569:lavik-lset-stag  lavik-lset-stag  [.] _nvme_qpair_complete_abort_queued_reqs  -  -
+  0.16%  333558:lavik-lset-stag  lavik-lset-stag  [k] finish_task_switch.isra.0  -  -
+  0.16%  333564:lavik-lset-stag  lavik-lset-stag  [.] io_uring_submit_and_get_events  -  -
+  0.16%  333564:lavik-lset-stag  lavik-lset-stag  [.] lavik::local_shared_detail::Allocation<lavik::storage::GroupedMetadataArray<lavik::storage::RecoveredOrderedGroup, 32ul>::Storage, lavik::storage::RetainedAllocator<lavik::storage::GroupedMetadataArray<lavik::storage::RecoveredOrderedGroup, 32ul>::Storage> >::Destroy(lavik::local_shared_detail::Control<lavik::storage::GroupedMetadataArray<lavik::storage::RecoveredOrderedGroup, 32ul>::Storage>*)  -  -
+  0.16%  333569:lavik-lset-stag  lavik-lset-stag  [.] io_uring_submit_and_get_events  -  -
+  0.15%  333563:lavik-lset-stag  lavik-lset-stag  [k] finish_task_switch.isra.0  -  -
+  0.15%  333569:lavik-lset-stag  lavik-lset-stag  [.] absl::lts_20250512::crc_internal::(anonymous namespace)::CRC32AcceleratedX86ARMCombinedMultipleStreams<3ul, 0ul, (absl::lts_20250512::crc_internal::(anonymous namespace)::CutoffStrategy)0>::Extend(unsigned int*, void const*, unsigned long) const  -  -
+  0.15%  333559:lavik-lset-stag  lavik-lset-stag  [.] lavik::storage::(anonymous namespace)::UpdatePhysical(lavik::LocalSharedPtr<lavik::storage::(anonymous namespace)::GroupIndexNode const> const&, std::span<lavik::storage::HashGroupLocation const, 18446744073709551615ul>, std::shared_ptr<lavik::storage::ScanHashMapEntryArena> const&)  -  -
+  0.15%  333561:lavik-lset-stag  lavik-lset-stag  [k] finish_task_switch.isra.0  -  -
+  0.15%  333564:lavik-lset-stag  lavik-lset-stag  [.] _mi_theap_malloc_zero  -  -
+  0.15%  333566:lavik-lset-stag  lavik-lset-stag  [.] nvme_pcie_qpair_process_completions  -  -
+  0.14%  333559:lavik-lset-stag  lavik-lset-stag  [.] lavik::storage::StorageEngine::Impl::WriteRecordLocked(lavik::storage::StorageEngine::Impl::WriteRecordLocked(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::RecordWriteRequest const&, std::shared_ptr<std::vector<lavik::storage::ExtentRef, std::allocator<lavik::storage::ExtentRef> > const>, std::unique_ptr<std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> >, std::default_delete<std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> > > >)::_ZN5lavik7storage13StorageEngine4Impl17WriteRecordLockedERNS2_11WorkerStoreERKNS2_18RecordWriteRequestESt10shared_ptrIKSt6vectorINS0_9ExtentRefESaISA_EEESt10unique_ptrIS9_INS0_13RetiredRecordESaISG_EESt14default_deleteISI_EE.Frame*) [clone .actor] [clone .lto_priv.0]  -  -
+  0.14%  333566:lavik-lset-stag  lavik-lset-stag  [.] lavik::storage::(anonymous namespace)::UpdatePhysical(lavik::LocalSharedPtr<lavik::storage::(anonymous namespace)::GroupIndexNode const> const&, std::span<lavik::storage::HashGroupLocation const, 18446744073709551615ul>, std::shared_ptr<lavik::storage::ScanHashMapEntryArena> const&)  -  -
+  0.14%  333568:lavik-lset-stag  lavik-lset-stag  [.] bycorf::Worker::DrainCrossCore()  -  -
+  0.14%  333559:lavik-lset-stag  lavik-lset-stag  [.] absl::lts_20250512::crc_internal::(anonymous namespace)::CRC32AcceleratedX86ARMCombinedMultipleStreams<3ul, 0ul, (absl::lts_20250512::crc_internal::(anonymous namespace)::CutoffStrategy)0>::Extend(unsigned int*, void const*, unsigned long) const  -  -
+  0.14%  333562:lavik-lset-stag  lavik-lset-stag  [k] finish_task_switch.isra.0  -  -
+  0.13%  333564:lavik-lset-stag  lavik-lset-stag  [.] spdk_nvme_qpair_process_completions  -  -
+  0.13%  333566:lavik-lset-stag  lavik-lset-stag  [.] bycorf::IoUringBackend::ReapCompletions()  -  -
+  0.13%  333566:lavik-lset-stag  lavik-lset-stag  [.] spdk_nvme_qpair_process_completions  -  -
+  0.13%  333558:lavik-lset-stag  lavik-lset-stag  [.] bycorf::Worker::DrainCrossCore()  -  -
+  0.13%  333562:lavik-lset-stag  lavik-lset-stag  [.] bycorf::Worker::DrainCrossCore()  -  -
+  0.13%  333562:lavik-lset-stag  lavik-lset-stag  [k] handle_softirqs  -  -
+  0.13%  333564:lavik-lset-stag  lavik-lset-stag  [.] lavik::storage::StorageEngine::Impl::CommitGroupedOrderedMutationLocked(lavik::storage::StorageEngine::Impl::CommitGroupedOrderedMutationLocked(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::WorkerStore::PartitionStore&, unsigned char, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::Digest const&, std::shared_ptr<lavik::storage::GroupedHashObject const>, lavik::storage::OrderedCollectionMutationPlan, unsigned long, lavik::storage::TxShardWrites*, lavik::storage::ReplicationCommandAppend*, lavik::storage::MutationPrecondition const*, lavik::storage::StorageEngine::Impl::SortedSetMemberMutation*)::_ZN5lavik7storage13StorageEngine4Impl34CommitGroupedOrderedMutationLockedERNS2_11WorkerStoreERNS3_14PartitionStoreEhSt17basic_string_viewIcSt11char_traitsIcEERKNS0_6DigestESt10shared_ptrIKNS0_17GroupedHashObjectEENS0_29OrderedCollectionMutationPlanEmPNS0_13TxShardWritesEPNS0_24ReplicationCommandAppendEPKNS0_20MutationPreconditionEPNS2_23SortedSetMemberMutationE.Frame*) [clone .actor] [clone .lto_priv.0]  -  -
+  0.13%  333569:lavik-lset-stag  lavik-lset-stag  [.] lavik::local_shared_detail::Allocation<lavik::storage::GroupedMetadataArray<lavik::storage::RecoveredOrderedGroup, 32ul>::Storage, lavik::storage::RetainedAllocator<lavik::storage::GroupedMetadataArray<lavik::storage::RecoveredOrderedGroup, 32ul>::Storage> >::Destroy(lavik::local_shared_detail::Control<lavik::storage::GroupedMetadataArray<lavik::storage::RecoveredOrderedGroup, 32ul>::Storage>*)  -  -
+  0.12%  333559:lavik-lset-stag  lavik-lset-stag  [.] _nvme_qpair_complete_abort_queued_reqs  -  -
+  0.12%  333566:lavik-lset-stag  lavik-lset-stag  [k] handle_softirqs  -  -
+  0.12%  333567:lavik-lset-stag  lavik-lset-stag  [k] do_syscall_64  -  -
+  0.12%  333559:lavik-lset-stag  lavik-lset-stag  [.] lavik::local_shared_detail::Allocation<lavik::storage::GroupedMetadataArray<lavik::storage::RecoveredOrderedGroup, 32ul>::Storage, lavik::storage::RetainedAllocator<lavik::storage::GroupedMetadataArray<lavik::storage::RecoveredOrderedGroup, 32ul>::Storage> >::Destroy(lavik::local_shared_detail::Control<lavik::storage::GroupedMetadataArray<lavik::storage::RecoveredOrderedGroup, 32ul>::Storage>*)  -  -
+  0.12%  333560:lavik-lset-stag  lavik-lset-stag  [k] finish_task_switch.isra.0  -  -
+  0.12%  333563:lavik-lset-stag  lavik-lset-stag  [.] bycorf::Worker::DrainCrossCore()  -  -
+  0.12%  333564:lavik-lset-stag  lavik-lset-stag  [.] bycorf::IoUringBackend::ReapCompletions()  -  -
+  0.12%  333564:lavik-lset-stag  lavik-lset-stag  [.] lavik::storage::(anonymous namespace)::UpdatePhysical(lavik::LocalSharedPtr<lavik::storage::(anonymous namespace)::GroupIndexNode const> const&, std::span<lavik::storage::HashGroupLocation const, 18446744073709551615ul>, std::shared_ptr<lavik::storage::ScanHashMapEntryArena> const&)  -  -
+  0.12%  333565:lavik-lset-stag  lavik-lset-stag  [.] bycorf::Worker::DrainCrossCore()  -  -
+  0.12%  333567:lavik-lset-stag  lavik-lset-stag  [.] bycorf::Worker::DrainCrossCore()  -  -
+  0.12%  333567:lavik-lset-stag  lavik-lset-stag  [k] handle_softirqs  -  -
+  0.12%  333568:lavik-lset-stag  lavik-lset-stag  [k] handle_softirqs  -  -
+  0.12%  333569:lavik-lset-stag  lavik-lset-stag  [.] lavik::storage::(anonymous namespace)::UpdatePhysical(lavik::LocalSharedPtr<lavik::storage::(anonymous namespace)::GroupIndexNode const> const&, std::span<lavik::storage::HashGroupLocation const, 18446744073709551615ul>, std::shared_ptr<lavik::storage::ScanHashMapEntryArena> const&)  -  -
+  0.12%  333569:lavik-lset-stag  lavik-lset-stag  [.] lavik::storage::StorageEngine::Impl::FlushPendingBlocks(lavik::storage::StorageEngine::Impl::FlushPendingBlocks(lavik::storage::StorageEngine::Impl::WorkerStore*)::_ZN5lavik7storage13StorageEngine4Impl18FlushPendingBlocksEPNS2_11WorkerStoreE.Frame*) [clone .actor]  -  -
+  0.12%  333569:lavik-lset-stag  lavik-lset-stag  [.] nvme_transport_qpair_process_completions  -  -
+  0.11%  333560:lavik-lset-stag  lavik-lset-stag  [k] handle_softirqs  -  -
+  0.11%  333564:lavik-lset-stag  lavik-lset-stag  [k] finish_task_switch.isra.0  -  -
+  0.11%  333565:lavik-lset-stag  lavik-lset-stag  [k] handle_softirqs  -  -
+  0.11%  333566:lavik-lset-stag  lavik-lset-stag  [k] io_cqring_wait  -  -
+  0.11%  333566:lavik-lset-stag  lavik-lset-stag  [.] lavik::storage::StorageEngine::Impl::CommitGroupedOrderedMutationLocked(lavik::storage::StorageEngine::Impl::CommitGroupedOrderedMutationLocked(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::WorkerStore::PartitionStore&, unsigned char, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::Digest const&, std::shared_ptr<lavik::storage::GroupedHashObject const>, lavik::storage::OrderedCollectionMutationPlan, unsigned long, lavik::storage::TxShardWrites*, lavik::storage::ReplicationCommandAppend*, lavik::storage::MutationPrecondition const*, lavik::storage::StorageEngine::Impl::SortedSetMemberMutation*)::_ZN5lavik7storage13StorageEngine4Impl34CommitGroupedOrderedMutationLockedERNS2_11WorkerStoreERNS3_14PartitionStoreEhSt17basic_string_viewIcSt11char_traitsIcEERKNS0_6DigestESt10shared_ptrIKNS0_17GroupedHashObjectEENS0_29OrderedCollectionMutationPlanEmPNS0_13TxShardWritesEPNS0_24ReplicationCommandAppendEPKNS0_20MutationPreconditionEPNS2_23SortedSetMemberMutationE.Frame*) [clone .actor] [clone .lto_priv.0]  -  -
+  0.10%  333566:lavik-lset-stag  lavik-lset-stag  [.] lavik::storage::GroupedHashObject::FindRecord(lavik::storage::HashGroupId) const  -  -
+  0.10%  333566:lavik-lset-stag  lavik-lset-stag  [.] lavik::storage::NextRecordOffset(std::byte const*, unsigned int, unsigned int)  -  -
+  0.10%  333569:lavik-lset-stag  lavik-lset-stag  [.] __memset_avx512_unaligned_erms  -  -
+
+
+#
+# (Cannot load tips.txt file, please install perf!)
+#

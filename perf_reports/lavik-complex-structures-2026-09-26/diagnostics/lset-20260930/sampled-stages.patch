@@ -1,0 +1,231 @@
+diff --git a/src/storage/engine/grouped_list.cpp b/src/storage/engine/grouped_list.cpp
+index bf87d25b..e7522bb7 100644
+--- a/src/storage/engine/grouped_list.cpp
++++ b/src/storage/engine/grouped_list.cpp
+@@ -16,6 +16,7 @@
+ 
+ #include "impl.h"
+ #include "lavik/storage/detail/grouped_scratch.h"
++#include "lset_profile.h"
+ 
+ namespace lavik::storage {
+ namespace {
+@@ -79,6 +80,8 @@ Task<absl::StatusOr<ListResult>> StorageEngine::Impl::ExecuteGroupedListLocked(
+     TxShardWrites* tx, ReplicationCommandAppend* replication,
+     const MutationPrecondition* mutation_precondition,
+     PreparedOrderedMutation* prepared) {
++  lset_profile::Scope prepare_profile(
++      lset_profile::Prepare, operation.kind_ == ListOperationKind::kSet);
+   try {
+     if (object == nullptr || !object->is_ordered() ||
+         object->ordered_directory().root().kind_ !=
+@@ -309,9 +312,11 @@ Task<absl::StatusOr<ListResult>> StorageEngine::Impl::ExecuteGroupedListLocked(
+     bool same_size_set = false;
+     if (operation.kind_ == ListOperationKind::kSet) {
+       if (prepared != nullptr) co_await bycorf::Yield(*store.worker_);
++      lset_profile::Scope read_profile(lset_profile::ReadTarget);
+       auto page = co_await LoadOrderedGroupSnapshot(
+           store, partition, db_id, key, digest, object,
+           directory.groups()[first->group_index_].id_);
++      read_profile.Finish();
+       if (!page.ok()) co_return page.status();
+       if (first->offset_ >= page->snapshot_.entries_.size())
+         co_return absl::DataLossError("List replacement rank exceeds page");
+diff --git a/src/storage/engine/grouped_ordered_mutation.cpp b/src/storage/engine/grouped_ordered_mutation.cpp
+index 9cdb8dde..ddae5e58 100644
+--- a/src/storage/engine/grouped_ordered_mutation.cpp
++++ b/src/storage/engine/grouped_ordered_mutation.cpp
+@@ -20,6 +20,7 @@
+ #include "lavik/storage/detail/grouped_scratch.h"
+ #include "lavik/storage/detail/ordered_compact_codec.h"
+ #include "lavik/storage/detail/stream_records.h"
++#include "lset_profile.h"
+ 
+ namespace lavik::storage {
+ namespace {
+@@ -49,6 +50,11 @@ Task<absl::Status> StorageEngine::Impl::CommitGroupedOrderedMutationLocked(
+     ReplicationCommandAppend* replication,
+     const MutationPrecondition* mutation_precondition,
+     SortedSetMemberMutation* prepared_members) {
++  const bool profile_list =
++      plan.root_.kind_ == OrderedCollectionKind::kList && previous &&
++      plan.root_.item_count_ ==
++          previous->ordered_directory().root().item_count_;
++  lset_profile::Scope commit_profile(lset_profile::Commit, profile_list);
+   if (!plan.changed_) co_return absl::OkStatus();
+   if (previous && (!previous->is_ordered() ||
+                    plan.expected_sequence_ != previous->revision()))
+@@ -82,8 +88,10 @@ Task<absl::Status> StorageEngine::Impl::CommitGroupedOrderedMutationLocked(
+   const bool outer_transaction = tx != nullptr;
+   TxShardWrites standalone;
+   if (!tx) {
++    lset_profile::Scope dep_profile(lset_profile::Dependency, profile_list);
+     const auto predecessor =
+         co_await AwaitGroupedDependencyLocked(store, source_side, 0);
++    dep_profile.Finish();
+     if (!predecessor.ok()) co_return predecessor;
+     std::uint64_t append_bytes = kBlockHeaderSlotBytes;
+     for (const auto& page : plan.writes_) {
+@@ -101,7 +109,10 @@ Task<absl::Status> StorageEngine::Impl::CommitGroupedOrderedMutationLocked(
+     store.store_state_mutex_.Unlock(*store.worker_);
+     absl::Status space;
+     try {
++      lset_profile::Scope pressure_profile(lset_profile::Pressure,
++                                           profile_list);
+       space = co_await BeforeGroupedTransaction(store, append_bytes);
++      pressure_profile.Finish();
+     } catch (const std::bad_alloc&) {
+       // Even allocation of the pressure coroutine frame must return with the
+       // caller's lock invariant intact.
+@@ -118,8 +129,11 @@ Task<absl::Status> StorageEngine::Impl::CommitGroupedOrderedMutationLocked(
+                            : MutationPrecondition{});
+     tx = &standalone;
+   }
++  lset_profile::Scope second_profile(lset_profile::SecondDependency,
++                                     profile_list);
+   const auto dependency =
+       co_await AwaitGroupedDependencyLocked(store, source_side, tx->txid_);
++  second_profile.Finish();
+   if (!dependency.ok()) co_return dependency;
+   if (EffectiveRecordDbEpoch(partition, db_id) != db_epoch ||
+       partition.replication_epoch_ != replication_epoch ||
+@@ -405,6 +419,7 @@ Task<absl::Status> StorageEngine::Impl::CommitGroupedOrderedMutationLocked(
+     }
+     co_return absl::OkStatus();
+   };
++  lset_profile::Scope pages_profile(lset_profile::AppendPages, profile_list);
+   for (std::size_t i = 0; i < plan.writes_.size() + member_plan.writes_.size();
+        ++i) {
+     // Fail before the selected auxiliary begins. Already staged earlier
+@@ -438,6 +453,7 @@ Task<absl::Status> StorageEngine::Impl::CommitGroupedOrderedMutationLocked(
+     }
+     written.push_back(std::move(*group));
+   }
++  pages_profile.Finish();
+   std::vector<RecoveredOrderedGroup> candidates;
+   std::vector<RecoveredHashGroup> member_candidates;
+   std::vector<HashGroupId> written_ids;
+@@ -552,10 +568,12 @@ Task<absl::Status> StorageEngine::Impl::CommitGroupedOrderedMutationLocked(
+       .root_incarnation_ = plan.root_.incarnation_};
+   GroupMutationWrite mutation{.sequence_ = sequence, .root_ = &root_write};
+   LAVIK_MAYBE_CRASH_AT("group-batch-before-root");
++  lset_profile::Scope root_profile(lset_profile::AppendRoot, profile_list);
+   const auto appended = co_await AppendLocked(
+       store, partition, db_id, key, digest, *root_payload, RecordKind::kValue,
+       value_type, expire_at_ms, tx, field_count, nullptr, nullptr, replication,
+       true, nullptr, mutation_precondition, &mutation);
++  root_profile.Finish();
+   if (!appended.ok()) {
+     if (store.write_failed_) {
+       // A root may already be staged/published on a fail-stopped path. Its
+diff --git a/src/storage/engine/list_tree.cpp b/src/storage/engine/list_tree.cpp
+index af72db27..3c39a134 100644
+--- a/src/storage/engine/list_tree.cpp
++++ b/src/storage/engine/list_tree.cpp
+@@ -17,6 +17,7 @@
+ #include "impl.h"
+ #include "lavik/storage/detail/grouped_scratch.h"
+ #include "lavik/storage/detail/ordered_compact_codec.h"
++#include "lset_profile.h"
+ 
+ namespace lavik::storage {
+ 
+@@ -233,13 +234,18 @@ Task<absl::StatusOr<ListResult>> StorageEngine::Impl::ExecuteListLocked(
+     const ListOperation& operation, TxShardWrites* tx,
+     ReplicationCommandAppend* replication,
+     const MutationPrecondition* mutation_precondition) {
++  lset_profile::Scope total_profile(lset_profile::Total,
++                                    operation.kind_ == ListOperationKind::kSet);
+   // Handle private allocation failures inside this coroutine, before they
+   // reach Bycorf's fail-fast unhandled_exception boundary.
+   try {
+     assert(db_id < kLogicalDatabaseCount);
+     WorkerStore& store = CurrentStore();
+     auto& partition = PartitionForKey(store, key);
++    lset_profile::Scope lock_profile(
++        lset_profile::EntryLock, operation.kind_ == ListOperationKind::kSet);
+     co_await store.store_state_mutex_.Lock();
++    lock_profile.Finish();
+     UnlockGuard unlock(&store.store_state_mutex_, store.worker_);
+ 
+     auto& index = partition.indexes_[db_id];
+diff --git a/src/storage/engine/lset_profile.h b/src/storage/engine/lset_profile.h
+new file mode 100644
+index 00000000..208c1f80
+--- /dev/null
++++ b/src/storage/engine/lset_profile.h
+@@ -0,0 +1,74 @@
++#pragma once
++
++// Temporary diagnostic only: owner-local, sampled coroutine wall times.
++// This header is not part of the optimization PR or its benchmark binary.
++#include <unistd.h>
++
++#include <array>
++#include <chrono>
++#include <cstdio>
++
++namespace lavik::storage::lset_profile {
++enum Stage {
++  Total,
++  EntryLock,
++  Prepare,
++  ReadTarget,
++  Commit,
++  Dependency,
++  Pressure,
++  SecondDependency,
++  AppendPages,
++  AppendRoot,
++  Count
++};
++inline constexpr const char* names[] = {
++    "total",        "entry_lock", "prepare",  "read_target",
++    "commit",       "dependency", "pressure", "second_dependency",
++    "append_pages", "append_root"};
++struct Counter {
++  unsigned long long calls = 0, samples = 0, ns = 0, max_ns = 0;
++};
++struct Counters {
++  std::array<Counter, Count> values{};
++  ~Counters() {
++    for (unsigned i = 0; i < Count; ++i) {
++      const auto& c = values[i];
++      if (c.calls)
++        std::fprintf(stderr,
++                     "LSET_PROFILE tid=%d stage=%s calls=%llu samples=%llu "
++                     "ns=%llu max_ns=%llu\n",
++                     int(::gettid()), names[i], c.calls, c.samples, c.ns,
++                     c.max_ns);
++    }
++  }
++};
++inline thread_local Counters counters;
++class Scope {
++ public:
++  Scope(Stage stage, bool enabled = true) {
++    if (!enabled) return;
++    auto& c = counters.values[stage];
++    if (++c.calls % 127 == 1) {
++      counter_ = &c;
++      start_ = std::chrono::steady_clock::now();
++    }
++  }
++  void Finish() {
++    if (!counter_) return;
++    const auto ns = std::chrono::duration_cast<std::chrono::nanoseconds>(
++                        std::chrono::steady_clock::now() - start_)
++                        .count();
++    ++counter_->samples;
++    counter_->ns += ns;
++    if (static_cast<unsigned long long>(ns) > counter_->max_ns)
++      counter_->max_ns = ns;
++    counter_ = nullptr;
++  }
++  ~Scope() { Finish(); }
++
++ private:
++  Counter* counter_ = nullptr;
++  std::chrono::steady_clock::time_point start_{};
++};
++}  // namespace lavik::storage::lset_profile
