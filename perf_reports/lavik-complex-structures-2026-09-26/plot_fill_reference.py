@@ -17,13 +17,11 @@ SIZE = 104857600
 FIELD = 128
 KEYS = 500
 ENTRY_COUNT = SIZE // FIELD
-PR_COMMIT = "c96d9d0baf01be5ced503f7c3f2d90be4987477a"
-PR_SHA256 = "1dc0f82abba4d708342cace5dfff07ff8d2c59768e39b07631e326641a95adb7"
 PRODUCTS = (
     ("redis", "Redis", "#bd3f43"),
     ("valkey", "Valkey", "#008681"),
     ("kvrocks", "Kvrocks", "#a75b19"),
-    ("lavik", "Lavik PR #219", "#7b4d9f"),
+    ("lavik", "Lavik main", "#6574bc"),
 )
 
 
@@ -52,7 +50,7 @@ def read_run(kind, product, lavik_run):
     if product == "lavik" and (
             options.get("source_commit") != lavik_run["commit"] or
             options.get("sha256") != lavik_run["sha256"]):
-        raise RuntimeError(f"unexpected Lavik PR build: {folder}")
+        raise RuntimeError(f"unexpected Lavik build: {folder}")
     stem = f"{kind}-{SIZE}-{FIELD}"
     filled = read_json(folder / f"{stem}.fill.json")
     command = "SADD" if kind == "set" else "HSET"
@@ -77,21 +75,21 @@ def read_run(kind, product, lavik_run):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("kind", choices=("hash", "set"))
-    parser.add_argument("--lavik-tag", help="Completed Lavik PR run tag")
-    parser.add_argument("--lavik-commit", default=PR_COMMIT)
-    parser.add_argument("--lavik-sha256", default=PR_SHA256)
+    parser.add_argument("--lavik-tag", required=True, help="Completed Lavik run tag")
+    parser.add_argument("--lavik-commit", required=True)
+    parser.add_argument("--lavik-sha256", required=True)
+    parser.add_argument("--lavik-label", default="Lavik main")
     args = parser.parse_args()
     lavik_run = {
-        "tag": (args.lavik_tag or
-                f"import128m-c96d9d0b-{args.kind}-100m-k500-f128-20260929"),
+        "tag": args.lavik_tag,
         "commit": args.lavik_commit, "sha256": args.lavik_sha256,
     }
     rows = [read_run(args.kind, product, lavik_run)
             for product, _, _ in PRODUCTS]
 
     fig, ax = plt.subplots(figsize=(9.2, 4.8))
-    labels = [f"{label} · {row['method']}" for row, (_, label, _) in
-              zip(rows, PRODUCTS)]
+    labels = [f"{args.lavik_label if product == 'lavik' else label} · {row['method']}"
+              for row, (product, label, _) in zip(rows, PRODUCTS)]
     seconds = [row["seconds"] for row in rows]
     colors = [color for _, _, color in PRODUCTS]
     bars = ax.barh(labels, seconds, color=colors, height=0.58)

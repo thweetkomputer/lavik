@@ -16,26 +16,23 @@ Lavik uses `main` after merged
 [PR #212](https://github.com/eloqdata/lavik/pull/212), at commit
 `d1ce200e174adcb07820b5431c77b024350e85b6`. Its SPDK server binary
 has SHA256 `bd3f942e3b7b0f46c23c716197c8cc4ec8ad963e92cede0d9fa2574ff52a74a9`.
-**2026-09-30: Hash 100 MiB/128 B plots now compare main after #219 with the updated PR #222.**
-Measured main: `e5d6492662d9dd2868f9b326b7d7ce2c31fd0677`; PR: `c98ef732435a5eee21e5a91f58b5bc6e15684a0d`.
-Binary SHA256 respectively: `257037f7faf0f5121d9792764c4e91c92824e96a553c2dc78cb5a4e86a8d4c42` and
-`84be1f2ea40bdf644d762a9f02ce6394cdec9f0573dcd8500e2bebee7ca9419e`.
-Both reused the same 500-key dataset and passed all 13 points without errors.
-HSET: main **32.7–48.9k QPS**, PR **77.2–97.4k QPS**,
-a **1.99–2.40×** improvement at matching connection counts.
-Kvrocks remains at 322.9–374.0k; the write-throughput target is not met.
+**2026-09-30: refreshed 100 MiB/128 B plots compare main with unmerged PR #222.**
+Measured main: `ebe28dd5a60b083c13826580c93623c6c5686b2d` (including #219 and #223).
+PR: `817473b731a1d314080bff3fd2c5fc68d1246099`, pinning merged Bycorf `629dcb9ca737a073735ae4fc62b945a951d7ae69`.
+Main and PR binary SHA256 respectively: `e615cacfa119e36f9f2f566e5848ad01ea3909ccb5f77a9237a75ba08a888ec3` and
+`bb61cba8c4771bc2c50266a948f02379e2e40680b572a1310b06d9aa804446ea`.
+Both versions reuse the same validated 500-key dataset for each type; all 13 points per version complete without errors.
 
-[PR #222](https://github.com/eloqdata/lavik/pull/222) combines compact physical indexes,
+- HSET: main **32.5–48.5k QPS**; PR **79.8–101.0k QPS**, **2.08–2.46×** main at matching connection counts. [Raw Hash main data](raw/lavik-mainebe-hash-100m-k500-f128-20260930/), [PR data](raw/lavik-pr222817-hash-100m-k500-f128-20260930/).
+
+[PR #222](https://github.com/eloqdata/lavik/pull/222) includes compact physical indexes,
 commit notifications, reuse of owner-verified settled transaction admission state, and positional
-multi-field SADD/HSET indexes. Merged [Bycorf #6](https://github.com/eloqdata/bycorf/pull/6) avoids
-ineffective FLUSH commands on VWC=0 controllers; data-before-commit ordering is preserved.
-This single-field HSET workload does not exercise the multi-field index optimization.
-Main merged #223 (Meta connection handling) during measurement; the code is being rebased,
-and these curves identify the exact measured commits above.
-Set 100 MiB/128 B temporarily retains only the preceding main `4c26af7b`; updated main and PR #222 runs are pending.
-Other sizes do not yet include PR #222. Each point is one eight-second measurement.
-[Raw Hash main data](raw/lavik-maine5-hash-100m-k500-f128-20260930/) and
-[PR data](raw/lavik-pr222c98-hash-100m-k500-f128-20260930/) are available for inspection.
+multi-field SADD/HSET indexes. The merged Bycorf optimization avoids ineffective FLUSH commands
+on VWC=0 controllers; data-before-commit ordering is preserved.
+These single-field/member commands do not exercise the multi-field index optimization.
+Each point is one eight-second run. Kvrocks write throughput has not yet been reached.
+Other sizes do not yet include PR #222.
+Set 100 MiB/128 B temporarily shows only the preceding main `4c26af7b`; the updated comparison is pending.
 
 No data-page cache was added. Earlier main, PR #212, and 256-key raw runs remain in `raw/` but are
 not plotted in this retest.
@@ -75,6 +72,9 @@ Each point-read/write chart contains both commands. The 1 MiB and 100 MiB runs u
 #### 100 MiB per key
 
 ![Hash 100 MiB per key, 128 B entries: HGET and HSET QPS by connection count](charts/hash-104857600-128-ab.png)
+
+In this run, PR HGET was about 26%, 19%, and 10% below main at 1280, 2560, and 5120 connections.
+The HSET gain is not an across-command improvement. A reversed-order, 20-second repeat at 1280 connections is underway.
 
 ![Hash 100 MiB per key, 1 KiB entries: HGET and HSET QPS by connection count](charts/hash-104857600-1024-ab.png)
 
