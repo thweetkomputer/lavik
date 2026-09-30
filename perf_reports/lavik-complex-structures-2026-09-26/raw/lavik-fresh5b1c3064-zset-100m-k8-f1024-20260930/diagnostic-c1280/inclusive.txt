@@ -1,0 +1,226 @@
+# To display the perf.data header info, please use --header/--header-only options.
+#
+#
+# Total Lost Samples: 0
+#
+# Samples: 8K of event 'task-clock'
+# Event count (approx.): 83535352700
+#
+# Children  Self  Symbol  IPC  [IPC Coverage]
+# ........  ........  ...........................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................  ....................
+#
+  29.40%  7.87%  [.] bycorf::Worker::RunOnce(bool)  -  -
+  24.92%  13.60%  [.] lavik::storage::OrderedGroupDirectory::Apply(lavik::storage::OrderedCollectionRoot const&, unsigned long, std::span<lavik::storage::RecoveredOrderedGroup const, 18446744073709551615ul>, unsigned long, std::span<lavik::storage::RecoveredHashGroup const, 18446744073709551615ul>) const  -  -
+  22.59%  0.04%  [.] bycorf::Server::RunWorker(unsigned int, bycorf::Worker&)  -  -
+  22.55%  0.00%  [.] bycorf::Runtime::Impl::Start(unsigned int, std::function<int (unsigned int, bycorf::Worker&)>, bool, std::span<unsigned int const, 18446744073709551615ul>)::{lambda()#1}::operator()() const  -  -
+  22.55%  0.00%  [.] clone3  -  -
+  22.55%  0.00%  [.] execute_native_thread_routine  -  -
+  22.55%  0.00%  [.] start_thread  -  -
+  21.67%  15.56%  [.] lavik::storage::OrderedGroupDirectory::Recover(lavik::storage::OrderedCollectionRoot const&, unsigned long, std::span<lavik::storage::RecoveredOrderedGroup const, 18446744073709551615ul>, absl::lts_20250512::flat_hash_set<unsigned long, absl::lts_20250512::hash_internal::Hash<unsigned long>, std::equal_to<unsigned long>, std::allocator<unsigned long> > const&, unsigned long, std::optional<lavik::storage::HashGroupDirectory>)  -  -
+  19.93%  0.05%  [.] bycorf::Worker::ResumeReady(bycorf::Worker::ReadyTask, bycorf::TaskClass) [clone .isra.0]  -  -
+  19.92%  0.05%  [.] bycorf::Worker::DrainReadyUntil(long)  -  -
+  15.94%  0.34%  [.] lavik::storage::StorageEngine::Impl::WriteRecordLocked(lavik::storage::StorageEngine::Impl::WriteRecordLocked(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::RecordWriteRequest const&, std::shared_ptr<std::vector<lavik::storage::ExtentRef, std::allocator<lavik::storage::ExtentRef> > const>, std::unique_ptr<std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> >, std::default_delete<std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> > > >)::_ZN5lavik7storage13StorageEngine4Impl17WriteRecordLockedERNS2_11WorkerStoreERKNS2_18RecordWriteRequestESt10shared_ptrIKSt6vectorINS0_9ExtentRefESaISA_EEESt10unique_ptrIS9_INS0_13RetiredRecordESaISG_EESt14default_deleteISI_EE.Frame*) [clone .actor] [clone .lto_priv.0]  -  -
+  15.32%  0.02%  [.] lavik::storage::StorageEngine::Impl::CommitGroupedOrderedMutationLocked(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::WorkerStore::PartitionStore&, unsigned char, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::Digest const&, std::shared_ptr<lavik::storage::GroupedHashObject const>, lavik::storage::OrderedCollectionMutationPlan, unsigned long, lavik::storage::TxShardWrites*, lavik::storage::ReplicationCommandAppend*, lavik::storage::MutationPrecondition const*, lavik::storage::StorageEngine::Impl::SortedSetMemberMutation*)::{lambda(lavik::storage::GroupedObjectVersion const&)#1}::operator()(lavik::storage::GroupedObjectVersion const&) const [clone .lto_priv.0]  -  -
+  15.31%  0.00%  [.] std::_Function_handler<absl::lts_20250512::Status (lavik::storage::GroupedObjectVersion const&), lavik::storage::StorageEngine::Impl::CommitGroupedOrderedMutationLocked(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::WorkerStore::PartitionStore&, unsigned char, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::Digest const&, std::shared_ptr<lavik::storage::GroupedHashObject const>, lavik::storage::OrderedCollectionMutationPlan, unsigned long, lavik::storage::TxShardWrites*, lavik::storage::ReplicationCommandAppend*, lavik::storage::MutationPrecondition const*, lavik::storage::StorageEngine::Impl::SortedSetMemberMutation*)::{lambda(lavik::storage::GroupedObjectVersion const&)#1}>::_M_invoke(std::_Any_data const&, lavik::storage::GroupedObjectVersion const&)  -  -
+  7.19%  7.19%  [.] void std::__introsort_loop<__gnu_cxx::__normal_iterator<std::pair<unsigned long, unsigned long>*, std::vector<std::pair<unsigned long, unsigned long>, std::allocator<std::pair<unsigned long, unsigned long> > > >, long, __gnu_cxx::__ops::_Iter_less_iter>(__gnu_cxx::__normal_iterator<std::pair<unsigned long, unsigned long>*, std::vector<std::pair<unsigned long, unsigned long>, std::allocator<std::pair<unsigned long, unsigned long> > > >, __gnu_cxx::__normal_iterator<std::pair<unsigned long, unsigned long>*, std::vector<std::pair<unsigned long, unsigned long>, std::allocator<std::pair<unsigned long, unsigned long> > > >, long, __gnu_cxx::__ops::_Iter_less_iter) [clone .isra.0]  -  -
+  5.33%  0.00%  [.] entry_SYSCALL_64_after_hwframe  -  -
+  5.31%  0.76%  [.] do_syscall_64  -  -
+  5.09%  3.42%  [.] void std::__sort<__gnu_cxx::__normal_iterator<std::pair<unsigned long, unsigned long>*, std::vector<std::pair<unsigned long, unsigned long>, std::allocator<std::pair<unsigned long, unsigned long> > > >, __gnu_cxx::__ops::_Iter_less_iter>(__gnu_cxx::__normal_iterator<std::pair<unsigned long, unsigned long>*, std::vector<std::pair<unsigned long, unsigned long>, std::allocator<std::pair<unsigned long, unsigned long> > > >, __gnu_cxx::__normal_iterator<std::pair<unsigned long, unsigned long>*, std::vector<std::pair<unsigned long, unsigned long>, std::allocator<std::pair<unsigned long, unsigned long> > > >, __gnu_cxx::__ops::_Iter_less_iter) [clone .isra.0]  -  -
+  5.07%  5.07%  [.] std::vector<lavik::storage::RecoveredOrderedGroup, std::allocator<lavik::storage::RecoveredOrderedGroup> >::push_back(lavik::storage::RecoveredOrderedGroup const&)  -  -
+  4.79%  4.79%  [.] __memset_avx512_unaligned_erms  -  -
+  4.47%  0.04%  [.] __x64_sys_io_uring_enter  -  -
+  4.45%  0.01%  [.] x64_sys_call  -  -
+  4.37%  0.07%  [.] __do_sys_io_uring_enter  -  -
+  4.32%  4.29%  [.] __memmove_avx512_unaligned_erms  -  -
+  2.90%  0.04%  [.] __io_issue_sqe  -  -
+  2.61%  0.02%  [.] io_submit_sqes  -  -
+  2.54%  0.00%  [.] io_submit_sqe  -  -
+  2.42%  0.02%  [.] io_issue_sqe  -  -
+  2.24%  0.11%  [.] lavik::storage::GroupedMetadataArray<lavik::storage::RecoveredOrderedGroup, 32ul>::From(std::span<lavik::storage::RecoveredOrderedGroup const, 18446744073709551615ul>)  -  -
+  2.20%  1.95%  [.] bycorf::Worker::PollStorage() [clone .part.0]  -  -
+  2.03%  2.02%  [.] absl::lts_20250512::container_internal::PrepareInsertNonSoo(absl::lts_20250512::container_internal::CommonFields&, absl::lts_20250512::container_internal::PolicyFunctions const&, unsigned long, absl::lts_20250512::container_internal::FindInfo) [clone .isra.0]  -  -
+  1.85%  1.85%  [.] _mi_theap_malloc_zero  -  -
+  1.83%  0.56%  [k] handle_softirqs  -  -
+  1.83%  0.00%  [.] __irq_exit_rcu  -  -
+  1.83%  0.00%  [.] irq_exit_rcu  -  -
+  1.79%  0.01%  [.] io_send  -  -
+  1.77%  0.00%  [.] sock_sendmsg  -  -
+  1.66%  0.00%  [.] asm_common_interrupt  -  -
+  1.66%  0.00%  [.] common_interrupt  -  -
+  1.63%  1.62%  [.] _mi_page_malloc_zero  -  -
+  1.58%  0.01%  [.] inet_sendmsg  -  -
+  1.54%  0.01%  [.] tcp_sendmsg  -  -
+  1.46%  0.04%  [.] tcp_sendmsg_locked  -  -
+  1.38%  0.21%  [.] io_cqring_wait  -  -
+  1.27%  1.27%  [.] lavik::storage::GroupedHashObject::FindRecord(lavik::storage::HashGroupId) const  -  -
+  1.19%  0.04%  [.] net_rx_action  -  -
+  1.14%  1.14%  [.] lavik::storage::(anonymous namespace)::SipHash12(std::basic_string_view<char, std::char_traits<char> >, std::array<unsigned char, 16ul> const&) [clone .lto_priv.0]  -  -
+  1.14%  0.10%  [.] __tcp_transmit_skb  -  -
+  1.10%  0.00%  [.] __tcp_push_pending_frames  -  -
+  1.10%  0.00%  [.] tcp_push  -  -
+  1.08%  0.02%  [.] tcp_write_xmit  -  -
+  1.05%  0.02%  [.] __napi_poll  -  -
+  1.03%  0.01%  [.] mlx5e_napi_poll  -  -
+  0.99%  0.00%  [.] __ip_queue_xmit  -  -
+  0.99%  0.00%  [.] ip_local_out  -  -
+  0.99%  0.00%  [.] ip_queue_xmit  -  -
+  0.96%  0.73%  [.] lavik::storage::(anonymous namespace)::UpdatePhysical(lavik::LocalSharedPtr<lavik::storage::(anonymous namespace)::GroupIndexNode const> const&, std::span<lavik::storage::HashGroupLocation const, 18446744073709551615ul>, std::shared_ptr<lavik::storage::ScanHashMapEntryArena> const&)  -  -
+  0.94%  0.81%  [.] lavik::local_shared_detail::Allocation<lavik::storage::GroupedMetadataArray<lavik::storage::RecoveredOrderedGroup, 32ul>::Storage, lavik::storage::RetainedAllocator<lavik::storage::GroupedMetadataArray<lavik::storage::RecoveredOrderedGroup, 32ul>::Storage> >::Destroy(lavik::local_shared_detail::Control<lavik::storage::GroupedMetadataArray<lavik::storage::RecoveredOrderedGroup, 32ul>::Storage>*)  -  -
+  0.89%  0.15%  [.] _mi_malloc_generic  -  -
+  0.83%  0.07%  [.] lavik::storage::TryAllocateRetainedBytes(lavik::storage::RetainedAllocationDomain const&, unsigned long, unsigned long) [clone .constprop.0]  -  -
+  0.81%  0.11%  [.] bycorf::Worker::Flush()  -  -
+  0.80%  0.16%  [.] io_uring_submit_and_get_events  -  -
+  0.76%  0.18%  [.] lavik::storage::StorageEngine::Impl::ExecuteGroupedSortedSetLocked(lavik::storage::StorageEngine::Impl::ExecuteGroupedSortedSetLocked(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::WorkerStore::PartitionStore&, unsigned char, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::Digest const&, lavik::storage::SortedSetOperation const&, std::shared_ptr<lavik::storage::GroupedHashObject const>, lavik::storage::TxShardWrites*, lavik::storage::ReplicationCommandAppend*, lavik::storage::MutationPrecondition const*, lavik::storage::StorageEngine::Impl::PreparedOrderedMutation*)::_ZN5lavik7storage13StorageEngine4Impl29ExecuteGroupedSortedSetLockedERNS2_11WorkerStoreERNS3_14PartitionStoreEhSt17basic_string_viewIcSt11char_traitsIcEERKNS0_6DigestERKNS0_18SortedSetOperationESt10shared_ptrIKNS0_17GroupedHashObjectEEPNS0_13TxShardWritesEPNS0_24ReplicationCommandAppendEPKNS0_20MutationPreconditionEPNS2_23PreparedOrderedMutationE.Frame*) [clone .actor]  -  -
+  0.75%  0.75%  [.] lavik::local_shared_detail::Allocation<lavik::storage::GroupedMetadataArray<lavik::storage::RecoveredOrderedGroup, 32ul>::Chunk, lavik::storage::RetainedAllocator<lavik::storage::GroupedMetadataArray<lavik::storage::RecoveredOrderedGroup, 32ul>::Chunk> >::Destroy(lavik::local_shared_detail::Control<lavik::storage::GroupedMetadataArray<lavik::storage::RecoveredOrderedGroup, 32ul>::Chunk>*)  -  -
+  0.74%  0.74%  [.] absl::lts_20250512::hash_internal::LowLevelHashLenGt32(void const*, unsigned long, unsigned long, unsigned long const*) [clone .constprop.0]  -  -
+  0.73%  0.01%  [.] __netif_receive_skb_list_core  -  -
+  0.73%  0.00%  [.] napi_complete_done  -  -
+  0.73%  0.00%  [.] netif_receive_skb_list_internal  -  -
+  0.71%  0.71%  [.] bycorf::Worker::DrainCrossCore()  -  -
+  0.70%  0.00%  [.] ip_list_rcv  -  -
+  0.70%  0.00%  [.] ip_sublist_rcv  -  -
+  0.68%  0.02%  [.] __io_run_local_work  -  -
+  0.65%  0.65%  [.] absl::lts_20250512::container_internal::EraseMetaOnly(absl::lts_20250512::container_internal::CommonFields&, unsigned long, unsigned long) [clone .isra.0]  -  -
+  0.65%  0.15%  [.] lavik::storage::StorageEngine::Impl::ExecuteSortedSetLocked(lavik::storage::StorageEngine::Impl::ExecuteSortedSetLocked(unsigned char, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::Digest const&, lavik::storage::SortedSetOperation const&, lavik::storage::TxShardWrites*, lavik::storage::ReplicationCommandAppend*, lavik::storage::MutationPrecondition const*)::_ZN5lavik7storage13StorageEngine4Impl22ExecuteSortedSetLockedEhSt17basic_string_viewIcSt11char_traitsIcEERKNS0_6DigestERKNS0_18SortedSetOperationEPNS0_13TxShardWritesEPNS0_24ReplicationCommandAppendEPKNS0_20MutationPreconditionE.Frame*) [clone .actor]  -  -
+  0.65%  0.01%  [.] ip_output  -  -
+  0.64%  0.64%  [.] absl::lts_20250512::crc_internal::(anonymous namespace)::CRC32AcceleratedX86ARMCombinedMultipleStreams<3ul, 0ul, (absl::lts_20250512::crc_internal::(anonymous namespace)::CutoffStrategy)0>::Extend(unsigned int*, void const*, unsigned long) const  -  -
+  0.64%  0.01%  [.] ip_list_rcv_finish  -  -
+  0.64%  0.00%  [.] __io_run_local_work_loop  -  -
+  0.60%  0.01%  [.] ip_finish_output  -  -
+  0.60%  0.01%  [.] ip_local_deliver  -  -
+  0.59%  0.58%  [k] finish_task_switch.isra.0  -  -
+  0.59%  0.25%  [.] lavik::storage::StorageEngine::Impl::PrepareSortedSetMembers(lavik::storage::StorageEngine::Impl::PrepareSortedSetMembers(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::WorkerStore::PartitionStore&, unsigned char, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::Digest const&, std::shared_ptr<lavik::storage::GroupedHashObject const>, lavik::storage::OrderedCollectionMutationPlan const&, bool)::_ZN5lavik7storage13StorageEngine4Impl23PrepareSortedSetMembersERNS2_11WorkerStoreERNS3_14PartitionStoreEhSt17basic_string_viewIcSt11char_traitsIcEERKNS0_6DigestESt10shared_ptrIKNS0_17GroupedHashObjectEERKNS0_29OrderedCollectionMutationPlanEb.Frame*) [clone .actor]  -  -
+  0.59%  0.01%  [.] io_poll_check_events  -  -
+  0.59%  0.00%  [.] __schedule  -  -
+  0.59%  0.00%  [.] io_poll_task_func  -  -
+  0.59%  0.00%  [.] ip_local_deliver_finish  -  -
+  0.59%  0.00%  [.] ip_protocol_deliver_rcu  -  -
+  0.59%  0.00%  [.] ip_sublist_rcv_finish  -  -
+  0.59%  0.00%  [.] schedule  -  -
+  0.58%  0.56%  [k] _raw_spin_unlock_irqrestore  -  -
+  0.58%  0.01%  [.] tcp_v4_rcv  -  -
+  0.57%  0.06%  [.] ip_finish_output2  -  -
+  0.57%  0.01%  [.] io_recv  -  -
+  0.57%  0.00%  [.] __ip_finish_output  -  -
+  0.57%  0.00%  [.] io_poll_issue  -  -
+  0.56%  0.00%  [.] io_run_local_work  -  -
+  0.54%  0.00%  [.] tcp_v4_do_rcv  -  -
+  0.53%  0.12%  [.] lavik::storage::StorageEngine::Impl::LoadOrderedGroupSnapshot(lavik::storage::StorageEngine::Impl::LoadOrderedGroupSnapshot(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::WorkerStore::PartitionStore&, unsigned char, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::Digest const&, std::shared_ptr<lavik::storage::GroupedHashObject const>, unsigned long, bool)::_ZN5lavik7storage13StorageEngine4Impl24LoadOrderedGroupSnapshotERNS2_11WorkerStoreERNS3_14PartitionStoreEhSt17basic_string_viewIcSt11char_traitsIcEERKNS0_6DigestESt10shared_ptrIKNS0_17GroupedHashObjectEEmb.Frame*) [clone .actor]  -  -
+  0.52%  0.52%  [.] lavik::storage::OrderedGroupDirectory::FindIndex(unsigned long) const  -  -
+  0.52%  0.01%  [.] tcp_rcv_established  -  -
+  0.51%  0.06%  [.] lavik::storage::GroupedHashObject::PrepareUpdateOrdered(std::shared_ptr<lavik::storage::GroupedHashObject const> const&, lavik::storage::GroupedObjectVersion, lavik::storage::OrderedGroupDirectory, std::span<lavik::storage::HashGroupLocation const, 18446744073709551615ul>)  -  -
+  0.51%  0.00%  [.] __dev_queue_xmit  -  -
+  0.51%  0.00%  [.] neigh_hh_output  -  -
+  0.50%  0.05%  [.] std::_Sp_counted_base<(__gnu_cxx::_Lock_policy)2>::_M_release()  -  -
+  0.48%  0.02%  [.] __dev_xmit_skb  -  -
+  0.47%  0.00%  [.] sch_direct_xmit  -  -
+  0.45%  0.45%  [.] lavik::storage::HashGroupMap<lavik::storage::HashGroupId>::find(lavik::storage::HashGroupId) const  -  -
+  0.45%  0.02%  [.] dev_hard_start_xmit  -  -
+  0.45%  0.00%  [.] std::_Sp_counted_ptr_inplace<lavik::storage::GroupedHashObject, lavik::storage::RetainedAllocator<lavik::storage::GroupedHashObject>, (__gnu_cxx::_Lock_policy)2>::_M_dispose()  -  -
+  0.44%  0.42%  [.] std::vector<unsigned long, std::allocator<unsigned long> >::push_back(unsigned long const&)  -  -
+  0.42%  0.02%  [.] __io_msg_ring_data  -  -
+  0.42%  0.01%  [.] netvsc_start_xmit  -  -
+  0.42%  0.00%  [.] io_msg_ring  -  -
+  0.41%  0.29%  [.] mi_page_queue_find_free_ex  -  -
+  0.41%  0.02%  [.] netvsc_xmit  -  -
+  0.41%  0.00%  [.] xmit_one.constprop.0  -  -
+  0.40%  0.00%  [.] lavik::storage::(anonymous namespace)::BuildPhysicalState(lavik::storage::GroupedHashPhysicalState&, lavik::storage::GroupedHashPhysicalState const*, std::span<lavik::storage::HashGroupLocation const, 18446744073709551615ul>) [clone .lto_priv.0]  -  -
+  0.39%  0.39%  [.] std::pair<unsigned long, unsigned long>& std::vector<std::pair<unsigned long, unsigned long>, std::allocator<std::pair<unsigned long, unsigned long> > >::emplace_back<unsigned long const&, unsigned long>(unsigned long const&, unsigned long&&) [clone .isra.0]  -  -
+  0.39%  0.00%  [.] nf_hook_slow  -  -
+  0.36%  0.34%  [.] bycorf::IoUringBackend::ReapCompletions()  -  -
+  0.36%  0.21%  [.] spdk_nvme_qpair_process_completions  -  -
+  0.35%  0.16%  [.] lavik::storage::StorageEngine::Impl::LoadValueLocal(lavik::storage::StorageEngine::Impl::LoadValueLocal(lavik::storage::StorageEngine::Impl::WorkerStore&, unsigned char, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::RecordLocation, unsigned long, lavik::ReadLatencyTrace*, std::optional<unsigned long>)::_ZN5lavik7storage13StorageEngine4Impl14LoadValueLocalERNS2_11WorkerStoreEhSt17basic_string_viewIcSt11char_traitsIcEENS0_14RecordLocationEmPNS_16ReadLatencyTraceESt8optionalImE.Frame*) [clone .actor]  -  -
+  0.34%  0.34%  [.] lavik::storage::GroupedHashObject::ExtentsFor(lavik::storage::HashGroupId) const  -  -
+  0.34%  0.04%  [.] lavik::storage::StorageEngine::Impl::LoadHashGroupSnapshot(lavik::storage::StorageEngine::Impl::LoadHashGroupSnapshot(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::WorkerStore::PartitionStore&, unsigned char, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::Digest const&, std::shared_ptr<lavik::storage::GroupedHashObject const>, lavik::storage::HashGroupId, bool)::_ZN5lavik7storage13StorageEngine4Impl21LoadHashGroupSnapshotERNS2_11WorkerStoreERNS3_14PartitionStoreEhSt17basic_string_viewIcSt11char_traitsIcEERKNS0_6DigestESt10shared_ptrIKNS0_17GroupedHashObjectEENS0_11HashGroupIdEb.Frame*) [clone .actor]  -  -
+  0.34%  0.01%  [.] __ip_local_out  -  -
+  0.34%  0.00%  [.] sock_recvmsg  -  -
+  0.33%  0.33%  [.] lavik::storage::StorageEngine::Impl::ActiveExpiration(lavik::storage::StorageEngine::Impl::ActiveExpiration(lavik::storage::StorageEngine::Impl::WorkerStore*)::_ZN5lavik7storage13StorageEngine4Impl16ActiveExpirationEPNS2_11WorkerStoreE.Frame*) [clone .actor]  -  -
+  0.33%  0.31%  [.] mi_free  -  -
+  0.33%  0.01%  [.] inet_recvmsg  -  -
+  0.33%  0.00%  [.] io_req_local_work_add  -  -
+  0.33%  0.00%  [.] io_req_task_work_add_remote  -  -
+  0.33%  0.00%  [.] try_to_wake_up  -  -
+  0.33%  0.00%  [.] wake_up_state  -  -
+  0.31%  0.30%  [.] nvme_pcie_qpair_process_completions  -  -
+  0.31%  0.01%  [.] tcp_recvmsg  -  -
+  0.30%  0.16%  [.] lavik::storage::StorageEngine::Impl::CommitGroupedOrderedMutationLocked(lavik::storage::StorageEngine::Impl::CommitGroupedOrderedMutationLocked(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::WorkerStore::PartitionStore&, unsigned char, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::Digest const&, std::shared_ptr<lavik::storage::GroupedHashObject const>, lavik::storage::OrderedCollectionMutationPlan, unsigned long, lavik::storage::TxShardWrites*, lavik::storage::ReplicationCommandAppend*, lavik::storage::MutationPrecondition const*, lavik::storage::StorageEngine::Impl::SortedSetMemberMutation*)::_ZN5lavik7storage13StorageEngine4Impl34CommitGroupedOrderedMutationLockedERNS2_11WorkerStoreERNS3_14PartitionStoreEhSt17basic_string_viewIcSt11char_traitsIcEERKNS0_6DigestESt10shared_ptrIKNS0_17GroupedHashObjectEENS0_29OrderedCollectionMutationPlanEmPNS0_13TxShardWritesEPNS0_24ReplicationCommandAppendEPKNS0_20MutationPreconditionEPNS2_23SortedSetMemberMutationE.Frame*) [clone .actor] [clone .lto_priv.0]  -  -
+  0.30%  0.01%  [.] nf_conntrack_in  -  -
+  0.29%  0.07%  [.] absl::lts_20250512::crc_internal::ExtendCrc32cInternal(absl::lts_20250512::crc32c_t, std::basic_string_view<char, std::char_traits<char> >)  -  -
+  0.29%  0.00%  [.] __tcp_send_ack.part.0  -  -
+  0.29%  0.00%  [.] tcp_send_ack  -  -
+  0.28%  0.24%  [.] lavik::storage::HashGroupDirectory::Find(std::basic_string_view<char, std::char_traits<char> >) const  -  -
+  0.27%  0.05%  [.] tcp_recvmsg_locked  -  -
+  0.27%  0.01%  [.] lavik::storage::StorageEngine::Impl::ExecuteGroupedSortedSetLocked(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::WorkerStore::PartitionStore&, unsigned char, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::Digest const&, lavik::storage::SortedSetOperation const&, std::shared_ptr<lavik::storage::GroupedHashObject const>, lavik::storage::TxShardWrites*, lavik::storage::ReplicationCommandAppend*, lavik::storage::MutationPrecondition const*, lavik::storage::StorageEngine::Impl::PreparedOrderedMutation*)::{lambda(lavik::storage::GroupedScratchBudget*, unsigned long)#1}::operator()(lavik::storage::GroupedScratchBudget*, unsigned long) const  -  -
+  0.25%  0.04%  [.] lavik::storage::DecodeOrderedGroup(std::basic_string_view<char, std::char_traits<char> >)  -  -
+  0.25%  0.00%  [.] ipv4_conntrack_local  -  -
+  0.24%  0.07%  [.] lavik::storage::HashGroupDirectory::Apply(lavik::storage::GroupedHashRoot const&, unsigned long, std::span<lavik::storage::RecoveredHashGroup const, 18446744073709551615ul>) const  -  -
+  0.24%  0.06%  [.] lavik::storage::ComputeDigest(std::basic_string_view<char, std::char_traits<char> >)  -  -
+  0.24%  0.00%  [.] __tcp_ack_snd_check  -  -
+  0.23%  0.15%  [.] lavik::storage::GroupedHashObject::FindGroup(lavik::storage::HashGroupId) const  -  -
+  0.23%  0.04%  [.] lavik::storage::StorageEngine::Impl::SalvageBlockRecords(lavik::storage::StorageEngine::Impl::SalvageBlockRecords(lavik::storage::StorageEngine::Impl::WorkerStore&, unsigned long, lavik::storage::BlockState&, unsigned int, unsigned long, std::shared_ptr<absl::lts_20250512::flat_hash_set<unsigned long, absl::lts_20250512::hash_internal::Hash<unsigned long>, std::equal_to<unsigned long>, std::allocator<unsigned long> > const>, bool)::_ZN5lavik7storage13StorageEngine4Impl19SalvageBlockRecordsERNS2_11WorkerStoreEmRNS0_10BlockStateEjmSt10shared_ptrIKN4absl12lts_2025051213flat_hash_setImNS9_13hash_internal4HashImEESt8equal_toImESaImEEEEb.Frame*) [clone .actor]  -  -
+  0.23%  0.02%  [.] lavik::storage::DecodeHashValue(std::basic_string_view<char, std::char_traits<char> >)  -  -
+  0.22%  0.17%  [.] lavik::(anonymous namespace)::ExecuteImpl(lavik::(anonymous namespace)::ExecuteImpl(lavik::CommandRequest const&, lavik::storage::Digest const*, lavik::storage::TxShardWrites*, lavik::ReplyBuilder&)::_ZN5lavik12_GLOBAL__N_111ExecuteImplERKNS_14CommandRequestEPKNS_7storage6DigestEPNS4_13TxShardWritesERNS_12ReplyBuilderE.Frame*) [clone .actor]  -  -
+  0.22%  0.13%  [.] lavik::storage::(anonymous namespace)::BuildPhysical(std::span<lavik::storage::HashGroupLocation const, 18446744073709551615ul>, std::shared_ptr<lavik::storage::ScanHashMapEntryArena> const&)  -  -
+  0.22%  0.01%  [.] lavik::storage::DecodeHashGroup(std::basic_string_view<char, std::char_traits<char> >)  -  -
+  0.22%  0.00%  [.] lavik::storage::Crc32c(std::span<std::byte const, 18446744073709551615ul>)  -  -
+  0.22%  0.00%  [.] sock_def_readable  -  -
+  0.22%  0.00%  [.] tcp_data_ready  -  -
+  0.21%  0.19%  [k] srso_alias_safe_ret  -  -
+  0.21%  0.02%  [.] resolve_normal_ct  -  -
+  0.21%  0.00%  [.] __wake_up_sync_key  -  -
+  0.19%  0.19%  [.] lavik::storage::NextRecordOffset(std::byte const*, unsigned int, unsigned int)  -  -
+  0.19%  0.17%  [.] lavik::DispatchCommand(lavik::DispatchCommand(lavik::ConnectionContext&, lavik::CommandRequest&, lavik::ReplyBuilder&)::_ZN5lavik15DispatchCommandERNS_17ConnectionContextERNS_14CommandRequestERNS_12ReplyBuilderE.Frame*) [clone .actor]  -  -
+  0.19%  0.05%  [.] lavik::storage::StorageEngine::Impl::RelocateIfCurrent(lavik::storage::StorageEngine::Impl::RelocateIfCurrent(unsigned int, std::basic_string_view<char, std::char_traits<char> >, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::RecordHeader const&, lavik::storage::RecordLocation const&, bool)::_ZN5lavik7storage13StorageEngine4Impl17RelocateIfCurrentEjSt17basic_string_viewIcSt11char_traitsIcEES6_RKNS0_12RecordHeaderERKNS0_14RecordLocationEb.Frame*) [clone .actor]  -  -
+  0.19%  0.04%  [.] lavik::storage::(anonymous namespace)::ValidateEntries(lavik::storage::OrderedCollectionKind, std::span<lavik::storage::OrderedCollectionEntry const, 18446744073709551615ul>) [clone .lto_priv.0]  -  -
+  0.18%  0.16%  [k] fget  -  -
+  0.18%  0.02%  [.] __skb_datagram_iter  -  -
+  0.18%  0.02%  [.] lavik::storage::StorageEngine::Impl::ExecuteGroupedSortedSetLocked(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::WorkerStore::PartitionStore&, unsigned char, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::Digest const&, lavik::storage::SortedSetOperation const&, std::shared_ptr<lavik::storage::GroupedHashObject const>, lavik::storage::TxShardWrites*, lavik::storage::ReplicationCommandAppend*, lavik::storage::MutationPrecondition const*, lavik::storage::StorageEngine::Impl::PreparedOrderedMutation*)::{lambda(unsigned long)#1}::operator()(lavik::storage::StorageEngine::Impl::ExecuteGroupedSortedSetLocked(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::WorkerStore::PartitionStore&, unsigned char, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::Digest const&, lavik::storage::SortedSetOperation const&, std::shared_ptr<lavik::storage::GroupedHashObject const>, lavik::storage::TxShardWrites*, lavik::storage::ReplicationCommandAppend*, lavik::storage::MutationPrecondition const*, lavik::storage::StorageEngine::Impl::PreparedOrderedMutation*)::{lambda(unsigned long)#1}::operator()(unsigned long) const::_ZZN5lavik7storage13StorageEngine4Impl29ExecuteGroupedSortedSetLockedERNS2_11WorkerStoreERNS3_14PartitionStoreEhSt17basic_string_viewIcSt11char_traitsIcEERKNS0_6DigestERKNS0_18SortedSetOperationESt10shared_ptrIKNS0_17GroupedHashObjectEEPNS0_13TxShardWritesEPNS0_24ReplicationCommandAppendEPKNS0_20MutationPreconditionEPNS2_23PreparedOrderedMutationEENKUlmE_clEm.Frame*) [clone .actor]  -  -
+  0.18%  0.00%  [.] skb_copy_datagram_iter  -  -
+  0.17%  0.16%  [.] lavik::storage::HashGroupMap<unsigned long>::EraseNode(lavik::LocalSharedPtr<lavik::storage::HashGroupMap<unsigned long>::Node const> const&, unsigned long)  -  -
+  0.17%  0.08%  [k] apparmor_socket_sendmsg  -  -
+  0.17%  0.05%  [.] absl::lts_20250512::hash_internal::MixingHashState::CombineContiguousImpl(unsigned long, unsigned char const*, unsigned long, std::integral_constant<int, 8>) [clone .isra.0]  -  -
+  0.17%  0.00%  [.] asm_sysvec_hyperv_stimer0  -  -
+  0.17%  0.00%  [.] security_socket_sendmsg  -  -
+  0.17%  0.00%  [.] sysvec_hyperv_stimer0  -  -
+  0.16%  0.16%  [k] __nf_conntrack_find_get  -  -
+  0.16%  0.13%  [.] mi_find_page  -  -
+  0.16%  0.05%  [.] __alloc_skb  -  -
+  0.16%  0.00%  [.] tcp_stream_alloc_skb  -  -
+  0.15%  0.13%  [.] mi_theap_collect_ex.lto_priv.0  -  -
+  0.15%  0.08%  [.] lavik::storage::StorageEngine::Impl::FlushPendingBlocks(lavik::storage::StorageEngine::Impl::FlushPendingBlocks(lavik::storage::StorageEngine::Impl::WorkerStore*)::_ZN5lavik7storage13StorageEngine4Impl18FlushPendingBlocksEPNS2_11WorkerStoreE.Frame*) [clone .actor]  -  -
+  0.15%  0.05%  [.] lavik::storage::(anonymous namespace)::ValidateFields(lavik::storage::HashGroupSnapshot const&, std::array<unsigned char, 16ul> const*) [clone .lto_priv.0]  -  -
+  0.15%  0.01%  [.] mlx5e_xmit  -  -
+  0.15%  0.00%  [.] io_recv_buf_select.constprop.0  -  -
+  0.15%  0.00%  [.] simple_copy_to_iter  -  -
+  0.13%  0.13%  [.] lavik::(anonymous namespace)::RedisService::Serve(lavik::(anonymous namespace)::RedisService::Serve(bycorf::TcpStream&, lavik::ConnectionContext&)::_ZN5lavik12_GLOBAL__N_112RedisService5ServeERN6bycorf9TcpStreamERNS_17ConnectionContextE.Frame*) [clone .actor] [clone .lto_priv.0]  -  -
+  0.13%  0.13%  [.] lavik::local_shared_detail::Allocation<lavik::storage::(anonymous namespace)::GroupIndexNode, lavik::storage::RetainedAllocator<lavik::storage::(anonymous namespace)::GroupIndexNode> >::Destroy(lavik::local_shared_detail::Control<lavik::storage::(anonymous namespace)::GroupIndexNode>*) [clone .lto_priv.0]  -  -
+  0.13%  0.11%  [.] lavik::(anonymous namespace)::ExecuteCommandOnOwner(unsigned int, lavik::CommandRequest&, lavik::ReplyBuilder&, unsigned long, lavik::ConnectionContext*)::{lambda()#1}::operator()(lavik::(anonymous namespace)::ExecuteCommandOnOwner(unsigned int, lavik::CommandRequest&, lavik::ReplyBuilder&, unsigned long, lavik::ConnectionContext*)::{lambda()#1}::operator()() const::_ZZN5lavik12_GLOBAL__N_121ExecuteCommandOnOwnerEjRNS_14CommandRequestERNS_12ReplyBuilderEmPNS_17ConnectionContextEENKUlvE_clEv.Frame*) [clone .actor] [clone .lto_priv.0]  -  -
+  0.13%  0.10%  [.] lavik::storage::RecordPayloadCursor::Read(std::span<std::byte, 18446744073709551615ul>)  -  -
+  0.13%  0.06%  [k] io_buffer_select  -  -
+  0.12%  0.12%  [.] lavik::storage::DecodeRecordHeader(std::span<std::byte const, 18446744073709551615ul>, lavik::storage::RecordHeader*, std::basic_string_view<char, std::char_traits<char> >*)  -  -
+  0.12%  0.11%  [.] lavik::storage::HashGroupMap<unsigned long>::Balance(unsigned long, lavik::storage::RecoveredHashGroup, lavik::LocalSharedPtr<lavik::storage::HashGroupMap<unsigned long>::Node const>, lavik::LocalSharedPtr<lavik::storage::HashGroupMap<unsigned long>::Node const>)  -  -
+  0.12%  0.11%  [.] mi_arenas_try_purge.lto_priv.0  -  -
+  0.12%  0.05%  [.] lavik::storage::StorageEngine::Impl::CommitTxWrites(lavik::storage::StorageEngine::Impl::CommitTxWrites(unsigned long, std::vector<lavik::storage::TxShardWrites*, std::allocator<lavik::storage::TxShardWrites*> >, lavik::storage::RelocationDurabilityFence*)::_ZN5lavik7storage13StorageEngine4Impl14CommitTxWritesEmSt6vectorIPNS0_13TxShardWritesESaIS5_EEPNS0_25RelocationDurabilityFenceE.Frame*) [clone .actor]  -  -
+  0.12%  0.05%  [.] mlx5e_poll_tx_cq  -  -
+  0.12%  0.02%  [.] lavik::storage::(anonymous namespace)::ValidateGroup(lavik::storage::OrderedGroupSnapshot const&) [clone .lto_priv.0]  -  -
+  0.12%  0.02%  [.] lavik::storage::StorageEngine::Impl::WriteOrderedGroupRecordLocked(lavik::storage::StorageEngine::Impl::WriteOrderedGroupRecordLocked(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::WorkerStore::PartitionStore&, unsigned char, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::Digest const&, lavik::storage::OrderedGroupSnapshot const&, lavik::storage::OrderedGroupEncoder, unsigned long, lavik::storage::TxShardWrites&, unsigned long)::_ZN5lavik7storage13StorageEngine4Impl29WriteOrderedGroupRecordLockedERNS2_11WorkerStoreERNS3_14PartitionStoreEhSt17basic_string_viewIcSt11char_traitsIcEERKNS0_6DigestERKNS0_20OrderedGroupSnapshotENS0_19OrderedGroupEncoderEmRNS0_13TxShardWritesEm.Frame*) [clone .actor]  -  -
+  0.12%  0.01%  [.] lavik::storage::OrderedGroupDirectory::Find(unsigned long) const  -  -
+  0.12%  0.01%  [.] mlx5e_poll_rx_cq  -  -
+  0.12%  0.00%  [.] io_run_local_work_locked  -  -
+  0.11%  0.11%  [.] __memcmp_evex_movbe  -  -
+  0.11%  0.11%  [.] bycorf::PostRequest(bycorf::CrossCore*, unsigned int, bycorf::RemoteWork*)  -  -
+  0.11%  0.11%  [.] lavik::storage::ScanHashMap<lavik::storage::RecordLocation, 32u, lavik::storage::RecordIndexEntryPolicy>::Find(lavik::storage::Digest const&, std::basic_string_view<char, std::char_traits<char> >)  -  -
+  0.11%  0.10%  [.] lavik::(anonymous namespace)::ReadCommandBatch(lavik::(anonymous namespace)::ReadCommandBatch(bycorf::TcpStream&, lavik::(anonymous namespace)::RequestInputBuffer*, lavik::RespCommandParser*, lavik::(anonymous namespace)::CommandBatch*, lavik::ClientBufferReservation*, std::atomic<unsigned long> const*, unsigned long*, std::optional<absl::lts_20250512::Status>*)::_ZN5lavik12_GLOBAL__N_116ReadCommandBatchERN6bycorf9TcpStreamEPNS0_18RequestInputBufferEPNS_17RespCommandParserEPNS0_12CommandBatchEPNS_23ClientBufferReservationEPKSt6atomicImEPmPSt8optionalIN4absl12lts_202505126StatusEE.Frame*) [clone .actor]  -  -
+  0.11%  0.10%  [.] lavik::TryReserveMemory(unsigned long)  -  -
+  0.11%  0.07%  [.] lavik::storage::HashGroupMap<unsigned long>::SetNode(lavik::LocalSharedPtr<lavik::storage::HashGroupMap<unsigned long>::Node const> const&, unsigned long, lavik::storage::RecoveredHashGroup)  -  -
+  0.11%  0.07%  [.] tcp_current_mss  -  -
+  0.11%  0.04%  [.] absl::lts_20250512::StatusOr<lavik::LocalSharedPtr<lavik::storage::(anonymous namespace)::GroupIndexNode> > lavik::storage::(anonymous namespace)::AllocateLocalObject<lavik::storage::(anonymous namespace)::GroupIndexNode>(std::shared_ptr<lavik::storage::ScanHashMapEntryArena> const&)  -  -
+  0.11%  0.04%  [.] lavik::storage::StorageEngine::Impl::PrepinGroupedRetirementsLocked(lavik::storage::StorageEngine::Impl::PrepinGroupedRetirementsLocked(lavik::storage::StorageEngine::Impl::WorkerStore&, std::shared_ptr<lavik::storage::GroupedHashObject const> const&, std::optional<std::span<lavik::storage::HashGroupId const, 18446744073709551615ul> >, bool, std::unique_ptr<lavik::storage::StorageEngine::Impl::GroupedRetirementPins, std::default_delete<lavik::storage::StorageEngine::Impl::GroupedRetirementPins> >*)::_ZN5lavik7storage13StorageEngine4Impl30PrepinGroupedRetirementsLockedERNS2_11WorkerStoreERKSt10shared_ptrIKNS0_17GroupedHashObjectEESt8optionalISt4spanIKNS0_11HashGroupIdELm18446744073709551615EEEbPSt10unique_ptrINS2_21GroupedRetirementPinsESt14default_deleteISI_EE.Frame*) [clone .actor]  -  -
+  0.11%  0.04%  [.] mlx5e_rx_cq_process_basic_cqe_comp  -  -
+  0.11%  0.04%  [.] std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, unsigned long, std::allocator<char> const&) [clone .constprop.0]  -  -
+  0.11%  0.00%  [.] tcp_send_mss  -  -
+
+
+#
+# (Cannot load tips.txt file, please install perf!)
+#
