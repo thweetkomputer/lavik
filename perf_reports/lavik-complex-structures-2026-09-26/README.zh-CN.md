@@ -12,7 +12,7 @@ Redis 兼容数据结构。每张图固定数据结构、每个 key 的逻辑数
 
 **main `a6e93d3d` 已完成的复测：Hash/1 MiB/128 B, Hash/1 MiB/1024 B, Hash/100 MiB/128 B, Hash/100 MiB/1024 B, Set/1 MiB/128 B, Set/1 MiB/1024 B, Set/100 MiB/128 B, Set/100 MiB/1024 B。** 精确版本、二进制摘要和未合并 PR 来源见 [绘图来源](published-main.json)。Stream、List、Sorted Set 的结果和图继续保留。
 
-PR #228 已 rebase 到 `a8c926d4`，当前代码为 `31f09884`，原优化补丁未变。当前已发布的曲线仍是 `a6e93d3d` / `80792c41` 的实测；新版本复测完成后逐图覆盖，旧数据不会改标签冒充新测试。
+PR #228 已 rebase 到 `a8c926d4`，当前代码为 `31f09884`，原优化补丁未变。Hash/Set 已发布的曲线仍是 `a6e93d3d` / `80792c41` 的实测；新版本复测完成后逐图覆盖，旧数据不会改标签冒充新测试。
 
 本轮先用 perf 找分配、拷贝和重复工作，PR #228 减少临时容器、元数据查询和额外调度，没有增加数据缓存或改变落盘格式。**尚未在所有写入负载上达到 Kvrocks 水平。** 图中主测点不运行 perf，30 秒工作负载中的 20 秒采样另存原始目录；[采样脚本](profile_grouped_writes.py)可复现相同流程。
 
@@ -229,7 +229,7 @@ value、member 或元素为 128 B 或 1 KiB。Stream 的字段名和各结构元
   Redis 8.8.0 与 Valkey 9.1.0 使用
   12 个 I/O 线程，关闭 RDB/AOF；Lavik 使用 12 个 worker、内核 TCP
   和六块专用 SPDK NVMe。三者的持久化配置不同。
-- List 和 Sorted Set 的 100 MiB / 1 KiB 已更新为 main `a6e93d3d`；其余条件仍是早期 [PR #203](https://github.com/eloqdata/lavik/pull/203) 的
+- List 和 Sorted Set 的 100 MiB / 1 KiB 使用各图注明的 main 版本；其余条件仍是早期 [PR #203](https://github.com/eloqdata/lavik/pull/203) 的
   `646a7b4e` 二进制；Hash/Set 与 Stream 的当前 main 版本在各自章节注明。
   不同版本的数据不组成一条 Lavik 曲线。
 - Kvrocks 使用 16 个 worker，各大小档位使用相同缓存与压缩配置。List、Sorted Set 的 64 KiB 与
@@ -355,7 +355,7 @@ value、member 或元素为 128 B 或 1 KiB。Stream 的字段名和各结构元
 
 ## Stream
 
-Stream 的 100 MiB / 1 KiB 已更新为 main `a6e93d3d`；小档保留已合并优化后的 main `9acd7b6f` 实测。64 KiB 和 1 MiB 档使用 64 个热 key、128 B 或 1 KiB 元素；100 MiB 档使用八个 key、1 KiB 元素。横轴为连接数，纵轴为 QPS；每图只画一条 Lavik main 曲线。
+Stream 的 100 MiB / 1 KiB 已更新为 main `a8c926d4` 与本轮优化 PR；小档保留已合并优化后的 main `9acd7b6f` 实测。64 KiB 和 1 MiB 档使用 64 个热 key、128 B 或 1 KiB 元素；100 MiB 档使用八个 key、1 KiB 元素。横轴为连接数，纵轴为 QPS；每图保留一条 Lavik main 曲线，并叠加尚未合并的实测优化 PR。
 
 点查和写入覆盖 80–5120 连接；小档完整读取覆盖 16/80 连接，100 MiB 档覆盖 1/4/16 连接。Redis 和 Valkey 关闭持久化，Kvrocks 关闭 WAL 且启用 80 GiB block cache，Lavik 提交到 SPDK；写入结果反映这些具体配置。
 
@@ -397,7 +397,7 @@ Stream 的 100 MiB / 1 KiB 已更新为 main `a6e93d3d`；小档保留已合并�
 
 ![100 MiB、1 KiB：`XADD MAXLEN`，四款数据库 QPS 随连接数变化](charts/stream-104857600-1024-xadd_maxlen-latest.png)
 
-**2026-09-30 最新 main `a6e93d3d` 复测。** 8 × 100 MiB key、1 KiB 元素，读写及全量读取共 13 个无采样测点；其他数据库保留同负载的原始结果，未重跑。 所有测点零错误，逐 key 校验通过。 [Raw data](raw/lavik-maina6-ordered-stream-100m-k8-f1024-20260930/) · [Plot provenance](ordered-published.json).
+**2026-09-30 main `a8c926d4` 与 [PR #233](https://github.com/eloqdata/lavik/pull/233) `721097a7` 实测。** 8 × 100 MiB key、1 KiB 元素；每版 13 个无采样测点，覆盖 80–5120 连接的点查和写入及 1/4/16 连接的全量读取。其他数据库保留同负载原始结果。 所有测点零错误，逐 key 数量校验通过。 [Main raw](raw/lavik-maina8-ordered-stream-100m-k8-f1024-20260930/) · [PR raw](raw/lavik-chunks721097a7-stream-100m-k8-f1024-20260930/) · [Plot provenance](ordered-published.json). **本版 Stream 写入尚未改善：80–5120 连接较 main 低约 2%–15%。新 perf 中目录查找占约 34%、写入规划约 12%；PR 保持草稿，继续移除全链重复工作。**
 
 
 ### 全范围 `XRANGE - +`

@@ -41,7 +41,10 @@ def load(folder, condition, revision=None):
                                 .read_text())["sample_cardinalities"]
             if len(counts) != keys:
                 raise ValueError(f"incomplete cardinality checks: {folder}")
-            delta = 100 if kind == "stream" and stage == "after" else 0
+            # A reused Stream retains the previous XADD MAXLEN ~ result;
+            # approximate trimming can keep one extra macro-node at startup.
+            post_write = stage == "after" or source.get("reused_seed_from")
+            delta = 100 if kind == "stream" and post_write else 0
             if any(abs(count - size // field) > delta for count in counts.values()):
                 raise ValueError(f"changed cardinality: {folder}")
         if complete["failures_total"] != len(list(folder.glob("*.error.json"))):
