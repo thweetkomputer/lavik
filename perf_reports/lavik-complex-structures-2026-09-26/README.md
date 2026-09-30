@@ -32,7 +32,7 @@ ineffective FLUSH commands on VWC=0 controllers; data-before-commit ordering is 
 This single-field HSET workload does not exercise the multi-field index optimization.
 Main merged #223 (Meta connection handling) during measurement; the code is being rebased,
 and these curves identify the exact measured commits above.
-Set 100 MiB/128 B still shows the preceding main `4c26af7b` and PR #219 `d1f58feb`, pending its rerun.
+Set 100 MiB/128 B temporarily retains only the preceding main `4c26af7b`; updated main and PR #222 runs are pending.
 Other sizes do not yet include PR #222. Each point is one eight-second measurement.
 [Raw Hash main data](raw/lavik-maine5-hash-100m-k500-f128-20260930/) and
 [PR data](raw/lavik-pr222c98-hash-100m-k500-f128-20260930/) are available for inspection.
@@ -94,19 +94,11 @@ Each point-read/write chart contains both commands. The 1 MiB and 100 MiB runs u
 
 ### RESTORE
 
-#### 100 MiB per key
+#### 100 MiB
 
-![Hash 100 MiB, 128 B, 500 keys: fill times across four databases](charts/hash-104857600-128-k500-fill.png)
-
-The latest PR #219 used eight RESTORE clients to fill 500 Hash keys on empty SPDK devices
-in 362.7 seconds. All 500 keys and 819,200 fields per key validated. Redis,
-Valkey, and Kvrocks took 328.6, 276.3, and 488.8 seconds with batched HSET.
-The commands and persistence settings differ, so the figure records elapsed
-time for this workload rather than equal durability throughput. The
-[measurements](hash-104857600-128-k500-fill.csv) and
-[plot script](plot_fill_reference.py) point to the raw runs. The previous PR
-version with a fixed 128 MiB cap took 591.3 seconds. Peak reported memory
-was about 5.15 GiB in the latest run versus 4.83 GiB previously.
+#219 is merged. Its intermediate import comparison plots have been removed;
+merged-main import measurements are pending. [Historical raw measurements](hash-104857600-128-k500-fill.csv)
+remain available for inspection and do not represent current main.
 
 ## Set
 
@@ -142,46 +134,11 @@ Each point-read/write chart contains both commands. The 1 MiB and 100 MiB runs u
 
 ### RESTORE
 
-#### 100 MiB per key
+#### 100 MiB
 
-![Set 100 MiB, 128 B, 500 keys: fill times across four databases](charts/set-104857600-128-k500-fill.png)
-
-The latest PR #219 used eight RESTORE clients to fill 500 Set keys on empty SPDK devices
-in 548.7 seconds. All 500 keys and 819,200 members per key validated. Redis,
-Valkey, and Kvrocks took 354.0, 264.5, and 545.0 seconds with batched SADD.
-The commands and persistence settings differ, so the figure records elapsed
-time for this workload rather than equal durability throughput. The
-[measurements](set-104857600-128-k500-fill.csv) and
-[plot script](plot_fill_reference.py) point to the raw runs. The previous PR
-version with a fixed 128 MiB cap took 760.5 seconds; older Lavik `d1ce200e`
-took 10,739 seconds for 500 RESTORE commands. Neither is the latest main A/B
-baseline.
-
-For a controlled Set 100 MiB/128 B RESTORE comparison, each Lavik build
-loaded the same RDB payload into 100 distinct keys with eight clients after
-clearing the six SPDK devices. Current `main` took 2,072.4 seconds; the 8 MiB
-batch and touched-group deduplication branch took 484.0 seconds; the fixed
-128 MiB cap took 151.5 seconds; the memory-scaled batch and hash-indexed
-duplicate validation took 112.3 seconds, 18.5 times faster than the same
-`main`. All four runs validated every key and its 819,200 members without
-errors. The 100-key dynamic-batch result is from pre-rebase commit `a998d79d`;
-the 500-key current PR result above is from `d1f58feb` based on `4c26af7b`.
-
-![Set 100 MiB, 128 B, 100 keys: Lavik RESTORE fill-time comparison](charts/set-104857600-128-k100-restore-ab.png)
-
-The [RESTORE A/B measurements](set-104857600-128-k100-restore-ab.csv) and
-[plot script](plot_restore_import_ab.py) record source commits, binary hashes,
-and checks on the identical RDB payload.
-
-#### 256 MiB boundary validation
-
-To check that larger objects still import after removing the fixed 128 MiB
-batch maximum, PR #219 also
-RESTOREd eight 256 MiB Set keys with 1 KiB members in 20.2 seconds. All eight
-keys and their 262,144 members validated; peak reported memory was about
-1.28 GiB. This is a single-product correctness and memory check, separate
-from the four-product performance charts. The [raw run](raw/lavik-import-d1f58feb-set-256m-k8-f1024-20260929/)
-keeps seed provenance, build identification, and validation results.
+#219 is merged. Its intermediate import comparison plots have been removed;
+merged-main import measurements are pending. [Historical raw measurements](set-104857600-128-k500-fill.csv)
+remain available for inspection and do not represent current main.
 
 ## Workloads
 
