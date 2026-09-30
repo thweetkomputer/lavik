@@ -27,7 +27,7 @@ HSET：main **3.27–4.89 万 QPS**，PR **7.72–9.74 万 QPS**；
 [Bycorf #6](https://github.com/eloqdata/bycorf/pull/6) 省去 VWC=0 控制器的无效 FLUSH；
 数据先于 Commit 落盘的规则保持不变。单字段 HSET 测试不使用多参数字段位置索引，不能把本图收益归给该项。
 压测期间 main 又合入 #223（Meta 连接）；代码正同步 rebase，图中版本以本段实测提交为准。
-Set 100 MiB/128 B 仍是上一轮 main `4c26af7b` 与 PR #219 `d1f58feb`，正在补测；
+Set 100 MiB/128 B 暂时只保留上一轮 main `4c26af7b`，正在补测新版 main 与 PR #222；
 其他大小尚未加入 PR #222。每点八秒、只测一次。
 [原始 Hash main 数据](raw/lavik-maine5-hash-100m-k500-f128-20260930/)与
 [原始 PR 数据](raw/lavik-pr222c98-hash-100m-k500-f128-20260930/)可复核。
@@ -89,15 +89,8 @@ cache；Lavik 在六块 NVMe 上用 SPDK 提交。这些配置影响绝对写入
 
 #### 100 MiB
 
-![Hash 100 MiB、128 B、500 key：四款数据库的灌数耗时](charts/hash-104857600-128-k500-fill.png)
-
-PR #219 最新版本在空盘上用八个客户端 RESTORE 500 个 Hash key，耗时 362.7 秒；
-500 个 key、每 key 819,200 个 field 全部校验通过。Redis、Valkey、Kvrocks
-分别用批量 HSET 灌数 328.6、276.3、488.8 秒。各库的写入命令和持久化配置
-不同，这张图只显示这组负载的耗时，不能作为同等持久性吞吐排名。
-[测点](hash-104857600-128-k500-fill.csv)和[绘图脚本](plot_fill_reference.py)
-可复核原始记录。PR #219 上一版固定 128 MiB 上限时耗时 591.3 秒；
-最终版的内存峰值约 5.15 GiB，上版约 4.83 GiB。
+#219 已合并。旧优化阶段的导入对照图已移除，合并后 main 的新结果待补测；
+[历史原始测点](hash-104857600-128-k500-fill.csv)保留供复核，不代表当前 main。
 
 ## Set
 
@@ -135,37 +128,8 @@ PR #219 最新版本在空盘上用八个客户端 RESTORE 500 个 Hash key，�
 
 #### 100 MiB
 
-![Set 100 MiB、128 B、500 key：四款数据库的灌数耗时](charts/set-104857600-128-k500-fill.png)
-
-PR #219 最新版本在空盘上用八个客户端 RESTORE 500 个 Set key，耗时 548.7 秒；
-500 个 key、每 key 819,200 个成员全部校验通过。Redis、Valkey、Kvrocks
-分别用批量 SADD 灌数 354.0、264.5、545.0 秒。各库的写入命令和持久化
-配置不同，这张图只显示这组负载的耗时，不能作为同等持久性吞吐排名。
-[测点](set-104857600-128-k500-fill.csv)和[绘图脚本](plot_fill_reference.py)
-可复核原始记录。PR #219 上一版固定 128 MiB 上限时耗时 760.5 秒；
-较早的 Lavik `d1ce200e` 用 10,739 秒完成 500 次 RESTORE，均不作为
-最新 main 的 A/B 基线。
-
-同一个 100 MiB/128 B Set RDB 样本，在每次清空六块 SPDK 盘后用八个客户端
-RESTORE 100 个不同 key：最新 `main` 用 2,072.4 秒，8 MiB 分批及 touched-group
-去重分支用 484.0 秒，固定 128 MiB 上限的版本用 151.5 秒，按可用内存
-动态分批并改进重复校验索引的版本用 112.3 秒，较同一版 `main` 快 18.5 倍。
-四次运行均校验全部 100 个 key、每 key 819,200 个成员，且无错误。
-这一 100-key 动态版测点使用 rebase 前的提交 `a998d79d`；上面的 500-key
-最新 PR 测点来自盖在 `4c26af7b` 上的 `d1f58feb`。
-
-![Set 100 MiB、128 B、100 key：Lavik RESTORE 导入耗时对照](charts/set-104857600-128-k100-restore-ab.png)
-
-[RESTORE A/B 测点](set-104857600-128-k100-restore-ab.csv)和
-[绘图脚本](plot_restore_import_ab.py)保留了版本、二进制校验和及相同 RDB 样本的校验。
-
-#### 256 MiB 边界验证
-
-为了检验去掉固定 128 MiB 批量上限后更大的对象仍可导入，PR #219 还 RESTORE 了八个
-256 MiB/1 KiB 成员的 Set key，用时 20.2 秒；八个 key 的 262,144 个成员
-均通过校验，内存峰值约 1.28 GiB。这是单产品功能与内存验证，未纳入上面的
-四库性能图。[原始记录](raw/lavik-import-d1f58feb-set-256m-k8-f1024-20260929/)
-保留样本摘要、版本和校验结果。
+#219 已合并。旧优化阶段的导入对照图已移除，合并后 main 的新结果待补测；
+[历史原始测点](set-104857600-128-k500-fill.csv)保留供复核，不代表当前 main。
 
 ## 工作负载
 
