@@ -182,6 +182,8 @@ All four use SADD, 16 entries per command, eight clients and pipeline 64. Main f
 
 All four use SADD, 128 entries per command, eight clients and pipeline 64. Main fill time: **1724.2 seconds**. Persistence settings still differ.
 
+A separate Lavik main `31a1e130` / PR #222 `faef28d9` comparison uses 64 clients, 1,024 members per command and pipeline 8. Fresh fills of 50,000 one-MiB keys take **352.3 s** and **166.7 s**, respectively: **2.11×** main throughput, with every key validated. These import parameters differ from the older four-database chart above; the timings are not compared across setups. [main raw](raw/lavik-main31-set-1m-k50000-f128-b128k-c64-p8-encoded-20260930/), [PR raw](raw/lavik-pr222faef28d9-set-1m-k50000-f128-b128k-c64-p8-encoded-20260930/).
+
 The matching 100 MiB SADD import measurement is pending. The previous mixed RESTORE/SADD figure has been removed.
 
 ### RESTORE
