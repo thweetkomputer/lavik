@@ -14,7 +14,7 @@ Redis 兼容数据结构。每张图固定数据结构、每个 key 的逻辑数
 
 PR #228 当前代码为 `80792c41`。部分图暂保留 PR 的上一测量版本，各图注明实际提交，正在逐组替换。
 
-本轮先用 perf 找分配、拷贝和重复工作，PR #228 减少临时容器、元数据查询和额外调度，没有增加数据缓存或改变落盘格式。**尚未在所有写入负载上达到 Kvrocks 水平。** 图中主测点不运行 perf，30 秒诊断另存原始目录；[采样脚本](profile_grouped_writes.py)可复现相同流程。
+本轮先用 perf 找分配、拷贝和重复工作，PR #228 减少临时容器、元数据查询和额外调度，没有增加数据缓存或改变落盘格式。**尚未在所有写入负载上达到 Kvrocks 水平。** 图中主测点不运行 perf，30 秒工作负载中的 20 秒采样另存原始目录；[采样脚本](profile_grouped_writes.py)可复现相同流程。
 
 点查和写入测 80/320/1280/2560/5120 连接，完整读取测 1 MiB 档的
 16/80、100 MiB 档的 1/4/16 连接；每点八秒。Redis、Valkey 不持久化，
@@ -80,11 +80,15 @@ cache；Lavik 在六块 NVMe 上用 SPDK 提交。这些配置影响绝对写入
 
 ![Hash batched HSET import](charts/hash-1048576-1024-k50000-fill.png)
 
+历史导入测量：Lavik main `ebe28dd5`，不是本轮 `a6e93d3d` / PR #228 的复测。
+
 四库统一用 HSET，每条 16 个元素、8 个连接、pipeline 64；main 灌入耗时 **500.3 秒**。持久化配置仍不同。
 
 #### 1 MiB / 128 B
 
 ![Hash batched HSET import](charts/hash-1048576-128-k50000-fill.png)
+
+历史导入测量：Lavik main `ebe28dd5`，不是本轮 `a6e93d3d` / PR #228 的复测。
 
 四库统一用 HSET，每条 128 个元素、8 个连接、pipeline 64；main 灌入耗时 **1306.3 秒**。持久化配置仍不同。
 
@@ -104,10 +108,8 @@ cache；Lavik 在六块 NVMe 上用 SPDK 提交。这些配置影响绝对写入
 
 ![Set 1 MiB、128 B：SISMEMBER 与 SADD/SREM QPS 随连接数变化](charts/set-1048576-128-ab.png)
 
-**最新 main `a6e93d3d` 与 [PR #228](https://github.com/eloqdata/lavik/pull/228) `b6ed4df1` 实测。** 50,000 × 1 MiB key，128 B 元素，各 12 个测点、零错误，测量前后逐 key 校验。SADD + SREM 同连接数下为 main 的 **1.07–1.12 倍**。曲线使用无采样的八秒测点；单次差异不能视为稳定收益，30 秒 perf 诊断单独保存。
-[main raw](raw/lavik-maina6r-set-1m-k50000-f128-20260930/), [PR raw](raw/lavik-worktrimb6ed-set-1m-k50000-f128-20260930/).
-
-main 与 PR 均重启恢复后测量。30 秒 perf 诊断中，1,280/5,120 连接写入分别为 main **173,605/153,298**、PR **192,437/172,023 QPS**。SISMEMBER 没有一致提升，5,120 连接单次测点低约 6.7%；完整读吞吐也有波动，图中保留原值。
+**最新 main `a6e93d3d` 与 [PR #228](https://github.com/eloqdata/lavik/pull/228) `80792c41` 实测。** 50,000 × 1 MiB key，128 B 元素，各 12 个测点、零错误，测量前后逐 key 校验。SADD + SREM 同连接数下为 main 的 **1.08–1.18 倍**。曲线使用无采样的八秒测点；单次差异不能视为稳定收益，perf 诊断在有采样的条件下单独保存。
+[main raw](raw/lavik-maina6d-set-1m-k50000-f128-20260930/), [PR raw](raw/lavik-worktrim8079-set-1m-k50000-f128-20260930/).
 
 ![Set 1 MiB、1 KiB：SISMEMBER 与 SADD/SREM QPS 随连接数变化](charts/set-1048576-1024-ab.png)
 
@@ -144,15 +146,18 @@ main 与 PR 均重启恢复后测量。30 秒 perf 诊断中，1,280/5,120 连�
 
 ![Set batched SADD import](charts/set-1048576-1024-k50000-fill.png)
 
+历史导入测量：Lavik main `ebe28dd5`，不是本轮 `a6e93d3d` / PR #228 的复测。
+
 四库统一用 SADD，每条 16 个元素、8 个连接、pipeline 64；main 灌入耗时 **517.9 秒**。持久化配置仍不同。
 
 #### 1 MiB / 128 B
 
 ![Set batched SADD import](charts/set-1048576-128-k50000-fill.png)
 
+历史导入测量：Lavik main `ebe28dd5`，不是本轮 `a6e93d3d` / PR #228 的复测。
+
 四库统一用 SADD，每条 128 个元素、8 个连接、pipeline 64；main 灌入耗时 **1724.2 秒**。持久化配置仍不同。
 
-另测 Lavik main `31a1e130` 与 已合并实现 `faef28d9`：64 连接、每条 1,024 个成员、pipeline 8，使用相同客户端重新灌入 50,000 个 1 MiB key，耗时分别为 **352.3 秒**和 **166.7 秒**，PR 吞吐为 main 的 **2.11 倍**；均逐 key 校验通过。这是另一组导入参数，不与上图的旧参数结果横向比较。 [main raw](raw/lavik-main31-set-1m-k50000-f128-b128k-c64-p8-encoded-20260930/), [PR raw](raw/lavik-pr222faef28d9-set-1m-k50000-f128-b128k-c64-p8-encoded-20260930/).
 
 100 MiB 的同命令 SADD 导入尚无本轮完整结果。
 此前 Lavik RESTORE 与其他数据库 SADD 混用的对比图已撤下。
