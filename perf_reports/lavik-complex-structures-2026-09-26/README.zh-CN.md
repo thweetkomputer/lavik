@@ -10,7 +10,7 @@ Redis 兼容数据结构。每张图固定数据结构、每个 key 的逻辑数
 
 Hash 和 Set 的 1 MiB 档使用 50,000 个 key，100 MiB 档使用 500 个 key；
 每个元素为 128 B 或 1 KiB。每张图比较 Redis、Valkey、Kvrocks 与
-Lavik 的同条件结果。除 Hash/Set 100 MiB/128 B 外，本轮 Lavik 曲线来自已合并
+Lavik 的同条件结果。新测图下方注明 main/PR 版本；尚未补测的图沿用已合并
 [PR #212](https://github.com/eloqdata/lavik/pull/212) 的 `main`
 `d1ce200e174adcb07820b5431c77b024350e85b6`，SPDK 服务端二进制
 SHA256 为 `bd3f942e3b7b0f46c23c716197c8cc4ec8ad963e92cede0d9fa2574ff52a74a9`。
@@ -28,7 +28,7 @@ main 与 PR 二进制 SHA256 分别为 `e615cacfa119e36f9f2f566e5848ad01ea3909cc
 已结束事务的反压检查复用，以及多参数 SADD/HSET 的字段位置索引。
 已合并的 Bycorf 优化省去 VWC=0 控制器的无效 FLUSH；数据先于 Commit 落盘的规则保持不变。
 本轮是单字段/成员命令，不使用多参数字段位置索引，不能把图中的收益归给该项。
-每点八秒、只测一次，尚未达到 Kvrocks 写入水平。其他大小尚未加入 PR #222。
+每点八秒、只测一次，尚未达到 Kvrocks 写入水平。1 MiB 的 PR #222 对比随补测逐组更新，版本与原始记录见各图下方。100 MiB/1 KiB 尚未加入 PR #222。
 
 没有增加数据页缓存。早期 main、PR #212 和 256-key 的运行记录仍保留在
 `raw/`，不作为本轮曲线。
@@ -107,6 +107,9 @@ cache；Lavik 在六块 NVMe 上用 SPDK 提交。这些配置影响绝对写入
 
 ![Set 1 MiB、128 B：SISMEMBER 与 SADD/SREM QPS 随连接数变化](charts/set-1048576-128-ab.png)
 
+**2026-09-30 已补测：main `ebe28dd5` 与 PR #222 `817473b7`。** 50,000 key，128 B 元素；双方各 12 个测点、零错误。SADD + SREM 同连接数下 PR 为 main 的 **0.72–3.66 倍**。
+[main raw](raw/lavik-mainebe-set-1m-k50000-f128-sadd-20260930/), [PR raw](raw/lavik-pr222817-set-1m-k50000-f128-sadd-20260930/).
+
 ![Set 1 MiB、1 KiB：SISMEMBER 与 SADD/SREM QPS 随连接数变化](charts/set-1048576-1024-ab.png)
 
 #### 100 MiB
@@ -131,7 +134,13 @@ cache；Lavik 在六块 NVMe 上用 SPDK 提交。这些配置影响绝对写入
 
 ### 批量导入（SADD）
 
-四个数据库统一使用批量 SADD，Lavik 的同命令导入结果正在补测。
+#### 1 MiB / 128 B
+
+![Set batched SADD import](charts/set-1048576-128-k50000-fill.png)
+
+四库统一用 SADD，每条 128 个元素、8 个连接、pipeline 64；main 灌入耗时 **1724.2 秒**。持久化配置仍不同。
+
+100 MiB 的同命令 SADD 导入结果正在补测。
 此前 Lavik RESTORE 与其他数据库 SADD 混用的对比图已撤下。
 
 ### RESTORE
