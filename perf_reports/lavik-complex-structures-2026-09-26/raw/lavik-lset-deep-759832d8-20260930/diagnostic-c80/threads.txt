@@ -1,0 +1,128 @@
+# To display the perf.data header info, please use --header/--header-only options.
+#
+#
+# Total Lost Samples: 0
+#
+# Samples: 20K of event 'task-clock'
+# Event count (approx.): 101492449625
+#
+# Overhead  Pid:Command  Command  Symbol  IPC  [IPC Coverage]
+# ........  .......................  ...............  ......................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................  ....................
+#
+  8.24%  326675:lavik-pr233-759  lavik-pr233-759  [.] bycorf::Worker::RunOnce(bool)  -  -
+  7.81%  326665:lavik-pr233-759  lavik-pr233-759  [.] bycorf::Worker::RunOnce(bool)  -  -
+  6.21%  326665:lavik-pr233-759  lavik-pr233-759  [.] bycorf::Worker::PollStorage() [clone .part.0]  -  -
+  5.70%  326675:lavik-pr233-759  lavik-pr233-759  [.] bycorf::Worker::PollStorage() [clone .part.0]  -  -
+  3.12%  326670:lavik-pr233-759  lavik-pr233-759  [.] bycorf::Worker::RunOnce(bool)  -  -
+  3.08%  326672:lavik-pr233-759  lavik-pr233-759  [.] bycorf::Worker::RunOnce(bool)  -  -
+  1.93%  326667:lavik-pr233-759  lavik-pr233-759  [.] bycorf::Worker::RunOnce(bool)  -  -
+  1.89%  326668:lavik-pr233-759  lavik-pr233-759  [.] bycorf::Worker::RunOnce(bool)  -  -
+  1.87%  326669:lavik-pr233-759  lavik-pr233-759  [.] bycorf::Worker::RunOnce(bool)  -  -
+  1.87%  326666:lavik-pr233-759  lavik-pr233-759  [.] bycorf::Worker::RunOnce(bool)  -  -
+  1.59%  326671:lavik-pr233-759  lavik-pr233-759  [.] bycorf::Worker::RunOnce(bool)  -  -
+  1.57%  326664:lavik-pr233-759  lavik-pr233-759  [.] bycorf::Worker::RunOnce(bool)  -  -
+  1.56%  326673:lavik-pr233-759  lavik-pr233-759  [.] bycorf::Worker::RunOnce(bool)  -  -
+  1.44%  326674:lavik-pr233-759  lavik-pr233-759  [.] bycorf::Worker::RunOnce(bool)  -  -
+  1.21%  326672:lavik-pr233-759  lavik-pr233-759  [.] bycorf::Worker::PollStorage() [clone .part.0]  -  -
+  1.13%  326670:lavik-pr233-759  lavik-pr233-759  [.] bycorf::Worker::PollStorage() [clone .part.0]  -  -
+  0.84%  326675:lavik-pr233-759  lavik-pr233-759  [.] nvme_pcie_qpair_process_completions  -  -
+  0.72%  326665:lavik-pr233-759  lavik-pr233-759  [.] nvme_pcie_qpair_process_completions  -  -
+  0.61%  326675:lavik-pr233-759  lavik-pr233-759  [.] bycorf::Worker::DrainCrossCore()  -  -
+  0.55%  326675:lavik-pr233-759  lavik-pr233-759  [.] spdk_nvme_qpair_process_completions  -  -
+  0.53%  326665:lavik-pr233-759  lavik-pr233-759  [.] spdk_nvme_qpair_process_completions  -  -
+  0.52%  326675:lavik-pr233-759  lavik-pr233-759  [k] do_syscall_64  -  -
+  0.46%  326665:lavik-pr233-759  lavik-pr233-759  [.] bycorf::Worker::DrainCrossCore()  -  -
+  0.35%  326670:lavik-pr233-759  lavik-pr233-759  [.] lavik::storage::OrderedGroupDirectory::Apply(lavik::storage::OrderedCollectionRoot const&, unsigned long, std::span<lavik::storage::RecoveredOrderedGroup const, 18446744073709551615ul>, unsigned long, std::span<lavik::storage::RecoveredHashGroup const, 18446744073709551615ul>) const  -  -
+  0.34%  326665:lavik-pr233-759  lavik-pr233-759  [k] _raw_spin_unlock_irqrestore  -  -
+  0.33%  326670:lavik-pr233-759  lavik-pr233-759  [k] _raw_spin_unlock_irqrestore  -  -
+  0.33%  326675:lavik-pr233-759  lavik-pr233-759  [.] bycorf::IoUringBackend::ReapCompletions()  -  -
+  0.32%  326665:lavik-pr233-759  lavik-pr233-759  [.] bycorf::IoUringBackend::ReapCompletions()  -  -
+  0.32%  326672:lavik-pr233-759  lavik-pr233-759  [.] _mi_theap_malloc_zero  -  -
+  0.32%  326675:lavik-pr233-759  lavik-pr233-759  [.] lavik::storage::OrderedGroupDirectory::Apply(lavik::storage::OrderedCollectionRoot const&, unsigned long, std::span<lavik::storage::RecoveredOrderedGroup const, 18446744073709551615ul>, unsigned long, std::span<lavik::storage::RecoveredHashGroup const, 18446744073709551615ul>) const  -  -
+  0.31%  326675:lavik-pr233-759  lavik-pr233-759  [.] nvme_transport_qpair_process_completions  -  -
+  0.30%  326665:lavik-pr233-759  lavik-pr233-759  [.] io_uring_submit_and_get_events  -  -
+  0.30%  326665:lavik-pr233-759  lavik-pr233-759  [.] lavik::storage::OrderedGroupDirectory::Apply(lavik::storage::OrderedCollectionRoot const&, unsigned long, std::span<lavik::storage::RecoveredOrderedGroup const, 18446744073709551615ul>, unsigned long, std::span<lavik::storage::RecoveredHashGroup const, 18446744073709551615ul>) const  -  -
+  0.30%  326672:lavik-pr233-759  lavik-pr233-759  [.] lavik::storage::OrderedGroupDirectory::Apply(lavik::storage::OrderedCollectionRoot const&, unsigned long, std::span<lavik::storage::RecoveredOrderedGroup const, 18446744073709551615ul>, unsigned long, std::span<lavik::storage::RecoveredHashGroup const, 18446744073709551615ul>) const  -  -
+  0.29%  326675:lavik-pr233-759  lavik-pr233-759  [k] _raw_spin_unlock_irqrestore  -  -
+  0.29%  326665:lavik-pr233-759  lavik-pr233-759  [.] __memmove_avx512_unaligned_erms  -  -
+  0.28%  326670:lavik-pr233-759  lavik-pr233-759  [k] do_syscall_64  -  -
+  0.28%  326675:lavik-pr233-759  lavik-pr233-759  [.] __memmove_avx512_unaligned_erms  -  -
+  0.27%  326665:lavik-pr233-759  lavik-pr233-759  [k] do_syscall_64  -  -
+  0.26%  326670:lavik-pr233-759  lavik-pr233-759  [.] io_uring_submit_and_get_events  -  -
+  0.25%  326665:lavik-pr233-759  lavik-pr233-759  [.] _mi_theap_malloc_zero  -  -
+  0.25%  326665:lavik-pr233-759  lavik-pr233-759  [k] handle_softirqs  -  -
+  0.25%  326672:lavik-pr233-759  lavik-pr233-759  [.] io_uring_submit_and_get_events  -  -
+  0.25%  326670:lavik-pr233-759  lavik-pr233-759  [.] __memmove_avx512_unaligned_erms  -  -
+  0.25%  326672:lavik-pr233-759  lavik-pr233-759  [k] do_syscall_64  -  -
+  0.24%  326670:lavik-pr233-759  lavik-pr233-759  [.] nvme_pcie_qpair_process_completions  -  -
+  0.24%  326672:lavik-pr233-759  lavik-pr233-759  [.] __memmove_avx512_unaligned_erms  -  -
+  0.24%  326672:lavik-pr233-759  lavik-pr233-759  [k] _raw_spin_unlock_irqrestore  -  -
+  0.24%  326672:lavik-pr233-759  lavik-pr233-759  [.] lavik::storage::StorageEngine::Impl::WriteRecordLocked(lavik::storage::StorageEngine::Impl::WriteRecordLocked(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::RecordWriteRequest const&, std::shared_ptr<std::vector<lavik::storage::ExtentRef, std::allocator<lavik::storage::ExtentRef> > const>, std::unique_ptr<std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> >, std::default_delete<std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> > > >)::_ZN5lavik7storage13StorageEngine4Impl17WriteRecordLockedERNS2_11WorkerStoreERKNS2_18RecordWriteRequestESt10shared_ptrIKSt6vectorINS0_9ExtentRefESaISA_EEESt10unique_ptrIS9_INS0_13RetiredRecordESaISG_EESt14default_deleteISI_EE.Frame*) [clone .actor] [clone .lto_priv.0]  -  -
+  0.23%  326670:lavik-pr233-759  lavik-pr233-759  [.] absl::lts_20250512::crc_internal::(anonymous namespace)::CRC32AcceleratedX86ARMCombinedMultipleStreams<3ul, 0ul, (absl::lts_20250512::crc_internal::(anonymous namespace)::CutoffStrategy)0>::Extend(unsigned int*, void const*, unsigned long) const  -  -
+  0.23%  326675:lavik-pr233-759  lavik-pr233-759  [.] absl::lts_20250512::crc_internal::(anonymous namespace)::CRC32AcceleratedX86ARMCombinedMultipleStreams<3ul, 0ul, (absl::lts_20250512::crc_internal::(anonymous namespace)::CutoffStrategy)0>::Extend(unsigned int*, void const*, unsigned long) const  -  -
+  0.22%  326670:lavik-pr233-759  lavik-pr233-759  [.] _mi_theap_malloc_zero  -  -
+  0.21%  326670:lavik-pr233-759  lavik-pr233-759  [.] lavik::storage::StorageEngine::Impl::WriteRecordLocked(lavik::storage::StorageEngine::Impl::WriteRecordLocked(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::RecordWriteRequest const&, std::shared_ptr<std::vector<lavik::storage::ExtentRef, std::allocator<lavik::storage::ExtentRef> > const>, std::unique_ptr<std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> >, std::default_delete<std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> > > >)::_ZN5lavik7storage13StorageEngine4Impl17WriteRecordLockedERNS2_11WorkerStoreERKNS2_18RecordWriteRequestESt10shared_ptrIKSt6vectorINS0_9ExtentRefESaISA_EEESt10unique_ptrIS9_INS0_13RetiredRecordESaISG_EESt14default_deleteISI_EE.Frame*) [clone .actor] [clone .lto_priv.0]  -  -
+  0.21%  326672:lavik-pr233-759  lavik-pr233-759  [.] absl::lts_20250512::crc_internal::(anonymous namespace)::CRC32AcceleratedX86ARMCombinedMultipleStreams<3ul, 0ul, (absl::lts_20250512::crc_internal::(anonymous namespace)::CutoffStrategy)0>::Extend(unsigned int*, void const*, unsigned long) const  -  -
+  0.21%  326675:lavik-pr233-759  lavik-pr233-759  [.] _nvme_qpair_complete_abort_queued_reqs  -  -
+  0.21%  326671:lavik-pr233-759  lavik-pr233-759  [k] finish_task_switch.isra.0  -  -
+  0.20%  326672:lavik-pr233-759  lavik-pr233-759  [.] bycorf::Worker::DrainCrossCore()  -  -
+  0.20%  326675:lavik-pr233-759  lavik-pr233-759  [.] lavik::storage::StorageEngine::Impl::WriteRecordLocked(lavik::storage::StorageEngine::Impl::WriteRecordLocked(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::RecordWriteRequest const&, std::shared_ptr<std::vector<lavik::storage::ExtentRef, std::allocator<lavik::storage::ExtentRef> > const>, std::unique_ptr<std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> >, std::default_delete<std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> > > >)::_ZN5lavik7storage13StorageEngine4Impl17WriteRecordLockedERNS2_11WorkerStoreERKNS2_18RecordWriteRequestESt10shared_ptrIKSt6vectorINS0_9ExtentRefESaISA_EEESt10unique_ptrIS9_INS0_13RetiredRecordESaISG_EESt14default_deleteISI_EE.Frame*) [clone .actor] [clone .lto_priv.0]  -  -
+  0.19%  326665:lavik-pr233-759  lavik-pr233-759  [.] absl::lts_20250512::crc_internal::(anonymous namespace)::CRC32AcceleratedX86ARMCombinedMultipleStreams<3ul, 0ul, (absl::lts_20250512::crc_internal::(anonymous namespace)::CutoffStrategy)0>::Extend(unsigned int*, void const*, unsigned long) const  -  -
+  0.19%  326665:lavik-pr233-759  lavik-pr233-759  [.] lavik::storage::StorageEngine::Impl::WriteRecordLocked(lavik::storage::StorageEngine::Impl::WriteRecordLocked(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::RecordWriteRequest const&, std::shared_ptr<std::vector<lavik::storage::ExtentRef, std::allocator<lavik::storage::ExtentRef> > const>, std::unique_ptr<std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> >, std::default_delete<std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> > > >)::_ZN5lavik7storage13StorageEngine4Impl17WriteRecordLockedERNS2_11WorkerStoreERKNS2_18RecordWriteRequestESt10shared_ptrIKSt6vectorINS0_9ExtentRefESaISA_EEESt10unique_ptrIS9_INS0_13RetiredRecordESaISG_EESt14default_deleteISI_EE.Frame*) [clone .actor] [clone .lto_priv.0]  -  -
+  0.19%  326670:lavik-pr233-759  lavik-pr233-759  [.] bycorf::Worker::DrainCrossCore()  -  -
+  0.19%  326672:lavik-pr233-759  lavik-pr233-759  [.] lavik::local_shared_detail::Allocation<lavik::storage::GroupedMetadataArray<lavik::storage::RecoveredOrderedGroup, 32ul>::Storage, lavik::storage::RetainedAllocator<lavik::storage::GroupedMetadataArray<lavik::storage::RecoveredOrderedGroup, 32ul>::Storage> >::Destroy(lavik::local_shared_detail::Control<lavik::storage::GroupedMetadataArray<lavik::storage::RecoveredOrderedGroup, 32ul>::Storage>*)  -  -
+  0.19%  326675:lavik-pr233-759  lavik-pr233-759  [.] _mi_theap_malloc_zero  -  -
+  0.19%  326675:lavik-pr233-759  lavik-pr233-759  [.] io_uring_submit_and_get_events  -  -
+  0.19%  326664:lavik-pr233-759  lavik-pr233-759  [k] finish_task_switch.isra.0  -  -
+  0.17%  326665:lavik-pr233-759  lavik-pr233-759  [.] lavik::local_shared_detail::Allocation<lavik::storage::GroupedMetadataArray<lavik::storage::RecoveredOrderedGroup, 32ul>::Storage, lavik::storage::RetainedAllocator<lavik::storage::GroupedMetadataArray<lavik::storage::RecoveredOrderedGroup, 32ul>::Storage> >::Destroy(lavik::local_shared_detail::Control<lavik::storage::GroupedMetadataArray<lavik::storage::RecoveredOrderedGroup, 32ul>::Storage>*)  -  -
+  0.17%  326669:lavik-pr233-759  lavik-pr233-759  [k] finish_task_switch.isra.0  -  -
+  0.17%  326670:lavik-pr233-759  lavik-pr233-759  [.] lavik::local_shared_detail::Allocation<lavik::storage::GroupedMetadataArray<lavik::storage::RecoveredOrderedGroup, 32ul>::Storage, lavik::storage::RetainedAllocator<lavik::storage::GroupedMetadataArray<lavik::storage::RecoveredOrderedGroup, 32ul>::Storage> >::Destroy(lavik::local_shared_detail::Control<lavik::storage::GroupedMetadataArray<lavik::storage::RecoveredOrderedGroup, 32ul>::Storage>*)  -  -
+  0.17%  326672:lavik-pr233-759  lavik-pr233-759  [.] nvme_pcie_qpair_process_completions  -  -
+  0.17%  326666:lavik-pr233-759  lavik-pr233-759  [k] finish_task_switch.isra.0  -  -
+  0.17%  326670:lavik-pr233-759  lavik-pr233-759  [.] lavik::storage::GroupedHashObject::FindRecord(lavik::storage::HashGroupId) const  -  -
+  0.17%  326671:lavik-pr233-759  lavik-pr233-759  [k] handle_softirqs  -  -
+  0.15%  326673:lavik-pr233-759  lavik-pr233-759  [k] finish_task_switch.isra.0  -  -
+  0.15%  326675:lavik-pr233-759  lavik-pr233-759  [.] lavik::local_shared_detail::Allocation<lavik::storage::GroupedMetadataArray<lavik::storage::RecoveredOrderedGroup, 32ul>::Storage, lavik::storage::RetainedAllocator<lavik::storage::GroupedMetadataArray<lavik::storage::RecoveredOrderedGroup, 32ul>::Storage> >::Destroy(lavik::local_shared_detail::Control<lavik::storage::GroupedMetadataArray<lavik::storage::RecoveredOrderedGroup, 32ul>::Storage>*)  -  -
+  0.14%  326664:lavik-pr233-759  lavik-pr233-759  [.] bycorf::Worker::DrainCrossCore()  -  -
+  0.14%  326667:lavik-pr233-759  lavik-pr233-759  [k] finish_task_switch.isra.0  -  -
+  0.14%  326668:lavik-pr233-759  lavik-pr233-759  [k] finish_task_switch.isra.0  -  -
+  0.14%  326670:lavik-pr233-759  lavik-pr233-759  [.] bycorf::IoUringBackend::ReapCompletions()  -  -
+  0.14%  326670:lavik-pr233-759  lavik-pr233-759  [.] lavik::storage::StorageEngine::Impl::FlushPendingBlocks(lavik::storage::StorageEngine::Impl::FlushPendingBlocks(lavik::storage::StorageEngine::Impl::WorkerStore*)::_ZN5lavik7storage13StorageEngine4Impl18FlushPendingBlocksEPNS2_11WorkerStoreE.Frame*) [clone .actor]  -  -
+  0.14%  326672:lavik-pr233-759  lavik-pr233-759  [.] lavik::storage::(anonymous namespace)::UpdatePhysical(lavik::LocalSharedPtr<lavik::storage::(anonymous namespace)::GroupIndexNode const> const&, std::span<lavik::storage::HashGroupLocation const, 18446744073709551615ul>, std::shared_ptr<lavik::storage::ScanHashMapEntryArena> const&)  -  -
+  0.14%  326675:lavik-pr233-759  lavik-pr233-759  [.] lavik::storage::GroupedHashObject::FindRecord(lavik::storage::HashGroupId) const  -  -
+  0.13%  326670:lavik-pr233-759  lavik-pr233-759  [k] handle_softirqs  -  -
+  0.13%  326672:lavik-pr233-759  lavik-pr233-759  [.] __memset_avx512_unaligned_erms  -  -
+  0.13%  326675:lavik-pr233-759  lavik-pr233-759  [.] lavik::storage::(anonymous namespace)::UpdatePhysical(lavik::LocalSharedPtr<lavik::storage::(anonymous namespace)::GroupIndexNode const> const&, std::span<lavik::storage::HashGroupLocation const, 18446744073709551615ul>, std::shared_ptr<lavik::storage::ScanHashMapEntryArena> const&)  -  -
+  0.13%  326665:lavik-pr233-759  lavik-pr233-759  [.] lavik::storage::(anonymous namespace)::UpdatePhysical(lavik::LocalSharedPtr<lavik::storage::(anonymous namespace)::GroupIndexNode const> const&, std::span<lavik::storage::HashGroupLocation const, 18446744073709551615ul>, std::shared_ptr<lavik::storage::ScanHashMapEntryArena> const&)  -  -
+  0.13%  326670:lavik-pr233-759  lavik-pr233-759  [.] spdk_nvme_qpair_process_completions  -  -
+  0.13%  326672:lavik-pr233-759  lavik-pr233-759  [.] lavik::storage::GroupedHashObject::FindRecord(lavik::storage::HashGroupId) const  -  -
+  0.12%  326665:lavik-pr233-759  lavik-pr233-759  [.] lavik::storage::GroupedHashObject::FindRecord(lavik::storage::HashGroupId) const  -  -
+  0.12%  326665:lavik-pr233-759  lavik-pr233-759  [.] nvme_transport_qpair_process_completions  -  -
+  0.12%  326670:lavik-pr233-759  lavik-pr233-759  [.] lavik::storage::(anonymous namespace)::UpdatePhysical(lavik::LocalSharedPtr<lavik::storage::(anonymous namespace)::GroupIndexNode const> const&, std::span<lavik::storage::HashGroupLocation const, 18446744073709551615ul>, std::shared_ptr<lavik::storage::ScanHashMapEntryArena> const&)  -  -
+  0.12%  326673:lavik-pr233-759  lavik-pr233-759  [k] handle_softirqs  -  -
+  0.12%  326674:lavik-pr233-759  lavik-pr233-759  [k] finish_task_switch.isra.0  -  -
+  0.12%  326675:lavik-pr233-759  lavik-pr233-759  [k] handle_softirqs  -  -
+  0.12%  326675:lavik-pr233-759  lavik-pr233-759  [k] io_cqring_wait  -  -
+  0.11%  326664:lavik-pr233-759  lavik-pr233-759  [k] handle_softirqs  -  -
+  0.11%  326665:lavik-pr233-759  lavik-pr233-759  [.] lavik::storage::StorageEngine::Impl::FlushPendingBlocks(lavik::storage::StorageEngine::Impl::FlushPendingBlocks(lavik::storage::StorageEngine::Impl::WorkerStore*)::_ZN5lavik7storage13StorageEngine4Impl18FlushPendingBlocksEPNS2_11WorkerStoreE.Frame*) [clone .actor]  -  -
+  0.11%  326672:lavik-pr233-759  lavik-pr233-759  [.] lavik::storage::StorageEngine::Impl::FlushPendingBlocks(lavik::storage::StorageEngine::Impl::FlushPendingBlocks(lavik::storage::StorageEngine::Impl::WorkerStore*)::_ZN5lavik7storage13StorageEngine4Impl18FlushPendingBlocksEPNS2_11WorkerStoreE.Frame*) [clone .actor]  -  -
+  0.11%  326675:lavik-pr233-759  lavik-pr233-759  [.] __memset_avx512_unaligned_erms  -  -
+  0.11%  326675:lavik-pr233-759  lavik-pr233-759  [.] lavik::storage::StorageEngine::Impl::FlushPendingBlocks(lavik::storage::StorageEngine::Impl::FlushPendingBlocks(lavik::storage::StorageEngine::Impl::WorkerStore*)::_ZN5lavik7storage13StorageEngine4Impl18FlushPendingBlocksEPNS2_11WorkerStoreE.Frame*) [clone .actor]  -  -
+  0.11%  326664:lavik-pr233-759  lavik-pr233-759  [.] bycorf::IoUringBackend::ReapCompletions()  -  -
+  0.11%  326666:lavik-pr233-759  lavik-pr233-759  [.] bycorf::Worker::DrainCrossCore()  -  -
+  0.11%  326666:lavik-pr233-759  lavik-pr233-759  [k] do_syscall_64  -  -
+  0.11%  326667:lavik-pr233-759  lavik-pr233-759  [.] bycorf::Worker::DrainCrossCore()  -  -
+  0.11%  326668:lavik-pr233-759  lavik-pr233-759  [.] bycorf::Worker::DrainCrossCore()  -  -
+  0.11%  326669:lavik-pr233-759  lavik-pr233-759  [.] bycorf::Worker::DrainCrossCore()  -  -
+  0.11%  326671:lavik-pr233-759  lavik-pr233-759  [.] bycorf::Worker::DrainCrossCore()  -  -
+  0.11%  326672:lavik-pr233-759  lavik-pr233-759  [k] finish_task_switch.isra.0  -  -
+  0.11%  326673:lavik-pr233-759  lavik-pr233-759  [.] bycorf::Worker::DrainCrossCore()  -  -
+  0.10%  326665:lavik-pr233-759  lavik-pr233-759  [.] _nvme_qpair_complete_abort_queued_reqs  -  -
+  0.10%  326670:lavik-pr233-759  lavik-pr233-759  [.] bycorf::Worker::Flush()  -  -
+  0.10%  326672:lavik-pr233-759  lavik-pr233-759  [k] handle_softirqs  -  -
+  0.10%  326675:lavik-pr233-759  lavik-pr233-759  [.] mi_free  -  -
+
+
+#
+# (Cannot load tips.txt file, please install perf!)
+#
