@@ -10,7 +10,7 @@ Redis 兼容数据结构。每张图固定数据结构、每个 key 的逻辑数
 
 [PR #222](https://github.com/eloqdata/lavik/pull/222) 已合并，当前 main 为 `a6e93d3d`。图中已移除已合并 PR 的独立曲线；本轮新优化 [PR #228](https://github.com/eloqdata/lavik/pull/228) 只在完成 A/B 的条件下叠加显示。
 
-**最新 main 已复测：Hash/1 MiB/128 B, Hash/1 MiB/1024 B, Hash/100 MiB/128 B, Set/1 MiB/128 B, Set/1 MiB/1024 B, Set/100 MiB/128 B。** 尚未复测的 100 MiB/key × 500 key 条件仍明确标为历史测量。精确版本、二进制摘要和未合并 PR 来源见 [绘图来源](published-main.json)。Stream、List、Sorted Set 的结果和图继续保留。
+**最新 main 已复测：Hash/1 MiB/128 B, Hash/1 MiB/1024 B, Hash/100 MiB/128 B, Set/1 MiB/128 B, Set/1 MiB/1024 B, Set/100 MiB/128 B, Set/100 MiB/1024 B。** 尚未复测的 100 MiB/key × 500 key 条件仍明确标为历史测量。精确版本、二进制摘要和未合并 PR 来源见 [绘图来源](published-main.json)。Stream、List、Sorted Set 的结果和图继续保留。
 
 PR #228 当前代码为 `80792c41`。已发布的 PR 曲线均对应此提交。
 
@@ -145,7 +145,10 @@ main `a6e93d3d`，8 个并发 RESTORE 客户端，各导入 500 个 100 MiB key�
 
 ![Set 100 MiB、1 KiB：SISMEMBER 与 SADD/SREM QPS 随连接数变化](charts/set-104857600-1024-ab.png)
 
-历史测量，等待最新 main 复测：`d1ce200e`，500 key，1024 B 元素。[原始数据](raw/lavik-maind1ce200e-set-100m-k500-f1024-20260929/)。
+**最新 main `a6e93d3d` 与 [PR #228](https://github.com/eloqdata/lavik/pull/228) `80792c41` 实测。** 500 × 100 MiB key，1024 B 元素，各 13 个测点、零错误，测量前后逐 key 校验。SADD + SREM 同连接数下为 main 的 **1.08–1.25 倍**。曲线使用无采样的八秒测点；单次差异不能视为稳定收益，perf 诊断在有采样的条件下单独保存。
+[main raw](raw/lavik-maina6d-set-100m-k500-f1024-20260930/), [PR raw](raw/lavik-worktrim8079-set-100m-k500-f1024-20260930/).
+
+数据仅用 RESTORE 预置，待事务清理完成后，main 与 PR 均重启恢复再测；不与批量 SADD/HSET 导入耗时混比。 [Seed provenance](raw/lavik-seedmaina6d-set-100m-k500-f1024-20260930/).
 
 ### SMEMBERS
 
@@ -194,6 +197,7 @@ main `a6e93d3d`，8 个并发 RESTORE 客户端，各导入 500 个 100 MiB key�
 main `a6e93d3d`，8 个并发 RESTORE 客户端，各导入 500 个 100 MiB key，逐 key 校验通过。以下是预置数据的独立计时，不含后续清理等待和恢复，不与其他数据库的批量 SADD/HSET 导入混比。
 
 - 128 B: **291.1 秒**. [Raw](raw/lavik-seedmaina6d-set-100m-k500-f128-20260930/set-104857600-128.fill.json).
+- 1024 B: **136.8 秒**. [Raw](raw/lavik-seedmaina6d-set-100m-k500-f1024-20260930/set-104857600-1024.fill.json).
 
 ## 工作负载
 
