@@ -102,9 +102,11 @@ def draw(kind, size, field, full, datasets, products, labels):
     for ax, command in zip(axes[0], commands):
         for product in products:
             results, failures, _ = datasets[product]
-            points = [(level, float(results[(command, level)]["qps"]))
-                      for level in (FULL_LEVELS[size] if full else POINT_LEVELS)
-                      if (command, level) in results]
+            # A failed point breaks the line; never interpolate across an
+            # admission failure or drop an entirely failed product's legend.
+            points = [(level, float(results[(command, level)]["qps"])
+                       if (command, level) in results else float("nan"))
+                      for level in (FULL_LEVELS[size] if full else POINT_LEVELS)]
             if points:
                 color, marker, line = STYLES[product]
                 scale = 1 if full else 1000

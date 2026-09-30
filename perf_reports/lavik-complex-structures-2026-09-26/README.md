@@ -11,7 +11,7 @@ connections; the vertical axis is completed commands per second.
 
 [PR #222](https://github.com/eloqdata/lavik/pull/222) is merged; current main is `a6e93d3d`. Merged PR curves have been removed. The new [PR #228](https://github.com/eloqdata/lavik/pull/228) is overlaid only where its A/B measurement is complete.
 
-**Fresh main measurements: Hash/1 MiB/128 B, Hash/1 MiB/1024 B, Set/1 MiB/128 B, Set/1 MiB/1024 B, Set/100 MiB/128 B.** Any 500 × 100 MiB conditions still awaiting a fresh run remain explicitly labeled historical. Exact versions, binary hashes and unmerged PR sources are in the [plot manifest](published-main.json). Stream, List and Sorted Set results and charts remain available.
+**Fresh main measurements: Hash/1 MiB/128 B, Hash/1 MiB/1024 B, Hash/100 MiB/128 B, Set/1 MiB/128 B, Set/1 MiB/1024 B, Set/100 MiB/128 B.** Any 500 × 100 MiB conditions still awaiting a fresh run remain explicitly labeled historical. Exact versions, binary hashes and unmerged PR sources are in the [plot manifest](published-main.json). Stream, List and Sorted Set results and charts remain available.
 
 PR #228 currently contains `80792c41`. All published PR curves measure this commit.
 
@@ -51,7 +51,10 @@ Each point-read/write chart contains both commands. The 1 MiB and 100 MiB runs u
 
 ![Hash 100 MiB per key, 128 B entries: HGET and HSET QPS by connection count](charts/hash-104857600-128-ab.png)
 
-Historical measurement; current-main retest pending: `817473b7`, 500 keys, 128 B entries. [Raw data](raw/lavik-pr222817-hash-100m-k500-f128-20260930/).
+**Fresh main `a6e93d3d` vs [PR #228](https://github.com/eloqdata/lavik/pull/228) `80792c41`.** 500 × 100 MiB keys, 128 B entries; 13 points per version, zero errors, every key validated before/after. HSET is **1.11–1.12×** main at matching connections. Curves use unprofiled eight-second runs; single-run differences are not established gains. Where sampled, perf diagnostics are retained separately.
+[main raw](raw/lavik-maina6d-hash-100m-k500-f128-20260930/), [PR raw](raw/lavik-worktrim8079-hash-100m-k500-f128-20260930/).
+
+RESTORE only prepares the dataset; after cleanup settles, both main and PR restart/recover before measurement. This is not an import-speed comparison with batched SADD/HSET. [Seed provenance](raw/lavik-seedmaina6d-hash-100m-k500-f128-20260930/).
 
 ![Hash 100 MiB per key, 1 KiB entries: HGET and HSET QPS by connection count](charts/hash-104857600-1024-ab.png)
 
@@ -98,9 +101,9 @@ All four use HSET, 128 entries per command, eight clients and pipeline 64. Main 
 
 ### RESTORE
 
-#### 100 MiB
+Main `a6e93d3d`, eight concurrent RESTORE clients, 500 × 100 MiB keys per condition, every key validated. These standalone seed timings exclude subsequent cleanup waits and recovery; they are not compared with peer batched SADD/HSET import.
 
-Hash RESTORE was not retimed in this round. Batched HSET import results are recorded separately above.
+- 128 B: **288.4 seconds**. [Raw](raw/lavik-seedmaina6d-hash-100m-k500-f128-20260930/hash-104857600-128.fill.json).
 
 ## Set
 
