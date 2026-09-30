@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Replace one Hash/Set chart only after all four products finish the same run."""
+"""Render validated Hash/Set grids, defaulting to the published plot manifest."""
 
 import argparse
 import csv
@@ -20,8 +20,6 @@ SIZES = {1048576: ("1m", 50000, "1 MiB"),
 COMMANDS = {"hash": ("HGET", "HSET", "HGETALL"),
             "set": ("SISMEMBER", "SADD_SREM", "SMEMBERS")}
 PRODUCTS = ("redis", "valkey", "kvrocks", "lavik")
-MAIN_COMMIT = "d1ce200e174adcb07820b5431c77b024350e85b6"
-MAIN_BINARY_SHA256 = "bd3f942e3b7b0f46c23c716197c8cc4ec8ad963e92cede0d9fa2574ff52a74a9"
 LABELS = {"redis": "Redis", "valkey": "Valkey", "kvrocks": "Kvrocks",
           "lavik": "Lavik main"}
 STYLES = {"redis": ("#bd3f43", "o", "-"),
@@ -35,14 +33,14 @@ EXTRA_VARIANT_STYLES = (("#b25f84", "P", "-."),
 
 
 def load(product, kind, size, field, variant=None, main=None):
-    main = main or {"tag": None, "commit": MAIN_COMMIT,
-                    "sha256": MAIN_BINARY_SHA256}
     size_tag, keys, _ = SIZES[size]
     tag = f"{kind}-{size_tag}-k{keys}-f{field}-20260929"
     if variant is not None:
         tag = variant["tag"]
     elif product == "lavik":
-        tag = main["tag"] or f"main{main['commit'][:8]}-" + tag
+        if main is None:
+            raise ValueError("the measured main run must be explicit")
+        tag = main["tag"]
     prefix = "lavik" if variant is not None else product
     folder = ROOT / "raw" / f"{prefix}-{tag}"
     if not (folder / "complete.json").exists():
@@ -151,11 +149,11 @@ def main():
     parser.add_argument("kind", choices=COMMANDS)
     parser.add_argument("size", type=int, choices=SIZES)
     parser.add_argument("field", type=int, choices=(128, 1024))
-    parser.add_argument("--main-label", default="Lavik main")
+    parser.add_argument("--main-label")
     parser.add_argument("--main-tag", help="Completed Lavik main run tag")
-    parser.add_argument("--main-commit", default=MAIN_COMMIT,
+    parser.add_argument("--main-commit",
                         help="Exact main source commit")
-    parser.add_argument("--main-sha256", default=MAIN_BINARY_SHA256,
+    parser.add_argument("--main-sha256",
                         help="Exact main binary SHA256")
     parser.add_argument("--variant-tag", action="append",
                         help="Completed Lavik run tag; repeat for each PR")
@@ -166,6 +164,31 @@ def main():
     parser.add_argument("--variant-sha256", action="append",
                         help="Exact variant binary SHA256")
     args = parser.parse_args()
+    main_options = (args.main_tag, args.main_commit, args.main_sha256)
+    if any(main_options) and not all(main_options):
+        parser.error("provide --main-tag, --main-commit and --main-sha256 together")
+    if not any(main_options):
+        # A plain redraw must preserve the published main/PR selection instead
+        # of silently reverting to a historical main and dropping PR curves.
+        manifest = json.loads((ROOT / "published-main.json").read_text())
+        matches = [row for row in manifest["plots"] if
+                   (row["kind"], row["size"], row["field"]) ==
+                   (args.kind, args.size, args.field)]
+        if len(matches) != 1:
+            parser.error("expected exactly one published condition")
+        measured = matches[0]
+        args.main_tag = measured["tag"]
+        args.main_commit = measured["measured_commit"]
+        args.main_sha256 = measured["sha256"]
+        args.main_label = args.main_label or measured["label"]
+        if not any((args.variant_tag, args.variant_label,
+                    args.variant_commit, args.variant_sha256)):
+            published = measured.get("variants", [])
+            args.variant_tag = [v["tag"] for v in published]
+            args.variant_label = [f"Lavik PR #{v['pr']}" for v in published]
+            args.variant_commit = [v["measured_commit"] for v in published]
+            args.variant_sha256 = [v["sha256"] for v in published]
+    args.main_label = args.main_label or "Lavik main"
     variant_options = tuple(option or [] for option in
                             (args.variant_tag, args.variant_label,
                              args.variant_commit, args.variant_sha256))
