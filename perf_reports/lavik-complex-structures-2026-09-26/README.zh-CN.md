@@ -10,7 +10,7 @@ Redis 兼容数据结构。每张图固定数据结构、每个 key 的逻辑数
 
 [PR #222](https://github.com/eloqdata/lavik/pull/222) 已合并；当前 main 为 `a6e93d3d`。Hash/Set 图已删除旧 main 与已合并 PR 的重复曲线，保留 Redis、Valkey、Kvrocks 和一条 Lavik 曲线。
 
-1 MiB/key × 50,000 key 暂沿用合并实现的 `faef28d9` 实测数据（四组各 12 点，零错误），图例归为 main；**这不是 `a6e93d3d` 的新运行**。新 main 复测完成后逐图替换。100 MiB/key × 500 key 暂保留最新历史测量，并明确标为历史结果，不冒充最新 main。精确版本与二进制摘要见 [绘图来源](published-main.json)。Stream、List、Sorted Set 的结果和图继续保留。
+1 MiB/key × 50,000 key 中，Set/128 B 已换成最新 main `a6e93d3d` 实测；其他条件暂沿用合并实现的 `faef28d9` 实测数据（四组各 12 点，零错误），图例归为 main；**这不是 `a6e93d3d` 的新运行**。新 main 复测完成后逐图替换。100 MiB/key × 500 key 暂保留最新历史测量，并明确标为历史结果，不冒充最新 main。精确版本与二进制摘要见 [绘图来源](published-main.json)。Stream、List、Sorted Set 的结果和图继续保留。
 
 接下来先对最新 main 的 Set/Hash 写入进行 perf 采样，检查分配、拷贝和重复工作，再考虑算法调整；新优化有实测后再增加未合并 PR 曲线。
 
@@ -98,7 +98,7 @@ cache；Lavik 在六块 NVMe 上用 SPDK 提交。这些配置影响绝对写入
 
 ![Set 1 MiB、128 B：SISMEMBER 与 SADD/SREM QPS 随连接数变化](charts/set-1048576-128-ab.png)
 
-已合并实现的实测结果：`faef28d9`，50,000 key，128 B 元素。[原始数据](raw/lavik-pr222faef28d9-set-1m-k50000-f128-leaf-c64-20260930/)。
+**最新 main 实测：`a6e93d3d`**，50,000 个 1 MiB key，128 B 元素。12 个正式测点、零错误，测量前后逐 key 校验。图中仅使用无 perf 采样的八秒测点；1,280/5,120 连接的 30 秒 perf 诊断另存于原始目录。[原始数据](raw/lavik-maina6-set-1m-k50000-f128-20260930/)。
 
 ![Set 1 MiB、1 KiB：SISMEMBER 与 SADD/SREM QPS 随连接数变化](charts/set-1048576-1024-ab.png)
 

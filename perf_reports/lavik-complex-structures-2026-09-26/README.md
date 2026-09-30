@@ -11,7 +11,7 @@ connections; the vertical axis is completed commands per second.
 
 [PR #222](https://github.com/eloqdata/lavik/pull/222) is merged; current main is `a6e93d3d`. Hash/Set charts now retain Redis, Valkey, Kvrocks and one Lavik curve, removing the superseded main/merged-PR comparison.
 
-The 1 MiB/key × 50,000-key charts temporarily reuse measurements of the merged implementation at `faef28d9` (12 points per condition, no errors), labeled main. **These are not new runs of `a6e93d3d`.** Fresh main runs will replace them individually. The 100 MiB/key × 500-key charts retain explicitly labeled historical results while awaiting retests. Exact source revisions and binary hashes are in [plot provenance](published-main.json). Stream, List and Sorted Set results and charts remain available.
+For 1 MiB/key × 50,000 keys, Set/128 B now uses fresh main `a6e93d3d` measurements; the remaining charts temporarily reuse measurements of the merged implementation at `faef28d9` (12 points per condition, no errors), labeled main. **These are not new runs of `a6e93d3d`.** Fresh main runs will replace them individually. The 100 MiB/key × 500-key charts retain explicitly labeled historical results while awaiting retests. Exact source revisions and binary hashes are in [plot provenance](published-main.json). Stream, List and Sorted Set results and charts remain available.
 
 Next, profile current-main Set/Hash writes for unnecessary allocations, copies and repeated work before considering algorithm changes. Add an unmerged-PR curve only after measuring a new optimization.
 
@@ -87,7 +87,7 @@ Each point-read/write chart contains both commands. The 1 MiB and 100 MiB runs u
 
 ![Set 1 MiB per key, 128 B entries: SISMEMBER and SADD/SREM QPS by connection count](charts/set-1048576-128-ab.png)
 
-Measured merged implementation: `faef28d9`, 50,000 keys, 128 B entries. [Raw data](raw/lavik-pr222faef28d9-set-1m-k50000-f128-leaf-c64-20260930/).
+**Fresh main measurement: `a6e93d3d`**, 50,000 × 1 MiB keys, 128 B entries. All 12 clean points passed, with every key checked before and after. Charts use unprofiled eight-second points; separate 30-second perf diagnostics at 1,280/5,120 connections are retained in the raw directory. [Raw data](raw/lavik-maina6-set-1m-k50000-f128-20260930/).
 
 ![Set 1 MiB per key, 1 KiB entries: SISMEMBER and SADD/SREM QPS by connection count](charts/set-1048576-1024-ab.png)
 
