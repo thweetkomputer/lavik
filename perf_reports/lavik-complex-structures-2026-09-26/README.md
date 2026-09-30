@@ -11,8 +11,8 @@ connections; the vertical axis is completed commands per second.
 
 Hash and Set use 50,000 keys at 1 MiB per key and 500 keys at 100 MiB per
 key, with 128 B or 1 KiB entries. Every chart compares Redis, Valkey,
-Kvrocks, and Lavik under the same workload. Except for Hash/Set 100 MiB/128 B,
-Lavik uses `main` after merged
+Kvrocks, and Lavik under the same workload. Updated plots state their main/PR versions below;
+plots awaiting a refresh use `main` after merged
 [PR #212](https://github.com/eloqdata/lavik/pull/212), at commit
 `d1ce200e174adcb07820b5431c77b024350e85b6`. Its SPDK server binary
 has SHA256 `bd3f942e3b7b0f46c23c716197c8cc4ec8ad963e92cede0d9fa2574ff52a74a9`.
@@ -32,7 +32,7 @@ multi-field SADD/HSET indexes. The merged Bycorf optimization avoids ineffective
 on VWC=0 controllers; data-before-commit ordering is preserved.
 These single-field/member commands do not exercise the multi-field index optimization.
 Each point is one eight-second run. Kvrocks write throughput has not yet been reached.
-Other sizes do not yet include PR #222.
+The 1 MiB PR #222 comparisons are updated individually, with versions and raw data below each plot. The 100 MiB/1 KiB plots do not yet include PR #222.
 
 No data-page cache was added. Earlier main, PR #212, and 256-key raw runs remain in `raw/` but are
 not plotted in this retest.
@@ -114,6 +114,9 @@ Each point-read/write chart contains both commands. The 1 MiB and 100 MiB runs u
 
 ![Set 1 MiB per key, 128 B entries: SISMEMBER and SADD/SREM QPS by connection count](charts/set-1048576-128-ab.png)
 
+**2026-09-30: main `ebe28dd5` vs PR #222 `817473b7`.** 50,000 keys, 128 B entries; both 12-point grids completed without errors. SADD + SREM reached **0.72–3.66×** main at matching connection counts.
+[main raw](raw/lavik-mainebe-set-1m-k50000-f128-sadd-20260930/), [PR raw](raw/lavik-pr222817-set-1m-k50000-f128-sadd-20260930/).
+
 ![Set 1 MiB per key, 1 KiB entries: SISMEMBER and SADD/SREM QPS by connection count](charts/set-1048576-1024-ab.png)
 
 #### 100 MiB per key
@@ -138,8 +141,13 @@ Each point-read/write chart contains both commands. The 1 MiB and 100 MiB runs u
 
 ### Batched import (SADD)
 
-The comparison uses batched SADD for all four databases; the matching Lavik
-measurement is pending. The previous mixed RESTORE/SADD figure has been removed.
+#### 1 MiB / 128 B
+
+![Set batched SADD import](charts/set-1048576-128-k50000-fill.png)
+
+All four use SADD, 128 entries per command, eight clients and pipeline 64. Main fill time: **1724.2 seconds**. Persistence settings still differ.
+
+The matching 100 MiB SADD import measurement is pending. The previous mixed RESTORE/SADD figure has been removed.
 
 ### RESTORE
 

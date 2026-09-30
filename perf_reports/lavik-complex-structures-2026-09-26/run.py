@@ -86,7 +86,7 @@ def fill_worker(kind, field_bytes, entries, indices, pipeline, seed_values,
     with socket.create_connection((HOST, PORT), timeout=300) as sock:
         sock.settimeout(300)
         stream = sock.makefile("rb")
-        for index in indices:
+        for completed_keys, index in enumerate(indices, 1):
             key = name(index)
             step = seed_step(kind, field_bytes, target_bytes)
             # Drain each bounded batch before sending another so a 100 MiB
@@ -121,6 +121,10 @@ def fill_worker(kind, field_bytes, entries, indices, pipeline, seed_values,
                     if read(stream) is None:
                         raise RuntimeError("null fill reply")
                 done += len(pending)
+            if completed_keys % 250 == 0:
+                print(time.strftime("%F %T", time.gmtime()), kind, "fill worker",
+                      indices.start, "keys", completed_keys, "/", len(indices),
+                      flush=True)
     return done
 
 def fill(kind, field_bytes, entries, keys, pipeline, workers, target_bytes):
