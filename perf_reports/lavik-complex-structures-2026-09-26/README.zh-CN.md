@@ -68,7 +68,11 @@ cache；Lavik 在六块 NVMe 上用 SPDK 提交。这些配置影响绝对写入
 ![Hash 100 MiB、128 B：HGET 与 HSET QPS 随连接数变化](charts/hash-104857600-128-ab.png)
 
 这一轮 HGET 在 1280/2560/5120 连接下，PR 比 main 分别低约 26%、19%、10%；
-不能把 HSET 的提升理解为所有命令都变快。正在交换顺序做 1280 连接、20 秒复测。
+不能把 HSET 的提升理解为所有命令都变快。交换顺序的 1280 连接、20 秒复测中，HGET 为 main **395,420**、PR **402,036 QPS**，
+之前的下降没有复现；HSET 为 main **31,409**、PR **80,592 QPS**。读性能存在明显运行间波动，
+保留原始八秒完整曲线，不用复测替换其中单个点。
+[main 复测原始数据](raw/lavik-repeatebe-hash-100m-k500-f128-c1280-20260930/)、
+[PR 复测原始数据](raw/lavik-repeat817-hash-100m-k500-f128-c1280-20260930/)。
 
 ![Hash 100 MiB、1 KiB：HGET 与 HSET QPS 随连接数变化](charts/hash-104857600-1024-ab.png)
 

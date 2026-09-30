@@ -74,7 +74,11 @@ Each point-read/write chart contains both commands. The 1 MiB and 100 MiB runs u
 ![Hash 100 MiB per key, 128 B entries: HGET and HSET QPS by connection count](charts/hash-104857600-128-ab.png)
 
 In this run, PR HGET was about 26%, 19%, and 10% below main at 1280, 2560, and 5120 connections.
-The HSET gain is not an across-command improvement. A reversed-order, 20-second repeat at 1280 connections is underway.
+The HSET gain is not an across-command improvement. In the reversed-order 20-second repeat at 1280 connections, HGET reached main **395,420** and PR **402,036 QPS**;
+the drop did not reproduce. HSET reached main **31,409** and PR **80,592 QPS**. Read performance shows
+substantial run-to-run variation. The original eight-second grid remains plotted; individual points are not replaced by repeats.
+[Raw main repeat](raw/lavik-repeatebe-hash-100m-k500-f128-c1280-20260930/),
+[PR repeat](raw/lavik-repeat817-hash-100m-k500-f128-c1280-20260930/).
 
 ![Hash 100 MiB per key, 1 KiB entries: HGET and HSET QPS by connection count](charts/hash-104857600-1024-ab.png)
 
