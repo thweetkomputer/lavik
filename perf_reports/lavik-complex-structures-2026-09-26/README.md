@@ -11,9 +11,9 @@ connections; the vertical axis is completed commands per second.
 
 [PR #222](https://github.com/eloqdata/lavik/pull/222) is merged; current main is `a6e93d3d`. Merged PR curves have been removed. The new [PR #228](https://github.com/eloqdata/lavik/pull/228) is overlaid only where its A/B measurement is complete.
 
-**Fresh main measurements: Hash/1 MiB/128 B, Set/1 MiB/128 B.** Other 1 MiB conditions temporarily reuse measured merged implementation `faef28d9`, not new `a6e93d3d` runs. Any 500 × 100 MiB conditions still awaiting a fresh run remain explicitly labeled historical. Exact versions, binary hashes and unmerged PR sources are in the [plot manifest](published-main.json). Stream, List and Sorted Set results and charts remain available.
+**Fresh main measurements: Hash/1 MiB/128 B, Set/1 MiB/128 B, Set/1 MiB/1024 B.** Other 1 MiB conditions temporarily reuse measured merged implementation `faef28d9`, not new `a6e93d3d` runs. Any 500 × 100 MiB conditions still awaiting a fresh run remain explicitly labeled historical. Exact versions, binary hashes and unmerged PR sources are in the [plot manifest](published-main.json). Stream, List and Sorted Set results and charts remain available.
 
-This round uses perf first to identify allocations, copies and repeated work. PR #228 trims temporary containers, metadata queries and extra scheduling, without adding a data cache or changing the durable format. **Write throughput has not reached Kvrocks.** Clean chart runs do not run perf; separate 30-second diagnostics are retained in raw directories. The [profiling script](profile_grouped_writes.py) reproduces the process.
+This round uses perf first to identify allocations, copies and repeated work. PR #228 trims temporary containers, metadata queries and extra scheduling, without adding a data cache or changing the durable format. **Parity with Kvrocks across all write workloads has not been achieved.** Clean chart runs do not run perf; separate 30-second diagnostics are retained in raw directories. The [profiling script](profile_grouped_writes.py) reproduces the process.
 
 Point reads and writes use 80/320/1280/2560/5120 connections; full reads use 16/80 for 1 MiB and 1/4/16 for 100 MiB. Each point runs for eight seconds. Redis/Valkey persistence is disabled. Kvrocks uses uncompressed RAID0, WAL disabled, and an 80 GiB cache; Lavik uses durable SPDK on six NVMe drives. These settings affect absolute write QPS. Single runs have no confidence intervals. Raw evidence is in [raw/](raw/).
 
@@ -97,7 +97,8 @@ Both versions were measured after restart/recovery. In separate 30-second perf d
 
 ![Set 1 MiB per key, 1 KiB entries: SISMEMBER and SADD/SREM QPS by connection count](charts/set-1048576-1024-ab.png)
 
-Measured merged implementation: `faef28d9`, 50,000 keys, 1024 B entries. [Raw data](raw/lavik-pr222faef28d9-set-1m-k50000-f1024-leaf-c64-20260930/).
+**Fresh main `a6e93d3d` vs [PR #228](https://github.com/eloqdata/lavik/pull/228) `b6ed4df1`.** 50,000 × 1 MiB keys, 1024 B entries; 12 points per version, zero errors, every key validated before/after. SADD + SREM is **1.11–1.19×** main at matching connections. Curves use unprofiled eight-second runs; single-run differences are not established gains. Where sampled, perf diagnostics are retained separately.
+[main raw](raw/lavik-maina6r-set-1m-k50000-f1024-20260930/), [PR raw](raw/lavik-worktrimb6ed-set-1m-k50000-f1024-20260930/).
 
 #### 100 MiB per key
 
