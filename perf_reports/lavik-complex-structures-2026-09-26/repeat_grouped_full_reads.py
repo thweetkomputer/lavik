@@ -131,7 +131,7 @@ run.validate = validate
 
 
 def measure(directory, kind, size, field, entries, keys, op, conns, seconds, threads):
-    assert op == run.FULL_OP[kind] and seconds == 30 and conns == 80
+    assert op == run.FULL_OP[kind] and seconds == 30
     for repeat in range(1, 4):
         dest = directory / f"repeat-{repeat}"
         dest.mkdir(exist_ok=True)

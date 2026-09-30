@@ -148,6 +148,9 @@ Historical measurement; current-main retest pending: `d1ce200e`, 500 keys, 1024 
 
 ![Set 100 MiB per key, 128 B entries: SMEMBERS QPS by connection count](charts/set-104857600-128-ab-full.png)
 
+**The 16-connection sustained workload did not pass the zero-error check.** In three planned 30-second repetitions per binary, main failed in repetition 3 and PR in repetition 2 with `OOM grouped operation scratch admission`; both server processes subsequently exited normally. Failed repetitions are excluded from throughput comparisons; the eight-second chart does not establish sustained stability. Admission partitions the limit across workers. This full read conservatively reserves about 1.2 GiB from page bytes, per-entry overhead and temporary copies, so concentrated requests can exceed one worker’s roughly 8.4 GiB share. After main’s failure, pending admission returned to zero and RSS was about 7.3 GiB. This is local reservation rejection, not an OS OOM or process crash; the admission model is unchanged between main and PR. [main raw](raw/lavik-fullcheck-maina6d-set-100m-k500-f128-20260930/), [PR raw](raw/lavik-fullcheck-worktrim8079-set-100m-k500-f128-20260930/).
+
+
 ![Set 100 MiB per key, 1 KiB entries: SMEMBERS QPS by connection count](charts/set-104857600-1024-ab-full.png)
 
 ### Batched import (SADD)

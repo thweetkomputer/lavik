@@ -159,6 +159,9 @@ PR 将单页写入的临时数组放进协程帧，取消临时树容器和重�
 
 ![Set 100 MiB、128 B：SMEMBERS QPS 随连接数变化](charts/set-104857600-128-ab-full.png)
 
+**16 连接持续负载未通过无错误检查。** 补测每版三次 30 秒时，main 第三次、PR 第二次均出现 `OOM grouped operation scratch admission`，进程随后正常退出。这些失败重复不纳入吞吐比较，八秒图不能证明该档持续运行稳定。准入按 worker 分配限额；100 MiB / 128 B 完整读取根据页字节、元素开销和多份临时空间保守预留约 1.2 GiB，集中在同一 worker 的请求可能超过约 8.4 GiB 的份额。main 失败后临时预留回到 0、RSS 约 7.3 GiB；这是本地预留拒绝，并非 OS OOM 或进程崩溃。该准入模型在 main 和 PR 中相同。 [main raw](raw/lavik-fullcheck-maina6d-set-100m-k500-f128-20260930/), [PR raw](raw/lavik-fullcheck-worktrim8079-set-100m-k500-f128-20260930/).
+
+
 ![Set 100 MiB、1 KiB：SMEMBERS QPS 随连接数变化](charts/set-104857600-1024-ab-full.png)
 
 ### 批量导入（SADD）
