@@ -397,7 +397,7 @@ Stream 的 100 MiB / 1 KiB 已更新为 main `a8c926d4` 与本轮优化 PR；小
 
 ![100 MiB、1 KiB：`XADD MAXLEN`，四款数据库 QPS 随连接数变化](charts/stream-104857600-1024-xadd_maxlen-latest.png)
 
-**2026-09-30 main `a8c926d4` 与 [PR #233](https://github.com/eloqdata/lavik/pull/233) `721097a7` 实测。** 8 × 100 MiB key、1 KiB 元素；每版 13 个无采样测点，覆盖 80–5120 连接的点查和写入及 1/4/16 连接的全量读取。其他数据库保留同负载原始结果。 所有测点零错误，逐 key 数量校验通过。 [Main raw](raw/lavik-maina8-ordered-stream-100m-k8-f1024-20260930/) · [PR raw](raw/lavik-chunks721097a7-stream-100m-k8-f1024-20260930/) · [Plot provenance](ordered-published.json). **本版 Stream 写入尚未改善：80–5120 连接较 main 低约 2%–15%。新 perf 中目录查找占约 34%、写入规划约 12%；PR 保持草稿，继续移除全链重复工作。**
+**2026-09-30 main `a8c926d4` 与 [PR #233](https://github.com/eloqdata/lavik/pull/233) `721097a7` 实测。** 8 × 100 MiB key、1 KiB 元素；每版 13 个无采样测点，覆盖 80–5120 连接的点查和写入及 1/4/16 连接的全量读取。其他数据库保留同负载原始结果。 所有测点零错误，逐 key 数量校验通过。 [Main raw](raw/lavik-maina8-ordered-stream-100m-k8-f1024-20260930/) · [PR raw](raw/lavik-chunks721097a7-stream-100m-k8-f1024-20260930/) · [Plot provenance](ordered-published.json). **顺序复用数据的初测：80–5120 连接较 main 低约 2%–15%。新 perf 中目录查找占约 34%、写入规划约 12%；PR 保持草稿，继续移除全链重复工作。两版数据元素数量相同，但顺序复用会累积拆页/退休页历史；下一轮两版均重新灌入相同初始数据后复测。**
 
 
 ### 全范围 `XRANGE - +`
