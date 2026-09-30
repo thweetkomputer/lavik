@@ -72,6 +72,9 @@ Each point-read/write chart contains both commands. The 1 MiB and 100 MiB runs u
 
 ![Hash 1 MiB per key, 1 KiB entries: HGET and HSET QPS by connection count](charts/hash-1048576-1024-ab.png)
 
+**2026-09-30: main `ebe28dd5` vs PR #222 `817473b7`.** 50,000 keys, 1024 B entries; both 12-point grids completed without errors. HSET reached **0.57–3.89×** main at matching connection counts.
+[main raw](raw/lavik-mainebe-hash-1m-k50000-f1024-hset-20260930/), [PR raw](raw/lavik-pr222817-hash-1m-k50000-f1024-hset-20260930/).
+
 #### 100 MiB per key
 
 ![Hash 100 MiB per key, 128 B entries: HGET and HSET QPS by connection count](charts/hash-104857600-128-ab.png)
@@ -100,6 +103,12 @@ substantial run-to-run variation. The original eight-second grid remains plotted
 ![Hash 100 MiB per key, 1 KiB entries: HGETALL QPS by connection count](charts/hash-104857600-1024-ab-full.png)
 
 ### Batched import (HSET)
+
+#### 1 MiB / 1024 B
+
+![Hash batched HSET import](charts/hash-1048576-1024-k50000-fill.png)
+
+All four use HSET, 16 entries per command, eight clients and pipeline 64. Main fill time: **500.3 seconds**. Persistence settings still differ.
 
 #### 1 MiB / 128 B
 

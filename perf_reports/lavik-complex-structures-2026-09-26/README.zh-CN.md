@@ -66,6 +66,9 @@ cache；Lavik 在六块 NVMe 上用 SPDK 提交。这些配置影响绝对写入
 
 ![Hash 1 MiB、1 KiB：HGET 与 HSET QPS 随连接数变化](charts/hash-1048576-1024-ab.png)
 
+**2026-09-30 已补测：main `ebe28dd5` 与 PR #222 `817473b7`。** 50,000 key，1024 B 元素；双方各 12 个测点、零错误。HSET 同连接数下 PR 为 main 的 **0.57–3.89 倍**。
+[main raw](raw/lavik-mainebe-hash-1m-k50000-f1024-hset-20260930/), [PR raw](raw/lavik-pr222817-hash-1m-k50000-f1024-hset-20260930/).
+
 #### 100 MiB
 
 ![Hash 100 MiB、128 B：HGET 与 HSET QPS 随连接数变化](charts/hash-104857600-128-ab.png)
@@ -94,6 +97,12 @@ cache；Lavik 在六块 NVMe 上用 SPDK 提交。这些配置影响绝对写入
 ![Hash 100 MiB、1 KiB：HGETALL QPS 随连接数变化](charts/hash-104857600-1024-ab-full.png)
 
 ### 批量导入（HSET）
+
+#### 1 MiB / 1024 B
+
+![Hash batched HSET import](charts/hash-1048576-1024-k50000-fill.png)
+
+四库统一用 HSET，每条 16 个元素、8 个连接、pipeline 64；main 灌入耗时 **500.3 秒**。持久化配置仍不同。
 
 #### 1 MiB / 128 B
 
