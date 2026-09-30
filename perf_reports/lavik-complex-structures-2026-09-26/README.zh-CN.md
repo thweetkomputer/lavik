@@ -74,6 +74,13 @@ PR 将单页写入的临时数组放进协程帧，取消临时树容器和重�
 
 ![Hash 1 MiB、128 B：HGETALL QPS 随连接数变化](charts/hash-1048576-128-ab-full.png)
 
+**80 连接长测核对：** 每个版本连续三次 30 秒、不启用 perf，main 为 **1,830, 1,815, 1,797 QPS**，PR 为 **1,861, 1,857, 1,842 QPS**；均值比为 **1.022×**。两端使用同一份已恢复数据，50,000 个 key 测前测后基数完全一致，零错误。以上曲线仍使用原八秒测点；长测按版本先后执行，仅三次重复，不提供置信区间。 [Results](hash-1048576-128-full-read-repeats.json), [main raw](raw/lavik-fullcheck-maina6d-hash-1m-k50000-f128-20260930/), [PR raw](raw/lavik-fullcheck-worktrim8079-hash-1m-k50000-f128-20260930/), [script](repeat_grouped_full_reads.py).
+
+**返回 main 核对：** PR 之后保留同一份数据，再运行 main 三次，得到 **1,842, 1,838, 1,842 QPS**；PR / 返回 main 的均值比为 **1.007×**，逐 key 校验通过、零错误。这组检查未确认 HGETALL 的稳定回退。 [Raw](raw/lavik-fullcheck-returnmaina6d-hash-1m-k50000-f128-20260930/).
+
+独立 HGETALL 诊断（不计入上述三次重复）中，main / PR 的内存搬运函数占自身 CPU 样本约 **16.63% / 15.89%**，Hash 元素向量追加约 **9.68% / 9.18%**。两版均存在这些热点。源码中 `LoadGroupedHashValue` 按元素追加而未按已知总数预留向量容量，是待实验验证的优化候选；追加函数的全部采样不能等同于可消除的扩容成本。[main profile](raw/lavik-fullcheck-maina6d-hash-1m-k50000-f128-20260930/diagnostic-full/self.txt)、[PR profile](raw/lavik-fullcheck-worktrim8079-hash-1m-k50000-f128-20260930/diagnostic-full/self.txt)。复现时给重复脚本加 `--profile-full-read`，采样在三次干净重复之后单独运行。
+
+
 ![Hash 1 MiB、1 KiB：HGETALL QPS 随连接数变化](charts/hash-1048576-1024-ab-full.png)
 
 #### 100 MiB
