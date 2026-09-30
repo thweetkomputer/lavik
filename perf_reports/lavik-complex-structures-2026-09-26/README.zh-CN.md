@@ -110,6 +110,8 @@ cache；Lavik 在六块 NVMe 上用 SPDK 提交。这些配置影响绝对写入
 **2026-09-30 已补测：main `ebe28dd5` 与 PR #222 `817473b7`。** 50,000 key，128 B 元素；双方各 12 个测点、零错误。SADD + SREM 同连接数下 PR 为 main 的 **0.72–3.66 倍**。
 [main raw](raw/lavik-mainebe-set-1m-k50000-f128-sadd-20260930/), [PR raw](raw/lavik-pr222817-set-1m-k50000-f128-sadd-20260930/).
 
+5,120 连接的写入点 PR 为 **14,103 QPS**，低于 main 的 **19,488 QPS**；其余四个连接档提升。这是单次八秒测量，下降尚未复测，图中保留原值。
+
 ![Set 1 MiB、1 KiB：SISMEMBER 与 SADD/SREM QPS 随连接数变化](charts/set-1048576-1024-ab.png)
 
 #### 100 MiB
