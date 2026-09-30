@@ -15,7 +15,7 @@ connections; the vertical axis is completed commands per second.
 
 PR #228 currently contains `80792c41`. Some plots retain an earlier measured PR revision, identified below each plot, while retesting proceeds.
 
-This round uses perf first to identify allocations, copies and repeated work. PR #228 trims temporary containers, metadata queries and extra scheduling, without adding a data cache or changing the durable format. **Parity with Kvrocks across all write workloads has not been achieved.** Clean chart runs do not run perf; separate 30-second diagnostics are retained in raw directories. The [profiling script](profile_grouped_writes.py) reproduces the process.
+This round uses perf first to identify allocations, copies and repeated work. PR #228 trims temporary containers, metadata queries and extra scheduling, without adding a data cache or changing the durable format. **Parity with Kvrocks across all write workloads has not been achieved.** Clean chart runs do not run perf; separate 30-second diagnostic workloads include 20 seconds of perf sampling, retained in raw directories. The [profiling script](profile_grouped_writes.py) reproduces the process.
 
 Point reads and writes use 80/320/1280/2560/5120 connections; full reads use 16/80 for 1 MiB and 1/4/16 for 100 MiB. Each point runs for eight seconds. Redis/Valkey persistence is disabled. Kvrocks uses uncompressed RAID0, WAL disabled, and an 80 GiB cache; Lavik uses durable SPDK on six NVMe drives. These settings affect absolute write QPS. Single runs have no confidence intervals. Raw evidence is in [raw/](raw/).
 
@@ -69,11 +69,15 @@ Historical measurement; current-main retest pending: `d1ce200e`, 500 keys, 1024 
 
 ![Hash batched HSET import](charts/hash-1048576-1024-k50000-fill.png)
 
+Historical import measurement: Lavik main `ebe28dd5`, not a fresh run of `a6e93d3d` or PR #228.
+
 All four use HSET, 16 entries per command, eight clients and pipeline 64. Main fill time: **500.3 seconds**. Persistence settings still differ.
 
 #### 1 MiB / 128 B
 
 ![Hash batched HSET import](charts/hash-1048576-128-k50000-fill.png)
+
+Historical import measurement: Lavik main `ebe28dd5`, not a fresh run of `a6e93d3d` or PR #228.
 
 All four use HSET, 128 entries per command, eight clients and pipeline 64. Main fill time: **1306.3 seconds**. Persistence settings still differ.
 
@@ -93,10 +97,8 @@ Each point-read/write chart contains both commands. The 1 MiB and 100 MiB runs u
 
 ![Set 1 MiB per key, 128 B entries: SISMEMBER and SADD/SREM QPS by connection count](charts/set-1048576-128-ab.png)
 
-**Fresh main `a6e93d3d` vs [PR #228](https://github.com/eloqdata/lavik/pull/228) `b6ed4df1`.** 50,000 × 1 MiB keys, 128 B entries; 12 points per version, zero errors, every key validated before/after. SADD + SREM is **1.07–1.12×** main at matching connections. Curves use unprofiled eight-second runs; single-run differences are not established gains. Separate 30-second perf diagnostics are retained.
-[main raw](raw/lavik-maina6r-set-1m-k50000-f128-20260930/), [PR raw](raw/lavik-worktrimb6ed-set-1m-k50000-f128-20260930/).
-
-Both versions were measured after restart/recovery. In separate 30-second perf diagnostics, write throughput at 1,280/5,120 connections was **173,605/153,298 QPS** for main and **192,437/172,023 QPS** for the PR. SISMEMBER did not improve consistently; its single 5,120-connection point was about 6.7% lower. Full-read throughput also varied; all measured values remain plotted.
+**Fresh main `a6e93d3d` vs [PR #228](https://github.com/eloqdata/lavik/pull/228) `80792c41`.** 50,000 × 1 MiB keys, 128 B entries; 12 points per version, zero errors, every key validated before/after. SADD + SREM is **1.08–1.18×** main at matching connections. Curves use unprofiled eight-second runs; single-run differences are not established gains. Where sampled, perf diagnostics are retained separately.
+[main raw](raw/lavik-maina6d-set-1m-k50000-f128-20260930/), [PR raw](raw/lavik-worktrim8079-set-1m-k50000-f128-20260930/).
 
 ![Set 1 MiB per key, 1 KiB entries: SISMEMBER and SADD/SREM QPS by connection count](charts/set-1048576-1024-ab.png)
 
@@ -133,15 +135,17 @@ Historical measurement; current-main retest pending: `d1ce200e`, 500 keys, 1024 
 
 ![Set batched SADD import](charts/set-1048576-1024-k50000-fill.png)
 
+Historical import measurement: Lavik main `ebe28dd5`, not a fresh run of `a6e93d3d` or PR #228.
+
 All four use SADD, 16 entries per command, eight clients and pipeline 64. Main fill time: **517.9 seconds**. Persistence settings still differ.
 
 #### 1 MiB / 128 B
 
 ![Set batched SADD import](charts/set-1048576-128-k50000-fill.png)
 
-All four use SADD, 128 entries per command, eight clients and pipeline 64. Main fill time: **1724.2 seconds**. Persistence settings still differ.
+Historical import measurement: Lavik main `ebe28dd5`, not a fresh run of `a6e93d3d` or PR #228.
 
-A separate Lavik main `31a1e130` / the merged implementation `faef28d9` comparison uses 64 clients, 1,024 members per command and pipeline 8. Fresh fills of 50,000 one-MiB keys take **352.3 s** and **166.7 s**, respectively: **2.11×** main throughput, with every key validated. These import parameters differ from the older four-database chart above; the timings are not compared across setups. [main raw](raw/lavik-main31-set-1m-k50000-f128-b128k-c64-p8-encoded-20260930/), [PR raw](raw/lavik-pr222faef28d9-set-1m-k50000-f128-b128k-c64-p8-encoded-20260930/).
+All four use SADD, 128 entries per command, eight clients and pipeline 64. Main fill time: **1724.2 seconds**. Persistence settings still differ.
 
 The matching 100 MiB SADD import measurement is pending. The previous mixed RESTORE/SADD figure has been removed.
 
