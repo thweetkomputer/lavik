@@ -176,7 +176,9 @@ cache；Lavik 在六块 NVMe 上用 SPDK 提交。这些配置影响绝对写入
 
 四库统一用 SADD，每条 128 个元素、8 个连接、pipeline 64；main 灌入耗时 **1724.2 秒**。持久化配置仍不同。
 
-100 MiB 的同命令 SADD 导入结果正在补测。
+另测 Lavik main `31a1e130` 与 PR #222 `faef28d9`：64 连接、每条 1,024 个成员、pipeline 8，使用相同客户端重新灌入 50,000 个 1 MiB key，耗时分别为 **352.3 秒**和 **166.7 秒**，PR 吞吐为 main 的 **2.11 倍**；均逐 key 校验通过。这是另一组导入参数，不与上图的旧参数结果横向比较。 [main raw](raw/lavik-main31-set-1m-k50000-f128-b128k-c64-p8-encoded-20260930/), [PR raw](raw/lavik-pr222faef28d9-set-1m-k50000-f128-b128k-c64-p8-encoded-20260930/).
+
+100 MiB 的同命令 SADD 导入尚无本轮完整结果。
 此前 Lavik RESTORE 与其他数据库 SADD 混用的对比图已撤下。
 
 ### RESTORE
