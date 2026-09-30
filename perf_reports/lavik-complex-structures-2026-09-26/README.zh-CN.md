@@ -6,13 +6,13 @@
 Redis 兼容数据结构。每张图固定数据结构、每个 key 的逻辑数据量和
 每个元素的字节数。横轴为连接数，纵轴为每秒完成的命令数。
 
-## 2026-09-30 main 更新
+## 2026-09-30 main 与 PR #228
 
-[PR #222](https://github.com/eloqdata/lavik/pull/222) 已合并；当前 main 为 `a6e93d3d`。Hash/Set 图已删除旧 main 与已合并 PR 的重复曲线，保留 Redis、Valkey、Kvrocks 和一条 Lavik 曲线。
+[PR #222](https://github.com/eloqdata/lavik/pull/222) 已合并，当前 main 为 `a6e93d3d`。图中已移除已合并 PR 的独立曲线；本轮新优化 [PR #228](https://github.com/eloqdata/lavik/pull/228) 只在完成 A/B 的条件下叠加显示。
 
-1 MiB/key × 50,000 key 中，Set/128 B 已换成最新 main `a6e93d3d` 实测；其他条件暂沿用合并实现的 `faef28d9` 实测数据（四组各 12 点，零错误），图例归为 main；**这不是 `a6e93d3d` 的新运行**。新 main 复测完成后逐图替换。100 MiB/key × 500 key 暂保留最新历史测量，并明确标为历史结果，不冒充最新 main。精确版本与二进制摘要见 [绘图来源](published-main.json)。Stream、List、Sorted Set 的结果和图继续保留。
+**最新 main 已复测：Set/128 B（1 MiB/key × 50,000 key）。** 其余 1 MiB 条件暂沿用已合并实现 `faef28d9` 的实测数据，不是 `a6e93d3d` 的新运行。100 MiB/key × 500 key 仍明确标为历史测量，等待新 main 复测。精确版本、二进制摘要和未合并 PR 来源见 [绘图来源](published-main.json)。Stream、List、Sorted Set 的结果和图继续保留。
 
-接下来先对最新 main 的 Set/Hash 写入进行 perf 采样，检查分配、拷贝和重复工作，再考虑算法调整；新优化有实测后再增加未合并 PR 曲线。
+本轮先用 perf 找分配、拷贝和重复工作，PR #228 减少临时容器、元数据查询和额外调度，没有增加数据缓存或改变落盘格式。**仍未达到 Kvrocks 的写入吞吐。** 图中主测点不运行 perf，30 秒诊断另存原始目录；[采样脚本](profile_grouped_writes.py)可复现相同流程。
 
 点查和写入测 80/320/1280/2560/5120 连接，完整读取测 1 MiB 档的
 16/80、100 MiB 档的 1/4/16 连接；每点八秒。Redis、Valkey 不持久化，
@@ -98,7 +98,10 @@ cache；Lavik 在六块 NVMe 上用 SPDK 提交。这些配置影响绝对写入
 
 ![Set 1 MiB、128 B：SISMEMBER 与 SADD/SREM QPS 随连接数变化](charts/set-1048576-128-ab.png)
 
-**最新 main 实测：`a6e93d3d`**，50,000 个 1 MiB key，128 B 元素。12 个正式测点、零错误，测量前后逐 key 校验。图中仅使用无 perf 采样的八秒测点；1,280/5,120 连接的 30 秒 perf 诊断另存于原始目录。[原始数据](raw/lavik-maina6-set-1m-k50000-f128-20260930/)。
+**最新 main `a6e93d3d` 与 [PR #228](https://github.com/eloqdata/lavik/pull/228) `b6ed4df1` 实测。** 50,000 × 1 MiB key，128 B 元素，各 12 个测点、零错误，测量前后逐 key 校验。SADD + SREM 同连接数下为 main 的 **1.07–1.12 倍**。曲线使用无采样的八秒测点；单次差异不能视为稳定收益，30 秒 perf 诊断单独保存。
+[main raw](raw/lavik-maina6r-set-1m-k50000-f128-20260930/), [PR raw](raw/lavik-worktrimb6ed-set-1m-k50000-f128-20260930/).
+
+main 与 PR 均重启恢复后测量。30 秒 perf 诊断中，1,280/5,120 连接写入分别为 main **173,605/153,298**、PR **192,437/172,023 QPS**。SISMEMBER 没有一致提升，5,120 连接单次测点低约 6.7%；完整读吞吐也有波动，图中保留原值。
 
 ![Set 1 MiB、1 KiB：SISMEMBER 与 SADD/SREM QPS 随连接数变化](charts/set-1048576-1024-ab.png)
 
