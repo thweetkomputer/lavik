@@ -1,0 +1,206 @@
+# To display the perf.data header info, please use --header/--header-only options.
+#
+#
+# Total Lost Samples: 0
+#
+# Samples: 8K of event 'task-clock'
+# Event count (approx.): 90202019300
+#
+# Children  Self  Symbol  IPC  [IPC Coverage]
+# ........  ........  ......................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................  ....................
+#
+  19.16%  17.79%  [.] bycorf::Worker::RunOnce(bool)  -  -
+  18.33%  18.33%  [.] std::vector<lavik::storage::RecoveredOrderedGroup, std::allocator<lavik::storage::RecoveredOrderedGroup> >::operator=(std::vector<lavik::storage::RecoveredOrderedGroup, std::allocator<lavik::storage::RecoveredOrderedGroup> > const&) [clone .isra.0]  -  -
+  13.47%  13.47%  [.] lavik::storage::OrderedGroupDirectory::Apply(lavik::storage::OrderedCollectionRoot const&, unsigned long, std::span<lavik::storage::RecoveredOrderedGroup const, 18446744073709551615ul>, unsigned long, std::span<lavik::storage::RecoveredHashGroup const, 18446744073709551615ul>) const  -  -
+  8.49%  0.00%  [.] entry_SYSCALL_64_after_hwframe  -  -
+  8.45%  1.02%  [.] do_syscall_64  -  -
+  7.98%  7.98%  [.] bycorf::Worker::PollStorage() [clone .part.0]  -  -
+  7.38%  0.07%  [.] __x64_sys_io_uring_enter  -  -
+  7.38%  0.02%  [.] x64_sys_call  -  -
+  7.23%  0.22%  [.] __do_sys_io_uring_enter  -  -
+  6.11%  6.11%  [.] lavik::storage::PlanOrderedCollectionSplice(lavik::storage::OrderedGroupDirectory const&, std::vector<lavik::storage::LoadedOrderedGroup, std::allocator<lavik::storage::LoadedOrderedGroup> >, unsigned long, unsigned long, std::vector<lavik::storage::OrderedCollectionEntry, std::allocator<lavik::storage::OrderedCollectionEntry> >, unsigned long) [clone .constprop.0]  -  -
+  4.78%  0.01%  [.] __io_issue_sqe  -  -
+  4.37%  0.03%  [.] io_submit_sqes  -  -
+  4.14%  0.01%  [.] io_submit_sqe  -  -
+  4.08%  0.04%  [.] io_issue_sqe  -  -
+  2.89%  0.84%  [.] handle_softirqs  -  -
+  2.88%  0.03%  [.] io_send  -  -
+  2.86%  0.00%  [.] __irq_exit_rcu  -  -
+  2.86%  0.00%  [.] irq_exit_rcu  -  -
+  2.79%  0.02%  [.] sock_sendmsg  -  -
+  2.60%  0.00%  [.] asm_common_interrupt  -  -
+  2.60%  0.00%  [.] common_interrupt  -  -
+  2.58%  0.00%  [.] inet_sendmsg  -  -
+  2.56%  0.00%  [.] tcp_sendmsg  -  -
+  2.42%  0.04%  [.] tcp_sendmsg_locked  -  -
+  2.19%  0.04%  [.] bycorf::Server::RunWorker(unsigned int, bycorf::Worker&)  -  -
+  2.15%  0.28%  [.] io_cqring_wait  -  -
+  2.15%  0.00%  [.] bycorf::Runtime::Impl::Start(unsigned int, std::function<int (unsigned int, bycorf::Worker&)>, bool, std::span<unsigned int const, 18446744073709551615ul>)::{lambda()#1}::operator()() const  -  -
+  2.15%  0.00%  [.] clone3  -  -
+  2.15%  0.00%  [.] execute_native_thread_routine  -  -
+  2.15%  0.00%  [.] start_thread  -  -
+  2.02%  2.02%  [.] __memmove_avx512_unaligned_erms  -  -
+  1.96%  0.01%  [.] tcp_push  -  -
+  1.95%  1.95%  [.] _mi_theap_malloc_zero  -  -
+  1.95%  0.00%  [.] __tcp_push_pending_frames  -  -
+  1.93%  0.02%  [.] tcp_write_xmit  -  -
+  1.88%  0.11%  [.] __tcp_transmit_skb  -  -
+  1.85%  0.11%  [.] net_rx_action  -  -
+  1.75%  0.00%  [.] ip_queue_xmit  -  -
+  1.74%  0.07%  [.] __ip_queue_xmit  -  -
+  1.67%  0.00%  [.] ip_local_out  -  -
+  1.62%  0.00%  [.] __napi_poll  -  -
+  1.61%  0.07%  [.] mlx5e_napi_poll  -  -
+  1.33%  1.33%  [.] bycorf::Worker::DrainCrossCore()  -  -
+  1.22%  1.20%  [k] _raw_spin_unlock_irqrestore  -  -
+  1.09%  0.02%  [.] __io_run_local_work  -  -
+  1.04%  0.01%  [.] __io_run_local_work_loop  -  -
+  1.01%  0.57%  [.] io_uring_submit_and_get_events  -  -
+  1.01%  0.00%  [.] io_poll_task_func  -  -
+  0.99%  0.99%  [.] nvme_pcie_qpair_process_completions  -  -
+  0.97%  0.04%  [.] io_poll_check_events  -  -
+  0.97%  0.01%  [.] ip_output  -  -
+  0.96%  0.03%  [.] io_poll_issue  -  -
+  0.96%  0.02%  [.] ip_finish_output  -  -
+  0.96%  0.01%  [.] napi_complete_done  -  -
+  0.94%  0.00%  [.] netif_receive_skb_list_internal  -  -
+  0.93%  0.07%  [.] ip_finish_output2  -  -
+  0.93%  0.01%  [.] __ip_finish_output  -  -
+  0.93%  0.00%  [.] __netif_receive_skb_list_core  -  -
+  0.93%  0.00%  [.] ip_list_rcv  -  -
+  0.92%  0.92%  [.] spdk_nvme_qpair_process_completions  -  -
+  0.92%  0.00%  [.] io_run_local_work  -  -
+  0.92%  0.00%  [.] ip_sublist_rcv  -  -
+  0.88%  0.02%  [.] __io_msg_ring_data  -  -
+  0.88%  0.00%  [.] io_msg_ring  -  -
+  0.86%  0.01%  [.] schedule  -  -
+  0.86%  0.00%  [.] neigh_hh_output  -  -
+  0.85%  0.07%  [.] __dev_queue_xmit  -  -
+  0.85%  0.02%  [.] __schedule  -  -
+  0.85%  0.01%  [.] io_recv  -  -
+  0.85%  0.00%  [.] ip_list_rcv_finish  -  -
+  0.83%  0.80%  [k] finish_task_switch.isra.0  -  -
+  0.82%  0.81%  [.] bycorf::IoUringBackend::ReapCompletions()  -  -
+  0.82%  0.01%  [.] ip_sublist_rcv_finish  -  -
+  0.81%  0.03%  [.] tcp_v4_rcv  -  -
+  0.81%  0.00%  [.] ip_local_deliver  -  -
+  0.81%  0.00%  [.] ip_local_deliver_finish  -  -
+  0.80%  0.00%  [.] ip_protocol_deliver_rcu  -  -
+  0.76%  0.76%  [.] absl::lts_20250512::crc_internal::(anonymous namespace)::CRC32AcceleratedX86ARMCombinedMultipleStreams<3ul, 0ul, (absl::lts_20250512::crc_internal::(anonymous namespace)::CutoffStrategy)0>::Extend(unsigned int*, void const*, unsigned long) const  -  -
+  0.75%  0.00%  [.] tcp_v4_do_rcv  -  -
+  0.73%  0.03%  [.] tcp_rcv_established  -  -
+  0.72%  0.01%  [k] io_req_task_work_add_remote  -  -
+  0.72%  0.00%  [.] try_to_wake_up  -  -
+  0.71%  0.01%  [.] nf_hook_slow  -  -
+  0.71%  0.00%  [.] __dev_xmit_skb  -  -
+  0.71%  0.00%  [.] io_req_local_work_add  -  -
+  0.71%  0.00%  [.] wake_up_state  -  -
+  0.69%  0.02%  [.] __ip_local_out  -  -
+  0.67%  0.24%  [.] bycorf::Worker::Flush()  -  -
+  0.65%  0.04%  [.] sch_direct_xmit  -  -
+  0.63%  0.01%  [.] sock_recvmsg  -  -
+  0.57%  0.11%  [.] bycorf::Worker::ResumeReady(bycorf::Worker::ReadyTask, bycorf::TaskClass) [clone .isra.0]  -  -
+  0.57%  0.04%  [.] inet_recvmsg  -  -
+  0.56%  0.15%  [.] bycorf::Worker::DrainReadyUntil(long)  -  -
+  0.54%  0.01%  [.] nf_conntrack_in  -  -
+  0.50%  0.50%  [.] lavik::storage::StorageEngine::Impl::WriteRecordLocked(lavik::storage::StorageEngine::Impl::WriteRecordLocked(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::RecordWriteRequest const&, std::shared_ptr<std::vector<lavik::storage::ExtentRef, std::allocator<lavik::storage::ExtentRef> > const>, std::unique_ptr<std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> >, std::default_delete<std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> > > >)::_ZN5lavik7storage13StorageEngine4Impl17WriteRecordLockedERNS2_11WorkerStoreERKNS2_18RecordWriteRequestESt10shared_ptrIKSt6vectorINS0_9ExtentRefESaISA_EEESt10unique_ptrIS9_INS0_13RetiredRecordESaISG_EESt14default_deleteISI_EE.Frame*) [clone .actor] [clone .lto_priv.0]  -  -
+  0.50%  0.01%  [.] ipv4_conntrack_local  -  -
+  0.49%  0.02%  [.] tcp_recvmsg  -  -
+  0.48%  0.02%  [.] xmit_one.constprop.0  -  -
+  0.48%  0.00%  [.] dev_hard_start_xmit  -  -
+  0.47%  0.01%  [.] netvsc_start_xmit  -  -
+  0.46%  0.46%  [.] lavik::storage::(anonymous namespace)::UpdatePhysical(lavik::LocalSharedPtr<lavik::storage::(anonymous namespace)::GroupIndexNode const> const&, std::span<lavik::storage::HashGroupLocation const, 18446744073709551615ul>, std::shared_ptr<lavik::storage::ScanHashMapEntryArena> const&)  -  -
+  0.46%  0.46%  [.] lavik::storage::GroupedHashObject::FindRecord(lavik::storage::HashGroupId) const  -  -
+  0.46%  0.02%  [k] netvsc_xmit  -  -
+  0.45%  0.20%  [.] _io_uring_get_cqe  -  -
+  0.41%  0.04%  [.] tcp_recvmsg_locked  -  -
+  0.40%  0.27%  [.] lavik::DispatchCommand(lavik::DispatchCommand(lavik::ConnectionContext&, lavik::CommandRequest&, lavik::ReplyBuilder&)::_ZN5lavik15DispatchCommandERNS_17ConnectionContextERNS_14CommandRequestERNS_12ReplyBuilderE.Frame*) [clone .actor] [clone .lto_priv.0]  -  -
+  0.38%  0.38%  [.] mi_free  -  -
+  0.36%  0.36%  [.] _mi_page_malloc_zero  -  -
+  0.36%  0.04%  [.] resolve_normal_ct  -  -
+  0.35%  0.00%  [.] __tcp_send_ack.part.0  -  -
+  0.35%  0.00%  [.] tcp_send_ack  -  -
+  0.34%  0.34%  [.] lavik::storage::StorageEngine::Impl::ActiveExpiration(lavik::storage::StorageEngine::Impl::ActiveExpiration(lavik::storage::StorageEngine::Impl::WorkerStore*)::_ZN5lavik7storage13StorageEngine4Impl16ActiveExpirationEPNS2_11WorkerStoreE.Frame*) [clone .actor]  -  -
+  0.32%  0.31%  [.] fget  -  -
+  0.31%  0.31%  [.] lavik::storage::NextRecordOffset(std::byte const*, unsigned int, unsigned int)  -  -
+  0.30%  0.01%  [.] tcp_data_ready  -  -
+  0.30%  0.00%  [.] __tcp_ack_snd_check  -  -
+  0.30%  0.00%  [.] bycorf::IoUringBackend::Wait(int)  -  -
+  0.29%  0.29%  [.] lavik::storage::StorageEngine::Impl::CommitGroupedOrderedMutationLocked(lavik::storage::StorageEngine::Impl::CommitGroupedOrderedMutationLocked(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::WorkerStore::PartitionStore&, unsigned char, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::Digest const&, std::shared_ptr<lavik::storage::GroupedHashObject const>, lavik::storage::OrderedCollectionMutationPlan, unsigned long, lavik::storage::TxShardWrites*, lavik::storage::ReplicationCommandAppend*, lavik::storage::MutationPrecondition const*, lavik::storage::StorageEngine::Impl::SortedSetMemberMutation*)::_ZN5lavik7storage13StorageEngine4Impl34CommitGroupedOrderedMutationLockedERNS2_11WorkerStoreERNS3_14PartitionStoreEhSt17basic_string_viewIcSt11char_traitsIcEERKNS0_6DigestESt10shared_ptrIKNS0_17GroupedHashObjectEENS0_29OrderedCollectionMutationPlanEmPNS0_13TxShardWritesEPNS0_24ReplicationCommandAppendEPKNS0_20MutationPreconditionEPNS2_23SortedSetMemberMutationE.Frame*) [clone .actor]  -  -
+  0.29%  0.29%  [.] nvme_transport_qpair_process_completions  -  -
+  0.29%  0.00%  [.] __wake_up_sync_key  -  -
+  0.29%  0.00%  [.] sock_def_readable  -  -
+  0.28%  0.24%  [.] lavik::(anonymous namespace)::RedisService::Serve(lavik::(anonymous namespace)::RedisService::Serve(bycorf::TcpStream&, lavik::ConnectionContext&)::_ZN5lavik12_GLOBAL__N_112RedisService5ServeERN6bycorf9TcpStreamERNS_17ConnectionContextE.Frame*) [clone .actor] [clone .lto_priv.0]  -  -
+  0.28%  0.01%  [.] __io_uring_get_cqe  -  -
+  0.28%  0.00%  [.] __skb_datagram_iter  -  -
+  0.28%  0.00%  [.] simple_copy_to_iter  -  -
+  0.28%  0.00%  [.] skb_copy_datagram_iter  -  -
+  0.27%  0.00%  [.] asm_sysvec_hyperv_stimer0  -  -
+  0.27%  0.00%  [.] sysvec_hyperv_stimer0  -  -
+  0.25%  0.25%  [k] __nf_conntrack_find_get  -  -
+  0.25%  0.25%  [.] lavik::storage::StorageEngine::Impl::FlushPendingBlocks(lavik::storage::StorageEngine::Impl::FlushPendingBlocks(lavik::storage::StorageEngine::Impl::WorkerStore*)::_ZN5lavik7storage13StorageEngine4Impl18FlushPendingBlocksEPNS2_11WorkerStoreE.Frame*) [clone .actor]  -  -
+  0.24%  0.24%  [.] lavik::ExecuteSingleListCommandImpl(lavik::ExecuteSingleListCommandImpl(lavik::CommandRequest const&, lavik::storage::Digest const*, lavik::storage::TxShardWrites*, lavik::ReplyBuilder&)::_ZN5lavik28ExecuteSingleListCommandImplERKNS_14CommandRequestEPKNS_7storage6DigestEPNS3_13TxShardWritesERNS_12ReplyBuilderE.Frame*) [clone .actor] [clone .lto_priv.0]  -  -
+  0.24%  0.13%  [k] mlx5e_poll_tx_cq  -  -
+  0.21%  0.21%  [.] lavik::storage::StorageEngine::Impl::NoteTxRecordLocal(lavik::storage::StorageEngine::Impl::WorkerStore&, unsigned long, unsigned long, unsigned long, unsigned int, bool, lavik::storage::TxShardWrites const*, unsigned int, unsigned long)  -  -
+  0.21%  0.04%  [.] mlx5e_xmit  -  -
+  0.20%  0.20%  [.] mi_find_page  -  -
+  0.20%  0.18%  [k] _copy_to_iter  -  -
+  0.19%  0.19%  [.] lavik::ExecuteCommandBody(lavik::ExecuteCommandBody(lavik::CommandRequest const&, lavik::ReplyBuilder&, unsigned long, lavik::ConnectionContext*, lavik::(anonymous namespace)::ReplicationTransactionOrderGuard*, std::optional<bool>)::_ZN5lavik18ExecuteCommandBodyERKNS_14CommandRequestERNS_12ReplyBuilderEmPNS_17ConnectionContextEPNS_12_GLOBAL__N_132ReplicationTransactionOrderGuardESt8optionalIbE.Frame*) [clone .actor]  -  -
+  0.19%  0.16%  [.] lavik::RespCommandParser::Parse(std::basic_string_view<char, std::char_traits<char> >)  -  -
+  0.19%  0.02%  [.] sk_reset_timer  -  -
+  0.19%  0.02%  [.] tcp_event_new_data_sent  -  -
+  0.18%  0.18%  [.] _nvme_qpair_complete_abort_queued_reqs  -  -
+  0.18%  0.17%  [.] std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, unsigned long, std::allocator<char> const&) [clone .constprop.0]  -  -
+  0.18%  0.10%  [.] lavik::(anonymous namespace)::ReadCommandBatch(lavik::(anonymous namespace)::ReadCommandBatch(bycorf::TcpStream&, lavik::(anonymous namespace)::RequestInputBuffer*, lavik::RespCommandParser*, lavik::(anonymous namespace)::CommandBatch*, lavik::ClientBufferReservation*, std::atomic<unsigned long> const*, unsigned long*, std::optional<absl::lts_20250512::Status>*)::_ZN5lavik12_GLOBAL__N_116ReadCommandBatchERN6bycorf9TcpStreamEPNS0_18RequestInputBufferEPNS_17RespCommandParserEPNS0_12CommandBatchEPNS_23ClientBufferReservationEPKSt6atomicImEPmPSt8optionalIN4absl12lts_202505126StatusEE.Frame*) [clone .actor]  -  -
+  0.18%  0.09%  [.] apparmor_socket_sendmsg  -  -
+  0.18%  0.02%  [.] tcp_rearm_rto  -  -
+  0.18%  0.01%  [.] tcp_stream_alloc_skb  -  -
+  0.18%  0.00%  [.] io_run_local_work_locked  -  -
+  0.18%  0.00%  [.] security_socket_sendmsg  -  -
+  0.17%  0.17%  [.] lavik::storage::StorageEngine::Impl::ExecuteListLocked(lavik::storage::StorageEngine::Impl::ExecuteListLocked(unsigned char, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::Digest const&, lavik::storage::ListOperation const&, lavik::storage::TxShardWrites*, lavik::storage::ReplicationCommandAppend*, lavik::storage::MutationPrecondition const*)::_ZN5lavik7storage13StorageEngine4Impl17ExecuteListLockedEhSt17basic_string_viewIcSt11char_traitsIcEERKNS0_6DigestERKNS0_13ListOperationEPNS0_13TxShardWritesEPNS0_24ReplicationCommandAppendEPKNS0_20MutationPreconditionE.Frame*) [clone .actor] [clone .lto_priv.0]  -  -
+  0.17%  0.16%  [k] srso_alias_safe_ret  -  -
+  0.17%  0.03%  [.] __io_submit_flush_completions  -  -
+  0.17%  0.01%  [.] mod_timer  -  -
+  0.16%  0.02%  [.] mlx5e_poll_rx_cq  -  -
+  0.16%  0.00%  [.] __mod_timer  -  -
+  0.15%  0.15%  [.] lavik::storage::StorageEngine::Impl::ExecuteGroupedListLocked(lavik::storage::StorageEngine::Impl::ExecuteGroupedListLocked(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::WorkerStore::PartitionStore&, unsigned char, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::Digest const&, lavik::storage::ListOperation const&, std::shared_ptr<lavik::storage::GroupedHashObject const>, lavik::storage::TxShardWrites*, lavik::storage::ReplicationCommandAppend*, lavik::storage::MutationPrecondition const*, lavik::storage::StorageEngine::Impl::PreparedOrderedMutation*)::_ZN5lavik7storage13StorageEngine4Impl24ExecuteGroupedListLockedERNS2_11WorkerStoreERNS3_14PartitionStoreEhSt17basic_string_viewIcSt11char_traitsIcEERKNS0_6DigestERKNS0_13ListOperationESt10shared_ptrIKNS0_17GroupedHashObjectEEPNS0_13TxShardWritesEPNS0_24ReplicationCommandAppendEPKNS0_20MutationPreconditionEPNS2_23PreparedOrderedMutationE.Frame*) [clone .actor]  -  -
+  0.15%  0.12%  [.] lavik::DispatchCommandImpl(lavik::DispatchCommandImpl(lavik::ConnectionContext&, lavik::CommandRequest&, lavik::ReplyBuilder&)::_ZN5lavik19DispatchCommandImplERNS_17ConnectionContextERNS_14CommandRequestERNS_12ReplyBuilderE.Frame*) [clone .actor] [clone .lto_priv.0]  -  -
+  0.15%  0.06%  [k] kmem_cache_alloc_noprof  -  -
+  0.13%  0.13%  [.] lavik::tx::TxShard::Poll() [clone .part.0]  -  -
+  0.13%  0.09%  [.] nf_conntrack_tcp_packet  -  -
+  0.13%  0.07%  [.] io_buffer_select  -  -
+  0.13%  0.06%  [.] mlx5e_rx_cq_process_basic_cqe_comp  -  -
+  0.13%  0.02%  [.] __check_object_size  -  -
+  0.13%  0.00%  [.] io_recv_buf_select.constprop.0  -  -
+  0.12%  0.12%  [.] lavik::storage::DecodeRecordHeader(std::span<std::byte const, 18446744073709551615ul>, lavik::storage::RecordHeader*, std::basic_string_view<char, std::char_traits<char> >*)  -  -
+  0.12%  0.12%  [.] lavik::storage::StorageEngine::Impl::CommitTxWrites(lavik::storage::StorageEngine::Impl::CommitTxWrites(unsigned long, std::vector<lavik::storage::TxShardWrites*, std::allocator<lavik::storage::TxShardWrites*> >, lavik::storage::RelocationDurabilityFence*)::_ZN5lavik7storage13StorageEngine4Impl14CommitTxWritesEmSt6vectorIPNS0_13TxShardWritesESaIS5_EEPNS0_25RelocationDurabilityFenceE.Frame*) [clone .actor]  -  -
+  0.12%  0.09%  [k] aa_inet_msg_perm  -  -
+  0.12%  0.04%  [k] validate_xmit_skb_list  -  -
+  0.12%  0.00%  [.] io_file_get_normal  -  -
+  0.12%  0.00%  [.] nft_do_chain_ipv4  -  -
+  0.11%  0.11%  [.] __memset_avx512_unaligned_erms  -  -
+  0.11%  0.11%  [.] lavik::(anonymous namespace)::ExecuteCommandOnOwner(unsigned int, lavik::CommandRequest&, lavik::ReplyBuilder&, unsigned long, lavik::ConnectionContext*)::{lambda()#1}::operator()(lavik::(anonymous namespace)::ExecuteCommandOnOwner(unsigned int, lavik::CommandRequest&, lavik::ReplyBuilder&, unsigned long, lavik::ConnectionContext*)::{lambda()#1}::operator()() const::_ZZN5lavik12_GLOBAL__N_121ExecuteCommandOnOwnerEjRNS_14CommandRequestERNS_12ReplyBuilderEmPNS_17ConnectionContextEENKUlvE_clEv.Frame*) [clone .actor] [clone .lto_priv.0]  -  -
+  0.11%  0.11%  [.] lavik::storage::RecordPayloadCursor::Read(std::span<std::byte, 18446744073709551615ul>)  -  -
+  0.11%  0.11%  [.] lavik::storage::StorageEngine::Impl::AppendLocked(lavik::storage::StorageEngine::Impl::AppendLocked(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::WorkerStore::PartitionStore&, unsigned char, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::Digest const&, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::RecordKind, lavik::storage::ValueType, unsigned long, lavik::storage::TxShardWrites*, unsigned long, std::unique_ptr<std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> >, std::default_delete<std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> > > >, unsigned long*, lavik::storage::ReplicationCommandAppend*, bool, lavik::storage::TxUndoLog*, lavik::storage::MutationPrecondition const*, lavik::storage::StorageEngine::Impl::GroupMutationWrite*)::_ZN5lavik7storage13StorageEngine4Impl12AppendLockedERNS2_11WorkerStoreERNS3_14PartitionStoreEhSt17basic_string_viewIcSt11char_traitsIcEERKNS0_6DigestESA_NS0_10RecordKindENS0_9ValueTypeEmPNS0_13TxShardWritesEmSt10unique_ptrISt6vectorINS0_13RetiredRecordESaISK_EESt14default_deleteISM_EEPmPNS0_24ReplicationCommandAppendEbPNS0_9TxUndoLogEPKNS0_20MutationPreconditionEPNS2_18GroupMutationWriteE.Frame*) [clone .actor] [clone .lto_priv.0]  -  -
+  0.11%  0.11%  [.] mi_page_queue_find_free_ex  -  -
+  0.11%  0.10%  [.] bycorf::Worker::Enqueue(std::__n4861::coroutine_handle<void>, bool) [clone .constprop.0]  -  -
+  0.11%  0.08%  [k] __memcg_slab_post_alloc_hook  -  -
+  0.11%  0.08%  [k] skb_defer_free_flush  -  -
+  0.11%  0.04%  [.] check_heap_object  -  -
+  0.11%  0.01%  [.] __alloc_skb  -  -
+  0.10%  0.10%  [.] absl::lts_20250512::crc_internal::ExtendCrc32cInternal(absl::lts_20250512::crc32c_t, std::basic_string_view<char, std::char_traits<char> >)  -  -
+  0.10%  0.10%  [.] lavik::(anonymous namespace)::ExecuteStorageCommand(lavik::(anonymous namespace)::ExecuteStorageCommand(lavik::CommandRequest const&, lavik::ReplyBuilder&, lavik::ReadLatencyTrace*, lavik::SetLatencyTrace*, bool)::_ZN5lavik12_GLOBAL__N_121ExecuteStorageCommandERKNS_14CommandRequestERNS_12ReplyBuilderEPNS_16ReadLatencyTraceEPNS_15SetLatencyTraceEb.Frame*) [clone .actor] [clone .lto_priv.0]  -  -
+  0.10%  0.10%  [.] lavik::storage::GroupedObjectIndex::PreparePublish(std::basic_string_view<char, std::char_traits<char> >, std::shared_ptr<lavik::storage::GroupedHashObject const> const&)  -  -
+  0.10%  0.09%  [k] nft_do_chain  -  -
+  0.10%  0.08%  [.] net_dim  -  -
+  0.10%  0.02%  [.] _raw_spin_unlock_bh  -  -
+  0.10%  0.02%  [.] release_sock  -  -
+  0.10%  0.01%  [.] netdev_core_pick_tx  -  -
+  0.10%  0.00%  [.] mem_cgroup_sk_charge  -  -
+  0.10%  0.00%  [.] run_timer_softirq  -  -
+  0.10%  0.00%  [.] sk_forced_mem_schedule  -  -
+
+
+#
+# (Cannot load tips.txt file, please install perf!)
+#

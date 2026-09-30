@@ -229,7 +229,7 @@ value、member 或元素为 128 B 或 1 KiB。Stream 的字段名和各结构元
   Redis 8.8.0 与 Valkey 9.1.0 使用
   12 个 I/O 线程，关闭 RDB/AOF；Lavik 使用 12 个 worker、内核 TCP
   和六块专用 SPDK NVMe。三者的持久化配置不同。
-- List 和 Sorted Set 章节的 Lavik 是早期 [PR #203](https://github.com/eloqdata/lavik/pull/203) 的
+- List 和 Sorted Set 的 100 MiB / 1 KiB 已更新为 main `a6e93d3d`；其余条件仍是早期 [PR #203](https://github.com/eloqdata/lavik/pull/203) 的
   `646a7b4e` 二进制；Hash/Set 与 Stream 的当前 main 版本在各自章节注明。
   不同版本的数据不组成一条 Lavik 曲线。
 - Kvrocks 使用 16 个 worker，各大小档位使用相同缓存与压缩配置。List、Sorted Set 的 64 KiB 与
@@ -273,7 +273,10 @@ value、member 或元素为 128 B 或 1 KiB。Stream 的字段名和各结构元
 
 ![List 100 MiB、128 B：LINDEX / LSET QPS 随连接数变化](charts/list-104857600-128.png)
 
-![List 100 MiB、1 KiB：LINDEX / LSET QPS 随连接数变化](charts/list-104857600-1024.png)
+![List 100 MiB、1 KiB：LINDEX / LSET QPS 随连接数变化](charts/list-104857600-1024-ab.png)
+
+**2026-09-30 最新 main `a6e93d3d` 复测。** 8 × 100 MiB key、1 KiB 元素，读写及全量读取共 13 个无采样测点；其他数据库保留同负载的原始结果，未重跑。 所有测点零错误，逐 key 校验通过。 [Raw data](raw/lavik-maina6-ordered-list-100m-k8-f1024-20260930/) · [Plot provenance](ordered-published.json).
+
 
 ### LRANGE 0 -1
 
@@ -293,7 +296,7 @@ value、member 或元素为 128 B 或 1 KiB。Stream 的字段名和各结构元
 
 ![List 100 MiB、128 B：LRANGE 0 -1 QPS 随连接数变化](charts/list-104857600-128-full.png)
 
-![List 100 MiB、1 KiB：LRANGE 0 -1 QPS 随连接数变化](charts/list-104857600-1024-full.png)
+![List 100 MiB、1 KiB：LRANGE 0 -1 QPS 随连接数变化](charts/list-104857600-1024-ab-full.png)
 
 1 MiB/128 B 的 `LINDEX` 中，Lavik 峰值约 139k QPS；1 KiB 元素时约 677k。该差距与页内元素个数相关，但尚无足够剖析证据把它归因于单一操作。
 
@@ -319,7 +322,10 @@ value、member 或元素为 128 B 或 1 KiB。Stream 的字段名和各结构元
 
 ![Sorted Set 100 MiB、128 B：ZSCORE / ZINCRBY QPS 随连接数变化](charts/zset-104857600-128.png)
 
-![Sorted Set 100 MiB、1 KiB：ZSCORE / ZINCRBY QPS 随连接数变化](charts/zset-104857600-1024.png)
+![Sorted Set 100 MiB、1 KiB：ZSCORE / ZINCRBY QPS 随连接数变化](charts/zset-104857600-1024-ab.png)
+
+**2026-09-30 最新 main `a6e93d3d` 复测。** 8 × 100 MiB key、1 KiB 元素，读写及全量读取共 13 个无采样测点；其他数据库保留同负载的原始结果，未重跑。 所有测点零错误，逐 key 校验通过。 [Raw data](raw/lavik-maina6-ordered-zset-100m-k8-f1024-20260930/) · [Plot provenance](ordered-published.json).
+
 
 ### ZRANGE WITHSCORES
 
@@ -339,7 +345,7 @@ value、member 或元素为 128 B 或 1 KiB。Stream 的字段名和各结构元
 
 ![Sorted Set 100 MiB、128 B：ZRANGE WITHSCORES QPS 随连接数变化](charts/zset-104857600-128-full.png)
 
-![Sorted Set 100 MiB、1 KiB：ZRANGE WITHSCORES QPS 随连接数变化](charts/zset-104857600-1024-full.png)
+![Sorted Set 100 MiB、1 KiB：ZRANGE WITHSCORES QPS 随连接数变化](charts/zset-104857600-1024-ab-full.png)
 
 ## 测量边界
 
