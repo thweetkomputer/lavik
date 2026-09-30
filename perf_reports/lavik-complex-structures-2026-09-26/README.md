@@ -24,6 +24,7 @@ Main and PR binary SHA256 respectively: `e615cacfa119e36f9f2f566e5848ad01ea3909c
 Both versions reuse the same validated 500-key dataset for each type; all 13 points per version complete without errors.
 
 - HSET: main **32.5–48.5k QPS**; PR **79.8–101.0k QPS**, **2.08–2.46×** main at matching connection counts. [Raw Hash main data](raw/lavik-mainebe-hash-100m-k500-f128-20260930/), [PR data](raw/lavik-pr222817-hash-100m-k500-f128-20260930/).
+- SADD + SREM: main **62.3–91.3k QPS**; PR **141.5–168.1k QPS**, **1.84–2.27×** main at matching connection counts. [Raw Set main data](raw/lavik-mainebe-set-100m-k500-f128-20260930/), [PR data](raw/lavik-pr222817-set-100m-k500-f128-20260930/).
 
 [PR #222](https://github.com/eloqdata/lavik/pull/222) includes compact physical indexes,
 commit notifications, reuse of owner-verified settled transaction admission state, and positional
@@ -32,7 +33,6 @@ on VWC=0 controllers; data-before-commit ordering is preserved.
 These single-field/member commands do not exercise the multi-field index optimization.
 Each point is one eight-second run. Kvrocks write throughput has not yet been reached.
 Other sizes do not yet include PR #222.
-Set 100 MiB/128 B temporarily shows only the preceding main `4c26af7b`; the updated comparison is pending.
 
 No data-page cache was added. Earlier main, PR #212, and 256-key raw runs remain in `raw/` but are
 not plotted in this retest.

@@ -22,13 +22,13 @@ main 与 PR 二进制 SHA256 分别为 `e615cacfa119e36f9f2f566e5848ad01ea3909cc
 每个结构双方复用同一份经过逐 key 校验的 500-key 数据，各完成 13 个测点、零错误。
 
 - HSET：main **3.25–4.85 万 QPS**；PR **7.98–10.10 万 QPS**。同连接数下为 main 的 **2.08–2.46 倍**。[Hash main 原始数据](raw/lavik-mainebe-hash-100m-k500-f128-20260930/)、[PR 原始数据](raw/lavik-pr222817-hash-100m-k500-f128-20260930/)。
+- SADD + SREM：main **6.23–9.13 万 QPS**；PR **14.15–16.81 万 QPS**。同连接数下为 main 的 **1.84–2.27 倍**。[Set main 原始数据](raw/lavik-mainebe-set-100m-k500-f128-20260930/)、[PR 原始数据](raw/lavik-pr222817-set-100m-k500-f128-20260930/)。
 
 [PR #222](https://github.com/eloqdata/lavik/pull/222) 包含紧凑物理索引、提交完成通知、
 已结束事务的反压检查复用，以及多参数 SADD/HSET 的字段位置索引。
 已合并的 Bycorf 优化省去 VWC=0 控制器的无效 FLUSH；数据先于 Commit 落盘的规则保持不变。
 本轮是单字段/成员命令，不使用多参数字段位置索引，不能把图中的收益归给该项。
 每点八秒、只测一次，尚未达到 Kvrocks 写入水平。其他大小尚未加入 PR #222。
-Set 100 MiB/128 B 暂时只显示上一轮 main `4c26af7b`，新版 main 与 PR 的对比正在补测。
 
 没有增加数据页缓存。早期 main、PR #212 和 256-key 的运行记录仍保留在
 `raw/`，不作为本轮曲线。
