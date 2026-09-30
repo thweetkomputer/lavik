@@ -1,0 +1,31 @@
+{
+  "source_commit": "80792c41b71223415d48e3638a53754d9223ad31",
+  "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-worktrim-80792c41-20260930",
+  "pid": 282285,
+  "argv": [
+    "perf",
+    "record",
+    "-e",
+    "task-clock",
+    "-F",
+    "99",
+    "-g",
+    "--call-graph",
+    "dwarf,16384",
+    "-p",
+    "282285",
+    "-o",
+    "/mnt/dev/lavik-set-hash-20260929/perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-worktrim8079-set-1m-k50000-f1024-20260930/diagnostic-c5120/cpu.perf",
+    "--",
+    "sleep",
+    "20"
+  ],
+  "time": 1790751436.6404305,
+  "condition": {
+    "type": "set",
+    "bytes_per_key": 1048576,
+    "field_bytes": 1024,
+    "keys": 50000,
+    "connections": 5120
+  }
+}
