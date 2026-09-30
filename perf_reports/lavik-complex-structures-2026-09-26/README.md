@@ -206,6 +206,8 @@ combined command rate, not the rate of durable mutations.
 
 ## Test configuration
 
+Bulk imports use a Python client on the server host; point-command QPS uses memtier on the separate client host. New import comparisons share pre-encoded operand bytes while preserving RESP commands, connection counts and pipelines. Kvrocks uses 16 workers.
+
 - Server: 172.16.0.4, 16 vCPUs on AMD EPYC 9V74, CPUs 0–15, 100 Gb/s NIC.
   Redis 8.8.0 and Valkey 9.1.0 use 12 I/O
   threads, with RDB and AOF disabled. Lavik uses 12 workers, kernel TCP, and
