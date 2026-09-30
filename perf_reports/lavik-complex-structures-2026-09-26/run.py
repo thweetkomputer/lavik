@@ -121,7 +121,7 @@ def fill_worker(kind, field_bytes, entries, indices, pipeline, seed_values,
                     if read(stream) is None:
                         raise RuntimeError("null fill reply")
                 done += len(pending)
-            if completed_keys % 250 == 0:
+            if completed_keys % min(250, max(1, len(indices) // 25)) == 0:
                 print(time.strftime("%F %T", time.gmtime()), kind, "fill worker",
                       indices.start, "keys", completed_keys, "/", len(indices),
                       flush=True)
