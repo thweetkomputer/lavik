@@ -1,0 +1,60 @@
+# To display the perf.data header info, please use --header/--header-only options.
+#
+#
+# Total Lost Samples: 0
+#
+# Samples: 8K of event 'task-clock'
+# Event count (approx.): 81464645650
+#
+# Overhead  Symbol  IPC  [IPC Coverage]
+# ........  ........................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................  ....................
+#
+  32.26%  [.] lavik::storage::OrderedGroupDirectory::Find(unsigned long) const  -  -
+  11.85%  [.] lavik::storage::StorageEngine::Impl::StreamPageAccess::Plan(lavik::storage::StorageEngine::Impl::StreamPageAccess::Plan(std::vector<lavik::storage::StreamRecordChange, std::allocator<lavik::storage::StreamRecordChange> >, unsigned long, std::vector<unsigned long, std::allocator<unsigned long> >)::_ZN5lavik7storage13StorageEngine4Impl16StreamPageAccess4PlanESt6vectorINS0_18StreamRecordChangeESaIS5_EEmS4_ImSaImEE.Frame*) [clone .actor]  -  -
+  8.36%  [.] lavik::storage::OrderedGroupDirectory::Recover(lavik::storage::OrderedCollectionRoot const&, unsigned long, std::span<lavik::storage::RecoveredOrderedGroup const, 18446744073709551615ul>, absl::lts_20250512::flat_hash_set<unsigned long, absl::lts_20250512::hash_internal::Hash<unsigned long>, std::equal_to<unsigned long>, std::allocator<unsigned long> > const&, unsigned long, std::optional<lavik::storage::HashGroupDirectory>)  -  -
+  5.48%  [.] bycorf::Worker::RunOnce(bool)  -  -
+  5.39%  [.] std::vector<lavik::storage::RecoveredOrderedGroup, std::allocator<lavik::storage::RecoveredOrderedGroup> >::operator=(std::vector<lavik::storage::RecoveredOrderedGroup, std::allocator<lavik::storage::RecoveredOrderedGroup> > const&) [clone .isra.0]  -  -
+  2.93%  [.] _mi_theap_malloc_zero  -  -
+  2.78%  [.] lavik::storage::OrderedGroupDirectory::Apply(lavik::storage::OrderedCollectionRoot const&, unsigned long, std::span<lavik::storage::RecoveredOrderedGroup const, 18446744073709551615ul>, unsigned long, std::span<lavik::storage::RecoveredHashGroup const, 18446744073709551615ul>) const  -  -
+  2.36%  [.] std::_Rb_tree_increment(std::_Rb_tree_node_base*)  -  -
+  2.34%  [.] std::vector<lavik::storage::RecoveredOrderedGroup, std::allocator<lavik::storage::RecoveredOrderedGroup> >::push_back(lavik::storage::RecoveredOrderedGroup const&)  -  -
+  2.29%  [.] std::_Rb_tree_rebalance_for_erase(std::_Rb_tree_node_base*, std::_Rb_tree_node_base&)  -  -
+  2.18%  [.] bycorf::Worker::PollStorage() [clone .part.0]  -  -
+  1.91%  [.] void std::__introsort_loop<__gnu_cxx::__normal_iterator<std::pair<unsigned long, unsigned long>*, std::vector<std::pair<unsigned long, unsigned long>, std::allocator<std::pair<unsigned long, unsigned long> > > >, long, __gnu_cxx::__ops::_Iter_less_iter>(__gnu_cxx::__normal_iterator<std::pair<unsigned long, unsigned long>*, std::vector<std::pair<unsigned long, unsigned long>, std::allocator<std::pair<unsigned long, unsigned long> > > >, __gnu_cxx::__normal_iterator<std::pair<unsigned long, unsigned long>*, std::vector<std::pair<unsigned long, unsigned long>, std::allocator<std::pair<unsigned long, unsigned long> > > >, long, __gnu_cxx::__ops::_Iter_less_iter) [clone .isra.0]  -  -
+  1.36%  [.] std::_Rb_tree_insert_and_rebalance(bool, std::_Rb_tree_node_base*, std::_Rb_tree_node_base*, std::_Rb_tree_node_base&)  -  -
+  1.17%  [.] std::vector<unsigned long, std::allocator<unsigned long> >::push_back(unsigned long const&)  -  -
+  0.93%  [.] __memmove_avx512_unaligned_erms  -  -
+  0.61%  [.] mi_free  -  -
+  0.58%  [.] lavik::storage::GroupedHashObject::FindRecord(lavik::storage::HashGroupId) const  -  -
+  0.46%  [.] lavik::storage::StreamRecordKey(std::basic_string_view<char, std::char_traits<char> >)  -  -
+  0.45%  [.] __memcmp_evex_movbe  -  -
+  0.43%  [.] void std::__sort<__gnu_cxx::__normal_iterator<std::pair<unsigned long, unsigned long>*, std::vector<std::pair<unsigned long, unsigned long>, std::allocator<std::pair<unsigned long, unsigned long> > > >, __gnu_cxx::__ops::_Iter_less_iter>(__gnu_cxx::__normal_iterator<std::pair<unsigned long, unsigned long>*, std::vector<std::pair<unsigned long, unsigned long>, std::allocator<std::pair<unsigned long, unsigned long> > > >, __gnu_cxx::__normal_iterator<std::pair<unsigned long, unsigned long>*, std::vector<std::pair<unsigned long, unsigned long>, std::allocator<std::pair<unsigned long, unsigned long> > > >, __gnu_cxx::__ops::_Iter_less_iter) [clone .isra.0]  -  -
+  0.35%  [.] absl::lts_20250512::crc_internal::(anonymous namespace)::CRC32AcceleratedX86ARMCombinedMultipleStreams<3ul, 0ul, (absl::lts_20250512::crc_internal::(anonymous namespace)::CutoffStrategy)0>::Extend(unsigned int*, void const*, unsigned long) const  -  -
+  0.35%  [.] bycorf::Worker::DrainCrossCore()  -  -
+  0.31%  [.] lavik::storage::(anonymous namespace)::UpdatePhysical(lavik::LocalSharedPtr<lavik::storage::(anonymous namespace)::GroupIndexNode const> const&, std::span<lavik::storage::HashGroupLocation const, 18446744073709551615ul>, std::shared_ptr<lavik::storage::ScanHashMapEntryArena> const&)  -  -
+  0.29%  [k] finish_task_switch.isra.0  -  -
+  0.29%  [.] lavik::storage::StorageEngine::Impl::ActiveExpiration(lavik::storage::StorageEngine::Impl::ActiveExpiration(lavik::storage::StorageEngine::Impl::WorkerStore*)::_ZN5lavik7storage13StorageEngine4Impl16ActiveExpirationEPNS2_11WorkerStoreE.Frame*) [clone .actor]  -  -
+  0.29%  [.] nvme_pcie_qpair_process_completions  -  -
+  0.27%  [k] handle_softirqs  -  -
+  0.27%  [.] mi_page_free_list_extend  -  -
+  0.25%  [k] _raw_spin_unlock_irqrestore  -  -
+  0.25%  [k] do_syscall_64  -  -
+  0.24%  [.] lavik::storage::StorageEngine::Impl::WriteRecordLocked(lavik::storage::StorageEngine::Impl::WriteRecordLocked(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::RecordWriteRequest const&, std::shared_ptr<std::vector<lavik::storage::ExtentRef, std::allocator<lavik::storage::ExtentRef> > const>, std::unique_ptr<std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> >, std::default_delete<std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> > > >)::_ZN5lavik7storage13StorageEngine4Impl17WriteRecordLockedERNS2_11WorkerStoreERKNS2_18RecordWriteRequestESt10shared_ptrIKSt6vectorINS0_9ExtentRefESaISA_EEESt10unique_ptrIS9_INS0_13RetiredRecordESaISG_EESt14default_deleteISI_EE.Frame*) [clone .actor] [clone .lto_priv.0]  -  -
+  0.24%  [.] spdk_nvme_qpair_process_completions  -  -
+  0.22%  [.] bycorf::IoUringBackend::ReapCompletions()  -  -
+  0.19%  [.] lavik::storage::RecordPayloadCursor::Read(std::span<std::byte, 18446744073709551615ul>)  -  -
+  0.17%  [.] _mi_page_malloc_zero  -  -
+  0.17%  [.] lavik::storage::StorageEngine::Impl::StreamPageAccess::Load(lavik::storage::StorageEngine::Impl::StreamPageAccess::Load(unsigned long)::_ZN5lavik7storage13StorageEngine4Impl16StreamPageAccess4LoadEm.Frame*) [clone .actor]  -  -
+  0.17%  [.] lavik::storage::StreamPageMaxKey::LessThan(std::basic_string_view<char, std::char_traits<char> >) const  -  -
+  0.16%  [.] mi_find_page  -  -
+  0.15%  [.] lavik::storage::(anonymous namespace)::ValidateEntries(lavik::storage::OrderedCollectionKind, std::span<lavik::storage::OrderedCollectionEntry const, 18446744073709551615ul>) [clone .lto_priv.0]  -  -
+  0.15%  [.] lavik::storage::DecodeRecordHeader(std::span<std::byte const, 18446744073709551615ul>, lavik::storage::RecordHeader*, std::basic_string_view<char, std::char_traits<char> >*)  -  -
+  0.14%  [.] lavik::DispatchCommand(lavik::DispatchCommand(lavik::ConnectionContext&, lavik::CommandRequest&, lavik::ReplyBuilder&)::_ZN5lavik15DispatchCommandERNS_17ConnectionContextERNS_14CommandRequestERNS_12ReplyBuilderE.Frame*) [clone .actor] [clone .lto_priv.0]  -  -
+  0.12%  [k] io_cqring_wait  -  -
+  0.12%  [.] io_uring_submit_and_get_events  -  -
+  0.11%  [.] lavik::storage::OrderedCollectionEntry& std::vector<lavik::storage::OrderedCollectionEntry, std::allocator<lavik::storage::OrderedCollectionEntry> >::emplace_back<lavik::storage::OrderedCollectionEntry>(lavik::storage::OrderedCollectionEntry&&) [clone .isra.0]  -  -
+
+
+#
+# (Cannot load tips.txt file, please install perf!)
+#
