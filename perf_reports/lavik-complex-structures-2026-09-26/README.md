@@ -132,6 +132,9 @@ At 5,120 connections, PR write throughput was **14,103 QPS**, below main **19,48
 
 ![Set 1 MiB per key, 1 KiB entries: SISMEMBER and SADD/SREM QPS by connection count](charts/set-1048576-1024-ab.png)
 
+**2026-09-30: main `ebe28dd5` vs PR #222 `817473b7`.** 50,000 keys, 1024 B entries; both 12-point grids completed without errors. SADD + SREM reached **1.37–4.63×** main at matching connection counts.
+[main raw](raw/lavik-mainebe-set-1m-k50000-f1024-sadd-20260930/), [PR raw](raw/lavik-pr222817-set-1m-k50000-f1024-sadd-20260930/).
+
 #### 100 MiB per key
 
 ![Set 100 MiB per key, 128 B entries: SISMEMBER and SADD/SREM QPS by connection count](charts/set-104857600-128-ab.png)
@@ -153,6 +156,12 @@ At 5,120 connections, PR write throughput was **14,103 QPS**, below main **19,48
 ![Set 100 MiB per key, 1 KiB entries: SMEMBERS QPS by connection count](charts/set-104857600-1024-ab-full.png)
 
 ### Batched import (SADD)
+
+#### 1 MiB / 1024 B
+
+![Set batched SADD import](charts/set-1048576-1024-k50000-fill.png)
+
+All four use SADD, 16 entries per command, eight clients and pipeline 64. Main fill time: **517.9 seconds**. Persistence settings still differ.
 
 #### 1 MiB / 128 B
 
