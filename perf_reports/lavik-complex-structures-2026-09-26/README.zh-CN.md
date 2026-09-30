@@ -275,7 +275,7 @@ value、member 或元素为 128 B 或 1 KiB。Stream 的字段名和各结构元
 
 ![List 100 MiB、1 KiB：LINDEX / LSET QPS 随连接数变化](charts/list-104857600-1024-ab.png)
 
-**2026-09-30 main `a8c926d4` 与 [PR #233](https://github.com/eloqdata/lavik/pull/233) `721097a7` 实测。** 8 × 100 MiB key、1 KiB 元素；每版 13 个无采样测点，覆盖 80–5120 连接的点查和写入及 1/4/16 连接的全量读取。其他数据库保留同负载原始结果。 所有测点零错误，逐 key 数量校验通过。 [Main raw](raw/lavik-maina8-ordered-list-100m-k8-f1024-20260930/) · [PR raw](raw/lavik-chunks721097a7-list-100m-k8-f1024-20260930/) · [Plot provenance](ordered-published.json). **本版 LINDEX 提升约 5.9–8.5 倍，LSET 提升约 71%–83%；LSET 峰值 2.46 万 QPS，仍低于 Kvrocks。新 perf 中目录 Apply 降至约 1.1%，主要样本转到 worker 循环与存储轮询，下一步检查不必要的相邻页读取。**
+**2026-09-30 main `a8c926d4` 与 [PR #233](https://github.com/eloqdata/lavik/pull/233) `5b1c3064` 实测。** 8 × 100 MiB key、1 KiB 元素；每版 13 个无采样测点，覆盖 80–5120 连接的点查和写入及 1/4/16 连接的全量读取。其他数据库保留同负载原始结果。 两版均重新灌入相同初始逻辑数据。 所有测点零错误，逐 key 数量校验通过。 [Main raw](raw/lavik-maina8-ordered-list-100m-k8-f1024-20260930/) · [PR raw](raw/lavik-fresh5b1c3064-list-100m-k8-f1024-20260930/) · [Plot provenance](ordered-published.json). **更正：新灌数据没有复现此前顺序复用数据时的 LINDEX 倍数提升；本版 LINDEX 比 main 低约 6%–10%。LSET 各点变化为 +82%、+34%、−20%、+19%、+55%，还不能认定为稳定改进，PR 保持草稿。后续使用同一二进制对比页面重写前后并采样，排查数据布局/读路径影响。**
 
 
 ### LRANGE 0 -1
