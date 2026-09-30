@@ -117,6 +117,8 @@ Each point-read/write chart contains both commands. The 1 MiB and 100 MiB runs u
 **2026-09-30: main `ebe28dd5` vs PR #222 `817473b7`.** 50,000 keys, 128 B entries; both 12-point grids completed without errors. SADD + SREM reached **0.72–3.66×** main at matching connection counts.
 [main raw](raw/lavik-mainebe-set-1m-k50000-f128-sadd-20260930/), [PR raw](raw/lavik-pr222817-set-1m-k50000-f128-sadd-20260930/).
 
+At 5,120 connections, PR write throughput was **14,103 QPS**, below main **19,488 QPS**; the other four connection levels improved. This is a single eight-second measurement; the drop has not been repeated and remains plotted unchanged.
+
 ![Set 1 MiB per key, 1 KiB entries: SISMEMBER and SADD/SREM QPS by connection count](charts/set-1048576-1024-ab.png)
 
 #### 100 MiB per key
