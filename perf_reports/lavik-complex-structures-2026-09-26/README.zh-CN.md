@@ -8,11 +8,11 @@ Redis 兼容数据结构。每张图固定数据结构、每个 key 的逻辑数
 
 ## 2026-09-30 main 与 PR #228
 
-[PR #222](https://github.com/eloqdata/lavik/pull/222) 已合并，当前 main 为 `a6e93d3d`。图中已移除已合并 PR 的独立曲线；本轮新优化 [PR #228](https://github.com/eloqdata/lavik/pull/228) 只在完成 A/B 的条件下叠加显示。
+[PR #229](https://github.com/eloqdata/lavik/pull/229) 已合并，当前 main 为 `a8c926d4`；它修复导入时遗漏首次索引发布空间的 OOM。图中已移除已合并 PR 的独立曲线；本轮新优化 [PR #228](https://github.com/eloqdata/lavik/pull/228) 只在完成 A/B 的条件下叠加显示。
 
-**最新 main 已复测：Hash/1 MiB/128 B, Hash/1 MiB/1024 B, Hash/100 MiB/128 B, Hash/100 MiB/1024 B, Set/1 MiB/128 B, Set/1 MiB/1024 B, Set/100 MiB/128 B, Set/100 MiB/1024 B。** 精确版本、二进制摘要和未合并 PR 来源见 [绘图来源](published-main.json)。Stream、List、Sorted Set 的结果和图继续保留。
+**main `a6e93d3d` 已完成的复测：Hash/1 MiB/128 B, Hash/1 MiB/1024 B, Hash/100 MiB/128 B, Hash/100 MiB/1024 B, Set/1 MiB/128 B, Set/1 MiB/1024 B, Set/100 MiB/128 B, Set/100 MiB/1024 B。** 精确版本、二进制摘要和未合并 PR 来源见 [绘图来源](published-main.json)。Stream、List、Sorted Set 的结果和图继续保留。
 
-PR #228 当前代码为 `80792c41`。已发布的 PR 曲线均对应此提交。
+PR #228 已 rebase 到 `a8c926d4`，当前代码为 `31f09884`，原优化补丁未变。当前已发布的曲线仍是 `a6e93d3d` / `80792c41` 的实测；新版本复测完成后逐图覆盖，旧数据不会改标签冒充新测试。
 
 本轮先用 perf 找分配、拷贝和重复工作，PR #228 减少临时容器、元数据查询和额外调度，没有增加数据缓存或改变落盘格式。**尚未在所有写入负载上达到 Kvrocks 水平。** 图中主测点不运行 perf，30 秒工作负载中的 20 秒采样另存原始目录；[采样脚本](profile_grouped_writes.py)可复现相同流程。
 

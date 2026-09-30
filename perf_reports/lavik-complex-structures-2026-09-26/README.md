@@ -9,11 +9,11 @@ connections; the vertical axis is completed commands per second.
 
 ## 2026-09-30 main and PR #228
 
-[PR #222](https://github.com/eloqdata/lavik/pull/222) is merged; current main is `a6e93d3d`. Merged PR curves have been removed. The new [PR #228](https://github.com/eloqdata/lavik/pull/228) is overlaid only where its A/B measurement is complete.
+[PR #229](https://github.com/eloqdata/lavik/pull/229) is merged; current main is `a8c926d4`, fixing missing first-publication headroom during ingestion. Merged PR curves have been removed. The new [PR #228](https://github.com/eloqdata/lavik/pull/228) is overlaid only where its A/B measurement is complete.
 
-**Fresh main measurements: Hash/1 MiB/128 B, Hash/1 MiB/1024 B, Hash/100 MiB/128 B, Hash/100 MiB/1024 B, Set/1 MiB/128 B, Set/1 MiB/1024 B, Set/100 MiB/128 B, Set/100 MiB/1024 B.** Exact versions, binary hashes and unmerged PR sources are in the [plot manifest](published-main.json). Stream, List and Sorted Set results and charts remain available.
+**Completed main `a6e93d3d` measurements: Hash/1 MiB/128 B, Hash/1 MiB/1024 B, Hash/100 MiB/128 B, Hash/100 MiB/1024 B, Set/1 MiB/128 B, Set/1 MiB/1024 B, Set/100 MiB/128 B, Set/100 MiB/1024 B.** Exact versions, binary hashes and unmerged PR sources are in the [plot manifest](published-main.json). Stream, List and Sorted Set results and charts remain available.
 
-PR #228 currently contains `80792c41`. All published PR curves measure this commit.
+PR #228 is rebased onto `a8c926d4` as `31f09884`, with an unchanged optimization patch. Published curves still measure `a6e93d3d` / `80792c41`; new measurements will replace each figure when complete, preserving exact provenance.
 
 This round uses perf first to identify allocations, copies and repeated work. PR #228 trims temporary containers, metadata queries and extra scheduling, without adding a data cache or changing the durable format. **Parity with Kvrocks across all write workloads has not been achieved.** Clean chart runs do not run perf; separate 30-second diagnostic workloads include 20 seconds of perf sampling, retained in raw directories. The [profiling script](profile_grouped_writes.py) reproduces the process.
 
