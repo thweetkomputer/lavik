@@ -24,7 +24,7 @@ HSET：main **3.27–4.89 万 QPS**，PR **7.72–9.74 万 QPS**；
 
 [PR #222](https://github.com/eloqdata/lavik/pull/222) 包含紧凑物理索引、提交完成通知、
 已结束事务的反压检查复用，以及多参数 SADD/HSET 的字段位置索引。
-[Bycorf #6](https://github.com/eloqdata/bycorf/pull/6) 省去 VWC=0 控制器的无效 FLUSH；
+已合并的 [Bycorf #6](https://github.com/eloqdata/bycorf/pull/6) 省去 VWC=0 控制器的无效 FLUSH；
 数据先于 Commit 落盘的规则保持不变。单字段 HSET 测试不使用多参数字段位置索引，不能把本图收益归给该项。
 压测期间 main 又合入 #223（Meta 连接）；代码正同步 rebase，图中版本以本段实测提交为准。
 Set 100 MiB/128 B 暂时只保留上一轮 main `4c26af7b`，正在补测新版 main 与 PR #222；

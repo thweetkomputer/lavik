@@ -27,7 +27,7 @@ Kvrocks remains at 322.9–374.0k; the write-throughput target is not met.
 
 [PR #222](https://github.com/eloqdata/lavik/pull/222) combines compact physical indexes,
 commit notifications, reuse of owner-verified settled transaction admission state, and positional
-multi-field SADD/HSET indexes. [Bycorf #6](https://github.com/eloqdata/bycorf/pull/6) avoids
+multi-field SADD/HSET indexes. Merged [Bycorf #6](https://github.com/eloqdata/bycorf/pull/6) avoids
 ineffective FLUSH commands on VWC=0 controllers; data-before-commit ordering is preserved.
 This single-field HSET workload does not exercise the multi-field index optimization.
 Main merged #223 (Meta connection handling) during measurement; the code is being rebased,
