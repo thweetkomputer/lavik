@@ -7,13 +7,13 @@ remote memtier client. Each chart fixes the collection type, logical payload per
 key, and payload bytes per entry. The horizontal axis is simultaneous
 connections; the vertical axis is completed commands per second.
 
-## 2026-09-30 main update
+## 2026-09-30 main and PR #228
 
-[PR #222](https://github.com/eloqdata/lavik/pull/222) is merged; current main is `a6e93d3d`. Hash/Set charts now retain Redis, Valkey, Kvrocks and one Lavik curve, removing the superseded main/merged-PR comparison.
+[PR #222](https://github.com/eloqdata/lavik/pull/222) is merged; current main is `a6e93d3d`. Merged PR curves have been removed. The new [PR #228](https://github.com/eloqdata/lavik/pull/228) is overlaid only where its A/B measurement is complete.
 
-For 1 MiB/key × 50,000 keys, Set/128 B now uses fresh main `a6e93d3d` measurements; the remaining charts temporarily reuse measurements of the merged implementation at `faef28d9` (12 points per condition, no errors), labeled main. **These are not new runs of `a6e93d3d`.** Fresh main runs will replace them individually. The 100 MiB/key × 500-key charts retain explicitly labeled historical results while awaiting retests. Exact source revisions and binary hashes are in [plot provenance](published-main.json). Stream, List and Sorted Set results and charts remain available.
+**Fresh main measurements: Set/128 B (50,000 × 1 MiB keys).** Other 1 MiB conditions temporarily reuse measured merged implementation `faef28d9`, not new `a6e93d3d` runs. The 500 × 100 MiB conditions remain explicitly labeled historical, awaiting fresh main measurements. Exact versions, binary hashes and unmerged PR sources are in the [plot manifest](published-main.json). Stream, List and Sorted Set results and charts remain available.
 
-Next, profile current-main Set/Hash writes for unnecessary allocations, copies and repeated work before considering algorithm changes. Add an unmerged-PR curve only after measuring a new optimization.
+This round uses perf first to identify allocations, copies and repeated work. PR #228 trims temporary containers, metadata queries and extra scheduling, without adding a data cache or changing the durable format. **Write throughput has not reached Kvrocks.** Clean chart runs do not run perf; separate 30-second diagnostics are retained in raw directories. The [profiling script](profile_grouped_writes.py) reproduces the process.
 
 Point reads and writes use 80/320/1280/2560/5120 connections; full reads use 16/80 for 1 MiB and 1/4/16 for 100 MiB. Each point runs for eight seconds. Redis/Valkey persistence is disabled. Kvrocks uses uncompressed RAID0, WAL disabled, and an 80 GiB cache; Lavik uses durable SPDK on six NVMe drives. These settings affect absolute write QPS. Single runs have no confidence intervals. Raw evidence is in [raw/](raw/).
 
@@ -87,7 +87,10 @@ Each point-read/write chart contains both commands. The 1 MiB and 100 MiB runs u
 
 ![Set 1 MiB per key, 128 B entries: SISMEMBER and SADD/SREM QPS by connection count](charts/set-1048576-128-ab.png)
 
-**Fresh main measurement: `a6e93d3d`**, 50,000 × 1 MiB keys, 128 B entries. All 12 clean points passed, with every key checked before and after. Charts use unprofiled eight-second points; separate 30-second perf diagnostics at 1,280/5,120 connections are retained in the raw directory. [Raw data](raw/lavik-maina6-set-1m-k50000-f128-20260930/).
+**Fresh main `a6e93d3d` vs [PR #228](https://github.com/eloqdata/lavik/pull/228) `b6ed4df1`.** 50,000 × 1 MiB keys, 128 B entries; 12 points per version, zero errors, every key validated before/after. SADD + SREM is **1.07–1.12×** main at matching connections. Curves use unprofiled eight-second runs; single-run differences are not established gains. Separate 30-second perf diagnostics are retained.
+[main raw](raw/lavik-maina6r-set-1m-k50000-f128-20260930/), [PR raw](raw/lavik-worktrimb6ed-set-1m-k50000-f128-20260930/).
+
+Both versions were measured after restart/recovery. In separate 30-second perf diagnostics, write throughput at 1,280/5,120 connections was **173,605/153,298 QPS** for main and **192,437/172,023 QPS** for the PR. SISMEMBER did not improve consistently; its single 5,120-connection point was about 6.7% lower. Full-read throughput also varied; all measured values remain plotted.
 
 ![Set 1 MiB per key, 1 KiB entries: SISMEMBER and SADD/SREM QPS by connection count](charts/set-1048576-1024-ab.png)
 
