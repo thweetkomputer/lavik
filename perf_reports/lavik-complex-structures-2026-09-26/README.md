@@ -19,6 +19,16 @@ This round uses perf first to identify allocations, copies and repeated work. PR
 
 Point reads and writes use 80/320/1280/2560/5120 connections; full reads use 16/80 for 1 MiB and 1/4/16 for 100 MiB. Each point runs for eight seconds. Redis/Valkey persistence is disabled. Kvrocks uses uncompressed RAID0, WAL disabled, and an 80 GiB cache; Lavik uses durable SPDK on six NVMe drives. These settings affect absolute write QPS. Single runs have no confidence intervals. Raw evidence is in [raw/](raw/).
 
+### Perf: removed work and remaining cost
+
+In separate 1,280-connection write diagnostics, allocator/free symbols account for **12.19% → 10.72%** of self CPU samples for Set/128 B and **16.80% → 14.53%** for Hash/1 KiB. Active-group lookup decreases from **2.01% → 0.19%** and **2.43% → 0.93%**, respectively. These include all reported symbols and measure CPU shares, not allocation counts. Inlined work may be attributed to callers; the numbers do not measure all bytes copied.
+
+The PR inlines single-page temporary arrays in coroutine frames, removes temporary tree containers and redundant extent queries, replaces unchanged routing intervals directly, and copies compact physical-index arrays without expanding and re-encoding unchanged coordinates through an intermediate vector. Snapshot ownership, memory admission and commit dependencies remain intact.
+
+Named copy/zero routines still account for about **2%–3%**, and physical-record lookup about **4%–5%**. The write gains do not close the Kvrocks gap. Further investigation should trace repeated lookups and temporary objects across read, publication and retirement before changing metadata-update algorithms. Current evidence does not attribute the entire gap to disk reads or allocators; peer durability and cache settings also differ.
+
+[Set main samples](raw/lavik-maina6d-set-1m-k50000-f128-20260930/diagnostic-c1280/cpu-categories.json), [Set PR samples](raw/lavik-worktrim8079-set-1m-k50000-f128-20260930/diagnostic-c1280/cpu-categories.json), [Hash main samples](raw/lavik-maina6d-hash-1m-k50000-f1024-20260930/diagnostic-c1280/cpu-categories.json), [Hash PR samples](raw/lavik-worktrim8079-hash-1m-k50000-f1024-20260930/diagnostic-c1280/cpu-categories.json). Each directory includes all-symbol reports, sampling parameters and throughput.
+
 ## Hash
 
 Each point-read/write chart contains both commands. The 1 MiB and 100 MiB runs use 50,000 and 500 keys, respectively.

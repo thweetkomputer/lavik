@@ -30,6 +30,16 @@ cache；Lavik 在六块 NVMe 上用 SPDK 提交。这些配置影响绝对写入
 
 [I/O 计数诊断](diagnostics/hset-io-20260929/README.md)记录了 HSET 的存储读写量（包含后台清理）。
 
+### perf：已消除的工作与剩余开销
+
+在 1,280 连接的独立写入诊断中，Set/128 B 的分配和释放函数占 CPU 自身样本 **12.19% → 10.72%**，Hash/1 KiB 为 **16.80% → 14.53%**。活动分组查找分别为 **2.01% → 0.19%**、**2.43% → 0.93%**。这些是全部符号的 CPU 采样占比，不是分配次数；内联操作可能计入调用者，不能据此计算全部拷贝字节数。
+
+PR 将单页写入的临时数组放进协程帧，取消临时树容器和重复的 extent 查询；未改变路由的更新直接替换节点；物理索引单槽替换直接复制紧凑数组，省去展开旧坐标再重新编码的中间向量。旧快照、内存准入和提交依赖仍保留。
+
+已命名拷贝/清零函数仍占约 **2%–3%**，物理记录查找约 **4%–5%**。写入提升尚不足以补齐与 Kvrocks 的差距；后续应继续核对同一次修改在读、发布、回收阶段的重复查找和临时对象，再评估元数据更新算法。当前证据不足以把全部差距归因于读盘或分配器；四库持久化和缓存配置也不同。
+
+[Set main 采样](raw/lavik-maina6d-set-1m-k50000-f128-20260930/diagnostic-c1280/cpu-categories.json)、[Set PR 采样](raw/lavik-worktrim8079-set-1m-k50000-f128-20260930/diagnostic-c1280/cpu-categories.json)、[Hash main 采样](raw/lavik-maina6d-hash-1m-k50000-f1024-20260930/diagnostic-c1280/cpu-categories.json)、[Hash PR 采样](raw/lavik-worktrim8079-hash-1m-k50000-f1024-20260930/diagnostic-c1280/cpu-categories.json)。同目录保留全部符号、采样参数及吞吐结果。
+
 ## Hash
 
 下列点查/写入图每张包含两个命令；1 MiB 和 100 MiB 档分别使用 50,000 和 500 个 key。

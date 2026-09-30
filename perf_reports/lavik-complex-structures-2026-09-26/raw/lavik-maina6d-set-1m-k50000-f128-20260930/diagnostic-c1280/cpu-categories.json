@@ -1,0 +1,22 @@
+{
+  "event": "task-clock",
+  "total_sample_period": 230858583550,
+  "all_symbols_included": true,
+  "self_percent": {
+    "allocation_free": 12.19,
+    "copy_zero": 2.188,
+    "physical_record_lookup": 4.445,
+    "active_group_lookup": 2.008,
+    "field_route_lookup": 2.91,
+    "physical_index_update": 1.278
+  },
+  "note": "Self CPU shares of named symbols, not allocation counts or all inlined work; 20 seconds of sampling within a separate 30-second workload.",
+  "patterns": {
+    "allocation_free": "\\b(?:_mi_|mi_|malloc|calloc|realloc|free|operator new|operator delete)",
+    "copy_zero": "memcpy|memmove|memset|bzero",
+    "physical_record_lookup": "GroupedHashObject::FindRecord\\(",
+    "active_group_lookup": "GroupedHashObject::FindGroup\\(",
+    "field_route_lookup": "HashGroupDirectory::Find\\(",
+    "physical_index_update": "::UpdatePhysical\\("
+  }
+}
