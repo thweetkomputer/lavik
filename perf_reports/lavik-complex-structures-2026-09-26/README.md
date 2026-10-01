@@ -7,19 +7,19 @@ remote memtier client. Each chart fixes the collection type, logical payload per
 key, and payload bytes per entry. The horizontal axis is simultaneous
 connections; the vertical axis is completed commands per second.
 
-**Latest main remeasurement: [List chapter](#list), `06562381`, including merged #233.** Each LSET chart includes Redis, Valkey, Kvrocks and Lavik main; the merged PR curve is removed. Hash/Set retains earlier main `f1268014` measurements. [Historical perf diagnosis](diagnostics/lset-20261001/README.md).
+**Latest main remeasurement: [List chapter](#list), `06562381`, including merged #233.** Each LSET chart includes Redis, Valkey, Kvrocks and Lavik main; the merged PR curve is removed. Hash/Set main/PR comparisons are refreshed incrementally below. [Historical perf diagnosis](diagnostics/lset-20261001/README.md).
 
-## 2026-10-01 main refresh
+**Shared commit-dependency optimization: [PR #235](https://github.com/eloqdata/lavik/pull/235) and main `06562381` share charts with Redis, Valkey and Kvrocks. 1/8 Hash/Set conditions complete; pending charts retain their actual measured versions.**
 
-PR #228 is merged and its separate Hash/Set curves are removed. The new baseline is main `f1268014`. Refreshed conditions: hash/1 MiB/128 B, hash/1 MiB/1024 B, hash/100 MiB/128 B, hash/100 MiB/1024 B, set/1 MiB/128 B, set/1 MiB/1024 B, set/100 MiB/128 B, set/100 MiB/1024 B. All eight conditions and 100 clean points completed with zero errors and before/after cardinality validation of every key. List #233 is merged; the large-key LSET curves below were remeasured on main `06562381`.
+## 2026-10-01 shared commit pipeline comparison
 
-Each refreshed Hash/Set condition starts on freshly cleared dedicated benchmark media, is seeded independently, waits for cleanup, restarts for recovery, and runs clean eight-second points without perf: 50,000 keys at 1 MiB and 500 keys at 100 MiB. Each point is measured once, without confidence intervals. Changes across dates include both code and physical-layout changes and cannot be attributed solely to #228.
+Baseline main `06562381` includes #228/#233. [PR #235](https://github.com/eloqdata/lavik/pull/235) moves waiting for queued owner-local predecessors to background commit. Hash, Set, List, ZSet, Stream and grouped String share this path, including standalone commands. Cross-coordinator EXEC/Lua predecessors and compact demotion retain the existing wait. Small SET/GET already access pending buffers; no data cache was added.
 
-Hash/Set retains previous matching-key-count Redis, Valkey and Kvrocks measurements; LSET peers are separately measured at the plotted workload sizes. Redis/Valkey disable persistence; Kvrocks uses uncompressed RAID0, WAL disabled, and 80 GiB block/blob caches; Lavik persists through six SPDK NVMe devices without adding a data cache. Persistence and cache settings differ. Exact revisions, binary hashes and sources are in [published-main.json](published-main.json). The [HGETALL memory investigation](diagnostics/hgetall-oom-20260929/README.md), [HSET I/O diagnosis](diagnostics/hset-io-20260929/README.md), and [LSET CPU diagnosis](diagnostics/lset-20261001/README.md) remain available.
+1/8 matched Hash/Set conditions have independent main/PR measurements. Pending charts retain explicitly documented prior versions. Peers reuse matched-key-count results. Redis/Valkey disable persistence; Kvrocks uses uncompressed RAID0, WAL disabled and 80 GiB block/blob caches; Lavik persists through six SPDK NVMe devices. Persistence and cache settings differ. See [Hash/Set manifest](published-main.json) and [LSET manifest](lset-large-published.json).
 
-### Current write-throughput gap
 
-Comparing each product's own peak over the measured connection grid, latest-main HSET reaches **33%–51%** of Kvrocks, and SADD/SREM **49%–81%**. Overall parity has not been reached. Peaks may occur at different connection counts, and persistence/cache settings differ. [Per-condition calculations and sources](latest-main-write-summary.json).
+
+For #235, main and PR each start on fresh media, seed the same RESTORE payload, recover, and run eight-second points without profiling: 32 import clients at 1 MiB, eight at 100 MiB. Logical contents match; physical layouts are independent. Earlier 1 MiB main runs used HSET/SADD import, so changes across rounds are not solely code effects. One run per point, without confidence intervals; peers reuse matched-key-count evidence.
 
 ## List
 
@@ -114,7 +114,7 @@ For 1 MiB `LINDEX`, Lavik peaked near 139k QPS with 128 B entries and 677k with 
 
 ![Hash 100 MiB, 1024 B: HGET / HSET](charts/hash-104857600-1024-ab.png)
 
-**Refreshed measurement: main `f1268014`.** 500 keys × 100 MiB/key; 1024 B. [Raw](raw/lavik-mainf126-hash-104857600-k500-f1024-20261001/). [Seed provenance](raw/lavik-seed-mainf126-hash-104857600-k500-f1024-20261001/).
+**Measured main `06562381` and [PR #235](https://github.com/eloqdata/lavik/pull/235) `09871950`.** 500 keys × 100 MiB/key; 1024 B. All points had zero errors; every key passed before/after cardinality validation. [main raw](raw/lavik-pipeline-main-hash-104857600-k500-f1024-20261001/) · [main seed](raw/lavik-seed-pipeline-main-hash-104857600-k500-f1024-20261001/) · [pr raw](raw/lavik-pipeline-pr-hash-104857600-k500-f1024-20261001/) · [pr seed](raw/lavik-seed-pipeline-pr-hash-104857600-k500-f1024-20261001/).
 
 ### HGETALL
 
