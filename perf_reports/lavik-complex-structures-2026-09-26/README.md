@@ -374,7 +374,7 @@ Point reads and writes cover 80–5120 connections. Full reads use 16/80 for the
 
 ![100 MiB per key, 1 KiB entries: `XADD MAXLEN` QPS by connection count](charts/stream-104857600-1024-xadd_maxlen-latest.png)
 
-**2026-09-30 main `a8c926d4` and [PR #233](https://github.com/eloqdata/lavik/pull/233) `5b1c3064` measured.** 8 × 100 MiB keys, 1 KiB entries; 13 unprofiled points per version cover point reads/writes at 80–5120 connections and full reads at 1/4/16. Peers retain the original matching workload. Both binaries were seeded independently from the same initial logical data. All points have zero errors; every key passed cardinality validation. [Main raw](raw/lavik-maina8-fresh-stream-100m-k8-f1024-20260930/) · [PR raw](raw/lavik-fresh5b1c3064-stream-100m-k8-f1024-20260930/) · [Plot provenance](ordered-published.json). With independent fresh seeds, XADD MAXLEN reaches 1.96–2.49× main across all five connection levels (5.86k–6.32k QPS), still well below Kvrocks. XRANGE ranges from roughly unchanged to 9% lower. This replaces the preliminary reused-data run; differences from that run cannot be attributed solely to code.
+**Fresh independent main `06562381` and [PR #235](https://github.com/eloqdata/lavik/pull/235) `09871950` measurements.** This retains the peers' original 8 × 100 MiB keys and 1 KiB entries; 13 clean points per version, zero errors and every key validated. The key count differs from the larger Hash/Set and leading List workloads. [main raw](raw/lavik-ordered-pipeline-main-stream-100m-k8-f1024-20261001/) · [pr raw](raw/lavik-ordered-pipeline-pr-stream-100m-k8-f1024-20261001/) · [Provenance](ordered-published.json).
 
 
 ### Full `XRANGE - +`

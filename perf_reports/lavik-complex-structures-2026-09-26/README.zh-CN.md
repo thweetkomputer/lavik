@@ -365,7 +365,7 @@ Stream 的 100 MiB / 1 KiB 已更新为 main `a8c926d4` 与本轮优化 PR；小
 
 ![100 MiB、1 KiB：`XADD MAXLEN`，四款数据库 QPS 随连接数变化](charts/stream-104857600-1024-xadd_maxlen-latest.png)
 
-**2026-09-30 main `a8c926d4` 与 [PR #233](https://github.com/eloqdata/lavik/pull/233) `5b1c3064` 实测。** 8 × 100 MiB key、1 KiB 元素；每版 13 个无采样测点，覆盖 80–5120 连接的点查和写入及 1/4/16 连接的全量读取。其他数据库保留同负载原始结果。 两版均重新灌入相同初始逻辑数据。 所有测点零错误，逐 key 数量校验通过。 [Main raw](raw/lavik-maina8-fresh-stream-100m-k8-f1024-20260930/) · [PR raw](raw/lavik-fresh5b1c3064-stream-100m-k8-f1024-20260930/) · [Plot provenance](ordered-published.json). 本轮独立灌入后的 XADD MAXLEN 在五档连接下提升至 main 的 1.96–2.49 倍（5.86k–6.32k QPS），仍明显低于 Kvrocks；XRANGE 基本持平至下降 9%。替换此前复用数据的初测，不能将其差异只归因于代码。
+**main `06562381` 与 [PR #235](https://github.com/eloqdata/lavik/pull/235) `09871950` 独立清盘实测。** 保留此处三库原有的 8 × 100 MiB key、1 KiB 元素负载；每版 13 个无采样测点，零错误，逐 key 数量校验通过。该 key 数与 Hash/Set 及 List 章开头的大 key 负载不同。 [main raw](raw/lavik-ordered-pipeline-main-stream-100m-k8-f1024-20261001/) · [pr raw](raw/lavik-ordered-pipeline-pr-stream-100m-k8-f1024-20261001/) · [Provenance](ordered-published.json).
 
 
 ### 全范围 `XRANGE - +`
