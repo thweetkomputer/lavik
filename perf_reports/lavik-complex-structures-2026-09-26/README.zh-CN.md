@@ -6,7 +6,7 @@
 Redis 兼容数据结构。每张图固定数据结构、每个 key 的逻辑数据量和
 每个元素的字节数。横轴为连接数，纵轴为每秒完成的命令数。
 
-**最新 main 复测见 [List 章开头](#list)：`06562381`，已包含 #233。** 两档 LSET 每张图都展示 Redis、Valkey、Kvrocks 和 Lavik main；已删除 #233 独立曲线。Hash/Set 按下方进度逐组更新 main/PR 对比。[历史 perf 诊断](diagnostics/lset-20261001/README.md)。
+**最新 main 复测见 [List 章开头](#list)：`06562381`，已包含 #233。** 两档 LSET 每张图保留其他三库和最新 main，并逐组补入未合并的 #235 曲线；#233 独立曲线已删除。Hash/Set 按下方进度逐组更新 main/PR 对比。[历史 perf 诊断](diagnostics/lset-20261001/README.md)。
 
 **共用提交依赖优化：[PR #235](https://github.com/eloqdata/lavik/pull/235) 与 main `06562381` 同图，并保留 Redis、Valkey、Kvrocks。已完成 8/8 组 Hash/Set 对比；未完成图保留实际测量版本。**
 
@@ -39,9 +39,9 @@ Redis 兼容数据结构。每张图固定数据结构、每个 key 的逻辑数
 
 #### 100 MiB/key × 500 keys
 
-![LSET 100 MiB, 500 keys: Redis / Valkey / Kvrocks / Lavik main](charts/list-lset-104857600-1024-k500-main-pr.png)
+![LSET 100 MiB, 500 keys: four databases and PR #235](charts/list-lset-104857600-1024-k500-main-pr.png)
 
-**四库同图：Redis、Valkey、Kvrocks、Lavik main `06562381`。** #233 已合并，已用 main 重新清盘、独立灌入并测量，原 main / PR 两条线已替换为最新 main 一条线。Lavik 为 **92.6–130.3k QPS**；五档连接数测点零错误，测前测后逐 key 数量校验通过。其他三库保留同规模原始测量。 [Main raw](raw/lavik-lset-main0656-104857600-k500-f1024-20261001/) · [CSV](list-lset-104857600-1024-k500-main-pr.csv) · [redis raw](raw/redis-lset-matched-104857600-k500-f1024-20261001/) · [valkey raw](raw/valkey-lset-matched-104857600-k500-f1024-20261001/) · [kvrocks raw](raw/kvrocks-lset-matched-104857600-k500-f1024-20261001/).
+**Redis、Valkey、Kvrocks、Lavik main `06562381` 与 [PR #235](https://github.com/eloqdata/lavik/pull/235) `09871950` 同图。** 本轮 PR 独立清盘并用同样 RPUSH 协议灌入；main 沿用此前独立清盘测量。五档测点零错误、测前测后逐 key 数量校验通过。 [Main raw](raw/lavik-lset-main0656-104857600-k500-f1024-20261001/) · [PR raw](raw/lavik-lset-pipeline-pr235-104857600-k500-f1024-20261001/) · [CSV](list-lset-104857600-1024-k500-main-pr.csv).
 
 
 
