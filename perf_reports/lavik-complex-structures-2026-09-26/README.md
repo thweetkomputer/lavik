@@ -33,11 +33,9 @@ Use 50,000 keys at 1 MiB/key and 500 keys at 100 MiB/key, with 1 KiB elements. E
 
 #### 1 MiB/key × 50,000 keys
 
-![LSET 1 MiB, 50,000 keys: Redis / Valkey / Kvrocks / Lavik main / PR #233](charts/list-lset-1048576-1024-k50000-main-pr.png)
+![LSET 1 MiB, 50,000 keys: Redis / Valkey / Kvrocks / Lavik main](charts/list-lset-1048576-1024-k50000-main-pr.png)
 
-**Five lines on the same chart: Redis, Valkey, Kvrocks, Lavik main and PR #233.** All use matching key counts, entry sizes, RPUSH seeding, five connection levels and ten seconds per point. All peer points passed all-key cardinality checks with zero errors. [redis raw](raw/redis-lset-matched-1048576-k50000-f1024-20261001/) · [valkey raw](raw/valkey-lset-matched-1048576-k50000-f1024-20261001/) · [kvrocks raw](raw/kvrocks-lset-matched-1048576-k50000-f1024-20261001/).
-
-Main `f1268014` / PR #233 `0af92a14`. Main: 86.0–101.5k QPS; PR: 115.2–137.0k QPS, or 1.27–1.35× at matching connection counts. All keys passed before/after cardinality validation; all points completed with zero errors. [Main raw](raw/lavik-lset-mainf126-1048576-k50000-f1024-20261001/) · [PR raw](raw/lavik-lset-radix-1048576-k50000-f1024-20261001/) · [CSV](list-lset-1048576-1024-k50000-main-pr.csv).
+**Four databases on one chart: Redis, Valkey, Kvrocks and Lavik main `06562381`.** #233 is merged. Main was independently reseeded on freshly cleared media and remeasured; its curve replaces both earlier main and PR curves. Lavik reaches **117.8–142.3k QPS**; all five points passed zero-error and before/after all-key cardinality checks. Peers retain the matched-workload measurements. [Main raw](raw/lavik-lset-main0656-1048576-k50000-f1024-20261001/) · [CSV](list-lset-1048576-1024-k50000-main-pr.csv) · [redis raw](raw/redis-lset-matched-1048576-k50000-f1024-20261001/) · [valkey raw](raw/valkey-lset-matched-1048576-k50000-f1024-20261001/) · [kvrocks raw](raw/kvrocks-lset-matched-1048576-k50000-f1024-20261001/).
 
 #### 100 MiB/key × 500 keys
 
