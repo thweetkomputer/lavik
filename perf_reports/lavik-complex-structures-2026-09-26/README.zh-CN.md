@@ -6,19 +6,19 @@
 Redis 兼容数据结构。每张图固定数据结构、每个 key 的逻辑数据量和
 每个元素的字节数。横轴为连接数，纵轴为每秒完成的命令数。
 
-**最新 main 复测见 [List 章开头](#list)：`06562381`，已包含 #233。** 两档 LSET 每张图都展示 Redis、Valkey、Kvrocks 和 Lavik main；已删除 #233 独立曲线。Hash/Set 暂保留此前 main `f1268014` 的实测。[历史 perf 诊断](diagnostics/lset-20261001/README.md)。
+**最新 main 复测见 [List 章开头](#list)：`06562381`，已包含 #233。** 两档 LSET 每张图都展示 Redis、Valkey、Kvrocks 和 Lavik main；已删除 #233 独立曲线。Hash/Set 按下方进度逐组更新 main/PR 对比。[历史 perf 诊断](diagnostics/lset-20261001/README.md)。
 
-## 2026-10-01 main 更新
+**共用提交依赖优化：[PR #235](https://github.com/eloqdata/lavik/pull/235) 与 main `06562381` 同图，并保留 Redis、Valkey、Kvrocks。已完成 1/8 组 Hash/Set 对比；未完成图保留实际测量版本。**
 
-PR #228 已合并，Hash/Set 图中已移除其独立曲线。本轮基线为 main `f1268014`；已完成新基线测量：hash/1 MiB/128 B, hash/1 MiB/1024 B, hash/100 MiB/128 B, hash/100 MiB/1024 B, set/1 MiB/128 B, set/1 MiB/1024 B, set/100 MiB/128 B, set/100 MiB/1024 B。八组共 100 个正式测点全部完成，零错误，测前测后逐 key 数量校验通过。List 的 #233 已合并，下面的大 key LSET 已用 main `06562381` 重新实测。
+## 2026-10-01 共用提交路径对比
 
-每项 Hash/Set 新测量均清空专用测试盘、独立预置数据，等待清理后重启恢复，再跑无 perf 的八秒测点；1 MiB 使用 50,000 个 key，100 MiB 使用 500 个 key。每点只测一次，不能据此给出置信区间。不同日期的绝对 QPS 变化同时包含版本和数据布局变化，不单独归因于 #228。
+基线 main `06562381` 已包含 #228/#233。新优化 [PR #235](https://github.com/eloqdata/lavik/pull/235) 把本 worker 已排队前驱的等待移到后台提交阶段；Hash、Set、List、ZSet、Stream 和分组 String 共用这条路径。普通单命令也适用；跨协调 worker 的 EXEC/Lua 前驱和退回紧凑表示的路径仍保留原等待。小 SET/GET 原本就可访问待刷缓冲，本次未加入数据缓存。
 
-Hash/Set 的 Redis、Valkey、Kvrocks 沿用已有同 key 数测量；LSET 的三库结果按图中规模另行补测。Redis/Valkey 不持久化；Kvrocks 为无压缩 RAID0、关闭 WAL、80 GiB block/blob cache；Lavik 使用六块 NVMe SPDK 持久化，没有新增数据缓存。持久化和缓存配置不同。精确版本、二进制摘要及原始来源见 [Hash/Set 清单](published-main.json)与 [LSET 清单](lset-large-published.json)。[HGETALL 内存调查](diagnostics/hgetall-oom-20260929/README.md)、[HSET I/O 诊断](diagnostics/hset-io-20260929/README.md)和 [LSET CPU 诊断](diagnostics/lset-20261001/README.md)保留供检查。
+已完成 1/8 组 Hash/Set main/PR 独立复测；待测图保留原版本并在图下注明。Redis、Valkey、Kvrocks 沿用同 key 数原始结果。Redis/Valkey 不持久化；Kvrocks 为无压缩 RAID0、关闭 WAL、80 GiB block/blob cache；Lavik 使用六块 NVMe SPDK 持久化。持久化与缓存配置不同。版本及来源见 [Hash/Set 清单](published-main.json)、[LSET 清单](lset-large-published.json)。
 
-### 当前写入差距
 
-按每种负载中各产品自己的最高 QPS 比较，最新 main 的 HSET 为 Kvrocks 的 **33%–51%**，SADD/SREM 为 **49%–81%**，尚未整体追平。这是各自峰值之比，峰值可能来自不同连接数；持久化与缓存配置也不同。[逐条件计算及来源](latest-main-write-summary.json)。
+
+本轮 #235 对比的 main/PR 都独立清盘，用相同 RESTORE payload 预置并重启恢复，再跑无采样八秒测点；1 MiB 使用 32 个导入连接，100 MiB 使用 8 个。初始逻辑数据相同、物理布局独立。此前 1 MiB main 使用 HSET/SADD 导入，因此跨轮差异不能全部归因于代码。每点一次，不提供置信区间；其他三库沿用相同 key 数的原始结果。
 
 ## List
 
@@ -113,7 +113,7 @@ Hash/Set 的 Redis、Valkey、Kvrocks 沿用已有同 key 数测量；LSET 的�
 
 ![Hash 100 MiB, 1024 B: HGET / HSET](charts/hash-104857600-1024-ab.png)
 
-**本轮重新实测: main `f1268014`.** 500 keys × 100 MiB/key; 1024 B. [Raw](raw/lavik-mainf126-hash-104857600-k500-f1024-20261001/). [Seed provenance](raw/lavik-seed-mainf126-hash-104857600-k500-f1024-20261001/).
+**main `06562381` 与 [PR #235](https://github.com/eloqdata/lavik/pull/235) `09871950` 实测。** 500 keys × 100 MiB/key; 1024 B. 全部测点零错误，测前测后逐 key 数量校验通过。 [main raw](raw/lavik-pipeline-main-hash-104857600-k500-f1024-20261001/) · [main seed](raw/lavik-seed-pipeline-main-hash-104857600-k500-f1024-20261001/) · [pr raw](raw/lavik-pipeline-pr-hash-104857600-k500-f1024-20261001/) · [pr seed](raw/lavik-seed-pipeline-pr-hash-104857600-k500-f1024-20261001/).
 
 ### HGETALL
 
