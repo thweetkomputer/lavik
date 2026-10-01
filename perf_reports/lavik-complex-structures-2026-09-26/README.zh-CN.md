@@ -273,7 +273,7 @@ value、member 或元素为 128 B 或 1 KiB。Stream 的字段名和各结构元
 
 ## Sorted Set
 
-本章各图注明实际版本与 key 数量。100 MiB / 1 KiB 的小 key 数对照使用 main `a8c926d4` 与 PR #233。其余早期四产品曲线的 Lavik 为 `646a7b4e`，原始版本见 [results.csv](results.csv)。
+本章各图注明实际版本与 key 数量。100 MiB / 1 KiB 的 8 key 对照已更新为 main `06562381` 与未合并的 PR #235。其余早期四产品曲线的 Lavik 为 `646a7b4e`，原始版本见 [results.csv](results.csv)。
 
 ### ZSCORE / ZINCRBY
 
@@ -295,7 +295,7 @@ value、member 或元素为 128 B 或 1 KiB。Stream 的字段名和各结构元
 
 ![Sorted Set 100 MiB、1 KiB：ZSCORE / ZINCRBY QPS 随连接数变化](charts/zset-104857600-1024-ab.png)
 
-**2026-09-30 main `a8c926d4` 与 [PR #233](https://github.com/eloqdata/lavik/pull/233) `5b1c3064` 实测。** 8 × 100 MiB key、1 KiB 元素；每版 13 个无采样测点，覆盖 80–5120 连接的点查和写入及 1/4/16 连接的全量读取。其他数据库保留同负载原始结果。 两版均重新灌入相同初始逻辑数据。 所有测点零错误，逐 key 数量校验通过。 [Main raw](raw/lavik-maina8-ordered-zset-100m-k8-f1024-20260930/) · [PR raw](raw/lavik-fresh5b1c3064-zset-100m-k8-f1024-20260930/) · [Plot provenance](ordered-published.json). **新灌数据下 ZINCRBY 在五档连接数均提升约 70%–76%，峰值 8,935 QPS；仍远低于 Kvrocks。ZSCORE 低约 2%–8%，16 连接全量 ZRANGE 高约 13%；后续继续定位写入瓶颈和点读回退。**
+**main `06562381` 与 [PR #235](https://github.com/eloqdata/lavik/pull/235) `09871950` 独立清盘实测。** 保留此处三库原有的 8 × 100 MiB key、1 KiB 元素负载；每版 13 个无采样测点，零错误，逐 key 数量校验通过。该 key 数与 Hash/Set 及 List 章开头的大 key 负载不同。 [main raw](raw/lavik-ordered-pipeline-main-zset-100m-k8-f1024-20261001/) · [pr raw](raw/lavik-ordered-pipeline-pr-zset-100m-k8-f1024-20261001/) · [Provenance](ordered-published.json).
 
 
 ### ZRANGE WITHSCORES
