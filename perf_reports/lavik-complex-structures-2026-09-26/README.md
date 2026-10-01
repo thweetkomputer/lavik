@@ -11,7 +11,7 @@ connections; the vertical axis is completed commands per second.
 
 ## 2026-10-01 main refresh
 
-PR #228 is merged and its separate Hash/Set curves are removed. The new baseline is main `f1268014`. Refreshed conditions: hash/1 MiB/128 B, hash/1 MiB/1024 B, hash/100 MiB/128 B, hash/100 MiB/1024 B, set/1 MiB/128 B, set/1 MiB/1024 B. Pending conditions retain their actual previous main revision. List continues to compare unmerged [PR #233](https://github.com/eloqdata/lavik/pull/233).
+PR #228 is merged and its separate Hash/Set curves are removed. The new baseline is main `f1268014`. Refreshed conditions: hash/1 MiB/128 B, hash/1 MiB/1024 B, hash/100 MiB/128 B, hash/100 MiB/1024 B, set/1 MiB/128 B, set/1 MiB/1024 B, set/100 MiB/128 B. Pending conditions retain their actual previous main revision. List continues to compare unmerged [PR #233](https://github.com/eloqdata/lavik/pull/233).
 
 Each refreshed Hash/Set condition starts on freshly cleared dedicated benchmark media, is seeded independently, waits for cleanup, restarts for recovery, and runs clean eight-second points without perf: 50,000 keys at 1 MiB and 500 keys at 100 MiB. Each point is measured once, without confidence intervals. Changes across dates include both code and physical-layout changes and cannot be attributed solely to #228.
 
@@ -99,7 +99,7 @@ Seed timings with eight RESTORE clients and 500 × 100 MiB keys. Excludes later 
 
 ![Set 100 MiB, 128 B: SISMEMBER / SADD + SREM](charts/set-104857600-128-ab.png)
 
-**Previous measured main; refresh pending: main `a6e93d3d`.** 500 keys × 100 MiB/key; 128 B. [Raw](raw/lavik-maina6d-set-100m-k500-f128-20260930/).
+**Refreshed measurement: main `f1268014`.** 500 keys × 100 MiB/key; 128 B. [Raw](raw/lavik-mainf126-set-104857600-k500-f128-20261001/). [Seed provenance](raw/lavik-seed-mainf126-set-104857600-k500-f128-20261001/).
 
 ![Set 100 MiB, 1024 B: SISMEMBER / SADD + SREM](charts/set-104857600-1024-ab.png)
 
@@ -145,7 +145,7 @@ The matching 100 MiB SADD import measurement is pending. The previous mixed REST
 
 Seed timings with eight RESTORE clients and 500 × 100 MiB keys. Excludes later cleanup/restart; not compared to other databases using SADD/HSET for import.
 
-- 128 B, main `a6e93d3d`: **291.1 s**. [Raw](raw/lavik-seedmaina6d-set-100m-k500-f128-20260930/set-104857600-128.fill.json).
+- 128 B, main `f1268014`: **274.1 s**. [Raw](raw/lavik-seed-mainf126-set-104857600-k500-f128-20261001/set-104857600-128.fill.json).
 
 - 1024 B, main `a6e93d3d`: **136.8 s**. [Raw](raw/lavik-seedmaina6d-set-100m-k500-f1024-20260930/set-104857600-1024.fill.json).
 
