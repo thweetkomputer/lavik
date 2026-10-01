@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Plot matching, independently seeded LSET main/PR runs with many keys."""
+"""Plot matched LSET workloads for peers, Lavik main and unmerged PRs."""
 import argparse
 import csv
 import json
@@ -11,7 +11,8 @@ ROOT = Path(__file__).resolve().parent
 
 
 def load(revision, size, keys):
-    folder = ROOT / 'raw' / ('lavik-' + revision['tag'])
+    product = revision.get('product', 'lavik')
+    folder = ROOT / 'raw' / (product + '-' + revision['tag'])
     provenance = list(folder.glob('provenance-*.json'))
     if len(provenance) != 1:
         raise ValueError(f'Ambiguous provenance: {folder}')
@@ -36,12 +37,12 @@ def load(revision, size, keys):
     if plan.exists():
         if json.loads(plan.read_text())['profile_strategy'] != 'after-entire-clean-grid-v1':
             raise ValueError(f'Profiling interrupted the clean grid: {folder}')
-    elif revision['label'] != 'Lavik main' or list(folder.glob('diagnostic-c*')):
+    elif product == 'lavik' and (revision['label'] != 'Lavik main' or list(folder.glob('diagnostic-c*'))):
         raise ValueError(f'Missing measurement-order evidence: {folder}')
     rows = {}
     for path in folder.glob('*.result.json'):
         row = json.loads(path.read_text())
-        for name, value in dict(type='list', logical_bytes=size, field_bytes=1024,
+        for name, value in dict(product=folder.name, type='list', logical_bytes=size, field_bytes=1024,
                                 keys=keys, operation='LSET', seconds=10).items():
             if row.get(name) != value:
                 raise ValueError(f'{path}: incorrect {name}')
@@ -64,12 +65,21 @@ def main():
             raise ValueError('Unexpected workload')
         fig, ax = chart.plt.subplots(figsize=(9, 4.8))
         records = []
-        for index, revision in enumerate([condition['main'], *condition['variants']]):
+        peers = condition.get('peers', [])
+        if peers and {p['product'] for p in peers} != {'redis', 'valkey', 'kvrocks'}:
+            raise ValueError('Peer comparison requires Redis, Valkey and Kvrocks')
+        series = [(p, p['product']) for p in peers]
+        series.append((condition['main'], 'lavik'))
+        series.extend((p, 'variant0') for p in condition['variants'])
+        for revision, style_name in series:
             rows = load(revision, size, keys)
-            style = chart.STYLES['lavik' if index == 0 else 'variant0']
+            style = chart.STYLES[style_name]
+            label = revision['label']
+            if revision.get('product', 'lavik') == 'lavik':
+                label += ' ' + revision['commit'][:8]
             ax.plot(chart.POINT_LEVELS, [rows[c]['qps'] / 1000 for c in chart.POINT_LEVELS],
                     color=style[0], marker=style[1], linestyle=style[2], linewidth=2,
-                    label=revision['label'] + ' ' + revision['commit'][:8])
+                    label=label)
             for level, row in sorted(rows.items()):
                 records.append(dict(label=revision['label'], commit=revision['commit'],
                                     keys=keys, bytes_per_key=size, connections=level,

@@ -16,7 +16,7 @@ PR #228 已合并，Hash/Set 图中已移除其独立曲线。本轮基线为 ma
 
 每项 Hash/Set 新测量均清空专用测试盘、独立预置数据，等待清理后重启恢复，再跑无 perf 的八秒测点；1 MiB 使用 50,000 个 key，100 MiB 使用 500 个 key。每点只测一次，不能据此给出置信区间。不同日期的绝对 QPS 变化同时包含版本和数据布局变化，不单独归因于 #228。
 
-Redis、Valkey、Kvrocks 保留原有同 key 数测量。Redis/Valkey 不持久化；Kvrocks 为无压缩 RAID0、关闭 WAL、80 GiB block/blob cache；Lavik 使用六块 NVMe SPDK 持久化，没有新增数据缓存。持久化和缓存配置不同。精确版本、二进制摘要及原始来源见 [published-main.json](published-main.json)。[HGETALL 内存调查](diagnostics/hgetall-oom-20260929/README.md)、[HSET I/O 诊断](diagnostics/hset-io-20260929/README.md)和 [LSET CPU 诊断](diagnostics/lset-20261001/README.md)保留供检查。
+Hash/Set 的 Redis、Valkey、Kvrocks 沿用已有同 key 数测量；LSET 的三库结果按图中规模另行补测。Redis/Valkey 不持久化；Kvrocks 为无压缩 RAID0、关闭 WAL、80 GiB block/blob cache；Lavik 使用六块 NVMe SPDK 持久化，没有新增数据缓存。持久化和缓存配置不同。精确版本、二进制摘要及原始来源见 [published-main.json](published-main.json)。[HGETALL 内存调查](diagnostics/hgetall-oom-20260929/README.md)、[HSET I/O 诊断](diagnostics/hset-io-20260929/README.md)和 [LSET CPU 诊断](diagnostics/lset-20261001/README.md)保留供检查。
 
 ### 当前写入差距
 
@@ -33,6 +33,8 @@ Redis、Valkey、Kvrocks 保留原有同 key 数测量。Redis/Valkey 不持久�
 #### 1 MiB/key × 50,000 keys
 
 ![LSET 1 MiB, 50,000 keys: main / PR #233](charts/list-lset-1048576-1024-k50000-main-pr.png)
+
+**同图五条线：Redis、Valkey、Kvrocks、Lavik main、PR #233。** 五者均使用相同 key 数、元素大小、RPUSH 预置方式、五档连接数和每点十秒；其他三库补测数据已完成逐 key 数量校验，所有测点零错误。 [redis raw](raw/redis-lset-matched-1048576-k50000-f1024-20261001/) · [valkey raw](raw/valkey-lset-matched-1048576-k50000-f1024-20261001/) · [kvrocks raw](raw/kvrocks-lset-matched-1048576-k50000-f1024-20261001/).
 
 Main `f1268014` / PR #233 `0af92a14`. Main 为 86.0–101.5k QPS，PR 为 115.2–137.0k QPS；同连接数比值为 1.27–1.35×。 全部 key 在测前、测后完成元素数量校验，所有测点零错误。 [Main raw](raw/lavik-lset-mainf126-1048576-k50000-f1024-20261001/) · [PR raw](raw/lavik-lset-radix-1048576-k50000-f1024-20261001/) · [CSV](list-lset-1048576-1024-k50000-main-pr.csv).
 
