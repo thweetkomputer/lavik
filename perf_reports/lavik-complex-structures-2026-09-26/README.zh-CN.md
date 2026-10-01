@@ -16,6 +16,10 @@ PR #228 已合并，Hash/Set 图中已移除其独立曲线。本轮基线为 ma
 
 Redis、Valkey、Kvrocks 保留原有同 key 数测量。Redis/Valkey 不持久化；Kvrocks 为无压缩 RAID0、关闭 WAL、80 GiB block/blob cache；Lavik 使用六块 NVMe SPDK 持久化，没有新增数据缓存。持久化和缓存配置不同。精确版本、二进制摘要及原始来源见 [published-main.json](published-main.json)。[HGETALL 内存调查](diagnostics/hgetall-oom-20260929/README.md)、[HSET I/O 诊断](diagnostics/hset-io-20260929/README.md)和 [LSET CPU 诊断](diagnostics/lset-20261001/README.md)保留供检查。
 
+### 当前写入差距
+
+按每种负载中各产品自己的最高 QPS 比较，最新 main 的 HSET 为 Kvrocks 的 **33%–51%**，SADD/SREM 为 **49%–81%**，尚未整体追平。这是各自峰值之比，峰值可能来自不同连接数；持久化与缓存配置也不同。[逐条件计算及来源](latest-main-write-summary.json)。
+
 ## Hash
 
 ### HGET / HSET

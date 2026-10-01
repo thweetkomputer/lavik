@@ -17,6 +17,10 @@ Each refreshed Hash/Set condition starts on freshly cleared dedicated benchmark 
 
 Redis, Valkey and Kvrocks retain their previous matching-key-count measurements. Redis/Valkey disable persistence; Kvrocks uses uncompressed RAID0, WAL disabled, and 80 GiB block/blob caches; Lavik persists through six SPDK NVMe devices without adding a data cache. Persistence and cache settings differ. Exact revisions, binary hashes and sources are in [published-main.json](published-main.json). The [HGETALL memory investigation](diagnostics/hgetall-oom-20260929/README.md), [HSET I/O diagnosis](diagnostics/hset-io-20260929/README.md), and [LSET CPU diagnosis](diagnostics/lset-20261001/README.md) remain available.
 
+### Current write-throughput gap
+
+Comparing each product's own peak over the measured connection grid, latest-main HSET reaches **33%–51%** of Kvrocks, and SADD/SREM **49%–81%**. Overall parity has not been reached. Peaks may occur at different connection counts, and persistence/cache settings differ. [Per-condition calculations and sources](latest-main-write-summary.json).
+
 ## Hash
 
 ### HGET / HSET
