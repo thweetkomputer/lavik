@@ -6,7 +6,9 @@
 Redis 兼容数据结构。每张图固定数据结构、每个 key 的逻辑数据量和
 每个元素的字节数。横轴为连接数，纵轴为每秒完成的命令数。
 
-**LSET 增加 key 的复测：** [main / PR #233 新曲线](#lset增加独立-key)，1 MiB/key × 50,000 key、100 MiB/key × 500 key，元素均为 1 KiB；[perf 诊断与复现](diagnostics/lset-20261001/README.md)。
+**最新优化对比在 [List 章开头](#list)：main `f1268014` / PR #233 `0af92a14`。** 1 MiB/key × 50,000 key、100 MiB/key × 500 key，各有一张双曲线图。[perf 诊断与复现](diagnostics/lset-20261001/README.md)。
+
+Hash/Set 目前展示已合并 #228 后的 main；本轮 PR #233 的最新实测对比是下方 LSET 两组。
 
 ## 2026-10-01 main 更新
 
@@ -19,6 +21,75 @@ Redis、Valkey、Kvrocks 保留原有同 key 数测量。Redis/Valkey 不持久�
 ### 当前写入差距
 
 按每种负载中各产品自己的最高 QPS 比较，最新 main 的 HSET 为 Kvrocks 的 **33%–51%**，SADD/SREM 为 **49%–81%**，尚未整体追平。这是各自峰值之比，峰值可能来自不同连接数；持久化与缓存配置也不同。[逐条件计算及来源](latest-main-write-summary.json)。
+
+## List
+
+本轮优化对比：[PR #233](https://github.com/eloqdata/lavik/pull/233) `0af92a14` 与 main `f1268014`。下方两张 LSET 图直接展示本轮 main 和优化后的 PR 曲线；每张图固定 key 数、每 key 大小和元素大小。
+
+### LSET：增加独立 key
+
+1 MiB/key 使用 50,000 个 key，100 MiB/key 使用 500 个 key；本轮元素均为 1 KiB。每个版本独立灌入相同初始数据；10 月 1 日的新测量还会先清空专用测试盘。32 个导入连接、128 KiB RPUSH 批次、导入 pipeline=4；正式 memtier 为单元素 LSET、pipeline=1、每点 10 秒，覆盖 80/320/1280/2560/5120 连接。全部连接数测完后再单独运行 CPU 采样，采样测点不混入曲线。早期四库图使用不同 key 数量，保留在各自负载下。
+
+#### 1 MiB/key × 50,000 keys
+
+![LSET 1 MiB, 50,000 keys: main / PR #233](charts/list-lset-1048576-1024-k50000-main-pr.png)
+
+Main `f1268014` / PR #233 `0af92a14`. Main 为 86.0–101.5k QPS，PR 为 115.2–137.0k QPS；同连接数比值为 1.27–1.35×。 全部 key 在测前、测后完成元素数量校验，所有测点零错误。 [Main raw](raw/lavik-lset-mainf126-1048576-k50000-f1024-20261001/) · [PR raw](raw/lavik-lset-radix-1048576-k50000-f1024-20261001/) · [CSV](list-lset-1048576-1024-k50000-main-pr.csv).
+
+#### 100 MiB/key × 500 keys
+
+![LSET 100 MiB, 500 keys: main / PR #233](charts/list-lset-104857600-1024-k500-main-pr.png)
+
+Main `f1268014` / PR #233 `0af92a14`. Main 为 7.2–7.4k QPS，PR 为 92.1–129.4k QPS；同连接数比值为 12.66–17.58×。 全部 key 在测前、测后完成元素数量校验，所有测点零错误。 [Main raw](raw/lavik-lset-mainf126-104857600-k500-f1024-20261001/) · [PR raw](raw/lavik-lset-radix-104857600-k500-f1024-20261001/) · [CSV](list-lset-104857600-1024-k500-main-pr.csv).
+
+<details>
+<summary>历史 LINDEX / LSET：较少 key 的旧版本测量（展开）</summary>
+
+### LINDEX / LSET
+
+#### 64 KiB
+
+![List 64 KiB、128 B：LINDEX / LSET QPS 随连接数变化](charts/list-65536-128.png)
+
+![List 64 KiB、1 KiB：LINDEX / LSET QPS 随连接数变化](charts/list-65536-1024.png)
+
+#### 1 MiB
+
+![List 1 MiB、128 B：LINDEX / LSET QPS 随连接数变化](charts/list-1048576-128.png)
+
+![List 1 MiB、1 KiB：LINDEX / LSET QPS 随连接数变化](charts/list-1048576-1024.png)
+
+#### 100 MiB
+
+![List 100 MiB、128 B：LINDEX / LSET QPS 随连接数变化](charts/list-104857600-128.png)
+
+![List 100 MiB、1 KiB：LINDEX / LSET QPS 随连接数变化](charts/list-104857600-1024-ab.png)
+
+**2026-09-30 main `a8c926d4` 与 [PR #233](https://github.com/eloqdata/lavik/pull/233) `759832d8` 实测。** 8 × 100 MiB key、1 KiB 元素；每版 13 个无采样测点，覆盖 80–5120 连接的点查和写入及 1/4/16 连接的全量读取。其他数据库保留同负载原始结果。 两版均重新灌入相同初始逻辑数据。 所有测点零错误，逐 key 数量校验通过。 [Main raw](raw/lavik-maina8-ordered-list-100m-k8-f1024-20260930/) · [PR raw](raw/lavik-fresh759832d8-list-100m-k8-f1024-20260930/) · [Plot provenance](ordered-published.json). `759832d8` 释放分组 List 读取期间的 worker 状态锁后，LINDEX 提升为 main 的 3.67–6.10 倍；LRANGE 在 16 连接下提升至 2.39 倍。LSET 五档依次为 main 的 1.72、1.27、0.97、0.72、0.73 倍，高并发写入仍需优化，PR 保持草稿。此前复用数据的 LINDEX 大幅提升已撤回：同一旧版二进制在 LSET 前后也出现 58.7k / 433.2k 的采样 QPS，因此不能用它证明代码收益。 [Same-binary diagnostic](raw/lavik-diagnostic-list-layout-5b1c3064-20260930/).
+
+</details>
+
+### LRANGE 0 -1
+
+#### 64 KiB
+
+![List 64 KiB、128 B：LRANGE 0 -1 QPS 随连接数变化](charts/list-65536-128-full.png)
+
+![List 64 KiB、1 KiB：LRANGE 0 -1 QPS 随连接数变化](charts/list-65536-1024-full.png)
+
+#### 1 MiB
+
+![List 1 MiB、128 B：LRANGE 0 -1 QPS 随连接数变化](charts/list-1048576-128-full.png)
+
+![List 1 MiB、1 KiB：LRANGE 0 -1 QPS 随连接数变化](charts/list-1048576-1024-full.png)
+
+#### 100 MiB
+
+![List 100 MiB、128 B：LRANGE 0 -1 QPS 随连接数变化](charts/list-104857600-128-full.png)
+
+![List 100 MiB、1 KiB：LRANGE 0 -1 QPS 随连接数变化](charts/list-104857600-1024-ab-full.png)
+
+1 MiB/128 B 的 `LINDEX` 中，Lavik 峰值约 139k QPS；1 KiB 元素时约 677k。该差距与页内元素个数相关，但尚无足够剖析证据把它归因于单一操作。
 
 ## Hash
 
@@ -194,74 +265,9 @@ value、member 或元素为 128 B 或 1 KiB。Stream 的字段名和各结构元
   List、Sorted Set 和 Stream 的早期 64-key 图会显露单对象竞争；Hash/Set 使用本轮标注的 key 数。
 - QPS 和延迟来自 memtier JSON；脚本拒绝连接错误、中断和服务端错误。
 
-## List
-
-本章各图注明实际版本与 key 数量。100 MiB / 1 KiB 的小 key 数对照使用 main `a8c926d4` 与 PR #233；新增的大 key 数 LSET 对照独立列出。其余早期四产品曲线的 Lavik 为 `646a7b4e`，原始版本见 [results.csv](results.csv)。
-
-### LINDEX / LSET
-
-#### 64 KiB
-
-![List 64 KiB、128 B：LINDEX / LSET QPS 随连接数变化](charts/list-65536-128.png)
-
-![List 64 KiB、1 KiB：LINDEX / LSET QPS 随连接数变化](charts/list-65536-1024.png)
-
-#### 1 MiB
-
-![List 1 MiB、128 B：LINDEX / LSET QPS 随连接数变化](charts/list-1048576-128.png)
-
-![List 1 MiB、1 KiB：LINDEX / LSET QPS 随连接数变化](charts/list-1048576-1024.png)
-
-#### 100 MiB
-
-![List 100 MiB、128 B：LINDEX / LSET QPS 随连接数变化](charts/list-104857600-128.png)
-
-![List 100 MiB、1 KiB：LINDEX / LSET QPS 随连接数变化](charts/list-104857600-1024-ab.png)
-
-**2026-09-30 main `a8c926d4` 与 [PR #233](https://github.com/eloqdata/lavik/pull/233) `759832d8` 实测。** 8 × 100 MiB key、1 KiB 元素；每版 13 个无采样测点，覆盖 80–5120 连接的点查和写入及 1/4/16 连接的全量读取。其他数据库保留同负载原始结果。 两版均重新灌入相同初始逻辑数据。 所有测点零错误，逐 key 数量校验通过。 [Main raw](raw/lavik-maina8-ordered-list-100m-k8-f1024-20260930/) · [PR raw](raw/lavik-fresh759832d8-list-100m-k8-f1024-20260930/) · [Plot provenance](ordered-published.json). `759832d8` 释放分组 List 读取期间的 worker 状态锁后，LINDEX 提升为 main 的 3.67–6.10 倍；LRANGE 在 16 连接下提升至 2.39 倍。LSET 五档依次为 main 的 1.72、1.27、0.97、0.72、0.73 倍，高并发写入仍需优化，PR 保持草稿。此前复用数据的 LINDEX 大幅提升已撤回：同一旧版二进制在 LSET 前后也出现 58.7k / 433.2k 的采样 QPS，因此不能用它证明代码收益。 [Same-binary diagnostic](raw/lavik-diagnostic-list-layout-5b1c3064-20260930/).
-
-
-### LSET：增加独立 key
-
-1 MiB/key 使用 50,000 个 key，100 MiB/key 使用 500 个 key；本轮元素均为 1 KiB。每个版本独立灌入相同初始数据；10 月 1 日的新测量还会先清空专用测试盘。32 个导入连接、128 KiB RPUSH 批次、导入 pipeline=4；正式 memtier 为单元素 LSET、pipeline=1、每点 10 秒，覆盖 80/320/1280/2560/5120 连接。全部连接数测完后再单独运行 CPU 采样，采样测点不混入曲线。早期四库图使用不同 key 数量，保留在各自负载下。
-
-#### 1 MiB/key × 50,000 keys
-
-![LSET 1 MiB, 50,000 keys: main / PR #233](charts/list-lset-1048576-1024-k50000-main-pr.png)
-
-Main `f1268014` / PR #233 `0af92a14`. Main 为 86.0–101.5k QPS，PR 为 115.2–137.0k QPS；同连接数比值为 1.27–1.35×。 全部 key 在测前、测后完成元素数量校验，所有测点零错误。 [Main raw](raw/lavik-lset-mainf126-1048576-k50000-f1024-20261001/) · [PR raw](raw/lavik-lset-radix-1048576-k50000-f1024-20261001/) · [CSV](list-lset-1048576-1024-k50000-main-pr.csv).
-
-#### 100 MiB/key × 500 keys
-
-![LSET 100 MiB, 500 keys: main / PR #233](charts/list-lset-104857600-1024-k500-main-pr.png)
-
-Main `f1268014` / PR #233 `0af92a14`. Main 为 7.2–7.4k QPS，PR 为 92.1–129.4k QPS；同连接数比值为 12.66–17.58×。 全部 key 在测前、测后完成元素数量校验，所有测点零错误。 [Main raw](raw/lavik-lset-mainf126-104857600-k500-f1024-20261001/) · [PR raw](raw/lavik-lset-radix-104857600-k500-f1024-20261001/) · [CSV](list-lset-104857600-1024-k500-main-pr.csv).
-
-### LRANGE 0 -1
-
-#### 64 KiB
-
-![List 64 KiB、128 B：LRANGE 0 -1 QPS 随连接数变化](charts/list-65536-128-full.png)
-
-![List 64 KiB、1 KiB：LRANGE 0 -1 QPS 随连接数变化](charts/list-65536-1024-full.png)
-
-#### 1 MiB
-
-![List 1 MiB、128 B：LRANGE 0 -1 QPS 随连接数变化](charts/list-1048576-128-full.png)
-
-![List 1 MiB、1 KiB：LRANGE 0 -1 QPS 随连接数变化](charts/list-1048576-1024-full.png)
-
-#### 100 MiB
-
-![List 100 MiB、128 B：LRANGE 0 -1 QPS 随连接数变化](charts/list-104857600-128-full.png)
-
-![List 100 MiB、1 KiB：LRANGE 0 -1 QPS 随连接数变化](charts/list-104857600-1024-ab-full.png)
-
-1 MiB/128 B 的 `LINDEX` 中，Lavik 峰值约 139k QPS；1 KiB 元素时约 677k。该差距与页内元素个数相关，但尚无足够剖析证据把它归因于单一操作。
-
 ## Sorted Set
 
-本章各图注明实际版本与 key 数量。100 MiB / 1 KiB 的小 key 数对照使用 main `a8c926d4` 与 PR #233；新增的大 key 数 LSET 对照独立列出。其余早期四产品曲线的 Lavik 为 `646a7b4e`，原始版本见 [results.csv](results.csv)。
+本章各图注明实际版本与 key 数量。100 MiB / 1 KiB 的小 key 数对照使用 main `a8c926d4` 与 PR #233。其余早期四产品曲线的 Lavik 为 `646a7b4e`，原始版本见 [results.csv](results.csv)。
 
 ### ZSCORE / ZINCRBY
 
