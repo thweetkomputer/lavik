@@ -24,6 +24,12 @@ The two diagnostic intervals average about **1.64 transactions per commit batch*
 
 Main: **85.98–101.53k QPS**; PR: **115.19–137.03k QPS**, or **1.27–1.35×** at matching connection counts. All ten clean points passed cardinality/error checks and both servers exited normally. This is the combined PR versus latest main, not an isolated test of the pointer-tree addition. [Symbols at 1,280 connections](../../raw/lavik-lset-radix-1048576-k50000-f1024-20261001/diagnostic-c1280/self.txt), [counter deltas](../../raw/lavik-lset-radix-1048576-k50000-f1024-20261001/io-summary.json).
 
+## Matched peer curves
+
+Both large-key charts now include Redis, Valkey, Kvrocks, Lavik main and PR #233 on the same axes. The three peers were separately measured with 50,000 × 1 MiB and 500 × 100 MiB keys, using the same 1 KiB entries, RPUSH seed batches, connection grid and ten-second clean LSET points. All 30 new peer points passed zero-error and all-key cardinality checks; every server exited normally. The existing 20 Lavik points are reused unchanged. Each point is one run, so the curves do not establish confidence intervals.
+
+Redis/Valkey persistence is disabled. Kvrocks uses a six-device RAID0 XFS filesystem, no compression, WAL disabled and an 80 GiB block/blob cache. Lavik uses persistent SPDK storage. These configuration differences remain relevant to the comparison. Exact commits, binary hashes and raw-run directories are recorded in [the plot manifest](../../lset-large-published.json). [Peer runner](../../bench_lset_peers.py); [chart renderer](../../plot_lset_large_keys.py).
+
 ## Transaction dependency investigation
 
 The current code waits for the previous grouped version's decision before staging a successor. Reads already support records in pending write buffers. Multiple in-memory versions are therefore possible; the foreground wait is not intrinsically required just because data is unflushed.
