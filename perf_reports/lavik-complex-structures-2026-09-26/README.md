@@ -34,6 +34,9 @@ SADD/SREM: PR changes by **-5.8% to +30.9%** at matched connections; its workloa
 
 Peak ratios can use different connection counts; cache and persistence settings differ. This does not establish parity across all workloads. Single short points have no confidence intervals; small differences need repeats. [Calculations and sources](latest-main-write-summary.json).
 
+
+[HSET work and sampling audit](diagnostics/shared-pipeline-20261001/hset-deep-diagnosis.md): separate recordings supply callchains for all 12 workers. Route/physical-index lookup and update consume about 10% of total CPU, allocator-family symbols about 8.2%; device writes average 12.0 KB/command including cleanup. Pipelining retains these costs; CPU percentages do not quantify coroutine waits.
+
 ## List
 
 Current baseline: main `06562381`, including merged #233. Each LSET chart fixes key counts, key sizes and entry sizes and includes the matched peer workloads.

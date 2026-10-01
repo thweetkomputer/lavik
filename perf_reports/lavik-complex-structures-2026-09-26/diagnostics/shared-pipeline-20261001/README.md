@@ -9,3 +9,8 @@ The separate run completed 3,536,765 HSET commands. Within the accompanying metr
 The matched clean 100 MiB / 1 KiB HSET points improve by 10.3%–21.1%; peak QPS rises from 130,749 to 154,378. Kvrocks peaks at 344,461 on its documented WAL-disabled, 80 GiB cache configuration. The optimization has not closed that gap. No data cache was added.
 
 [Clean main](../../raw/lavik-pipeline-main-hash-104857600-k500-f1024-20261001/) · [Clean PR](../../raw/lavik-pipeline-pr-hash-104857600-k500-f1024-20261001/) · [CPU and metrics evidence](../../raw/lavik-diagnostic-pipeline-pr235-hash-100m-f1024-20261001/). Raw perf binary remains in the benchmark workspace; the report includes self/inclusive/thread summaries and exact profiling arguments.
+
+
+## Follow-up: complete worker callchains
+
+[HSET work and sampling audit](hset-deep-diagnosis.md) identifies the original callchain-coverage limit, supplies a validated separate recording for all 12 workers, and distinguishes CPU candidates from unmeasured coroutine waits. Original self costs remain valid; original inclusive summaries do not represent complete user callchains.
