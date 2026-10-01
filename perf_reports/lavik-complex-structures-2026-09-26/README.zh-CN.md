@@ -10,7 +10,7 @@ Redis 兼容数据结构。每张图固定数据结构、每个 key 的逻辑数
 
 ## 2026-10-01 main 更新
 
-PR #228 已合并，Hash/Set 图中已移除其独立曲线。本轮基线为 main `f1268014`；已完成新基线测量：hash/1 MiB/128 B, hash/1 MiB/1024 B, hash/100 MiB/128 B。未完成的条件明确保留旧 main 实测版本，不改标签代替复测。List 的未合并优化继续对比 [PR #233](https://github.com/eloqdata/lavik/pull/233)。
+PR #228 已合并，Hash/Set 图中已移除其独立曲线。本轮基线为 main `f1268014`；已完成新基线测量：hash/1 MiB/128 B, hash/1 MiB/1024 B, hash/100 MiB/128 B, hash/100 MiB/1024 B。未完成的条件明确保留旧 main 实测版本，不改标签代替复测。List 的未合并优化继续对比 [PR #233](https://github.com/eloqdata/lavik/pull/233)。
 
 每项 Hash/Set 新测量均清空专用测试盘、独立预置数据，等待清理后重启恢复，再跑无 perf 的八秒测点；1 MiB 使用 50,000 个 key，100 MiB 使用 500 个 key。每点只测一次，不能据此给出置信区间。不同日期的绝对 QPS 变化同时包含版本和数据布局变化，不单独归因于 #228。
 
@@ -38,7 +38,7 @@ Redis、Valkey、Kvrocks 保留原有同 key 数测量。Redis/Valkey 不持久�
 
 ![Hash 100 MiB, 1024 B: HGET / HSET](charts/hash-104857600-1024-ab.png)
 
-**旧 main 实测，等待更新: main `a6e93d3d`.** 500 keys × 100 MiB/key; 1024 B. [Raw](raw/lavik-maina6d-hash-100m-k500-f1024-20260930/).
+**本轮重新实测: main `f1268014`.** 500 keys × 100 MiB/key; 1024 B. [Raw](raw/lavik-mainf126-hash-104857600-k500-f1024-20261001/). [Seed provenance](raw/lavik-seed-mainf126-hash-104857600-k500-f1024-20261001/).
 
 ### HGETALL
 
@@ -78,7 +78,7 @@ Redis、Valkey、Kvrocks 保留原有同 key 数测量。Redis/Valkey 不持久�
 
 - 128 B, main `f1268014`: **272.3 s**. [Raw](raw/lavik-seed-mainf126-hash-104857600-k500-f128-20261001/hash-104857600-128.fill.json).
 
-- 1024 B, main `a6e93d3d`: **111.5 s**. [Raw](raw/lavik-seedmaina6d-hash-100m-k500-f1024-20260930/hash-104857600-1024.fill.json).
+- 1024 B, main `f1268014`: **116.1 s**. [Raw](raw/lavik-seed-mainf126-hash-104857600-k500-f1024-20261001/hash-104857600-1024.fill.json).
 
 ## Set
 
