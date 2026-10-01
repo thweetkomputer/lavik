@@ -24,6 +24,9 @@ Baseline main `06562381` includes #228/#233. [PR #235](https://github.com/eloqda
 
 For #235, main and PR each start on fresh media, seed the same RESTORE payload, recover, and run eight-second points without profiling: 32 import clients at 1 MiB, eight at 100 MiB. Logical contents match; physical layouts are independent. Earlier 1 MiB main runs used HSET/SADD import, so changes across rounds are not solely code effects. One run per point, without confidence intervals; peers reuse matched-key-count evidence.
 
+
+[ABBA rechecks of two small declines](diagnostics/shared-pipeline-20261001/rechecks.md): 30-second main/PR repeats for 1 MiB / 1 KiB Set and 1 MiB / 128 B Hash are broadly equal. The small declines from independently fresh-seeded eight-second points were not reproduced; formal curves retain their original evidence, and the repeats do not establish a speedup.
+
 ## List
 
 Current baseline: main `06562381`, including merged #233. Each LSET chart fixes key counts, key sizes and entry sizes and includes the matched peer workloads.
