@@ -49,7 +49,7 @@ Redis 兼容数据结构。每张图固定数据结构、每个 key 的逻辑数
 
 
 <details>
-<summary>历史 LINDEX / LSET：较少 key 的旧版本测量（展开）</summary>
+<summary>LINDEX / LSET：较少 key 的补充负载（展开）</summary>
 
 ### LINDEX / LSET
 
@@ -71,7 +71,7 @@ Redis 兼容数据结构。每张图固定数据结构、每个 key 的逻辑数
 
 ![List 100 MiB、1 KiB：LINDEX / LSET QPS 随连接数变化](charts/list-104857600-1024-ab.png)
 
-**2026-09-30 main `a8c926d4` 与 [PR #233](https://github.com/eloqdata/lavik/pull/233) `759832d8` 实测。** 8 × 100 MiB key、1 KiB 元素；每版 13 个无采样测点，覆盖 80–5120 连接的点查和写入及 1/4/16 连接的全量读取。其他数据库保留同负载原始结果。 两版均重新灌入相同初始逻辑数据。 所有测点零错误，逐 key 数量校验通过。 [Main raw](raw/lavik-maina8-ordered-list-100m-k8-f1024-20260930/) · [PR raw](raw/lavik-fresh759832d8-list-100m-k8-f1024-20260930/) · [Plot provenance](ordered-published.json). `759832d8` 释放分组 List 读取期间的 worker 状态锁后，LINDEX 提升为 main 的 3.67–6.10 倍；LRANGE 在 16 连接下提升至 2.39 倍。LSET 五档依次为 main 的 1.72、1.27、0.97、0.72、0.73 倍，高并发写入仍需优化，PR 保持草稿。此前复用数据的 LINDEX 大幅提升已撤回：同一旧版二进制在 LSET 前后也出现 58.7k / 433.2k 的采样 QPS，因此不能用它证明代码收益。 [Same-binary diagnostic](raw/lavik-diagnostic-list-layout-5b1c3064-20260930/).
+**main `06562381` 与 [PR #235](https://github.com/eloqdata/lavik/pull/235) `09871950` 独立清盘实测。** 保留此处三库原有的 8 × 100 MiB key、1 KiB 元素负载；每版 13 个无采样测点，零错误，逐 key 数量校验通过。该 key 数与 Hash/Set 及 List 章开头的大 key 负载不同。 [main raw](raw/lavik-ordered-pipeline-main-list-100m-k8-f1024-20261001/) · [pr raw](raw/lavik-ordered-pipeline-pr-list-100m-k8-f1024-20261001/) · [Provenance](ordered-published.json).
 
 </details>
 
