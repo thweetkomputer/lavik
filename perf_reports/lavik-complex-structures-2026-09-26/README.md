@@ -17,7 +17,7 @@ PR #228 is merged and its separate Hash/Set curves are removed. The new baseline
 
 Each refreshed Hash/Set condition starts on freshly cleared dedicated benchmark media, is seeded independently, waits for cleanup, restarts for recovery, and runs clean eight-second points without perf: 50,000 keys at 1 MiB and 500 keys at 100 MiB. Each point is measured once, without confidence intervals. Changes across dates include both code and physical-layout changes and cannot be attributed solely to #228.
 
-Redis, Valkey and Kvrocks retain their previous matching-key-count measurements. Redis/Valkey disable persistence; Kvrocks uses uncompressed RAID0, WAL disabled, and 80 GiB block/blob caches; Lavik persists through six SPDK NVMe devices without adding a data cache. Persistence and cache settings differ. Exact revisions, binary hashes and sources are in [published-main.json](published-main.json). The [HGETALL memory investigation](diagnostics/hgetall-oom-20260929/README.md), [HSET I/O diagnosis](diagnostics/hset-io-20260929/README.md), and [LSET CPU diagnosis](diagnostics/lset-20261001/README.md) remain available.
+Hash/Set retains previous matching-key-count Redis, Valkey and Kvrocks measurements; LSET peers are separately measured at the plotted workload sizes. Redis/Valkey disable persistence; Kvrocks uses uncompressed RAID0, WAL disabled, and 80 GiB block/blob caches; Lavik persists through six SPDK NVMe devices without adding a data cache. Persistence and cache settings differ. Exact revisions, binary hashes and sources are in [published-main.json](published-main.json). The [HGETALL memory investigation](diagnostics/hgetall-oom-20260929/README.md), [HSET I/O diagnosis](diagnostics/hset-io-20260929/README.md), and [LSET CPU diagnosis](diagnostics/lset-20261001/README.md) remain available.
 
 ### Current write-throughput gap
 
@@ -34,6 +34,8 @@ Use 50,000 keys at 1 MiB/key and 500 keys at 100 MiB/key, with 1 KiB elements. E
 #### 1 MiB/key × 50,000 keys
 
 ![LSET 1 MiB, 50,000 keys: main / PR #233](charts/list-lset-1048576-1024-k50000-main-pr.png)
+
+**Five lines on the same chart: Redis, Valkey, Kvrocks, Lavik main and PR #233.** All use matching key counts, entry sizes, RPUSH seeding, five connection levels and ten seconds per point. All peer points passed all-key cardinality checks with zero errors. [redis raw](raw/redis-lset-matched-1048576-k50000-f1024-20261001/) · [valkey raw](raw/valkey-lset-matched-1048576-k50000-f1024-20261001/) · [kvrocks raw](raw/kvrocks-lset-matched-1048576-k50000-f1024-20261001/).
 
 Main `f1268014` / PR #233 `0af92a14`. Main: 86.0–101.5k QPS; PR: 115.2–137.0k QPS, or 1.27–1.35× at matching connection counts. All keys passed before/after cardinality validation; all points completed with zero errors. [Main raw](raw/lavik-lset-mainf126-1048576-k50000-f1024-20261001/) · [PR raw](raw/lavik-lset-radix-1048576-k50000-f1024-20261001/) · [CSV](list-lset-1048576-1024-k50000-main-pr.csv).
 
