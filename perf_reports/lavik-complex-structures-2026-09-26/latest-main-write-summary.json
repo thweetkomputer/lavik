@@ -1,0 +1,118 @@
+{
+  "main_commit": "f12680146756f167e1e57420e5a5fbd14a2473d2",
+  "method": "ratio of each product peak over measured connection grid; not matched connections; persistence/cache settings differ",
+  "conditions": [
+    {
+      "kind": "hash",
+      "size": 1048576,
+      "field": 128,
+      "operation": "HSET",
+      "source_csv": "hash-1048576-128-high-keys.csv",
+      "peaks": {
+        "redis": 396396.4,
+        "valkey": 489813.41,
+        "kvrocks": 367429.08,
+        "lavik": 148894.86
+      },
+      "lavik_over_kvrocks_peak": 0.4052342835792964
+    },
+    {
+      "kind": "hash",
+      "size": 1048576,
+      "field": 1024,
+      "operation": "HSET",
+      "source_csv": "hash-1048576-1024-high-keys.csv",
+      "peaks": {
+        "redis": 391020.52,
+        "valkey": 424938.57,
+        "kvrocks": 281350.52,
+        "lavik": 144858.97
+      },
+      "lavik_over_kvrocks_peak": 0.5148700986939707
+    },
+    {
+      "kind": "hash",
+      "size": 104857600,
+      "field": 128,
+      "operation": "HSET",
+      "source_csv": "hash-104857600-128-high-keys.csv",
+      "peaks": {
+        "redis": 755123.47,
+        "valkey": 723949.61,
+        "kvrocks": 373980.0,
+        "lavik": 122425.25
+      },
+      "lavik_over_kvrocks_peak": 0.327357746403551
+    },
+    {
+      "kind": "hash",
+      "size": 104857600,
+      "field": 1024,
+      "operation": "HSET",
+      "source_csv": "hash-104857600-1024-high-keys.csv",
+      "peaks": {
+        "redis": 633445.98,
+        "valkey": 629696.22,
+        "kvrocks": 344460.92,
+        "lavik": 130323.08
+      },
+      "lavik_over_kvrocks_peak": 0.37833923221246696
+    },
+    {
+      "kind": "set",
+      "size": 1048576,
+      "field": 128,
+      "operation": "SADD_SREM",
+      "source_csv": "set-1048576-128-high-keys.csv",
+      "peaks": {
+        "redis": 397849.27,
+        "valkey": 689607.37,
+        "kvrocks": 441167.25,
+        "lavik": 225719.82
+      },
+      "lavik_over_kvrocks_peak": 0.5116422853237633
+    },
+    {
+      "kind": "set",
+      "size": 1048576,
+      "field": 1024,
+      "operation": "SADD_SREM",
+      "source_csv": "set-1048576-1024-high-keys.csv",
+      "peaks": {
+        "redis": 271690.14,
+        "valkey": 547328.14,
+        "kvrocks": 291232.39,
+        "lavik": 230144.69
+      },
+      "lavik_over_kvrocks_peak": 0.7902441414569307
+    },
+    {
+      "kind": "set",
+      "size": 104857600,
+      "field": 128,
+      "operation": "SADD_SREM",
+      "source_csv": "set-104857600-128-high-keys.csv",
+      "peaks": {
+        "redis": 969659.94,
+        "valkey": 818188.82,
+        "kvrocks": 470138.38,
+        "lavik": 232057.45
+      },
+      "lavik_over_kvrocks_peak": 0.493593928664152
+    },
+    {
+      "kind": "set",
+      "size": 104857600,
+      "field": 1024,
+      "operation": "SADD_SREM",
+      "source_csv": "set-104857600-1024-high-keys.csv",
+      "peaks": {
+        "redis": 802232.44,
+        "valkey": 679326.23,
+        "kvrocks": 297558.22,
+        "lavik": 242073.93
+      },
+      "lavik_over_kvrocks_peak": 0.8135346756678408
+    }
+  ]
+}
