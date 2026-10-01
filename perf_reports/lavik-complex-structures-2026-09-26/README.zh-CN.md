@@ -6,7 +6,7 @@
 Redis 兼容数据结构。每张图固定数据结构、每个 key 的逻辑数据量和
 每个元素的字节数。横轴为连接数，纵轴为每秒完成的命令数。
 
-**LSET 增加 key 的复测：** [main / PR #233 新曲线](#lset增加独立-key)，1 MiB/key × 50,000 key、100 MiB/key × 500 key，元素均为 1 KiB；[perf 诊断与复现](diagnostics/lset-20260930/README.md)。
+**LSET 增加 key 的复测：** [main / PR #233 新曲线](#lset增加独立-key)，1 MiB/key × 50,000 key、100 MiB/key × 500 key，元素均为 1 KiB；[perf 诊断与复现](diagnostics/lset-20261001/README.md)。
 
 ## 2026-10-01 main 更新
 
@@ -14,7 +14,7 @@ PR #228 已合并，Hash/Set 图中已移除其独立曲线。本轮基线为 ma
 
 每项 Hash/Set 新测量均清空专用测试盘、独立预置数据，等待清理后重启恢复，再跑无 perf 的八秒测点；1 MiB 使用 50,000 个 key，100 MiB 使用 500 个 key。每点只测一次，不能据此给出置信区间。不同日期的绝对 QPS 变化同时包含版本和数据布局变化，不单独归因于 #228。
 
-Redis、Valkey、Kvrocks 保留原有同 key 数测量。Redis/Valkey 不持久化；Kvrocks 为无压缩 RAID0、关闭 WAL、80 GiB block/blob cache；Lavik 使用六块 NVMe SPDK 持久化，没有新增数据缓存。持久化和缓存配置不同。精确版本、二进制摘要及原始来源见 [published-main.json](published-main.json)。[HGETALL 内存调查](diagnostics/hgetall-oom-20260929/README.md)、[HSET I/O 诊断](diagnostics/hset-io-20260929/README.md)和 [LSET CPU 诊断](diagnostics/lset-20260930/README.md)保留供检查。
+Redis、Valkey、Kvrocks 保留原有同 key 数测量。Redis/Valkey 不持久化；Kvrocks 为无压缩 RAID0、关闭 WAL、80 GiB block/blob cache；Lavik 使用六块 NVMe SPDK 持久化，没有新增数据缓存。持久化和缓存配置不同。精确版本、二进制摘要及原始来源见 [published-main.json](published-main.json)。[HGETALL 内存调查](diagnostics/hgetall-oom-20260929/README.md)、[HSET I/O 诊断](diagnostics/hset-io-20260929/README.md)和 [LSET CPU 诊断](diagnostics/lset-20261001/README.md)保留供检查。
 
 ## Hash
 
@@ -225,7 +225,7 @@ value、member 或元素为 128 B 或 1 KiB。Stream 的字段名和各结构元
 
 ![LSET 1 MiB, 50,000 keys: main / PR #233](charts/list-lset-1048576-1024-k50000-main-pr.png)
 
-Main `a8c926d4` / PR #233 `759832d8`. Main 为 83.7–100.9k QPS，PR 为 115.2–142.0k QPS；同连接数比值为 1.32–1.41×。 全部 key 在测前、测后完成元素数量校验，所有测点零错误。 [Main raw](raw/lavik-lset-large-maina8-1048576-k50000-f1024-20260930/) · [PR raw](raw/lavik-lset-large-pr233-759832d8-1048576-k50000-f1024-20260930/) · [CSV](list-lset-1048576-1024-k50000-main-pr.csv).
+Main `f1268014` / PR #233 `0af92a14`. Main 为 86.0–101.5k QPS，PR 为 115.2–137.0k QPS；同连接数比值为 1.27–1.35×。 全部 key 在测前、测后完成元素数量校验，所有测点零错误。 [Main raw](raw/lavik-lset-mainf126-1048576-k50000-f1024-20261001/) · [PR raw](raw/lavik-lset-radix-1048576-k50000-f1024-20261001/) · [CSV](list-lset-1048576-1024-k50000-main-pr.csv).
 
 #### 100 MiB/key × 500 keys
 

@@ -7,7 +7,7 @@ remote memtier client. Each chart fixes the collection type, logical payload per
 key, and payload bytes per entry. The horizontal axis is simultaneous
 connections; the vertical axis is completed commands per second.
 
-**LSET with more keys:** [new main / PR #233 curves](#lset-with-more-independent-keys), 50,000 keys at 1 MiB/key and 500 keys at 100 MiB/key, using 1 KiB elements; [perf diagnosis and reproduction](diagnostics/lset-20260930/README.md).
+**LSET with more keys:** [new main / PR #233 curves](#lset-with-more-independent-keys), 50,000 keys at 1 MiB/key and 500 keys at 100 MiB/key, using 1 KiB elements; [perf diagnosis and reproduction](diagnostics/lset-20261001/README.md).
 
 ## 2026-10-01 main refresh
 
@@ -15,7 +15,7 @@ PR #228 is merged and its separate Hash/Set curves are removed. The new baseline
 
 Each refreshed Hash/Set condition starts on freshly cleared dedicated benchmark media, is seeded independently, waits for cleanup, restarts for recovery, and runs clean eight-second points without perf: 50,000 keys at 1 MiB and 500 keys at 100 MiB. Each point is measured once, without confidence intervals. Changes across dates include both code and physical-layout changes and cannot be attributed solely to #228.
 
-Redis, Valkey and Kvrocks retain their previous matching-key-count measurements. Redis/Valkey disable persistence; Kvrocks uses uncompressed RAID0, WAL disabled, and 80 GiB block/blob caches; Lavik persists through six SPDK NVMe devices without adding a data cache. Persistence and cache settings differ. Exact revisions, binary hashes and sources are in [published-main.json](published-main.json). The [HGETALL memory investigation](diagnostics/hgetall-oom-20260929/README.md), [HSET I/O diagnosis](diagnostics/hset-io-20260929/README.md), and [LSET CPU diagnosis](diagnostics/lset-20260930/README.md) remain available.
+Redis, Valkey and Kvrocks retain their previous matching-key-count measurements. Redis/Valkey disable persistence; Kvrocks uses uncompressed RAID0, WAL disabled, and 80 GiB block/blob caches; Lavik persists through six SPDK NVMe devices without adding a data cache. Persistence and cache settings differ. Exact revisions, binary hashes and sources are in [published-main.json](published-main.json). The [HGETALL memory investigation](diagnostics/hgetall-oom-20260929/README.md), [HSET I/O diagnosis](diagnostics/hset-io-20260929/README.md), and [LSET CPU diagnosis](diagnostics/lset-20261001/README.md) remain available.
 
 ## Hash
 
@@ -234,7 +234,7 @@ Use 50,000 keys at 1 MiB/key and 500 keys at 100 MiB/key, with 1 KiB elements. E
 
 ![LSET 1 MiB, 50,000 keys: main / PR #233](charts/list-lset-1048576-1024-k50000-main-pr.png)
 
-Main `a8c926d4` / PR #233 `759832d8`. Main: 83.7–100.9k QPS; PR: 115.2–142.0k QPS, or 1.32–1.41× at matching connection counts. All keys passed before/after cardinality validation; all points completed with zero errors. [Main raw](raw/lavik-lset-large-maina8-1048576-k50000-f1024-20260930/) · [PR raw](raw/lavik-lset-large-pr233-759832d8-1048576-k50000-f1024-20260930/) · [CSV](list-lset-1048576-1024-k50000-main-pr.csv).
+Main `f1268014` / PR #233 `0af92a14`. Main: 86.0–101.5k QPS; PR: 115.2–137.0k QPS, or 1.27–1.35× at matching connection counts. All keys passed before/after cardinality validation; all points completed with zero errors. [Main raw](raw/lavik-lset-mainf126-1048576-k50000-f1024-20261001/) · [PR raw](raw/lavik-lset-radix-1048576-k50000-f1024-20261001/) · [CSV](list-lset-1048576-1024-k50000-main-pr.csv).
 
 #### 100 MiB/key × 500 keys
 
