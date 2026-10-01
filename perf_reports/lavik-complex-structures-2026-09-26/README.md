@@ -9,90 +9,51 @@ connections; the vertical axis is completed commands per second.
 
 **LSET with more keys:** [new main / PR #233 curves](#lset-with-more-independent-keys), 50,000 keys at 1 MiB/key and 500 keys at 100 MiB/key, using 1 KiB elements; [perf diagnosis and reproduction](diagnostics/lset-20260930/README.md).
 
-## 2026-09-30 main and PR #228
+## 2026-10-01 main refresh
 
-[PR #229](https://github.com/eloqdata/lavik/pull/229) is merged; current main is `a8c926d4`, fixing missing first-publication headroom during ingestion. Merged PR curves have been removed. The new [PR #228](https://github.com/eloqdata/lavik/pull/228) is overlaid only where its A/B measurement is complete.
+PR #228 is merged and its separate Hash/Set curves are removed. The new baseline is main `f1268014`. Refreshed conditions: none yet. Pending conditions retain their actual previous main revision. List continues to compare unmerged [PR #233](https://github.com/eloqdata/lavik/pull/233).
 
-**Completed main `a6e93d3d` measurements: Hash/1 MiB/128 B, Hash/1 MiB/1024 B, Hash/100 MiB/128 B, Hash/100 MiB/1024 B, Set/1 MiB/128 B, Set/1 MiB/1024 B, Set/100 MiB/128 B, Set/100 MiB/1024 B.** Exact versions, binary hashes and unmerged PR sources are in the [plot manifest](published-main.json). Stream, List and Sorted Set results and charts remain available.
+Each refreshed Hash/Set condition starts on freshly cleared dedicated benchmark media, is seeded independently, waits for cleanup, restarts for recovery, and runs clean eight-second points without perf: 50,000 keys at 1 MiB and 500 keys at 100 MiB. Each point is measured once, without confidence intervals. Changes across dates include both code and physical-layout changes and cannot be attributed solely to #228.
 
-PR #228 is rebased onto `a8c926d4` as `31f09884`, with an unchanged optimization patch. Published Hash/Set curves still measure `a6e93d3d` / `80792c41`; new measurements will replace each figure when complete, preserving exact provenance.
-
-This round uses perf first to identify allocations, copies and repeated work. PR #228 trims temporary containers, metadata queries and extra scheduling, without adding a data cache or changing the durable format. **Parity with Kvrocks across all write workloads has not been achieved.** Clean chart runs do not run perf; separate 30-second diagnostic workloads include 20 seconds of perf sampling, retained in raw directories. The [profiling script](profile_grouped_writes.py) reproduces the process.
-
-Point reads and writes use 80/320/1280/2560/5120 connections; full reads use 16/80 for 1 MiB and 1/4/16 for 100 MiB. Each point runs for eight seconds. Redis/Valkey persistence is disabled. Kvrocks uses uncompressed RAID0, WAL disabled, and an 80 GiB cache; Lavik uses durable SPDK on six NVMe drives. These settings affect absolute write QPS. Single runs have no confidence intervals. Raw evidence is in [raw/](raw/).
-
-### Write results from this round
-
-All eight Hash/Set conditions now compare current main and PR #228: **200 eight-second points, zero errors**, with every key validated before/after. At matching connection counts, SADD + SREM measures **+7.7% to +35.9%** and HSET **+0.7% to +19.4%**. These are single-run ranges, not equal gains for every workload. [Calculated results](pr-228-comparison.json) retain each ratio and the four-database peaks; complete curves follow below.
-
-Additional sustained SMEMBERS checks for 100 MiB Sets with 128 B members returned scratch-admission errors on both main and PR. **Zero errors in eight-second points does not establish sustained concurrency stability.** Failed raw runs, the cause and full-read repeat checks are disclosed in the SMEMBERS/HGETALL sections and excluded from valid throughput comparisons.
-
-### Perf: removed work and remaining cost
-
-In separate 1,280-connection write diagnostics, allocator/free symbols account for **12.19% → 10.72%** of self CPU samples for Set/128 B and **16.80% → 14.53%** for Hash/1 KiB. Active-group lookup decreases from **2.01% → 0.19%** and **2.43% → 0.93%**, respectively. These include all reported symbols and measure CPU shares, not allocation counts. Inlined work may be attributed to callers; the numbers do not measure all bytes copied.
-
-The PR inlines single-page temporary arrays in coroutine frames, removes temporary tree containers and redundant extent queries, replaces unchanged routing intervals directly, and copies compact physical-index arrays without expanding and re-encoding unchanged coordinates through an intermediate vector. Snapshot ownership, memory admission and commit dependencies remain intact.
-
-Named copy/zero routines still account for about **2%–3%**, and physical-record lookup about **4%–5%**. The write gains do not close the Kvrocks gap. Further investigation should trace repeated lookups and temporary objects across read, publication and retirement before changing metadata-update algorithms. Current evidence does not attribute the entire gap to disk reads or allocators; peer durability and cache settings also differ.
-
-[Set main samples](raw/lavik-maina6d-set-1m-k50000-f128-20260930/diagnostic-c1280/cpu-categories.json), [Set PR samples](raw/lavik-worktrim8079-set-1m-k50000-f128-20260930/diagnostic-c1280/cpu-categories.json), [Hash main samples](raw/lavik-maina6d-hash-1m-k50000-f1024-20260930/diagnostic-c1280/cpu-categories.json), [Hash PR samples](raw/lavik-worktrim8079-hash-1m-k50000-f1024-20260930/diagnostic-c1280/cpu-categories.json). Each directory includes all-symbol reports, sampling parameters and throughput.
+Redis, Valkey and Kvrocks retain their previous matching-key-count measurements. Redis/Valkey disable persistence; Kvrocks uses uncompressed RAID0, WAL disabled, and 80 GiB block/blob caches; Lavik persists through six SPDK NVMe devices without adding a data cache. Persistence and cache settings differ. Exact revisions, binary hashes and sources are in [published-main.json](published-main.json). The [HGETALL memory investigation](diagnostics/hgetall-oom-20260929/README.md), [HSET I/O diagnosis](diagnostics/hset-io-20260929/README.md), and [LSET CPU diagnosis](diagnostics/lset-20260930/README.md) remain available.
 
 ## Hash
 
-Each point-read/write chart contains both commands. The 1 MiB and 100 MiB runs use 50,000 and 500 keys, respectively.
-
 ### HGET / HSET
 
-#### 1 MiB per key
+#### 1 MiB
 
-![Hash 1 MiB per key, 128 B entries: HGET and HSET QPS by connection count](charts/hash-1048576-128-ab.png)
+![Hash 1 MiB, 128 B: HGET / HSET](charts/hash-1048576-128-ab.png)
 
-**Fresh main `a6e93d3d` vs [PR #228](https://github.com/eloqdata/lavik/pull/228) `80792c41`.** 50,000 × 1 MiB keys, 128 B entries; 12 points per version, zero errors, every key validated before/after. HSET is **1.01–1.16×** main at matching connections. Curves use unprofiled eight-second runs; single-run differences are not established gains. Where sampled, perf diagnostics are retained separately.
-[main raw](raw/lavik-maina6d-hash-1m-k50000-f128-20260930/), [PR raw](raw/lavik-worktrim8079-hash-1m-k50000-f128-20260930/).
+**Previous measured main; refresh pending: main `a6e93d3d`.** 50,000 keys × 1 MiB/key; 128 B. [Raw](raw/lavik-maina6d-hash-1m-k50000-f128-20260930/).
 
-![Hash 1 MiB per key, 1 KiB entries: HGET and HSET QPS by connection count](charts/hash-1048576-1024-ab.png)
+![Hash 1 MiB, 1024 B: HGET / HSET](charts/hash-1048576-1024-ab.png)
 
-**Fresh main `a6e93d3d` vs [PR #228](https://github.com/eloqdata/lavik/pull/228) `80792c41`.** 50,000 × 1 MiB keys, 1024 B entries; 12 points per version, zero errors, every key validated before/after. HSET is **1.02–1.19×** main at matching connections. Curves use unprofiled eight-second runs; single-run differences are not established gains. Where sampled, perf diagnostics are retained separately.
-[main raw](raw/lavik-maina6d-hash-1m-k50000-f1024-20260930/), [PR raw](raw/lavik-worktrim8079-hash-1m-k50000-f1024-20260930/).
+**Previous measured main; refresh pending: main `a6e93d3d`.** 50,000 keys × 1 MiB/key; 1024 B. [Raw](raw/lavik-maina6d-hash-1m-k50000-f1024-20260930/).
 
-#### 100 MiB per key
+#### 100 MiB
 
-![Hash 100 MiB per key, 128 B entries: HGET and HSET QPS by connection count](charts/hash-104857600-128-ab.png)
+![Hash 100 MiB, 128 B: HGET / HSET](charts/hash-104857600-128-ab.png)
 
-**Fresh main `a6e93d3d` vs [PR #228](https://github.com/eloqdata/lavik/pull/228) `80792c41`.** 500 × 100 MiB keys, 128 B entries; 13 points per version, zero errors, every key validated before/after. HSET is **1.11–1.12×** main at matching connections. Curves use unprofiled eight-second runs; single-run differences are not established gains. Where sampled, perf diagnostics are retained separately.
-[main raw](raw/lavik-maina6d-hash-100m-k500-f128-20260930/), [PR raw](raw/lavik-worktrim8079-hash-100m-k500-f128-20260930/).
+**Previous measured main; refresh pending: main `a6e93d3d`.** 500 keys × 100 MiB/key; 128 B. [Raw](raw/lavik-maina6d-hash-100m-k500-f128-20260930/).
 
-RESTORE only prepares the dataset; after cleanup settles, both main and PR restart/recover before measurement. This is not an import-speed comparison with batched SADD/HSET. [Seed provenance](raw/lavik-seedmaina6d-hash-100m-k500-f128-20260930/).
+![Hash 100 MiB, 1024 B: HGET / HSET](charts/hash-104857600-1024-ab.png)
 
-![Hash 100 MiB per key, 1 KiB entries: HGET and HSET QPS by connection count](charts/hash-104857600-1024-ab.png)
-
-**Fresh main `a6e93d3d` vs [PR #228](https://github.com/eloqdata/lavik/pull/228) `80792c41`.** 500 × 100 MiB keys, 1024 B entries; 13 points per version, zero errors, every key validated before/after. HSET is **1.06–1.16×** main at matching connections. Curves use unprofiled eight-second runs; single-run differences are not established gains. Where sampled, perf diagnostics are retained separately.
-[main raw](raw/lavik-maina6d-hash-100m-k500-f1024-20260930/), [PR raw](raw/lavik-worktrim8079-hash-100m-k500-f1024-20260930/).
-
-RESTORE only prepares the dataset; after cleanup settles, both main and PR restart/recover before measurement. This is not an import-speed comparison with batched SADD/HSET. [Seed provenance](raw/lavik-seedmaina6d-hash-100m-k500-f1024-20260930/).
-
-**HGET check on fixed data:** The original eight-second curves retain PR results about 23% / 20% below main at 1,280 / 2,560 connections. On one fixed dataset, with no writes or perf, three 30-second HGET repeats at 1,280 connections in main → PR order yield main **417,998 / 417,250 / 441,911 QPS** and PR **412,563 / 405,788 / 411,345 QPS**; the PR mean remains **3.7% lower**. All 500 key cardinalities are unchanged, with zero errors. The approximately 20% gap did not recur in this fixed-data check, but these few sequential repeats cannot rule out a smaller regression; no read-speed gain is claimed. [Results](hash-104857600-1024-point-read-repeats.json), [main raw](raw/lavik-pointcheck-maina6d-hash-100m-k500-f1024-20260930/), [PR raw](raw/lavik-pointcheck-worktrim8079-hash-100m-k500-f1024-20260930/), [script](repeat_grouped_point_reads.py).
+**Previous measured main; refresh pending: main `a6e93d3d`.** 500 keys × 100 MiB/key; 1024 B. [Raw](raw/lavik-maina6d-hash-100m-k500-f1024-20260930/).
 
 ### HGETALL
 
-#### 1 MiB per key
+#### 1 MiB
 
-![Hash 1 MiB per key, 128 B entries: HGETALL QPS by connection count](charts/hash-1048576-128-ab-full.png)
+![Hash 1 MiB, 128 B: HGETALL](charts/hash-1048576-128-ab-full.png)
 
-**80-connection long-run check:** three consecutive unprofiled 30-second repetitions per version: main **1,830, 1,815, 1,797 QPS**, PR **1,861, 1,857, 1,842 QPS**; mean ratio **1.022×**. Both recover the same dataset; all 50,000 key cardinalities are unchanged and runs have zero errors. The chart retains its original eight-second points. Versions run sequentially; three repetitions do not provide confidence intervals. [Results](hash-1048576-128-full-read-repeats.json), [main raw](raw/lavik-fullcheck-maina6d-hash-1m-k50000-f128-20260930/), [PR raw](raw/lavik-fullcheck-worktrim8079-hash-1m-k50000-f128-20260930/), [script](repeat_grouped_full_reads.py).
+![Hash 1 MiB, 1024 B: HGETALL](charts/hash-1048576-1024-ab-full.png)
 
-**Return-to-main check:** retaining the same dataset after PR, main produces **1,842, 1,838, 1,842 QPS** over three more repetitions; PR / return-main mean ratio is **1.007×**, with every key validated and zero errors. These checks do not establish a stable HGETALL regression. [Raw](raw/lavik-fullcheck-returnmaina6d-hash-1m-k50000-f128-20260930/).
+#### 100 MiB
 
-Separate HGETALL diagnostics, excluded from the three clean repetitions, put memory-move self samples at **16.63% / 15.89%** for main / PR, and Hash-entry vector append at **9.68% / 9.18%**. Both versions have these hotspots. `LoadGroupedHashValue` appends entries without reserving the known total, a candidate for a further experiment; not all append samples are avoidable growth cost. [main profile](raw/lavik-fullcheck-maina6d-hash-1m-k50000-f128-20260930/diagnostic-full/self.txt), [PR profile](raw/lavik-fullcheck-worktrim8079-hash-1m-k50000-f128-20260930/diagnostic-full/self.txt). Add `--profile-full-read` to reproduce the separate profile after the three clean repetitions.
+![Hash 100 MiB, 128 B: HGETALL](charts/hash-104857600-128-ab-full.png)
 
-
-![Hash 1 MiB per key, 1 KiB entries: HGETALL QPS by connection count](charts/hash-1048576-1024-ab-full.png)
-
-#### 100 MiB per key
-
-![Hash 100 MiB per key, 128 B entries: HGETALL QPS by connection count](charts/hash-104857600-128-ab-full.png)
-
-![Hash 100 MiB per key, 1 KiB entries: HGETALL QPS by connection count](charts/hash-104857600-1024-ab-full.png)
+![Hash 100 MiB, 1024 B: HGETALL](charts/hash-104857600-1024-ab-full.png)
 
 ### Batched import (HSET)
 
@@ -100,7 +61,7 @@ Separate HGETALL diagnostics, excluded from the three clean repetitions, put mem
 
 ![Hash batched HSET import](charts/hash-1048576-1024-k50000-fill.png)
 
-Historical import measurement: Lavik main `ebe28dd5`, not a fresh run of `a6e93d3d` or PR #228.
+Historical import measurement: Lavik main `ebe28dd5`, not repeated during this main refresh.
 
 All four use HSET, 16 entries per command, eight clients and pipeline 64. Main fill time: **500.3 seconds**. Persistence settings still differ.
 
@@ -108,70 +69,57 @@ All four use HSET, 16 entries per command, eight clients and pipeline 64. Main f
 
 ![Hash batched HSET import](charts/hash-1048576-128-k50000-fill.png)
 
-Historical import measurement: Lavik main `ebe28dd5`, not a fresh run of `a6e93d3d` or PR #228.
+Historical import measurement: Lavik main `ebe28dd5`, not repeated during this main refresh.
 
 All four use HSET, 128 entries per command, eight clients and pipeline 64. Main fill time: **1306.3 seconds**. Persistence settings still differ.
 
 ### RESTORE
 
-Main `a6e93d3d`, eight concurrent RESTORE clients, 500 × 100 MiB keys per condition, every key validated. These standalone seed timings exclude subsequent cleanup waits and recovery; they are not compared with peer batched SADD/HSET import.
+Seed timings with eight RESTORE clients and 500 × 100 MiB keys. Excludes later cleanup/restart; not compared to other databases using SADD/HSET for import.
 
-- 128 B: **288.4 seconds**. [Raw](raw/lavik-seedmaina6d-hash-100m-k500-f128-20260930/hash-104857600-128.fill.json).
-- 1024 B: **111.5 seconds**. [Raw](raw/lavik-seedmaina6d-hash-100m-k500-f1024-20260930/hash-104857600-1024.fill.json).
+- 128 B, main `a6e93d3d`: **288.4 s**. [Raw](raw/lavik-seedmaina6d-hash-100m-k500-f128-20260930/hash-104857600-128.fill.json).
+
+- 1024 B, main `a6e93d3d`: **111.5 s**. [Raw](raw/lavik-seedmaina6d-hash-100m-k500-f1024-20260930/hash-104857600-1024.fill.json).
 
 ## Set
 
-Each point-read/write chart contains both commands. The 1 MiB and 100 MiB runs use 50,000 and 500 keys, respectively.
+### SISMEMBER / SADD + SREM
 
-### SISMEMBER / SADD/SREM
+#### 1 MiB
 
-#### 1 MiB per key
+![Set 1 MiB, 128 B: SISMEMBER / SADD + SREM](charts/set-1048576-128-ab.png)
 
-![Set 1 MiB per key, 128 B entries: SISMEMBER and SADD/SREM QPS by connection count](charts/set-1048576-128-ab.png)
+**Previous measured main; refresh pending: main `a6e93d3d`.** 50,000 keys × 1 MiB/key; 128 B. [Raw](raw/lavik-maina6d-set-1m-k50000-f128-20260930/).
 
-**Fresh main `a6e93d3d` vs [PR #228](https://github.com/eloqdata/lavik/pull/228) `80792c41`.** 50,000 × 1 MiB keys, 128 B entries; 12 points per version, zero errors, every key validated before/after. SADD + SREM is **1.08–1.18×** main at matching connections. Curves use unprofiled eight-second runs; single-run differences are not established gains. Where sampled, perf diagnostics are retained separately.
-[main raw](raw/lavik-maina6d-set-1m-k50000-f128-20260930/), [PR raw](raw/lavik-worktrim8079-set-1m-k50000-f128-20260930/).
+![Set 1 MiB, 1024 B: SISMEMBER / SADD + SREM](charts/set-1048576-1024-ab.png)
 
-![Set 1 MiB per key, 1 KiB entries: SISMEMBER and SADD/SREM QPS by connection count](charts/set-1048576-1024-ab.png)
+**Previous measured main; refresh pending: main `a6e93d3d`.** 50,000 keys × 1 MiB/key; 1024 B. [Raw](raw/lavik-maina6r-set-1m-k50000-f1024-20260930/).
 
-**Fresh main `a6e93d3d` vs [PR #228](https://github.com/eloqdata/lavik/pull/228) `80792c41`.** 50,000 × 1 MiB keys, 1024 B entries; 12 points per version, zero errors, every key validated before/after. SADD + SREM is **1.12–1.19×** main at matching connections. Curves use unprofiled eight-second runs; single-run differences are not established gains. Where sampled, perf diagnostics are retained separately.
-[main raw](raw/lavik-maina6r-set-1m-k50000-f1024-20260930/), [PR raw](raw/lavik-worktrim8079-set-1m-k50000-f1024-20260930/).
+#### 100 MiB
 
-#### 100 MiB per key
+![Set 100 MiB, 128 B: SISMEMBER / SADD + SREM](charts/set-104857600-128-ab.png)
 
-![Set 100 MiB per key, 128 B entries: SISMEMBER and SADD/SREM QPS by connection count](charts/set-104857600-128-ab.png)
+**Previous measured main; refresh pending: main `a6e93d3d`.** 500 keys × 100 MiB/key; 128 B. [Raw](raw/lavik-maina6d-set-100m-k500-f128-20260930/).
 
-**Fresh main `a6e93d3d` vs [PR #228](https://github.com/eloqdata/lavik/pull/228) `80792c41`.** 500 × 100 MiB keys, 128 B entries; 13 points per version, zero errors, every key validated before/after. SADD + SREM is **1.16–1.36×** main at matching connections. Curves use unprofiled eight-second runs; single-run differences are not established gains. Where sampled, perf diagnostics are retained separately.
-[main raw](raw/lavik-maina6d-set-100m-k500-f128-20260930/), [PR raw](raw/lavik-worktrim8079-set-100m-k500-f128-20260930/).
+![Set 100 MiB, 1024 B: SISMEMBER / SADD + SREM](charts/set-104857600-1024-ab.png)
 
-RESTORE only prepares the dataset; after cleanup settles, both main and PR restart/recover before measurement. This is not an import-speed comparison with batched SADD/HSET. [Seed provenance](raw/lavik-seedmaina6d-set-100m-k500-f128-20260930/).
-
-![Set 100 MiB per key, 1 KiB entries: SISMEMBER and SADD/SREM QPS by connection count](charts/set-104857600-1024-ab.png)
-
-**Fresh main `a6e93d3d` vs [PR #228](https://github.com/eloqdata/lavik/pull/228) `80792c41`.** 500 × 100 MiB keys, 1024 B entries; 13 points per version, zero errors, every key validated before/after. SADD + SREM is **1.08–1.25×** main at matching connections. Curves use unprofiled eight-second runs; single-run differences are not established gains. Where sampled, perf diagnostics are retained separately.
-[main raw](raw/lavik-maina6d-set-100m-k500-f1024-20260930/), [PR raw](raw/lavik-worktrim8079-set-100m-k500-f1024-20260930/).
-
-RESTORE only prepares the dataset; after cleanup settles, both main and PR restart/recover before measurement. This is not an import-speed comparison with batched SADD/HSET. [Seed provenance](raw/lavik-seedmaina6d-set-100m-k500-f1024-20260930/).
+**Previous measured main; refresh pending: main `a6e93d3d`.** 500 keys × 100 MiB/key; 1024 B. [Raw](raw/lavik-maina6d-set-100m-k500-f1024-20260930/).
 
 ### SMEMBERS
 
-#### 1 MiB per key
+#### 1 MiB
 
-![Set 1 MiB per key, 128 B entries: SMEMBERS QPS by connection count](charts/set-1048576-128-ab-full.png)
+![Set 1 MiB, 128 B: SMEMBERS](charts/set-1048576-128-ab-full.png)
 
-**80-connection long-run check:** three consecutive unprofiled 30-second repetitions per version: main **1,966, 1,967, 1,945 QPS**, PR **1,909, 1,922, 1,941 QPS**; mean ratio **0.982×**. Both recover the same dataset; all 50,000 key cardinalities are unchanged and runs have zero errors. The chart retains its original eight-second points. Versions run sequentially; three repetitions do not provide confidence intervals. [Results](set-1048576-128-full-read-repeats.json), [main raw](raw/lavik-fullcheck-maina6d-set-1m-k50000-f128-20260930/), [PR raw](raw/lavik-fullcheck-worktrim8079-set-1m-k50000-f128-20260930/), [script](repeat_grouped_full_reads.py).
+![Set 1 MiB, 1024 B: SMEMBERS](charts/set-1048576-1024-ab-full.png)
 
+#### 100 MiB
 
-![Set 1 MiB per key, 1 KiB entries: SMEMBERS QPS by connection count](charts/set-1048576-1024-ab-full.png)
+![Set 100 MiB, 128 B: SMEMBERS](charts/set-104857600-128-ab-full.png)
 
-#### 100 MiB per key
+![Set 100 MiB, 1024 B: SMEMBERS](charts/set-104857600-1024-ab-full.png)
 
-![Set 100 MiB per key, 128 B entries: SMEMBERS QPS by connection count](charts/set-104857600-128-ab-full.png)
-
-**The 16-connection sustained workload did not pass the zero-error check.** In three planned 30-second repetitions per binary, main failed in repetition 3 and PR in repetition 2 with `OOM grouped operation scratch admission`; both server processes subsequently exited normally. Failed repetitions are excluded from throughput comparisons; the eight-second chart does not establish sustained stability. Admission partitions the limit across workers. This full read conservatively reserves about 1.2 GiB from page bytes, per-entry overhead and temporary copies, so concentrated requests can exceed one worker’s roughly 8.4 GiB share. After main’s failure, pending admission returned to zero and RSS was about 7.3 GiB. This is local reservation rejection, not an OS OOM or process crash; the admission model is unchanged between main and PR. [main raw](raw/lavik-fullcheck-maina6d-set-100m-k500-f128-20260930/), [PR raw](raw/lavik-fullcheck-worktrim8079-set-100m-k500-f128-20260930/).
-
-
-![Set 100 MiB per key, 1 KiB entries: SMEMBERS QPS by connection count](charts/set-104857600-1024-ab-full.png)
+Historical sustained SMEMBERS repeats at 100 MiB / 128 B and 16 connections encountered memory-admission rejection. Successful eight-second points do not establish sustained stability. [Failure evidence](raw/lavik-fullcheck-maina6d-set-100m-k500-f128-20260930/).
 
 ### Batched import (SADD)
 
@@ -179,7 +127,7 @@ RESTORE only prepares the dataset; after cleanup settles, both main and PR resta
 
 ![Set batched SADD import](charts/set-1048576-1024-k50000-fill.png)
 
-Historical import measurement: Lavik main `ebe28dd5`, not a fresh run of `a6e93d3d` or PR #228.
+Historical import measurement: Lavik main `ebe28dd5`, not repeated during this main refresh.
 
 All four use SADD, 16 entries per command, eight clients and pipeline 64. Main fill time: **517.9 seconds**. Persistence settings still differ.
 
@@ -187,7 +135,7 @@ All four use SADD, 16 entries per command, eight clients and pipeline 64. Main f
 
 ![Set batched SADD import](charts/set-1048576-128-k50000-fill.png)
 
-Historical import measurement: Lavik main `ebe28dd5`, not a fresh run of `a6e93d3d` or PR #228.
+Historical import measurement: Lavik main `ebe28dd5`, not repeated during this main refresh.
 
 All four use SADD, 128 entries per command, eight clients and pipeline 64. Main fill time: **1724.2 seconds**. Persistence settings still differ.
 
@@ -195,10 +143,11 @@ The matching 100 MiB SADD import measurement is pending. The previous mixed REST
 
 ### RESTORE
 
-Main `a6e93d3d`, eight concurrent RESTORE clients, 500 × 100 MiB keys per condition, every key validated. These standalone seed timings exclude subsequent cleanup waits and recovery; they are not compared with peer batched SADD/HSET import.
+Seed timings with eight RESTORE clients and 500 × 100 MiB keys. Excludes later cleanup/restart; not compared to other databases using SADD/HSET for import.
 
-- 128 B: **291.1 seconds**. [Raw](raw/lavik-seedmaina6d-set-100m-k500-f128-20260930/set-104857600-128.fill.json).
-- 1024 B: **136.8 seconds**. [Raw](raw/lavik-seedmaina6d-set-100m-k500-f1024-20260930/set-104857600-1024.fill.json).
+- 128 B, main `a6e93d3d`: **291.1 s**. [Raw](raw/lavik-seedmaina6d-set-100m-k500-f128-20260930/set-104857600-128.fill.json).
+
+- 1024 B, main `a6e93d3d`: **136.8 s**. [Raw](raw/lavik-seedmaina6d-set-100m-k500-f1024-20260930/set-104857600-1024.fill.json).
 
 ## Workloads
 
@@ -214,7 +163,7 @@ the write sweep. Set toggle commands can return no-op results when their
 randomly chosen key is already in the target state, so their throughput is the
 combined command rate, not the rate of durable mutations.
 
-The eight-second grid reuses data in main-then-PR order; each version runs full reads, point reads, then writes. Intervening writes change accessed field values and physical layout, so short-run read differences cannot be attributed entirely to the code version. Extra read-only checks switch binaries on one fixed dataset without intervening writes.
+Each refreshed Hash/Set main condition is independently seeded and recovered, then runs full reads, point reads and writes. Writes at successive connection levels change accessed field values and physical layout.
 
 ## Test configuration
 
