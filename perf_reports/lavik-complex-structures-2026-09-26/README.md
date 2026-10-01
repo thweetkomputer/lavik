@@ -9,13 +9,13 @@ connections; the vertical axis is completed commands per second.
 
 **Latest main remeasurement: [List chapter](#list), `06562381`, including merged #233.** Each LSET chart includes Redis, Valkey, Kvrocks and Lavik main; the merged PR curve is removed. Hash/Set main/PR comparisons are refreshed incrementally below. [Historical perf diagnosis](diagnostics/lset-20261001/README.md).
 
-**Shared commit-dependency optimization: [PR #235](https://github.com/eloqdata/lavik/pull/235) and main `06562381` share charts with Redis, Valkey and Kvrocks. 6/8 Hash/Set conditions complete; pending charts retain their actual measured versions.**
+**Shared commit-dependency optimization: [PR #235](https://github.com/eloqdata/lavik/pull/235) and main `06562381` share charts with Redis, Valkey and Kvrocks. 7/8 Hash/Set conditions complete; pending charts retain their actual measured versions.**
 
 ## 2026-10-01 shared commit pipeline comparison
 
 Baseline main `06562381` includes #228/#233. [PR #235](https://github.com/eloqdata/lavik/pull/235) moves waiting for queued owner-local predecessors to background commit. Hash, Set, List, ZSet, Stream and grouped String share this path, including standalone commands. Cross-coordinator EXEC/Lua predecessors and compact demotion retain the existing wait. Small SET/GET already access pending buffers; no data cache was added.
 
-6/8 matched Hash/Set conditions have independent main/PR measurements. Pending charts retain explicitly documented prior versions. Peers reuse matched-key-count results. Redis/Valkey disable persistence; Kvrocks uses uncompressed RAID0, WAL disabled and 80 GiB block/blob caches; Lavik persists through six SPDK NVMe devices. Persistence and cache settings differ. See [Hash/Set manifest](published-main.json) and [LSET manifest](lset-large-published.json).
+7/8 matched Hash/Set conditions have independent main/PR measurements. Pending charts retain explicitly documented prior versions. Peers reuse matched-key-count results. Redis/Valkey disable persistence; Kvrocks uses uncompressed RAID0, WAL disabled and 80 GiB block/blob caches; Lavik persists through six SPDK NVMe devices. Persistence and cache settings differ. See [Hash/Set manifest](published-main.json) and [LSET manifest](lset-large-published.json).
 
 
 
@@ -103,7 +103,7 @@ For 1 MiB `LINDEX`, Lavik peaked near 139k QPS with 128 B entries and 677k with 
 
 ![Hash 1 MiB, 128 B: HGET / HSET](charts/hash-1048576-128-ab.png)
 
-**Refreshed measurement: main `f1268014`.** 50,000 keys × 1 MiB/key; 128 B. [Raw](raw/lavik-mainf126-hash-1048576-k50000-f128-20261001/). [Seed provenance](raw/lavik-seed-mainf126-hash-1048576-k50000-f128-20261001/).
+**Measured main `06562381` and [PR #235](https://github.com/eloqdata/lavik/pull/235) `09871950`.** 50,000 keys × 1 MiB/key; 128 B. All points had zero errors; every key passed before/after cardinality validation. [main raw](raw/lavik-pipeline-main-hash-1048576-k50000-f128-20261001/) · [main seed](raw/lavik-seed-pipeline-main-hash-1048576-k50000-f128-20261001/) · [pr raw](raw/lavik-pipeline-pr-hash-1048576-k50000-f128-20261001/) · [pr seed](raw/lavik-seed-pipeline-pr-hash-1048576-k50000-f128-20261001/).
 
 ![Hash 1 MiB, 1024 B: HGET / HSET](charts/hash-1048576-1024-ab.png)
 
