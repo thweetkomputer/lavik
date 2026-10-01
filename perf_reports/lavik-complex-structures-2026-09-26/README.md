@@ -11,7 +11,7 @@ connections; the vertical axis is completed commands per second.
 
 ## 2026-10-01 main refresh
 
-PR #228 is merged and its separate Hash/Set curves are removed. The new baseline is main `f1268014`. Refreshed conditions: hash/1 MiB/128 B. Pending conditions retain their actual previous main revision. List continues to compare unmerged [PR #233](https://github.com/eloqdata/lavik/pull/233).
+PR #228 is merged and its separate Hash/Set curves are removed. The new baseline is main `f1268014`. Refreshed conditions: hash/1 MiB/128 B, hash/1 MiB/1024 B. Pending conditions retain their actual previous main revision. List continues to compare unmerged [PR #233](https://github.com/eloqdata/lavik/pull/233).
 
 Each refreshed Hash/Set condition starts on freshly cleared dedicated benchmark media, is seeded independently, waits for cleanup, restarts for recovery, and runs clean eight-second points without perf: 50,000 keys at 1 MiB and 500 keys at 100 MiB. Each point is measured once, without confidence intervals. Changes across dates include both code and physical-layout changes and cannot be attributed solely to #228.
 
@@ -29,7 +29,7 @@ Redis, Valkey and Kvrocks retain their previous matching-key-count measurements.
 
 ![Hash 1 MiB, 1024 B: HGET / HSET](charts/hash-1048576-1024-ab.png)
 
-**Previous measured main; refresh pending: main `a6e93d3d`.** 50,000 keys × 1 MiB/key; 1024 B. [Raw](raw/lavik-maina6d-hash-1m-k50000-f1024-20260930/).
+**Refreshed measurement: main `f1268014`.** 50,000 keys × 1 MiB/key; 1024 B. [Raw](raw/lavik-mainf126-hash-1048576-k50000-f1024-20261001/). [Seed provenance](raw/lavik-seed-mainf126-hash-1048576-k50000-f1024-20261001/).
 
 #### 100 MiB
 
