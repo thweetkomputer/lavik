@@ -219,19 +219,19 @@ value、member 或元素为 128 B 或 1 KiB。Stream 的字段名和各结构元
 
 ### LSET：增加独立 key
 
-1 MiB/key 使用 50,000 个 key，100 MiB/key 使用 500 个 key；本轮元素均为 1 KiB。每个版本独立灌入相同初始数据，32 个导入连接、128 KiB RPUSH 批次、导入 pipeline=4；正式 memtier 为单元素 LSET、pipeline=1、每点 10 秒，覆盖 80/320/1280/2560/5120 连接。全部连接数测完后再单独运行 CPU 采样，采样测点不混入曲线。早期四库图使用不同 key 数量，保留在各自负载下。
+1 MiB/key 使用 50,000 个 key，100 MiB/key 使用 500 个 key；本轮元素均为 1 KiB。每个版本独立灌入相同初始数据；10 月 1 日的新测量还会先清空专用测试盘。32 个导入连接、128 KiB RPUSH 批次、导入 pipeline=4；正式 memtier 为单元素 LSET、pipeline=1、每点 10 秒，覆盖 80/320/1280/2560/5120 连接。全部连接数测完后再单独运行 CPU 采样，采样测点不混入曲线。早期四库图使用不同 key 数量，保留在各自负载下。
 
 #### 1 MiB/key × 50,000 keys
 
 ![LSET 1 MiB, 50,000 keys: main / PR #233](charts/list-lset-1048576-1024-k50000-main-pr.png)
 
-Main 为 83.7–100.9k QPS，PR 为 115.2–142.0k QPS；同连接数比值为 1.32–1.41×。 全部 key 在测前、测后完成元素数量校验，所有测点零错误。 [Main raw](raw/lavik-lset-large-maina8-1048576-k50000-f1024-20260930/) · [PR raw](raw/lavik-lset-large-pr233-759832d8-1048576-k50000-f1024-20260930/) · [CSV](list-lset-1048576-1024-k50000-main-pr.csv).
+Main `a8c926d4` / PR #233 `759832d8`. Main 为 83.7–100.9k QPS，PR 为 115.2–142.0k QPS；同连接数比值为 1.32–1.41×。 全部 key 在测前、测后完成元素数量校验，所有测点零错误。 [Main raw](raw/lavik-lset-large-maina8-1048576-k50000-f1024-20260930/) · [PR raw](raw/lavik-lset-large-pr233-759832d8-1048576-k50000-f1024-20260930/) · [CSV](list-lset-1048576-1024-k50000-main-pr.csv).
 
 #### 100 MiB/key × 500 keys
 
 ![LSET 100 MiB, 500 keys: main / PR #233](charts/list-lset-104857600-1024-k500-main-pr.png)
 
-Main 为 7.2–7.4k QPS，PR 为 82.1–107.2k QPS；同连接数比值为 11.24–14.53×。 全部 key 在测前、测后完成元素数量校验，所有测点零错误。 [Main raw](raw/lavik-lset-large-maina8-104857600-k500-f1024-20260930/) · [PR raw](raw/lavik-lset-large-pr233-759832d8-104857600-k500-f1024-clean-grid-20260930/) · [CSV](list-lset-104857600-1024-k500-main-pr.csv).
+Main `f1268014` / PR #233 `0af92a14`. Main 为 7.2–7.4k QPS，PR 为 92.1–129.4k QPS；同连接数比值为 12.66–17.58×。 全部 key 在测前、测后完成元素数量校验，所有测点零错误。 [Main raw](raw/lavik-lset-mainf126-104857600-k500-f1024-20261001/) · [PR raw](raw/lavik-lset-radix-104857600-k500-f1024-20261001/) · [CSV](list-lset-104857600-1024-k500-main-pr.csv).
 
 ### LRANGE 0 -1
 

@@ -228,19 +228,19 @@ Each figure identifies its measured revision and key count. The 100 MiB / 1 KiB 
 
 ### LSET with more independent keys
 
-Use 50,000 keys at 1 MiB/key and 500 keys at 100 MiB/key, with 1 KiB elements. Each version receives independently seeded identical initial data using 32 seed clients, 128 KiB RPUSH batches and seed pipeline=4. Measured memtier traffic is single-element LSET with pipeline=1, 10 seconds per point, at 80/320/1280/2560/5120 connections. CPU profiles run after the entire clean grid and are excluded from curves. Earlier peer curves retain their own workloads and key counts.
+Use 50,000 keys at 1 MiB/key and 500 keys at 100 MiB/key, with 1 KiB elements. Each version receives independently seeded identical initial data; the October 1 runs additionally clear dedicated benchmark media before each seed. Seeding uses 32 seed clients, 128 KiB RPUSH batches and seed pipeline=4. Measured memtier traffic is single-element LSET with pipeline=1, 10 seconds per point, at 80/320/1280/2560/5120 connections. CPU profiles run after the entire clean grid and are excluded from curves. Earlier peer curves retain their own workloads and key counts.
 
 #### 1 MiB/key × 50,000 keys
 
 ![LSET 1 MiB, 50,000 keys: main / PR #233](charts/list-lset-1048576-1024-k50000-main-pr.png)
 
-Main: 83.7–100.9k QPS; PR: 115.2–142.0k QPS, or 1.32–1.41× at matching connection counts. All keys passed before/after cardinality validation; all points completed with zero errors. [Main raw](raw/lavik-lset-large-maina8-1048576-k50000-f1024-20260930/) · [PR raw](raw/lavik-lset-large-pr233-759832d8-1048576-k50000-f1024-20260930/) · [CSV](list-lset-1048576-1024-k50000-main-pr.csv).
+Main `a8c926d4` / PR #233 `759832d8`. Main: 83.7–100.9k QPS; PR: 115.2–142.0k QPS, or 1.32–1.41× at matching connection counts. All keys passed before/after cardinality validation; all points completed with zero errors. [Main raw](raw/lavik-lset-large-maina8-1048576-k50000-f1024-20260930/) · [PR raw](raw/lavik-lset-large-pr233-759832d8-1048576-k50000-f1024-20260930/) · [CSV](list-lset-1048576-1024-k50000-main-pr.csv).
 
 #### 100 MiB/key × 500 keys
 
 ![LSET 100 MiB, 500 keys: main / PR #233](charts/list-lset-104857600-1024-k500-main-pr.png)
 
-Main: 7.2–7.4k QPS; PR: 82.1–107.2k QPS, or 11.24–14.53× at matching connection counts. All keys passed before/after cardinality validation; all points completed with zero errors. [Main raw](raw/lavik-lset-large-maina8-104857600-k500-f1024-20260930/) · [PR raw](raw/lavik-lset-large-pr233-759832d8-104857600-k500-f1024-clean-grid-20260930/) · [CSV](list-lset-104857600-1024-k500-main-pr.csv).
+Main `f1268014` / PR #233 `0af92a14`. Main: 7.2–7.4k QPS; PR: 92.1–129.4k QPS, or 12.66–17.58× at matching connection counts. All keys passed before/after cardinality validation; all points completed with zero errors. [Main raw](raw/lavik-lset-mainf126-104857600-k500-f1024-20261001/) · [PR raw](raw/lavik-lset-radix-104857600-k500-f1024-20261001/) · [CSV](list-lset-104857600-1024-k500-main-pr.csv).
 
 ### LRANGE 0 -1
 
