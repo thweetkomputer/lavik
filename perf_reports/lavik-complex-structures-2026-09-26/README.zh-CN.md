@@ -8,14 +8,17 @@ Redis 兼容数据结构。每张图固定数据结构、每个 key 的逻辑数
 
 **最新 main 复测见 [List 章开头](#list)：`06562381`，已包含 #233。** 两档 LSET 每张图都展示 Redis、Valkey、Kvrocks 和 Lavik main；已删除 #233 独立曲线。Hash/Set 按下方进度逐组更新 main/PR 对比。[历史 perf 诊断](diagnostics/lset-20261001/README.md)。
 
-**共用提交依赖优化：[PR #235](https://github.com/eloqdata/lavik/pull/235) 与 main `06562381` 同图，并保留 Redis、Valkey、Kvrocks。已完成 1/8 组 Hash/Set 对比；未完成图保留实际测量版本。**
+**共用提交依赖优化：[PR #235](https://github.com/eloqdata/lavik/pull/235) 与 main `06562381` 同图，并保留 Redis、Valkey、Kvrocks。已完成 2/8 组 Hash/Set 对比；未完成图保留实际测量版本。**
 
 ## 2026-10-01 共用提交路径对比
 
 基线 main `06562381` 已包含 #228/#233。新优化 [PR #235](https://github.com/eloqdata/lavik/pull/235) 把本 worker 已排队前驱的等待移到后台提交阶段；Hash、Set、List、ZSet、Stream 和分组 String 共用这条路径。普通单命令也适用；跨协调 worker 的 EXEC/Lua 前驱和退回紧凑表示的路径仍保留原等待。小 SET/GET 原本就可访问待刷缓冲，本次未加入数据缓存。
 
-已完成 1/8 组 Hash/Set main/PR 独立复测；待测图保留原版本并在图下注明。Redis、Valkey、Kvrocks 沿用同 key 数原始结果。Redis/Valkey 不持久化；Kvrocks 为无压缩 RAID0、关闭 WAL、80 GiB block/blob cache；Lavik 使用六块 NVMe SPDK 持久化。持久化与缓存配置不同。版本及来源见 [Hash/Set 清单](published-main.json)、[LSET 清单](lset-large-published.json)。
+已完成 2/8 组 Hash/Set main/PR 独立复测；待测图保留原版本并在图下注明。Redis、Valkey、Kvrocks 沿用同 key 数原始结果。Redis/Valkey 不持久化；Kvrocks 为无压缩 RAID0、关闭 WAL、80 GiB block/blob cache；Lavik 使用六块 NVMe SPDK 持久化。持久化与缓存配置不同。版本及来源见 [Hash/Set 清单](published-main.json)、[LSET 清单](lset-large-published.json)。
 
+
+
+[共用提交路径的 CPU 与 I/O 诊断](diagnostics/shared-pipeline-20261001/README.md)：100 MiB/1 KiB HSET 的提升为 10.3%–21.1%，峰值 154.4k QPS；尚未追平 Kvrocks。采样独立于正式曲线。
 
 
 本轮 #235 对比的 main/PR 都独立清盘，用相同 RESTORE payload 预置并重启恢复，再跑无采样八秒测点；1 MiB 使用 32 个导入连接，100 MiB 使用 8 个。初始逻辑数据相同、物理布局独立。此前 1 MiB main 使用 HSET/SADD 导入，因此跨轮差异不能全部归因于代码。每点一次，不提供置信区间；其他三库沿用相同 key 数的原始结果。
@@ -177,7 +180,7 @@ Redis 兼容数据结构。每张图固定数据结构、每个 key 的逻辑数
 
 ![Set 100 MiB, 1024 B: SISMEMBER / SADD + SREM](charts/set-104857600-1024-ab.png)
 
-**本轮重新实测: main `f1268014`.** 500 keys × 100 MiB/key; 1024 B. [Raw](raw/lavik-mainf126-set-104857600-k500-f1024-20261001/). [Seed provenance](raw/lavik-seed-mainf126-set-104857600-k500-f1024-20261001/).
+**main `06562381` 与 [PR #235](https://github.com/eloqdata/lavik/pull/235) `09871950` 实测。** 500 keys × 100 MiB/key; 1024 B. 全部测点零错误，测前测后逐 key 数量校验通过。 [main raw](raw/lavik-pipeline-main-set-104857600-k500-f1024-20261001/) · [main seed](raw/lavik-seed-pipeline-main-set-104857600-k500-f1024-20261001/) · [pr raw](raw/lavik-pipeline-pr-set-104857600-k500-f1024-20261001/) · [pr seed](raw/lavik-seed-pipeline-pr-set-104857600-k500-f1024-20261001/).
 
 ### SMEMBERS
 
