@@ -6,13 +6,11 @@
 Redis 兼容数据结构。每张图固定数据结构、每个 key 的逻辑数据量和
 每个元素的字节数。横轴为连接数，纵轴为每秒完成的命令数。
 
-**最新优化对比在 [List 章开头](#list)：main `f1268014` / PR #233 `0af92a14`。** 1 MiB/key × 50,000 key、100 MiB/key × 500 key，每张图同时展示其他三库、main 和 PR 五条线。[perf 诊断与复现](diagnostics/lset-20261001/README.md)。
-
-Hash/Set 目前展示已合并 #228 后的 main；本轮 PR #233 的最新实测对比是下方 LSET 两组。
+**最新 main 复测见 [List 章开头](#list)：`06562381`，已包含 #233。** 两档 LSET 每张图都展示 Redis、Valkey、Kvrocks 和 Lavik main；已删除 #233 独立曲线。Hash/Set 暂保留此前 main `f1268014` 的实测。[历史 perf 诊断](diagnostics/lset-20261001/README.md)。
 
 ## 2026-10-01 main 更新
 
-PR #228 已合并，Hash/Set 图中已移除其独立曲线。本轮基线为 main `f1268014`；已完成新基线测量：hash/1 MiB/128 B, hash/1 MiB/1024 B, hash/100 MiB/128 B, hash/100 MiB/1024 B, set/1 MiB/128 B, set/1 MiB/1024 B, set/100 MiB/128 B, set/100 MiB/1024 B。八组共 100 个正式测点全部完成，零错误，测前测后逐 key 数量校验通过。List 的未合并优化继续对比 [PR #233](https://github.com/eloqdata/lavik/pull/233)。
+PR #228 已合并，Hash/Set 图中已移除其独立曲线。本轮基线为 main `f1268014`；已完成新基线测量：hash/1 MiB/128 B, hash/1 MiB/1024 B, hash/100 MiB/128 B, hash/100 MiB/1024 B, set/1 MiB/128 B, set/1 MiB/1024 B, set/100 MiB/128 B, set/100 MiB/1024 B。八组共 100 个正式测点全部完成，零错误，测前测后逐 key 数量校验通过。List 的 #233 已合并，下面的大 key LSET 已用 main `06562381` 重新实测。
 
 每项 Hash/Set 新测量均清空专用测试盘、独立预置数据，等待清理后重启恢复，再跑无 perf 的八秒测点；1 MiB 使用 50,000 个 key，100 MiB 使用 500 个 key。每点只测一次，不能据此给出置信区间。不同日期的绝对 QPS 变化同时包含版本和数据布局变化，不单独归因于 #228。
 
@@ -24,7 +22,7 @@ Hash/Set 的 Redis、Valkey、Kvrocks 沿用已有同 key 数测量；LSET 的�
 
 ## List
 
-本轮优化对比：[PR #233](https://github.com/eloqdata/lavik/pull/233) `0af92a14` 与 main `f1268014`。下方两张 LSET 图同时展示 Redis、Valkey、Kvrocks、main 和优化后的 PR 曲线；每张图固定 key 数、每 key 大小和元素大小。
+本轮基线：main `06562381`，已包含合并的 #233。每档 LSET 图固定 key 数、每 key 大小、元素大小，并展示其他三库同规模结果。
 
 ### LSET：增加独立 key
 
@@ -38,11 +36,11 @@ Hash/Set 的 Redis、Valkey、Kvrocks 沿用已有同 key 数测量；LSET 的�
 
 #### 100 MiB/key × 500 keys
 
-![LSET 100 MiB, 500 keys: Redis / Valkey / Kvrocks / Lavik main / PR #233](charts/list-lset-104857600-1024-k500-main-pr.png)
+![LSET 100 MiB, 500 keys: Redis / Valkey / Kvrocks / Lavik main](charts/list-lset-104857600-1024-k500-main-pr.png)
 
-**同图五条线：Redis、Valkey、Kvrocks、Lavik main、PR #233。** 五者均使用相同 key 数、元素大小、RPUSH 预置方式、五档连接数和每点十秒；其他三库补测数据已完成逐 key 数量校验，所有测点零错误。 [redis raw](raw/redis-lset-matched-104857600-k500-f1024-20261001/) · [valkey raw](raw/valkey-lset-matched-104857600-k500-f1024-20261001/) · [kvrocks raw](raw/kvrocks-lset-matched-104857600-k500-f1024-20261001/).
+**四库同图：Redis、Valkey、Kvrocks、Lavik main `06562381`。** #233 已合并，已用 main 重新清盘、独立灌入并测量，原 main / PR 两条线已替换为最新 main 一条线。Lavik 为 **92.6–130.3k QPS**；五档连接数测点零错误，测前测后逐 key 数量校验通过。其他三库保留同规模原始测量。 [Main raw](raw/lavik-lset-main0656-104857600-k500-f1024-20261001/) · [CSV](list-lset-104857600-1024-k500-main-pr.csv) · [redis raw](raw/redis-lset-matched-104857600-k500-f1024-20261001/) · [valkey raw](raw/valkey-lset-matched-104857600-k500-f1024-20261001/) · [kvrocks raw](raw/kvrocks-lset-matched-104857600-k500-f1024-20261001/).
 
-Main `f1268014` / PR #233 `0af92a14`. Main 为 7.2–7.4k QPS，PR 为 92.1–129.4k QPS；同连接数比值为 12.66–17.58×。 全部 key 在测前、测后完成元素数量校验，所有测点零错误。 [Main raw](raw/lavik-lset-mainf126-104857600-k500-f1024-20261001/) · [PR raw](raw/lavik-lset-radix-104857600-k500-f1024-20261001/) · [CSV](list-lset-104857600-1024-k500-main-pr.csv).
+
 
 <details>
 <summary>历史 LINDEX / LSET：较少 key 的旧版本测量（展开）</summary>

@@ -7,13 +7,11 @@ remote memtier client. Each chart fixes the collection type, logical payload per
 key, and payload bytes per entry. The horizontal axis is simultaneous
 connections; the vertical axis is completed commands per second.
 
-**See the latest optimization comparison at the [start of the List chapter](#list): main `f1268014` / PR #233 `0af92a14`.** Two charts cover 50,000 × 1 MiB and 500 × 100 MiB keys. [Perf diagnosis and reproduction](diagnostics/lset-20261001/README.md).
-
-Hash/Set shows main after #228 merged; the latest measured PR #233 comparison is the two LSET workloads below.
+**Latest main remeasurement: [List chapter](#list), `06562381`, including merged #233.** Each LSET chart includes Redis, Valkey, Kvrocks and Lavik main; the merged PR curve is removed. Hash/Set retains earlier main `f1268014` measurements. [Historical perf diagnosis](diagnostics/lset-20261001/README.md).
 
 ## 2026-10-01 main refresh
 
-PR #228 is merged and its separate Hash/Set curves are removed. The new baseline is main `f1268014`. Refreshed conditions: hash/1 MiB/128 B, hash/1 MiB/1024 B, hash/100 MiB/128 B, hash/100 MiB/1024 B, set/1 MiB/128 B, set/1 MiB/1024 B, set/100 MiB/128 B, set/100 MiB/1024 B. All eight conditions and 100 clean points completed with zero errors and before/after cardinality validation of every key. List continues to compare unmerged [PR #233](https://github.com/eloqdata/lavik/pull/233).
+PR #228 is merged and its separate Hash/Set curves are removed. The new baseline is main `f1268014`. Refreshed conditions: hash/1 MiB/128 B, hash/1 MiB/1024 B, hash/100 MiB/128 B, hash/100 MiB/1024 B, set/1 MiB/128 B, set/1 MiB/1024 B, set/100 MiB/128 B, set/100 MiB/1024 B. All eight conditions and 100 clean points completed with zero errors and before/after cardinality validation of every key. List #233 is merged; the large-key LSET curves below were remeasured on main `06562381`.
 
 Each refreshed Hash/Set condition starts on freshly cleared dedicated benchmark media, is seeded independently, waits for cleanup, restarts for recovery, and runs clean eight-second points without perf: 50,000 keys at 1 MiB and 500 keys at 100 MiB. Each point is measured once, without confidence intervals. Changes across dates include both code and physical-layout changes and cannot be attributed solely to #228.
 
@@ -25,7 +23,7 @@ Comparing each product's own peak over the measured connection grid, latest-main
 
 ## List
 
-Current optimization comparison: [PR #233](https://github.com/eloqdata/lavik/pull/233) `0af92a14` versus main `f1268014`. The two LSET charts below show Redis, Valkey, Kvrocks, measured main and optimized PR together at fixed key counts, key sizes and element sizes.
+Current baseline: main `06562381`, including merged #233. Each LSET chart fixes key counts, key sizes and entry sizes and includes the matched peer workloads.
 
 ### LSET with more independent keys
 
@@ -39,11 +37,11 @@ Use 50,000 keys at 1 MiB/key and 500 keys at 100 MiB/key, with 1 KiB elements. E
 
 #### 100 MiB/key × 500 keys
 
-![LSET 100 MiB, 500 keys: Redis / Valkey / Kvrocks / Lavik main / PR #233](charts/list-lset-104857600-1024-k500-main-pr.png)
+![LSET 100 MiB, 500 keys: Redis / Valkey / Kvrocks / Lavik main](charts/list-lset-104857600-1024-k500-main-pr.png)
 
-**Five lines on the same chart: Redis, Valkey, Kvrocks, Lavik main and PR #233.** All use matching key counts, entry sizes, RPUSH seeding, five connection levels and ten seconds per point. All peer points passed all-key cardinality checks with zero errors. [redis raw](raw/redis-lset-matched-104857600-k500-f1024-20261001/) · [valkey raw](raw/valkey-lset-matched-104857600-k500-f1024-20261001/) · [kvrocks raw](raw/kvrocks-lset-matched-104857600-k500-f1024-20261001/).
+**Four databases on one chart: Redis, Valkey, Kvrocks and Lavik main `06562381`.** #233 is merged. Main was independently reseeded on freshly cleared media and remeasured; its curve replaces both earlier main and PR curves. Lavik reaches **92.6–130.3k QPS**; all five points passed zero-error and before/after all-key cardinality checks. Peers retain the matched-workload measurements. [Main raw](raw/lavik-lset-main0656-104857600-k500-f1024-20261001/) · [CSV](list-lset-104857600-1024-k500-main-pr.csv) · [redis raw](raw/redis-lset-matched-104857600-k500-f1024-20261001/) · [valkey raw](raw/valkey-lset-matched-104857600-k500-f1024-20261001/) · [kvrocks raw](raw/kvrocks-lset-matched-104857600-k500-f1024-20261001/).
 
-Main `f1268014` / PR #233 `0af92a14`. Main: 7.2–7.4k QPS; PR: 92.1–129.4k QPS, or 12.66–17.58× at matching connection counts. All keys passed before/after cardinality validation; all points completed with zero errors. [Main raw](raw/lavik-lset-mainf126-104857600-k500-f1024-20261001/) · [PR raw](raw/lavik-lset-radix-104857600-k500-f1024-20261001/) · [CSV](list-lset-104857600-1024-k500-main-pr.csv).
+
 
 <details>
 <summary>Historical LINDEX / LSET: earlier revisions with fewer keys (expand)</summary>
