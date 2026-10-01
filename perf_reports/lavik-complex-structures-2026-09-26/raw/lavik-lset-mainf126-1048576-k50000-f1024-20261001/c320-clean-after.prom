@@ -1,0 +1,748 @@
+# HELP lavik_server_ready Whether storage recovery is complete and Redis requests are being accepted.
+# TYPE lavik_server_ready gauge
+lavik_server_ready 1
+# HELP lavik_commands_total Completed Redis commands.
+# TYPE lavik_commands_total counter
+lavik_commands_total 2326481
+# HELP lavik_command_calls_total Completed Redis commands by command.
+# TYPE lavik_command_calls_total counter
+lavik_command_calls_total{command="ping"} 1
+lavik_command_calls_total{command="dbsize"} 1
+lavik_command_calls_total{command="flushall"} 1
+lavik_command_calls_total{command="rpush"} 400000
+lavik_command_calls_total{command="llen"} 50000
+lavik_command_calls_total{command="lindex"} 1
+lavik_command_calls_total{command="lset"} 1876471
+lavik_command_calls_total{command="info"} 6
+# HELP lavik_command_duration_seconds Redis command execution latency, excluding socket response writes.
+# TYPE lavik_command_duration_seconds histogram
+lavik_command_duration_seconds_bucket{command="ping",le="0.000001"} 0
+lavik_command_duration_seconds_bucket{command="ping",le="0.000002"} 0
+lavik_command_duration_seconds_bucket{command="ping",le="0.000004"} 0
+lavik_command_duration_seconds_bucket{command="ping",le="0.000008"} 0
+lavik_command_duration_seconds_bucket{command="ping",le="0.000016"} 1
+lavik_command_duration_seconds_bucket{command="ping",le="0.000032"} 1
+lavik_command_duration_seconds_bucket{command="ping",le="0.000064"} 1
+lavik_command_duration_seconds_bucket{command="ping",le="0.000128"} 1
+lavik_command_duration_seconds_bucket{command="ping",le="0.000256"} 1
+lavik_command_duration_seconds_bucket{command="ping",le="0.000512"} 1
+lavik_command_duration_seconds_bucket{command="ping",le="0.001"} 1
+lavik_command_duration_seconds_bucket{command="ping",le="0.00125"} 1
+lavik_command_duration_seconds_bucket{command="ping",le="0.0015"} 1
+lavik_command_duration_seconds_bucket{command="ping",le="0.002"} 1
+lavik_command_duration_seconds_bucket{command="ping",le="0.0025"} 1
+lavik_command_duration_seconds_bucket{command="ping",le="0.003"} 1
+lavik_command_duration_seconds_bucket{command="ping",le="0.0035"} 1
+lavik_command_duration_seconds_bucket{command="ping",le="0.004"} 1
+lavik_command_duration_seconds_bucket{command="ping",le="0.005"} 1
+lavik_command_duration_seconds_bucket{command="ping",le="0.006"} 1
+lavik_command_duration_seconds_bucket{command="ping",le="0.008"} 1
+lavik_command_duration_seconds_bucket{command="ping",le="0.016"} 1
+lavik_command_duration_seconds_bucket{command="ping",le="0.032"} 1
+lavik_command_duration_seconds_bucket{command="ping",le="0.064"} 1
+lavik_command_duration_seconds_bucket{command="ping",le="0.128"} 1
+lavik_command_duration_seconds_bucket{command="ping",le="0.256"} 1
+lavik_command_duration_seconds_bucket{command="ping",le="0.512"} 1
+lavik_command_duration_seconds_bucket{command="ping",le="1"} 1
+lavik_command_duration_seconds_bucket{command="ping",le="2"} 1
+lavik_command_duration_seconds_bucket{command="ping",le="4"} 1
+lavik_command_duration_seconds_bucket{command="ping",le="8"} 1
+lavik_command_duration_seconds_bucket{command="ping",le="+Inf"} 1
+lavik_command_duration_seconds_sum{command="ping"} 1.10263e-05
+lavik_command_duration_seconds_count{command="ping"} 1
+lavik_command_duration_seconds_bucket{command="dbsize",le="0.000001"} 0
+lavik_command_duration_seconds_bucket{command="dbsize",le="0.000002"} 0
+lavik_command_duration_seconds_bucket{command="dbsize",le="0.000004"} 0
+lavik_command_duration_seconds_bucket{command="dbsize",le="0.000008"} 0
+lavik_command_duration_seconds_bucket{command="dbsize",le="0.000016"} 0
+lavik_command_duration_seconds_bucket{command="dbsize",le="0.000032"} 0
+lavik_command_duration_seconds_bucket{command="dbsize",le="0.000064"} 0
+lavik_command_duration_seconds_bucket{command="dbsize",le="0.000128"} 0
+lavik_command_duration_seconds_bucket{command="dbsize",le="0.000256"} 1
+lavik_command_duration_seconds_bucket{command="dbsize",le="0.000512"} 1
+lavik_command_duration_seconds_bucket{command="dbsize",le="0.001"} 1
+lavik_command_duration_seconds_bucket{command="dbsize",le="0.00125"} 1
+lavik_command_duration_seconds_bucket{command="dbsize",le="0.0015"} 1
+lavik_command_duration_seconds_bucket{command="dbsize",le="0.002"} 1
+lavik_command_duration_seconds_bucket{command="dbsize",le="0.0025"} 1
+lavik_command_duration_seconds_bucket{command="dbsize",le="0.003"} 1
+lavik_command_duration_seconds_bucket{command="dbsize",le="0.0035"} 1
+lavik_command_duration_seconds_bucket{command="dbsize",le="0.004"} 1
+lavik_command_duration_seconds_bucket{command="dbsize",le="0.005"} 1
+lavik_command_duration_seconds_bucket{command="dbsize",le="0.006"} 1
+lavik_command_duration_seconds_bucket{command="dbsize",le="0.008"} 1
+lavik_command_duration_seconds_bucket{command="dbsize",le="0.016"} 1
+lavik_command_duration_seconds_bucket{command="dbsize",le="0.032"} 1
+lavik_command_duration_seconds_bucket{command="dbsize",le="0.064"} 1
+lavik_command_duration_seconds_bucket{command="dbsize",le="0.128"} 1
+lavik_command_duration_seconds_bucket{command="dbsize",le="0.256"} 1
+lavik_command_duration_seconds_bucket{command="dbsize",le="0.512"} 1
+lavik_command_duration_seconds_bucket{command="dbsize",le="1"} 1
+lavik_command_duration_seconds_bucket{command="dbsize",le="2"} 1
+lavik_command_duration_seconds_bucket{command="dbsize",le="4"} 1
+lavik_command_duration_seconds_bucket{command="dbsize",le="8"} 1
+lavik_command_duration_seconds_bucket{command="dbsize",le="+Inf"} 1
+lavik_command_duration_seconds_sum{command="dbsize"} 0.000157703
+lavik_command_duration_seconds_count{command="dbsize"} 1
+lavik_command_duration_seconds_bucket{command="flushall",le="0.000001"} 0
+lavik_command_duration_seconds_bucket{command="flushall",le="0.000002"} 0
+lavik_command_duration_seconds_bucket{command="flushall",le="0.000004"} 0
+lavik_command_duration_seconds_bucket{command="flushall",le="0.000008"} 0
+lavik_command_duration_seconds_bucket{command="flushall",le="0.000016"} 0
+lavik_command_duration_seconds_bucket{command="flushall",le="0.000032"} 0
+lavik_command_duration_seconds_bucket{command="flushall",le="0.000064"} 0
+lavik_command_duration_seconds_bucket{command="flushall",le="0.000128"} 0
+lavik_command_duration_seconds_bucket{command="flushall",le="0.000256"} 0
+lavik_command_duration_seconds_bucket{command="flushall",le="0.000512"} 0
+lavik_command_duration_seconds_bucket{command="flushall",le="0.001"} 0
+lavik_command_duration_seconds_bucket{command="flushall",le="0.00125"} 0
+lavik_command_duration_seconds_bucket{command="flushall",le="0.0015"} 0
+lavik_command_duration_seconds_bucket{command="flushall",le="0.002"} 0
+lavik_command_duration_seconds_bucket{command="flushall",le="0.0025"} 0
+lavik_command_duration_seconds_bucket{command="flushall",le="0.003"} 0
+lavik_command_duration_seconds_bucket{command="flushall",le="0.0035"} 0
+lavik_command_duration_seconds_bucket{command="flushall",le="0.004"} 0
+lavik_command_duration_seconds_bucket{command="flushall",le="0.005"} 0
+lavik_command_duration_seconds_bucket{command="flushall",le="0.006"} 0
+lavik_command_duration_seconds_bucket{command="flushall",le="0.008"} 0
+lavik_command_duration_seconds_bucket{command="flushall",le="0.016"} 1
+lavik_command_duration_seconds_bucket{command="flushall",le="0.032"} 1
+lavik_command_duration_seconds_bucket{command="flushall",le="0.064"} 1
+lavik_command_duration_seconds_bucket{command="flushall",le="0.128"} 1
+lavik_command_duration_seconds_bucket{command="flushall",le="0.256"} 1
+lavik_command_duration_seconds_bucket{command="flushall",le="0.512"} 1
+lavik_command_duration_seconds_bucket{command="flushall",le="1"} 1
+lavik_command_duration_seconds_bucket{command="flushall",le="2"} 1
+lavik_command_duration_seconds_bucket{command="flushall",le="4"} 1
+lavik_command_duration_seconds_bucket{command="flushall",le="8"} 1
+lavik_command_duration_seconds_bucket{command="flushall",le="+Inf"} 1
+lavik_command_duration_seconds_sum{command="flushall"} 0.0121387
+lavik_command_duration_seconds_count{command="flushall"} 1
+lavik_command_duration_seconds_bucket{command="rpush",le="0.000001"} 0
+lavik_command_duration_seconds_bucket{command="rpush",le="0.000002"} 0
+lavik_command_duration_seconds_bucket{command="rpush",le="0.000004"} 0
+lavik_command_duration_seconds_bucket{command="rpush",le="0.000008"} 0
+lavik_command_duration_seconds_bucket{command="rpush",le="0.000016"} 0
+lavik_command_duration_seconds_bucket{command="rpush",le="0.000032"} 0
+lavik_command_duration_seconds_bucket{command="rpush",le="0.000064"} 10
+lavik_command_duration_seconds_bucket{command="rpush",le="0.000128"} 16465
+lavik_command_duration_seconds_bucket{command="rpush",le="0.000256"} 118804
+lavik_command_duration_seconds_bucket{command="rpush",le="0.000512"} 211404
+lavik_command_duration_seconds_bucket{command="rpush",le="0.001"} 271451
+lavik_command_duration_seconds_bucket{command="rpush",le="0.00125"} 285449
+lavik_command_duration_seconds_bucket{command="rpush",le="0.0015"} 294666
+lavik_command_duration_seconds_bucket{command="rpush",le="0.002"} 305262
+lavik_command_duration_seconds_bucket{command="rpush",le="0.0025"} 316022
+lavik_command_duration_seconds_bucket{command="rpush",le="0.003"} 325235
+lavik_command_duration_seconds_bucket{command="rpush",le="0.0035"} 330085
+lavik_command_duration_seconds_bucket{command="rpush",le="0.004"} 333270
+lavik_command_duration_seconds_bucket{command="rpush",le="0.005"} 339757
+lavik_command_duration_seconds_bucket{command="rpush",le="0.006"} 345256
+lavik_command_duration_seconds_bucket{command="rpush",le="0.008"} 357642
+lavik_command_duration_seconds_bucket{command="rpush",le="0.016"} 382692
+lavik_command_duration_seconds_bucket{command="rpush",le="0.032"} 398579
+lavik_command_duration_seconds_bucket{command="rpush",le="0.064"} 399672
+lavik_command_duration_seconds_bucket{command="rpush",le="0.128"} 399996
+lavik_command_duration_seconds_bucket{command="rpush",le="0.256"} 400000
+lavik_command_duration_seconds_bucket{command="rpush",le="0.512"} 400000
+lavik_command_duration_seconds_bucket{command="rpush",le="1"} 400000
+lavik_command_duration_seconds_bucket{command="rpush",le="2"} 400000
+lavik_command_duration_seconds_bucket{command="rpush",le="4"} 400000
+lavik_command_duration_seconds_bucket{command="rpush",le="8"} 400000
+lavik_command_duration_seconds_bucket{command="rpush",le="+Inf"} 400000
+lavik_command_duration_seconds_sum{command="rpush"} 1041.22
+lavik_command_duration_seconds_count{command="rpush"} 400000
+lavik_command_duration_seconds_bucket{command="llen",le="0.000001"} 0
+lavik_command_duration_seconds_bucket{command="llen",le="0.000002"} 1617
+lavik_command_duration_seconds_bucket{command="llen",le="0.000004"} 4320
+lavik_command_duration_seconds_bucket{command="llen",le="0.000008"} 4380
+lavik_command_duration_seconds_bucket{command="llen",le="0.000016"} 48976
+lavik_command_duration_seconds_bucket{command="llen",le="0.000032"} 49889
+lavik_command_duration_seconds_bucket{command="llen",le="0.000064"} 49993
+lavik_command_duration_seconds_bucket{command="llen",le="0.000128"} 49997
+lavik_command_duration_seconds_bucket{command="llen",le="0.000256"} 49999
+lavik_command_duration_seconds_bucket{command="llen",le="0.000512"} 50000
+lavik_command_duration_seconds_bucket{command="llen",le="0.001"} 50000
+lavik_command_duration_seconds_bucket{command="llen",le="0.00125"} 50000
+lavik_command_duration_seconds_bucket{command="llen",le="0.0015"} 50000
+lavik_command_duration_seconds_bucket{command="llen",le="0.002"} 50000
+lavik_command_duration_seconds_bucket{command="llen",le="0.0025"} 50000
+lavik_command_duration_seconds_bucket{command="llen",le="0.003"} 50000
+lavik_command_duration_seconds_bucket{command="llen",le="0.0035"} 50000
+lavik_command_duration_seconds_bucket{command="llen",le="0.004"} 50000
+lavik_command_duration_seconds_bucket{command="llen",le="0.005"} 50000
+lavik_command_duration_seconds_bucket{command="llen",le="0.006"} 50000
+lavik_command_duration_seconds_bucket{command="llen",le="0.008"} 50000
+lavik_command_duration_seconds_bucket{command="llen",le="0.016"} 50000
+lavik_command_duration_seconds_bucket{command="llen",le="0.032"} 50000
+lavik_command_duration_seconds_bucket{command="llen",le="0.064"} 50000
+lavik_command_duration_seconds_bucket{command="llen",le="0.128"} 50000
+lavik_command_duration_seconds_bucket{command="llen",le="0.256"} 50000
+lavik_command_duration_seconds_bucket{command="llen",le="0.512"} 50000
+lavik_command_duration_seconds_bucket{command="llen",le="1"} 50000
+lavik_command_duration_seconds_bucket{command="llen",le="2"} 50000
+lavik_command_duration_seconds_bucket{command="llen",le="4"} 50000
+lavik_command_duration_seconds_bucket{command="llen",le="8"} 50000
+lavik_command_duration_seconds_bucket{command="llen",le="+Inf"} 50000
+lavik_command_duration_seconds_sum{command="llen"} 0.509682
+lavik_command_duration_seconds_count{command="llen"} 50000
+lavik_command_duration_seconds_bucket{command="lindex",le="0.000001"} 0
+lavik_command_duration_seconds_bucket{command="lindex",le="0.000002"} 0
+lavik_command_duration_seconds_bucket{command="lindex",le="0.000004"} 0
+lavik_command_duration_seconds_bucket{command="lindex",le="0.000008"} 0
+lavik_command_duration_seconds_bucket{command="lindex",le="0.000016"} 0
+lavik_command_duration_seconds_bucket{command="lindex",le="0.000032"} 0
+lavik_command_duration_seconds_bucket{command="lindex",le="0.000064"} 0
+lavik_command_duration_seconds_bucket{command="lindex",le="0.000128"} 1
+lavik_command_duration_seconds_bucket{command="lindex",le="0.000256"} 1
+lavik_command_duration_seconds_bucket{command="lindex",le="0.000512"} 1
+lavik_command_duration_seconds_bucket{command="lindex",le="0.001"} 1
+lavik_command_duration_seconds_bucket{command="lindex",le="0.00125"} 1
+lavik_command_duration_seconds_bucket{command="lindex",le="0.0015"} 1
+lavik_command_duration_seconds_bucket{command="lindex",le="0.002"} 1
+lavik_command_duration_seconds_bucket{command="lindex",le="0.0025"} 1
+lavik_command_duration_seconds_bucket{command="lindex",le="0.003"} 1
+lavik_command_duration_seconds_bucket{command="lindex",le="0.0035"} 1
+lavik_command_duration_seconds_bucket{command="lindex",le="0.004"} 1
+lavik_command_duration_seconds_bucket{command="lindex",le="0.005"} 1
+lavik_command_duration_seconds_bucket{command="lindex",le="0.006"} 1
+lavik_command_duration_seconds_bucket{command="lindex",le="0.008"} 1
+lavik_command_duration_seconds_bucket{command="lindex",le="0.016"} 1
+lavik_command_duration_seconds_bucket{command="lindex",le="0.032"} 1
+lavik_command_duration_seconds_bucket{command="lindex",le="0.064"} 1
+lavik_command_duration_seconds_bucket{command="lindex",le="0.128"} 1
+lavik_command_duration_seconds_bucket{command="lindex",le="0.256"} 1
+lavik_command_duration_seconds_bucket{command="lindex",le="0.512"} 1
+lavik_command_duration_seconds_bucket{command="lindex",le="1"} 1
+lavik_command_duration_seconds_bucket{command="lindex",le="2"} 1
+lavik_command_duration_seconds_bucket{command="lindex",le="4"} 1
+lavik_command_duration_seconds_bucket{command="lindex",le="8"} 1
+lavik_command_duration_seconds_bucket{command="lindex",le="+Inf"} 1
+lavik_command_duration_seconds_sum{command="lindex"} 0.000114209
+lavik_command_duration_seconds_count{command="lindex"} 1
+lavik_command_duration_seconds_bucket{command="lset",le="0.000001"} 0
+lavik_command_duration_seconds_bucket{command="lset",le="0.000002"} 0
+lavik_command_duration_seconds_bucket{command="lset",le="0.000004"} 0
+lavik_command_duration_seconds_bucket{command="lset",le="0.000008"} 0
+lavik_command_duration_seconds_bucket{command="lset",le="0.000016"} 0
+lavik_command_duration_seconds_bucket{command="lset",le="0.000032"} 0
+lavik_command_duration_seconds_bucket{command="lset",le="0.000064"} 4
+lavik_command_duration_seconds_bucket{command="lset",le="0.000128"} 607
+lavik_command_duration_seconds_bucket{command="lset",le="0.000256"} 84439
+lavik_command_duration_seconds_bucket{command="lset",le="0.000512"} 623742
+lavik_command_duration_seconds_bucket{command="lset",le="0.001"} 1083273
+lavik_command_duration_seconds_bucket{command="lset",le="0.00125"} 1195794
+lavik_command_duration_seconds_bucket{command="lset",le="0.0015"} 1278838
+lavik_command_duration_seconds_bucket{command="lset",le="0.002"} 1397284
+lavik_command_duration_seconds_bucket{command="lset",le="0.0025"} 1479838
+lavik_command_duration_seconds_bucket{command="lset",le="0.003"} 1548394
+lavik_command_duration_seconds_bucket{command="lset",le="0.0035"} 1608894
+lavik_command_duration_seconds_bucket{command="lset",le="0.004"} 1656721
+lavik_command_duration_seconds_bucket{command="lset",le="0.005"} 1718411
+lavik_command_duration_seconds_bucket{command="lset",le="0.006"} 1757048
+lavik_command_duration_seconds_bucket{command="lset",le="0.008"} 1806356
+lavik_command_duration_seconds_bucket{command="lset",le="0.016"} 1862175
+lavik_command_duration_seconds_bucket{command="lset",le="0.032"} 1875309
+lavik_command_duration_seconds_bucket{command="lset",le="0.064"} 1876409
+lavik_command_duration_seconds_bucket{command="lset",le="0.128"} 1876445
+lavik_command_duration_seconds_bucket{command="lset",le="0.256"} 1876460
+lavik_command_duration_seconds_bucket{command="lset",le="0.512"} 1876469
+lavik_command_duration_seconds_bucket{command="lset",le="1"} 1876471
+lavik_command_duration_seconds_bucket{command="lset",le="2"} 1876471
+lavik_command_duration_seconds_bucket{command="lset",le="4"} 1876471
+lavik_command_duration_seconds_bucket{command="lset",le="8"} 1876471
+lavik_command_duration_seconds_bucket{command="lset",le="+Inf"} 1876471
+lavik_command_duration_seconds_sum{command="lset"} 3490.37
+lavik_command_duration_seconds_count{command="lset"} 1876471
+lavik_command_duration_seconds_bucket{command="info",le="0.000001"} 0
+lavik_command_duration_seconds_bucket{command="info",le="0.000002"} 0
+lavik_command_duration_seconds_bucket{command="info",le="0.000004"} 0
+lavik_command_duration_seconds_bucket{command="info",le="0.000008"} 0
+lavik_command_duration_seconds_bucket{command="info",le="0.000016"} 0
+lavik_command_duration_seconds_bucket{command="info",le="0.000032"} 0
+lavik_command_duration_seconds_bucket{command="info",le="0.000064"} 1
+lavik_command_duration_seconds_bucket{command="info",le="0.000128"} 2
+lavik_command_duration_seconds_bucket{command="info",le="0.000256"} 2
+lavik_command_duration_seconds_bucket{command="info",le="0.000512"} 2
+lavik_command_duration_seconds_bucket{command="info",le="0.001"} 2
+lavik_command_duration_seconds_bucket{command="info",le="0.00125"} 2
+lavik_command_duration_seconds_bucket{command="info",le="0.0015"} 2
+lavik_command_duration_seconds_bucket{command="info",le="0.002"} 2
+lavik_command_duration_seconds_bucket{command="info",le="0.0025"} 5
+lavik_command_duration_seconds_bucket{command="info",le="0.003"} 6
+lavik_command_duration_seconds_bucket{command="info",le="0.0035"} 6
+lavik_command_duration_seconds_bucket{command="info",le="0.004"} 6
+lavik_command_duration_seconds_bucket{command="info",le="0.005"} 6
+lavik_command_duration_seconds_bucket{command="info",le="0.006"} 6
+lavik_command_duration_seconds_bucket{command="info",le="0.008"} 6
+lavik_command_duration_seconds_bucket{command="info",le="0.016"} 6
+lavik_command_duration_seconds_bucket{command="info",le="0.032"} 6
+lavik_command_duration_seconds_bucket{command="info",le="0.064"} 6
+lavik_command_duration_seconds_bucket{command="info",le="0.128"} 6
+lavik_command_duration_seconds_bucket{command="info",le="0.256"} 6
+lavik_command_duration_seconds_bucket{command="info",le="0.512"} 6
+lavik_command_duration_seconds_bucket{command="info",le="1"} 6
+lavik_command_duration_seconds_bucket{command="info",le="2"} 6
+lavik_command_duration_seconds_bucket{command="info",le="4"} 6
+lavik_command_duration_seconds_bucket{command="info",le="8"} 6
+lavik_command_duration_seconds_bucket{command="info",le="+Inf"} 6
+lavik_command_duration_seconds_sum{command="info"} 0.0093349
+lavik_command_duration_seconds_count{command="info"} 6
+# HELP lavik_storage_io_operations_total Completed storage I/O operations.
+# TYPE lavik_storage_io_operations_total counter
+lavik_storage_io_operations_total{operation="read"} 5112938
+lavik_storage_io_operations_total{operation="write"} 4012725
+lavik_storage_io_operations_total{operation="fdatasync"} 3096000
+# HELP lavik_storage_io_bytes_total Bytes completed by storage reads and writes, or covered by successful fdatasync barriers.
+# TYPE lavik_storage_io_bytes_total counter
+lavik_storage_io_bytes_total{operation="read"} 112215404032
+lavik_storage_io_bytes_total{operation="write"} 145914134528
+lavik_storage_io_bytes_total{operation="fdatasync"} 145914134528
+# HELP lavik_connections Current TCP connections, including Redis clients, metrics scrapes, replication, and Meta control.
+# TYPE lavik_connections gauge
+lavik_connections 1
+# HELP lavik_connected_clients Current Redis client connections.
+# TYPE lavik_connected_clients gauge
+lavik_connected_clients 0
+# HELP lavik_blocked_clients Redis clients waiting in blocking commands.
+# TYPE lavik_blocked_clients gauge
+lavik_blocked_clients 0
+# HELP lavik_replication_control_connections Current native replication control connections.
+# TYPE lavik_replication_control_connections gauge
+lavik_replication_control_connections 0
+# HELP lavik_replication_flow_connections Current native replication data-flow connections.
+# TYPE lavik_replication_flow_connections gauge
+lavik_replication_flow_connections 0
+# HELP lavik_cluster_control_connected Whether the control worker currently holds an accepted Meta control session.
+# TYPE lavik_cluster_control_connected gauge
+lavik_cluster_control_connected 0
+# HELP lavik_cluster_control_reconnects_total Meta control reconnect rounds after the initial attempt.
+# TYPE lavik_cluster_control_reconnects_total counter
+lavik_cluster_control_reconnects_total 0
+# HELP lavik_cluster_control_protocol_errors_total Control sessions closed for invalid framing or protocol state.
+# TYPE lavik_cluster_control_protocol_errors_total counter
+lavik_cluster_control_protocol_errors_total 0
+# HELP lavik_cluster_control_full_states_applied_total Complete Meta projections installed by the data node.
+# TYPE lavik_cluster_control_full_states_applied_total counter
+lavik_cluster_control_full_states_applied_total 0
+# HELP lavik_cluster_control_lease_decisions_total Lease decisions received from Meta.
+# TYPE lavik_cluster_control_lease_decisions_total counter
+lavik_cluster_control_lease_decisions_total{decision="granted"} 0
+lavik_cluster_control_lease_decisions_total{decision="denied"} 0
+# HELP lavik_cluster_control_lease_expirations_total Locally detected control lease expirations.
+# TYPE lavik_cluster_control_lease_expirations_total counter
+lavik_cluster_control_lease_expirations_total 0
+# HELP lavik_cluster_control_directive_results_total Data-side directive execution results.
+# TYPE lavik_cluster_control_directive_results_total counter
+lavik_cluster_control_directive_results_total{result="success"} 0
+lavik_cluster_control_directive_results_total{result="failure"} 0
+# HELP lavik_storage_defrag_runs_total Completed defrag attempts.
+# TYPE lavik_storage_defrag_runs_total counter
+lavik_storage_defrag_runs_total{result="success"} 0
+lavik_storage_defrag_runs_total{result="resource_exhausted"} 0
+lavik_storage_defrag_runs_total{result="error"} 0
+# HELP lavik_storage_defrag_active Currently running defrag jobs.
+# TYPE lavik_storage_defrag_active gauge
+lavik_storage_defrag_active 0
+# HELP lavik_storage_defrag_pending Queued defrag jobs.
+# TYPE lavik_storage_defrag_pending gauge
+lavik_storage_defrag_pending 12
+# HELP lavik_storage_defrag_paused Whether relocation jobs are paused while candidates remain queued.
+# TYPE lavik_storage_defrag_paused gauge
+lavik_storage_defrag_paused 1
+# HELP lavik_storage_defrag_max_active_per_device Runtime maximum concurrent relocations per device.
+# TYPE lavik_storage_defrag_max_active_per_device gauge
+lavik_storage_defrag_max_active_per_device 8
+# HELP lavik_storage_defrag_block_sleep_seconds Runtime cooldown after each relocated block.
+# TYPE lavik_storage_defrag_block_sleep_seconds gauge
+lavik_storage_defrag_block_sleep_seconds 0
+# HELP lavik_storage_defrag_record_sleep_seconds Runtime pause after each record examined by defrag.
+# TYPE lavik_storage_defrag_record_sleep_seconds gauge
+lavik_storage_defrag_record_sleep_seconds 0
+# HELP lavik_memory_current_bytes Current process memory used for limit enforcement.
+# TYPE lavik_memory_current_bytes gauge
+lavik_memory_current_bytes 1580504640
+# HELP lavik_memory_used_bytes Allocator usable bytes used for limit enforcement.
+# TYPE lavik_memory_used_bytes gauge
+lavik_memory_used_bytes 1580504640
+# HELP lavik_memory_rss_bytes Resident process memory.
+# TYPE lavik_memory_rss_bytes gauge
+lavik_memory_rss_bytes 1998704640
+# HELP lavik_memory_committed_bytes Memory committed by the configured allocator.
+# TYPE lavik_memory_committed_bytes gauge
+lavik_memory_committed_bytes 2206269440
+# HELP lavik_memory_reserved_bytes Address space reserved by the configured allocator.
+# TYPE lavik_memory_reserved_bytes gauge
+lavik_memory_reserved_bytes 3223912448
+# HELP lavik_memory_max_bytes Configured process memory limit.
+# TYPE lavik_memory_max_bytes gauge
+lavik_memory_max_bytes 108048341402
+# HELP lavik_client_request_buffer_limit_bytes Effective ordinary client request-buffer limit.
+# TYPE lavik_client_request_buffer_limit_bytes gauge
+lavik_client_request_buffer_limit_bytes 5402417070
+# HELP lavik_client_buffered_request_bytes Ordinary client request bytes read but not yet retired.
+# TYPE lavik_client_buffered_request_bytes gauge
+lavik_client_buffered_request_bytes 0
+# HELP lavik_fullsync_reserved_memory_bytes Memory headroom reserved for active full-sync coverage maps.
+# TYPE lavik_fullsync_reserved_memory_bytes gauge
+lavik_fullsync_reserved_memory_bytes 0
+# HELP lavik_memory_admission_pending_bytes Worker-local headroom held while slow-path allocations become allocator-visible.
+# TYPE lavik_memory_admission_pending_bytes gauge
+lavik_memory_admission_pending_bytes 0
+# HELP lavik_memory_rejected_commands_total Commands rejected by the memory limit.
+# TYPE lavik_memory_rejected_commands_total counter
+lavik_memory_rejected_commands_total 0
+# HELP lavik_storage_capacity_bytes Usable data capacity.
+# TYPE lavik_storage_capacity_bytes gauge
+# HELP lavik_storage_available_bytes Space available to foreground writes after preserving the defrag reserve.
+# TYPE lavik_storage_available_bytes gauge
+# HELP lavik_filesystem_available_bytes Space available on the data file's filesystem.
+# TYPE lavik_filesystem_available_bytes gauge
+# HELP lavik_worker_retained_memory_bytes Retained bytes charged to this worker's admission share.
+# TYPE lavik_worker_retained_memory_bytes gauge
+# HELP lavik_worker_memory_admission_pending_bytes Headroom held by this worker while retained allocations become visible.
+# TYPE lavik_worker_memory_admission_pending_bytes gauge
+# HELP lavik_worker_fullsync_reserved_memory_bytes Retained headroom reserved by this worker's active full-sync coverage maps.
+# TYPE lavik_worker_fullsync_reserved_memory_bytes gauge
+# HELP lavik_worker_client_buffered_request_bytes Client request bytes currently charged to this worker's separate buffer quota.
+# TYPE lavik_worker_client_buffered_request_bytes gauge
+# HELP lavik_worker_memory_limit_bytes Retained-memory admission limit assigned to this worker.
+# TYPE lavik_worker_memory_limit_bytes gauge
+# HELP lavik_cluster_control_wait_seconds Time spent collecting data observations or installing leases, including cross-worker waits.
+# TYPE lavik_cluster_control_wait_seconds histogram
+lavik_cluster_control_wait_seconds_bucket{stage="observation",le="0.0001"} 0
+lavik_cluster_control_wait_seconds_bucket{stage="observation",le="0.0005"} 0
+lavik_cluster_control_wait_seconds_bucket{stage="observation",le="0.001"} 0
+lavik_cluster_control_wait_seconds_bucket{stage="observation",le="0.005"} 0
+lavik_cluster_control_wait_seconds_bucket{stage="observation",le="0.01"} 0
+lavik_cluster_control_wait_seconds_bucket{stage="observation",le="0.05"} 0
+lavik_cluster_control_wait_seconds_bucket{stage="observation",le="0.1"} 0
+lavik_cluster_control_wait_seconds_bucket{stage="observation",le="0.3"} 0
+lavik_cluster_control_wait_seconds_bucket{stage="observation",le="1"} 0
+lavik_cluster_control_wait_seconds_bucket{stage="observation",le="5"} 0
+lavik_cluster_control_wait_seconds_bucket{stage="observation",le="+Inf"} 0
+lavik_cluster_control_wait_seconds_count{stage="observation"} 0
+lavik_cluster_control_wait_seconds_sum{stage="observation"} 0
+lavik_cluster_control_wait_seconds_bucket{stage="lease_installation",le="0.0001"} 0
+lavik_cluster_control_wait_seconds_bucket{stage="lease_installation",le="0.0005"} 0
+lavik_cluster_control_wait_seconds_bucket{stage="lease_installation",le="0.001"} 0
+lavik_cluster_control_wait_seconds_bucket{stage="lease_installation",le="0.005"} 0
+lavik_cluster_control_wait_seconds_bucket{stage="lease_installation",le="0.01"} 0
+lavik_cluster_control_wait_seconds_bucket{stage="lease_installation",le="0.05"} 0
+lavik_cluster_control_wait_seconds_bucket{stage="lease_installation",le="0.1"} 0
+lavik_cluster_control_wait_seconds_bucket{stage="lease_installation",le="0.3"} 0
+lavik_cluster_control_wait_seconds_bucket{stage="lease_installation",le="1"} 0
+lavik_cluster_control_wait_seconds_bucket{stage="lease_installation",le="5"} 0
+lavik_cluster_control_wait_seconds_bucket{stage="lease_installation",le="+Inf"} 0
+lavik_cluster_control_wait_seconds_count{stage="lease_installation"} 0
+lavik_cluster_control_wait_seconds_sum{stage="lease_installation"} 0
+lavik_worker_retained_memory_bytes{worker="0"} 133472240
+lavik_worker_memory_admission_pending_bytes{worker="0"} 0
+lavik_worker_fullsync_reserved_memory_bytes{worker="0"} 0
+lavik_worker_client_buffered_request_bytes{worker="0"} 0
+lavik_worker_memory_limit_bytes{worker="0"} 8103625606
+lavik_worker_retained_memory_bytes{worker="1"} 130905968
+lavik_worker_memory_admission_pending_bytes{worker="1"} 0
+lavik_worker_fullsync_reserved_memory_bytes{worker="1"} 0
+lavik_worker_client_buffered_request_bytes{worker="1"} 0
+lavik_worker_memory_limit_bytes{worker="1"} 8103625606
+lavik_worker_retained_memory_bytes{worker="2"} 134410480
+lavik_worker_memory_admission_pending_bytes{worker="2"} 0
+lavik_worker_fullsync_reserved_memory_bytes{worker="2"} 0
+lavik_worker_client_buffered_request_bytes{worker="2"} 0
+lavik_worker_memory_limit_bytes{worker="2"} 8103625605
+lavik_worker_retained_memory_bytes{worker="3"} 131250992
+lavik_worker_memory_admission_pending_bytes{worker="3"} 0
+lavik_worker_fullsync_reserved_memory_bytes{worker="3"} 0
+lavik_worker_client_buffered_request_bytes{worker="3"} 0
+lavik_worker_memory_limit_bytes{worker="3"} 8103625605
+lavik_worker_retained_memory_bytes{worker="4"} 131281392
+lavik_worker_memory_admission_pending_bytes{worker="4"} 0
+lavik_worker_fullsync_reserved_memory_bytes{worker="4"} 0
+lavik_worker_client_buffered_request_bytes{worker="4"} 0
+lavik_worker_memory_limit_bytes{worker="4"} 8103625605
+lavik_worker_retained_memory_bytes{worker="5"} 131844592
+lavik_worker_memory_admission_pending_bytes{worker="5"} 0
+lavik_worker_fullsync_reserved_memory_bytes{worker="5"} 0
+lavik_worker_client_buffered_request_bytes{worker="5"} 0
+lavik_worker_memory_limit_bytes{worker="5"} 8103625605
+lavik_worker_retained_memory_bytes{worker="6"} 131595376
+lavik_worker_memory_admission_pending_bytes{worker="6"} 0
+lavik_worker_fullsync_reserved_memory_bytes{worker="6"} 0
+lavik_worker_client_buffered_request_bytes{worker="6"} 0
+lavik_worker_memory_limit_bytes{worker="6"} 8103625605
+lavik_worker_retained_memory_bytes{worker="7"} 132312624
+lavik_worker_memory_admission_pending_bytes{worker="7"} 0
+lavik_worker_fullsync_reserved_memory_bytes{worker="7"} 0
+lavik_worker_client_buffered_request_bytes{worker="7"} 0
+lavik_worker_memory_limit_bytes{worker="7"} 8103625605
+lavik_worker_retained_memory_bytes{worker="8"} 128431920
+lavik_worker_memory_admission_pending_bytes{worker="8"} 0
+lavik_worker_fullsync_reserved_memory_bytes{worker="8"} 0
+lavik_worker_client_buffered_request_bytes{worker="8"} 0
+lavik_worker_memory_limit_bytes{worker="8"} 8103625605
+lavik_worker_retained_memory_bytes{worker="9"} 130466288
+lavik_worker_memory_admission_pending_bytes{worker="9"} 0
+lavik_worker_fullsync_reserved_memory_bytes{worker="9"} 0
+lavik_worker_client_buffered_request_bytes{worker="9"} 0
+lavik_worker_memory_limit_bytes{worker="9"} 8103625605
+lavik_worker_retained_memory_bytes{worker="10"} 131029616
+lavik_worker_memory_admission_pending_bytes{worker="10"} 0
+lavik_worker_fullsync_reserved_memory_bytes{worker="10"} 0
+lavik_worker_client_buffered_request_bytes{worker="10"} 0
+lavik_worker_memory_limit_bytes{worker="10"} 8103625605
+lavik_worker_retained_memory_bytes{worker="11"} 133503152
+lavik_worker_memory_admission_pending_bytes{worker="11"} 0
+lavik_worker_fullsync_reserved_memory_bytes{worker="11"} 0
+lavik_worker_client_buffered_request_bytes{worker="11"} 0
+lavik_worker_memory_limit_bytes{worker="11"} 8103625605
+# HELP lavik_replication_backlog_bytes Allocated shared in-memory replication backlog bytes.
+# TYPE lavik_replication_backlog_bytes gauge
+# HELP lavik_replication_backlog_capacity_bytes Configured shared in-memory replication backlog capacity.
+# TYPE lavik_replication_backlog_capacity_bytes gauge
+# HELP lavik_replication_backlog_chunks Allocated 8 MiB replication backlog chunks.
+# TYPE lavik_replication_backlog_chunks gauge
+# HELP lavik_replication_backlog_floor_lsn Oldest retained flow LSN.
+# TYPE lavik_replication_backlog_floor_lsn gauge
+# HELP lavik_replication_backlog_tail_lsn Newest published flow LSN.
+# TYPE lavik_replication_backlog_tail_lsn gauge
+# HELP lavik_replication_backlog_pinned_cursors Live replica ACK coverage claims.
+# TYPE lavik_replication_backlog_pinned_cursors gauge
+# HELP lavik_replication_backlog_active Whether this worker's shared replication history is active.
+# TYPE lavik_replication_backlog_active gauge
+# HELP lavik_replication_backlog_coverage_revocations_total Lagging coverage claims revoked at the hard cap when backpressure is disabled.
+# TYPE lavik_replication_backlog_coverage_revocations_total counter
+# HELP lavik_replication_backlog_backpressure_waits_total Backlog capacity conflicts that waited for retained cursor progress.
+# TYPE lavik_replication_backlog_backpressure_waits_total counter
+# HELP lavik_replication_backlog_backpressured Whether this worker is currently waiting for retained cursor progress.
+# TYPE lavik_replication_backlog_backpressured gauge
+# HELP lavik_replication_publish_queue_bytes Commands staged before the shared backlog.
+# TYPE lavik_replication_publish_queue_bytes gauge
+# HELP lavik_replication_publish_queue_capacity_bytes Configured publisher staging capacity.
+# TYPE lavik_replication_publish_queue_capacity_bytes gauge
+# HELP lavik_fullsync_publish_queue_bytes Commands awaiting durable target ACK in active full-sync sessions.
+# TYPE lavik_fullsync_publish_queue_bytes gauge
+# HELP lavik_fullsync_publish_queue_admitted_bytes Bytes reserved by writes that have not finished publication.
+# TYPE lavik_fullsync_publish_queue_admitted_bytes gauge
+# HELP lavik_fullsync_publish_queue_capacity_bytes Aggregate configured capacity of active full-sync session queues.
+# TYPE lavik_fullsync_publish_queue_capacity_bytes gauge
+# HELP lavik_fullsync_sessions Active full-sync sessions on this worker.
+# TYPE lavik_fullsync_sessions gauge
+# HELP lavik_fullsync_publish_queue_backpressure_waits_total Writes that waited for full-sync queue credit.
+# TYPE lavik_fullsync_publish_queue_backpressure_waits_total counter
+lavik_replication_backlog_bytes{worker="0"} 0
+lavik_replication_backlog_capacity_bytes{worker="0"} 0
+lavik_replication_backlog_chunks{worker="0"} 0
+lavik_replication_backlog_floor_lsn{worker="0"} 1
+lavik_replication_backlog_tail_lsn{worker="0"} 0
+lavik_replication_backlog_pinned_cursors{worker="0"} 0
+lavik_replication_backlog_active{worker="0"} 0
+lavik_replication_backlog_coverage_revocations_total{worker="0"} 0
+lavik_replication_backlog_backpressure_waits_total{worker="0"} 0
+lavik_replication_backlog_backpressured{worker="0"} 0
+lavik_replication_publish_queue_bytes{worker="0"} 0
+lavik_replication_publish_queue_capacity_bytes{worker="0"} 16777216
+lavik_fullsync_publish_queue_bytes{worker="0"} 0
+lavik_fullsync_publish_queue_admitted_bytes{worker="0"} 0
+lavik_fullsync_publish_queue_capacity_bytes{worker="0"} 0
+lavik_fullsync_sessions{worker="0"} 0
+lavik_fullsync_publish_queue_backpressure_waits_total{worker="0"} 0
+lavik_replication_backlog_bytes{worker="1"} 0
+lavik_replication_backlog_capacity_bytes{worker="1"} 0
+lavik_replication_backlog_chunks{worker="1"} 0
+lavik_replication_backlog_floor_lsn{worker="1"} 1
+lavik_replication_backlog_tail_lsn{worker="1"} 0
+lavik_replication_backlog_pinned_cursors{worker="1"} 0
+lavik_replication_backlog_active{worker="1"} 0
+lavik_replication_backlog_coverage_revocations_total{worker="1"} 0
+lavik_replication_backlog_backpressure_waits_total{worker="1"} 0
+lavik_replication_backlog_backpressured{worker="1"} 0
+lavik_replication_publish_queue_bytes{worker="1"} 0
+lavik_replication_publish_queue_capacity_bytes{worker="1"} 16777216
+lavik_fullsync_publish_queue_bytes{worker="1"} 0
+lavik_fullsync_publish_queue_admitted_bytes{worker="1"} 0
+lavik_fullsync_publish_queue_capacity_bytes{worker="1"} 0
+lavik_fullsync_sessions{worker="1"} 0
+lavik_fullsync_publish_queue_backpressure_waits_total{worker="1"} 0
+lavik_replication_backlog_bytes{worker="2"} 0
+lavik_replication_backlog_capacity_bytes{worker="2"} 0
+lavik_replication_backlog_chunks{worker="2"} 0
+lavik_replication_backlog_floor_lsn{worker="2"} 1
+lavik_replication_backlog_tail_lsn{worker="2"} 0
+lavik_replication_backlog_pinned_cursors{worker="2"} 0
+lavik_replication_backlog_active{worker="2"} 0
+lavik_replication_backlog_coverage_revocations_total{worker="2"} 0
+lavik_replication_backlog_backpressure_waits_total{worker="2"} 0
+lavik_replication_backlog_backpressured{worker="2"} 0
+lavik_replication_publish_queue_bytes{worker="2"} 0
+lavik_replication_publish_queue_capacity_bytes{worker="2"} 16777216
+lavik_fullsync_publish_queue_bytes{worker="2"} 0
+lavik_fullsync_publish_queue_admitted_bytes{worker="2"} 0
+lavik_fullsync_publish_queue_capacity_bytes{worker="2"} 0
+lavik_fullsync_sessions{worker="2"} 0
+lavik_fullsync_publish_queue_backpressure_waits_total{worker="2"} 0
+lavik_replication_backlog_bytes{worker="3"} 0
+lavik_replication_backlog_capacity_bytes{worker="3"} 0
+lavik_replication_backlog_chunks{worker="3"} 0
+lavik_replication_backlog_floor_lsn{worker="3"} 1
+lavik_replication_backlog_tail_lsn{worker="3"} 0
+lavik_replication_backlog_pinned_cursors{worker="3"} 0
+lavik_replication_backlog_active{worker="3"} 0
+lavik_replication_backlog_coverage_revocations_total{worker="3"} 0
+lavik_replication_backlog_backpressure_waits_total{worker="3"} 0
+lavik_replication_backlog_backpressured{worker="3"} 0
+lavik_replication_publish_queue_bytes{worker="3"} 0
+lavik_replication_publish_queue_capacity_bytes{worker="3"} 16777216
+lavik_fullsync_publish_queue_bytes{worker="3"} 0
+lavik_fullsync_publish_queue_admitted_bytes{worker="3"} 0
+lavik_fullsync_publish_queue_capacity_bytes{worker="3"} 0
+lavik_fullsync_sessions{worker="3"} 0
+lavik_fullsync_publish_queue_backpressure_waits_total{worker="3"} 0
+lavik_replication_backlog_bytes{worker="4"} 0
+lavik_replication_backlog_capacity_bytes{worker="4"} 0
+lavik_replication_backlog_chunks{worker="4"} 0
+lavik_replication_backlog_floor_lsn{worker="4"} 1
+lavik_replication_backlog_tail_lsn{worker="4"} 0
+lavik_replication_backlog_pinned_cursors{worker="4"} 0
+lavik_replication_backlog_active{worker="4"} 0
+lavik_replication_backlog_coverage_revocations_total{worker="4"} 0
+lavik_replication_backlog_backpressure_waits_total{worker="4"} 0
+lavik_replication_backlog_backpressured{worker="4"} 0
+lavik_replication_publish_queue_bytes{worker="4"} 0
+lavik_replication_publish_queue_capacity_bytes{worker="4"} 16777216
+lavik_fullsync_publish_queue_bytes{worker="4"} 0
+lavik_fullsync_publish_queue_admitted_bytes{worker="4"} 0
+lavik_fullsync_publish_queue_capacity_bytes{worker="4"} 0
+lavik_fullsync_sessions{worker="4"} 0
+lavik_fullsync_publish_queue_backpressure_waits_total{worker="4"} 0
+lavik_replication_backlog_bytes{worker="5"} 0
+lavik_replication_backlog_capacity_bytes{worker="5"} 0
+lavik_replication_backlog_chunks{worker="5"} 0
+lavik_replication_backlog_floor_lsn{worker="5"} 1
+lavik_replication_backlog_tail_lsn{worker="5"} 0
+lavik_replication_backlog_pinned_cursors{worker="5"} 0
+lavik_replication_backlog_active{worker="5"} 0
+lavik_replication_backlog_coverage_revocations_total{worker="5"} 0
+lavik_replication_backlog_backpressure_waits_total{worker="5"} 0
+lavik_replication_backlog_backpressured{worker="5"} 0
+lavik_replication_publish_queue_bytes{worker="5"} 0
+lavik_replication_publish_queue_capacity_bytes{worker="5"} 16777216
+lavik_fullsync_publish_queue_bytes{worker="5"} 0
+lavik_fullsync_publish_queue_admitted_bytes{worker="5"} 0
+lavik_fullsync_publish_queue_capacity_bytes{worker="5"} 0
+lavik_fullsync_sessions{worker="5"} 0
+lavik_fullsync_publish_queue_backpressure_waits_total{worker="5"} 0
+lavik_replication_backlog_bytes{worker="6"} 0
+lavik_replication_backlog_capacity_bytes{worker="6"} 0
+lavik_replication_backlog_chunks{worker="6"} 0
+lavik_replication_backlog_floor_lsn{worker="6"} 1
+lavik_replication_backlog_tail_lsn{worker="6"} 0
+lavik_replication_backlog_pinned_cursors{worker="6"} 0
+lavik_replication_backlog_active{worker="6"} 0
+lavik_replication_backlog_coverage_revocations_total{worker="6"} 0
+lavik_replication_backlog_backpressure_waits_total{worker="6"} 0
+lavik_replication_backlog_backpressured{worker="6"} 0
+lavik_replication_publish_queue_bytes{worker="6"} 0
+lavik_replication_publish_queue_capacity_bytes{worker="6"} 16777216
+lavik_fullsync_publish_queue_bytes{worker="6"} 0
+lavik_fullsync_publish_queue_admitted_bytes{worker="6"} 0
+lavik_fullsync_publish_queue_capacity_bytes{worker="6"} 0
+lavik_fullsync_sessions{worker="6"} 0
+lavik_fullsync_publish_queue_backpressure_waits_total{worker="6"} 0
+lavik_replication_backlog_bytes{worker="7"} 0
+lavik_replication_backlog_capacity_bytes{worker="7"} 0
+lavik_replication_backlog_chunks{worker="7"} 0
+lavik_replication_backlog_floor_lsn{worker="7"} 1
+lavik_replication_backlog_tail_lsn{worker="7"} 0
+lavik_replication_backlog_pinned_cursors{worker="7"} 0
+lavik_replication_backlog_active{worker="7"} 0
+lavik_replication_backlog_coverage_revocations_total{worker="7"} 0
+lavik_replication_backlog_backpressure_waits_total{worker="7"} 0
+lavik_replication_backlog_backpressured{worker="7"} 0
+lavik_replication_publish_queue_bytes{worker="7"} 0
+lavik_replication_publish_queue_capacity_bytes{worker="7"} 16777216
+lavik_fullsync_publish_queue_bytes{worker="7"} 0
+lavik_fullsync_publish_queue_admitted_bytes{worker="7"} 0
+lavik_fullsync_publish_queue_capacity_bytes{worker="7"} 0
+lavik_fullsync_sessions{worker="7"} 0
+lavik_fullsync_publish_queue_backpressure_waits_total{worker="7"} 0
+lavik_replication_backlog_bytes{worker="8"} 0
+lavik_replication_backlog_capacity_bytes{worker="8"} 0
+lavik_replication_backlog_chunks{worker="8"} 0
+lavik_replication_backlog_floor_lsn{worker="8"} 1
+lavik_replication_backlog_tail_lsn{worker="8"} 0
+lavik_replication_backlog_pinned_cursors{worker="8"} 0
+lavik_replication_backlog_active{worker="8"} 0
+lavik_replication_backlog_coverage_revocations_total{worker="8"} 0
+lavik_replication_backlog_backpressure_waits_total{worker="8"} 0
+lavik_replication_backlog_backpressured{worker="8"} 0
+lavik_replication_publish_queue_bytes{worker="8"} 0
+lavik_replication_publish_queue_capacity_bytes{worker="8"} 16777216
+lavik_fullsync_publish_queue_bytes{worker="8"} 0
+lavik_fullsync_publish_queue_admitted_bytes{worker="8"} 0
+lavik_fullsync_publish_queue_capacity_bytes{worker="8"} 0
+lavik_fullsync_sessions{worker="8"} 0
+lavik_fullsync_publish_queue_backpressure_waits_total{worker="8"} 0
+lavik_replication_backlog_bytes{worker="9"} 0
+lavik_replication_backlog_capacity_bytes{worker="9"} 0
+lavik_replication_backlog_chunks{worker="9"} 0
+lavik_replication_backlog_floor_lsn{worker="9"} 1
+lavik_replication_backlog_tail_lsn{worker="9"} 0
+lavik_replication_backlog_pinned_cursors{worker="9"} 0
+lavik_replication_backlog_active{worker="9"} 0
+lavik_replication_backlog_coverage_revocations_total{worker="9"} 0
+lavik_replication_backlog_backpressure_waits_total{worker="9"} 0
+lavik_replication_backlog_backpressured{worker="9"} 0
+lavik_replication_publish_queue_bytes{worker="9"} 0
+lavik_replication_publish_queue_capacity_bytes{worker="9"} 16777216
+lavik_fullsync_publish_queue_bytes{worker="9"} 0
+lavik_fullsync_publish_queue_admitted_bytes{worker="9"} 0
+lavik_fullsync_publish_queue_capacity_bytes{worker="9"} 0
+lavik_fullsync_sessions{worker="9"} 0
+lavik_fullsync_publish_queue_backpressure_waits_total{worker="9"} 0
+lavik_replication_backlog_bytes{worker="10"} 0
+lavik_replication_backlog_capacity_bytes{worker="10"} 0
+lavik_replication_backlog_chunks{worker="10"} 0
+lavik_replication_backlog_floor_lsn{worker="10"} 1
+lavik_replication_backlog_tail_lsn{worker="10"} 0
+lavik_replication_backlog_pinned_cursors{worker="10"} 0
+lavik_replication_backlog_active{worker="10"} 0
+lavik_replication_backlog_coverage_revocations_total{worker="10"} 0
+lavik_replication_backlog_backpressure_waits_total{worker="10"} 0
+lavik_replication_backlog_backpressured{worker="10"} 0
+lavik_replication_publish_queue_bytes{worker="10"} 0
+lavik_replication_publish_queue_capacity_bytes{worker="10"} 16777216
+lavik_fullsync_publish_queue_bytes{worker="10"} 0
+lavik_fullsync_publish_queue_admitted_bytes{worker="10"} 0
+lavik_fullsync_publish_queue_capacity_bytes{worker="10"} 0
+lavik_fullsync_sessions{worker="10"} 0
+lavik_fullsync_publish_queue_backpressure_waits_total{worker="10"} 0
+lavik_replication_backlog_bytes{worker="11"} 0
+lavik_replication_backlog_capacity_bytes{worker="11"} 0
+lavik_replication_backlog_chunks{worker="11"} 0
+lavik_replication_backlog_floor_lsn{worker="11"} 1
+lavik_replication_backlog_tail_lsn{worker="11"} 0
+lavik_replication_backlog_pinned_cursors{worker="11"} 0
+lavik_replication_backlog_active{worker="11"} 0
+lavik_replication_backlog_coverage_revocations_total{worker="11"} 0
+lavik_replication_backlog_backpressure_waits_total{worker="11"} 0
+lavik_replication_backlog_backpressured{worker="11"} 0
+lavik_replication_publish_queue_bytes{worker="11"} 0
+lavik_replication_publish_queue_capacity_bytes{worker="11"} 16777216
+lavik_fullsync_publish_queue_bytes{worker="11"} 0
+lavik_fullsync_publish_queue_admitted_bytes{worker="11"} 0
+lavik_fullsync_publish_queue_capacity_bytes{worker="11"} 0
+lavik_fullsync_sessions{worker="11"} 0
+lavik_fullsync_publish_queue_backpressure_waits_total{worker="11"} 0
+lavik_storage_capacity_bytes{device="0",path="spdk://e986:00:00.0/1"} 1919841992704
+lavik_storage_available_bytes{device="0",path="spdk://e986:00:00.0/1"} 1908483817472
+lavik_storage_capacity_bytes{device="1",path="spdk://2dbd:00:00.0/1"} 1919841992704
+lavik_storage_available_bytes{device="1",path="spdk://2dbd:00:00.0/1"} 1908508983296
+lavik_storage_capacity_bytes{device="2",path="spdk://e5dd:00:00.0/1"} 1919841992704
+lavik_storage_available_bytes{device="2",path="spdk://e5dd:00:00.0/1"} 1908592869376
+lavik_storage_capacity_bytes{device="3",path="spdk://a8cb:00:00.0/1"} 1919841992704
+lavik_storage_available_bytes{device="3",path="spdk://a8cb:00:00.0/1"} 1908609646592
+lavik_storage_capacity_bytes{device="4",path="spdk://4403:00:00.0/1"} 1919841992704
+lavik_storage_available_bytes{device="4",path="spdk://4403:00:00.0/1"} 1908559314944
+lavik_storage_capacity_bytes{device="5",path="spdk://919c:00:00.0/1"} 1919841992704
+lavik_storage_available_bytes{device="5",path="spdk://919c:00:00.0/1"} 1908634812416
