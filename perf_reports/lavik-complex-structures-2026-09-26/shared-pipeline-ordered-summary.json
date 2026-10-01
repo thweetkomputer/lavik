@@ -1,0 +1,109 @@
+{
+  "main_commit": "065623811791bf90e67b3d87248c1f1dd7ebf8f3",
+  "pr_commit": "09871950738abb3909eb3706a5ee8f17a69f8ed5",
+  "pr": 235,
+  "conditions": [
+    {
+      "kind": "zset",
+      "size": 104857600,
+      "keys": 8,
+      "field": 1024,
+      "operation": "ZINCRBY",
+      "main_tag": "ordered-pipeline-main-zset-100m-k8-f1024-20261001",
+      "pr_tag": "ordered-pipeline-pr-zset-100m-k8-f1024-20261001",
+      "matched_connection_pr_over_main_min": 0.9886074899620134,
+      "matched_connection_pr_over_main_max": 1.021111284367957
+    },
+    {
+      "kind": "zset",
+      "size": 104857600,
+      "keys": 8,
+      "field": 1024,
+      "operation": "ZRANGE",
+      "main_tag": "ordered-pipeline-main-zset-100m-k8-f1024-20261001",
+      "pr_tag": "ordered-pipeline-pr-zset-100m-k8-f1024-20261001",
+      "matched_connection_pr_over_main_min": 1.0090361445783134,
+      "matched_connection_pr_over_main_max": 1.1484593837535013
+    },
+    {
+      "kind": "zset",
+      "size": 104857600,
+      "keys": 8,
+      "field": 1024,
+      "operation": "ZSCORE",
+      "main_tag": "ordered-pipeline-main-zset-100m-k8-f1024-20261001",
+      "pr_tag": "ordered-pipeline-pr-zset-100m-k8-f1024-20261001",
+      "matched_connection_pr_over_main_min": 0.9651305434189454,
+      "matched_connection_pr_over_main_max": 0.9968477089572557
+    },
+    {
+      "kind": "stream",
+      "size": 104857600,
+      "keys": 8,
+      "field": 1024,
+      "operation": "XADD_MAXLEN",
+      "main_tag": "ordered-pipeline-main-stream-100m-k8-f1024-20261001",
+      "pr_tag": "ordered-pipeline-pr-stream-100m-k8-f1024-20261001",
+      "matched_connection_pr_over_main_min": 0.9943121112574091,
+      "matched_connection_pr_over_main_max": 1.0899699743777103
+    },
+    {
+      "kind": "stream",
+      "size": 104857600,
+      "keys": 8,
+      "field": 1024,
+      "operation": "XRANGE",
+      "main_tag": "ordered-pipeline-main-stream-100m-k8-f1024-20261001",
+      "pr_tag": "ordered-pipeline-pr-stream-100m-k8-f1024-20261001",
+      "matched_connection_pr_over_main_min": 0.9775804998433094,
+      "matched_connection_pr_over_main_max": 1.0137733638584314
+    },
+    {
+      "kind": "stream",
+      "size": 104857600,
+      "keys": 8,
+      "field": 1024,
+      "operation": "XRANGE_FULL",
+      "main_tag": "ordered-pipeline-main-stream-100m-k8-f1024-20261001",
+      "pr_tag": "ordered-pipeline-pr-stream-100m-k8-f1024-20261001",
+      "matched_connection_pr_over_main_min": 1.0,
+      "matched_connection_pr_over_main_max": 1.2148040638606676
+    },
+    {
+      "kind": "list",
+      "size": 104857600,
+      "keys": 8,
+      "field": 1024,
+      "operation": "LINDEX",
+      "main_tag": "ordered-pipeline-main-list-100m-k8-f1024-20261001",
+      "pr_tag": "ordered-pipeline-pr-list-100m-k8-f1024-20261001",
+      "matched_connection_pr_over_main_min": 0.9854768077833403,
+      "matched_connection_pr_over_main_max": 1.0650438476952313
+    },
+    {
+      "kind": "list",
+      "size": 104857600,
+      "keys": 8,
+      "field": 1024,
+      "operation": "LRANGE",
+      "main_tag": "ordered-pipeline-main-list-100m-k8-f1024-20261001",
+      "pr_tag": "ordered-pipeline-pr-list-100m-k8-f1024-20261001",
+      "matched_connection_pr_over_main_min": 0.9168096054888507,
+      "matched_connection_pr_over_main_max": 1.0105263157894737
+    },
+    {
+      "kind": "list",
+      "size": 104857600,
+      "keys": 8,
+      "field": 1024,
+      "operation": "LSET",
+      "main_tag": "ordered-pipeline-main-list-100m-k8-f1024-20261001",
+      "pr_tag": "ordered-pipeline-pr-list-100m-k8-f1024-20261001",
+      "matched_connection_pr_over_main_min": 4.086238543449912,
+      "matched_connection_pr_over_main_max": 6.411379075079351
+    }
+  ],
+  "successful_points": 78,
+  "failed_points": 0,
+  "method": "Independent fresh seeds; eight-second single measurements, no confidence intervals. Eight-key workloads match existing peers, not the high-key Hash/Set or leading List workloads."
+}

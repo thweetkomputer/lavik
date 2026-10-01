@@ -1,118 +1,210 @@
 {
-  "main_commit": "f12680146756f167e1e57420e5a5fbd14a2473d2",
-  "method": "ratio of each product peak over measured connection grid; not matched connections; persistence/cache settings differ",
+  "main_commit": "065623811791bf90e67b3d87248c1f1dd7ebf8f3",
+  "pr": 235,
+  "pr_commit": "09871950738abb3909eb3706a5ee8f17a69f8ed5",
   "conditions": [
     {
       "kind": "hash",
       "size": 1048576,
       "field": 128,
+      "keys": 50000,
       "operation": "HSET",
-      "source_csv": "hash-1048576-128-high-keys.csv",
       "peaks": {
         "redis": 396396.4,
         "valkey": 489813.41,
         "kvrocks": 367429.08,
-        "lavik": 148894.86
+        "main": 144625.38,
+        "pr": 140224.15
       },
-      "lavik_over_kvrocks_peak": 0.4052342835792964
+      "source_folders": {
+        "redis": "raw/redis-hash-1m-k50000-f128-20260929",
+        "valkey": "raw/valkey-hash-1m-k50000-f128-20260929",
+        "kvrocks": "raw/kvrocks-hash-1m-k50000-f128-20260929",
+        "main": "raw/lavik-pipeline-main-hash-1048576-k50000-f128-20261001",
+        "pr": "raw/lavik-pipeline-pr-hash-1048576-k50000-f128-20261001"
+      },
+      "matched_connection_pr_over_main_min": 0.952946380279606,
+      "matched_connection_pr_over_main_max": 0.9695680661305781,
+      "pr_over_main_peak": 0.9695680661305781,
+      "pr_over_kvrocks_peak": 0.3816359608771303
     },
     {
       "kind": "hash",
       "size": 1048576,
       "field": 1024,
+      "keys": 50000,
       "operation": "HSET",
-      "source_csv": "hash-1048576-1024-high-keys.csv",
       "peaks": {
         "redis": 391020.52,
         "valkey": 424938.57,
         "kvrocks": 281350.52,
-        "lavik": 144858.97
+        "main": 143264.3,
+        "pr": 157299.19
       },
-      "lavik_over_kvrocks_peak": 0.5148700986939707
+      "source_folders": {
+        "redis": "raw/redis-hash-1m-k50000-f1024-20260929",
+        "valkey": "raw/valkey-hash-1m-k50000-f1024-20260929",
+        "kvrocks": "raw/kvrocks-hash-1m-k50000-f1024-20260929",
+        "main": "raw/lavik-pipeline-main-hash-1048576-k50000-f1024-20261001",
+        "pr": "raw/lavik-pipeline-pr-hash-1048576-k50000-f1024-20261001"
+      },
+      "matched_connection_pr_over_main_min": 1.0446671118837478,
+      "matched_connection_pr_over_main_max": 1.1492202011441746,
+      "pr_over_main_peak": 1.0979650198967923,
+      "pr_over_kvrocks_peak": 0.5590861890001128
     },
     {
       "kind": "hash",
       "size": 104857600,
       "field": 128,
+      "keys": 500,
       "operation": "HSET",
-      "source_csv": "hash-104857600-128-high-keys.csv",
       "peaks": {
         "redis": 755123.47,
         "valkey": 723949.61,
         "kvrocks": 373980.0,
-        "lavik": 122425.25
+        "main": 129916.62,
+        "pr": 149254.19
       },
-      "lavik_over_kvrocks_peak": 0.327357746403551
+      "source_folders": {
+        "redis": "raw/redis-hash-100m-k500-f128-20260929",
+        "valkey": "raw/valkey-hash-100m-k500-f128-20260929",
+        "kvrocks": "raw/kvrocks-hash-100m-k500-f128-20260929",
+        "main": "raw/lavik-pipeline-main-hash-104857600-k500-f128-20261001",
+        "pr": "raw/lavik-pipeline-pr-hash-104857600-k500-f128-20261001"
+      },
+      "matched_connection_pr_over_main_min": 1.0773884404382008,
+      "matched_connection_pr_over_main_max": 1.2273306677702531,
+      "pr_over_main_peak": 1.1488460059998482,
+      "pr_over_kvrocks_peak": 0.39909671640194666
     },
     {
       "kind": "hash",
       "size": 104857600,
       "field": 1024,
+      "keys": 500,
       "operation": "HSET",
-      "source_csv": "hash-104857600-1024-high-keys.csv",
       "peaks": {
         "redis": 633445.98,
         "valkey": 629696.22,
         "kvrocks": 344460.92,
-        "lavik": 130323.08
+        "main": 130748.73,
+        "pr": 154378.29
       },
-      "lavik_over_kvrocks_peak": 0.37833923221246696
+      "source_folders": {
+        "redis": "raw/redis-hash-100m-k500-f1024-20260929",
+        "valkey": "raw/valkey-hash-100m-k500-f1024-20260929",
+        "kvrocks": "raw/kvrocks-hash-100m-k500-f1024-20260929",
+        "main": "raw/lavik-pipeline-main-hash-104857600-k500-f1024-20261001",
+        "pr": "raw/lavik-pipeline-pr-hash-104857600-k500-f1024-20261001"
+      },
+      "matched_connection_pr_over_main_min": 1.1034557428441085,
+      "matched_connection_pr_over_main_max": 1.2113258409719925,
+      "pr_over_main_peak": 1.1807249676536056,
+      "pr_over_kvrocks_peak": 0.44817359832865805
     },
     {
       "kind": "set",
       "size": 1048576,
       "field": 128,
+      "keys": 50000,
       "operation": "SADD_SREM",
-      "source_csv": "set-1048576-128-high-keys.csv",
       "peaks": {
         "redis": 397849.27,
         "valkey": 689607.37,
         "kvrocks": 441167.25,
-        "lavik": 225719.82
+        "main": 209405.89,
+        "pr": 223702.89
       },
-      "lavik_over_kvrocks_peak": 0.5116422853237633
+      "source_folders": {
+        "redis": "raw/redis-set-1m-k50000-f128-20260929",
+        "valkey": "raw/valkey-set-1m-k50000-f128-20260929",
+        "kvrocks": "raw/kvrocks-set-1m-k50000-f128-20260929",
+        "main": "raw/lavik-pipeline-main-set-1048576-k50000-f128-20261001",
+        "pr": "raw/lavik-pipeline-pr-set-1048576-k50000-f128-20261001"
+      },
+      "matched_connection_pr_over_main_min": 1.0517411782993566,
+      "matched_connection_pr_over_main_max": 1.09701754160153,
+      "pr_over_main_peak": 1.068274106330056,
+      "pr_over_kvrocks_peak": 0.5070704817730691
     },
     {
       "kind": "set",
       "size": 1048576,
       "field": 1024,
+      "keys": 50000,
       "operation": "SADD_SREM",
-      "source_csv": "set-1048576-1024-high-keys.csv",
       "peaks": {
         "redis": 271690.14,
         "valkey": 547328.14,
         "kvrocks": 291232.39,
-        "lavik": 230144.69
+        "main": 223314.71,
+        "pr": 210372.47
       },
-      "lavik_over_kvrocks_peak": 0.7902441414569307
+      "source_folders": {
+        "redis": "raw/redis-set-1m-k50000-f1024-20260929",
+        "valkey": "raw/valkey-set-1m-k50000-f1024-20260929",
+        "kvrocks": "raw/kvrocks-set-1m-k50000-f1024-20260929",
+        "main": "raw/lavik-pipeline-main-set-1048576-k50000-f1024-20261001",
+        "pr": "raw/lavik-pipeline-pr-set-1048576-k50000-f1024-20261001"
+      },
+      "matched_connection_pr_over_main_min": 0.942044838873355,
+      "matched_connection_pr_over_main_max": 1.0049818077607207,
+      "pr_over_main_peak": 0.942044838873355,
+      "pr_over_kvrocks_peak": 0.7223525858507702
     },
     {
       "kind": "set",
       "size": 104857600,
       "field": 128,
+      "keys": 500,
       "operation": "SADD_SREM",
-      "source_csv": "set-104857600-128-high-keys.csv",
       "peaks": {
         "redis": 969659.94,
         "valkey": 818188.82,
         "kvrocks": 470138.38,
-        "lavik": 232057.45
+        "main": 247711.88,
+        "pr": 296978.33
       },
-      "lavik_over_kvrocks_peak": 0.493593928664152
+      "source_folders": {
+        "redis": "raw/redis-set-100m-k500-f128-20260929",
+        "valkey": "raw/valkey-set-100m-k500-f128-20260929",
+        "kvrocks": "raw/kvrocks-set-100m-k500-f128-20260929",
+        "main": "raw/lavik-pipeline-main-set-104857600-k500-f128-20261001",
+        "pr": "raw/lavik-pipeline-pr-set-104857600-k500-f128-20261001"
+      },
+      "matched_connection_pr_over_main_min": 1.074137398420658,
+      "matched_connection_pr_over_main_max": 1.1988861010622502,
+      "pr_over_main_peak": 1.1988861010622502,
+      "pr_over_kvrocks_peak": 0.6316828036885651
     },
     {
       "kind": "set",
       "size": 104857600,
       "field": 1024,
+      "keys": 500,
       "operation": "SADD_SREM",
-      "source_csv": "set-104857600-1024-high-keys.csv",
       "peaks": {
         "redis": 802232.44,
         "valkey": 679326.23,
         "kvrocks": 297558.22,
-        "lavik": 242073.93
+        "main": 239555.46,
+        "pr": 305986.54
       },
-      "lavik_over_kvrocks_peak": 0.8135346756678408
+      "source_folders": {
+        "redis": "raw/redis-set-100m-k500-f1024-20260929",
+        "valkey": "raw/valkey-set-100m-k500-f1024-20260929",
+        "kvrocks": "raw/kvrocks-set-100m-k500-f1024-20260929",
+        "main": "raw/lavik-pipeline-main-set-104857600-k500-f1024-20261001",
+        "pr": "raw/lavik-pipeline-pr-set-104857600-k500-f1024-20261001"
+      },
+      "matched_connection_pr_over_main_min": 1.1568255338795799,
+      "matched_connection_pr_over_main_max": 1.308923111715062,
+      "pr_over_main_peak": 1.2773098137692207,
+      "pr_over_kvrocks_peak": 1.0283249442747708
     }
-  ]
+  ],
+  "successful_points": 200,
+  "failed_points": 0,
+  "method": "Matched-connection main/PR ratios use independently fresh-seeded grids. Product peak ratios may use different connection counts. One measurement per point, without confidence intervals; peer persistence/cache settings differ."
 }

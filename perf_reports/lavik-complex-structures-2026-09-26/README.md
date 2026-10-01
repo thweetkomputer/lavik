@@ -7,15 +7,15 @@ remote memtier client. Each chart fixes the collection type, logical payload per
 key, and payload bytes per entry. The horizontal axis is simultaneous
 connections; the vertical axis is completed commands per second.
 
-**Latest main remeasurement: [List chapter](#list), `06562381`, including merged #233.** LSET charts retain peers and latest main, adding unmerged #235 incrementally; the merged #233 curve is removed. Hash/Set main/PR comparisons are refreshed incrementally below. [Historical perf diagnosis](diagnostics/lset-20261001/README.md).
+**Latest main remeasurement: [List chapter](#list), `06562381`, including merged #233.** Both LSET and all Hash/Set charts now retain peers, latest main and unmerged PR #235; the merged #233 curve is removed. [Historical perf diagnosis](diagnostics/lset-20261001/README.md).
 
-**Shared commit-dependency optimization: [PR #235](https://github.com/eloqdata/lavik/pull/235) and main `06562381` share charts with Redis, Valkey and Kvrocks. 8/8 Hash/Set conditions complete; pending charts retain their actual measured versions.**
+**Shared commit-dependency optimization: [PR #235](https://github.com/eloqdata/lavik/pull/235) and main `06562381` share charts with Redis, Valkey and Kvrocks. All 8/8 Hash/Set conditions are complete, retaining only this main and unmerged PR #235.**
 
 ## 2026-10-01 shared commit pipeline comparison
 
 Baseline main `06562381` includes #228/#233. [PR #235](https://github.com/eloqdata/lavik/pull/235) moves waiting for queued owner-local predecessors to background commit. Hash, Set, List, ZSet, Stream and grouped String share this path, including standalone commands. Cross-coordinator EXEC/Lua predecessors and compact demotion retain the existing wait. Small SET/GET already access pending buffers; no data cache was added.
 
-8/8 matched Hash/Set conditions have independent main/PR measurements. Pending charts retain explicitly documented prior versions. Peers reuse matched-key-count results. Redis/Valkey disable persistence; Kvrocks uses uncompressed RAID0, WAL disabled and 80 GiB block/blob caches; Lavik persists through six SPDK NVMe devices. Persistence and cache settings differ. See [Hash/Set manifest](published-main.json) and [LSET manifest](lset-large-published.json).
+All 8/8 Hash/Set conditions have independent main/PR measurements: 200 successful points, 0 failed points and before/after cardinality validation of every key. Peers reuse matched-key-count results. Redis/Valkey disable persistence; Kvrocks uses uncompressed RAID0, WAL disabled and 80 GiB block/blob caches; Lavik persists through six SPDK NVMe devices. Persistence and cache settings differ. See [Hash/Set manifest](published-main.json) and [LSET manifest](lset-large-published.json).
 
 
 
@@ -26,6 +26,13 @@ For #235, main and PR each start on fresh media, seed the same RESTORE payload, 
 
 
 [ABBA rechecks of two small declines](diagnostics/shared-pipeline-20261001/rechecks.md): 30-second main/PR repeats for 1 MiB / 1 KiB Set and 1 MiB / 128 B Hash are broadly equal. The small declines from independently fresh-seeded eight-second points were not reproduced; formal curves retain their original evidence, and the repeats do not establish a speedup.
+
+
+HSET: PR changes by **-4.7% to +22.7%** at matched connections; its workload peaks are **38%–56%** of matched Kvrocks workload peaks.
+
+SADD/SREM: PR changes by **-5.8% to +30.9%** at matched connections; its workload peaks are **51%–103%** of matched Kvrocks workload peaks.
+
+Peak ratios can use different connection counts; cache and persistence settings differ. This does not establish parity across all workloads. Single short points have no confidence intervals; small differences need repeats. [Calculations and sources](latest-main-write-summary.json).
 
 ## List
 
@@ -156,11 +163,15 @@ All four use HSET, 128 entries per command, eight clients and pipeline 64. Main 
 
 ### RESTORE
 
-Seed timings with eight RESTORE clients and 500 × 100 MiB keys. Excludes later cleanup/restart; not compared to other databases using SADD/HSET for import.
+Independent seed timings: 50,000 keys/32 clients at 1 MiB; 500 keys/eight clients at 100 MiB. RESTORE fill only, excluding cleanup/recovery; not mixed with peer HSET/SADD import timings.
 
-- 128 B, main `f1268014`: **272.3 s**. [Raw](raw/lavik-seed-mainf126-hash-104857600-k500-f128-20261001/hash-104857600-128.fill.json).
+1 MiB/key, 128 B: [main: 131.5 s](raw/lavik-seed-pipeline-main-hash-1048576-k50000-f128-20261001/hash-1048576-128.fill.json) · [PR #235: 131.1 s](raw/lavik-seed-pipeline-pr-hash-1048576-k50000-f128-20261001/hash-1048576-128.fill.json).
 
-- 1024 B, main `f1268014`: **116.1 s**. [Raw](raw/lavik-seed-mainf126-hash-104857600-k500-f1024-20261001/hash-104857600-1024.fill.json).
+1 MiB/key, 1024 B: [main: 62.1 s](raw/lavik-seed-pipeline-main-hash-1048576-k50000-f1024-20261001/hash-1048576-1024.fill.json) · [PR #235: 61.7 s](raw/lavik-seed-pipeline-pr-hash-1048576-k50000-f1024-20261001/hash-1048576-1024.fill.json).
+
+100 MiB/key, 128 B: [main: 280.1 s](raw/lavik-seed-pipeline-main-hash-104857600-k500-f128-20261001/hash-104857600-128.fill.json) · [PR #235: 276.5 s](raw/lavik-seed-pipeline-pr-hash-104857600-k500-f128-20261001/hash-104857600-128.fill.json).
+
+100 MiB/key, 1024 B: [main: 119.0 s](raw/lavik-seed-pipeline-main-hash-104857600-k500-f1024-20261001/hash-104857600-1024.fill.json) · [PR #235: 117.1 s](raw/lavik-seed-pipeline-pr-hash-104857600-k500-f1024-20261001/hash-104857600-1024.fill.json).
 
 ## Set
 
@@ -224,11 +235,15 @@ The matching 100 MiB SADD import measurement is pending. The previous mixed REST
 
 ### RESTORE
 
-Seed timings with eight RESTORE clients and 500 × 100 MiB keys. Excludes later cleanup/restart; not compared to other databases using SADD/HSET for import.
+Independent seed timings: 50,000 keys/32 clients at 1 MiB; 500 keys/eight clients at 100 MiB. RESTORE fill only, excluding cleanup/recovery; not mixed with peer HSET/SADD import timings.
 
-- 128 B, main `f1268014`: **274.1 s**. [Raw](raw/lavik-seed-mainf126-set-104857600-k500-f128-20261001/set-104857600-128.fill.json).
+1 MiB/key, 128 B: [main: 123.5 s](raw/lavik-seed-pipeline-main-set-1048576-k50000-f128-20261001/set-1048576-128.fill.json) · [PR #235: 123.7 s](raw/lavik-seed-pipeline-pr-set-1048576-k50000-f128-20261001/set-1048576-128.fill.json).
 
-- 1024 B, main `f1268014`: **134.5 s**. [Raw](raw/lavik-seed-mainf126-set-104857600-k500-f1024-20261001/set-104857600-1024.fill.json).
+1 MiB/key, 1024 B: [main: 66.5 s](raw/lavik-seed-pipeline-main-set-1048576-k50000-f1024-20261001/set-1048576-1024.fill.json) · [PR #235: 66.6 s](raw/lavik-seed-pipeline-pr-set-1048576-k50000-f1024-20261001/set-1048576-1024.fill.json).
+
+100 MiB/key, 128 B: [main: 268.2 s](raw/lavik-seed-pipeline-main-set-104857600-k500-f128-20261001/set-104857600-128.fill.json) · [PR #235: 270.1 s](raw/lavik-seed-pipeline-pr-set-104857600-k500-f128-20261001/set-104857600-128.fill.json).
+
+100 MiB/key, 1024 B: [main: 136.4 s](raw/lavik-seed-pipeline-main-set-104857600-k500-f1024-20261001/set-104857600-1024.fill.json) · [PR #235: 130.8 s](raw/lavik-seed-pipeline-pr-set-104857600-k500-f1024-20261001/set-104857600-1024.fill.json).
 
 ## Workloads
 
@@ -335,11 +350,11 @@ The [HGETALL memory investigation](diagnostics/hgetall-oom-20260929/README.md) a
 
 ## Stream
 
-Stream 100 MiB / 1 KiB now compares main `a8c926d4` with the current optimization PR; smaller cases retain measured merged main `9acd7b6f`. The 64 KiB and 1 MiB cases use 64 hot keys with 128 B or 1 KiB entries; the 100 MiB case uses eight keys with 1 KiB entries. The horizontal axis is connection count and the vertical axis is QPS; each figure contains one Lavik main curve, plus any measured unmerged optimization PR.
+Stream 100 MiB / 1 KiB now compares main `06562381` with PR #235; smaller cases retain measured merged main `9acd7b6f`. The 64 KiB and 1 MiB cases use 64 hot keys with 128 B or 1 KiB entries; the 100 MiB case uses eight keys with 1 KiB entries. The horizontal axis is connection count and the vertical axis is QPS; each figure contains one Lavik main curve, plus any measured unmerged optimization PR.
 
 Point reads and writes cover 80–5120 connections. Full reads use 16/80 for the smaller sizes and 1/4/16 for 100 MiB. Redis and Valkey have persistence disabled; Kvrocks has WAL disabled with an 80 GiB block cache; Lavik commits to SPDK. Write QPS reflects these configurations.
 
-[Small and historical 100 MiB points](stream-latest.csv), [current 100 MiB points](stream-104857600-1024-current.csv), and [current plot provenance](ordered-published.json); Lavik [small](raw/lavik-main9acd-stream-small-20260929/) and [100 MiB](raw/lavik-main9acd-stream-100m-20260929/) raw runs retain the evidence. Each point is one eight-second run. Older optimization-stage samples remain under `raw/` and are not plotted.
+[Small and historical 100 MiB points](stream-latest.csv), [current 100 MiB points](stream-104857600-1024-current.csv), and [current plot provenance](ordered-published.json); Lavik [small](raw/lavik-main9acd-stream-small-20260929/) and [100 MiB](raw/lavik-ordered-pipeline-main-stream-100m-k8-f1024-20261001/) raw runs retain the evidence. Each point is one eight-second run. Older optimization-stage samples remain under `raw/` and are not plotted.
 
 ### Exact-ID `XRANGE`
 

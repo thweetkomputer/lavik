@@ -6,15 +6,15 @@
 Redis 兼容数据结构。每张图固定数据结构、每个 key 的逻辑数据量和
 每个元素的字节数。横轴为连接数，纵轴为每秒完成的命令数。
 
-**最新 main 复测见 [List 章开头](#list)：`06562381`，已包含 #233。** 两档 LSET 每张图保留其他三库和最新 main，并逐组补入未合并的 #235 曲线；#233 独立曲线已删除。Hash/Set 按下方进度逐组更新 main/PR 对比。[历史 perf 诊断](diagnostics/lset-20261001/README.md)。
+**最新 main 复测见 [List 章开头](#list)：`06562381`，已包含 #233。** 两档 LSET 与全部 Hash/Set 曲线均已更新为其他三库、最新 main 和未合并 PR #235；#233 独立曲线已删除。[历史 perf 诊断](diagnostics/lset-20261001/README.md)。
 
-**共用提交依赖优化：[PR #235](https://github.com/eloqdata/lavik/pull/235) 与 main `06562381` 同图，并保留 Redis、Valkey、Kvrocks。已完成 8/8 组 Hash/Set 对比；未完成图保留实际测量版本。**
+**共用提交依赖优化：[PR #235](https://github.com/eloqdata/lavik/pull/235) 与 main `06562381` 同图，并保留 Redis、Valkey、Kvrocks。8/8 组 Hash/Set 对比已完成，图中只保留本轮 main 和未合并 PR #235。**
 
 ## 2026-10-01 共用提交路径对比
 
 基线 main `06562381` 已包含 #228/#233。新优化 [PR #235](https://github.com/eloqdata/lavik/pull/235) 把本 worker 已排队前驱的等待移到后台提交阶段；Hash、Set、List、ZSet、Stream 和分组 String 共用这条路径。普通单命令也适用；跨协调 worker 的 EXEC/Lua 前驱和退回紧凑表示的路径仍保留原等待。小 SET/GET 原本就可访问待刷缓冲，本次未加入数据缓存。
 
-已完成 8/8 组 Hash/Set main/PR 独立复测；待测图保留原版本并在图下注明。Redis、Valkey、Kvrocks 沿用同 key 数原始结果。Redis/Valkey 不持久化；Kvrocks 为无压缩 RAID0、关闭 WAL、80 GiB block/blob cache；Lavik 使用六块 NVMe SPDK 持久化。持久化与缓存配置不同。版本及来源见 [Hash/Set 清单](published-main.json)、[LSET 清单](lset-large-published.json)。
+8/8 组 Hash/Set main/PR 独立复测已完成，200 个成功测点、0 个失败测点；逐 key 数量校验通过。Redis、Valkey、Kvrocks 沿用同 key 数原始结果。Redis/Valkey 不持久化；Kvrocks 为无压缩 RAID0、关闭 WAL、80 GiB block/blob cache；Lavik 使用六块 NVMe SPDK 持久化。持久化与缓存配置不同。版本及来源见 [Hash/Set 清单](published-main.json)、[LSET 清单](lset-large-published.json)。
 
 
 
@@ -25,6 +25,13 @@ Redis 兼容数据结构。每张图固定数据结构、每个 key 的逻辑数
 
 
 [两组小幅回退的 ABBA 复测](diagnostics/shared-pipeline-20261001/rechecks.md)：1 MiB / 1 KiB Set 和 1 MiB / 128 B Hash 的 main/PR 30 秒复测均基本持平。没有复现独立清盘八秒测点中的小幅下降；正式曲线保留实测结果，不能据复测宣称提升。
+
+
+HSET：相同连接数下 PR 相对 main 的变化范围为 **-4.7%–+22.7%**；PR 各负载峰值约为 Kvrocks 对应负载峰值的 **38%–56%**。
+
+SADD/SREM：相同连接数下 PR 相对 main 的变化范围为 **-5.8%–+30.9%**；PR 各负载峰值约为 Kvrocks 对应负载峰值的 **51%–103%**。
+
+峰值比可来自不同连接数，缓存与持久化设置不同；不能据此宣称所有负载已追平。单点短测没有置信区间，较小变化需要复测。[逐条件计算与来源](latest-main-write-summary.json)。
 
 ## List
 
@@ -155,11 +162,15 @@ Redis 兼容数据结构。每张图固定数据结构、每个 key 的逻辑数
 
 ### RESTORE
 
-各次预置计时，均为 8 个 RESTORE 客户端、500 个 100 MiB key；不含随后清理和重启，不与其他数据库的 SADD/HSET 导入混比。
+本轮独立预置计时：1 MiB 为 50,000 个 key、32 个客户端；100 MiB 为 500 个 key、8 个客户端。只包含 RESTORE 灌入，不包含随后清理和恢复；不与三库的 HSET/SADD 导入计时混比。
 
-- 128 B, main `f1268014`: **272.3 s**. [Raw](raw/lavik-seed-mainf126-hash-104857600-k500-f128-20261001/hash-104857600-128.fill.json).
+1 MiB/key, 128 B: [main: 131.5 s](raw/lavik-seed-pipeline-main-hash-1048576-k50000-f128-20261001/hash-1048576-128.fill.json) · [PR #235: 131.1 s](raw/lavik-seed-pipeline-pr-hash-1048576-k50000-f128-20261001/hash-1048576-128.fill.json).
 
-- 1024 B, main `f1268014`: **116.1 s**. [Raw](raw/lavik-seed-mainf126-hash-104857600-k500-f1024-20261001/hash-104857600-1024.fill.json).
+1 MiB/key, 1024 B: [main: 62.1 s](raw/lavik-seed-pipeline-main-hash-1048576-k50000-f1024-20261001/hash-1048576-1024.fill.json) · [PR #235: 61.7 s](raw/lavik-seed-pipeline-pr-hash-1048576-k50000-f1024-20261001/hash-1048576-1024.fill.json).
+
+100 MiB/key, 128 B: [main: 280.1 s](raw/lavik-seed-pipeline-main-hash-104857600-k500-f128-20261001/hash-104857600-128.fill.json) · [PR #235: 276.5 s](raw/lavik-seed-pipeline-pr-hash-104857600-k500-f128-20261001/hash-104857600-128.fill.json).
+
+100 MiB/key, 1024 B: [main: 119.0 s](raw/lavik-seed-pipeline-main-hash-104857600-k500-f1024-20261001/hash-104857600-1024.fill.json) · [PR #235: 117.1 s](raw/lavik-seed-pipeline-pr-hash-104857600-k500-f1024-20261001/hash-104857600-1024.fill.json).
 
 ## Set
 
@@ -225,11 +236,15 @@ Redis 兼容数据结构。每张图固定数据结构、每个 key 的逻辑数
 
 ### RESTORE
 
-各次预置计时，均为 8 个 RESTORE 客户端、500 个 100 MiB key；不含随后清理和重启，不与其他数据库的 SADD/HSET 导入混比。
+本轮独立预置计时：1 MiB 为 50,000 个 key、32 个客户端；100 MiB 为 500 个 key、8 个客户端。只包含 RESTORE 灌入，不包含随后清理和恢复；不与三库的 HSET/SADD 导入计时混比。
 
-- 128 B, main `f1268014`: **274.1 s**. [Raw](raw/lavik-seed-mainf126-set-104857600-k500-f128-20261001/set-104857600-128.fill.json).
+1 MiB/key, 128 B: [main: 123.5 s](raw/lavik-seed-pipeline-main-set-1048576-k50000-f128-20261001/set-1048576-128.fill.json) · [PR #235: 123.7 s](raw/lavik-seed-pipeline-pr-set-1048576-k50000-f128-20261001/set-1048576-128.fill.json).
 
-- 1024 B, main `f1268014`: **134.5 s**. [Raw](raw/lavik-seed-mainf126-set-104857600-k500-f1024-20261001/set-104857600-1024.fill.json).
+1 MiB/key, 1024 B: [main: 66.5 s](raw/lavik-seed-pipeline-main-set-1048576-k50000-f1024-20261001/set-1048576-1024.fill.json) · [PR #235: 66.6 s](raw/lavik-seed-pipeline-pr-set-1048576-k50000-f1024-20261001/set-1048576-1024.fill.json).
+
+100 MiB/key, 128 B: [main: 268.2 s](raw/lavik-seed-pipeline-main-set-104857600-k500-f128-20261001/set-104857600-128.fill.json) · [PR #235: 270.1 s](raw/lavik-seed-pipeline-pr-set-104857600-k500-f128-20261001/set-104857600-128.fill.json).
+
+100 MiB/key, 1024 B: [main: 136.4 s](raw/lavik-seed-pipeline-main-set-104857600-k500-f1024-20261001/set-104857600-1024.fill.json) · [PR #235: 130.8 s](raw/lavik-seed-pipeline-pr-set-104857600-k500-f1024-20261001/set-104857600-1024.fill.json).
 
 ## 工作负载
 
@@ -326,11 +341,11 @@ value、member 或元素为 128 B 或 1 KiB。Stream 的字段名和各结构元
 
 ## Stream
 
-Stream 的 100 MiB / 1 KiB 已更新为 main `a8c926d4` 与本轮优化 PR；小档保留已合并优化后的 main `9acd7b6f` 实测。64 KiB 和 1 MiB 档使用 64 个热 key、128 B 或 1 KiB 元素；100 MiB 档使用八个 key、1 KiB 元素。横轴为连接数，纵轴为 QPS；每图保留一条 Lavik main 曲线，并叠加尚未合并的实测优化 PR。
+Stream 的 100 MiB / 1 KiB 已更新为 main `06562381` 与 PR #235；小档保留已合并优化后的 main `9acd7b6f` 实测。64 KiB 和 1 MiB 档使用 64 个热 key、128 B 或 1 KiB 元素；100 MiB 档使用八个 key、1 KiB 元素。横轴为连接数，纵轴为 QPS；每图保留一条 Lavik main 曲线，并叠加尚未合并的实测优化 PR。
 
 点查和写入覆盖 80–5120 连接；小档完整读取覆盖 16/80 连接，100 MiB 档覆盖 1/4/16 连接。Redis 和 Valkey 关闭持久化，Kvrocks 关闭 WAL 且启用 80 GiB block cache，Lavik 提交到 SPDK；写入结果反映这些具体配置。
 
-[小档测点及历史 100 MiB 测点](stream-latest.csv)、[当前 100 MiB 测点](stream-104857600-1024-current.csv)、[当前绘图来源](ordered-published.json)；Lavik [小档](raw/lavik-main9acd-stream-small-20260929/)与 [100 MiB 档](raw/lavik-main9acd-stream-100m-20260929/)的原始记录可复核各点。每点八秒、只测一次；旧优化阶段的结果保留在 `raw/`，不参与当前图表。
+[小档测点及历史 100 MiB 测点](stream-latest.csv)、[当前 100 MiB 测点](stream-104857600-1024-current.csv)、[当前绘图来源](ordered-published.json)；Lavik [小档](raw/lavik-main9acd-stream-small-20260929/)与 [100 MiB 档](raw/lavik-ordered-pipeline-main-stream-100m-k8-f1024-20261001/)的原始记录可复核各点。每点八秒、只测一次；旧优化阶段的结果保留在 `raw/`，不参与当前图表。
 
 ### 指定 ID `XRANGE`
 
