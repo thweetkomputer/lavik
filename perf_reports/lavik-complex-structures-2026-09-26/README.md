@@ -34,9 +34,9 @@ Use 50,000 keys at 1 MiB/key and 500 keys at 100 MiB/key, with 1 KiB elements. E
 
 #### 1 MiB/key × 50,000 keys
 
-![LSET 1 MiB, 50,000 keys: Redis / Valkey / Kvrocks / Lavik main](charts/list-lset-1048576-1024-k50000-main-pr.png)
+![LSET 1 MiB, 50,000 keys: four databases and PR #235](charts/list-lset-1048576-1024-k50000-main-pr.png)
 
-**Four databases on one chart: Redis, Valkey, Kvrocks and Lavik main `06562381`.** #233 is merged. Main was independently reseeded on freshly cleared media and remeasured; its curve replaces both earlier main and PR curves. Lavik reaches **117.8–142.3k QPS**; all five points passed zero-error and before/after all-key cardinality checks. Peers retain the matched-workload measurements. [Main raw](raw/lavik-lset-main0656-1048576-k50000-f1024-20261001/) · [CSV](list-lset-1048576-1024-k50000-main-pr.csv) · [redis raw](raw/redis-lset-matched-1048576-k50000-f1024-20261001/) · [valkey raw](raw/valkey-lset-matched-1048576-k50000-f1024-20261001/) · [kvrocks raw](raw/kvrocks-lset-matched-1048576-k50000-f1024-20261001/).
+**Redis, Valkey, Kvrocks, Lavik main `06562381` and [PR #235](https://github.com/eloqdata/lavik/pull/235) `09871950` share one chart.** PR was independently seeded on fresh media using the matched RPUSH protocol; main retains its earlier independently fresh-seeded run. All five points had zero errors and every key passed before/after cardinality checks. [Main raw](raw/lavik-lset-main0656-1048576-k50000-f1024-20261001/) · [PR raw](raw/lavik-lset-pipeline-pr235-1048576-k50000-f1024-20261001/) · [CSV](list-lset-1048576-1024-k50000-main-pr.csv).
 
 #### 100 MiB/key × 500 keys
 

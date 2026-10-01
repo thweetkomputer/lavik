@@ -33,9 +33,9 @@ Redis 兼容数据结构。每张图固定数据结构、每个 key 的逻辑数
 
 #### 1 MiB/key × 50,000 keys
 
-![LSET 1 MiB, 50,000 keys: Redis / Valkey / Kvrocks / Lavik main](charts/list-lset-1048576-1024-k50000-main-pr.png)
+![LSET 1 MiB, 50,000 keys: four databases and PR #235](charts/list-lset-1048576-1024-k50000-main-pr.png)
 
-**四库同图：Redis、Valkey、Kvrocks、Lavik main `06562381`。** #233 已合并，已用 main 重新清盘、独立灌入并测量，原 main / PR 两条线已替换为最新 main 一条线。Lavik 为 **117.8–142.3k QPS**；五档连接数测点零错误，测前测后逐 key 数量校验通过。其他三库保留同规模原始测量。 [Main raw](raw/lavik-lset-main0656-1048576-k50000-f1024-20261001/) · [CSV](list-lset-1048576-1024-k50000-main-pr.csv) · [redis raw](raw/redis-lset-matched-1048576-k50000-f1024-20261001/) · [valkey raw](raw/valkey-lset-matched-1048576-k50000-f1024-20261001/) · [kvrocks raw](raw/kvrocks-lset-matched-1048576-k50000-f1024-20261001/).
+**Redis、Valkey、Kvrocks、Lavik main `06562381` 与 [PR #235](https://github.com/eloqdata/lavik/pull/235) `09871950` 同图。** 本轮 PR 独立清盘并用同样 RPUSH 协议灌入；main 沿用此前独立清盘测量。五档测点零错误、测前测后逐 key 数量校验通过。 [Main raw](raw/lavik-lset-main0656-1048576-k50000-f1024-20261001/) · [PR raw](raw/lavik-lset-pipeline-pr235-1048576-k50000-f1024-20261001/) · [CSV](list-lset-1048576-1024-k50000-main-pr.csv).
 
 #### 100 MiB/key × 500 keys
 
