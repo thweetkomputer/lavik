@@ -7,7 +7,7 @@ remote memtier client. Each chart fixes the collection type, logical payload per
 key, and payload bytes per entry. The horizontal axis is simultaneous
 connections; the vertical axis is completed commands per second.
 
-**Latest main remeasurement: [List chapter](#list), `06562381`, including merged #233.** Each LSET chart includes Redis, Valkey, Kvrocks and Lavik main; the merged PR curve is removed. Hash/Set main/PR comparisons are refreshed incrementally below. [Historical perf diagnosis](diagnostics/lset-20261001/README.md).
+**Latest main remeasurement: [List chapter](#list), `06562381`, including merged #233.** LSET charts retain peers and latest main, adding unmerged #235 incrementally; the merged #233 curve is removed. Hash/Set main/PR comparisons are refreshed incrementally below. [Historical perf diagnosis](diagnostics/lset-20261001/README.md).
 
 **Shared commit-dependency optimization: [PR #235](https://github.com/eloqdata/lavik/pull/235) and main `06562381` share charts with Redis, Valkey and Kvrocks. 8/8 Hash/Set conditions complete; pending charts retain their actual measured versions.**
 
@@ -40,9 +40,9 @@ Use 50,000 keys at 1 MiB/key and 500 keys at 100 MiB/key, with 1 KiB elements. E
 
 #### 100 MiB/key × 500 keys
 
-![LSET 100 MiB, 500 keys: Redis / Valkey / Kvrocks / Lavik main](charts/list-lset-104857600-1024-k500-main-pr.png)
+![LSET 100 MiB, 500 keys: four databases and PR #235](charts/list-lset-104857600-1024-k500-main-pr.png)
 
-**Four databases on one chart: Redis, Valkey, Kvrocks and Lavik main `06562381`.** #233 is merged. Main was independently reseeded on freshly cleared media and remeasured; its curve replaces both earlier main and PR curves. Lavik reaches **92.6–130.3k QPS**; all five points passed zero-error and before/after all-key cardinality checks. Peers retain the matched-workload measurements. [Main raw](raw/lavik-lset-main0656-104857600-k500-f1024-20261001/) · [CSV](list-lset-104857600-1024-k500-main-pr.csv) · [redis raw](raw/redis-lset-matched-104857600-k500-f1024-20261001/) · [valkey raw](raw/valkey-lset-matched-104857600-k500-f1024-20261001/) · [kvrocks raw](raw/kvrocks-lset-matched-104857600-k500-f1024-20261001/).
+**Redis, Valkey, Kvrocks, Lavik main `06562381` and [PR #235](https://github.com/eloqdata/lavik/pull/235) `09871950` share one chart.** PR was independently seeded on fresh media using the matched RPUSH protocol; main retains its earlier independently fresh-seeded run. All five points had zero errors and every key passed before/after cardinality checks. [Main raw](raw/lavik-lset-main0656-104857600-k500-f1024-20261001/) · [PR raw](raw/lavik-lset-pipeline-pr235-104857600-k500-f1024-20261001/) · [CSV](list-lset-104857600-1024-k500-main-pr.csv).
 
 
 
