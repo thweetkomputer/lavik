@@ -7,7 +7,9 @@ remote memtier client. Each chart fixes the collection type, logical payload per
 key, and payload bytes per entry. The horizontal axis is simultaneous
 connections; the vertical axis is completed commands per second.
 
-**LSET with more keys:** [new main / PR #233 curves](#lset-with-more-independent-keys), 50,000 keys at 1 MiB/key and 500 keys at 100 MiB/key, using 1 KiB elements; [perf diagnosis and reproduction](diagnostics/lset-20261001/README.md).
+**See the latest optimization comparison at the [start of the List chapter](#list): main `f1268014` / PR #233 `0af92a14`.** Two charts cover 50,000 × 1 MiB and 500 × 100 MiB keys. [Perf diagnosis and reproduction](diagnostics/lset-20261001/README.md).
+
+Hash/Set shows main after #228 merged; the latest measured PR #233 comparison is the two LSET workloads below.
 
 ## 2026-10-01 main refresh
 
@@ -20,6 +22,75 @@ Redis, Valkey and Kvrocks retain their previous matching-key-count measurements.
 ### Current write-throughput gap
 
 Comparing each product's own peak over the measured connection grid, latest-main HSET reaches **33%–51%** of Kvrocks, and SADD/SREM **49%–81%**. Overall parity has not been reached. Peaks may occur at different connection counts, and persistence/cache settings differ. [Per-condition calculations and sources](latest-main-write-summary.json).
+
+## List
+
+Current optimization comparison: [PR #233](https://github.com/eloqdata/lavik/pull/233) `0af92a14` versus main `f1268014`. The two LSET charts below directly show the measured main and optimized PR at fixed key counts, key sizes and element sizes.
+
+### LSET with more independent keys
+
+Use 50,000 keys at 1 MiB/key and 500 keys at 100 MiB/key, with 1 KiB elements. Each version receives independently seeded identical initial data; the October 1 runs additionally clear dedicated benchmark media before each seed. Seeding uses 32 seed clients, 128 KiB RPUSH batches and seed pipeline=4. Measured memtier traffic is single-element LSET with pipeline=1, 10 seconds per point, at 80/320/1280/2560/5120 connections. CPU profiles run after the entire clean grid and are excluded from curves. Earlier peer curves retain their own workloads and key counts.
+
+#### 1 MiB/key × 50,000 keys
+
+![LSET 1 MiB, 50,000 keys: main / PR #233](charts/list-lset-1048576-1024-k50000-main-pr.png)
+
+Main `f1268014` / PR #233 `0af92a14`. Main: 86.0–101.5k QPS; PR: 115.2–137.0k QPS, or 1.27–1.35× at matching connection counts. All keys passed before/after cardinality validation; all points completed with zero errors. [Main raw](raw/lavik-lset-mainf126-1048576-k50000-f1024-20261001/) · [PR raw](raw/lavik-lset-radix-1048576-k50000-f1024-20261001/) · [CSV](list-lset-1048576-1024-k50000-main-pr.csv).
+
+#### 100 MiB/key × 500 keys
+
+![LSET 100 MiB, 500 keys: main / PR #233](charts/list-lset-104857600-1024-k500-main-pr.png)
+
+Main `f1268014` / PR #233 `0af92a14`. Main: 7.2–7.4k QPS; PR: 92.1–129.4k QPS, or 12.66–17.58× at matching connection counts. All keys passed before/after cardinality validation; all points completed with zero errors. [Main raw](raw/lavik-lset-mainf126-104857600-k500-f1024-20261001/) · [PR raw](raw/lavik-lset-radix-104857600-k500-f1024-20261001/) · [CSV](list-lset-104857600-1024-k500-main-pr.csv).
+
+<details>
+<summary>Historical LINDEX / LSET: earlier revisions with fewer keys (expand)</summary>
+
+### LINDEX / LSET
+
+#### 64 KiB per key
+
+![List 64 KiB per key, 128 B entries: LINDEX / LSET QPS by connection count](charts/list-65536-128.png)
+
+![List 64 KiB per key, 1 KiB entries: LINDEX / LSET QPS by connection count](charts/list-65536-1024.png)
+
+#### 1 MiB per key
+
+![List 1 MiB per key, 128 B entries: LINDEX / LSET QPS by connection count](charts/list-1048576-128.png)
+
+![List 1 MiB per key, 1 KiB entries: LINDEX / LSET QPS by connection count](charts/list-1048576-1024.png)
+
+#### 100 MiB per key
+
+![List 100 MiB per key, 128 B entries: LINDEX / LSET QPS by connection count](charts/list-104857600-128.png)
+
+![List 100 MiB per key, 1 KiB entries: LINDEX / LSET QPS by connection count](charts/list-104857600-1024-ab.png)
+
+**2026-09-30 main `a8c926d4` and [PR #233](https://github.com/eloqdata/lavik/pull/233) `759832d8` measured.** 8 × 100 MiB keys, 1 KiB entries; 13 unprofiled points per version cover point reads/writes at 80–5120 connections and full reads at 1/4/16. Peers retain the original matching workload. Both binaries were seeded independently from the same initial logical data. All points have zero errors; every key passed cardinality validation. [Main raw](raw/lavik-maina8-ordered-list-100m-k8-f1024-20260930/) · [PR raw](raw/lavik-fresh759832d8-list-100m-k8-f1024-20260930/) · [Plot provenance](ordered-published.json). Releasing worker state during grouped List reads at `759832d8` raises LINDEX to 3.67–6.10× main and LRANGE at 16 connections to 2.39×. LSET ratios across the five levels are 1.72, 1.27, 0.97, 0.72 and 0.73; high-concurrency writes still need work, so the PR remains a draft. The earlier reused-data LINDEX speedup is retracted: the same old binary produced 58.7k / 433.2k profiled QPS before/after LSET, which cannot establish a code gain. [Same-binary diagnostic](raw/lavik-diagnostic-list-layout-5b1c3064-20260930/).
+
+</details>
+
+### LRANGE 0 -1
+
+#### 64 KiB per key
+
+![List 64 KiB per key, 128 B entries: LRANGE 0 -1 QPS by connection count](charts/list-65536-128-full.png)
+
+![List 64 KiB per key, 1 KiB entries: LRANGE 0 -1 QPS by connection count](charts/list-65536-1024-full.png)
+
+#### 1 MiB per key
+
+![List 1 MiB per key, 128 B entries: LRANGE 0 -1 QPS by connection count](charts/list-1048576-128-full.png)
+
+![List 1 MiB per key, 1 KiB entries: LRANGE 0 -1 QPS by connection count](charts/list-1048576-1024-full.png)
+
+#### 100 MiB per key
+
+![List 100 MiB per key, 128 B entries: LRANGE 0 -1 QPS by connection count](charts/list-104857600-128-full.png)
+
+![List 100 MiB per key, 1 KiB entries: LRANGE 0 -1 QPS by connection count](charts/list-104857600-1024-ab-full.png)
+
+For 1 MiB `LINDEX`, Lavik peaked near 139k QPS with 128 B entries and 677k with 1 KiB entries. The entry-count difference matters, but the available profiling does not isolate one cause.
 
 ## Hash
 
@@ -203,74 +274,9 @@ Bulk imports use a Python client on the server host; point-command QPS uses memt
 - QPS and latency come from memtier's JSON output. The script rejects
   connection errors, interrupted runs, and server error responses.
 
-## List
-
-Each figure identifies its measured revision and key count. The 100 MiB / 1 KiB small-key-count comparison uses main `a8c926d4` and PR #233; the new LSET comparisons with more independent keys are separate. Other earlier four-product curves use Lavik `646a7b4e`, as recorded in the [raw CSV](results.csv).
-
-### LINDEX / LSET
-
-#### 64 KiB per key
-
-![List 64 KiB per key, 128 B entries: LINDEX / LSET QPS by connection count](charts/list-65536-128.png)
-
-![List 64 KiB per key, 1 KiB entries: LINDEX / LSET QPS by connection count](charts/list-65536-1024.png)
-
-#### 1 MiB per key
-
-![List 1 MiB per key, 128 B entries: LINDEX / LSET QPS by connection count](charts/list-1048576-128.png)
-
-![List 1 MiB per key, 1 KiB entries: LINDEX / LSET QPS by connection count](charts/list-1048576-1024.png)
-
-#### 100 MiB per key
-
-![List 100 MiB per key, 128 B entries: LINDEX / LSET QPS by connection count](charts/list-104857600-128.png)
-
-![List 100 MiB per key, 1 KiB entries: LINDEX / LSET QPS by connection count](charts/list-104857600-1024-ab.png)
-
-**2026-09-30 main `a8c926d4` and [PR #233](https://github.com/eloqdata/lavik/pull/233) `759832d8` measured.** 8 × 100 MiB keys, 1 KiB entries; 13 unprofiled points per version cover point reads/writes at 80–5120 connections and full reads at 1/4/16. Peers retain the original matching workload. Both binaries were seeded independently from the same initial logical data. All points have zero errors; every key passed cardinality validation. [Main raw](raw/lavik-maina8-ordered-list-100m-k8-f1024-20260930/) · [PR raw](raw/lavik-fresh759832d8-list-100m-k8-f1024-20260930/) · [Plot provenance](ordered-published.json). Releasing worker state during grouped List reads at `759832d8` raises LINDEX to 3.67–6.10× main and LRANGE at 16 connections to 2.39×. LSET ratios across the five levels are 1.72, 1.27, 0.97, 0.72 and 0.73; high-concurrency writes still need work, so the PR remains a draft. The earlier reused-data LINDEX speedup is retracted: the same old binary produced 58.7k / 433.2k profiled QPS before/after LSET, which cannot establish a code gain. [Same-binary diagnostic](raw/lavik-diagnostic-list-layout-5b1c3064-20260930/).
-
-
-### LSET with more independent keys
-
-Use 50,000 keys at 1 MiB/key and 500 keys at 100 MiB/key, with 1 KiB elements. Each version receives independently seeded identical initial data; the October 1 runs additionally clear dedicated benchmark media before each seed. Seeding uses 32 seed clients, 128 KiB RPUSH batches and seed pipeline=4. Measured memtier traffic is single-element LSET with pipeline=1, 10 seconds per point, at 80/320/1280/2560/5120 connections. CPU profiles run after the entire clean grid and are excluded from curves. Earlier peer curves retain their own workloads and key counts.
-
-#### 1 MiB/key × 50,000 keys
-
-![LSET 1 MiB, 50,000 keys: main / PR #233](charts/list-lset-1048576-1024-k50000-main-pr.png)
-
-Main `f1268014` / PR #233 `0af92a14`. Main: 86.0–101.5k QPS; PR: 115.2–137.0k QPS, or 1.27–1.35× at matching connection counts. All keys passed before/after cardinality validation; all points completed with zero errors. [Main raw](raw/lavik-lset-mainf126-1048576-k50000-f1024-20261001/) · [PR raw](raw/lavik-lset-radix-1048576-k50000-f1024-20261001/) · [CSV](list-lset-1048576-1024-k50000-main-pr.csv).
-
-#### 100 MiB/key × 500 keys
-
-![LSET 100 MiB, 500 keys: main / PR #233](charts/list-lset-104857600-1024-k500-main-pr.png)
-
-Main `f1268014` / PR #233 `0af92a14`. Main: 7.2–7.4k QPS; PR: 92.1–129.4k QPS, or 12.66–17.58× at matching connection counts. All keys passed before/after cardinality validation; all points completed with zero errors. [Main raw](raw/lavik-lset-mainf126-104857600-k500-f1024-20261001/) · [PR raw](raw/lavik-lset-radix-104857600-k500-f1024-20261001/) · [CSV](list-lset-104857600-1024-k500-main-pr.csv).
-
-### LRANGE 0 -1
-
-#### 64 KiB per key
-
-![List 64 KiB per key, 128 B entries: LRANGE 0 -1 QPS by connection count](charts/list-65536-128-full.png)
-
-![List 64 KiB per key, 1 KiB entries: LRANGE 0 -1 QPS by connection count](charts/list-65536-1024-full.png)
-
-#### 1 MiB per key
-
-![List 1 MiB per key, 128 B entries: LRANGE 0 -1 QPS by connection count](charts/list-1048576-128-full.png)
-
-![List 1 MiB per key, 1 KiB entries: LRANGE 0 -1 QPS by connection count](charts/list-1048576-1024-full.png)
-
-#### 100 MiB per key
-
-![List 100 MiB per key, 128 B entries: LRANGE 0 -1 QPS by connection count](charts/list-104857600-128-full.png)
-
-![List 100 MiB per key, 1 KiB entries: LRANGE 0 -1 QPS by connection count](charts/list-104857600-1024-ab-full.png)
-
-For 1 MiB `LINDEX`, Lavik peaked near 139k QPS with 128 B entries and 677k with 1 KiB entries. The entry-count difference matters, but the available profiling does not isolate one cause.
-
 ## Sorted Set
 
-Each figure identifies its measured revision and key count. The 100 MiB / 1 KiB small-key-count comparison uses main `a8c926d4` and PR #233; the new LSET comparisons with more independent keys are separate. Other earlier four-product curves use Lavik `646a7b4e`, as recorded in the [raw CSV](results.csv).
+Each figure identifies its measured revision and key count. The 100 MiB / 1 KiB small-key-count comparison uses main `a8c926d4` and PR #233. Other earlier four-product curves use Lavik `646a7b4e`, as recorded in the [raw CSV](results.csv).
 
 ### ZSCORE / ZINCRBY
 
