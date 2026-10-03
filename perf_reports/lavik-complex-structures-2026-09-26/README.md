@@ -305,7 +305,7 @@ Newly rerun 1 KiB-entry charts compare main `6111d0b1` with the ZSet optimizatio
 
 ![Sorted Set 100 MiB per key, 1 KiB entries: ZSCORE / ZINCRBY QPS by connection count](charts/zset-104857600-1024-ab.png)
 
-**ZSet: measured main `6111d0b1` and [PR #246](https://github.com/eloqdata/lavik/pull/246) `95f2c398`, with Redis, Valkey and Kvrocks.** 8 keys × 100 MiB/key; 1 KiB/entry. Each version independently seeds fresh media on the same host; every-key checks pass before/after, with zero errors at all points.The #244 curve retains its measured older base `44761b91`; its differences do not establish gains over the new main. [Main raw](raw/lavik-zset-main6111d0b1-k8-104857600-f1024-20261003/) · [PR raw](raw/lavik-zset-pr95f2c398-k8-104857600-f1024-20261003/).
+**ZSet: measured main `6111d0b1` and [PR #247](https://github.com/eloqdata/lavik/pull/247) `6562e3b8`, with Redis, Valkey, Kvrocks and other unmerged optimization PRs.** 8 keys × 100 MiB/key; 1 KiB/entry. Each version independently seeds fresh media on the same host; every-key checks pass before/after, with zero errors at all points.The #244 curve retains its measured older base `44761b91`; its differences do not establish gains over the new main. [Main raw](raw/lavik-zset-main6111d0b1-k8-104857600-f1024-20261003/) · [PR raw](raw/lavik-zset-pr6562e3b8-k8-104857600-f1024-20261003/).
 
 
 ### ZRANGE WITHSCORES
@@ -330,7 +330,7 @@ Newly rerun 1 KiB-entry charts compare main `6111d0b1` with the ZSet optimizatio
 
 ![Sorted Set 100 MiB per key, 1 KiB entries: ZRANGE WITHSCORES QPS by connection count](charts/zset-104857600-1024-ab-full.png)
 
-**ZSet: measured main `6111d0b1` and [PR #246](https://github.com/eloqdata/lavik/pull/246) `95f2c398`, with Redis, Valkey and Kvrocks.** 8 keys × 100 MiB/key; 1 KiB/entry. Each version independently seeds fresh media on the same host; every-key checks pass before/after, with zero errors at all points.The #244 curve retains its measured older base `44761b91`; its differences do not establish gains over the new main. [Main raw](raw/lavik-zset-main6111d0b1-k8-104857600-f1024-20261003/) · [PR raw](raw/lavik-zset-pr95f2c398-k8-104857600-f1024-20261003/).
+**ZSet: measured main `6111d0b1` and [PR #247](https://github.com/eloqdata/lavik/pull/247) `6562e3b8`, with Redis, Valkey, Kvrocks and other unmerged optimization PRs.** 8 keys × 100 MiB/key; 1 KiB/entry. Each version independently seeds fresh media on the same host; every-key checks pass before/after, with zero errors at all points.The #244 curve retains its measured older base `44761b91`; its differences do not establish gains over the new main. [Main raw](raw/lavik-zset-main6111d0b1-k8-104857600-f1024-20261003/) · [PR raw](raw/lavik-zset-pr6562e3b8-k8-104857600-f1024-20261003/).
 
 ## Measurement limits
 
