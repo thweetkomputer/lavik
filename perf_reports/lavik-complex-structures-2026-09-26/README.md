@@ -7,35 +7,14 @@ remote memtier client. Each chart fixes the collection type, logical payload per
 key, and payload bytes per entry. The horizontal axis is simultaneous
 connections; the vertical axis is completed commands per second.
 
-**Latest main remeasurement: [List chapter](#list), `06562381`, including merged #233.** Both LSET and all Hash/Set charts now retain peers, latest main and unmerged PR #235; the merged #233 curve is removed. [Historical perf diagnosis](diagnostics/lset-20261001/README.md).
 
-**Shared commit-dependency optimization: [PR #235](https://github.com/eloqdata/lavik/pull/235) and main `06562381` share charts with Redis, Valkey and Kvrocks. All 8/8 Hash/Set conditions are complete, retaining only this main and unmerged PR #235.**
+**October 3 main refresh: `44761b91` includes #235/#243; 0/8 Hash/Set conditions updated. Each completed chart is pushed immediately; pending charts retain their actual measured old version.**
 
-## 2026-10-01 shared commit pipeline comparison
+Merged PR #235 curves are removed. Pending main curves still measure `06562381`, not the latest code. Earlier supplementary List/Stream/ZSet workloads keep explicit measured versions.
 
-Baseline main `06562381` includes #228/#233. [PR #235](https://github.com/eloqdata/lavik/pull/235) moves waiting for queued owner-local predecessors to background commit. Hash, Set, List, ZSet, Stream and grouped String share this path, including standalone commands. Cross-coordinator EXEC/Lua predecessors and compact demotion retain the existing wait. Small SET/GET already access pending buffers; no data cache was added.
+Redis/Valkey disable persistence; Kvrocks uses uncompressed RAID0, disabled WAL and 80 GiB block/blob cache; Lavik persists through six SPDK NVMe devices. Configurations differ. Sources: [Hash/Set](published-main.json), [LSET](lset-large-published.json), [ordered structures](ordered-published.json).
 
-All 8/8 Hash/Set conditions have independent main/PR measurements: 200 successful points, 0 failed points and before/after cardinality validation of every key. Peers reuse matched-key-count results. Redis/Valkey disable persistence; Kvrocks uses uncompressed RAID0, WAL disabled and 80 GiB block/blob caches; Lavik persists through six SPDK NVMe devices. Persistence and cache settings differ. See [Hash/Set manifest](published-main.json) and [LSET manifest](lset-large-published.json).
-
-
-
-[Shared-pipeline CPU and I/O diagnosis](diagnostics/shared-pipeline-20261001/README.md): 100 MiB/1 KiB HSET improves by 10.3%–21.1%, peaking at 154.4k QPS; it has not matched Kvrocks. Profiling is separate from clean curves.
-
-
-For #235, main and PR each start on fresh media, seed the same RESTORE payload, recover, and run eight-second points without profiling: 32 import clients at 1 MiB, eight at 100 MiB. Logical contents match; physical layouts are independent. Earlier 1 MiB main runs used HSET/SADD import, so changes across rounds are not solely code effects. One run per point, without confidence intervals; peers reuse matched-key-count evidence.
-
-
-[ABBA rechecks of two small declines](diagnostics/shared-pipeline-20261001/rechecks.md): 30-second main/PR repeats for 1 MiB / 1 KiB Set and 1 MiB / 128 B Hash are broadly equal. The small declines from independently fresh-seeded eight-second points were not reproduced; formal curves retain their original evidence, and the repeats do not establish a speedup.
-
-
-HSET: PR changes by **-4.7% to +22.7%** at matched connections; its workload peaks are **38%–56%** of matched Kvrocks workload peaks.
-
-SADD/SREM: PR changes by **-5.8% to +30.9%** at matched connections; its workload peaks are **51%–103%** of matched Kvrocks workload peaks.
-
-Peak ratios can use different connection counts; cache and persistence settings differ. This does not establish parity across all workloads. Single short points have no confidence intervals; small differences need repeats. [Calculations and sources](latest-main-write-summary.json).
-
-
-[HSET work and sampling audit](diagnostics/shared-pipeline-20261001/hset-deep-diagnosis.md): separate recordings supply callchains for all 12 workers. Route/physical-index lookup and update consume about 10% of total CPU, allocator-family symbols about 8.2%; device writes average 12.0 KB/command including cleanup. Pipelining retains these costs; CPU percentages do not quantify coroutine waits.
+[Historical HSET perf diagnosis](diagnostics/shared-pipeline-20261001/hset-deep-diagnosis.md) has complete callchains for all 12 workers. Further optimization targets repeated index lookup, temporary allocation and page rebuilding. Historical PR comparisons remain in raw evidence and diagnostics.
 
 ## List
 
@@ -47,15 +26,15 @@ Use 50,000 keys at 1 MiB/key and 500 keys at 100 MiB/key, with 1 KiB elements. E
 
 #### 1 MiB/key × 50,000 keys
 
-![LSET 1 MiB, 50,000 keys: four databases and PR #235](charts/list-lset-1048576-1024-k50000-main-pr.png)
+![LSET 1 MiB, 50,000 keys: four databases ](charts/list-lset-1048576-1024-k50000-main-pr.png)
 
-**Redis, Valkey, Kvrocks, Lavik main `06562381` and [PR #235](https://github.com/eloqdata/lavik/pull/235) `09871950` share one chart.** PR was independently seeded on fresh media using the matched RPUSH protocol; main retains its earlier independently fresh-seeded run. All five points had zero errors and every key passed before/after cardinality checks. [Main raw](raw/lavik-lset-main0656-1048576-k50000-f1024-20261001/) · [PR raw](raw/lavik-lset-pipeline-pr235-1048576-k50000-f1024-20261001/) · [CSV](list-lset-1048576-1024-k50000-main-pr.csv).
+**Pending refresh: measured Lavik main `06562381`; merged PR #235 curve removed.**
 
 #### 100 MiB/key × 500 keys
 
-![LSET 100 MiB, 500 keys: four databases and PR #235](charts/list-lset-104857600-1024-k500-main-pr.png)
+![LSET 100 MiB, 500 keys: four databases ](charts/list-lset-104857600-1024-k500-main-pr.png)
 
-**Redis, Valkey, Kvrocks, Lavik main `06562381` and [PR #235](https://github.com/eloqdata/lavik/pull/235) `09871950` share one chart.** PR was independently seeded on fresh media using the matched RPUSH protocol; main retains its earlier independently fresh-seeded run. All five points had zero errors and every key passed before/after cardinality checks. [Main raw](raw/lavik-lset-main0656-104857600-k500-f1024-20261001/) · [PR raw](raw/lavik-lset-pipeline-pr235-104857600-k500-f1024-20261001/) · [CSV](list-lset-104857600-1024-k500-main-pr.csv).
+**Pending refresh: measured Lavik main `06562381`; merged PR #235 curve removed.**
 
 
 
@@ -82,7 +61,7 @@ Use 50,000 keys at 1 MiB/key and 500 keys at 100 MiB/key, with 1 KiB elements. E
 
 ![List 100 MiB per key, 1 KiB entries: LINDEX / LSET QPS by connection count](charts/list-104857600-1024-ab.png)
 
-**Fresh independent main `06562381` and [PR #235](https://github.com/eloqdata/lavik/pull/235) `09871950` measurements.** This retains the peers' original 8 × 100 MiB keys and 1 KiB entries; 13 clean points per version, zero errors and every key validated. The key count differs from the larger Hash/Set and leading List workloads. [main raw](raw/lavik-ordered-pipeline-main-list-100m-k8-f1024-20261001/) · [pr raw](raw/lavik-ordered-pipeline-pr-list-100m-k8-f1024-20261001/) · [Provenance](ordered-published.json).
+**Pending refresh: measured Lavik main `06562381`; merged PR #235 curve removed.**
 
 </details>
 
@@ -116,21 +95,21 @@ For 1 MiB `LINDEX`, Lavik peaked near 139k QPS with 128 B entries and 677k with 
 
 ![Hash 1 MiB, 128 B: HGET / HSET](charts/hash-1048576-128-ab.png)
 
-**Measured main `06562381` and [PR #235](https://github.com/eloqdata/lavik/pull/235) `09871950`.** 50,000 keys × 1 MiB/key; 128 B. All points had zero errors; every key passed before/after cardinality validation. [main raw](raw/lavik-pipeline-main-hash-1048576-k50000-f128-20261001/) · [main seed](raw/lavik-seed-pipeline-main-hash-1048576-k50000-f128-20261001/) · [pr raw](raw/lavik-pipeline-pr-hash-1048576-k50000-f128-20261001/) · [pr seed](raw/lavik-seed-pipeline-pr-hash-1048576-k50000-f128-20261001/).
+**Pending refresh: measured Lavik main `06562381`; merged PR #235 curve removed.**
 
 ![Hash 1 MiB, 1024 B: HGET / HSET](charts/hash-1048576-1024-ab.png)
 
-**Measured main `06562381` and [PR #235](https://github.com/eloqdata/lavik/pull/235) `09871950`.** 50,000 keys × 1 MiB/key; 1024 B. All points had zero errors; every key passed before/after cardinality validation. [main raw](raw/lavik-pipeline-main-hash-1048576-k50000-f1024-20261001/) · [main seed](raw/lavik-seed-pipeline-main-hash-1048576-k50000-f1024-20261001/) · [pr raw](raw/lavik-pipeline-pr-hash-1048576-k50000-f1024-20261001/) · [pr seed](raw/lavik-seed-pipeline-pr-hash-1048576-k50000-f1024-20261001/).
+**Pending refresh: measured Lavik main `06562381`; merged PR #235 curve removed.**
 
 #### 100 MiB
 
 ![Hash 100 MiB, 128 B: HGET / HSET](charts/hash-104857600-128-ab.png)
 
-**Measured main `06562381` and [PR #235](https://github.com/eloqdata/lavik/pull/235) `09871950`.** 500 keys × 100 MiB/key; 128 B. All points had zero errors; every key passed before/after cardinality validation. [main raw](raw/lavik-pipeline-main-hash-104857600-k500-f128-20261001/) · [main seed](raw/lavik-seed-pipeline-main-hash-104857600-k500-f128-20261001/) · [pr raw](raw/lavik-pipeline-pr-hash-104857600-k500-f128-20261001/) · [pr seed](raw/lavik-seed-pipeline-pr-hash-104857600-k500-f128-20261001/).
+**Pending refresh: measured Lavik main `06562381`; merged PR #235 curve removed.**
 
 ![Hash 100 MiB, 1024 B: HGET / HSET](charts/hash-104857600-1024-ab.png)
 
-**Measured main `06562381` and [PR #235](https://github.com/eloqdata/lavik/pull/235) `09871950`.** 500 keys × 100 MiB/key; 1024 B. All points had zero errors; every key passed before/after cardinality validation. [main raw](raw/lavik-pipeline-main-hash-104857600-k500-f1024-20261001/) · [main seed](raw/lavik-seed-pipeline-main-hash-104857600-k500-f1024-20261001/) · [pr raw](raw/lavik-pipeline-pr-hash-104857600-k500-f1024-20261001/) · [pr seed](raw/lavik-seed-pipeline-pr-hash-104857600-k500-f1024-20261001/).
+**Pending refresh: measured Lavik main `06562381`; merged PR #235 curve removed.**
 
 ### HGETALL
 
@@ -168,13 +147,13 @@ All four use HSET, 128 entries per command, eight clients and pipeline 64. Main 
 
 Independent seed timings: 50,000 keys/32 clients at 1 MiB; 500 keys/eight clients at 100 MiB. RESTORE fill only, excluding cleanup/recovery; not mixed with peer HSET/SADD import timings.
 
-1 MiB/key, 128 B: [main: 131.5 s](raw/lavik-seed-pipeline-main-hash-1048576-k50000-f128-20261001/hash-1048576-128.fill.json) · [PR #235: 131.1 s](raw/lavik-seed-pipeline-pr-hash-1048576-k50000-f128-20261001/hash-1048576-128.fill.json).
+This condition retains measured main `06562381`, awaiting the current-main refresh.
 
-1 MiB/key, 1024 B: [main: 62.1 s](raw/lavik-seed-pipeline-main-hash-1048576-k50000-f1024-20261001/hash-1048576-1024.fill.json) · [PR #235: 61.7 s](raw/lavik-seed-pipeline-pr-hash-1048576-k50000-f1024-20261001/hash-1048576-1024.fill.json).
+This condition retains measured main `06562381`, awaiting the current-main refresh.
 
-100 MiB/key, 128 B: [main: 280.1 s](raw/lavik-seed-pipeline-main-hash-104857600-k500-f128-20261001/hash-104857600-128.fill.json) · [PR #235: 276.5 s](raw/lavik-seed-pipeline-pr-hash-104857600-k500-f128-20261001/hash-104857600-128.fill.json).
+This condition retains measured main `06562381`, awaiting the current-main refresh.
 
-100 MiB/key, 1024 B: [main: 119.0 s](raw/lavik-seed-pipeline-main-hash-104857600-k500-f1024-20261001/hash-104857600-1024.fill.json) · [PR #235: 117.1 s](raw/lavik-seed-pipeline-pr-hash-104857600-k500-f1024-20261001/hash-104857600-1024.fill.json).
+This condition retains measured main `06562381`, awaiting the current-main refresh.
 
 ## Set
 
@@ -184,21 +163,21 @@ Independent seed timings: 50,000 keys/32 clients at 1 MiB; 500 keys/eight client
 
 ![Set 1 MiB, 128 B: SISMEMBER / SADD + SREM](charts/set-1048576-128-ab.png)
 
-**Measured main `06562381` and [PR #235](https://github.com/eloqdata/lavik/pull/235) `09871950`.** 50,000 keys × 1 MiB/key; 128 B. All points had zero errors; every key passed before/after cardinality validation. [main raw](raw/lavik-pipeline-main-set-1048576-k50000-f128-20261001/) · [main seed](raw/lavik-seed-pipeline-main-set-1048576-k50000-f128-20261001/) · [pr raw](raw/lavik-pipeline-pr-set-1048576-k50000-f128-20261001/) · [pr seed](raw/lavik-seed-pipeline-pr-set-1048576-k50000-f128-20261001/).
+**Pending refresh: measured Lavik main `06562381`; merged PR #235 curve removed.**
 
 ![Set 1 MiB, 1024 B: SISMEMBER / SADD + SREM](charts/set-1048576-1024-ab.png)
 
-**Measured main `06562381` and [PR #235](https://github.com/eloqdata/lavik/pull/235) `09871950`.** 50,000 keys × 1 MiB/key; 1024 B. All points had zero errors; every key passed before/after cardinality validation. [main raw](raw/lavik-pipeline-main-set-1048576-k50000-f1024-20261001/) · [main seed](raw/lavik-seed-pipeline-main-set-1048576-k50000-f1024-20261001/) · [pr raw](raw/lavik-pipeline-pr-set-1048576-k50000-f1024-20261001/) · [pr seed](raw/lavik-seed-pipeline-pr-set-1048576-k50000-f1024-20261001/).
+**Pending refresh: measured Lavik main `06562381`; merged PR #235 curve removed.**
 
 #### 100 MiB
 
 ![Set 100 MiB, 128 B: SISMEMBER / SADD + SREM](charts/set-104857600-128-ab.png)
 
-**Measured main `06562381` and [PR #235](https://github.com/eloqdata/lavik/pull/235) `09871950`.** 500 keys × 100 MiB/key; 128 B. All points had zero errors; every key passed before/after cardinality validation. [main raw](raw/lavik-pipeline-main-set-104857600-k500-f128-20261001/) · [main seed](raw/lavik-seed-pipeline-main-set-104857600-k500-f128-20261001/) · [pr raw](raw/lavik-pipeline-pr-set-104857600-k500-f128-20261001/) · [pr seed](raw/lavik-seed-pipeline-pr-set-104857600-k500-f128-20261001/).
+**Pending refresh: measured Lavik main `06562381`; merged PR #235 curve removed.**
 
 ![Set 100 MiB, 1024 B: SISMEMBER / SADD + SREM](charts/set-104857600-1024-ab.png)
 
-**Measured main `06562381` and [PR #235](https://github.com/eloqdata/lavik/pull/235) `09871950`.** 500 keys × 100 MiB/key; 1024 B. All points had zero errors; every key passed before/after cardinality validation. [main raw](raw/lavik-pipeline-main-set-104857600-k500-f1024-20261001/) · [main seed](raw/lavik-seed-pipeline-main-set-104857600-k500-f1024-20261001/) · [pr raw](raw/lavik-pipeline-pr-set-104857600-k500-f1024-20261001/) · [pr seed](raw/lavik-seed-pipeline-pr-set-104857600-k500-f1024-20261001/).
+**Pending refresh: measured Lavik main `06562381`; merged PR #235 curve removed.**
 
 ### SMEMBERS
 
@@ -240,13 +219,13 @@ The matching 100 MiB SADD import measurement is pending. The previous mixed REST
 
 Independent seed timings: 50,000 keys/32 clients at 1 MiB; 500 keys/eight clients at 100 MiB. RESTORE fill only, excluding cleanup/recovery; not mixed with peer HSET/SADD import timings.
 
-1 MiB/key, 128 B: [main: 123.5 s](raw/lavik-seed-pipeline-main-set-1048576-k50000-f128-20261001/set-1048576-128.fill.json) · [PR #235: 123.7 s](raw/lavik-seed-pipeline-pr-set-1048576-k50000-f128-20261001/set-1048576-128.fill.json).
+This condition retains measured main `06562381`, awaiting the current-main refresh.
 
-1 MiB/key, 1024 B: [main: 66.5 s](raw/lavik-seed-pipeline-main-set-1048576-k50000-f1024-20261001/set-1048576-1024.fill.json) · [PR #235: 66.6 s](raw/lavik-seed-pipeline-pr-set-1048576-k50000-f1024-20261001/set-1048576-1024.fill.json).
+This condition retains measured main `06562381`, awaiting the current-main refresh.
 
-100 MiB/key, 128 B: [main: 268.2 s](raw/lavik-seed-pipeline-main-set-104857600-k500-f128-20261001/set-104857600-128.fill.json) · [PR #235: 270.1 s](raw/lavik-seed-pipeline-pr-set-104857600-k500-f128-20261001/set-104857600-128.fill.json).
+This condition retains measured main `06562381`, awaiting the current-main refresh.
 
-100 MiB/key, 1024 B: [main: 136.4 s](raw/lavik-seed-pipeline-main-set-104857600-k500-f1024-20261001/set-104857600-1024.fill.json) · [PR #235: 130.8 s](raw/lavik-seed-pipeline-pr-set-104857600-k500-f1024-20261001/set-104857600-1024.fill.json).
+This condition retains measured main `06562381`, awaiting the current-main refresh.
 
 ## Workloads
 
@@ -300,7 +279,7 @@ Bulk imports use a Python client on the server host; point-command QPS uses memt
 
 ## Sorted Set
 
-Each figure identifies its measured revision and key count. The 100 MiB / 1 KiB eight-key comparison now uses main `06562381` and unmerged PR #235. Other earlier four-product curves use Lavik `646a7b4e`, as recorded in the [raw CSV](results.csv).
+This condition retains measured main `06562381`, awaiting the current-main refresh.
 
 ### ZSCORE / ZINCRBY
 
@@ -322,7 +301,7 @@ Each figure identifies its measured revision and key count. The 100 MiB / 1 KiB 
 
 ![Sorted Set 100 MiB per key, 1 KiB entries: ZSCORE / ZINCRBY QPS by connection count](charts/zset-104857600-1024-ab.png)
 
-**Fresh independent main `06562381` and [PR #235](https://github.com/eloqdata/lavik/pull/235) `09871950` measurements.** This retains the peers' original 8 × 100 MiB keys and 1 KiB entries; 13 clean points per version, zero errors and every key validated. The key count differs from the larger Hash/Set and leading List workloads. [main raw](raw/lavik-ordered-pipeline-main-zset-100m-k8-f1024-20261001/) · [pr raw](raw/lavik-ordered-pipeline-pr-zset-100m-k8-f1024-20261001/) · [Provenance](ordered-published.json).
+**Pending refresh: measured Lavik main `06562381`; merged PR #235 curve removed.**
 
 
 ### ZRANGE WITHSCORES
@@ -353,7 +332,7 @@ The [HGETALL memory investigation](diagnostics/hgetall-oom-20260929/README.md) a
 
 ## Stream
 
-Stream 100 MiB / 1 KiB now compares main `06562381` with PR #235; smaller cases retain measured merged main `9acd7b6f`. The 64 KiB and 1 MiB cases use 64 hot keys with 128 B or 1 KiB entries; the 100 MiB case uses eight keys with 1 KiB entries. The horizontal axis is connection count and the vertical axis is QPS; each figure contains one Lavik main curve, plus any measured unmerged optimization PR.
+This condition retains measured main `06562381`, awaiting the current-main refresh.
 
 Point reads and writes cover 80–5120 connections. Full reads use 16/80 for the smaller sizes and 1/4/16 for 100 MiB. Redis and Valkey have persistence disabled; Kvrocks has WAL disabled with an 80 GiB block cache; Lavik commits to SPDK. Write QPS reflects these configurations.
 
@@ -395,7 +374,7 @@ Point reads and writes cover 80–5120 connections. Full reads use 16/80 for the
 
 ![100 MiB per key, 1 KiB entries: `XADD MAXLEN` QPS by connection count](charts/stream-104857600-1024-xadd_maxlen-latest.png)
 
-**Fresh independent main `06562381` and [PR #235](https://github.com/eloqdata/lavik/pull/235) `09871950` measurements.** This retains the peers' original 8 × 100 MiB keys and 1 KiB entries; 13 clean points per version, zero errors and every key validated. The key count differs from the larger Hash/Set and leading List workloads. [main raw](raw/lavik-ordered-pipeline-main-stream-100m-k8-f1024-20261001/) · [pr raw](raw/lavik-ordered-pipeline-pr-stream-100m-k8-f1024-20261001/) · [Provenance](ordered-published.json).
+**Pending refresh: measured Lavik main `06562381`; merged PR #235 curve removed.**
 
 
 ### Full `XRANGE - +`
