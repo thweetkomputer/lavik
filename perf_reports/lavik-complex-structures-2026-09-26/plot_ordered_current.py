@@ -115,6 +115,9 @@ def main():
     parser.add_argument("manifest", type=Path)
     args = parser.parse_args()
     manifest = json.loads(args.manifest.read_text())
+    # Preserve each PR's color across workloads, including charts where an
+    # earlier variant has no measurements. Array position alone is unstable.
+    variant_styles = (chart.STYLES["variant0"], *chart.EXTRA_VARIANT_STYLES)
     for condition in manifest["plots"]:
         kind, size, field, keys = (condition[name]
                                    for name in ("kind", "size", "field", "keys"))
@@ -133,8 +136,11 @@ def main():
                         enumerate(condition.get("variants", [])))
         for i, (product, revision) in enumerate(versions):
             labels[product] = revision["label"] + " " + revision["commit"][:8]
-            if i > 1:
-                chart.STYLES[product] = chart.EXTRA_VARIANT_STYLES[(i - 2) % 3]
+            if i > 0:
+                style = revision.get("style_index", i - 1)
+                if not isinstance(style, int) or not 0 <= style < len(variant_styles):
+                    raise ValueError("invalid variant style index")
+                chart.STYLES[product] = variant_styles[style]
             datasets[product] = load(ROOT / "raw" / ("lavik-" + revision["tag"]),
                                      (kind, size, field, keys), revision)
         products = tuple(datasets)
