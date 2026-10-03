@@ -7,9 +7,9 @@ Redis 兼容数据结构。每张图固定数据结构、每个 key 的逻辑数
 每个元素的字节数。横轴为连接数，纵轴为每秒完成的命令数。
 
 
-**10 月 3 日 main 复测：`44761b91`（#235/#243 已合并），Hash/Set 已更新 8/8 组。每组完成后立即覆盖原图并推送；尚未完成的图标明实际旧版本。**
+**10 月 3 日 main 复测已完成：`44761b91`（#235/#243 已合并）。Hash/Set 8 组、较多 key 的 LSET 2 组，以及 List/ZSet/Stream 的 100 MiB 补充负载 3 组，均与未合并 [PR #244](https://github.com/eloqdata/lavik/pull/244) `faaaba58` 在同一张五库图中比较。**
 
-当前图已移除合并 PR #235 的独立曲线；待替换的 main 曲线仍为实测 `06562381`，不代表最新代码。List/Stream/ZSet 的旧版本补充负载仍保留原始版本说明。
+当前对照图只保留最新实测 main 与未合并 #244，已移除合并 #235 的独立曲线。早期、较少 key 的补充图保留实际旧版本结果，不代表当前 main。
 
 Redis/Valkey 不持久化；Kvrocks 为无压缩 RAID0、关闭 WAL、80 GiB block/blob cache；Lavik 使用六块 NVMe SPDK 持久化。各库配置不同。版本见 [Hash/Set 清单](published-main.json)、[LSET 清单](lset-large-published.json)、[有序结构清单](ordered-published.json)。
 
@@ -19,11 +19,11 @@ Redis/Valkey 不持久化；Kvrocks 为无压缩 RAID0、关闭 WAL、80 GiB blo
 本轮测试盘序列号/PCI 地址与 10 月 1 日不同，已重新核对六块无挂载、无 RAID 占用的专用 NVMe；CPU 为 AMD EPYC 9V74、16 vCPU，仍使用 12 个服务 worker。其他三库保留历史同负载结果，不能把跨轮差值全部归因于代码。新 main 与后续优化会在本轮机器上直接比较。[本轮硬件与构建证明](diagnostics/main-refresh-20261003/host-and-build.json)。 [本轮 HSET 索引诊断与实测收益](diagnostics/main-refresh-20261003/index-publication-diagnosis.md)。
 
 
-**后续优化：[PR #244](https://github.com/eloqdata/lavik/pull/244) 合并内联分组的物理坐标更新，减少索引路径和 64 项坐标页的重复复制；同时减少元数据分配和重复路由查找。已完成负载会直接加在四库图上，待测负载暂只显示实测 main。**
+**后续优化：[PR #244](https://github.com/eloqdata/lavik/pull/244) `faaaba58` 合并内联分组物理坐标更新，减少索引路径和坐标页的重复复制，同时减少元数据分配和重复路由查找。只保存索引元数据，没有缓存字段或页内容；String 保持原有位置索引。每档结果为本轮一次连接扫描，不是统计重复实验。**
 
 ## List
 
-本轮基线：main `06562381`，已包含合并的 #233。每档 LSET 图固定 key 数、每 key 大小、元素大小，并展示其他三库同规模结果。
+本轮基线：main `44761b91`。每档 LSET 图固定 key 数、每 key 大小、元素大小，并展示其他三库同规模结果。
 
 ### LSET：增加独立 key
 

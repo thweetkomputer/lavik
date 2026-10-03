@@ -1,210 +1,1161 @@
 {
-  "main_commit": "065623811791bf90e67b3d87248c1f1dd7ebf8f3",
-  "pr": 235,
-  "pr_commit": "09871950738abb3909eb3706a5ee8f17a69f8ed5",
+  "main": {
+    "commit": "44761b91d356f9f3f5ba1afeb91de13364ba98c3",
+    "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-main-44761b91-20261003",
+    "sha256": "d6cf5ef18007082e70fa147b9228512fe55dd4de5e445d0e065598c37c5454ec",
+    "bycorf_commit": "62509c93d40c2480f5046b71454db6cf95801b04",
+    "compiled_source_files_verified": 433,
+    "tests_during_build": false,
+    "source_repo": "/mnt/dev/lavik-hash-index-20261003",
+    "build_command": "cmake --build build --target lavik --parallel 8"
+  },
+  "pr": {
+    "commit": "faaaba586b960173d81955a00fe8d55511e90397",
+    "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-grouped-index-faaaba58-20261003",
+    "sha256": "1b6b03660e58d0029c1ed1db49fa069a41eecfcd8870fe58af1ea80e53f6c259",
+    "source_repo": "/mnt/dev/lavik-hash-index-20261003",
+    "bycorf_commit": "62509c93d40c2480f5046b71454db6cf95801b04",
+    "tests_during_build": false,
+    "pr": 244
+  },
   "conditions": [
     {
+      "category": "hashset",
       "kind": "hash",
       "size": 1048576,
       "field": 128,
       "keys": 50000,
-      "operation": "HSET",
-      "peaks": {
-        "redis": 396396.4,
-        "valkey": 489813.41,
-        "kvrocks": 367429.08,
-        "main": 144625.38,
-        "pr": 140224.15
-      },
-      "source_folders": {
-        "redis": "raw/redis-hash-1m-k50000-f128-20260929",
-        "valkey": "raw/valkey-hash-1m-k50000-f128-20260929",
-        "kvrocks": "raw/kvrocks-hash-1m-k50000-f128-20260929",
-        "main": "raw/lavik-pipeline-main-hash-1048576-k50000-f128-20261001",
-        "pr": "raw/lavik-pipeline-pr-hash-1048576-k50000-f128-20261001"
-      },
-      "matched_connection_pr_over_main_min": 0.952946380279606,
-      "matched_connection_pr_over_main_max": 0.9695680661305781,
-      "pr_over_main_peak": 0.9695680661305781,
-      "pr_over_kvrocks_peak": 0.3816359608771303
+      "main_tag": "main44761-hashset-hash-1048576-k50000-f128-20261003",
+      "pr_tag": "index-pr244-faaaba58-hashset-hash-1048576-k50000-f128-20261003",
+      "operations": {
+        "HGET": {
+          "main_peak_qps": 567673.92,
+          "pr_peak_qps": 561720.04,
+          "peak_change_percent": -1.0488204214137542,
+          "matched_connections": {
+            "80": {
+              "main_qps": 353293.56,
+              "pr_qps": 356234.88,
+              "change_percent": 0.8325427726449286
+            },
+            "320": {
+              "main_qps": 567673.92,
+              "pr_qps": 561720.04,
+              "change_percent": -1.0488204214137542
+            },
+            "1280": {
+              "main_qps": 483206.84,
+              "pr_qps": 479787.13,
+              "change_percent": -0.7077114222969194
+            },
+            "2560": {
+              "main_qps": 433879.26,
+              "pr_qps": 429405.88,
+              "change_percent": -1.0310195513839493
+            },
+            "5120": {
+              "main_qps": 398600.26,
+              "pr_qps": 381065.3,
+              "change_percent": -4.3991341099476555
+            }
+          }
+        },
+        "HGETALL": {
+          "main_peak_qps": 1841.61,
+          "pr_peak_qps": 1949.09,
+          "peak_change_percent": 5.836197674860588,
+          "matched_connections": {
+            "16": {
+              "main_qps": 928.23,
+              "pr_qps": 949.74,
+              "change_percent": 2.317313596845616
+            },
+            "80": {
+              "main_qps": 1841.61,
+              "pr_qps": 1949.09,
+              "change_percent": 5.836197674860588
+            }
+          }
+        },
+        "HSET": {
+          "main_peak_qps": 156586.17,
+          "pr_peak_qps": 153148.24,
+          "peak_change_percent": -2.1955514973001855,
+          "matched_connections": {
+            "80": {
+              "main_qps": 123679.85,
+              "pr_qps": 130208.62,
+              "change_percent": 5.278766104583732
+            },
+            "320": {
+              "main_qps": 156586.17,
+              "pr_qps": 153148.24,
+              "change_percent": -2.1955514973001855
+            },
+            "1280": {
+              "main_qps": 142622.31,
+              "pr_qps": 150804.08,
+              "change_percent": 5.736669108781078
+            },
+            "2560": {
+              "main_qps": 143192.46,
+              "pr_qps": 144732.89,
+              "change_percent": 1.0757759172515202
+            },
+            "5120": {
+              "main_qps": 128330.07,
+              "pr_qps": 133810.57,
+              "change_percent": 4.270628076490568
+            }
+          }
+        }
+      }
     },
     {
+      "category": "hashset",
       "kind": "hash",
       "size": 1048576,
       "field": 1024,
       "keys": 50000,
-      "operation": "HSET",
-      "peaks": {
-        "redis": 391020.52,
-        "valkey": 424938.57,
-        "kvrocks": 281350.52,
-        "main": 143264.3,
-        "pr": 157299.19
-      },
-      "source_folders": {
-        "redis": "raw/redis-hash-1m-k50000-f1024-20260929",
-        "valkey": "raw/valkey-hash-1m-k50000-f1024-20260929",
-        "kvrocks": "raw/kvrocks-hash-1m-k50000-f1024-20260929",
-        "main": "raw/lavik-pipeline-main-hash-1048576-k50000-f1024-20261001",
-        "pr": "raw/lavik-pipeline-pr-hash-1048576-k50000-f1024-20261001"
-      },
-      "matched_connection_pr_over_main_min": 1.0446671118837478,
-      "matched_connection_pr_over_main_max": 1.1492202011441746,
-      "pr_over_main_peak": 1.0979650198967923,
-      "pr_over_kvrocks_peak": 0.5590861890001128
+      "main_tag": "main44761-hashset-hash-1048576-k50000-f1024-20261003",
+      "pr_tag": "index-pr244-faaaba58-hashset-hash-1048576-k50000-f1024-20261003",
+      "operations": {
+        "HGET": {
+          "main_peak_qps": 574100.48,
+          "pr_peak_qps": 571590.35,
+          "peak_change_percent": -0.43722834023758317,
+          "matched_connections": {
+            "80": {
+              "main_qps": 353407.72,
+              "pr_qps": 353784.11,
+              "change_percent": 0.10650304979189507
+            },
+            "320": {
+              "main_qps": 574100.48,
+              "pr_qps": 571590.35,
+              "change_percent": -0.43722834023758317
+            },
+            "1280": {
+              "main_qps": 497667.76,
+              "pr_qps": 481949.63,
+              "change_percent": -3.1583580981818127
+            },
+            "2560": {
+              "main_qps": 456394.45,
+              "pr_qps": 429100.95,
+              "change_percent": -5.980243624785531
+            },
+            "5120": {
+              "main_qps": 409608.16,
+              "pr_qps": 396680.89,
+              "change_percent": -3.1560089037288575
+            }
+          }
+        },
+        "HGETALL": {
+          "main_peak_qps": 2802.23,
+          "pr_peak_qps": 2799.01,
+          "peak_change_percent": -0.11490848360055095,
+          "matched_connections": {
+            "16": {
+              "main_qps": 1176.89,
+              "pr_qps": 1178.8,
+              "change_percent": 0.16229214285106153
+            },
+            "80": {
+              "main_qps": 2802.23,
+              "pr_qps": 2799.01,
+              "change_percent": -0.11490848360055095
+            }
+          }
+        },
+        "HSET": {
+          "main_peak_qps": 144271.68,
+          "pr_peak_qps": 157757.63,
+          "peak_change_percent": 9.347607236569244,
+          "matched_connections": {
+            "80": {
+              "main_qps": 118341.22,
+              "pr_qps": 133895.43,
+              "change_percent": 13.143526828606289
+            },
+            "320": {
+              "main_qps": 144271.68,
+              "pr_qps": 157757.63,
+              "change_percent": 9.347607236569244
+            },
+            "1280": {
+              "main_qps": 137379.49,
+              "pr_qps": 154672.39,
+              "change_percent": 12.587686851945667
+            },
+            "2560": {
+              "main_qps": 130090.7,
+              "pr_qps": 144775.54,
+              "change_percent": 11.288155110242325
+            },
+            "5120": {
+              "main_qps": 123194.21,
+              "pr_qps": 135687.67,
+              "change_percent": 10.141272061406138
+            }
+          }
+        }
+      }
     },
     {
+      "category": "hashset",
       "kind": "hash",
       "size": 104857600,
       "field": 128,
       "keys": 500,
-      "operation": "HSET",
-      "peaks": {
-        "redis": 755123.47,
-        "valkey": 723949.61,
-        "kvrocks": 373980.0,
-        "main": 129916.62,
-        "pr": 149254.19
-      },
-      "source_folders": {
-        "redis": "raw/redis-hash-100m-k500-f128-20260929",
-        "valkey": "raw/valkey-hash-100m-k500-f128-20260929",
-        "kvrocks": "raw/kvrocks-hash-100m-k500-f128-20260929",
-        "main": "raw/lavik-pipeline-main-hash-104857600-k500-f128-20261001",
-        "pr": "raw/lavik-pipeline-pr-hash-104857600-k500-f128-20261001"
-      },
-      "matched_connection_pr_over_main_min": 1.0773884404382008,
-      "matched_connection_pr_over_main_max": 1.2273306677702531,
-      "pr_over_main_peak": 1.1488460059998482,
-      "pr_over_kvrocks_peak": 0.39909671640194666
+      "main_tag": "main44761-hashset-hash-104857600-k500-f128-20261003",
+      "pr_tag": "index-pr244-faaaba58-hashset-hash-104857600-k500-f128-20261003",
+      "operations": {
+        "HGET": {
+          "main_peak_qps": 582980.44,
+          "pr_peak_qps": 560929.42,
+          "peak_change_percent": -3.7824630960174077,
+          "matched_connections": {
+            "80": {
+              "main_qps": 356187.28,
+              "pr_qps": 356323.71,
+              "change_percent": 0.03830288380877178
+            },
+            "320": {
+              "main_qps": 582980.44,
+              "pr_qps": 560929.42,
+              "change_percent": -3.7824630960174077
+            },
+            "1280": {
+              "main_qps": 420331.37,
+              "pr_qps": 402956.75,
+              "change_percent": -4.13355301080669
+            },
+            "2560": {
+              "main_qps": 387961.01,
+              "pr_qps": 360076.86,
+              "change_percent": -7.187358853406433
+            },
+            "5120": {
+              "main_qps": 366384.55,
+              "pr_qps": 335907.19,
+              "change_percent": -8.318407531103588
+            }
+          }
+        },
+        "HGETALL": {
+          "main_peak_qps": 9.12,
+          "pr_peak_qps": 9.51,
+          "peak_change_percent": 4.276315789473695,
+          "matched_connections": {
+            "1": {
+              "main_qps": 0.72,
+              "pr_qps": 0.73,
+              "change_percent": 1.388888888888884
+            },
+            "4": {
+              "main_qps": 2.68,
+              "pr_qps": 2.69,
+              "change_percent": 0.3731343283581934
+            },
+            "16": {
+              "main_qps": 9.12,
+              "pr_qps": 9.51,
+              "change_percent": 4.276315789473695
+            }
+          }
+        },
+        "HSET": {
+          "main_peak_qps": 145163.86,
+          "pr_peak_qps": 165364.34,
+          "peak_change_percent": 13.915639884472641,
+          "matched_connections": {
+            "80": {
+              "main_qps": 138181.73,
+              "pr_qps": 148846.93,
+              "change_percent": 7.718241767562173
+            },
+            "320": {
+              "main_qps": 145163.86,
+              "pr_qps": 165364.34,
+              "change_percent": 13.915639884472641
+            },
+            "1280": {
+              "main_qps": 110147.93,
+              "pr_qps": 120270.61,
+              "change_percent": 9.190077380482787
+            },
+            "2560": {
+              "main_qps": 111267.62,
+              "pr_qps": 113097.8,
+              "change_percent": 1.6448451040832923
+            },
+            "5120": {
+              "main_qps": 106260.87,
+              "pr_qps": 115645.65,
+              "change_percent": 8.831830569427868
+            }
+          }
+        }
+      }
     },
     {
+      "category": "hashset",
       "kind": "hash",
       "size": 104857600,
       "field": 1024,
       "keys": 500,
-      "operation": "HSET",
-      "peaks": {
-        "redis": 633445.98,
-        "valkey": 629696.22,
-        "kvrocks": 344460.92,
-        "main": 130748.73,
-        "pr": 154378.29
-      },
-      "source_folders": {
-        "redis": "raw/redis-hash-100m-k500-f1024-20260929",
-        "valkey": "raw/valkey-hash-100m-k500-f1024-20260929",
-        "kvrocks": "raw/kvrocks-hash-100m-k500-f1024-20260929",
-        "main": "raw/lavik-pipeline-main-hash-104857600-k500-f1024-20261001",
-        "pr": "raw/lavik-pipeline-pr-hash-104857600-k500-f1024-20261001"
-      },
-      "matched_connection_pr_over_main_min": 1.1034557428441085,
-      "matched_connection_pr_over_main_max": 1.2113258409719925,
-      "pr_over_main_peak": 1.1807249676536056,
-      "pr_over_kvrocks_peak": 0.44817359832865805
+      "main_tag": "main44761-hashset-hash-104857600-k500-f1024-20261003",
+      "pr_tag": "index-pr244-faaaba58-hashset-hash-104857600-k500-f1024-20261003",
+      "operations": {
+        "HGET": {
+          "main_peak_qps": 596053.91,
+          "pr_peak_qps": 578927.51,
+          "peak_change_percent": -2.873297148575038,
+          "matched_connections": {
+            "80": {
+              "main_qps": 355301.28,
+              "pr_qps": 354750.21,
+              "change_percent": -0.15509935680502185
+            },
+            "320": {
+              "main_qps": 596053.91,
+              "pr_qps": 578927.51,
+              "change_percent": -2.873297148575038
+            },
+            "1280": {
+              "main_qps": 436217.26,
+              "pr_qps": 408860.9,
+              "change_percent": -6.271269504558341
+            },
+            "2560": {
+              "main_qps": 393622.24,
+              "pr_qps": 363939.01,
+              "change_percent": -7.5410449368917725
+            },
+            "5120": {
+              "main_qps": 370123.35,
+              "pr_qps": 341005.66,
+              "change_percent": -7.867023250492034
+            }
+          }
+        },
+        "HGETALL": {
+          "main_peak_qps": 11.65,
+          "pr_peak_qps": 11.27,
+          "peak_change_percent": -3.2618025751072977,
+          "matched_connections": {
+            "1": {
+              "main_qps": 0.8,
+              "pr_qps": 0.82,
+              "change_percent": 2.499999999999991
+            },
+            "4": {
+              "main_qps": 2.9,
+              "pr_qps": 3.2,
+              "change_percent": 10.344827586206895
+            },
+            "16": {
+              "main_qps": 11.65,
+              "pr_qps": 11.27,
+              "change_percent": -3.2618025751072977
+            }
+          }
+        },
+        "HSET": {
+          "main_peak_qps": 152397.09,
+          "pr_peak_qps": 185850.69,
+          "peak_change_percent": 21.951600256934036,
+          "matched_connections": {
+            "80": {
+              "main_qps": 146253.09,
+              "pr_qps": 167280.22,
+              "change_percent": 14.37722102144987
+            },
+            "320": {
+              "main_qps": 152397.09,
+              "pr_qps": 185850.69,
+              "change_percent": 21.951600256934036
+            },
+            "1280": {
+              "main_qps": 124100.41,
+              "pr_qps": 147357.11,
+              "change_percent": 18.74022817491092
+            },
+            "2560": {
+              "main_qps": 115533.38,
+              "pr_qps": 139039.8,
+              "change_percent": 20.345998706174772
+            },
+            "5120": {
+              "main_qps": 113165.23,
+              "pr_qps": 140226.21,
+              "change_percent": 23.91280431277345
+            }
+          }
+        }
+      }
     },
     {
+      "category": "hashset",
       "kind": "set",
       "size": 1048576,
       "field": 128,
       "keys": 50000,
-      "operation": "SADD_SREM",
-      "peaks": {
-        "redis": 397849.27,
-        "valkey": 689607.37,
-        "kvrocks": 441167.25,
-        "main": 209405.89,
-        "pr": 223702.89
-      },
-      "source_folders": {
-        "redis": "raw/redis-set-1m-k50000-f128-20260929",
-        "valkey": "raw/valkey-set-1m-k50000-f128-20260929",
-        "kvrocks": "raw/kvrocks-set-1m-k50000-f128-20260929",
-        "main": "raw/lavik-pipeline-main-set-1048576-k50000-f128-20261001",
-        "pr": "raw/lavik-pipeline-pr-set-1048576-k50000-f128-20261001"
-      },
-      "matched_connection_pr_over_main_min": 1.0517411782993566,
-      "matched_connection_pr_over_main_max": 1.09701754160153,
-      "pr_over_main_peak": 1.068274106330056,
-      "pr_over_kvrocks_peak": 0.5070704817730691
+      "main_tag": "main44761-hashset-set-1048576-k50000-f128-20261003",
+      "pr_tag": "index-pr244-faaaba58-hashset-set-1048576-k50000-f128-20261003",
+      "operations": {
+        "SADD_SREM": {
+          "main_peak_qps": 231184.82,
+          "pr_peak_qps": 250022.3,
+          "peak_change_percent": 8.148233954115147,
+          "matched_connections": {
+            "80": {
+              "main_qps": 175761.29,
+              "pr_qps": 194847.44,
+              "change_percent": 10.859131723487003
+            },
+            "320": {
+              "main_qps": 231184.82,
+              "pr_qps": 250022.3,
+              "change_percent": 8.148233954115147
+            },
+            "1280": {
+              "main_qps": 216072.6,
+              "pr_qps": 233864.34,
+              "change_percent": 8.234149077671105
+            },
+            "2560": {
+              "main_qps": 203006.74,
+              "pr_qps": 214790.07,
+              "change_percent": 5.8044033414851315
+            },
+            "5120": {
+              "main_qps": 186330.73,
+              "pr_qps": 195611.28,
+              "change_percent": 4.9806867605788785
+            }
+          }
+        },
+        "SISMEMBER": {
+          "main_peak_qps": 570460.87,
+          "pr_peak_qps": 575175.33,
+          "peak_change_percent": 0.8264300406792158,
+          "matched_connections": {
+            "80": {
+              "main_qps": 352647.79,
+              "pr_qps": 355612.51,
+              "change_percent": 0.8407028440473141
+            },
+            "320": {
+              "main_qps": 570460.87,
+              "pr_qps": 575175.33,
+              "change_percent": 0.8264300406792158
+            },
+            "1280": {
+              "main_qps": 485100.13,
+              "pr_qps": 483863.15,
+              "change_percent": -0.254994778088391
+            },
+            "2560": {
+              "main_qps": 443020.31,
+              "pr_qps": 438883.25,
+              "change_percent": -0.9338307762910447
+            },
+            "5120": {
+              "main_qps": 402443.08,
+              "pr_qps": 388509.65,
+              "change_percent": -3.4622113517270514
+            }
+          }
+        },
+        "SMEMBERS": {
+          "main_peak_qps": 1932.63,
+          "pr_peak_qps": 1987.35,
+          "peak_change_percent": 2.831374862234348,
+          "matched_connections": {
+            "16": {
+              "main_qps": 1027.2,
+              "pr_qps": 1029.73,
+              "change_percent": 0.24630062305295297
+            },
+            "80": {
+              "main_qps": 1932.63,
+              "pr_qps": 1987.35,
+              "change_percent": 2.831374862234348
+            }
+          }
+        }
+      }
     },
     {
+      "category": "hashset",
       "kind": "set",
       "size": 1048576,
       "field": 1024,
       "keys": 50000,
-      "operation": "SADD_SREM",
-      "peaks": {
-        "redis": 271690.14,
-        "valkey": 547328.14,
-        "kvrocks": 291232.39,
-        "main": 223314.71,
-        "pr": 210372.47
-      },
-      "source_folders": {
-        "redis": "raw/redis-set-1m-k50000-f1024-20260929",
-        "valkey": "raw/valkey-set-1m-k50000-f1024-20260929",
-        "kvrocks": "raw/kvrocks-set-1m-k50000-f1024-20260929",
-        "main": "raw/lavik-pipeline-main-set-1048576-k50000-f1024-20261001",
-        "pr": "raw/lavik-pipeline-pr-set-1048576-k50000-f1024-20261001"
-      },
-      "matched_connection_pr_over_main_min": 0.942044838873355,
-      "matched_connection_pr_over_main_max": 1.0049818077607207,
-      "pr_over_main_peak": 0.942044838873355,
-      "pr_over_kvrocks_peak": 0.7223525858507702
+      "main_tag": "main44761-hashset-set-1048576-k50000-f1024-20261003",
+      "pr_tag": "index-pr244-faaaba58-hashset-set-1048576-k50000-f1024-20261003",
+      "operations": {
+        "SADD_SREM": {
+          "main_peak_qps": 252847.76,
+          "pr_peak_qps": 237115.6,
+          "peak_change_percent": -6.221989073583256,
+          "matched_connections": {
+            "80": {
+              "main_qps": 194890.36,
+              "pr_qps": 188893.88,
+              "change_percent": -3.07684792618782
+            },
+            "320": {
+              "main_qps": 252847.76,
+              "pr_qps": 237115.6,
+              "change_percent": -6.221989073583256
+            },
+            "1280": {
+              "main_qps": 232716.78,
+              "pr_qps": 228821.89,
+              "change_percent": -1.6736610054504775
+            },
+            "2560": {
+              "main_qps": 220057.53,
+              "pr_qps": 204004.33,
+              "change_percent": -7.295001448030436
+            },
+            "5120": {
+              "main_qps": 197055.11,
+              "pr_qps": 194987.92,
+              "change_percent": -1.0490415599980984
+            }
+          }
+        },
+        "SISMEMBER": {
+          "main_peak_qps": 546816.95,
+          "pr_peak_qps": 550784.13,
+          "peak_change_percent": 0.7255042112356058,
+          "matched_connections": {
+            "80": {
+              "main_qps": 342571.35,
+              "pr_qps": 344307.38,
+              "change_percent": 0.5067645032195589
+            },
+            "320": {
+              "main_qps": 546816.95,
+              "pr_qps": 550784.13,
+              "change_percent": 0.7255042112356058
+            },
+            "1280": {
+              "main_qps": 459536.26,
+              "pr_qps": 461791.16,
+              "change_percent": 0.49069033203168466
+            },
+            "2560": {
+              "main_qps": 412665.59,
+              "pr_qps": 414146.48,
+              "change_percent": 0.3588595792539895
+            },
+            "5120": {
+              "main_qps": 373159.71,
+              "pr_qps": 375721.99,
+              "change_percent": 0.6866443325298954
+            }
+          }
+        },
+        "SMEMBERS": {
+          "main_peak_qps": 2843.09,
+          "pr_peak_qps": 2842.9,
+          "peak_change_percent": -0.006682869694596416,
+          "matched_connections": {
+            "16": {
+              "main_qps": 1155.73,
+              "pr_qps": 1163.02,
+              "change_percent": 0.6307701625812179
+            },
+            "80": {
+              "main_qps": 2843.09,
+              "pr_qps": 2842.9,
+              "change_percent": -0.006682869694596416
+            }
+          }
+        }
+      }
     },
     {
+      "category": "hashset",
       "kind": "set",
       "size": 104857600,
       "field": 128,
       "keys": 500,
-      "operation": "SADD_SREM",
-      "peaks": {
-        "redis": 969659.94,
-        "valkey": 818188.82,
-        "kvrocks": 470138.38,
-        "main": 247711.88,
-        "pr": 296978.33
-      },
-      "source_folders": {
-        "redis": "raw/redis-set-100m-k500-f128-20260929",
-        "valkey": "raw/valkey-set-100m-k500-f128-20260929",
-        "kvrocks": "raw/kvrocks-set-100m-k500-f128-20260929",
-        "main": "raw/lavik-pipeline-main-set-104857600-k500-f128-20261001",
-        "pr": "raw/lavik-pipeline-pr-set-104857600-k500-f128-20261001"
-      },
-      "matched_connection_pr_over_main_min": 1.074137398420658,
-      "matched_connection_pr_over_main_max": 1.1988861010622502,
-      "pr_over_main_peak": 1.1988861010622502,
-      "pr_over_kvrocks_peak": 0.6316828036885651
+      "main_tag": "main44761-hashset-set-104857600-k500-f128-20261003",
+      "pr_tag": "index-pr244-faaaba58-hashset-set-104857600-k500-f128-20261003",
+      "operations": {
+        "SADD_SREM": {
+          "main_peak_qps": 290377.43,
+          "pr_peak_qps": 308737.98,
+          "peak_change_percent": 6.32299486912602,
+          "matched_connections": {
+            "80": {
+              "main_qps": 256857.05,
+              "pr_qps": 267131.1,
+              "change_percent": 3.9999096773867038
+            },
+            "320": {
+              "main_qps": 290377.43,
+              "pr_qps": 308737.98,
+              "change_percent": 6.32299486912602
+            },
+            "1280": {
+              "main_qps": 259083.83,
+              "pr_qps": 270588.65,
+              "change_percent": 4.440578171165699
+            },
+            "2560": {
+              "main_qps": 237471.16,
+              "pr_qps": 243164.01,
+              "change_percent": 2.3972805792501273
+            },
+            "5120": {
+              "main_qps": 202069.04,
+              "pr_qps": 209895.03,
+              "change_percent": 3.8729287772139687
+            }
+          }
+        },
+        "SISMEMBER": {
+          "main_peak_qps": 567034.09,
+          "pr_peak_qps": 577769.02,
+          "peak_change_percent": 1.8931718902473804,
+          "matched_connections": {
+            "80": {
+              "main_qps": 361733.11,
+              "pr_qps": 360881.7,
+              "change_percent": -0.23536966245638613
+            },
+            "320": {
+              "main_qps": 567034.09,
+              "pr_qps": 577769.02,
+              "change_percent": 1.8931718902473804
+            },
+            "1280": {
+              "main_qps": 413981.03,
+              "pr_qps": 405771.84,
+              "change_percent": -1.9829869982206705
+            },
+            "2560": {
+              "main_qps": 367675.74,
+              "pr_qps": 366887.24,
+              "change_percent": -0.21445526974392948
+            },
+            "5120": {
+              "main_qps": 351628.68,
+              "pr_qps": 338942.24,
+              "change_percent": -3.6079082058949274
+            }
+          }
+        },
+        "SMEMBERS": {
+          "main_peak_qps": 10.45,
+          "pr_peak_qps": 9.85,
+          "peak_change_percent": -5.741626794258369,
+          "matched_connections": {
+            "1": {
+              "main_qps": 0.81,
+              "pr_qps": 0.81,
+              "change_percent": 0.0
+            },
+            "4": {
+              "main_qps": 2.99,
+              "pr_qps": 3.13,
+              "change_percent": 4.682274247491636
+            },
+            "16": {
+              "main_qps": 10.45,
+              "pr_qps": 9.85,
+              "change_percent": -5.741626794258369
+            }
+          }
+        }
+      }
     },
     {
+      "category": "hashset",
       "kind": "set",
       "size": 104857600,
       "field": 1024,
       "keys": 500,
-      "operation": "SADD_SREM",
-      "peaks": {
-        "redis": 802232.44,
-        "valkey": 679326.23,
-        "kvrocks": 297558.22,
-        "main": 239555.46,
-        "pr": 305986.54
-      },
-      "source_folders": {
-        "redis": "raw/redis-set-100m-k500-f1024-20260929",
-        "valkey": "raw/valkey-set-100m-k500-f1024-20260929",
-        "kvrocks": "raw/kvrocks-set-100m-k500-f1024-20260929",
-        "main": "raw/lavik-pipeline-main-set-104857600-k500-f1024-20261001",
-        "pr": "raw/lavik-pipeline-pr-set-104857600-k500-f1024-20261001"
-      },
-      "matched_connection_pr_over_main_min": 1.1568255338795799,
-      "matched_connection_pr_over_main_max": 1.308923111715062,
-      "pr_over_main_peak": 1.2773098137692207,
-      "pr_over_kvrocks_peak": 1.0283249442747708
+      "main_tag": "main44761-hashset-set-104857600-k500-f1024-20261003",
+      "pr_tag": "index-pr244-faaaba58-hashset-set-104857600-k500-f1024-20261003",
+      "operations": {
+        "SADD_SREM": {
+          "main_peak_qps": 301065.59,
+          "pr_peak_qps": 316733.9,
+          "peak_change_percent": 5.204284554737715,
+          "matched_connections": {
+            "80": {
+              "main_qps": 259341.01,
+              "pr_qps": 270100.47,
+              "change_percent": 4.148769220880255
+            },
+            "320": {
+              "main_qps": 301065.59,
+              "pr_qps": 316733.9,
+              "change_percent": 5.204284554737715
+            },
+            "1280": {
+              "main_qps": 270138.27,
+              "pr_qps": 277927.87,
+              "change_percent": 2.8835603337505455
+            },
+            "2560": {
+              "main_qps": 243110.38,
+              "pr_qps": 247144.28,
+              "change_percent": 1.6592874397218127
+            },
+            "5120": {
+              "main_qps": 205108.84,
+              "pr_qps": 203067.07,
+              "change_percent": -0.9954568511040263
+            }
+          }
+        },
+        "SISMEMBER": {
+          "main_peak_qps": 556162.31,
+          "pr_peak_qps": 546282.39,
+          "peak_change_percent": -1.776445440900165,
+          "matched_connections": {
+            "80": {
+              "main_qps": 358062.34,
+              "pr_qps": 349461.31,
+              "change_percent": -2.4021040581927777
+            },
+            "320": {
+              "main_qps": 556162.31,
+              "pr_qps": 546282.39,
+              "change_percent": -1.776445440900165
+            },
+            "1280": {
+              "main_qps": 393095.01,
+              "pr_qps": 386482.8,
+              "change_percent": -1.682089528432329
+            },
+            "2560": {
+              "main_qps": 363768.59,
+              "pr_qps": 350717.95,
+              "change_percent": -3.5876214601156198
+            },
+            "5120": {
+              "main_qps": 337108.7,
+              "pr_qps": 333014.89,
+              "change_percent": -1.214388712008918
+            }
+          }
+        },
+        "SMEMBERS": {
+          "main_peak_qps": 11.09,
+          "pr_peak_qps": 11.08,
+          "peak_change_percent": -0.09017132551848439,
+          "matched_connections": {
+            "1": {
+              "main_qps": 0.8,
+              "pr_qps": 0.8,
+              "change_percent": 0.0
+            },
+            "4": {
+              "main_qps": 3.28,
+              "pr_qps": 3.27,
+              "change_percent": -0.304878048780477
+            },
+            "16": {
+              "main_qps": 11.09,
+              "pr_qps": 11.08,
+              "change_percent": -0.09017132551848439
+            }
+          }
+        }
+      }
+    },
+    {
+      "category": "lset",
+      "kind": "list",
+      "size": 1048576,
+      "field": 1024,
+      "keys": 50000,
+      "main_tag": "main44761-lset-list-1048576-k50000-f1024-20261003",
+      "pr_tag": "index-pr244-faaaba58-lset-list-1048576-k50000-f1024-20261003",
+      "operations": {
+        "LSET": {
+          "main_peak_qps": 141173.18,
+          "pr_peak_qps": 142111.8,
+          "peak_change_percent": 0.6648713303759157,
+          "matched_connections": {
+            "80": {
+              "main_qps": 120445.93,
+              "pr_qps": 122936.49,
+              "change_percent": 2.067782614157254
+            },
+            "320": {
+              "main_qps": 141173.18,
+              "pr_qps": 142111.8,
+              "change_percent": 0.6648713303759157
+            },
+            "1280": {
+              "main_qps": 135642.73,
+              "pr_qps": 135090.48,
+              "change_percent": -0.4071357160092548
+            },
+            "2560": {
+              "main_qps": 128876.33,
+              "pr_qps": 129182.81,
+              "change_percent": 0.23780937896042964
+            },
+            "5120": {
+              "main_qps": 120052.9,
+              "pr_qps": 126815.94,
+              "change_percent": 5.633383283535842
+            }
+          }
+        }
+      }
+    },
+    {
+      "category": "lset",
+      "kind": "list",
+      "size": 104857600,
+      "field": 1024,
+      "keys": 500,
+      "main_tag": "main44761-lset-list-104857600-k500-f1024-20261003",
+      "pr_tag": "index-pr244-faaaba58-lset-list-104857600-k500-f1024-20261003",
+      "operations": {
+        "LSET": {
+          "main_peak_qps": 140318.28,
+          "pr_peak_qps": 161161.0,
+          "peak_change_percent": 14.853887889731832,
+          "matched_connections": {
+            "80": {
+              "main_qps": 140318.28,
+              "pr_qps": 154388.87,
+              "change_percent": 10.027624340891283
+            },
+            "320": {
+              "main_qps": 137937.75,
+              "pr_qps": 161161.0,
+              "change_percent": 16.8360365454707
+            },
+            "1280": {
+              "main_qps": 95119.93,
+              "pr_qps": 100775.11,
+              "change_percent": 5.945315561102715
+            },
+            "2560": {
+              "main_qps": 95960.0,
+              "pr_qps": 101285.36,
+              "change_percent": 5.5495623176323505
+            },
+            "5120": {
+              "main_qps": 95306.14,
+              "pr_qps": 102594.41,
+              "change_percent": 7.647219790876014
+            }
+          }
+        }
+      }
+    },
+    {
+      "category": "ordered",
+      "kind": "zset",
+      "size": 104857600,
+      "field": 1024,
+      "keys": 8,
+      "main_tag": "main44761-ordered-zset-104857600-k8-f1024-20261003",
+      "pr_tag": "index-pr244-faaaba58-ordered-zset-104857600-k8-f1024-20261003",
+      "operations": {
+        "ZINCRBY": {
+          "main_peak_qps": 9336.59,
+          "pr_peak_qps": 9580.62,
+          "peak_change_percent": 2.613695149942341,
+          "matched_connections": {
+            "80": {
+              "main_qps": 9336.59,
+              "pr_qps": 9580.62,
+              "change_percent": 2.613695149942341
+            },
+            "320": {
+              "main_qps": 9155.87,
+              "pr_qps": 9368.56,
+              "change_percent": 2.322990606026498
+            },
+            "1280": {
+              "main_qps": 9001.1,
+              "pr_qps": 8934.29,
+              "change_percent": -0.7422426147915218
+            },
+            "2560": {
+              "main_qps": 8717.05,
+              "pr_qps": 8903.67,
+              "change_percent": 2.1408618741432184
+            },
+            "5120": {
+              "main_qps": 8307.29,
+              "pr_qps": 8804.9,
+              "change_percent": 5.990040073236869
+            }
+          }
+        },
+        "ZRANGE": {
+          "main_peak_qps": 10.95,
+          "pr_peak_qps": 10.93,
+          "peak_change_percent": -0.18264840182647957,
+          "matched_connections": {
+            "1": {
+              "main_qps": 0.88,
+              "pr_qps": 0.89,
+              "change_percent": 1.1363636363636465
+            },
+            "4": {
+              "main_qps": 3.73,
+              "pr_qps": 3.2,
+              "change_percent": -14.209115281501338
+            },
+            "16": {
+              "main_qps": 10.95,
+              "pr_qps": 10.93,
+              "change_percent": -0.18264840182647957
+            }
+          }
+        },
+        "ZSCORE": {
+          "main_peak_qps": 265013.49,
+          "pr_peak_qps": 272848.7,
+          "peak_change_percent": 2.956532514627841,
+          "matched_connections": {
+            "80": {
+              "main_qps": 250818.49,
+              "pr_qps": 252292.52,
+              "change_percent": 0.587687933214176
+            },
+            "320": {
+              "main_qps": 265013.49,
+              "pr_qps": 272848.7,
+              "change_percent": 2.956532514627841
+            },
+            "1280": {
+              "main_qps": 195021.31,
+              "pr_qps": 202217.62,
+              "change_percent": 3.690012132520293
+            },
+            "2560": {
+              "main_qps": 185042.05,
+              "pr_qps": 202355.1,
+              "change_percent": 9.356278748533109
+            },
+            "5120": {
+              "main_qps": 177251.16,
+              "pr_qps": 180468.77,
+              "change_percent": 1.8152829013925675
+            }
+          }
+        }
+      }
+    },
+    {
+      "category": "ordered",
+      "kind": "stream",
+      "size": 104857600,
+      "field": 1024,
+      "keys": 8,
+      "main_tag": "main44761-ordered-stream-104857600-k8-f1024-20261003",
+      "pr_tag": "index-pr244-faaaba58-ordered-stream-104857600-k8-f1024-20261003",
+      "operations": {
+        "XADD_MAXLEN": {
+          "main_peak_qps": 6706.89,
+          "pr_peak_qps": 6636.42,
+          "peak_change_percent": -1.0507105379691684,
+          "matched_connections": {
+            "80": {
+              "main_qps": 6680.81,
+              "pr_qps": 6565.17,
+              "change_percent": -1.7309278365946645
+            },
+            "320": {
+              "main_qps": 6671.53,
+              "pr_qps": 6635.27,
+              "change_percent": -0.5435035141863942
+            },
+            "1280": {
+              "main_qps": 6692.14,
+              "pr_qps": 6368.9,
+              "change_percent": -4.830144019700732
+            },
+            "2560": {
+              "main_qps": 6420.85,
+              "pr_qps": 6636.42,
+              "change_percent": 3.357343653877587
+            },
+            "5120": {
+              "main_qps": 6706.89,
+              "pr_qps": 6603.42,
+              "change_percent": -1.5427418669457849
+            }
+          }
+        },
+        "XRANGE": {
+          "main_peak_qps": 202949.22,
+          "pr_peak_qps": 202526.31,
+          "peak_change_percent": -0.20838217560038563,
+          "matched_connections": {
+            "80": {
+              "main_qps": 184484.3,
+              "pr_qps": 184811.9,
+              "change_percent": 0.17757608642037237
+            },
+            "320": {
+              "main_qps": 202949.22,
+              "pr_qps": 202526.31,
+              "change_percent": -0.20838217560038563
+            },
+            "1280": {
+              "main_qps": 142452.66,
+              "pr_qps": 142205.46,
+              "change_percent": -0.17353133314604863
+            },
+            "2560": {
+              "main_qps": 123790.17,
+              "pr_qps": 121687.54,
+              "change_percent": -1.6985435919508074
+            },
+            "5120": {
+              "main_qps": 117536.8,
+              "pr_qps": 119006.92,
+              "change_percent": 1.2507742256042231
+            }
+          }
+        },
+        "XRANGE_FULL": {
+          "main_peak_qps": 7.85,
+          "pr_peak_qps": 7.18,
+          "peak_change_percent": -8.535031847133755,
+          "matched_connections": {
+            "1": {
+              "main_qps": 0.61,
+              "pr_qps": 0.6,
+              "change_percent": -1.6393442622950838
+            },
+            "4": {
+              "main_qps": 2.17,
+              "pr_qps": 2.35,
+              "change_percent": 8.294930875576046
+            },
+            "16": {
+              "main_qps": 7.85,
+              "pr_qps": 7.18,
+              "change_percent": -8.535031847133755
+            }
+          }
+        }
+      }
+    },
+    {
+      "category": "ordered",
+      "kind": "list",
+      "size": 104857600,
+      "field": 1024,
+      "keys": 8,
+      "main_tag": "main44761-ordered-list-104857600-k8-f1024-20261003",
+      "pr_tag": "index-pr244-faaaba58-ordered-list-104857600-k8-f1024-20261003",
+      "operations": {
+        "LINDEX": {
+          "main_peak_qps": 428462.56,
+          "pr_peak_qps": 426753.92,
+          "peak_change_percent": -0.3987839684288952,
+          "matched_connections": {
+            "80": {
+              "main_qps": 351627.76,
+              "pr_qps": 351333.65,
+              "change_percent": -0.08364242914153941
+            },
+            "320": {
+              "main_qps": 428462.56,
+              "pr_qps": 426753.92,
+              "change_percent": -0.3987839684288952
+            },
+            "1280": {
+              "main_qps": 302718.18,
+              "pr_qps": 301059.39,
+              "change_percent": -0.5479651073483471
+            },
+            "2560": {
+              "main_qps": 274641.85,
+              "pr_qps": 271209.71,
+              "change_percent": -1.2496784448546183
+            },
+            "5120": {
+              "main_qps": 247551.36,
+              "pr_qps": 241384.84,
+              "change_percent": -2.4910063107712266
+            }
+          }
+        },
+        "LRANGE": {
+          "main_peak_qps": 11.57,
+          "pr_peak_qps": 11.0,
+          "peak_change_percent": -4.926534140017291,
+          "matched_connections": {
+            "1": {
+              "main_qps": 0.94,
+              "pr_qps": 0.94,
+              "change_percent": 0.0
+            },
+            "4": {
+              "main_qps": 3.43,
+              "pr_qps": 3.53,
+              "change_percent": 2.915451895043719
+            },
+            "16": {
+              "main_qps": 11.57,
+              "pr_qps": 11.0,
+              "change_percent": -4.926534140017291
+            }
+          }
+        },
+        "LSET": {
+          "main_peak_qps": 47849.22,
+          "pr_peak_qps": 50670.19,
+          "peak_change_percent": 5.8955401989833955,
+          "matched_connections": {
+            "80": {
+              "main_qps": 47366.98,
+              "pr_qps": 46671.42,
+              "change_percent": -1.4684491179298376
+            },
+            "320": {
+              "main_qps": 46713.36,
+              "pr_qps": 50670.19,
+              "change_percent": 8.470446142174314
+            },
+            "1280": {
+              "main_qps": 46398.12,
+              "pr_qps": 48220.89,
+              "change_percent": 3.928542794406309
+            },
+            "2560": {
+              "main_qps": 47849.22,
+              "pr_qps": 49913.0,
+              "change_percent": 4.3130901611353245
+            },
+            "5120": {
+              "main_qps": 45977.47,
+              "pr_qps": 44972.74,
+              "change_percent": -2.185265957435245
+            }
+          }
+        }
+      }
     }
   ],
-  "successful_points": 200,
-  "failed_points": 0,
-  "method": "Matched-connection main/PR ratios use independently fresh-seeded grids. Product peak ratios may use different connection counts. One measurement per point, without confidence intervals; peer persistence/cache settings differ."
+  "limitations": [
+    "One connection sweep per independently seeded version; no statistical repeat estimate.",
+    "Other product curves are historical and persistence/cache configurations differ.",
+    "Legacy small-key supplemental workloads retain their actual older measured versions."
+  ]
 }
