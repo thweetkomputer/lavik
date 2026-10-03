@@ -18,6 +18,9 @@ Redis/Valkey 不持久化；Kvrocks 为无压缩 RAID0、关闭 WAL、80 GiB blo
 
 本轮测试盘序列号/PCI 地址与 10 月 1 日不同，已重新核对六块无挂载、无 RAID 占用的专用 NVMe；CPU 为 AMD EPYC 9V74、16 vCPU，仍使用 12 个服务 worker。其他三库保留历史同负载结果，不能把跨轮差值全部归因于代码。新 main 与后续优化会在本轮机器上直接比较。[本轮硬件与构建证明](diagnostics/main-refresh-20261003/host-and-build.json)。
 
+
+**后续优化：[PR #244](https://github.com/eloqdata/lavik/pull/244) 减少共享分组发布中的元数据分配、临时容器分配和重复路由查找。已完成负载会直接加在四库图上，待测负载暂只显示实测 main。**
+
 ## List
 
 本轮基线：main `06562381`，已包含合并的 #233。每档 LSET 图固定 key 数、每 key 大小、元素大小，并展示其他三库同规模结果。
@@ -111,7 +114,7 @@ Redis/Valkey 不持久化；Kvrocks 为无压缩 RAID0、关闭 WAL、80 GiB blo
 
 ![Hash 100 MiB, 1024 B: HGET / HSET](charts/hash-104857600-1024-ab.png)
 
-**最新 main `44761b91` 实测，已合并 #235；图中保留 Redis、Valkey、Kvrocks、Lavik main。** 500 keys × 100 MiB/key; 1024 B/entry. 独立清盘灌入，测前测后逐 key 校验，全部测点零错误。 [main raw](raw/lavik-main44761-hashset-hash-104857600-k500-f1024-20261003/).
+**最新 main `44761b91` 与 [PR #244](https://github.com/eloqdata/lavik/pull/244) `62507324` 同图，同时保留 Redis、Valkey、Kvrocks。** 500 keys × 100 MiB/key; 1024 B/entry. 两版本本轮同机独立清盘灌入，逐 key 前后校验通过，全部测点零错误。 [PR raw](raw/lavik-index-pr244-hashset-hash-104857600-k500-f1024-20261003/) · [Main raw](raw/lavik-main44761-hashset-hash-104857600-k500-f1024-20261003/).
 
 ### HGETALL
 

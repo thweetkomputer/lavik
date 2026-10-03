@@ -15,14 +15,7 @@ import time
 
 ROOT = Path(__file__).resolve().parent
 SETUP = Path(__file__).resolve().parents[2] / "bycorf/third_party/spdk/scripts/setup.sh"
-SERIAL_PCI = {
-    "74cf37b6f71c530e0001": "e986:00:00.0",
-    "74cf37b6f71c530e0002": "2dbd:00:00.0",
-    "74cf37b6f71c530e0003": "e5dd:00:00.0",
-    "74cf37b6f71c530e0004": "a8cb:00:00.0",
-    "74cf37b6f71c530e0005": "4403:00:00.0",
-    "74cf37b6f71c530e0006": "919c:00:00.0",
-}
+SERIAL_PCI = {'c08bc35101567ebd0001': '18a2:00:00.0', 'c08bc35101567ebd0002': 'a3a1:00:00.0', 'c08bc35101567ebd0003': '668e:00:00.0', 'c08bc35101567ebd0004': 'cc2f:00:00.0', 'c08bc35101567ebd0005': 'fa20:00:00.0', 'c08bc35101567ebd0006': '53c3:00:00.0'}
 PCI_ALLOWED = " ".join(SERIAL_PCI.values())
 HUGEPAGES = Path("/sys/kernel/mm/hugepages/hugepages-2048kB/nr_hugepages")
 UNSAFE = Path("/sys/module/vfio/parameters/enable_unsafe_noiommu_mode")
@@ -64,9 +57,15 @@ def checked_kernel_devices():
 
 
 def no_servers():
-    for name in ("lavik", "redis-server", "valkey-server", "kvrocks"):
-        assert subprocess.run(["pgrep", "-x", name],
-                              capture_output=True).returncode == 1, name
+    # Versioned benchmark binaries have truncated process names. Check their
+    # executable identity too before rebinding or discarding scratch devices.
+    for process in Path("/proc").glob("[0-9]*"):
+        try:
+            name = (process / "exe").resolve(strict=True).name
+        except (FileNotFoundError, PermissionError, ProcessLookupError):
+            continue
+        assert not (name.startswith("lavik") or name in
+                    ("redis-server", "valkey-server", "kvrocks", "asd")), (process.name, name)
 
 
 def setup(action):
