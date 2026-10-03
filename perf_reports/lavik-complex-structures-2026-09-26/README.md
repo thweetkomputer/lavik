@@ -42,7 +42,7 @@ Use 50,000 keys at 1 MiB/key and 500 keys at 100 MiB/key, with 1 KiB elements. E
 
 ![LSET 100 MiB, 500 keys: four databases ](charts/list-lset-104857600-1024-k500-main-pr.png)
 
-**Pending refresh: measured Lavik main `06562381`; merged PR #235 curve removed.**
+**Measured current main `44761b91`, including merged #235, with Redis, Valkey and Kvrocks.** 500 keys × 100 MiB/key; 1024 B/entry. Fresh-media seed, every-key validation before and after; zero errors at all points. [main raw](raw/lavik-main44761-lset-list-104857600-k500-f1024-20261003/).
 
 
 

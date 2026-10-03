@@ -39,7 +39,7 @@ Redis/Valkey 不持久化；Kvrocks 为无压缩 RAID0、关闭 WAL、80 GiB blo
 
 ![LSET 100 MiB, 500 keys: four databases ](charts/list-lset-104857600-1024-k500-main-pr.png)
 
-**待复测：图中 Lavik main 为实测 `06562381`；已移除合并 PR #235 曲线。**
+**最新 main `44761b91` 实测，已合并 #235；图中保留 Redis、Valkey、Kvrocks、Lavik main。** 500 keys × 100 MiB/key; 1024 B/entry. 独立清盘灌入，测前测后逐 key 校验，全部测点零错误。 [main raw](raw/lavik-main44761-lset-list-104857600-k500-f1024-20261003/).
 
 
 
