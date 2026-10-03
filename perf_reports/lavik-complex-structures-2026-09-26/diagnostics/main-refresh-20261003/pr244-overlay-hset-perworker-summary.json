@@ -1,0 +1,514 @@
+{
+  "total_task_clock_seconds": 265.97979532,
+  "callchain_fraction": {
+    "user": 0.710010633449795,
+    "kernel": 0.2899893665502051
+  },
+  "by_tid": {
+    "151404": {
+      "task_clock_seconds": 24.6464644,
+      "fraction": {
+        "user": 0.7545081967213115,
+        "kernel": 0.24549180327868853
+      }
+    },
+    "151405": {
+      "task_clock_seconds": 21.53535332,
+      "fraction": {
+        "user": 0.6815196998123827,
+        "kernel": 0.31848030018761725
+      }
+    },
+    "151406": {
+      "task_clock_seconds": 21.87878766,
+      "fraction": {
+        "user": 0.7105263157894737,
+        "kernel": 0.2894736842105263
+      }
+    },
+    "151407": {
+      "task_clock_seconds": 21.57575736,
+      "fraction": {
+        "user": 0.7134831460674157,
+        "kernel": 0.28651685393258425
+      }
+    },
+    "151408": {
+      "task_clock_seconds": 21.35353514,
+      "fraction": {
+        "user": 0.695837275307474,
+        "kernel": 0.30416272469252603
+      }
+    },
+    "151409": {
+      "task_clock_seconds": 21.77777756,
+      "fraction": {
+        "user": 0.7189239332096475,
+        "kernel": 0.2810760667903525
+      }
+    },
+    "151410": {
+      "task_clock_seconds": 22.28282806,
+      "fraction": {
+        "kernel": 0.30054397098821395,
+        "user": 0.699456029011786
+      }
+    },
+    "151411": {
+      "task_clock_seconds": 21.78787857,
+      "fraction": {
+        "user": 0.7070004636068614,
+        "kernel": 0.29299953639313864
+      }
+    },
+    "151412": {
+      "task_clock_seconds": 21.24242403,
+      "fraction": {
+        "kernel": 0.34284355682358536,
+        "user": 0.6571564431764146
+      }
+    },
+    "151413": {
+      "task_clock_seconds": 23.39393916,
+      "fraction": {
+        "user": 0.7284110535405872,
+        "kernel": 0.2715889464594128
+      }
+    },
+    "151414": {
+      "task_clock_seconds": 21.86868665,
+      "fraction": {
+        "kernel": 0.2762124711316397,
+        "user": 0.7237875288683603
+      }
+    },
+    "151415": {
+      "task_clock_seconds": 22.63636341,
+      "fraction": {
+        "kernel": 0.2797858099062918,
+        "user": 0.7202141900937081
+      }
+    },
+    "151416": {
+      "task_clock_seconds": 0.0,
+      "fraction": {}
+    }
+  },
+  "self": [
+    {
+      "symbol": "bycorf::Worker::RunOnce(bool)",
+      "cpu_percent": 10.633449794926326
+    },
+    {
+      "symbol": "bycorf::Worker::PollStorage() [clone .part.0]",
+      "cpu_percent": 5.1800091143855385
+    },
+    {
+      "symbol": "_mi_theap_malloc_zero",
+      "cpu_percent": 3.8394349080966124
+    },
+    {
+      "symbol": "handle_softirqs",
+      "cpu_percent": 3.752088713352575
+    },
+    {
+      "symbol": "lavik::storage::HashGroupDirectory::Find(std::basic_string_view<char, std::char_traits<char> >) const",
+      "cpu_percent": 2.7684946073218897
+    },
+    {
+      "symbol": "lavik::storage::HashGroupMap<unsigned long>::SetNode(lavik::LocalSharedPtr<lavik::storage::HashGroupMap<unsigned long>::Node const> const&, unsigned long, lavik::storage::RecoveredHashGroup)",
+      "cpu_percent": 2.6773507519368067
+    },
+    {
+      "symbol": "absl::lts_20250512::crc_internal::(anonymous namespace)::CRC32AcceleratedX86ARMCombinedMultipleStreams<3ul, 0ul, (absl::lts_20250512::crc_internal::(anonymous namespace)::CutoffStrategy)0>::Extend(unsigned int*, void const*, unsigned long) const",
+      "cpu_percent": 2.062129728087498
+    },
+    {
+      "symbol": "lavik::storage::StorageEngine::Impl::WriteRecordLocked(lavik::storage::StorageEngine::Impl::WriteRecordLocked(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::RecordWriteRequest const&, std::shared_ptr<std::vector<lavik::storage::ExtentRef, std::allocator<lavik::storage::ExtentRef> > const>, std::unique_ptr<std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> >, std::default_delete<std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> > > >)::_ZN5lavik7storage13StorageEngine4Impl17WriteRecordLockedERNS2_11WorkerStoreERKNS2_18RecordWriteRequestESt10shared_ptrIKSt6vectorINS0_9ExtentRefESaISA_EEESt10unique_ptrIS9_INS0_13RetiredRecordESaISG_EESt14default_deleteISI_EE.Frame*) [clone .actor] [clone .lto_priv.0]",
+      "cpu_percent": 1.7621145374449338
+    },
+    {
+      "symbol": "__memmove_avx512_unaligned_erms",
+      "cpu_percent": 1.6140057724441743
+    },
+    {
+      "symbol": "do_syscall_64",
+      "cpu_percent": 1.3557648488531064
+    },
+    {
+      "symbol": "bycorf::Worker::DrainCrossCore()",
+      "cpu_percent": 1.1886677806471213
+    },
+    {
+      "symbol": "nvme_pcie_qpair_process_completions",
+      "cpu_percent": 1.173477138082941
+    },
+    {
+      "symbol": "lavik::storage::StorageEngine::Impl::CommitGroupedHashMutationLocked(lavik::storage::StorageEngine::Impl::CommitGroupedHashMutationLocked(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::WorkerStore::PartitionStore&, unsigned char, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::Digest const&, std::shared_ptr<lavik::storage::GroupedHashObject const>, lavik::storage::HashValue, std::vector<lavik::storage::HashGroupId, std::allocator<lavik::storage::HashGroupId> >, unsigned long, lavik::storage::ValueType, unsigned long, lavik::storage::TxShardWrites*, lavik::storage::ReplicationCommandAppend*, lavik::storage::MutationPrecondition const*, lavik::storage::HashGroupMutationPlan*)::_ZN5lavik7storage13StorageEngine4Impl31CommitGroupedHashMutationLockedERNS2_11WorkerStoreERNS3_14PartitionStoreEhSt17basic_string_viewIcSt11char_traitsIcEERKNS0_6DigestESt10shared_ptrIKNS0_17GroupedHashObjectEENS0_9HashValueESt6vectorINS0_11HashGroupIdESaISK_EEmNS0_9ValueTypeEmPNS0_13TxShardWritesEPNS0_24ReplicationCommandAppendEPKNS0_20MutationPreconditionEPNS0_21HashGroupMutationPlanE.Frame*) [clone .actor]",
+      "cpu_percent": 1.0861309433389033
+    },
+    {
+      "symbol": "lavik::storage::StorageEngine::Impl::ExecuteHashLikeLocked(lavik::storage::StorageEngine::Impl::ExecuteHashLikeLocked(unsigned char, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::Digest const&, lavik::storage::HashOperation const&, lavik::storage::ValueType, lavik::storage::TxShardWrites*, lavik::storage::ReplicationCommandAppend*, lavik::storage::MutationPrecondition const*)::_ZN5lavik7storage13StorageEngine4Impl21ExecuteHashLikeLockedEhSt17basic_string_viewIcSt11char_traitsIcEERKNS0_6DigestERKNS0_13HashOperationENS0_9ValueTypeEPNS0_13TxShardWritesEPNS0_24ReplicationCommandAppendEPKNS0_20MutationPreconditionE.Frame*) [clone .actor] [clone .lto_priv.0]",
+      "cpu_percent": 0.9342245176970986
+    },
+    {
+      "symbol": "lavik::local_shared_detail::Allocation<lavik::storage::HashGroupMap<unsigned long>::Node, lavik::storage::RetainedAllocator<lavik::storage::HashGroupMap<unsigned long>::Node> >::Destroy(lavik::local_shared_detail::Control<lavik::storage::HashGroupMap<unsigned long>::Node>*)",
+      "cpu_percent": 0.8734619474403768
+    },
+    {
+      "symbol": "_raw_spin_unlock_irqrestore",
+      "cpu_percent": 0.8582713048761963
+    },
+    {
+      "symbol": "mi_free",
+      "cpu_percent": 0.7785204314142489
+    },
+    {
+      "symbol": "spdk_nvme_qpair_process_completions",
+      "cpu_percent": 0.6911742366702112
+    },
+    {
+      "symbol": "__memset_avx512_unaligned_erms",
+      "cpu_percent": 0.6683882728239404
+    },
+    {
+      "symbol": "lavik::storage::NextRecordOffset(std::byte const*, unsigned int, unsigned int)",
+      "cpu_percent": 0.65319763025976
+    },
+    {
+      "symbol": "srso_alias_safe_ret",
+      "cpu_percent": 0.6380069876955795
+    },
+    {
+      "symbol": "io_uring_submit_and_get_events",
+      "cpu_percent": 0.6266140057724442
+    },
+    {
+      "symbol": "_copy_to_iter",
+      "cpu_percent": 0.622816345131399
+    },
+    {
+      "symbol": "_mi_page_malloc_zero",
+      "cpu_percent": 0.5696490961567674
+    },
+    {
+      "symbol": "lavik::storage::StorageEngine::Impl::FlushPendingBlocks(lavik::storage::StorageEngine::Impl::FlushPendingBlocks(lavik::storage::StorageEngine::Impl::WorkerStore*)::_ZN5lavik7storage13StorageEngine4Impl18FlushPendingBlocksEPNS2_11WorkerStoreE.Frame*) [clone .actor]",
+      "cpu_percent": 0.5354701503873613
+    },
+    {
+      "symbol": "lavik::storage::GroupedObjectIndex::Lookup(lavik::storage::Digest const&, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::GroupedObjectVersion const&, bool) const",
+      "cpu_percent": 0.5050888652590004
+    },
+    {
+      "symbol": "lavik::storage::HashGroupMap<unsigned long>::Balance(unsigned long, lavik::storage::RecoveredHashGroup, lavik::LocalSharedPtr<lavik::storage::HashGroupMap<unsigned long>::Node const>, lavik::LocalSharedPtr<lavik::storage::HashGroupMap<unsigned long>::Node const>)",
+      "cpu_percent": 0.4974935439769102
+    },
+    {
+      "symbol": "finish_task_switch.isra.0",
+      "cpu_percent": 0.4974935439769102
+    },
+    {
+      "symbol": "__tcp_transmit_skb",
+      "cpu_percent": 0.48230290141272975
+    },
+    {
+      "symbol": "lavik::storage::DecodeRecordHeader(std::span<std::byte const, 18446744073709551615ul>, lavik::storage::RecordHeader*, std::basic_string_view<char, std::char_traits<char> >*)",
+      "cpu_percent": 0.4633145982075042
+    },
+    {
+      "symbol": "lavik::storage::ScanHashMap<lavik::storage::RecordLocation, 32u, lavik::storage::RecordIndexEntryPolicy>::Find(lavik::storage::Digest const&, std::basic_string_view<char, std::char_traits<char> >)",
+      "cpu_percent": 0.4633145982075042
+    },
+    {
+      "symbol": "bycorf::IoUringBackend::ReapCompletions()",
+      "cpu_percent": 0.45951693756645906
+    },
+    {
+      "symbol": "lavik::(anonymous namespace)::RedisService::Serve(lavik::(anonymous namespace)::RedisService::Serve(bycorf::TcpStream&, lavik::ConnectionContext&)::_ZN5lavik12_GLOBAL__N_112RedisService5ServeERN6bycorf9TcpStreamERNS_17ConnectionContextE.Frame*) [clone .actor] [clone .lto_priv.0]",
+      "cpu_percent": 0.4481239556433237
+    },
+    {
+      "symbol": "lavik::storage::StorageEngine::Impl::CommitTxWrites(lavik::storage::StorageEngine::Impl::CommitTxWrites(unsigned long, std::vector<lavik::storage::TxShardWrites*, std::allocator<lavik::storage::TxShardWrites*> >, lavik::storage::RelocationDurabilityFence*)::_ZN5lavik7storage13StorageEngine4Impl14CommitTxWritesEmSt6vectorIPNS0_13TxShardWritesESaIS5_EEPNS0_25RelocationDurabilityFenceE.Frame*) [clone .actor]",
+      "cpu_percent": 0.43293331307914323
+    },
+    {
+      "symbol": "lavik::DispatchCommand(lavik::DispatchCommand(lavik::ConnectionContext&, lavik::CommandRequest&, lavik::ReplyBuilder&)::_ZN5lavik15DispatchCommandERNS_17ConnectionContextERNS_14CommandRequestERNS_12ReplyBuilderE.Frame*) [clone .actor]",
+      "cpu_percent": 0.42913565243809815
+    },
+    {
+      "symbol": "lavik::storage::HashGroupMap<unsigned long>::Make(unsigned long, lavik::storage::RecoveredHashGroup, lavik::LocalSharedPtr<lavik::storage::HashGroupMap<unsigned long>::Node const>, lavik::LocalSharedPtr<lavik::storage::HashGroupMap<unsigned long>::Node const>)",
+      "cpu_percent": 0.425337991797053
+    },
+    {
+      "symbol": "fget",
+      "cpu_percent": 0.425337991797053
+    },
+    {
+      "symbol": "lavik::storage::StorageEngine::Impl::DrainTxCommitQueue(lavik::storage::StorageEngine::Impl::DrainTxCommitQueue(lavik::storage::StorageEngine::Impl::WorkerStore*)::_ZN5lavik7storage13StorageEngine4Impl18DrainTxCommitQueueEPNS2_11WorkerStoreE.Frame*) [clone .actor]",
+      "cpu_percent": 0.4025520279507823
+    },
+    {
+      "symbol": "__nf_conntrack_find_get",
+      "cpu_percent": 0.3987543673097372
+    },
+    {
+      "symbol": "lavik::storage::StorageEngine::Impl::NoteTxRecordLocal(lavik::storage::StorageEngine::Impl::WorkerStore&, unsigned long, unsigned long, unsigned long, unsigned int, bool, lavik::storage::TxShardWrites const*, unsigned int, unsigned long)",
+      "cpu_percent": 0.3835637247455567
+    }
+  ],
+  "callers": {
+    "HashGroupDirectory::Find": [
+      {
+        "symbol": "lavik::storage::StorageEngine::Impl::ExecuteHashLikeLocked(lavik::storage::StorageEngine::Impl::ExecuteHashLikeLocked(unsigned char, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::Digest const&, lavik::storage::HashOperation const&, lavik::storage::ValueType, lavik::storage::TxShardWrites*, lavik::storage::ReplicationCommandAppend*, lavik::storage::MutationPrecondition const*)::_ZN5lavik7storage13StorageEngine4Impl21ExecuteHashLikeLockedEhSt17basic_string_viewIcSt11char_traitsIcEERKNS0_6DigestERKNS0_13HashOperationENS0_9ValueTypeEPNS0_13TxShardWritesEPNS0_24ReplicationCommandAppendEPKNS0_20MutationPreconditionE.Frame*) [clone .actor] [clone .lto_priv.0]",
+        "cpu_percent": 2.7684946073218897
+      }
+    ],
+    "__memmove": [
+      {
+        "symbol": "lavik::storage::StorageEngine::Impl::LoadValueLocal(lavik::storage::StorageEngine::Impl::LoadValueLocal(lavik::storage::StorageEngine::Impl::WorkerStore&, unsigned char, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::RecordLocation, unsigned long, lavik::ReadLatencyTrace*, std::optional<unsigned long>)::_ZN5lavik7storage13StorageEngine4Impl14LoadValueLocalERNS2_11WorkerStoreEhSt17basic_string_viewIcSt11char_traitsIcEENS0_14RecordLocationEmPNS_16ReadLatencyTraceESt8optionalImE.Frame*) [clone .actor]",
+        "cpu_percent": 0.48230290141272975
+      },
+      {
+        "symbol": "lavik::storage::StorageEngine::Impl::WriteRecordLocked(lavik::storage::StorageEngine::Impl::WriteRecordLocked(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::RecordWriteRequest const&, std::shared_ptr<std::vector<lavik::storage::ExtentRef, std::allocator<lavik::storage::ExtentRef> > const>, std::unique_ptr<std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> >, std::default_delete<std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> > > >)::_ZN5lavik7storage13StorageEngine4Impl17WriteRecordLockedERNS2_11WorkerStoreERKNS2_18RecordWriteRequestESt10shared_ptrIKSt6vectorINS0_9ExtentRefESaISA_EEESt10unique_ptrIS9_INS0_13RetiredRecordESaISG_EESt14default_deleteISI_EE.Frame*) [clone .actor] [clone .lto_priv.0]",
+        "cpu_percent": 0.42913565243809815
+      },
+      {
+        "symbol": "lavik::storage::ApplyHashGroupEdits(std::basic_string_view<char, std::char_traits<char> >, std::array<unsigned char, 16ul> const&, lavik::storage::HashGroupEditKind, std::span<lavik::storage::HashEntryView const, 18446744073709551615ul>)",
+        "cpu_percent": 0.22026431718061673
+      },
+      {
+        "symbol": "bycorf::ReadOperation::await_resume()",
+        "cpu_percent": 0.1405134437186693
+      },
+      {
+        "symbol": "lavik::storage::RecordPayloadCursor::Read(std::span<std::byte, 18446744073709551615ul>)",
+        "cpu_percent": 0.13291812243657908
+      },
+      {
+        "symbol": "std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::append(char const*, unsigned long)",
+        "cpu_percent": 0.053167248974631626
+      },
+      {
+        "symbol": "lavik::storage::DecodeRecordHeader(std::span<std::byte const, 18446744073709551615ul>, lavik::storage::RecordHeader*, std::basic_string_view<char, std::char_traits<char> >*)",
+        "cpu_percent": 0.03417894576940605
+      },
+      {
+        "symbol": "std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(char const*, unsigned long, std::allocator<char> const&) [clone .constprop.0]",
+        "cpu_percent": 0.03038128512836093
+      },
+      {
+        "symbol": "lavik::storage::HashGroupMap<unsigned long>::find(unsigned long) const",
+        "cpu_percent": 0.03038128512836093
+      },
+      {
+        "symbol": "lavik::storage::EncodeRecordHeader(lavik::storage::RecordHeader const&, std::basic_string_view<char, std::char_traits<char> >, std::span<std::byte, 18446744073709551615ul>)",
+        "cpu_percent": 0.026583624487315813
+      },
+      {
+        "symbol": "std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::append(char const*)",
+        "cpu_percent": 0.01139298192313535
+      },
+      {
+        "symbol": "lavik::storage::StorageEngine::Impl::RunTxCleaner(lavik::storage::StorageEngine::Impl::RunTxCleaner(bool)::_ZN5lavik7storage13StorageEngine4Impl12RunTxCleanerEb.Frame*) [clone .actor]",
+        "cpu_percent": 0.007595321282090233
+      },
+      {
+        "symbol": "lavik::DispatchCommand(lavik::DispatchCommand(lavik::ConnectionContext&, lavik::CommandRequest&, lavik::ReplyBuilder&)::_ZN5lavik15DispatchCommandERNS_17ConnectionContextERNS_14CommandRequestERNS_12ReplyBuilderE.Frame*) [clone .actor]",
+        "cpu_percent": 0.007595321282090233
+      },
+      {
+        "symbol": "std::vector<unsigned long, std::allocator<unsigned long> >::vector(std::vector<unsigned long, std::allocator<unsigned long> > const&) [clone .lto_priv.0]",
+        "cpu_percent": 0.0037976606410451163
+      },
+      {
+        "symbol": "absl::lts_20250512::StrCat[abi:cxx11](absl::lts_20250512::AlphaNum const&, absl::lts_20250512::AlphaNum const&)",
+        "cpu_percent": 0.0037976606410451163
+      }
+    ],
+    "_mi_theap_malloc_zero": [
+      {
+        "symbol": "lavik::storage::HashGroupMap<unsigned long>::Make(unsigned long, lavik::storage::RecoveredHashGroup, lavik::LocalSharedPtr<lavik::storage::HashGroupMap<unsigned long>::Node const>, lavik::LocalSharedPtr<lavik::storage::HashGroupMap<unsigned long>::Node const>)",
+        "cpu_percent": 1.2114537444933922
+      },
+      {
+        "symbol": "lavik::storage::TryAllocateRetainedBytes(lavik::storage::RetainedAllocationDomain const&, unsigned long, unsigned long) [clone .constprop.0]",
+        "cpu_percent": 0.18988303205225582
+      },
+      {
+        "symbol": "std::vector<std::basic_string_view<char, std::char_traits<char> >, std::allocator<std::basic_string_view<char, std::char_traits<char> > > >::reserve(unsigned long)",
+        "cpu_percent": 0.1670970682059851
+      },
+      {
+        "symbol": "std::__new_allocator<std::shared_ptr<spdlog::sinks::sink> >::allocate(unsigned long, void const*) [clone .constprop.1]",
+        "cpu_percent": 0.16329940756494
+      },
+      {
+        "symbol": "lavik::storage::StorageEngine::Impl::PrepinGroupedRetirementsLocked(lavik::storage::StorageEngine::Impl::PrepinGroupedRetirementsLocked(lavik::storage::StorageEngine::Impl::WorkerStore&, std::shared_ptr<lavik::storage::GroupedHashObject const> const&, std::optional<std::span<lavik::storage::HashGroupId const, 18446744073709551615ul> >, bool, std::unique_ptr<lavik::storage::StorageEngine::Impl::GroupedRetirementPins, std::default_delete<lavik::storage::StorageEngine::Impl::GroupedRetirementPins> >*)::_ZN5lavik7storage13StorageEngine4Impl30PrepinGroupedRetirementsLockedERNS2_11WorkerStoreERKSt10shared_ptrIKNS0_17GroupedHashObjectEESt8optionalISt4spanIKNS0_11HashGroupIdELm18446744073709551615EEEbPSt10unique_ptrINS2_21GroupedRetirementPinsESt14default_deleteISI_EE.Frame*) [clone .actor]",
+        "cpu_percent": 0.15190642564180465
+      },
+      {
+        "symbol": "lavik::storage::StorageEngine::Impl::CollectGroupedRetirements(std::shared_ptr<lavik::storage::GroupedHashObject const> const&, std::shared_ptr<lavik::storage::GroupedHashObject const> const&, std::optional<std::span<lavik::storage::HashGroupId const, 18446744073709551615ul> >) [clone .isra.0]",
+        "cpu_percent": 0.15190642564180465
+      },
+      {
+        "symbol": "std::__new_allocator<std::__detail::_Hash_node<std::pair<char const, std::unique_ptr<spdlog::custom_flag_formatter, std::default_delete<spdlog::custom_flag_formatter> > >, false> >::allocate(unsigned long, void const*) [clone .constprop.2]",
+        "cpu_percent": 0.14810876500075953
+      },
+      {
+        "symbol": "std::__new_allocator<std::_Sp_counted_ptr_inplace<lavik::cluster::(anonymous namespace)::SocketDeadlineState, std::allocator<void>, (__gnu_cxx::_Lock_policy)2> >::allocate(unsigned long, void const*) [clone .constprop.2]",
+        "cpu_percent": 0.1405134437186693
+      },
+      {
+        "symbol": "std::__shared_count<(__gnu_cxx::_Lock_policy)2>::__shared_count<std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> >, std::allocator<void>, std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> > >(std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> >*&, std::_Sp_alloc_shared_tag<std::allocator<void> >, std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> >&&) [clone .isra.0]",
+        "cpu_percent": 0.1367157830776242
+      },
+      {
+        "symbol": "lavik::storage::StorageEngine::Impl::CommitGroupedHashMutationLocked(lavik::storage::StorageEngine::Impl::CommitGroupedHashMutationLocked(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::WorkerStore::PartitionStore&, unsigned char, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::Digest const&, std::shared_ptr<lavik::storage::GroupedHashObject const>, lavik::storage::HashValue, std::vector<lavik::storage::HashGroupId, std::allocator<lavik::storage::HashGroupId> >, unsigned long, lavik::storage::ValueType, unsigned long, lavik::storage::TxShardWrites*, lavik::storage::ReplicationCommandAppend*, lavik::storage::MutationPrecondition const*, lavik::storage::HashGroupMutationPlan*)::_ZN5lavik7storage13StorageEngine4Impl31CommitGroupedHashMutationLockedERNS2_11WorkerStoreERNS3_14PartitionStoreEhSt17basic_string_viewIcSt11char_traitsIcEERKNS0_6DigestESt10shared_ptrIKNS0_17GroupedHashObjectEENS0_9HashValueESt6vectorINS0_11HashGroupIdESaISK_EEmNS0_9ValueTypeEmPNS0_13TxShardWritesEPNS0_24ReplicationCommandAppendEPKNS0_20MutationPreconditionEPNS0_21HashGroupMutationPlanE.Frame*) [clone .actor]",
+        "cpu_percent": 0.13291812243657908
+      },
+      {
+        "symbol": "lavik::storage::StorageEngine::Impl::InitializeTxWrites(unsigned long, std::span<lavik::storage::TxShardWrites, 18446744073709551615ul>, lavik::storage::MutationPrecondition)",
+        "cpu_percent": 0.10633449794926325
+      },
+      {
+        "symbol": "std::__new_allocator<CLI::ConfigItem>::allocate(unsigned long, void const*) [clone .constprop.2]",
+        "cpu_percent": 0.10253683730821814
+      },
+      {
+        "symbol": "std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> >::reserve(unsigned long)",
+        "cpu_percent": 0.09873917666717302
+      },
+      {
+        "symbol": "std::__new_allocator<std::unique_ptr<CLI::Option, std::default_delete<CLI::Option> > >::allocate(unsigned long, void const*) [clone .constprop.1]",
+        "cpu_percent": 0.09873917666717302
+      },
+      {
+        "symbol": "std::__new_allocator<std::pair<CLI::detail::Classifier, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::allocate(unsigned long, void const*) [clone .constprop.1]",
+        "cpu_percent": 0.0911438553850828
+      },
+      {
+        "symbol": "std::_Deque_base<std::__n4861::coroutine_handle<void>, std::allocator<std::__n4861::coroutine_handle<void> > >::_M_initialize_map(unsigned long) [clone .constprop.0]",
+        "cpu_percent": 0.08734619474403767
+      },
+      {
+        "symbol": "lavik::storage::TxShardWrites& std::vector<lavik::storage::TxShardWrites, std::allocator<lavik::storage::TxShardWrites> >::emplace_back<lavik::storage::TxShardWrites>(lavik::storage::TxShardWrites&&) [clone .isra.0]",
+        "cpu_percent": 0.08354853410299255
+      },
+      {
+        "symbol": "bycorf::FileStatusAwaitable::await_suspend(std::__n4861::coroutine_handle<void>)",
+        "cpu_percent": 0.07975087346194744
+      },
+      {
+        "symbol": "lavik::storage::RecordIdentity& std::vector<lavik::storage::RecordIdentity, std::allocator<lavik::storage::RecordIdentity> >::emplace_back<lavik::storage::RecordIdentity>(lavik::storage::RecordIdentity&&) [clone .isra.0]",
+        "cpu_percent": 0.07595321282090232
+      },
+      {
+        "symbol": "void* absl::lts_20250512::container_internal::AllocateBackingArray<8ul, std::allocator<char> >(void*, unsigned long)",
+        "cpu_percent": 0.06456023089776698
+      },
+      {
+        "symbol": "std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_construct(unsigned long, char)",
+        "cpu_percent": 0.06456023089776698
+      },
+      {
+        "symbol": "lavik::storage::HashGroupSnapshot& std::vector<lavik::storage::HashGroupSnapshot, std::allocator<lavik::storage::HashGroupSnapshot> >::emplace_back<lavik::storage::HashGroupSnapshot>(lavik::storage::HashGroupSnapshot&&) [clone .isra.0]",
+        "cpu_percent": 0.06076257025672186
+      },
+      {
+        "symbol": "std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::reserve(unsigned long)",
+        "cpu_percent": 0.04936958833358651
+      },
+      {
+        "symbol": "lavik::storage::RetiredRecord& std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> >::emplace_back<lavik::storage::RetiredRecord>(lavik::storage::RetiredRecord&&) [clone .isra.0]",
+        "cpu_percent": 0.0455719276925414
+      },
+      {
+        "symbol": "std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_mutate(unsigned long, unsigned long, char const*, unsigned long)",
+        "cpu_percent": 0.03797660641045116
+      },
+      {
+        "symbol": "lavik::storage::StorageEngine::Impl::CommitTxWrites(lavik::storage::StorageEngine::Impl::CommitTxWrites(unsigned long, std::vector<lavik::storage::TxShardWrites*, std::allocator<lavik::storage::TxShardWrites*> >, lavik::storage::RelocationDurabilityFence*)::_ZN5lavik7storage13StorageEngine4Impl14CommitTxWritesEmSt6vectorIPNS0_13TxShardWritesESaIS5_EEPNS0_25RelocationDurabilityFenceE.Frame*) [clone .actor]",
+        "cpu_percent": 0.03038128512836093
+      },
+      {
+        "symbol": "void std::deque<bycorf::Worker::ReadyTask, std::allocator<bycorf::Worker::ReadyTask> >::_M_push_back_aux<bycorf::Worker::ReadyTask const&>(bycorf::Worker::ReadyTask const&)",
+        "cpu_percent": 0.0227859638462707
+      },
+      {
+        "symbol": "bycorf::detail::CoroutineFramePool::Allocate(unsigned long) [clone .constprop.0]",
+        "cpu_percent": 0.01139298192313535
+      },
+      {
+        "symbol": "void std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> >::_M_range_insert<__gnu_cxx::__normal_iterator<lavik::storage::RetiredRecord*, std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> > > >(__gnu_cxx::__normal_iterator<lavik::storage::RetiredRecord*, std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> > >, __gnu_cxx::__normal_iterator<lavik::storage::RetiredRecord*, std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> > >, __gnu_cxx::__normal_iterator<lavik::storage::RetiredRecord*, std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> > >, std::forward_iterator_tag) [clone .isra.0]",
+        "cpu_percent": 0.01139298192313535
+      },
+      {
+        "symbol": "bycorf::TcpStream::WriteAll(std::span<std::byte const, 18446744073709551615ul>)",
+        "cpu_percent": 0.007595321282090233
+      },
+      {
+        "symbol": "lavik::(anonymous namespace)::WriteOrBatchReply(bycorf::TcpStream&, std::basic_string_view<char, std::char_traits<char> >, bool, lavik::(anonymous namespace)::PendingReplyBatch*, lavik::ReadLatencyTrace, lavik::SetLatencyTrace) [clone .isra.0]",
+        "cpu_percent": 0.0037976606410451163
+      },
+      {
+        "symbol": "lavik::storage::StorageEngine::Impl::PrepareGroupedDependencyLocked(lavik::storage::StorageEngine::Impl::WorkerStore&, std::shared_ptr<lavik::storage::GroupedHashObject const> const&, lavik::storage::TxShardWrites*)",
+        "cpu_percent": 0.0037976606410451163
+      },
+      {
+        "symbol": "std::__new_allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >::allocate(unsigned long, void const*) [clone .constprop.2]",
+        "cpu_percent": 0.0037976606410451163
+      },
+      {
+        "symbol": "bycorf::ReceivedBuffer& std::deque<bycorf::ReceivedBuffer, std::allocator<bycorf::ReceivedBuffer> >::emplace_back<bycorf::ReceivedBuffer>(bycorf::ReceivedBuffer&&) [clone .constprop.0] [clone .isra.0]",
+        "cpu_percent": 0.0037976606410451163
+      }
+    ],
+    "SetNode": [
+      {
+        "symbol": "lavik::storage::HashGroupMap<unsigned long>::SetNode(lavik::LocalSharedPtr<lavik::storage::HashGroupMap<unsigned long>::Node const> const&, unsigned long, lavik::storage::RecoveredHashGroup)",
+        "cpu_percent": 2.487467719884551
+      },
+      {
+        "symbol": "lavik::storage::HashGroupMap<unsigned long>::Set(unsigned long, lavik::storage::RecoveredHashGroup)",
+        "cpu_percent": 0.18988303205225582
+      }
+    ],
+    "FindRecord": [
+      {
+        "symbol": "lavik::storage::StorageEngine::Impl::CollectGroupedRetirements(std::shared_ptr<lavik::storage::GroupedHashObject const> const&, std::shared_ptr<lavik::storage::GroupedHashObject const> const&, std::optional<std::span<lavik::storage::HashGroupId const, 18446744073709551615ul> >) [clone .isra.0]",
+        "cpu_percent": 0.0227859638462707
+      },
+      {
+        "symbol": "lavik::storage::StorageEngine::Impl::ExecuteHashLikeLocked(unsigned char, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::Digest const&, lavik::storage::HashOperation const&, lavik::storage::ValueType, lavik::storage::TxShardWrites*, lavik::storage::ReplicationCommandAppend*, lavik::storage::MutationPrecondition const*)::{lambda(lavik::storage::HashGroupId)#1}::operator()(lavik::storage::HashGroupId) const [clone .lto_priv.0]",
+        "cpu_percent": 0.01898830320522558
+      },
+      {
+        "symbol": "lavik::storage::StorageEngine::Impl::RelocateIfCurrent(lavik::storage::StorageEngine::Impl::RelocateIfCurrent(unsigned int, std::basic_string_view<char, std::char_traits<char> >, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::RecordHeader const&, lavik::storage::RecordLocation const&, bool)::_ZN5lavik7storage13StorageEngine4Impl17RelocateIfCurrentEjSt17basic_string_viewIcSt11char_traitsIcEES6_RKNS0_12RecordHeaderERKNS0_14RecordLocationEb.Frame*) [clone .actor]",
+        "cpu_percent": 0.01139298192313535
+      },
+      {
+        "symbol": "lavik::storage::GroupedHashObject::PrepareUpdate(std::shared_ptr<lavik::storage::GroupedHashObject const> const&, lavik::storage::GroupedObjectVersion, lavik::storage::HashGroupDirectory, std::span<lavik::storage::HashGroupLocation const, 18446744073709551615ul>)",
+        "cpu_percent": 0.007595321282090233
+      },
+      {
+        "symbol": "lavik::storage::StorageEngine::Impl::LoadHashGroupPayload(lavik::storage::StorageEngine::Impl::LoadHashGroupPayload(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::WorkerStore::PartitionStore&, unsigned char, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::Digest const&, std::shared_ptr<lavik::storage::GroupedHashObject const>, lavik::storage::HashGroupId, bool)::_ZN5lavik7storage13StorageEngine4Impl20LoadHashGroupPayloadERNS2_11WorkerStoreERNS3_14PartitionStoreEhSt17basic_string_viewIcSt11char_traitsIcEERKNS0_6DigestESt10shared_ptrIKNS0_17GroupedHashObjectEENS0_11HashGroupIdEb.Frame*) [clone .actor]",
+        "cpu_percent": 0.0037976606410451163
+      }
+    ]
+  },
+  "allocation_context_cpu_percent": {
+    "routing_map": 2.0735227100106335,
+    "unattributed": 3.687528482454808,
+    "page_edit": 0.3303964757709251,
+    "transaction": 0.09494151602612791,
+    "cleanup": 0.0037976606410451163
+  },
+  "findrecord_context_cpu_percent": {
+    "retirement": 0.0227859638462707,
+    "foreground": 0.01898830320522558,
+    "relocation": 0.01139298192313535,
+    "read": 0.0037976606410451163,
+    "publication": 0.007595321282090233
+  },
+  "limitations": "Profiles include polling, background work, and kernel processing. Callers can stop at coroutine scheduler boundaries. All CPU percentages use the full recorded task-clock denominator, not request latency. Diagnostics do not replace clean throughput curves."
+}

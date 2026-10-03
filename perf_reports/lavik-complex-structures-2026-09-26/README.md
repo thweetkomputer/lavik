@@ -22,6 +22,8 @@ Scratch NVMe serials/PCI addresses changed since October 1; all six dedicated de
 
 **Further optimization: [PR #244](https://github.com/eloqdata/lavik/pull/244) coalesces inline grouped-record coordinate updates to reduce repeated index-path and 64-entry page copying, and removes publication allocations and repeated route lookup. Completed workloads add PR curves directly to four-database charts; pending workloads retain measured main only.**
 
+[October 3 HSET index diagnosis and measured results](diagnostics/main-refresh-20261003/index-publication-diagnosis.md).
+
 ## List
 
 Current baseline: main `06562381`, including merged #233. Each LSET chart fixes key counts, key sizes and entry sizes and includes the matched peer workloads.
@@ -183,7 +185,7 @@ This condition retains measured main `06562381`, awaiting the current-main refre
 
 ![Set 100 MiB, 1024 B: SISMEMBER / SADD + SREM](charts/set-104857600-1024-ab.png)
 
-**Measured current main `44761b91` with Redis, Valkey and Kvrocks; updated #244 measurement pending.** 500 keys × 100 MiB/key; 1024 B/entry. [Main raw](raw/lavik-main44761-hashset-set-104857600-k500-f1024-20261003/).
+**Current main `44761b91` and [PR #244](https://github.com/eloqdata/lavik/pull/244) `faaaba58` share a chart with Redis, Valkey and Kvrocks.** 500 keys × 100 MiB/key; 1024 B/entry. Both versions independently seed fresh media on this host; every key passes before/after checks, with zero errors at all points. [PR raw](raw/lavik-index-pr244-faaaba58-hashset-set-104857600-k500-f1024-20261003/) · [Main raw](raw/lavik-main44761-hashset-set-104857600-k500-f1024-20261003/).
 
 ### SMEMBERS
 
