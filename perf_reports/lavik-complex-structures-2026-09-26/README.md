@@ -8,13 +8,16 @@ key, and payload bytes per entry. The horizontal axis is simultaneous
 connections; the vertical axis is completed commands per second.
 
 
-**October 3 main refresh: `44761b91` includes #235/#243; 0/8 Hash/Set conditions updated. Each completed chart is pushed immediately; pending charts retain their actual measured old version.**
+**October 3 main refresh: `44761b91` includes #235/#243; 1/8 Hash/Set conditions updated. Each completed chart is pushed immediately; pending charts retain their actual measured old version.**
 
 Merged PR #235 curves are removed. Pending main curves still measure `06562381`, not the latest code. Earlier supplementary List/Stream/ZSet workloads keep explicit measured versions.
 
 Redis/Valkey disable persistence; Kvrocks uses uncompressed RAID0, disabled WAL and 80 GiB block/blob cache; Lavik persists through six SPDK NVMe devices. Configurations differ. Sources: [Hash/Set](published-main.json), [LSET](lset-large-published.json), [ordered structures](ordered-published.json).
 
 [Historical HSET perf diagnosis](diagnostics/shared-pipeline-20261001/hset-deep-diagnosis.md) has complete callchains for all 12 workers. Further optimization targets repeated index lookup, temporary allocation and page rebuilding. Historical PR comparisons remain in raw evidence and diagnostics.
+
+
+Scratch NVMe serials/PCI addresses changed since October 1; all six dedicated devices were checked for mounts and RAID holders. This run uses AMD EPYC 9V74, 16 vCPUs and 12 server workers. Peer curves retain historical matched-workload results; cross-round differences cannot be attributed solely to code. Current main and upcoming optimizations will be compared directly on this host. [Host and build proof](diagnostics/main-refresh-20261003/host-and-build.json).
 
 ## List
 
@@ -109,7 +112,7 @@ For 1 MiB `LINDEX`, Lavik peaked near 139k QPS with 128 B entries and 677k with 
 
 ![Hash 100 MiB, 1024 B: HGET / HSET](charts/hash-104857600-1024-ab.png)
 
-**Pending refresh: measured Lavik main `06562381`; merged PR #235 curve removed.**
+**Measured current main `44761b91`, including merged #235, with Redis, Valkey and Kvrocks.** 500 keys × 100 MiB/key; 1024 B/entry. Fresh-media seed, every-key validation before and after; zero errors at all points. [main raw](raw/lavik-main44761-hashset-hash-104857600-k500-f1024-20261003/).
 
 ### HGETALL
 
