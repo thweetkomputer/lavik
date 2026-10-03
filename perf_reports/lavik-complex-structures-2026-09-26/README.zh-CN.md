@@ -306,7 +306,7 @@ value、member 或元素为 128 B 或 1 KiB。Stream 的字段名和各结构元
 
 ![Sorted Set 100 MiB、1 KiB：ZSCORE / ZINCRBY QPS 随连接数变化](charts/zset-104857600-1024-ab.png)
 
-**ZSet：main `6111d0b1` 与 [PR #247](https://github.com/eloqdata/lavik/pull/247) `6562e3b8`，同图保留 Redis、Valkey、Kvrocks 和其他未合并优化 PR。** 8 keys × 100 MiB/key; 1 KiB/entry. 两版本同机独立清盘灌入，逐 key 前后校验通过，全部测点零错误。 #244 曲线保留其实际旧基线 `44761b91`，其差值不代表相对新 main 的优化收益。 [Main raw](raw/lavik-zset-main6111d0b1-k8-104857600-f1024-20261003/) · [PR raw](raw/lavik-zset-pr6562e3b8-k8-104857600-f1024-20261003/).
+**ZSet：main `6111d0b1` 与 [PR #246](https://github.com/eloqdata/lavik/pull/246) `c9519328`，同图保留 Redis、Valkey、Kvrocks 和其他未合并优化 PR。** 8 keys × 100 MiB/key; 1 KiB/entry. 两版本同机独立清盘灌入，逐 key 前后校验通过，全部测点零错误。 #244 曲线保留其实际旧基线 `44761b91`，其差值不代表相对新 main 的优化收益。 [Main raw](raw/lavik-zset-main6111d0b1-k8-104857600-f1024-20261003/) · [PR raw](raw/lavik-zset-prc9519328-k8-104857600-f1024-20261003/).
 
 
 ### ZRANGE WITHSCORES
@@ -331,7 +331,7 @@ value、member 或元素为 128 B 或 1 KiB。Stream 的字段名和各结构元
 
 ![Sorted Set 100 MiB、1 KiB：ZRANGE WITHSCORES QPS 随连接数变化](charts/zset-104857600-1024-ab-full.png)
 
-**ZSet：main `6111d0b1` 与 [PR #247](https://github.com/eloqdata/lavik/pull/247) `6562e3b8`，同图保留 Redis、Valkey、Kvrocks 和其他未合并优化 PR。** 8 keys × 100 MiB/key; 1 KiB/entry. 两版本同机独立清盘灌入，逐 key 前后校验通过，全部测点零错误。 #244 曲线保留其实际旧基线 `44761b91`，其差值不代表相对新 main 的优化收益。 [Main raw](raw/lavik-zset-main6111d0b1-k8-104857600-f1024-20261003/) · [PR raw](raw/lavik-zset-pr6562e3b8-k8-104857600-f1024-20261003/).
+**ZSet：main `6111d0b1` 与 [PR #246](https://github.com/eloqdata/lavik/pull/246) `c9519328`，同图保留 Redis、Valkey、Kvrocks 和其他未合并优化 PR。** 8 keys × 100 MiB/key; 1 KiB/entry. 两版本同机独立清盘灌入，逐 key 前后校验通过，全部测点零错误。 #244 曲线保留其实际旧基线 `44761b91`，其差值不代表相对新 main 的优化收益。 [Main raw](raw/lavik-zset-main6111d0b1-k8-104857600-f1024-20261003/) · [PR raw](raw/lavik-zset-prc9519328-k8-104857600-f1024-20261003/).
 
 ## 测量边界
 
