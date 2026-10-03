@@ -364,7 +364,7 @@ Point reads and writes cover 80–5120 connections. Full reads use 16/80 for the
 
 ![100 MiB per key, 1 KiB entries: Exact-ID `XRANGE` QPS by connection count](charts/stream-104857600-1024-xrange-latest.png)
 
-**Measured Stream: main `6111d0b1`.** 8 keys × 100 MiB/key; 1 KiB/entry. Independent fresh-media seed, every-key validation before/after, zero errors at all points. [Main raw](raw/lavik-stream-main6111-writepaths-100m-k8-f1024-20261003/).The #244 curve retains its measured older base `44761b91`; it does not establish gains over the new main.
+**Measured Stream: main `6111d0b1` / [PR #247](https://github.com/eloqdata/lavik/pull/247) `a4d9779c`.** 8 keys × 100 MiB/key; 1 KiB/entry. Independent fresh-media seed, every-key validation before/after, zero errors at all points. [Main raw](raw/lavik-stream-main6111-writepaths-100m-k8-f1024-20261003/). [PR raw](raw/lavik-stream-pra4d9779c-writepaths-104857600-k8-f1024-20261003/).The #244 curve retains its measured older base `44761b91`; it does not establish gains over the new main.
 
 ### `XADD MAXLEN`
 
@@ -384,7 +384,7 @@ Point reads and writes cover 80–5120 connections. Full reads use 16/80 for the
 
 ![100 MiB per key, 1 KiB entries: `XADD MAXLEN` QPS by connection count](charts/stream-104857600-1024-xadd_maxlen-latest.png)
 
-**Measured Stream: main `6111d0b1`.** 8 keys × 100 MiB/key; 1 KiB/entry. Independent fresh-media seed, every-key validation before/after, zero errors at all points. [Main raw](raw/lavik-stream-main6111-writepaths-100m-k8-f1024-20261003/).The #244 curve retains its measured older base `44761b91`; it does not establish gains over the new main.
+**Measured Stream: main `6111d0b1` / [PR #247](https://github.com/eloqdata/lavik/pull/247) `a4d9779c`.** 8 keys × 100 MiB/key; 1 KiB/entry. Independent fresh-media seed, every-key validation before/after, zero errors at all points. [Main raw](raw/lavik-stream-main6111-writepaths-100m-k8-f1024-20261003/). [PR raw](raw/lavik-stream-pra4d9779c-writepaths-104857600-k8-f1024-20261003/).The #244 curve retains its measured older base `44761b91`; it does not establish gains over the new main.
 
 
 ### Full `XRANGE - +`
@@ -405,7 +405,7 @@ Point reads and writes cover 80–5120 connections. Full reads use 16/80 for the
 
 ![100 MiB per key, 1 KiB entries: Full `XRANGE - +` QPS by connection count](charts/stream-104857600-1024-xrange_full-latest.png)
 
-**Measured Stream: main `6111d0b1`.** 8 keys × 100 MiB/key; 1 KiB/entry. Independent fresh-media seed, every-key validation before/after, zero errors at all points. [Main raw](raw/lavik-stream-main6111-writepaths-100m-k8-f1024-20261003/).The #244 curve retains its measured older base `44761b91`; it does not establish gains over the new main.
+**Measured Stream: main `6111d0b1` / [PR #247](https://github.com/eloqdata/lavik/pull/247) `a4d9779c`.** 8 keys × 100 MiB/key; 1 KiB/entry. Independent fresh-media seed, every-key validation before/after, zero errors at all points. [Main raw](raw/lavik-stream-main6111-writepaths-100m-k8-f1024-20261003/). [PR raw](raw/lavik-stream-pra4d9779c-writepaths-104857600-k8-f1024-20261003/).The #244 curve retains its measured older base `44761b91`; it does not establish gains over the new main.
 
 ## Reproduce
 
