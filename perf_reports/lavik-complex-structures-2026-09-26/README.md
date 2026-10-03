@@ -360,7 +360,7 @@ Point reads and writes cover 80–5120 connections. Full reads use 16/80 for the
 
 ![1 MiB per key, 1 KiB entries: Exact-ID `XRANGE` QPS by connection count](charts/stream-1048576-1024-xrange-latest.png)
 
-**Measured Stream: main `6111d0b1` / [PR #247](https://github.com/eloqdata/lavik/pull/247) `a4d9779c`.** 64 keys × 1 MiB/key; 1 KiB/entry. Independent fresh-media seed, every-key validation before/after, zero errors at all points. [Main raw](raw/lavik-stream-main6111-writepaths-1m-k64-f1024-20261003/). [PR raw](raw/lavik-stream-pra4d9779c-writepaths-1048576-k64-f1024-20261003/).
+**Measured Stream: main `6111d0b1` / [PR #247](https://github.com/eloqdata/lavik/pull/247) `6562e3b8`.** 64 keys × 1 MiB/key; 1 KiB/entry. Independent fresh-media seed, every-key validation before/after, zero errors at all points. [Main raw](raw/lavik-stream-main6111-writepaths-1m-k64-f1024-20261003/). [PR raw](raw/lavik-stream-pr6562e3b8-writepaths-1048576-k64-f1024-20261003/).
 
 #### 100 MiB per key
 
@@ -382,7 +382,7 @@ Point reads and writes cover 80–5120 connections. Full reads use 16/80 for the
 
 ![1 MiB per key, 1 KiB entries: `XADD MAXLEN` QPS by connection count](charts/stream-1048576-1024-xadd_maxlen-latest.png)
 
-**Measured Stream: main `6111d0b1` / [PR #247](https://github.com/eloqdata/lavik/pull/247) `a4d9779c`.** 64 keys × 1 MiB/key; 1 KiB/entry. Independent fresh-media seed, every-key validation before/after, zero errors at all points. [Main raw](raw/lavik-stream-main6111-writepaths-1m-k64-f1024-20261003/). [PR raw](raw/lavik-stream-pra4d9779c-writepaths-1048576-k64-f1024-20261003/).
+**Measured Stream: main `6111d0b1` / [PR #247](https://github.com/eloqdata/lavik/pull/247) `6562e3b8`.** 64 keys × 1 MiB/key; 1 KiB/entry. Independent fresh-media seed, every-key validation before/after, zero errors at all points. [Main raw](raw/lavik-stream-main6111-writepaths-1m-k64-f1024-20261003/). [PR raw](raw/lavik-stream-pr6562e3b8-writepaths-1048576-k64-f1024-20261003/).
 
 #### 100 MiB per key
 
@@ -405,7 +405,7 @@ Point reads and writes cover 80–5120 connections. Full reads use 16/80 for the
 
 ![1 MiB per key, 1 KiB entries: Full `XRANGE - +` QPS by connection count](charts/stream-1048576-1024-xrange_full-latest.png)
 
-**Measured Stream: main `6111d0b1` / [PR #247](https://github.com/eloqdata/lavik/pull/247) `a4d9779c`.** 64 keys × 1 MiB/key; 1 KiB/entry. Independent fresh-media seed, every-key validation before/after, zero errors at all points. [Main raw](raw/lavik-stream-main6111-writepaths-1m-k64-f1024-20261003/). [PR raw](raw/lavik-stream-pra4d9779c-writepaths-1048576-k64-f1024-20261003/).
+**Measured Stream: main `6111d0b1` / [PR #247](https://github.com/eloqdata/lavik/pull/247) `6562e3b8`.** 64 keys × 1 MiB/key; 1 KiB/entry. Independent fresh-media seed, every-key validation before/after, zero errors at all points. [Main raw](raw/lavik-stream-main6111-writepaths-1m-k64-f1024-20261003/). [PR raw](raw/lavik-stream-pr6562e3b8-writepaths-1048576-k64-f1024-20261003/).
 
 #### 100 MiB per key
 

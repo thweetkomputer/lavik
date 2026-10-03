@@ -361,7 +361,7 @@ value、member 或元素为 128 B 或 1 KiB。Stream 的字段名和各结构元
 
 ![1 MiB、1 KiB：指定 ID `XRANGE`，四款数据库 QPS 随连接数变化](charts/stream-1048576-1024-xrange-latest.png)
 
-**Stream 实测：main `6111d0b1` / [PR #247](https://github.com/eloqdata/lavik/pull/247) `a4d9779c`。** 64 keys × 1 MiB/key; 1 KiB/entry. 独立清盘灌入，逐 key 前后校验，全部测点零错误。 [Main raw](raw/lavik-stream-main6111-writepaths-1m-k64-f1024-20261003/). [PR raw](raw/lavik-stream-pra4d9779c-writepaths-1048576-k64-f1024-20261003/).
+**Stream 实测：main `6111d0b1` / [PR #247](https://github.com/eloqdata/lavik/pull/247) `6562e3b8`。** 64 keys × 1 MiB/key; 1 KiB/entry. 独立清盘灌入，逐 key 前后校验，全部测点零错误。 [Main raw](raw/lavik-stream-main6111-writepaths-1m-k64-f1024-20261003/). [PR raw](raw/lavik-stream-pr6562e3b8-writepaths-1048576-k64-f1024-20261003/).
 
 #### 100 MiB
 
@@ -383,7 +383,7 @@ value、member 或元素为 128 B 或 1 KiB。Stream 的字段名和各结构元
 
 ![1 MiB、1 KiB：`XADD MAXLEN`，四款数据库 QPS 随连接数变化](charts/stream-1048576-1024-xadd_maxlen-latest.png)
 
-**Stream 实测：main `6111d0b1` / [PR #247](https://github.com/eloqdata/lavik/pull/247) `a4d9779c`。** 64 keys × 1 MiB/key; 1 KiB/entry. 独立清盘灌入，逐 key 前后校验，全部测点零错误。 [Main raw](raw/lavik-stream-main6111-writepaths-1m-k64-f1024-20261003/). [PR raw](raw/lavik-stream-pra4d9779c-writepaths-1048576-k64-f1024-20261003/).
+**Stream 实测：main `6111d0b1` / [PR #247](https://github.com/eloqdata/lavik/pull/247) `6562e3b8`。** 64 keys × 1 MiB/key; 1 KiB/entry. 独立清盘灌入，逐 key 前后校验，全部测点零错误。 [Main raw](raw/lavik-stream-main6111-writepaths-1m-k64-f1024-20261003/). [PR raw](raw/lavik-stream-pr6562e3b8-writepaths-1048576-k64-f1024-20261003/).
 
 #### 100 MiB
 
@@ -406,7 +406,7 @@ value、member 或元素为 128 B 或 1 KiB。Stream 的字段名和各结构元
 
 ![1 MiB、1 KiB：全范围 `XRANGE - +`，四款数据库 QPS 随连接数变化](charts/stream-1048576-1024-xrange_full-latest.png)
 
-**Stream 实测：main `6111d0b1` / [PR #247](https://github.com/eloqdata/lavik/pull/247) `a4d9779c`。** 64 keys × 1 MiB/key; 1 KiB/entry. 独立清盘灌入，逐 key 前后校验，全部测点零错误。 [Main raw](raw/lavik-stream-main6111-writepaths-1m-k64-f1024-20261003/). [PR raw](raw/lavik-stream-pra4d9779c-writepaths-1048576-k64-f1024-20261003/).
+**Stream 实测：main `6111d0b1` / [PR #247](https://github.com/eloqdata/lavik/pull/247) `6562e3b8`。** 64 keys × 1 MiB/key; 1 KiB/entry. 独立清盘灌入，逐 key 前后校验，全部测点零错误。 [Main raw](raw/lavik-stream-main6111-writepaths-1m-k64-f1024-20261003/). [PR raw](raw/lavik-stream-pr6562e3b8-writepaths-1048576-k64-f1024-20261003/).
 
 #### 100 MiB
 
