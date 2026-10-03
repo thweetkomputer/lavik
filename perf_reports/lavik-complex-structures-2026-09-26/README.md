@@ -382,7 +382,7 @@ Point reads and writes cover 80–5120 connections. Full reads use 16/80 for the
 
 ![100 MiB per key, 1 KiB entries: `XADD MAXLEN` QPS by connection count](charts/stream-104857600-1024-xadd_maxlen-latest.png)
 
-**Pending refresh: measured Lavik main `06562381`; merged PR #235 curve removed.**
+**Measured current main `44761b91`, including merged #235, with Redis, Valkey and Kvrocks.** 8 keys × 100 MiB/key; 1024 B/entry. Fresh-media seed, every-key validation before and after; zero errors at all points. [main raw](raw/lavik-main44761-ordered-stream-104857600-k8-f1024-20261003/).
 
 
 ### Full `XRANGE - +`
