@@ -1,0 +1,255 @@
+{
+  "main": {
+    "commit": "6111d0b1e232cac2b572647a3d536916b0889b6d",
+    "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-main-6111d0b1-20261003",
+    "sha256": "c60e9ea5d2ef9c76e24b5703969a26bf1a517cc3884e7901da6db736bb320847",
+    "source_repo": "/mnt/dev/lavik",
+    "bycorf_commit": "62509c93d40c2480f5046b71454db6cf95801b04",
+    "tests_during_build": false,
+    "compiled_source_files_verified": 678
+  },
+  "pr": {
+    "commit": "199b08e0a616756b3f2585d6c35f6ba2c851f3ec",
+    "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-zset-rebalance-199b08e0-20261003",
+    "sha256": "81564c275251a48132b9a5af70bd1b7b66194e98ac83bdeac34805acd54bdd9f",
+    "source_repo": "/mnt/dev/lavik-zset-write-20261003",
+    "bycorf_commit": "62509c93d40c2480f5046b71454db6cf95801b04",
+    "tests_during_build": false,
+    "compiled_source_files_verified": 678,
+    "pr": 246
+  },
+  "conditions": [
+    {
+      "category": "ordered",
+      "kind": "zset",
+      "size": 104857600,
+      "field": 1024,
+      "keys": 8,
+      "main_tag": "zset-main6111d0b1-k8-104857600-f1024-20261003",
+      "pr_tag": "zset-pr199b08e0-k8-104857600-f1024-20261003",
+      "main_version": {
+        "commit": "6111d0b1e232cac2b572647a3d536916b0889b6d",
+        "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-main-6111d0b1-20261003",
+        "sha256": "c60e9ea5d2ef9c76e24b5703969a26bf1a517cc3884e7901da6db736bb320847",
+        "source_repo": "/mnt/dev/lavik",
+        "bycorf_commit": "62509c93d40c2480f5046b71454db6cf95801b04",
+        "tests_during_build": false,
+        "compiled_source_files_verified": 678
+      },
+      "pr_version": {
+        "commit": "199b08e0a616756b3f2585d6c35f6ba2c851f3ec",
+        "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-zset-rebalance-199b08e0-20261003",
+        "sha256": "81564c275251a48132b9a5af70bd1b7b66194e98ac83bdeac34805acd54bdd9f",
+        "source_repo": "/mnt/dev/lavik-zset-write-20261003",
+        "bycorf_commit": "62509c93d40c2480f5046b71454db6cf95801b04",
+        "tests_during_build": false,
+        "compiled_source_files_verified": 678,
+        "pr": 246
+      },
+      "operations": {
+        "ZINCRBY": {
+          "main_peak_qps": 9423.92,
+          "pr_peak_qps": 23540.57,
+          "peak_change_percent": 149.79594478730718,
+          "matched_connections": {
+            "80": {
+              "main_qps": 9423.92,
+              "pr_qps": 20474.23,
+              "change_percent": 117.25810490751196
+            },
+            "320": {
+              "main_qps": 9221.31,
+              "pr_qps": 21092.15,
+              "change_percent": 128.7326854861186
+            },
+            "1280": {
+              "main_qps": 8990.48,
+              "pr_qps": 21431.45,
+              "change_percent": 138.37937462738364
+            },
+            "2560": {
+              "main_qps": 9337.91,
+              "pr_qps": 21961.88,
+              "change_percent": 135.19052978664394
+            },
+            "5120": {
+              "main_qps": 8340.22,
+              "pr_qps": 23540.57,
+              "change_percent": 182.25358563682974
+            }
+          }
+        },
+        "ZRANGE": {
+          "main_peak_qps": 10.56,
+          "pr_peak_qps": 11.09,
+          "peak_change_percent": 5.018939393939381,
+          "matched_connections": {
+            "1": {
+              "main_qps": 0.89,
+              "pr_qps": 0.89,
+              "change_percent": 0.0
+            },
+            "4": {
+              "main_qps": 3.55,
+              "pr_qps": 3.36,
+              "change_percent": -5.3521126760563416
+            },
+            "16": {
+              "main_qps": 10.56,
+              "pr_qps": 11.09,
+              "change_percent": 5.018939393939381
+            }
+          }
+        },
+        "ZSCORE": {
+          "main_peak_qps": 254380.96,
+          "pr_peak_qps": 269409.24,
+          "peak_change_percent": 5.907784922267756,
+          "matched_connections": {
+            "80": {
+              "main_qps": 252755.41,
+              "pr_qps": 252569.1,
+              "change_percent": -0.07371157752864566
+            },
+            "320": {
+              "main_qps": 254380.96,
+              "pr_qps": 269409.24,
+              "change_percent": 5.907784922267756
+            },
+            "1280": {
+              "main_qps": 201044.83,
+              "pr_qps": 202905.49,
+              "change_percent": 0.9254950749044477
+            },
+            "2560": {
+              "main_qps": 181594.32,
+              "pr_qps": 189892.93,
+              "change_percent": 4.569862097008315
+            },
+            "5120": {
+              "main_qps": 188603.54,
+              "pr_qps": 181129.28,
+              "change_percent": -3.9629478852835964
+            }
+          }
+        }
+      }
+    },
+    {
+      "category": "ordered",
+      "kind": "zset",
+      "size": 1048576,
+      "field": 1024,
+      "keys": 64,
+      "main_tag": "zset-main6111d0b1-k64-1048576-f1024-20261003",
+      "pr_tag": "zset-pr199b08e0-k64-1048576-f1024-20261003",
+      "main_version": {
+        "commit": "6111d0b1e232cac2b572647a3d536916b0889b6d",
+        "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-main-6111d0b1-20261003",
+        "sha256": "c60e9ea5d2ef9c76e24b5703969a26bf1a517cc3884e7901da6db736bb320847",
+        "source_repo": "/mnt/dev/lavik",
+        "bycorf_commit": "62509c93d40c2480f5046b71454db6cf95801b04",
+        "tests_during_build": false,
+        "compiled_source_files_verified": 678
+      },
+      "pr_version": {
+        "commit": "199b08e0a616756b3f2585d6c35f6ba2c851f3ec",
+        "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-zset-rebalance-199b08e0-20261003",
+        "sha256": "81564c275251a48132b9a5af70bd1b7b66194e98ac83bdeac34805acd54bdd9f",
+        "source_repo": "/mnt/dev/lavik-zset-write-20261003",
+        "bycorf_commit": "62509c93d40c2480f5046b71454db6cf95801b04",
+        "tests_during_build": false,
+        "compiled_source_files_verified": 678,
+        "pr": 246
+      },
+      "operations": {
+        "ZINCRBY": {
+          "main_peak_qps": 60105.12,
+          "pr_peak_qps": 57428.81,
+          "peak_change_percent": -4.45271550909474,
+          "matched_connections": {
+            "80": {
+              "main_qps": 42906.83,
+              "pr_qps": 41618.26,
+              "change_percent": -3.0031815447563948
+            },
+            "320": {
+              "main_qps": 55421.07,
+              "pr_qps": 56057.73,
+              "change_percent": 1.1487688707562116
+            },
+            "1280": {
+              "main_qps": 59100.7,
+              "pr_qps": 56922.22,
+              "change_percent": -3.686047711786822
+            },
+            "2560": {
+              "main_qps": 60105.12,
+              "pr_qps": 57428.81,
+              "change_percent": -4.45271550909474
+            },
+            "5120": {
+              "main_qps": 59630.81,
+              "pr_qps": 56352.45,
+              "change_percent": -5.497761979084304
+            }
+          }
+        },
+        "ZRANGE": {
+          "main_peak_qps": 2814.38,
+          "pr_peak_qps": 2822.24,
+          "peak_change_percent": 0.27927998351322536,
+          "matched_connections": {
+            "16": {
+              "main_qps": 1953.31,
+              "pr_qps": 2031.97,
+              "change_percent": 4.0270105615596075
+            },
+            "80": {
+              "main_qps": 2814.38,
+              "pr_qps": 2822.24,
+              "change_percent": 0.27927998351322536
+            }
+          }
+        },
+        "ZSCORE": {
+          "main_peak_qps": 465151.04,
+          "pr_peak_qps": 493028.44,
+          "peak_change_percent": 5.993193092721039,
+          "matched_connections": {
+            "80": {
+              "main_qps": 361193.43,
+              "pr_qps": 373511.4,
+              "change_percent": 3.4103527298378733
+            },
+            "320": {
+              "main_qps": 465151.04,
+              "pr_qps": 493028.44,
+              "change_percent": 5.993193092721039
+            },
+            "1280": {
+              "main_qps": 322792.58,
+              "pr_qps": 331741.18,
+              "change_percent": 2.772244640815469
+            },
+            "2560": {
+              "main_qps": 293894.43,
+              "pr_qps": 303745.11,
+              "change_percent": 3.351774989406908
+            },
+            "5120": {
+              "main_qps": 283237.66,
+              "pr_qps": 281326.55,
+              "change_percent": -0.6747372506890503
+            }
+          }
+        }
+      }
+    }
+  ],
+  "limitations": [
+    "One clean connection sweep per independently seeded binary, no repeat confidence intervals.",
+    "Peer curves use historical runs and different cache/persistence settings.",
+    "PR244 retains base44761 in the 100MiB chart; only PR246 is based on current6111."
+  ]
+}
