@@ -66,7 +66,7 @@ Redis/Valkey 不持久化；Kvrocks 为无压缩 RAID0、关闭 WAL、80 GiB blo
 
 ![List 100 MiB、1 KiB：LINDEX / LSET QPS 随连接数变化](charts/list-104857600-1024-ab.png)
 
-**最新 main `44761b91` 实测，已合并 #235；图中保留 Redis、Valkey、Kvrocks、Lavik main。** 8 keys × 100 MiB/key; 1024 B/entry. 独立清盘灌入，测前测后逐 key 校验，全部测点零错误。 [main raw](raw/lavik-main44761-ordered-list-104857600-k8-f1024-20261003/).
+**最新 main `44761b91` 与 [PR #244](https://github.com/eloqdata/lavik/pull/244) `faaaba58` 同图，同时保留 Redis、Valkey、Kvrocks。** 8 keys × 100 MiB/key; 1024 B/entry. 两版本本轮同机独立清盘灌入，逐 key 前后校验通过，全部测点零错误。 [PR raw](raw/lavik-index-pr244-faaaba58-ordered-list-104857600-k8-f1024-20261003/) · [Main raw](raw/lavik-main44761-ordered-list-104857600-k8-f1024-20261003/).
 
 </details>
 

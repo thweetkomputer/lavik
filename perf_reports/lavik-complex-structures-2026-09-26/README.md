@@ -69,7 +69,7 @@ Use 50,000 keys at 1 MiB/key and 500 keys at 100 MiB/key, with 1 KiB elements. E
 
 ![List 100 MiB per key, 1 KiB entries: LINDEX / LSET QPS by connection count](charts/list-104857600-1024-ab.png)
 
-**Measured current main `44761b91`, including merged #235, with Redis, Valkey and Kvrocks.** 8 keys × 100 MiB/key; 1024 B/entry. Fresh-media seed, every-key validation before and after; zero errors at all points. [main raw](raw/lavik-main44761-ordered-list-104857600-k8-f1024-20261003/).
+**Current main `44761b91` and [PR #244](https://github.com/eloqdata/lavik/pull/244) `faaaba58` share a chart with Redis, Valkey and Kvrocks.** 8 keys × 100 MiB/key; 1024 B/entry. Both versions independently seed fresh media on this host; every key passes before/after checks, with zero errors at all points. [PR raw](raw/lavik-index-pr244-faaaba58-ordered-list-104857600-k8-f1024-20261003/) · [Main raw](raw/lavik-main44761-ordered-list-104857600-k8-f1024-20261003/).
 
 </details>
 
