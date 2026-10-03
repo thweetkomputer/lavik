@@ -7,7 +7,7 @@ Redis 兼容数据结构。每张图固定数据结构、每个 key 的逻辑数
 每个元素的字节数。横轴为连接数，纵轴为每秒完成的命令数。
 
 
-**10 月 3 日 main 复测：`44761b91`（#235/#243 已合并），Hash/Set 已更新 7/8 组。每组完成后立即覆盖原图并推送；尚未完成的图标明实际旧版本。**
+**10 月 3 日 main 复测：`44761b91`（#235/#243 已合并），Hash/Set 已更新 8/8 组。每组完成后立即覆盖原图并推送；尚未完成的图标明实际旧版本。**
 
 当前图已移除合并 PR #235 的独立曲线；待替换的 main 曲线仍为实测 `06562381`，不代表最新代码。List/Stream/ZSet 的旧版本补充负载仍保留原始版本说明。
 
@@ -168,7 +168,7 @@ Redis/Valkey 不持久化；Kvrocks 为无压缩 RAID0、关闭 WAL、80 GiB blo
 
 ![Set 1 MiB, 128 B: SISMEMBER / SADD + SREM](charts/set-1048576-128-ab.png)
 
-**待复测：图中 Lavik main 为实测 `06562381`；已移除合并 PR #235 曲线。**
+**最新 main `44761b91` 实测，已合并 #235；图中保留 Redis、Valkey、Kvrocks、Lavik main。** 50,000 keys × 1 MiB/key; 128 B/entry. 独立清盘灌入，测前测后逐 key 校验，全部测点零错误。 [main raw](raw/lavik-main44761-hashset-set-1048576-k50000-f128-20261003/).
 
 ![Set 1 MiB, 1024 B: SISMEMBER / SADD + SREM](charts/set-1048576-1024-ab.png)
 
