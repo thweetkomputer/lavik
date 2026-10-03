@@ -364,6 +364,8 @@ Point reads and writes cover 80–5120 connections. Full reads use 16/80 for the
 
 ![100 MiB per key, 1 KiB entries: Exact-ID `XRANGE` QPS by connection count](charts/stream-104857600-1024-xrange-latest.png)
 
+**Measured Stream: main `6111d0b1`.** 8 keys × 100 MiB/key; 1 KiB/entry. Independent fresh-media seed, every-key validation before/after, zero errors at all points. [Main raw](raw/lavik-stream-main6111-writepaths-100m-k8-f1024-20261003/).The #244 curve retains its measured older base `44761b91`; it does not establish gains over the new main.
+
 ### `XADD MAXLEN`
 
 #### 64 KiB per key
@@ -382,7 +384,7 @@ Point reads and writes cover 80–5120 connections. Full reads use 16/80 for the
 
 ![100 MiB per key, 1 KiB entries: `XADD MAXLEN` QPS by connection count](charts/stream-104857600-1024-xadd_maxlen-latest.png)
 
-**Current main `44761b91` and [PR #244](https://github.com/eloqdata/lavik/pull/244) `faaaba58` share a chart with Redis, Valkey and Kvrocks.** 8 keys × 100 MiB/key; 1024 B/entry. Both versions independently seed fresh media on this host; every key passes before/after checks, with zero errors at all points. [PR raw](raw/lavik-index-pr244-faaaba58-ordered-stream-104857600-k8-f1024-20261003/) · [Main raw](raw/lavik-main44761-ordered-stream-104857600-k8-f1024-20261003/).
+**Measured Stream: main `6111d0b1`.** 8 keys × 100 MiB/key; 1 KiB/entry. Independent fresh-media seed, every-key validation before/after, zero errors at all points. [Main raw](raw/lavik-stream-main6111-writepaths-100m-k8-f1024-20261003/).The #244 curve retains its measured older base `44761b91`; it does not establish gains over the new main.
 
 
 ### Full `XRANGE - +`
@@ -402,6 +404,8 @@ Point reads and writes cover 80–5120 connections. Full reads use 16/80 for the
 #### 100 MiB per key
 
 ![100 MiB per key, 1 KiB entries: Full `XRANGE - +` QPS by connection count](charts/stream-104857600-1024-xrange_full-latest.png)
+
+**Measured Stream: main `6111d0b1`.** 8 keys × 100 MiB/key; 1 KiB/entry. Independent fresh-media seed, every-key validation before/after, zero errors at all points. [Main raw](raw/lavik-stream-main6111-writepaths-100m-k8-f1024-20261003/).The #244 curve retains its measured older base `44761b91`; it does not establish gains over the new main.
 
 ## Reproduce
 
