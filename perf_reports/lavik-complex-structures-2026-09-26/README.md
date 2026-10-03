@@ -113,7 +113,7 @@ For 1 MiB `LINDEX`, Lavik peaked near 139k QPS with 128 B entries and 677k with 
 
 ![Hash 100 MiB, 128 B: HGET / HSET](charts/hash-104857600-128-ab.png)
 
-**Measured current main `44761b91` with Redis, Valkey and Kvrocks; updated #244 measurement pending.** 500 keys × 100 MiB/key; 128 B/entry. [Main raw](raw/lavik-main44761-hashset-hash-104857600-k500-f128-20261003/).
+**Current main `44761b91` and [PR #244](https://github.com/eloqdata/lavik/pull/244) `faaaba58` share a chart with Redis, Valkey and Kvrocks.** 500 keys × 100 MiB/key; 128 B/entry. Both versions independently seed fresh media on this host; every key passes before/after checks, with zero errors at all points. [PR raw](raw/lavik-index-pr244-faaaba58-hashset-hash-104857600-k500-f128-20261003/) · [Main raw](raw/lavik-main44761-hashset-hash-104857600-k500-f128-20261003/).
 
 ![Hash 100 MiB, 1024 B: HGET / HSET](charts/hash-104857600-1024-ab.png)
 
