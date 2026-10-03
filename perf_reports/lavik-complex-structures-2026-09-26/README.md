@@ -20,7 +20,7 @@ Redis/Valkey disable persistence; Kvrocks uses uncompressed RAID0, disabled WAL 
 Scratch NVMe serials/PCI addresses changed since October 1; all six dedicated devices were checked for mounts and RAID holders. This run uses AMD EPYC 9V74, 16 vCPUs and 12 server workers. Peer curves retain historical matched-workload results; cross-round differences cannot be attributed solely to code. Current main and upcoming optimizations will be compared directly on this host. [Host and build proof](diagnostics/main-refresh-20261003/host-and-build.json).
 
 
-**Further optimization: [PR #244](https://github.com/eloqdata/lavik/pull/244) removes grouped publication allocations and repeated route lookup. Completed workloads add PR curves directly to four-database charts; pending workloads retain measured main only.**
+**Further optimization: [PR #244](https://github.com/eloqdata/lavik/pull/244) is now `faaaba58`, coalescing inline physical-coordinate updates to reduce repeated index-path and page copying. The allocation/lookup-only attempt had no stable gain and its old curves were removed. New measured PR curves are added as each workload completes.**
 
 ## List
 
@@ -111,11 +111,11 @@ For 1 MiB `LINDEX`, Lavik peaked near 139k QPS with 128 B entries and 677k with 
 
 ![Hash 100 MiB, 128 B: HGET / HSET](charts/hash-104857600-128-ab.png)
 
-**Current main `44761b91` and [PR #244](https://github.com/eloqdata/lavik/pull/244) `62507324` share a chart with Redis, Valkey and Kvrocks.** 500 keys × 100 MiB/key; 128 B/entry. Both versions independently seed fresh media on this host; every key passes before/after checks, with zero errors at all points. [PR raw](raw/lavik-index-pr244-hashset-hash-104857600-k500-f128-20261003/) · [Main raw](raw/lavik-main44761-hashset-hash-104857600-k500-f128-20261003/).
+**Measured current main `44761b91` with Redis, Valkey and Kvrocks; updated #244 measurement pending.** 500 keys × 100 MiB/key; 128 B/entry. [Main raw](raw/lavik-main44761-hashset-hash-104857600-k500-f128-20261003/).
 
 ![Hash 100 MiB, 1024 B: HGET / HSET](charts/hash-104857600-1024-ab.png)
 
-**Current main `44761b91` and [PR #244](https://github.com/eloqdata/lavik/pull/244) `62507324` share a chart with Redis, Valkey and Kvrocks.** 500 keys × 100 MiB/key; 1024 B/entry. Both versions independently seed fresh media on this host; every key passes before/after checks, with zero errors at all points. [PR raw](raw/lavik-index-pr244-hashset-hash-104857600-k500-f1024-20261003/) · [Main raw](raw/lavik-main44761-hashset-hash-104857600-k500-f1024-20261003/).
+**Measured current main `44761b91` with Redis, Valkey and Kvrocks; updated #244 measurement pending.** 500 keys × 100 MiB/key; 1024 B/entry. [Main raw](raw/lavik-main44761-hashset-hash-104857600-k500-f1024-20261003/).
 
 ### HGETALL
 
@@ -179,11 +179,11 @@ This condition retains measured main `06562381`, awaiting the current-main refre
 
 ![Set 100 MiB, 128 B: SISMEMBER / SADD + SREM](charts/set-104857600-128-ab.png)
 
-**Current main `44761b91` and [PR #244](https://github.com/eloqdata/lavik/pull/244) `62507324` share a chart with Redis, Valkey and Kvrocks.** 500 keys × 100 MiB/key; 128 B/entry. Both versions independently seed fresh media on this host; every key passes before/after checks, with zero errors at all points. [PR raw](raw/lavik-index-pr244-hashset-set-104857600-k500-f128-20261003/) · [Main raw](raw/lavik-main44761-hashset-set-104857600-k500-f128-20261003/).
+**Measured current main `44761b91` with Redis, Valkey and Kvrocks; updated #244 measurement pending.** 500 keys × 100 MiB/key; 128 B/entry. [Main raw](raw/lavik-main44761-hashset-set-104857600-k500-f128-20261003/).
 
 ![Set 100 MiB, 1024 B: SISMEMBER / SADD + SREM](charts/set-104857600-1024-ab.png)
 
-**Current main `44761b91` and [PR #244](https://github.com/eloqdata/lavik/pull/244) `62507324` share a chart with Redis, Valkey and Kvrocks.** 500 keys × 100 MiB/key; 1024 B/entry. Both versions independently seed fresh media on this host; every key passes before/after checks, with zero errors at all points. [PR raw](raw/lavik-index-pr244-hashset-set-104857600-k500-f1024-20261003/) · [Main raw](raw/lavik-main44761-hashset-set-104857600-k500-f1024-20261003/).
+**Measured current main `44761b91` with Redis, Valkey and Kvrocks; updated #244 measurement pending.** 500 keys × 100 MiB/key; 1024 B/entry. [Main raw](raw/lavik-main44761-hashset-set-104857600-k500-f1024-20261003/).
 
 ### SMEMBERS
 
