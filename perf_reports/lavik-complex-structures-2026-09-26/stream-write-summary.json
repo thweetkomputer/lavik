@@ -1,0 +1,255 @@
+{
+  "main": {
+    "commit": "6111d0b1e232cac2b572647a3d536916b0889b6d",
+    "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-main-6111d0b1-20261003",
+    "sha256": "c60e9ea5d2ef9c76e24b5703969a26bf1a517cc3884e7901da6db736bb320847",
+    "source_repo": "/mnt/dev/lavik",
+    "bycorf_commit": "62509c93d40c2480f5046b71454db6cf95801b04",
+    "tests_during_build": false,
+    "compiled_source_files_verified": 678
+  },
+  "pr": {
+    "commit": "6562e3b845e588fd5c89443561c02b49b84939a5",
+    "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-ordered-directory-6562e3b8-20261003",
+    "sha256": "7ca5920e054b77d5b87de6ccf1c83a7ccc68b266b880151448cf73c238aea4a4",
+    "source_repo": "/mnt/dev/lavik-ordered-directory-20261003",
+    "bycorf_commit": "62509c93d40c2480f5046b71454db6cf95801b04",
+    "tests_during_build": false,
+    "compiled_source_files_verified": 678,
+    "pr": 247
+  },
+  "conditions": [
+    {
+      "category": "ordered",
+      "kind": "stream",
+      "size": 104857600,
+      "field": 1024,
+      "keys": 8,
+      "main_tag": "stream-main6111-writepaths-100m-k8-f1024-20261003",
+      "pr_tag": "stream-pr6562e3b8-writepaths-104857600-k8-f1024-20261003",
+      "main_version": {
+        "commit": "6111d0b1e232cac2b572647a3d536916b0889b6d",
+        "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-main-6111d0b1-20261003",
+        "sha256": "c60e9ea5d2ef9c76e24b5703969a26bf1a517cc3884e7901da6db736bb320847",
+        "source_repo": "/mnt/dev/lavik",
+        "bycorf_commit": "62509c93d40c2480f5046b71454db6cf95801b04",
+        "tests_during_build": false,
+        "compiled_source_files_verified": 678
+      },
+      "pr_version": {
+        "commit": "6562e3b845e588fd5c89443561c02b49b84939a5",
+        "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-ordered-directory-6562e3b8-20261003",
+        "sha256": "7ca5920e054b77d5b87de6ccf1c83a7ccc68b266b880151448cf73c238aea4a4",
+        "source_repo": "/mnt/dev/lavik-ordered-directory-20261003",
+        "bycorf_commit": "62509c93d40c2480f5046b71454db6cf95801b04",
+        "tests_during_build": false,
+        "compiled_source_files_verified": 678,
+        "pr": 247
+      },
+      "operations": {
+        "XADD_MAXLEN": {
+          "main_peak_qps": 6674.55,
+          "pr_peak_qps": 10093.38,
+          "peak_change_percent": 51.22188012675011,
+          "matched_connections": {
+            "80": {
+              "main_qps": 6674.55,
+              "pr_qps": 9168.03,
+              "change_percent": 37.35802413645863
+            },
+            "320": {
+              "main_qps": 6546.62,
+              "pr_qps": 9599.09,
+              "change_percent": 46.62665619816026
+            },
+            "1280": {
+              "main_qps": 6533.32,
+              "pr_qps": 8258.52,
+              "change_percent": 26.4061763391354
+            },
+            "2560": {
+              "main_qps": 5986.77,
+              "pr_qps": 10093.38,
+              "change_percent": 68.59475142689628
+            },
+            "5120": {
+              "main_qps": 6308.16,
+              "pr_qps": 9414.3,
+              "change_percent": 49.24003195860598
+            }
+          }
+        },
+        "XRANGE": {
+          "main_peak_qps": 203701.63,
+          "pr_peak_qps": 205023.57,
+          "peak_change_percent": 0.6489589700386711,
+          "matched_connections": {
+            "80": {
+              "main_qps": 180832.47,
+              "pr_qps": 183426.35,
+              "change_percent": 1.4344105347894764
+            },
+            "320": {
+              "main_qps": 203701.63,
+              "pr_qps": 205023.57,
+              "change_percent": 0.6489589700386711
+            },
+            "1280": {
+              "main_qps": 141086.27,
+              "pr_qps": 148421.73,
+              "change_percent": 5.199272757015994
+            },
+            "2560": {
+              "main_qps": 125008.93,
+              "pr_qps": 122239.77,
+              "change_percent": -2.2151697482731714
+            },
+            "5120": {
+              "main_qps": 118431.21,
+              "pr_qps": 118113.17,
+              "change_percent": -0.268544077190469
+            }
+          }
+        },
+        "XRANGE_FULL": {
+          "main_peak_qps": 8.07,
+          "pr_peak_qps": 7.53,
+          "peak_change_percent": -6.691449814126393,
+          "matched_connections": {
+            "1": {
+              "main_qps": 0.6,
+              "pr_qps": 0.6,
+              "change_percent": 0.0
+            },
+            "4": {
+              "main_qps": 2.1,
+              "pr_qps": 1.52,
+              "change_percent": -27.61904761904762
+            },
+            "16": {
+              "main_qps": 8.07,
+              "pr_qps": 7.53,
+              "change_percent": -6.691449814126393
+            }
+          }
+        }
+      }
+    },
+    {
+      "category": "ordered",
+      "kind": "stream",
+      "size": 1048576,
+      "field": 1024,
+      "keys": 64,
+      "main_tag": "stream-main6111-writepaths-1m-k64-f1024-20261003",
+      "pr_tag": "stream-pr6562e3b8-writepaths-1048576-k64-f1024-20261003",
+      "main_version": {
+        "commit": "6111d0b1e232cac2b572647a3d536916b0889b6d",
+        "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-main-6111d0b1-20261003",
+        "sha256": "c60e9ea5d2ef9c76e24b5703969a26bf1a517cc3884e7901da6db736bb320847",
+        "source_repo": "/mnt/dev/lavik",
+        "bycorf_commit": "62509c93d40c2480f5046b71454db6cf95801b04",
+        "tests_during_build": false,
+        "compiled_source_files_verified": 678
+      },
+      "pr_version": {
+        "commit": "6562e3b845e588fd5c89443561c02b49b84939a5",
+        "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-ordered-directory-6562e3b8-20261003",
+        "sha256": "7ca5920e054b77d5b87de6ccf1c83a7ccc68b266b880151448cf73c238aea4a4",
+        "source_repo": "/mnt/dev/lavik-ordered-directory-20261003",
+        "bycorf_commit": "62509c93d40c2480f5046b71454db6cf95801b04",
+        "tests_during_build": false,
+        "compiled_source_files_verified": 678,
+        "pr": 247
+      },
+      "operations": {
+        "XADD_MAXLEN": {
+          "main_peak_qps": 42802.87,
+          "pr_peak_qps": 44741.98,
+          "peak_change_percent": 4.530327055171779,
+          "matched_connections": {
+            "80": {
+              "main_qps": 42802.87,
+              "pr_qps": 44741.98,
+              "change_percent": 4.530327055171779
+            },
+            "320": {
+              "main_qps": 38210.27,
+              "pr_qps": 44588.31,
+              "change_percent": 16.691952189817027
+            },
+            "1280": {
+              "main_qps": 35105.91,
+              "pr_qps": 44441.71,
+              "change_percent": 26.593243131996847
+            },
+            "2560": {
+              "main_qps": 33490.94,
+              "pr_qps": 40929.28,
+              "change_percent": 22.210006646573667
+            },
+            "5120": {
+              "main_qps": 29440.1,
+              "pr_qps": 40520.55,
+              "change_percent": 37.63727025383747
+            }
+          }
+        },
+        "XRANGE": {
+          "main_peak_qps": 331304.03,
+          "pr_peak_qps": 335754.41,
+          "peak_change_percent": 1.3432918398245786,
+          "matched_connections": {
+            "80": {
+              "main_qps": 259301.89,
+              "pr_qps": 258671.4,
+              "change_percent": -0.24314901831221647
+            },
+            "320": {
+              "main_qps": 331304.03,
+              "pr_qps": 335754.41,
+              "change_percent": 1.3432918398245786
+            },
+            "1280": {
+              "main_qps": 242289.45,
+              "pr_qps": 242250.4,
+              "change_percent": -0.016117086402245295
+            },
+            "2560": {
+              "main_qps": 195433.77,
+              "pr_qps": 197928.1,
+              "change_percent": 1.2763044994731576
+            },
+            "5120": {
+              "main_qps": 195157.59,
+              "pr_qps": 186166.58,
+              "change_percent": -4.607051152865749
+            }
+          }
+        },
+        "XRANGE_FULL": {
+          "main_peak_qps": 1556.94,
+          "pr_peak_qps": 1551.66,
+          "peak_change_percent": -0.3391267486222982,
+          "matched_connections": {
+            "16": {
+              "main_qps": 1177.03,
+              "pr_qps": 1141.45,
+              "change_percent": -3.022862628819989
+            },
+            "80": {
+              "main_qps": 1556.94,
+              "pr_qps": 1551.66,
+              "change_percent": -0.3391267486222982
+            }
+          }
+        }
+      }
+    }
+  ],
+  "limitations": [
+    "One clean connection sweep per independently seeded binary; no repeat confidence intervals.",
+    "Peer curves use historical runs and different cache/persistence settings.",
+    "PR244 retains base44761; PR247 is independently based on6111."
+  ]
+}

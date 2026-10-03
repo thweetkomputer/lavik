@@ -341,6 +341,9 @@ value、member 或元素为 128 B 或 1 KiB。Stream 的字段名和各结构元
 
 ## Stream
 
+[本轮 Stream 逐连接实测](stream-write-summary.json) · [perf、构建及测试证据](diagnostics/stream-write-20261003/README.md)。
+
+
 新复测的 1 KiB 元素图使用 main `6111d0b1`，并与 ZSet 优化 PR 比较；其他补充负载保留实际历史版本，各图注明版本。
 
 点查和写入覆盖 80–5120 连接；小档完整读取覆盖 16/80 连接，100 MiB 档覆盖 1/4/16 连接。Redis 和 Valkey 关闭持久化，Kvrocks 关闭 WAL 且启用 80 GiB block cache，Lavik 提交到 SPDK；写入结果反映这些具体配置。
