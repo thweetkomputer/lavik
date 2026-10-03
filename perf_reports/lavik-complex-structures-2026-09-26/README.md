@@ -19,6 +19,9 @@ Redis/Valkey disable persistence; Kvrocks uses uncompressed RAID0, disabled WAL 
 
 Scratch NVMe serials/PCI addresses changed since October 1; all six dedicated devices were checked for mounts and RAID holders. This run uses AMD EPYC 9V74, 16 vCPUs and 12 server workers. Peer curves retain historical matched-workload results; cross-round differences cannot be attributed solely to code. Current main and upcoming optimizations will be compared directly on this host. [Host and build proof](diagnostics/main-refresh-20261003/host-and-build.json).
 
+
+**Further optimization: [PR #244](https://github.com/eloqdata/lavik/pull/244) removes grouped publication allocations and repeated route lookup. Completed workloads add PR curves directly to four-database charts; pending workloads retain measured main only.**
+
 ## List
 
 Current baseline: main `06562381`, including merged #233. Each LSET chart fixes key counts, key sizes and entry sizes and includes the matched peer workloads.
@@ -112,7 +115,7 @@ For 1 MiB `LINDEX`, Lavik peaked near 139k QPS with 128 B entries and 677k with 
 
 ![Hash 100 MiB, 1024 B: HGET / HSET](charts/hash-104857600-1024-ab.png)
 
-**Measured current main `44761b91`, including merged #235, with Redis, Valkey and Kvrocks.** 500 keys × 100 MiB/key; 1024 B/entry. Fresh-media seed, every-key validation before and after; zero errors at all points. [main raw](raw/lavik-main44761-hashset-hash-104857600-k500-f1024-20261003/).
+**Current main `44761b91` and [PR #244](https://github.com/eloqdata/lavik/pull/244) `62507324` share a chart with Redis, Valkey and Kvrocks.** 500 keys × 100 MiB/key; 1024 B/entry. Both versions independently seed fresh media on this host; every key passes before/after checks, with zero errors at all points. [PR raw](raw/lavik-index-pr244-hashset-hash-104857600-k500-f1024-20261003/) · [Main raw](raw/lavik-main44761-hashset-hash-104857600-k500-f1024-20261003/).
 
 ### HGETALL
 
