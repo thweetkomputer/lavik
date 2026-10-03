@@ -365,7 +365,7 @@ value、member 或元素为 128 B 或 1 KiB。Stream 的字段名和各结构元
 
 ![100 MiB、1 KiB：指定 ID `XRANGE`，四款数据库 QPS 随连接数变化](charts/stream-104857600-1024-xrange-latest.png)
 
-**Stream 实测：main `6111d0b1`。** 8 keys × 100 MiB/key; 1 KiB/entry. 独立清盘灌入，逐 key 前后校验，全部测点零错误。 [Main raw](raw/lavik-stream-main6111-writepaths-100m-k8-f1024-20261003/). #244 保留实际旧基线 `44761b91`；该曲线不表示相对新 main 的优化收益。
+**Stream 实测：main `6111d0b1` / [PR #247](https://github.com/eloqdata/lavik/pull/247) `a4d9779c`。** 8 keys × 100 MiB/key; 1 KiB/entry. 独立清盘灌入，逐 key 前后校验，全部测点零错误。 [Main raw](raw/lavik-stream-main6111-writepaths-100m-k8-f1024-20261003/). [PR raw](raw/lavik-stream-pra4d9779c-writepaths-104857600-k8-f1024-20261003/). #244 保留实际旧基线 `44761b91`；该曲线不表示相对新 main 的优化收益。
 
 ### `XADD MAXLEN`
 
@@ -385,7 +385,7 @@ value、member 或元素为 128 B 或 1 KiB。Stream 的字段名和各结构元
 
 ![100 MiB、1 KiB：`XADD MAXLEN`，四款数据库 QPS 随连接数变化](charts/stream-104857600-1024-xadd_maxlen-latest.png)
 
-**Stream 实测：main `6111d0b1`。** 8 keys × 100 MiB/key; 1 KiB/entry. 独立清盘灌入，逐 key 前后校验，全部测点零错误。 [Main raw](raw/lavik-stream-main6111-writepaths-100m-k8-f1024-20261003/). #244 保留实际旧基线 `44761b91`；该曲线不表示相对新 main 的优化收益。
+**Stream 实测：main `6111d0b1` / [PR #247](https://github.com/eloqdata/lavik/pull/247) `a4d9779c`。** 8 keys × 100 MiB/key; 1 KiB/entry. 独立清盘灌入，逐 key 前后校验，全部测点零错误。 [Main raw](raw/lavik-stream-main6111-writepaths-100m-k8-f1024-20261003/). [PR raw](raw/lavik-stream-pra4d9779c-writepaths-104857600-k8-f1024-20261003/). #244 保留实际旧基线 `44761b91`；该曲线不表示相对新 main 的优化收益。
 
 
 ### 全范围 `XRANGE - +`
@@ -406,7 +406,7 @@ value、member 或元素为 128 B 或 1 KiB。Stream 的字段名和各结构元
 
 ![100 MiB、1 KiB：全范围 `XRANGE - +`，四款数据库 QPS 随连接数变化](charts/stream-104857600-1024-xrange_full-latest.png)
 
-**Stream 实测：main `6111d0b1`。** 8 keys × 100 MiB/key; 1 KiB/entry. 独立清盘灌入，逐 key 前后校验，全部测点零错误。 [Main raw](raw/lavik-stream-main6111-writepaths-100m-k8-f1024-20261003/). #244 保留实际旧基线 `44761b91`；该曲线不表示相对新 main 的优化收益。
+**Stream 实测：main `6111d0b1` / [PR #247](https://github.com/eloqdata/lavik/pull/247) `a4d9779c`。** 8 keys × 100 MiB/key; 1 KiB/entry. 独立清盘灌入，逐 key 前后校验，全部测点零错误。 [Main raw](raw/lavik-stream-main6111-writepaths-100m-k8-f1024-20261003/). [PR raw](raw/lavik-stream-pra4d9779c-writepaths-104857600-k8-f1024-20261003/). #244 保留实际旧基线 `44761b91`；该曲线不表示相对新 main 的优化收益。
 
 ## 复现
 
