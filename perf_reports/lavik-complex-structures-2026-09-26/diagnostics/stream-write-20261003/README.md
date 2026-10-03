@@ -10,3 +10,5 @@ Measured main `6111d0b1` and PR #247 `6562e3b8`, both independently built with B
 [Main worker CPU summary](main-perworker-summary.json), [PR worker CPU summary](pr-perworker-summary.json). Each of the 12 worker TIDs was recorded separately at 99 Hz task-clock with a 16 KiB DWARF stack; an inactive helper may have zero samples. Percentages use all recorded worker task-clock, including polling, background and kernel work. They do not represent request latency. These 30-second diagnostic loads are separate from the clean 8-second curves. Raw self reports, thread inventories, exact recorder arguments, provenance and before/after metrics are in `main/` and `pr/`; large perf binaries/full stacks remain on the benchmark host.
 
 These are single sweeps without confidence intervals. Historical peers have different persistence/cache/media settings; Kvrocks retains an 80 GiB cache. This does not establish parity under matched durability.
+
+The current PR head includes a [documentation-only successor](documentation-successor.json); all measured code inputs are unchanged and curves retain their original `6562e3b8` source attribution.
