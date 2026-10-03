@@ -296,7 +296,7 @@ Newly rerun 1 KiB-entry charts compare main `6111d0b1` with the ZSet optimizatio
 
 ![Sorted Set 1 MiB per key, 1 KiB entries: ZSCORE / ZINCRBY QPS by connection count](charts/zset-1048576-1024-ab.png)
 
-**ZSet: measured main `6111d0b1` and [PR #246](https://github.com/eloqdata/lavik/pull/246) `199b08e0`, with Redis, Valkey and Kvrocks.** 64 keys × 1 MiB/key; 1 KiB/entry. Each version independently seeds fresh media on the same host; every-key checks pass before/after, with zero errors at all points. [Main raw](raw/lavik-zset-main6111d0b1-k64-1048576-f1024-20261003/) · [PR raw](raw/lavik-zset-pr199b08e0-k64-1048576-f1024-20261003/).
+**ZSet: measured main `6111d0b1` and [PR #246](https://github.com/eloqdata/lavik/pull/246) `95f2c398`, with Redis, Valkey and Kvrocks.** 64 keys × 1 MiB/key; 1 KiB/entry. Each version independently seeds fresh media on the same host; every-key checks pass before/after, with zero errors at all points. [Main raw](raw/lavik-zset-main6111d0b1-k64-1048576-f1024-20261003/) · [PR raw](raw/lavik-zset-pr95f2c398-k64-1048576-f1024-20261003/).
 
 #### 100 MiB per key
 
@@ -321,7 +321,7 @@ Newly rerun 1 KiB-entry charts compare main `6111d0b1` with the ZSet optimizatio
 
 ![Sorted Set 1 MiB per key, 1 KiB entries: ZRANGE WITHSCORES QPS by connection count](charts/zset-1048576-1024-ab-full.png)
 
-**ZSet: measured main `6111d0b1` and [PR #246](https://github.com/eloqdata/lavik/pull/246) `199b08e0`, with Redis, Valkey and Kvrocks.** 64 keys × 1 MiB/key; 1 KiB/entry. Each version independently seeds fresh media on the same host; every-key checks pass before/after, with zero errors at all points. [Main raw](raw/lavik-zset-main6111d0b1-k64-1048576-f1024-20261003/) · [PR raw](raw/lavik-zset-pr199b08e0-k64-1048576-f1024-20261003/).
+**ZSet: measured main `6111d0b1` and [PR #246](https://github.com/eloqdata/lavik/pull/246) `95f2c398`, with Redis, Valkey and Kvrocks.** 64 keys × 1 MiB/key; 1 KiB/entry. Each version independently seeds fresh media on the same host; every-key checks pass before/after, with zero errors at all points. [Main raw](raw/lavik-zset-main6111d0b1-k64-1048576-f1024-20261003/) · [PR raw](raw/lavik-zset-pr95f2c398-k64-1048576-f1024-20261003/).
 
 #### 100 MiB per key
 
