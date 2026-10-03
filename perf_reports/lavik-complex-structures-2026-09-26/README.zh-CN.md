@@ -298,7 +298,7 @@ value、member 或元素为 128 B 或 1 KiB。Stream 的字段名和各结构元
 
 ![Sorted Set 100 MiB、1 KiB：ZSCORE / ZINCRBY QPS 随连接数变化](charts/zset-104857600-1024-ab.png)
 
-**待复测：图中 Lavik main 为实测 `06562381`；已移除合并 PR #235 曲线。**
+**最新 main `44761b91` 实测，已合并 #235；图中保留 Redis、Valkey、Kvrocks、Lavik main。** 8 keys × 100 MiB/key; 1024 B/entry. 独立清盘灌入，测前测后逐 key 校验，全部测点零错误。 [main raw](raw/lavik-main44761-ordered-zset-104857600-k8-f1024-20261003/).
 
 
 ### ZRANGE WITHSCORES
