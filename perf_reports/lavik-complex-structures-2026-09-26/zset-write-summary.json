@@ -9,14 +9,15 @@
     "compiled_source_files_verified": 678
   },
   "pr": {
-    "commit": "95f2c398c44535eec41e658df76f47f1c10f9072",
-    "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-zset-rebalance-95f2c398-20261003",
-    "sha256": "fe298a70a87ca12eb4ce79a36162a086b65a1637f8fca9ffbf7b783eaea22eed",
+    "commit": "c951932815e348d67ce5813a4cd89a41801993b7",
+    "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-zset-delta-c9519328-20261003",
+    "sha256": "4e79631324326e4ebc2f60fd5faea91bea07dd865c9f9a5e28f9e6265080aac2",
     "source_repo": "/mnt/dev/lavik-zset-write-20261003",
     "bycorf_commit": "62509c93d40c2480f5046b71454db6cf95801b04",
     "tests_during_build": false,
     "compiled_source_files_verified": 678,
-    "pr": 246
+    "pr": 246,
+    "binary_marker_verified": "invalid checked member-index change"
   },
   "conditions": [
     {
@@ -26,7 +27,7 @@
       "field": 1024,
       "keys": 8,
       "main_tag": "zset-main6111d0b1-k8-104857600-f1024-20261003",
-      "pr_tag": "zset-pr95f2c398-k8-104857600-f1024-20261003",
+      "pr_tag": "zset-prc9519328-k8-104857600-f1024-20261003",
       "main_version": {
         "commit": "6111d0b1e232cac2b572647a3d536916b0889b6d",
         "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-main-6111d0b1-20261003",
@@ -37,99 +38,100 @@
         "compiled_source_files_verified": 678
       },
       "pr_version": {
-        "commit": "95f2c398c44535eec41e658df76f47f1c10f9072",
-        "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-zset-rebalance-95f2c398-20261003",
-        "sha256": "fe298a70a87ca12eb4ce79a36162a086b65a1637f8fca9ffbf7b783eaea22eed",
+        "commit": "c951932815e348d67ce5813a4cd89a41801993b7",
+        "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-zset-delta-c9519328-20261003",
+        "sha256": "4e79631324326e4ebc2f60fd5faea91bea07dd865c9f9a5e28f9e6265080aac2",
         "source_repo": "/mnt/dev/lavik-zset-write-20261003",
         "bycorf_commit": "62509c93d40c2480f5046b71454db6cf95801b04",
         "tests_during_build": false,
         "compiled_source_files_verified": 678,
-        "pr": 246
+        "pr": 246,
+        "binary_marker_verified": "invalid checked member-index change"
       },
       "operations": {
         "ZINCRBY": {
           "main_peak_qps": 9423.92,
-          "pr_peak_qps": 33645.14,
-          "peak_change_percent": 257.0185230774455,
+          "pr_peak_qps": 37565.19,
+          "peak_change_percent": 298.6153320486592,
           "matched_connections": {
             "80": {
               "main_qps": 9423.92,
-              "pr_qps": 29767.02,
-              "change_percent": 215.8666457270435
+              "pr_qps": 35707.84,
+              "change_percent": 278.90644232973114
             },
             "320": {
               "main_qps": 9221.31,
-              "pr_qps": 32990.25,
-              "change_percent": 257.76099057509185
+              "pr_qps": 36942.06,
+              "change_percent": 300.6161814319223
             },
             "1280": {
               "main_qps": 8990.48,
-              "pr_qps": 32646.77,
-              "change_percent": 263.12599549745954
+              "pr_qps": 37282.43,
+              "change_percent": 314.68786983564837
             },
             "2560": {
               "main_qps": 9337.91,
-              "pr_qps": 32623.66,
-              "change_percent": 249.36789924083652
+              "pr_qps": 37443.4,
+              "change_percent": 300.98266100230137
             },
             "5120": {
               "main_qps": 8340.22,
-              "pr_qps": 33645.14,
-              "change_percent": 303.40830337808836
+              "pr_qps": 37565.19,
+              "change_percent": 350.4100611254859
             }
           }
         },
         "ZRANGE": {
           "main_peak_qps": 10.56,
-          "pr_peak_qps": 11.11,
-          "peak_change_percent": 5.208333333333326,
+          "pr_peak_qps": 10.6,
+          "peak_change_percent": 0.37878787878786735,
           "matched_connections": {
             "1": {
               "main_qps": 0.89,
-              "pr_qps": 0.89,
-              "change_percent": 0.0
+              "pr_qps": 0.85,
+              "change_percent": -4.49438202247191
             },
             "4": {
               "main_qps": 3.55,
-              "pr_qps": 3.32,
-              "change_percent": -6.478873239436622
+              "pr_qps": 3.21,
+              "change_percent": -9.577464788732392
             },
             "16": {
               "main_qps": 10.56,
-              "pr_qps": 11.11,
-              "change_percent": 5.208333333333326
+              "pr_qps": 10.6,
+              "change_percent": 0.37878787878786735
             }
           }
         },
         "ZSCORE": {
           "main_peak_qps": 254380.96,
-          "pr_peak_qps": 256869.54,
-          "peak_change_percent": 0.9782886266330726,
+          "pr_peak_qps": 270568.2,
+          "peak_change_percent": 6.36338505837859,
           "matched_connections": {
             "80": {
               "main_qps": 252755.41,
-              "pr_qps": 243520.88,
-              "change_percent": -3.6535439538168513
+              "pr_qps": 245785.06,
+              "change_percent": -2.75774512600937
             },
             "320": {
               "main_qps": 254380.96,
-              "pr_qps": 256869.54,
-              "change_percent": 0.9782886266330726
+              "pr_qps": 270568.2,
+              "change_percent": 6.36338505837859
             },
             "1280": {
               "main_qps": 201044.83,
-              "pr_qps": 195163.65,
-              "change_percent": -2.925307753499551
+              "pr_qps": 201867.49,
+              "change_percent": 0.40919231795217836
             },
             "2560": {
               "main_qps": 181594.32,
-              "pr_qps": 190152.32,
-              "change_percent": 4.712702467786434
+              "pr_qps": 190581.18,
+              "change_percent": 4.94886624207187
             },
             "5120": {
               "main_qps": 188603.54,
-              "pr_qps": 177406.16,
-              "change_percent": -5.93699354741698
+              "pr_qps": 177570.42,
+              "change_percent": -5.849900802498187
             }
           }
         }
@@ -142,7 +144,7 @@
       "field": 1024,
       "keys": 64,
       "main_tag": "zset-main6111d0b1-k64-1048576-f1024-20261003",
-      "pr_tag": "zset-pr95f2c398-k64-1048576-f1024-20261003",
+      "pr_tag": "zset-prc9519328-k64-1048576-f1024-20261003",
       "main_version": {
         "commit": "6111d0b1e232cac2b572647a3d536916b0889b6d",
         "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-main-6111d0b1-20261003",
@@ -153,94 +155,95 @@
         "compiled_source_files_verified": 678
       },
       "pr_version": {
-        "commit": "95f2c398c44535eec41e658df76f47f1c10f9072",
-        "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-zset-rebalance-95f2c398-20261003",
-        "sha256": "fe298a70a87ca12eb4ce79a36162a086b65a1637f8fca9ffbf7b783eaea22eed",
+        "commit": "c951932815e348d67ce5813a4cd89a41801993b7",
+        "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-zset-delta-c9519328-20261003",
+        "sha256": "4e79631324326e4ebc2f60fd5faea91bea07dd865c9f9a5e28f9e6265080aac2",
         "source_repo": "/mnt/dev/lavik-zset-write-20261003",
         "bycorf_commit": "62509c93d40c2480f5046b71454db6cf95801b04",
         "tests_during_build": false,
         "compiled_source_files_verified": 678,
-        "pr": 246
+        "pr": 246,
+        "binary_marker_verified": "invalid checked member-index change"
       },
       "operations": {
         "ZINCRBY": {
           "main_peak_qps": 60105.12,
-          "pr_peak_qps": 68678.55,
-          "peak_change_percent": 14.264059367987292,
+          "pr_peak_qps": 79523.69,
+          "peak_change_percent": 32.30768027748718,
           "matched_connections": {
             "80": {
               "main_qps": 42906.83,
-              "pr_qps": 60275.28,
-              "change_percent": 40.47945280506622
+              "pr_qps": 69257.3,
+              "change_percent": 61.4132295487688
             },
             "320": {
               "main_qps": 55421.07,
-              "pr_qps": 66278.2,
-              "change_percent": 19.590256918532955
+              "pr_qps": 74512.63,
+              "change_percent": 34.44819813114399
             },
             "1280": {
               "main_qps": 59100.7,
-              "pr_qps": 64628.23,
-              "change_percent": 9.352731862735975
+              "pr_qps": 73489.75,
+              "change_percent": 24.346665944735
             },
             "2560": {
               "main_qps": 60105.12,
-              "pr_qps": 65767.51,
-              "change_percent": 9.420811405084951
+              "pr_qps": 73731.14,
+              "change_percent": 22.670314941555713
             },
             "5120": {
               "main_qps": 59630.81,
-              "pr_qps": 68678.55,
-              "change_percent": 15.172928222843197
+              "pr_qps": 79523.69,
+              "change_percent": 33.360070071159534
             }
           }
         },
         "ZRANGE": {
           "main_peak_qps": 2814.38,
-          "pr_peak_qps": 2823.66,
-          "peak_change_percent": 0.3297351459291109,
+          "pr_peak_qps": 2823.58,
+          "peak_change_percent": 0.3268926015676632,
           "matched_connections": {
             "16": {
               "main_qps": 1953.31,
-              "pr_qps": 1934.28,
-              "change_percent": -0.9742437196348708
+              "pr_qps": 2095.13,
+              "change_percent": 7.260496285791818
             },
             "80": {
               "main_qps": 2814.38,
-              "pr_qps": 2823.66,
-              "change_percent": 0.3297351459291109
+              "pr_qps": 2823.58,
+              "change_percent": 0.3268926015676632
             }
           }
         },
         "ZSCORE": {
           "main_peak_qps": 465151.04,
-          "pr_peak_qps": 479001.95,
-          "peak_change_percent": 2.977723106885888,
+          "pr_peak_qps": 506545.14,
+          "peak_change_percent": 8.899066419372081,
           "matched_connections": {
             "80": {
               "main_qps": 361193.43,
-              "pr_qps": 359503.54,
-              "change_percent": -0.46786288443840807
+              "pr_qps": 380394.69,
+              "change_percent": 5.316060150928004
             },
             "320": {
               "main_qps": 465151.04,
-              "pr_qps": 479001.95,
-              "change_percent": 2.977723106885888
+              "pr_qps": 506545.14,
+              "change_percent": 8.899066419372081
             },
             "1280": {
               "main_qps": 322792.58,
-              "pr_qps": 342848.86,
-              "change_percent": 6.213364631863594
+              "pr_qps": 364949.03,
+              "change_percent": 13.059919159232237
             },
             "2560": {
               "main_qps": 293894.43,
-              "pr_qps": 322114.91,
-              "change_percent": 9.602250712951577
+              "pr_qps": 328008.47,
+              "change_percent": 11.607583035854052
             },
             "5120": {
               "main_qps": 283237.66,
-              "pr_qps": 301714.05,
-              "change_percent": 6.5232815438455605
+              "pr_qps": 306013.61,
+              "change_percent": 8.041285893973281
             }
           }
         }
