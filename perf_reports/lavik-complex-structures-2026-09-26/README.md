@@ -8,7 +8,7 @@ key, and payload bytes per entry. The horizontal axis is simultaneous
 connections; the vertical axis is completed commands per second.
 
 
-**October 3 main refresh: `44761b91` includes #235/#243; 4/8 Hash/Set conditions updated. Each completed chart is pushed immediately; pending charts retain their actual measured old version.**
+**October 3 main refresh: `44761b91` includes #235/#243; 5/8 Hash/Set conditions updated. Each completed chart is pushed immediately; pending charts retain their actual measured old version.**
 
 Merged PR #235 curves are removed. Pending main curves still measure `06562381`, not the latest code. Earlier supplementary List/Stream/ZSet workloads keep explicit measured versions.
 
@@ -107,7 +107,7 @@ For 1 MiB `LINDEX`, Lavik peaked near 139k QPS with 128 B entries and 677k with 
 
 ![Hash 1 MiB, 1024 B: HGET / HSET](charts/hash-1048576-1024-ab.png)
 
-**Pending refresh: measured Lavik main `06562381`; merged PR #235 curve removed.**
+**Measured current main `44761b91`, including merged #235, with Redis, Valkey and Kvrocks.** 50,000 keys × 1 MiB/key; 1024 B/entry. Fresh-media seed, every-key validation before and after; zero errors at all points. [main raw](raw/lavik-main44761-hashset-hash-1048576-k50000-f1024-20261003/).
 
 #### 100 MiB
 
