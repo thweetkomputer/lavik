@@ -157,13 +157,7 @@ All four use HSET, 128 entries per command, eight clients and pipeline 64. Main 
 
 Independent seed timings: 50,000 keys/32 clients at 1 MiB; 500 keys/eight clients at 100 MiB. RESTORE fill only, excluding cleanup/recovery; not mixed with peer HSET/SADD import timings.
 
-This condition retains measured main `06562381`, awaiting the current-main refresh.
-
-This condition retains measured main `06562381`, awaiting the current-main refresh.
-
-This condition retains measured main `06562381`, awaiting the current-main refresh.
-
-This condition retains measured main `06562381`, awaiting the current-main refresh.
+Independent RESTORE seed timings for measured main `44761b91` and PR #244 are retained in each `.fill.json` linked through the [workload inventory](published-main.json).
 
 ## Set
 
@@ -229,13 +223,7 @@ The matching 100 MiB SADD import measurement is pending. The previous mixed REST
 
 Independent seed timings: 50,000 keys/32 clients at 1 MiB; 500 keys/eight clients at 100 MiB. RESTORE fill only, excluding cleanup/recovery; not mixed with peer HSET/SADD import timings.
 
-This condition retains measured main `06562381`, awaiting the current-main refresh.
-
-This condition retains measured main `06562381`, awaiting the current-main refresh.
-
-This condition retains measured main `06562381`, awaiting the current-main refresh.
-
-This condition retains measured main `06562381`, awaiting the current-main refresh.
+Independent RESTORE seed timings for measured main `44761b91` and PR #244 are retained in each `.fill.json` linked through the [workload inventory](published-main.json).
 
 ## Workloads
 
@@ -289,6 +277,9 @@ Bulk imports use a Python client on the server host; point-command QPS uses memt
 
 ## Sorted Set
 
+[Current ZSet measurements by connection count](zset-write-summary.json) · [perf diagnosis, build and test evidence](diagnostics/zset-write-20261003/README.md).
+
+
 Newly rerun 1 KiB-entry charts compare main `6111d0b1` with the ZSet optimization PR; other supplemental workloads retain their measured historical revisions, identified beside each chart.
 
 ### ZSCORE / ZINCRBY
@@ -313,7 +304,7 @@ Newly rerun 1 KiB-entry charts compare main `6111d0b1` with the ZSet optimizatio
 
 ![Sorted Set 100 MiB per key, 1 KiB entries: ZSCORE / ZINCRBY QPS by connection count](charts/zset-104857600-1024-ab.png)
 
-**ZSet: measured main `6111d0b1` and [PR #246](https://github.com/eloqdata/lavik/pull/246) `199b08e0`, with Redis, Valkey and Kvrocks.** 8 keys × 100 MiB/key; 1 KiB/entry. Each version independently seeds fresh media on the same host; every-key checks pass before/after, with zero errors at all points.The #244 curve retains its measured older base `44761b91`; its differences do not establish gains over the new main. [Main raw](raw/lavik-zset-main6111d0b1-k8-104857600-f1024-20261003/) · [PR raw](raw/lavik-zset-pr199b08e0-k8-104857600-f1024-20261003/).
+**ZSet: measured main `6111d0b1` and [PR #246](https://github.com/eloqdata/lavik/pull/246) `95f2c398`, with Redis, Valkey and Kvrocks.** 8 keys × 100 MiB/key; 1 KiB/entry. Each version independently seeds fresh media on the same host; every-key checks pass before/after, with zero errors at all points.The #244 curve retains its measured older base `44761b91`; its differences do not establish gains over the new main. [Main raw](raw/lavik-zset-main6111d0b1-k8-104857600-f1024-20261003/) · [PR raw](raw/lavik-zset-pr95f2c398-k8-104857600-f1024-20261003/).
 
 
 ### ZRANGE WITHSCORES
@@ -338,7 +329,7 @@ Newly rerun 1 KiB-entry charts compare main `6111d0b1` with the ZSet optimizatio
 
 ![Sorted Set 100 MiB per key, 1 KiB entries: ZRANGE WITHSCORES QPS by connection count](charts/zset-104857600-1024-ab-full.png)
 
-**ZSet: measured main `6111d0b1` and [PR #246](https://github.com/eloqdata/lavik/pull/246) `199b08e0`, with Redis, Valkey and Kvrocks.** 8 keys × 100 MiB/key; 1 KiB/entry. Each version independently seeds fresh media on the same host; every-key checks pass before/after, with zero errors at all points.The #244 curve retains its measured older base `44761b91`; its differences do not establish gains over the new main. [Main raw](raw/lavik-zset-main6111d0b1-k8-104857600-f1024-20261003/) · [PR raw](raw/lavik-zset-pr199b08e0-k8-104857600-f1024-20261003/).
+**ZSet: measured main `6111d0b1` and [PR #246](https://github.com/eloqdata/lavik/pull/246) `95f2c398`, with Redis, Valkey and Kvrocks.** 8 keys × 100 MiB/key; 1 KiB/entry. Each version independently seeds fresh media on the same host; every-key checks pass before/after, with zero errors at all points.The #244 curve retains its measured older base `44761b91`; its differences do not establish gains over the new main. [Main raw](raw/lavik-zset-main6111d0b1-k8-104857600-f1024-20261003/) · [PR raw](raw/lavik-zset-pr95f2c398-k8-104857600-f1024-20261003/).
 
 ## Measurement limits
 
@@ -348,7 +339,7 @@ The [HGETALL memory investigation](diagnostics/hgetall-oom-20260929/README.md) a
 
 ## Stream
 
-This condition retains measured main `06562381`, awaiting the current-main refresh.
+The 100 MiB / 1 KiB charts use measured main `44761b91` and PR #244; smaller supplemental charts retain their measured historical revisions.
 
 Point reads and writes cover 80–5120 connections. Full reads use 16/80 for the smaller sizes and 1/4/16 for 100 MiB. Redis and Valkey have persistence disabled; Kvrocks has WAL disabled with an 80 GiB block cache; Lavik commits to SPDK. Write QPS reflects these configurations.
 
