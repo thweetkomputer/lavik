@@ -340,7 +340,10 @@ The [HGETALL memory investigation](diagnostics/hgetall-oom-20260929/README.md) a
 
 ## Stream
 
-The 100 MiB / 1 KiB charts use measured main `44761b91` and PR #244; smaller supplemental charts retain their measured historical revisions.
+[Current Stream measurements by connection count](stream-write-summary.json) · [perf, build and test evidence](diagnostics/stream-write-20261003/README.md).
+
+
+New 1 MiB/100 MiB, 1 KiB-entry charts use main `6111d0b1` and PR #247; remaining supplements retain their measured historical revisions.
 
 Point reads and writes cover 80–5120 connections. Full reads use 16/80 for the smaller sizes and 1/4/16 for 100 MiB. Redis and Valkey have persistence disabled; Kvrocks has WAL disabled with an 80 GiB block cache; Lavik commits to SPDK. Write QPS reflects these configurations.
 
