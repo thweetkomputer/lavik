@@ -8,7 +8,7 @@ key, and payload bytes per entry. The horizontal axis is simultaneous
 connections; the vertical axis is completed commands per second.
 
 
-**October 3 main refresh: `44761b91` includes #235/#243; 8/8 Hash/Set conditions updated. Each completed chart is pushed immediately; pending charts retain their actual measured old version.**
+**October 3 main refresh is complete: `44761b91` includes #235/#243. Eight Hash/Set conditions, two high-key LSET conditions and three 100 MiB List/ZSet/Stream supplemental conditions compare this measured main with unmerged [PR #244](https://github.com/eloqdata/lavik/pull/244) `faaaba58` in the same five-series charts.**
 
 Merged PR #235 curves are removed. Pending main curves still measure `06562381`, not the latest code. Earlier supplementary List/Stream/ZSet workloads keep explicit measured versions.
 
@@ -20,7 +20,7 @@ Redis/Valkey disable persistence; Kvrocks uses uncompressed RAID0, disabled WAL 
 Scratch NVMe serials/PCI addresses changed since October 1; all six dedicated devices were checked for mounts and RAID holders. This run uses AMD EPYC 9V74, 16 vCPUs and 12 server workers. Peer curves retain historical matched-workload results; cross-round differences cannot be attributed solely to code. Current main and upcoming optimizations will be compared directly on this host. [Host and build proof](diagnostics/main-refresh-20261003/host-and-build.json).
 
 
-**Further optimization: [PR #244](https://github.com/eloqdata/lavik/pull/244) coalesces inline grouped-record coordinate updates to reduce repeated index-path and 64-entry page copying, and removes publication allocations and repeated route lookup. Completed workloads add PR curves directly to four-database charts; pending workloads retain measured main only.**
+**Further optimization: [PR #244](https://github.com/eloqdata/lavik/pull/244) `faaaba58` coalesces inline grouped-record coordinate updates, reduces index-path/page copying, and removes publication allocations and repeated route lookup. It retains metadata only, with no field/page payload cache; String keeps its positional index. Each workload is one connection sweep, not a statistical repeat experiment.**
 
 [October 3 HSET index diagnosis and measured results](diagnostics/main-refresh-20261003/index-publication-diagnosis.md).
 
