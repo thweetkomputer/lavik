@@ -7,7 +7,7 @@ Redis 兼容数据结构。每张图固定数据结构、每个 key 的逻辑数
 每个元素的字节数。横轴为连接数，纵轴为每秒完成的命令数。
 
 
-**10 月 3 日 main 复测已完成：`44761b91`（#235/#243 已合并）。Hash/Set 8 组、较多 key 的 LSET 2 组，以及 List/ZSet/Stream 的 100 MiB 补充负载 3 组，均与未合并 [PR #244](https://github.com/eloqdata/lavik/pull/244) `faaaba58` 在同一张五库图中比较。**
+**10 月 3 日 main 复测已完成：`44761b91`（#235/#243 已合并）。Hash/Set 8 组、较多 key 的 LSET 2 组，以及 List/ZSet/Stream 的 100 MiB 补充负载 3 组，均与未合并 [PR #244](https://github.com/eloqdata/lavik/pull/244) `faaaba58` 在同一张图中比较。**
 
 当前对照图只保留最新实测 main 与未合并 #244，已移除合并 #235 的独立曲线。早期、较少 key 的补充图保留实际旧版本结果，不代表当前 main。
 
@@ -20,6 +20,8 @@ Redis/Valkey 不持久化；Kvrocks 为无压缩 RAID0、关闭 WAL、80 GiB blo
 
 
 **后续优化：[PR #244](https://github.com/eloqdata/lavik/pull/244) `faaaba58` 合并内联分组物理坐标更新，减少索引路径和坐标页的重复复制，同时减少元数据分配和重复路由查找。只保存索引元数据，没有缓存字段或页内容；String 保持原有位置索引。每档结果为本轮一次连接扫描，不是统计重复实验。**
+
+**ZSet 后续复测：#242 合并后，本章新图改为 main `6111d0b1` 与 [PR #246](https://github.com/eloqdata/lavik/pull/246)。其他章节仍采用实际测量的 `44761b91`，每张图注明版本。**
 
 ## List
 
@@ -152,13 +154,13 @@ Redis/Valkey 不持久化；Kvrocks 为无压缩 RAID0、关闭 WAL、80 GiB blo
 
 本轮独立预置计时：1 MiB 为 50,000 个 key、32 个客户端；100 MiB 为 500 个 key、8 个客户端。只包含 RESTORE 灌入，不包含随后清理和恢复；不与三库的 HSET/SADD 导入计时混比。
 
-此组保留实际 main `06562381` 测量，等待最新 main 复测。
+新复测的 1 KiB 元素图使用 main `6111d0b1`，并与 ZSet 优化 PR 比较；其他补充负载保留实际历史版本，各图注明版本。
 
-此组保留实际 main `06562381` 测量，等待最新 main 复测。
+新复测的 1 KiB 元素图使用 main `6111d0b1`，并与 ZSet 优化 PR 比较；其他补充负载保留实际历史版本，各图注明版本。
 
-此组保留实际 main `06562381` 测量，等待最新 main 复测。
+新复测的 1 KiB 元素图使用 main `6111d0b1`，并与 ZSet 优化 PR 比较；其他补充负载保留实际历史版本，各图注明版本。
 
-此组保留实际 main `06562381` 测量，等待最新 main 复测。
+新复测的 1 KiB 元素图使用 main `6111d0b1`，并与 ZSet 优化 PR 比较；其他补充负载保留实际历史版本，各图注明版本。
 
 ## Set
 
@@ -226,13 +228,13 @@ Redis/Valkey 不持久化；Kvrocks 为无压缩 RAID0、关闭 WAL、80 GiB blo
 
 本轮独立预置计时：1 MiB 为 50,000 个 key、32 个客户端；100 MiB 为 500 个 key、8 个客户端。只包含 RESTORE 灌入，不包含随后清理和恢复；不与三库的 HSET/SADD 导入计时混比。
 
-此组保留实际 main `06562381` 测量，等待最新 main 复测。
+新复测的 1 KiB 元素图使用 main `6111d0b1`，并与 ZSet 优化 PR 比较；其他补充负载保留实际历史版本，各图注明版本。
 
-此组保留实际 main `06562381` 测量，等待最新 main 复测。
+新复测的 1 KiB 元素图使用 main `6111d0b1`，并与 ZSet 优化 PR 比较；其他补充负载保留实际历史版本，各图注明版本。
 
-此组保留实际 main `06562381` 测量，等待最新 main 复测。
+新复测的 1 KiB 元素图使用 main `6111d0b1`，并与 ZSet 优化 PR 比较；其他补充负载保留实际历史版本，各图注明版本。
 
-此组保留实际 main `06562381` 测量，等待最新 main 复测。
+新复测的 1 KiB 元素图使用 main `6111d0b1`，并与 ZSet 优化 PR 比较；其他补充负载保留实际历史版本，各图注明版本。
 
 ## 工作负载
 
@@ -276,7 +278,7 @@ value、member 或元素为 128 B 或 1 KiB。Stream 的字段名和各结构元
 
 ## Sorted Set
 
-此组保留实际 main `06562381` 测量，等待最新 main 复测。
+新复测的 1 KiB 元素图使用 main `6111d0b1`，并与 ZSet 优化 PR 比较；其他补充负载保留实际历史版本，各图注明版本。
 
 ### ZSCORE / ZINCRBY
 
@@ -298,7 +300,7 @@ value、member 或元素为 128 B 或 1 KiB。Stream 的字段名和各结构元
 
 ![Sorted Set 100 MiB、1 KiB：ZSCORE / ZINCRBY QPS 随连接数变化](charts/zset-104857600-1024-ab.png)
 
-**最新 main `44761b91` 与 [PR #244](https://github.com/eloqdata/lavik/pull/244) `faaaba58` 同图，同时保留 Redis、Valkey、Kvrocks。** 8 keys × 100 MiB/key; 1024 B/entry. 两版本本轮同机独立清盘灌入，逐 key 前后校验通过，全部测点零错误。 [PR raw](raw/lavik-index-pr244-faaaba58-ordered-zset-104857600-k8-f1024-20261003/) · [Main raw](raw/lavik-main44761-ordered-zset-104857600-k8-f1024-20261003/).
+**ZSet：main `6111d0b1` 与 [PR #246](https://github.com/eloqdata/lavik/pull/246) `199b08e0`，同图保留 Redis、Valkey、Kvrocks。** 8 keys × 100 MiB/key; 1 KiB/entry. 两版本同机独立清盘灌入，逐 key 前后校验通过，全部测点零错误。 #244 曲线保留其实际旧基线 `44761b91`，其差值不代表相对新 main 的优化收益。 [Main raw](raw/lavik-zset-main6111d0b1-k8-104857600-f1024-20261003/) · [PR raw](raw/lavik-zset-pr199b08e0-k8-104857600-f1024-20261003/).
 
 
 ### ZRANGE WITHSCORES
@@ -321,6 +323,8 @@ value、member 或元素为 128 B 或 1 KiB。Stream 的字段名和各结构元
 
 ![Sorted Set 100 MiB、1 KiB：ZRANGE WITHSCORES QPS 随连接数变化](charts/zset-104857600-1024-ab-full.png)
 
+**ZSet：main `6111d0b1` 与 [PR #246](https://github.com/eloqdata/lavik/pull/246) `199b08e0`，同图保留 Redis、Valkey、Kvrocks。** 8 keys × 100 MiB/key; 1 KiB/entry. 两版本同机独立清盘灌入，逐 key 前后校验通过，全部测点零错误。 #244 曲线保留其实际旧基线 `44761b91`，其差值不代表相对新 main 的优化收益。 [Main raw](raw/lavik-zset-main6111d0b1-k8-104857600-f1024-20261003/) · [PR raw](raw/lavik-zset-pr199b08e0-k8-104857600-f1024-20261003/).
+
 ## 测量边界
 
 每点运行八秒、只测一次，QPS 没有重复测量置信区间。Redis/Valkey 关闭持久化，Kvrocks 关闭 WAL 并使用 80 GiB block cache，Lavik 向 SPDK 提交；写入曲线不可解释为同等持久性下的排名。100 MiB 的全量读取有些测点不足 100 次完成回复，小差异不宜过度解释。
@@ -329,7 +333,7 @@ value、member 或元素为 128 B 或 1 KiB。Stream 的字段名和各结构元
 
 ## Stream
 
-此组保留实际 main `06562381` 测量，等待最新 main 复测。
+新复测的 1 KiB 元素图使用 main `6111d0b1`，并与 ZSet 优化 PR 比较；其他补充负载保留实际历史版本，各图注明版本。
 
 点查和写入覆盖 80–5120 连接；小档完整读取覆盖 16/80 连接，100 MiB 档覆盖 1/4/16 连接。Redis 和 Valkey 关闭持久化，Kvrocks 关闭 WAL 且启用 80 GiB block cache，Lavik 提交到 SPDK；写入结果反映这些具体配置。
 
