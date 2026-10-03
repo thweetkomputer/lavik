@@ -16,7 +16,7 @@ Redis/Valkey 不持久化；Kvrocks 为无压缩 RAID0、关闭 WAL、80 GiB blo
 [历史 HSET perf 诊断](diagnostics/shared-pipeline-20261001/hset-deep-diagnosis.md)：已补齐 12 个 worker 调用链，后续优化先减少重复索引查找、临时分配和页内重建。历史 PR 对比仅保存在原始测量与诊断文档中。
 
 
-本轮测试盘序列号/PCI 地址与 10 月 1 日不同，已重新核对六块无挂载、无 RAID 占用的专用 NVMe；CPU 为 AMD EPYC 9V74、16 vCPU，仍使用 12 个服务 worker。其他三库保留历史同负载结果，不能把跨轮差值全部归因于代码。新 main 与后续优化会在本轮机器上直接比较。[本轮硬件与构建证明](diagnostics/main-refresh-20261003/host-and-build.json)。
+本轮测试盘序列号/PCI 地址与 10 月 1 日不同，已重新核对六块无挂载、无 RAID 占用的专用 NVMe；CPU 为 AMD EPYC 9V74、16 vCPU，仍使用 12 个服务 worker。其他三库保留历史同负载结果，不能把跨轮差值全部归因于代码。新 main 与后续优化会在本轮机器上直接比较。[本轮硬件与构建证明](diagnostics/main-refresh-20261003/host-and-build.json)。 [本轮 HSET 索引诊断与实测收益](diagnostics/main-refresh-20261003/index-publication-diagnosis.md)。
 
 
 **后续优化：[PR #244](https://github.com/eloqdata/lavik/pull/244) 合并内联分组的物理坐标更新，减少索引路径和 64 项坐标页的重复复制；同时减少元数据分配和重复路由查找。已完成负载会直接加在四库图上，待测负载暂只显示实测 main。**
@@ -182,7 +182,7 @@ Redis/Valkey 不持久化；Kvrocks 为无压缩 RAID0、关闭 WAL、80 GiB blo
 
 ![Set 100 MiB, 1024 B: SISMEMBER / SADD + SREM](charts/set-104857600-1024-ab.png)
 
-**最新 main `44761b91` 实测，与 Redis、Valkey、Kvrocks 同图；新版 #244 待测。** 500 keys × 100 MiB/key; 1024 B/entry. [Main raw](raw/lavik-main44761-hashset-set-104857600-k500-f1024-20261003/).
+**最新 main `44761b91` 与 [PR #244](https://github.com/eloqdata/lavik/pull/244) `faaaba58` 同图，同时保留 Redis、Valkey、Kvrocks。** 500 keys × 100 MiB/key; 1024 B/entry. 两版本本轮同机独立清盘灌入，逐 key 前后校验通过，全部测点零错误。 [PR raw](raw/lavik-index-pr244-faaaba58-hashset-set-104857600-k500-f1024-20261003/) · [Main raw](raw/lavik-main44761-hashset-set-104857600-k500-f1024-20261003/).
 
 ### SMEMBERS
 
