@@ -1,0 +1,15 @@
+{
+  "pr": 273,
+  "failed_head": "d5ca3a1b68f9a0ed3b5cebc7022d7622811333ae",
+  "run": "https://github.com/eloqdata/lavik/actions/runs/37241436317",
+  "job": "https://github.com/eloqdata/lavik/actions/runs/37241436317/job/111552205511",
+  "test": "meta_integration.gate_native_replication / full_tail_collection_transactions",
+  "failure": "LOADING at first collection assertion after Meta created/ready. Initial FULL activated23:07:07.826; initialization directive removed23:07:07.880; ingress retired/reconnecting23:07:07.992. Existing replay fixture already distinguishes Meta readiness from live replica readiness.",
+  "fix_commit": "d012a3013da99344a419bb692f834b17fd6dcad4",
+  "fix_status": "Pushed; newCI37243651484 pending; oldrunrecordedbeforeautomaticcancellation",
+  "fix": "Factor existing live-flow/known-seed probe. For FULL-tail collection assertions require CONTINUE for all source workers, matching online flow counts and readable baseline via fresh disposable connection. Then assert all expected collection values once and retain exactly one original FULL per source worker. No retry of collection values or extra FULL permitted.",
+  "evidence": "pr273-amd64-2.log and146263-byte results artifact11318495627 saved in iteration workdir",
+  "time": 1791156409.8882513,
+  "sentinel_failure": "arm64shard5 sentinel_ha_meta: serial probes exhaust common30-second deadline; cherry-picked e6ae3d78 fromPR271 asd012a301. Four helperunits previouslypassedat e6; no newlocaltests duringbench.",
+  "ci": "https://github.com/eloqdata/lavik/actions/runs/37243651484"
+}
