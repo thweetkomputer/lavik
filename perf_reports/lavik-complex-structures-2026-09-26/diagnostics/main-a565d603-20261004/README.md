@@ -44,3 +44,13 @@ They cannot establish how many disk operations a reused leaf would save.
 
 [Recorder arguments, threads, metrics and self reports](zset-100m-profile/)
 retain the diagnostic evidence. Diagnostic QPS is excluded from throughput curves.
+
+## Large List range diagnosis
+
+The refreshed `a565d603` 8 × 100 MiB List with 128 B elements repeats the historical 16-connection LRANGE failure: [raw error](../../raw/lavik-maina565d603-ordered-list-104857600-k8-f128-20261004/list-104857600-128-lrange-c16.error.json). The server reports `OOM grouped operation scratch admission`; successful responses from that errored point are not plotted as successful QPS. Post-run cardinalities validate and the server exits cleanly. The configured memory limit is about 100.6 GiB, with worker-local shares; this failure does not mean the host exhausted RAM.
+
+Separate diagnostics record LRANGE at one connection and LSET at 80 connections: [range samples](list-range-main-workers.json), [write samples](list-write-main-workers.json), [range recorder and counters](list-100m-128-range-profile/), [write recorder and counters](list-100m-128-write-profile/), and [I/O summary](list-100m-128-io.json). These diagnostic QPS are not curve points.
+
+The range interval completes 25 commands and records 353,125 physical reads (14,125 per command), with no physical writes. All-worker self task-clock assigns 42.22% to Worker::RunOnce and 30.76% to PollStorage, versus 2.09% to memmove. These shares include polling/background work and do not measure I/O-wait latency. Source inspection shows that range pages are loaded sequentially; the evidence motivates testing bounded concurrent page reads before focusing on small copy costs.
+
+The read adapter also reserves four complete payload/entry budgets although it moves decoded strings into the reply without a second string payload copy. Physical read buffers are separately accounted. Read-only admission and bounded read concurrency are the next candidate changes; no improvement is claimed until the candidate is tested and measured.
