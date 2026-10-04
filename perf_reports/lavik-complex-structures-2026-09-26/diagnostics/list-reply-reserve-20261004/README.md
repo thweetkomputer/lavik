@@ -73,3 +73,7 @@ The clean 8-key sweep uses the same immutable `ff9e3655` binary. [All points and
 | LSET | 1280 | 46997.25 | 46220.43 | -1.7% |
 | LSET | 2560 | 47316.22 | 45169.72 | -4.5% |
 | LSET | 5120 | 46461.04 | 45639.81 | -1.8% |
+
+## 后续 main 同步
+
+main 已前进至 `19496654`。List 分支已解决冲突，并把批量启动失败的测试故障点改成显式 admission 错误，保留所有已启动读取的 join；实际 C++ 分配异常遵循 main 的终止策略。[新提交及待完成的 CI](../main-a565d603-20261004/pr-main-integration.json)。本页吞吐、perf 与旧 CI 仍对应各自记录的冻结提交，不代表新提交已完成测量；64 页版本已有的尾延迟和写入退化结论仍然保留。

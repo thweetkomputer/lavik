@@ -245,6 +245,8 @@ def readme(manifest, zh):
     if active:
         links = " · ".join(f"[PR #{number}]({url})" for number, url in sorted(active.items()))
         lines += [("未合并优化：" if zh else "Unmerged optimizations: ") + links, ""]
+    if (ROOT / "diagnostics/main-a565d603-20261004/pr-main-integration.json").exists():
+        lines += ["main 随后更新至 `19496654`；本页仍使用固定基线 `a565d603`。[优化分支的新提交与验证状态](diagnostics/main-a565d603-20261004/pr-main-integration.json)，新提交尚未替换已测量二进制。" if zh else "Main subsequently advanced to `19496654`; this report retains pinned baseline `a565d603`. [Integrated PR heads and validation status](diagnostics/main-a565d603-20261004/pr-main-integration.json) remain separate from the measured binaries.", ""]
     if (ROOT / "diagnostics/stream-suffix-20261004/README.md").exists():
         lines += ["[Stream 尾部目录复用：吞吐、交替复测、perf 与测试](diagnostics/stream-suffix-20261004/README.md)" if zh else "[Stream suffix directory reuse: throughput, paired runs, perf and tests](diagnostics/stream-suffix-20261004/README.md)", ""]
     if (ROOT / "diagnostics/stream-range-main-20261004/README.md").exists():
