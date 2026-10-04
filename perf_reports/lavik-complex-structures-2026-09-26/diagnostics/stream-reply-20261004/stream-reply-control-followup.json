@@ -1,0 +1,67 @@
+{
+  "candidate": {
+    "commit": "1e87107e51d658944998ec74ff05b57d2e8f40c8",
+    "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-stream-reply-1e87107e-20261004",
+    "sha256": "3d0e4a86d6f7d8b5a637aa76d5febf789e9c1f48dac31a4a9d2645089406d798",
+    "source_repo": "/mnt/dev/lavik-complex-next-20261004",
+    "bycorf_commit": "62509c93d40c2480f5046b71454db6cf95801b04",
+    "build": "RelWithDebInfo, native, LTO, GCC 13, SPDK, BUILD_TESTING=OFF, LAVIK_ENABLE_TEST_FAULTS=OFF",
+    "build_directory": "/mnt/dev/lavik-complex-next-20261004/build-spdk",
+    "no_build_or_tests_during_measurements": true
+  },
+  "selected_regressions": [
+    {
+      "size": 104857600,
+      "field": 128,
+      "keys": 8,
+      "source": "stream-reply-comparison-stream-104857600-128-k8.json",
+      "operation": "XADD_MAXLEN",
+      "connections": 5120,
+      "main_qps": 17142.09,
+      "candidate_qps": 15105.31,
+      "qps_change_percent": -11.881748374906442,
+      "main_p99_ms": 729.087,
+      "candidate_p99_ms": 1564.671
+    },
+    {
+      "size": 65536,
+      "field": 1024,
+      "keys": 64,
+      "source": "stream-reply-comparison-stream-65536-1024-k64.json",
+      "operation": "XRANGE",
+      "connections": 5120,
+      "main_qps": 202138.89,
+      "candidate_qps": 189977.95,
+      "qps_change_percent": -6.016130790072117,
+      "main_p99_ms": 454.655,
+      "candidate_p99_ms": 493.567
+    },
+    {
+      "size": 65536,
+      "field": 1024,
+      "keys": 64,
+      "source": "stream-reply-comparison-stream-65536-1024-k64.json",
+      "operation": "XRANGE_FULL",
+      "connections": 80,
+      "main_qps": 24237.96,
+      "candidate_qps": 44523.47,
+      "qps_change_percent": 83.69314084188603,
+      "main_p99_ms": 5.503,
+      "candidate_p99_ms": 5.919
+    },
+    {
+      "size": 65536,
+      "field": 1024,
+      "keys": 64,
+      "source": "stream-reply-comparison-stream-65536-1024-k64.json",
+      "operation": "XADD_MAXLEN",
+      "connections": 2560,
+      "main_qps": 65838.51,
+      "candidate_qps": 64222.34,
+      "qps_change_percent": -2.454748748111091,
+      "main_p99_ms": 242.687,
+      "candidate_p99_ms": 305.151
+    }
+  ],
+  "status": "Single sweeps; paired controls pending, no causal regression claim yet."
+}
