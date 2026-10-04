@@ -37,7 +37,7 @@ hypothesis requires separate correctness and clean throughput validation.
 
 [Server counter deltas](zset-main-io.json) cover 1,137,092 ZINCRBY commands and
 include background storage work. They show 0.195 completed storage reads and
-1.846 writes per command, with about 18.5 KiB read and 21.6 KiB written per
+1.846 writes per command, with about 18.5 kB read and 21.6 kB written per
 command (decimal byte ratios). These physical counters do not count logical
 leaf loads: reads can be served from live write buffers or share larger reads.
 They cannot establish how many disk operations a reused leaf would save.
