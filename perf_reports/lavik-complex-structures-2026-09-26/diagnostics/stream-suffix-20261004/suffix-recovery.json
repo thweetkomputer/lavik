@@ -1,0 +1,292 @@
+{
+  "tests": 27,
+  "failures": 0,
+  "disabled": 0,
+  "errors": 0,
+  "timestamp": "2026-10-04T15:48:44Z",
+  "time": "19.872s",
+  "name": "AllTests",
+  "testsuites": [
+    {
+      "name": "GroupedRecoveryE2e",
+      "tests": 27,
+      "failures": 0,
+      "disabled": 0,
+      "errors": 0,
+      "timestamp": "2026-10-04T15:48:44Z",
+      "time": "19.872s",
+      "testsuite": [
+        {
+          "name": "RestoresRootAndAuxiliaryWithoutExposingExtraKeys",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/recovery_e2e_test.cpp",
+          "line": 531,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-04T15:48:44Z",
+          "time": "0.093s",
+          "classname": "GroupedRecoveryE2e"
+        },
+        {
+          "name": "IgnoresUncommittedAndFutureGroupVersions",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/recovery_e2e_test.cpp",
+          "line": 547,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-04T15:48:44Z",
+          "time": "0.093s",
+          "classname": "GroupedRecoveryE2e"
+        },
+        {
+          "name": "FailedCommandBatchDoesNotCommitWithItsOuterTransaction",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/recovery_e2e_test.cpp",
+          "line": 567,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-04T15:48:44Z",
+          "time": "0.325s",
+          "classname": "GroupedRecoveryE2e"
+        },
+        {
+          "name": "RejectsCommittedRootWithMissingGroup",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/recovery_e2e_test.cpp",
+          "line": 610,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-04T15:48:44Z",
+          "time": "0.101s",
+          "classname": "GroupedRecoveryE2e"
+        },
+        {
+          "name": "ManyInlineOrderedRootsRecoverOnSmallStack",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/recovery_e2e_test.cpp",
+          "line": 622,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-04T15:48:44Z",
+          "time": "0.278s",
+          "classname": "GroupedRecoveryE2e"
+        },
+        {
+          "name": "LegacySortedSetCanStillMutateAndRecover",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/recovery_e2e_test.cpp",
+          "line": 666,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-04T15:48:44Z",
+          "time": "0.446s",
+          "classname": "GroupedRecoveryE2e"
+        },
+        {
+          "name": "IndexedSortedSetRequiresAndChecksMemberGraph",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/recovery_e2e_test.cpp",
+          "line": 700,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-04T15:48:45Z",
+          "time": "0.786s",
+          "classname": "GroupedRecoveryE2e"
+        },
+        {
+          "name": "RetainsSplitParentRetirementEvidence",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/recovery_e2e_test.cpp",
+          "line": 767,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-04T15:48:46Z",
+          "time": "0.093s",
+          "classname": "GroupedRecoveryE2e"
+        },
+        {
+          "name": "ValidatesOversizedGroupBeyondItsEnvelopeExtent",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/recovery_e2e_test.cpp",
+          "line": 795,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-04T15:48:46Z",
+          "time": "0.122s",
+          "classname": "GroupedRecoveryE2e"
+        },
+        {
+          "name": "RestoresOversizedGroupAcrossWorkerTopologyChange",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/recovery_e2e_test.cpp",
+          "line": 812,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-04T15:48:46Z",
+          "time": "0.13s",
+          "classname": "GroupedRecoveryE2e"
+        },
+        {
+          "name": "ObsoleteGroupDoesNotReadAlreadyReclaimedValueExtents",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/recovery_e2e_test.cpp",
+          "line": 829,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-04T15:48:46Z",
+          "time": "0.097s",
+          "classname": "GroupedRecoveryE2e"
+        },
+        {
+          "name": "CheckpointDeclinesSafelyAndColdRecoveryRetainsGraph",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/recovery_e2e_test.cpp",
+          "line": 848,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-04T15:48:46Z",
+          "time": "0.364s",
+          "classname": "GroupedRecoveryE2e"
+        },
+        {
+          "name": "FlushDbDetachesAndRetiresTheCompleteGraph",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/recovery_e2e_test.cpp",
+          "line": 870,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-04T15:48:46Z",
+          "time": "0.669s",
+          "classname": "GroupedRecoveryE2e"
+        },
+        {
+          "name": "AuxiliaryAndRootGcCrashKeepTheDurableGraph",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/recovery_e2e_test.cpp",
+          "line": 893,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-04T15:48:47Z",
+          "time": "0.7s",
+          "classname": "GroupedRecoveryE2e"
+        },
+        {
+          "name": "CommandBatchCrashNeverPublishesWithoutOuterDecision",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/recovery_e2e_test.cpp",
+          "line": 936,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-04T15:48:48Z",
+          "time": "0.565s",
+          "classname": "GroupedRecoveryE2e"
+        },
+        {
+          "name": "FailedPostRootBatchPoisonsOuterCommit",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/recovery_e2e_test.cpp",
+          "line": 974,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-04T15:48:48Z",
+          "time": "0.191s",
+          "classname": "GroupedRecoveryE2e"
+        },
+        {
+          "name": "FailedMultiKeyOverwriteRestoresTheGroupedGraph",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/recovery_e2e_test.cpp",
+          "line": 1035,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-04T15:48:49Z",
+          "time": "0.75s",
+          "classname": "GroupedRecoveryE2e"
+        },
+        {
+          "name": "SameCommandRootsUseRevisionBeforePhysicalLsn",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/recovery_e2e_test.cpp",
+          "line": 1082,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-04T15:48:49Z",
+          "time": "0.326s",
+          "classname": "GroupedRecoveryE2e"
+        },
+        {
+          "name": "PublicationLsnFollowsGcDuringForegroundAllocationWait",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/recovery_e2e_test.cpp",
+          "line": 1116,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-04T15:48:50Z",
+          "time": "1.213s",
+          "classname": "GroupedRecoveryE2e"
+        },
+        {
+          "name": "TaggedRootDependencyPinsCrossRecoveredPhysicalOwners",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/recovery_e2e_test.cpp",
+          "line": 1158,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-04T15:48:51Z",
+          "time": "2.597s",
+          "classname": "GroupedRecoveryE2e"
+        },
+        {
+          "name": "FailedOverwriteReleasesTaggedRootOnItsPhysicalOwner",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/recovery_e2e_test.cpp",
+          "line": 1220,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-04T15:48:53Z",
+          "time": "1.296s",
+          "classname": "GroupedRecoveryE2e"
+        },
+        {
+          "name": "OrderedRetirementSkipsFreedObsoletePageExtents",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/recovery_e2e_test.cpp",
+          "line": 1263,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-04T15:48:55Z",
+          "time": "0.688s",
+          "classname": "GroupedRecoveryE2e"
+        },
+        {
+          "name": "OrderedOversizedItemChecksEveryLiveExtent",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/recovery_e2e_test.cpp",
+          "line": 1318,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-04T15:48:55Z",
+          "time": "0.59s",
+          "classname": "GroupedRecoveryE2e"
+        },
+        {
+          "name": "OrderedGcCrashesPreservePagesMarkersAndRoot",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/recovery_e2e_test.cpp",
+          "line": 1360,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-04T15:48:56Z",
+          "time": "1.488s",
+          "classname": "GroupedRecoveryE2e"
+        },
+        {
+          "name": "OrderedBgSavePinsExactPreCutPagesAndExpiration",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/recovery_e2e_test.cpp",
+          "line": 1416,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-04T15:48:58Z",
+          "time": "3.099s",
+          "classname": "GroupedRecoveryE2e"
+        },
+        {
+          "name": "BgSaveRetainsPreCutGroupedValueAcrossReplacement",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/recovery_e2e_test.cpp",
+          "line": 1488,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-04T15:49:01Z",
+          "time": "1.539s",
+          "classname": "GroupedRecoveryE2e"
+        },
+        {
+          "name": "FlushDbCancelsPausedGroupedSnapshotWithoutLeakingPins",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/recovery_e2e_test.cpp",
+          "line": 1529,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-04T15:49:02Z",
+          "time": "1.221s",
+          "classname": "GroupedRecoveryE2e"
+        }
+      ]
+    }
+  ]
+}

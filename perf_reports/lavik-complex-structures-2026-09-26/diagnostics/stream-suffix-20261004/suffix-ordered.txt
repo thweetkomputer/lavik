@@ -1,0 +1,263 @@
+[==========] Running 104 tests from 15 test suites.
+[----------] Global test environment set-up.
+[----------] 14 tests from GroupedStreamE2e
+[ RUN      ] GroupedStreamE2e.SmallStreamKeepsCompactStorage
+[       OK ] GroupedStreamE2e.SmallStreamKeepsCompactStorage (253 ms)
+[ RUN      ] GroupedStreamE2e.ConcurrentDurabilityWaitersRecheckPartialFlushes
+[       OK ] GroupedStreamE2e.ConcurrentDurabilityWaitersRecheckPartialFlushes (546 ms)
+[ RUN      ] GroupedStreamE2e.PromotesAtSharedSizeBoundaryAndRecovers
+[       OK ] GroupedStreamE2e.PromotesAtSharedSizeBoundaryAndRecovers (630 ms)
+[ RUN      ] GroupedStreamE2e.AppendOnlyRewritesBoundedPagesAndRecovers
+[       OK ] GroupedStreamE2e.AppendOnlyRewritesBoundedPagesAndRecovers (668 ms)
+[ RUN      ] GroupedStreamE2e.DeleteRoutesIdsAndPreservesPendingAndNodeBoundaries
+[       OK ] GroupedStreamE2e.DeleteRoutesIdsAndPreservesPendingAndNodeBoundaries (319 ms)
+[ RUN      ] GroupedStreamE2e.EmptyStreamRetainsGroupsAndPendingAcrossRecovery
+[       OK ] GroupedStreamE2e.EmptyStreamRetainsGroupsAndPendingAcrossRecovery (322 ms)
+[ RUN      ] GroupedStreamE2e.BinaryNamesLargeIdsAndApproximateNodes
+[       OK ] GroupedStreamE2e.BinaryNamesLargeIdsAndApproximateNodes (122 ms)
+[ RUN      ] GroupedStreamE2e.MultipleConsumersSparseAcksCopyAndRename
+[       OK ] GroupedStreamE2e.MultipleConsumersSparseAcksCopyAndRename (313 ms)
+[ RUN      ] GroupedStreamE2e.FailedAppendCannotLeakIntoFollowingAckInExec
+[       OK ] GroupedStreamE2e.FailedAppendCannotLeakIntoFollowingAckInExec (533 ms)
+[ RUN      ] GroupedStreamE2e.RewoundNoAckAndForceClaimPreserveUnloadedPending
+[       OK ] GroupedStreamE2e.RewoundNoAckAndForceClaimPreserveUnloadedPending (103 ms)
+[ RUN      ] GroupedStreamE2e.ExpirationDeletionAndFlushCannotResurrectOldGraphs
+[       OK ] GroupedStreamE2e.ExpirationDeletionAndFlushCannotResurrectOldGraphs (539 ms)
+[ RUN      ] GroupedStreamE2e.AggregateAbove512MiBKeepsHotPathsAndRecoveryBounded
+[       OK ] GroupedStreamE2e.AggregateAbove512MiBKeepsHotPathsAndRecoveryBounded (1833 ms)
+[ RUN      ] GroupedStreamE2e.LargeRepliesKeepSnapshotsAndDeletedHistory
+[       OK ] GroupedStreamE2e.LargeRepliesKeepSnapshotsAndDeletedHistory (3590 ms)
+[ RUN      ] GroupedStreamE2e.LargeRdbRoundTripKeepsMessagesAndDeletedPendingBounded
+[       OK ] GroupedStreamE2e.LargeRdbRoundTripKeepsMessagesAndDeletedPendingBounded (24736 ms)
+[----------] 14 tests from GroupedStreamE2e (34514 ms total)
+
+[----------] 1 test from GroupedListWriteE2e
+[ RUN      ] GroupedListWriteE2e.SuspendedReadersReleaseWorkerState
+[       OK ] GroupedListWriteE2e.SuspendedReadersReleaseWorkerState (314 ms)
+[----------] 1 test from GroupedListWriteE2e (314 ms total)
+
+[----------] 1 test from GroupedDemotionE2e
+[ RUN      ] GroupedDemotionE2e.StringListSetSortedSetGeoAndStreamRecoverCompact
+[       OK ] GroupedDemotionE2e.StringListSetSortedSetGeoAndStreamRecoverCompact (474 ms)
+[----------] 1 test from GroupedDemotionE2e (474 ms total)
+
+[----------] 4 tests from GroupedStringWriteE2e
+[ RUN      ] GroupedStringWriteE2e.FixedSegmentsPointWritesTtlAndRecovery
+[       OK ] GroupedStringWriteE2e.FixedSegmentsPointWritesTtlAndRecovery (824 ms)
+[ RUN      ] GroupedStringWriteE2e.LongKeysPromoteAndRecover
+[       OK ] GroupedStringWriteE2e.LongKeysPromoteAndRecover (565 ms)
+[ RUN      ] GroupedStringWriteE2e.TransactionsTransferAndRdbKeepStringSemantics
+[       OK ] GroupedStringWriteE2e.TransactionsTransferAndRdbKeepStringSemantics (325 ms)
+[ RUN      ] GroupedStringWriteE2e.ExpirationRestoresBoundedDeviceCapacity
+[       OK ] GroupedStringWriteE2e.ExpirationRestoresBoundedDeviceCapacity (2412 ms)
+[----------] 4 tests from GroupedStringWriteE2e (4128 ms total)
+
+[----------] 7 tests from IndirectKeyE2e
+[ RUN      ] IndirectKeyE2e.BoundarySharedSegmentsAndExtentRecoverAcrossWorkers
+[       OK ] IndirectKeyE2e.BoundarySharedSegmentsAndExtentRecoverAcrossWorkers (1219 ms)
+[ RUN      ] IndirectKeyE2e.RegistryGrowthAndRecoveryPreserveUuidIdentity
+[       OK ] IndirectKeyE2e.RegistryGrowthAndRecoveryPreserveUuidIdentity (638 ms)
+[ RUN      ] IndirectKeyE2e.KeyLargerThanExternalGroupReadsAndMutates
+[       OK ] IndirectKeyE2e.KeyLargerThanExternalGroupReadsAndMutates (1299 ms)
+[ RUN      ] IndirectKeyE2e.RemoteGroupedReadsRespectParentKeyOwnership
+[       OK ] IndirectKeyE2e.RemoteGroupedReadsRespectParentKeyOwnership (1992 ms)
+[ RUN      ] IndirectKeyE2e.CollectionsTransactionsAndExpiryKeepOriginalNames
+[       OK ] IndirectKeyE2e.CollectionsTransactionsAndExpiryKeepOriginalNames (364 ms)
+[ RUN      ] IndirectKeyE2e.DedicatedCleanerRelocatesLiveUuidAfterFlushDb
+[       OK ] IndirectKeyE2e.DedicatedCleanerRelocatesLiveUuidAfterFlushDb (2054 ms)
+[ RUN      ] IndirectKeyE2e.RepeatedFlushReclaimsLargeKeyExtents
+[       OK ] IndirectKeyE2e.RepeatedFlushReclaimsLargeKeyExtents (5231 ms)
+[----------] 7 tests from IndirectKeyE2e (12800 ms total)
+
+[----------] 12 tests from GroupedOrderedWriteE2e
+[ RUN      ] GroupedOrderedWriteE2e.ListPointSetOnlyRewritesTargetAndNeighbours
+[       OK ] GroupedOrderedWriteE2e.ListPointSetOnlyRewritesTargetAndNeighbours (592 ms)
+[ RUN      ] GroupedOrderedWriteE2e.ListReadIntervalsAcrossPagesAndRecovery
+[       OK ] GroupedOrderedWriteE2e.ListReadIntervalsAcrossPagesAndRecovery (298 ms)
+[ RUN      ] GroupedOrderedWriteE2e.ListCommandSurfaceAndEmptyRecreation
+[       OK ] GroupedOrderedWriteE2e.ListCommandSurfaceAndEmptyRecreation (316 ms)
+[ RUN      ] GroupedOrderedWriteE2e.LargeListItemUsesExtentsWithoutRewritingAllPages
+[       OK ] GroupedOrderedWriteE2e.LargeListItemUsesExtentsWithoutRewritingAllPages (358 ms)
+[ RUN      ] GroupedOrderedWriteE2e.FailedListBatchCannotLeakIntoLaterExecCommand
+[       OK ] GroupedOrderedWriteE2e.FailedListBatchCannotLeakIntoLaterExecCommand (527 ms)
+[ RUN      ] GroupedOrderedWriteE2e.SortedSetPointUpdateOnlyRewritesNearbyPages
+[       OK ] GroupedOrderedWriteE2e.SortedSetPointUpdateOnlyRewritesNearbyPages (593 ms)
+[ RUN      ] GroupedOrderedWriteE2e.SortedSetCrossEndMovesDoNotRewriteMiddlePages
+[       OK ] GroupedOrderedWriteE2e.SortedSetCrossEndMovesDoNotRewriteMiddlePages (849 ms)
+[ RUN      ] GroupedOrderedWriteE2e.ExpirationOnlyChangesRootsForAllCollectionTypes
+[       OK ] GroupedOrderedWriteE2e.ExpirationOnlyChangesRootsForAllCollectionTypes (695 ms)
+[ RUN      ] GroupedOrderedWriteE2e.SortedSetRemovalPopAndStoreCommandSurface
+[       OK ] GroupedOrderedWriteE2e.SortedSetRemovalPopAndStoreCommandSurface (313 ms)
+[ RUN      ] GroupedOrderedWriteE2e.LargeSortedSetMemberUsesExtents
+[       OK ] GroupedOrderedWriteE2e.LargeSortedSetMemberUsesExtents (482 ms)
+[ RUN      ] GroupedOrderedWriteE2e.GeoUsesGroupedSortedSetAndStoreSurvivesRecovery
+[       OK ] GroupedOrderedWriteE2e.GeoUsesGroupedSortedSetAndStoreSurvivesRecovery (311 ms)
+[ RUN      ] GroupedOrderedWriteE2e.FailedSortedSetBatchCannotLeakIntoLaterExecCommand
+[       OK ] GroupedOrderedWriteE2e.FailedSortedSetBatchCannotLeakIntoLaterExecCommand (536 ms)
+[----------] 12 tests from GroupedOrderedWriteE2e (5876 ms total)
+
+[----------] 9 tests from GroupedRdbStreamE2e
+[ RUN      ] GroupedRdbStreamE2e.FourTypesMultiPageLargeItemsAndMultipleWorkers
+[       OK ] GroupedRdbStreamE2e.FourTypesMultiPageLargeItemsAndMultipleWorkers (2006 ms)
+[ RUN      ] GroupedRdbStreamE2e.LaterPageFailurePreservesPreviousDump
+[       OK ] GroupedRdbStreamE2e.LaterPageFailurePreservesPreviousDump (447 ms)
+[ RUN      ] GroupedRdbStreamE2e.PageAdmissionOomPreservesPreviousDumpAndReleasesPins
+[       OK ] GroupedRdbStreamE2e.PageAdmissionOomPreservesPreviousDumpAndReleasesPins (937 ms)
+[ RUN      ] GroupedRdbStreamE2e.ConcurrentEndWaitsForAdmittedPageAndAllowsTheNextBackup
+[       OK ] GroupedRdbStreamE2e.ConcurrentEndWaitsForAdmittedPageAndAllowsTheNextBackup (1105 ms)
+[ RUN      ] GroupedRdbStreamE2e.RestoreStreamsFourTypesInsideAndOutsideExec
+[       OK ] GroupedRdbStreamE2e.RestoreStreamsFourTypesInsideAndOutsideExec (881 ms)
+[ RUN      ] GroupedRdbStreamE2e.ZsetRestoreBatchesPreserveOrderAndRollback
+[       OK ] GroupedRdbStreamE2e.ZsetRestoreBatchesPreserveOrderAndRollback (4155 ms)
+[ RUN      ] GroupedRdbStreamE2e.StartupImportStreamsPagesAndSortsUnorderedZsetInput
+[       OK ] GroupedRdbStreamE2e.StartupImportStreamsPagesAndSortsUnorderedZsetInput (649 ms)
+[ RUN      ] GroupedRdbStreamE2e.BackupStreamsFourTypesThenImportsAndRestarts
+[       OK ] GroupedRdbStreamE2e.BackupStreamsFourTypesThenImportsAndRestarts (2879 ms)
+[ RUN      ] GroupedRdbStreamE2e.LargeListOverOneGiBImportsAndExportsWithoutAggregate
+/mnt/dev/lavik-complex-next-20261004/tests/grouped/rdb_stream_e2e_test.cpp:710: Skipped
+opt-in private 4 GiB image and >1 GiB RDB
+
+[  SKIPPED ] GroupedRdbStreamE2e.LargeListOverOneGiBImportsAndExportsWithoutAggregate (0 ms)
+[----------] 9 tests from GroupedRdbStreamE2e (13062 ms total)
+
+[----------] 21 tests from GroupedSortedSetWriteE2e
+[ RUN      ] GroupedSortedSetWriteE2e.TypedChangesDoNotRereadOrderedMemberDiff
+[       OK ] GroupedSortedSetWriteE2e.TypedChangesDoNotRereadOrderedMemberDiff (547 ms)
+[ RUN      ] GroupedSortedSetWriteE2e.AdjacentScoreMovesReusePagesAcrossRecovery
+[       OK ] GroupedSortedSetWriteE2e.AdjacentScoreMovesReusePagesAcrossRecovery (602 ms)
+[ RUN      ] GroupedSortedSetWriteE2e.PlannerSkipsUnchangedNeighborButChecksNewLinks
+[       OK ] GroupedSortedSetWriteE2e.PlannerSkipsUnchangedNeighborButChecksNewLinks (777 ms)
+[ RUN      ] GroupedSortedSetWriteE2e.BatchedMemberIndexChangesMatchOrderedPages
+[       OK ] GroupedSortedSetWriteE2e.BatchedMemberIndexChangesMatchOrderedPages (351 ms)
+[ RUN      ] GroupedSortedSetWriteE2e.MemberScoresUsePrefixPagesWithoutOrderedReads
+[       OK ] GroupedSortedSetWriteE2e.MemberScoresUsePrefixPagesWithoutOrderedReads (468 ms)
+[ RUN      ] GroupedSortedSetWriteE2e.ScoreBoundsSkipUnrelatedPagesAfterRecovery
+[       OK ] GroupedSortedSetWriteE2e.ScoreBoundsSkipUnrelatedPagesAfterRecovery (429 ms)
+[ RUN      ] GroupedSortedSetWriteE2e.ScoreBoundsHandleLongTieRunsAndMixedBatchMoves
+[       OK ] GroupedSortedSetWriteE2e.ScoreBoundsHandleLongTieRunsAndMixedBatchMoves (568 ms)
+[ RUN      ] GroupedSortedSetWriteE2e.ScoreBoundsRecoverAfterMultiExtentParentKey
+[       OK ] GroupedSortedSetWriteE2e.ScoreBoundsRecoverAfterMultiExtentParentKey (1782 ms)
+[ RUN      ] GroupedSortedSetWriteE2e.FailedMemberWriteCannotCommitOrderedHalf
+[       OK ] GroupedSortedSetWriteE2e.FailedMemberWriteCannotCommitOrderedHalf (919 ms)
+[ RUN      ] GroupedSortedSetWriteE2e.PointFlagsDuplicatesScoresAndAtomicNan
+[       OK ] GroupedSortedSetWriteE2e.PointFlagsDuplicatesScoresAndAtomicNan (96 ms)
+[ RUN      ] GroupedSortedSetWriteE2e.PointScoreMovesRewriteOnlyEndpointPages
+[       OK ] GroupedSortedSetWriteE2e.PointScoreMovesRewriteOnlyEndpointPages (590 ms)
+[ RUN      ] GroupedSortedSetWriteE2e.BoundedRangeAliasesRanksBoundsAndMixedScoreLex
+[       OK ] GroupedSortedSetWriteE2e.BoundedRangeAliasesRanksBoundsAndMixedScoreLex (87 ms)
+[ RUN      ] GroupedSortedSetWriteE2e.PageScanRepliesOwnBinaryMembersAcrossRecovery
+[       OK ] GroupedSortedSetWriteE2e.PageScanRepliesOwnBinaryMembersAcrossRecovery (454 ms)
+[ RUN      ] GroupedSortedSetWriteE2e.ScanCursorsAndAllPopEntryPointsRecover
+[       OK ] GroupedSortedSetWriteE2e.ScanCursorsAndAllPopEntryPointsRecover (306 ms)
+[ RUN      ] GroupedSortedSetWriteE2e.FullImageAndRandomReplyOomAreAtomic
+[       OK ] GroupedSortedSetWriteE2e.FullImageAndRandomReplyOomAreAtomic (822 ms)
+[ RUN      ] GroupedSortedSetWriteE2e.RangeRemovalFitsSelectedPagesAndRecovers
+[       OK ] GroupedSortedSetWriteE2e.RangeRemovalFitsSelectedPagesAndRecovers (694 ms)
+[ RUN      ] GroupedSortedSetWriteE2e.FailedRangeRemovalPreservesExecPrefixAndRecovery
+[       OK ] GroupedSortedSetWriteE2e.FailedRangeRemovalPreservesExecPrefixAndRecovery (1011 ms)
+[ RUN      ] GroupedSortedSetWriteE2e.RandomAndRangeRemovalPreserveSemantics
+[       OK ] GroupedSortedSetWriteE2e.RandomAndRangeRemovalPreserveSemantics (87 ms)
+[ RUN      ] GroupedSortedSetWriteE2e.GeoPointReadsPreserveRepliesAndExecVisibility
+[       OK ] GroupedSortedSetWriteE2e.GeoPointReadsPreserveRepliesAndExecVisibility (453 ms)
+[ RUN      ] GroupedSortedSetWriteE2e.MultiKeyAggregateOomPreservesStoreAndExecPrefix
+[       OK ] GroupedSortedSetWriteE2e.MultiKeyAggregateOomPreservesStoreAndExecPrefix (571 ms)
+[ RUN      ] GroupedSortedSetWriteE2e.AggregateAbove512MiBRemainsBoundedAndRecovers
+[       OK ] GroupedSortedSetWriteE2e.AggregateAbove512MiBRemainsBoundedAndRecovers (7994 ms)
+[----------] 21 tests from GroupedSortedSetWriteE2e (19618 ms total)
+
+[----------] 7 tests from GroupedTransferE2e
+[ RUN      ] GroupedTransferE2e.FourTypesCopyRenameAcrossDatabasesAndWorkersRecover
+[       OK ] GroupedTransferE2e.FourTypesCopyRenameAcrossDatabasesAndWorkersRecover (2018 ms)
+[ RUN      ] GroupedTransferE2e.FailedExecCopyKeepsOldGraphAndCommitsLaterCommand
+[       OK ] GroupedTransferE2e.FailedExecCopyKeepsOldGraphAndCommitsLaterCommand (722 ms)
+[ RUN      ] GroupedTransferE2e.FullImageScratchOomPreservesValuesAndMetadataReads
+[       OK ] GroupedTransferE2e.FullImageScratchOomPreservesValuesAndMetadataReads (800 ms)
+[ RUN      ] GroupedTransferE2e.ScanUsesOneLeafAndSurvivesDeletingEarlierFields
+[       OK ] GroupedTransferE2e.ScanUsesOneLeafAndSurvivesDeletingEarlierFields (712 ms)
+[ RUN      ] GroupedTransferE2e.ListSearchRetainsOnePageAndInsertOnlyItsInterval
+[       OK ] GroupedTransferE2e.ListSearchRetainsOnePageAndInsertOnlyItsInterval (701 ms)
+[ RUN      ] GroupedTransferE2e.RandomFieldsAndSetPopDoNotMaterializeTheCollection
+[       OK ] GroupedTransferE2e.RandomFieldsAndSetPopDoNotMaterializeTheCollection (836 ms)
+[ RUN      ] GroupedTransferE2e.SetMultiKeyOomLeavesDestinationAndHoldsIntact
+[       OK ] GroupedTransferE2e.SetMultiKeyOomLeavesDestinationAndHoldsIntact (884 ms)
+[----------] 7 tests from GroupedTransferE2e (6676 ms total)
+
+[----------] 3 tests from GroupedRandomStreamE2e
+[ RUN      ] GroupedRandomStreamE2e.FiniteRepliesAreByteExactAcrossBulkBoundaries
+[       OK ] GroupedRandomStreamE2e.FiniteRepliesAreByteExactAcrossBulkBoundaries (226 ms)
+[ RUN      ] GroupedRandomStreamE2e.DisconnectDuringLargeBulkReleasesStreamState
+[       OK ] GroupedRandomStreamE2e.DisconnectDuringLargeBulkReleasesStreamState (214 ms)
+[ RUN      ] GroupedRandomStreamE2e.AllocationFailureReturnsOneErrorWithoutArrayPrefix
+[       OK ] GroupedRandomStreamE2e.AllocationFailureReturnsOneErrorWithoutArrayPrefix (449 ms)
+[----------] 3 tests from GroupedRandomStreamE2e (890 ms total)
+
+[----------] 6 tests from BatchWindows/GroupedStreamCrashE2e
+[ RUN      ] BatchWindows/GroupedStreamCrashE2e.InterruptedAppendKeepsPreviousGraph/0
+[       OK ] BatchWindows/GroupedStreamCrashE2e.InterruptedAppendKeepsPreviousGraph/0 (411 ms)
+[ RUN      ] BatchWindows/GroupedStreamCrashE2e.InterruptedAppendKeepsPreviousGraph/1
+[       OK ] BatchWindows/GroupedStreamCrashE2e.InterruptedAppendKeepsPreviousGraph/1 (412 ms)
+[ RUN      ] BatchWindows/GroupedStreamCrashE2e.InterruptedAppendKeepsPreviousGraph/2
+[       OK ] BatchWindows/GroupedStreamCrashE2e.InterruptedAppendKeepsPreviousGraph/2 (413 ms)
+[ RUN      ] BatchWindows/GroupedStreamCrashE2e.InterruptedTrimKeepsMessagesAndPending/0
+[       OK ] BatchWindows/GroupedStreamCrashE2e.InterruptedTrimKeepsMessagesAndPending/0 (413 ms)
+[ RUN      ] BatchWindows/GroupedStreamCrashE2e.InterruptedTrimKeepsMessagesAndPending/1
+[       OK ] BatchWindows/GroupedStreamCrashE2e.InterruptedTrimKeepsMessagesAndPending/1 (413 ms)
+[ RUN      ] BatchWindows/GroupedStreamCrashE2e.InterruptedTrimKeepsMessagesAndPending/2
+[       OK ] BatchWindows/GroupedStreamCrashE2e.InterruptedTrimKeepsMessagesAndPending/2 (416 ms)
+[----------] 6 tests from BatchWindows/GroupedStreamCrashE2e (2481 ms total)
+
+[----------] 3 tests from BatchWindows/GroupedStringCrashE2e
+[ RUN      ] BatchWindows/GroupedStringCrashE2e.PartialSegmentBatchKeepsPreviousRoot/0
+[       OK ] BatchWindows/GroupedStringCrashE2e.PartialSegmentBatchKeepsPreviousRoot/0 (414 ms)
+[ RUN      ] BatchWindows/GroupedStringCrashE2e.PartialSegmentBatchKeepsPreviousRoot/1
+[       OK ] BatchWindows/GroupedStringCrashE2e.PartialSegmentBatchKeepsPreviousRoot/1 (416 ms)
+[ RUN      ] BatchWindows/GroupedStringCrashE2e.PartialSegmentBatchKeepsPreviousRoot/2
+[       OK ] BatchWindows/GroupedStringCrashE2e.PartialSegmentBatchKeepsPreviousRoot/2 (414 ms)
+[----------] 3 tests from BatchWindows/GroupedStringCrashE2e (1245 ms total)
+
+[----------] 8 tests from AllTypes/GroupedFullDiskExpirationE2e
+[ RUN      ] AllTypes/GroupedFullDiskExpirationE2e.ReclaimsGraphAndRecovers/HashInline
+[       OK ] AllTypes/GroupedFullDiskExpirationE2e.ReclaimsGraphAndRecovers/HashInline (10475 ms)
+[ RUN      ] AllTypes/GroupedFullDiskExpirationE2e.ReclaimsGraphAndRecovers/HashIndirect
+[       OK ] AllTypes/GroupedFullDiskExpirationE2e.ReclaimsGraphAndRecovers/HashIndirect (10656 ms)
+[ RUN      ] AllTypes/GroupedFullDiskExpirationE2e.ReclaimsGraphAndRecovers/SetInline
+[       OK ] AllTypes/GroupedFullDiskExpirationE2e.ReclaimsGraphAndRecovers/SetInline (10481 ms)
+[ RUN      ] AllTypes/GroupedFullDiskExpirationE2e.ReclaimsGraphAndRecovers/SetIndirect
+[       OK ] AllTypes/GroupedFullDiskExpirationE2e.ReclaimsGraphAndRecovers/SetIndirect (10682 ms)
+[ RUN      ] AllTypes/GroupedFullDiskExpirationE2e.ReclaimsGraphAndRecovers/ListInline
+[       OK ] AllTypes/GroupedFullDiskExpirationE2e.ReclaimsGraphAndRecovers/ListInline (10467 ms)
+[ RUN      ] AllTypes/GroupedFullDiskExpirationE2e.ReclaimsGraphAndRecovers/ListIndirect
+[       OK ] AllTypes/GroupedFullDiskExpirationE2e.ReclaimsGraphAndRecovers/ListIndirect (10658 ms)
+[ RUN      ] AllTypes/GroupedFullDiskExpirationE2e.ReclaimsGraphAndRecovers/SortedSetInline
+[       OK ] AllTypes/GroupedFullDiskExpirationE2e.ReclaimsGraphAndRecovers/SortedSetInline (10461 ms)
+[ RUN      ] AllTypes/GroupedFullDiskExpirationE2e.ReclaimsGraphAndRecovers/SortedSetIndirect
+[       OK ] AllTypes/GroupedFullDiskExpirationE2e.ReclaimsGraphAndRecovers/SortedSetIndirect (10704 ms)
+[----------] 8 tests from AllTypes/GroupedFullDiskExpirationE2e (84588 ms total)
+
+[----------] 4 tests from BatchWindows/GroupedSortedSetCrashE2e
+[ RUN      ] BatchWindows/GroupedSortedSetCrashE2e.InterruptedSortedSetBatchKeepsPreviousValue/0
+[       OK ] BatchWindows/GroupedSortedSetCrashE2e.InterruptedSortedSetBatchKeepsPreviousValue/0 (416 ms)
+[ RUN      ] BatchWindows/GroupedSortedSetCrashE2e.InterruptedSortedSetBatchKeepsPreviousValue/1
+[       OK ] BatchWindows/GroupedSortedSetCrashE2e.InterruptedSortedSetBatchKeepsPreviousValue/1 (417 ms)
+[ RUN      ] BatchWindows/GroupedSortedSetCrashE2e.InterruptedSortedSetBatchKeepsPreviousValue/2
+[       OK ] BatchWindows/GroupedSortedSetCrashE2e.InterruptedSortedSetBatchKeepsPreviousValue/2 (417 ms)
+[ RUN      ] BatchWindows/GroupedSortedSetCrashE2e.InterruptedSortedSetBatchKeepsPreviousValue/3
+[       OK ] BatchWindows/GroupedSortedSetCrashE2e.InterruptedSortedSetBatchKeepsPreviousValue/3 (475 ms)
+[----------] 4 tests from BatchWindows/GroupedSortedSetCrashE2e (1726 ms total)
+
+[----------] 4 tests from BatchWindows/GroupedListCrashE2e
+[ RUN      ] BatchWindows/GroupedListCrashE2e.InterruptedListBatchRestoresCompletePreviousValue/0
+[       OK ] BatchWindows/GroupedListCrashE2e.InterruptedListBatchRestoresCompletePreviousValue/0 (420 ms)
+[ RUN      ] BatchWindows/GroupedListCrashE2e.InterruptedListBatchRestoresCompletePreviousValue/1
+[       OK ] BatchWindows/GroupedListCrashE2e.InterruptedListBatchRestoresCompletePreviousValue/1 (416 ms)
+[ RUN      ] BatchWindows/GroupedListCrashE2e.InterruptedListBatchRestoresCompletePreviousValue/2
+[       OK ] BatchWindows/GroupedListCrashE2e.InterruptedListBatchRestoresCompletePreviousValue/2 (419 ms)
+[ RUN      ] BatchWindows/GroupedListCrashE2e.InterruptedListBatchRestoresCompletePreviousValue/3
+[       OK ] BatchWindows/GroupedListCrashE2e.InterruptedListBatchRestoresCompletePreviousValue/3 (463 ms)
+[----------] 4 tests from BatchWindows/GroupedListCrashE2e (1720 ms total)
+
+[----------] Global test environment tear-down
+[==========] 104 tests from 15 test suites ran. (190120 ms total)
+[  PASSED  ] 103 tests.
+[  SKIPPED ] 1 test, listed below:
+[  SKIPPED ] GroupedRdbStreamE2e.LargeListOverOneGiBImportsAndExportsWithoutAggregate

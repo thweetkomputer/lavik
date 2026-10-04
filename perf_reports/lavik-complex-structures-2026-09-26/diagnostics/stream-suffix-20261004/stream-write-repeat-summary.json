@@ -1,0 +1,134 @@
+{
+  "main": {
+    "commit": "a565d603523467ed7bbb9ed9227ddd6b18a9ca8c",
+    "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-main-a565d603-20261004",
+    "sha256": "0ee497c48f0c5b71866aeaf3a07acf8054f8bdf99eb1ffd2bc5cd952584f349a",
+    "source_repo": "/mnt/dev/lavik-complex-next-20261004",
+    "bycorf_commit": "62509c93d40c2480f5046b71454db6cf95801b04",
+    "build": "RelWithDebInfo, native, LTO, GCC 13, SPDK, BUILD_TESTING=OFF, LAVIK_ENABLE_TEST_FAULTS=OFF",
+    "build_directory": "/mnt/dev/lavik-complex-next-20261004/build-spdk",
+    "no_build_or_tests_during_measurements": true
+  },
+  "candidate": {
+    "commit": "7586dc6fe2f79cda367632b7d7acb19946e0e18d",
+    "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-stream-tail-7586dc6f-20261004",
+    "sha256": "22640c2bd8b44b736c7ebe2553d030f65f433b464120cb59660d52977e2a9db2",
+    "source_repo": "/mnt/dev/lavik-complex-next-20261004",
+    "bycorf_commit": "62509c93d40c2480f5046b71454db6cf95801b04",
+    "build": "RelWithDebInfo, native, LTO, GCC 13, SPDK, BUILD_TESTING=OFF, LAVIK_ENABLE_TEST_FAULTS=OFF",
+    "build_directory": "/mnt/dev/lavik-complex-next-20261004/build-spdk",
+    "no_build_or_tests_during_measurements": true
+  },
+  "method": "Three independent seed pairs ordered A/B, B/A, A/B; 15-second XADD MAXLEN points at 80/320/2560 connections; same baseline workload and settings; no concurrent build, tests or perf.",
+  "conditions": [
+    {
+      "connections": 80,
+      "pairs": [
+        {
+          "round": 1,
+          "main_qps": 11076.89,
+          "candidate_qps": 15175.59,
+          "change_percent": 37.00226327064728,
+          "main_p99_ms": 28.031,
+          "candidate_p99_ms": 21.247
+        },
+        {
+          "round": 2,
+          "main_qps": 10901.44,
+          "candidate_qps": 16003.04,
+          "change_percent": 46.797487304429495,
+          "main_p99_ms": 28.671,
+          "candidate_p99_ms": 18.687
+        },
+        {
+          "round": 3,
+          "main_qps": 11300.98,
+          "candidate_qps": 16680.31,
+          "change_percent": 47.600562075147494,
+          "main_p99_ms": 24.319,
+          "candidate_p99_ms": 18.687
+        }
+      ],
+      "median_main_qps": 11076.89,
+      "median_candidate_qps": 16003.04,
+      "median_paired_change_percent": 46.797487304429495,
+      "paired_change_range_percent": [
+        37.00226327064728,
+        47.600562075147494
+      ]
+    },
+    {
+      "connections": 320,
+      "pairs": [
+        {
+          "round": 1,
+          "main_qps": 11129.14,
+          "candidate_qps": 15742.77,
+          "change_percent": 41.45540446072204,
+          "main_p99_ms": 118.271,
+          "candidate_p99_ms": 83.967
+        },
+        {
+          "round": 2,
+          "main_qps": 11204.09,
+          "candidate_qps": 15942.76,
+          "change_percent": 42.2941086692449,
+          "main_p99_ms": 111.615,
+          "candidate_p99_ms": 88.575
+        },
+        {
+          "round": 3,
+          "main_qps": 11264.12,
+          "candidate_qps": 16518.34,
+          "change_percent": 46.64563232636014,
+          "main_p99_ms": 111.615,
+          "candidate_p99_ms": 81.407
+        }
+      ],
+      "median_main_qps": 11204.09,
+      "median_candidate_qps": 15942.76,
+      "median_paired_change_percent": 42.2941086692449,
+      "paired_change_range_percent": [
+        41.45540446072204,
+        46.64563232636014
+      ]
+    },
+    {
+      "connections": 2560,
+      "pairs": [
+        {
+          "round": 1,
+          "main_qps": 10709.92,
+          "candidate_qps": 16871.94,
+          "change_percent": 57.53563051824848,
+          "main_p99_ms": 1409.023,
+          "candidate_p99_ms": 536.575
+        },
+        {
+          "round": 2,
+          "main_qps": 10630.92,
+          "candidate_qps": 16599.24,
+          "change_percent": 56.1411430054972,
+          "main_p99_ms": 983.039,
+          "candidate_p99_ms": 382.975
+        },
+        {
+          "round": 3,
+          "main_qps": 11334.95,
+          "candidate_qps": 16931.18,
+          "change_percent": 49.37145730682535,
+          "main_p99_ms": 630.783,
+          "candidate_p99_ms": 626.687
+        }
+      ],
+      "median_main_qps": 10709.92,
+      "median_candidate_qps": 16871.94,
+      "median_paired_change_percent": 56.1411430054972,
+      "paired_change_range_percent": [
+        49.37145730682535,
+        57.53563051824848
+      ]
+    }
+  ],
+  "limitations": "Three paired repetitions, not a confidence interval; matched workload on one host; historical peer systems are not rerun."
+}

@@ -16,6 +16,7 @@ OrderedGroupDirectory::Apply, 5.19% to metadata chunk construction and 3.25%
 to copying records into the temporary metadata vector. The denominator includes
 polling, background work and kernel CPU; these are not request latency fractions.
 [Recorder arguments, thread inventory and per-thread self profiles](stream-100m-profile/)
-retain the measurement evidence. These hotspots motivate investigating incremental
-validation and index updates for pure tail appends; candidate results will be
-reported separately after correctness checks and clean comparative runs.
+retain the measurement evidence. These hotspots motivate incremental validation
+and index updates around Stream message insertion, which precedes trailing
+node/group metadata. Candidate results are reported separately with correctness
+checks and clean comparative runs.
