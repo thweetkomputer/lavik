@@ -2,7 +2,7 @@
 
 [简体中文](README.zh-CN.md)
 
-**2026-10-04: main `a565d603`, including merged #244, #246, #247, #249, #258, #259, #260, #262; 6/28 conditions refreshed.**
+**2026-10-04: main `a565d603`, including merged #244, #246, #247, #249, #258, #259, #260, #262; 7/28 conditions refreshed.**
 
 Batched HSET/SADD import is tracked separately: 0/4 conditions refreshed. Pending charts identify their actual historical version.
 
@@ -440,11 +440,11 @@ SADD + SREM mixes the two commands equally; QPS counts commands, not pairs. Rand
 
 [Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-zset-104857600-k8-f128-20261004/)
 
-1024 B/entry · 8 keys · Historical measurement; refresh pending `5d7d12ec`
+1024 B/entry · 8 keys · Measured main baseline `a565d603`
 
 ![Sorted Set ZSCORE 100 MiB/key, 1024 B, 8 keys](charts/zset-104857600-1024-k8-zscore-current.png)
 
-[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik (previous measurement) 5d7d12ec](raw/lavik-main5d7d12ec-ordered-zset-104857600-k8-f1024-20261004/)
+[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-zset-104857600-k8-f1024-20261004/)
 
 ### ZINCRBY
 
@@ -484,11 +484,11 @@ SADD + SREM mixes the two commands equally; QPS counts commands, not pairs. Rand
 
 [Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-zset-104857600-k8-f128-20261004/)
 
-1024 B/entry · 8 keys · Historical measurement; refresh pending `5d7d12ec`
+1024 B/entry · 8 keys · Measured main baseline `a565d603`
 
 ![Sorted Set ZINCRBY 100 MiB/key, 1024 B, 8 keys](charts/zset-104857600-1024-k8-zincrby-current.png)
 
-[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik (previous measurement) 5d7d12ec](raw/lavik-main5d7d12ec-ordered-zset-104857600-k8-f1024-20261004/)
+[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-zset-104857600-k8-f1024-20261004/)
 
 ### ZRANGE 0 -1 WITHSCORES
 
@@ -528,11 +528,11 @@ SADD + SREM mixes the two commands equally; QPS counts commands, not pairs. Rand
 
 [Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-zset-104857600-k8-f128-20261004/)
 
-1024 B/entry · 8 keys · Historical measurement; refresh pending `5d7d12ec`
+1024 B/entry · 8 keys · Measured main baseline `a565d603`
 
 ![Sorted Set ZRANGE 100 MiB/key, 1024 B, 8 keys](charts/zset-104857600-1024-k8-zrange-current.png)
 
-[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik (previous measurement) 5d7d12ec](raw/lavik-main5d7d12ec-ordered-zset-104857600-k8-f1024-20261004/)
+[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-zset-104857600-k8-f1024-20261004/)
 
 ## Stream
 

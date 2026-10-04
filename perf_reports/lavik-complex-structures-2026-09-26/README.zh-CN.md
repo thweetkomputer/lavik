@@ -2,7 +2,7 @@
 
 [English](README.md)
 
-**2026-10-04：main `a565d603` 已完成 6/28 组复测，包含已合并的 #244, #246, #247, #249, #258, #259, #260, #262。**
+**2026-10-04：main `a565d603` 已完成 7/28 组复测，包含已合并的 #244, #246, #247, #249, #258, #259, #260, #262。**
 
 批量 HSET/SADD 导入另计：0/4 组已更新。未完成的图注明实际历史版本。
 
@@ -440,11 +440,11 @@ SADD + SREM 为两个命令等比例混合，QPS 计算完成的命令数，不�
 
 [Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-zset-104857600-k8-f128-20261004/)
 
-1024 B/entry · 8 keys · 历史测量，待复测 `5d7d12ec`
+1024 B/entry · 8 keys · 本轮 main 基线 `a565d603`
 
 ![Sorted Set ZSCORE 100 MiB/key, 1024 B, 8 keys](charts/zset-104857600-1024-k8-zscore-current.png)
 
-[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik (previous measurement) 5d7d12ec](raw/lavik-main5d7d12ec-ordered-zset-104857600-k8-f1024-20261004/)
+[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-zset-104857600-k8-f1024-20261004/)
 
 ### ZINCRBY
 
@@ -484,11 +484,11 @@ SADD + SREM 为两个命令等比例混合，QPS 计算完成的命令数，不�
 
 [Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-zset-104857600-k8-f128-20261004/)
 
-1024 B/entry · 8 keys · 历史测量，待复测 `5d7d12ec`
+1024 B/entry · 8 keys · 本轮 main 基线 `a565d603`
 
 ![Sorted Set ZINCRBY 100 MiB/key, 1024 B, 8 keys](charts/zset-104857600-1024-k8-zincrby-current.png)
 
-[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik (previous measurement) 5d7d12ec](raw/lavik-main5d7d12ec-ordered-zset-104857600-k8-f1024-20261004/)
+[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-zset-104857600-k8-f1024-20261004/)
 
 ### ZRANGE 0 -1 WITHSCORES
 
@@ -528,11 +528,11 @@ SADD + SREM 为两个命令等比例混合，QPS 计算完成的命令数，不�
 
 [Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-zset-104857600-k8-f128-20261004/)
 
-1024 B/entry · 8 keys · 历史测量，待复测 `5d7d12ec`
+1024 B/entry · 8 keys · 本轮 main 基线 `a565d603`
 
 ![Sorted Set ZRANGE 100 MiB/key, 1024 B, 8 keys](charts/zset-104857600-1024-k8-zrange-current.png)
 
-[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik (previous measurement) 5d7d12ec](raw/lavik-main5d7d12ec-ordered-zset-104857600-k8-f1024-20261004/)
+[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-zset-104857600-k8-f1024-20261004/)
 
 ## Stream
 
