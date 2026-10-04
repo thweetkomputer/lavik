@@ -1,0 +1,266 @@
+{
+  "main": {
+    "commit": "ff9e36550d3c899011cb07e037f4521273e667ae",
+    "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-list-reply-reserve-ff9e3655-20261004",
+    "sha256": "d2fe35779a4f0db3d11b063db66eb14030257c5c8b9af47d3029c0f2476f1e93",
+    "source_repo": "/mnt/dev/lavik-complex-next-20261004",
+    "bycorf_commit": "62509c93d40c2480f5046b71454db6cf95801b04",
+    "build": "RelWithDebInfo, native, LTO, GCC 13, SPDK, BUILD_TESTING=OFF, LAVIK_ENABLE_TEST_FAULTS=OFF",
+    "build_directory": "/mnt/dev/lavik-complex-next-20261004/build-spdk",
+    "no_build_or_tests_during_measurements": true
+  },
+  "candidate": {
+    "commit": "4863c98d037a63ef091447e722f677aa1ee348d2",
+    "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-list-window64-4863c98d-20261004",
+    "sha256": "cf6bfc803f20b5f0f613dca4b3c11a0df1649815936207249c2a2da831d09d34",
+    "source_repo": "/mnt/dev/lavik-complex-next-20261004",
+    "bycorf_commit": "62509c93d40c2480f5046b71454db6cf95801b04",
+    "build": "RelWithDebInfo, native, LTO, GCC 13, SPDK, BUILD_TESTING=OFF, LAVIK_ENABLE_TEST_FAULTS=OFF",
+    "build_directory": "/mnt/dev/lavik-complex-next-20261004/build-spdk",
+    "no_build_or_tests_during_measurements": true
+  },
+  "method": "Three independent seed pairs ordered A/B, B/A, A/B; 15-second LRANGE points at 1/4/16 connections and LINDEX/LSET at 2560; previous is PR #267 at ff9e3655, isolating foreground read-window changes (candidate also includes the separate recovery fix); same baseline workload and settings; no concurrent build, tests or perf.",
+  "conditions": [
+    {
+      "operation": "LRANGE",
+      "connections": 1,
+      "pairs": [
+        {
+          "round": 1,
+          "main_status": "success",
+          "main_qps": 3.49,
+          "main_p99_ms": 303.103,
+          "candidate_status": "success",
+          "candidate_qps": 3.63,
+          "candidate_p99_ms": 280.575,
+          "change_percent": 4.011461318051568
+        },
+        {
+          "round": 2,
+          "main_status": "success",
+          "main_qps": 3.46,
+          "main_p99_ms": 294.911,
+          "candidate_status": "success",
+          "candidate_qps": 3.7,
+          "candidate_p99_ms": 274.431,
+          "change_percent": 6.936416184971095
+        },
+        {
+          "round": 3,
+          "main_status": "success",
+          "main_qps": 3.36,
+          "main_p99_ms": 358.399,
+          "candidate_status": "success",
+          "candidate_qps": 3.62,
+          "candidate_p99_ms": 389.119,
+          "change_percent": 7.738095238095255
+        }
+      ],
+      "valid_paired_ratios": 3,
+      "main_failed_runs": 0,
+      "median_main_qps": 3.46,
+      "median_main_p99_ms": 303.103,
+      "candidate_failed_runs": 0,
+      "median_candidate_qps": 3.63,
+      "median_candidate_p99_ms": 280.575,
+      "median_paired_change_percent": 6.936416184971095,
+      "paired_change_range_percent": [
+        4.011461318051568,
+        7.738095238095255
+      ]
+    },
+    {
+      "operation": "LRANGE",
+      "connections": 4,
+      "pairs": [
+        {
+          "round": 1,
+          "main_status": "success",
+          "main_qps": 10.82,
+          "main_p99_ms": 598.015,
+          "candidate_status": "success",
+          "candidate_qps": 11.39,
+          "candidate_p99_ms": 573.439,
+          "change_percent": 5.268022181146037
+        },
+        {
+          "round": 2,
+          "main_status": "success",
+          "main_qps": 9.88,
+          "main_p99_ms": 884.735,
+          "candidate_status": "success",
+          "candidate_qps": 11.47,
+          "candidate_p99_ms": 630.783,
+          "change_percent": 16.09311740890689
+        },
+        {
+          "round": 3,
+          "main_status": "success",
+          "main_qps": 9.64,
+          "main_p99_ms": 675.839,
+          "candidate_status": "success",
+          "candidate_qps": 10.81,
+          "candidate_p99_ms": 638.975,
+          "change_percent": 12.136929460580914
+        }
+      ],
+      "valid_paired_ratios": 3,
+      "main_failed_runs": 0,
+      "median_main_qps": 9.88,
+      "median_main_p99_ms": 675.839,
+      "candidate_failed_runs": 0,
+      "median_candidate_qps": 11.39,
+      "median_candidate_p99_ms": 630.783,
+      "median_paired_change_percent": 12.136929460580914,
+      "paired_change_range_percent": [
+        5.268022181146037,
+        16.09311740890689
+      ]
+    },
+    {
+      "operation": "LRANGE",
+      "connections": 16,
+      "pairs": [
+        {
+          "round": 1,
+          "main_status": "success",
+          "main_qps": 20.12,
+          "main_p99_ms": 1433.599,
+          "candidate_status": "success",
+          "candidate_qps": 20.75,
+          "candidate_p99_ms": 1654.783,
+          "change_percent": 3.131212723658039
+        },
+        {
+          "round": 2,
+          "main_status": "success",
+          "main_qps": 20.82,
+          "main_p99_ms": 1515.519,
+          "candidate_status": "success",
+          "candidate_qps": 20.84,
+          "candidate_p99_ms": 1507.327,
+          "change_percent": 0.09606147934677622
+        },
+        {
+          "round": 3,
+          "main_status": "success",
+          "main_qps": 21.15,
+          "main_p99_ms": 1531.903,
+          "candidate_status": "success",
+          "candidate_qps": 20.14,
+          "candidate_p99_ms": 1638.399,
+          "change_percent": -4.77541371158392
+        }
+      ],
+      "valid_paired_ratios": 3,
+      "main_failed_runs": 0,
+      "median_main_qps": 20.82,
+      "median_main_p99_ms": 1515.519,
+      "candidate_failed_runs": 0,
+      "median_candidate_qps": 20.75,
+      "median_candidate_p99_ms": 1638.399,
+      "median_paired_change_percent": 0.09606147934677622,
+      "paired_change_range_percent": [
+        -4.77541371158392,
+        3.131212723658039
+      ]
+    },
+    {
+      "operation": "LINDEX",
+      "connections": 2560,
+      "pairs": [
+        {
+          "round": 1,
+          "main_status": "success",
+          "main_qps": 289972.78,
+          "main_p99_ms": 35.839,
+          "candidate_status": "success",
+          "candidate_qps": 289077.98,
+          "candidate_p99_ms": 36.095,
+          "change_percent": -0.30858068815977635
+        },
+        {
+          "round": 2,
+          "main_status": "success",
+          "main_qps": 287531.08,
+          "main_p99_ms": 36.095,
+          "candidate_status": "success",
+          "candidate_qps": 292682.07,
+          "candidate_p99_ms": 35.583,
+          "change_percent": 1.7914550315743183
+        },
+        {
+          "round": 3,
+          "main_status": "success",
+          "main_qps": 281596.26,
+          "main_p99_ms": 38.143,
+          "candidate_status": "success",
+          "candidate_qps": 292712.06,
+          "candidate_p99_ms": 35.839,
+          "change_percent": 3.947424585823689
+        }
+      ],
+      "valid_paired_ratios": 3,
+      "main_failed_runs": 0,
+      "median_main_qps": 287531.08,
+      "median_main_p99_ms": 36.095,
+      "candidate_failed_runs": 0,
+      "median_candidate_qps": 292682.07,
+      "median_candidate_p99_ms": 35.839,
+      "median_paired_change_percent": 1.7914550315743183,
+      "paired_change_range_percent": [
+        -0.30858068815977635,
+        3.947424585823689
+      ]
+    },
+    {
+      "operation": "LSET",
+      "connections": 2560,
+      "pairs": [
+        {
+          "round": 1,
+          "main_status": "success",
+          "main_qps": 51291.24,
+          "main_p99_ms": 207.871,
+          "candidate_status": "success",
+          "candidate_qps": 45494.53,
+          "candidate_p99_ms": 301.055,
+          "change_percent": -11.3015594865712
+        },
+        {
+          "round": 2,
+          "main_status": "success",
+          "main_qps": 48241.52,
+          "main_p99_ms": 230.399,
+          "candidate_status": "success",
+          "candidate_qps": 47524.18,
+          "candidate_p99_ms": 212.991,
+          "change_percent": -1.486976363928827
+        },
+        {
+          "round": 3,
+          "main_status": "success",
+          "main_qps": 47611.66,
+          "main_p99_ms": 231.423,
+          "candidate_status": "success",
+          "candidate_qps": 46658.85,
+          "candidate_p99_ms": 278.527,
+          "change_percent": -2.0012114679471504
+        }
+      ],
+      "valid_paired_ratios": 3,
+      "main_failed_runs": 0,
+      "median_main_qps": 48241.52,
+      "median_main_p99_ms": 230.399,
+      "candidate_failed_runs": 0,
+      "median_candidate_qps": 46658.85,
+      "median_candidate_p99_ms": 278.527,
+      "median_paired_change_percent": -2.0012114679471504,
+      "paired_change_range_percent": [
+        -11.3015594865712,
+        -1.486976363928827
+      ]
+    }
+  ],
+  "limitations": "Three repetitions, not a confidence interval. Failed observations are retained and excluded from QPS ratios. Historical peers are not rerun and use different persistence/cache configurations."
+}
