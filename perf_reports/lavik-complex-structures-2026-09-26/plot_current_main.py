@@ -205,9 +205,11 @@ def readme(manifest, zh):
     rows = manifest["plots"]
     done = sum(r["main"].get("fresh", False) for r in rows)
     commit = manifest["target_main"][:8]
+    date = manifest["date"]
+    merged = ", ".join(f"#{number}" for number in manifest["merged_prs"])
     title = "复杂数据结构性能：Redis、Valkey、Kvrocks 与 Lavik" if zh else "Complex structures: Redis, Valkey, Kvrocks and Lavik"
     lines = ["# " + title, "", "[English](README.md)" if zh else "[简体中文](README.zh-CN.md)", ""]
-    lines += [f"**2026-10-04：main `{commit}` 已完成 {done}/{len(rows)} 组复测，包含已合并的 #244、#246、#247。**" if zh else f"**2026-10-04: main `{commit}`, including merged #244/#246/#247; {done}/{len(rows)} conditions refreshed.**", ""]
+    lines += [f"**{date}：main `{commit}` 已完成 {done}/{len(rows)} 组复测，包含已合并的 {merged}。**" if zh else f"**{date}: main `{commit}`, including merged {merged}; {done}/{len(rows)} conditions refreshed.**", ""]
     imports = json.loads((ROOT / "current-imports.json").read_text())["plots"]
     imported = sum(r["main"].get("fresh", False) for r in imports)
     import_status = f"批量 HSET/SADD 导入另计：{imported}/{len(imports)} 组已更新。" if zh else f"Batched HSET/SADD import is tracked separately: {imported}/{len(imports)} conditions refreshed."
@@ -219,10 +221,13 @@ def readme(manifest, zh):
         lines += ["未完成复测的图暂时保留带实际版本号的历史 Lavik 测量，图注明确标记待更新。旧结果没有改名为新 main。" if zh else "Pending conditions retain explicitly labeled historical Lavik measurements. Old observations are not relabeled as the new main.", ""]
     lines += ["Redis/Valkey 关闭持久化；Kvrocks 使用无压缩 RAID0、关闭 WAL、80 GiB block/blob cache；Lavik 使用六块 NVMe SPDK 持久化，不缓存字段或页内容。配置不同，写入 QPS 不代表同等持久性下的排名。" if zh else "Redis/Valkey disable persistence. Kvrocks uses uncompressed RAID0, disabled WAL and 80 GiB block/blob cache. Lavik persists through six SPDK NVMe devices without caching field/page payloads. Write QPS compares these configurations, not equivalent durability.", ""]
     lines += ["本轮不重跑其他三库。Lavik 使用 AMD EPYC 9V74、16 vCPU、12 个服务 worker。每点 8 秒，较多 key 的 LSET 为 10 秒；pipeline=1。每组独立预置并逐 key 校验，perf 采样在完整连接扫描后单独进行，不混入 QPS 图。单次扫描没有统计置信区间。" if zh else "Peers are not rerun this round. Lavik uses AMD EPYC 9V74, 16 vCPUs and 12 serving workers. Points last 8 s (10 s for high-key-count LSET), pipeline=1. Each condition is independently seeded and checked key by key. CPU profiles run separately after complete clean grids. Single sweeps have no statistical confidence intervals.", ""]
-    lines += ["复测期间 #248（FDS/Meta 发现）及 #245（CI 分片）合入 main `25e15941`，代码、报告与 PR #249 已同步 rebase。本轮单机实验固定使用 main `5d7d12ec` 和 PR `97f81cd6` 的已验证二进制，图中提交号保持实际测量版本；存储源码在这次 rebase 前后一致。[版本核验](diagnostics/main-refresh-20261004/fds-rebase-provenance.json)。" if zh else "FDS/Meta discovery fix #248 and CI sharding #245 merged into main `25e15941` during measurement; the checkout, report and PR #249 are rebased. This standalone experiment keeps its verified main `5d7d12ec` and PR `97f81cd6` binaries and actual measured commit labels. Storage sources are unchanged across this rebase. [Revision verification](diagnostics/main-refresh-20261004/fds-rebase-provenance.json).", ""]
-    lines += ["[绘图数据清单](current-main.json) · [复现脚本](run.py) · [构建与硬件证明](diagnostics/main-refresh-20261004/host-and-build.json)" if zh else "[Plot sources](current-main.json) · [Runner](run.py) · [Build and hardware](diagnostics/main-refresh-20261004/host-and-build.json)", ""]
+    lines += ["本轮固定使用上述 main 提交，已合并优化不再作为独立 PR 曲线显示。历史观察仍保留原始提交号；每完成一组独立复测才替换对应图。" if zh else "This round pins the main revision above. Merged optimizations are no longer separate PR curves. Historical observations retain their measured commits; each chart is replaced only after its independent rerun completes.", ""]
+    lines += ["[绘图数据清单](current-main.json) · [复现脚本](run.py) · [上一轮构建与硬件证明](diagnostics/main-refresh-20261004/host-and-build.json)" if zh else "[Plot sources](current-main.json) · [Runner](run.py) · [Previous-round build and hardware](diagnostics/main-refresh-20261004/host-and-build.json)", ""]
+    if manifest.get("build_proof"):
+        proof = manifest["build_proof"]
+        lines += [f"[本轮构建与硬件证明]({proof})" if zh else f"[Current build and hardware]({proof})", ""]
     if (ROOT / "diagnostics/main-refresh-20261004/report-audit.json").exists():
-        lines += ["[绘图数据核验结果](diagnostics/main-refresh-20261004/report-audit.json) · [核验脚本](diagnostics/main-refresh-20261004/audit-report.py)" if zh else "[Plot-data audit](diagnostics/main-refresh-20261004/report-audit.json) · [Audit script](diagnostics/main-refresh-20261004/audit-report.py)", ""]
+        lines += ["[上一轮绘图数据核验](diagnostics/main-refresh-20261004/report-audit.json) · [上一轮核验脚本](diagnostics/main-refresh-20261004/audit-report.py)" if zh else "[Previous-round plot-data audit](diagnostics/main-refresh-20261004/report-audit.json) · [Previous-round audit script](diagnostics/main-refresh-20261004/audit-report.py)", ""]
     lines += ["[Hash/Set 写入 perf 分析](diagnostics/hashset-write-20261004/README.md) · [有序目录优化与测试](diagnostics/ordered-metadata-20261004/README.md)" if zh else "[Hash/Set write profiles](diagnostics/hashset-write-20261004/README.md) · [Ordered metadata optimization and tests](diagnostics/ordered-metadata-20261004/README.md)", ""]
     active = {v["pr"]: v["url"] for r in rows for v in r.get("variants", []) if "pr" in v}
     if active:
