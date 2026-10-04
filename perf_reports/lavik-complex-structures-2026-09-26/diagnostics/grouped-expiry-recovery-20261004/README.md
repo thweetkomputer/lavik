@@ -27,3 +27,9 @@ The earlier arm64 native-FULL timeout has not recurred in subsequent completed r
 ## Report provenance repair
 
 The reply-reservation publisher incorrectly reused the first List-stage directory. [Repair record](list-report-layout-repair.json) documents restoring all 67 first-stage files from the commit before that publication and moving second-stage material into its intended directory. Raw QPS data and curves are unchanged. [First stage](../list-read-window-20261004/README.md) and [second stage](../list-reply-reserve-20261004/README.md) now retain distinct comparisons and CPU profiles.
+
+## CI confirmation
+
+[Initial recovery-fix CI](https://github.com/eloqdata/lavik/actions/runs/37229779333) at `89d0b136` passed 11 of 12 software shards, including all six arm64 shards. Both architecture shard-0 jobs passed all 291 tests, including the previously failing grouped ordered suite. The remaining amd64 shard failed `SentinelTest.test_discovery_null_contract_on_bootstrap_leader` with `RESP connection closed`: it sent discovery commands before the elected leader had discovery authority. [Job outcomes](pr268-first-ci.json) retain the failed overall result.
+
+PR #268 now includes the already validated Meta test fixture corrections from #266/#267 at head `5c0deb3e`; the recovery implementation remains `89d0b136`. The new combined CI is pending.
