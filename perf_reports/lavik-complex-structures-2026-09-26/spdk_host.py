@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Prepare and restore only this host's six dedicated benchmark NVMe devices.
 
-Run as root. The prepare command discards their prior scratch dataset before
+Run as root. Preparation requires an explicit discard or retain choice before
 binding the controllers to VFIO; it never selects the OS or workspace NVMe.
 """
 
@@ -80,7 +80,7 @@ def assert_driver(driver):
         assert actual == driver, (bdf, actual)
 
 
-def prepare():
+def prepare(discard=True):
     assert not (ROOT / "spdk-ready.json").exists()
     no_servers()
     devices = checked_kernel_devices()
@@ -90,14 +90,16 @@ def prepare():
                 "unsafe_noiommu": UNSAFE.read_text().strip(),
                 "devices": devices, "pci_allowed": PCI_ALLOWED}
     save(ROOT / "spdk-host-original.json", original)
-    for serial in sorted(devices):
-        print("discard", serial, devices[serial], flush=True)
-        run("blkdiscard", devices[serial])
+    if discard:
+        for serial in sorted(devices):
+            print("discard", serial, devices[serial], flush=True)
+            run("blkdiscard", devices[serial])
     if not list(Path("/sys/kernel/iommu_groups").iterdir()):
         UNSAFE.write_text("1\n")
     setup("config")
     assert_driver("vfio-pci")
-    save(ROOT / "spdk-ready.json", {"time": time.time(), "pci_allowed": PCI_ALLOWED})
+    save(ROOT / "spdk-ready.json", {"time": time.time(), "pci_allowed": PCI_ALLOWED,
+                                     "retained_scratch": not discard})
 
 
 def restore():
@@ -120,10 +122,13 @@ if __name__ == "__main__":
     assert os.geteuid() == 0
     parser = argparse.ArgumentParser()
     parser.add_argument("action", choices=("prepare", "restore"))
-    parser.add_argument("--discard-scratch", action="store_true")
+    selection = parser.add_mutually_exclusive_group()
+    selection.add_argument("--discard-scratch", action="store_true")
+    selection.add_argument("--keep-scratch", action="store_true",
+                           help="Retain the preceding dataset for an explicit resumed grid")
     options = parser.parse_args()
     if options.action == "prepare":
-        assert options.discard_scratch, "prepare requires --discard-scratch"
-        prepare()
+        assert options.discard_scratch or options.keep_scratch, "prepare requires an explicit scratch choice"
+        prepare(discard=options.discard_scratch)
     else:
         restore()

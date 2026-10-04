@@ -221,6 +221,22 @@ def readme(manifest, zh):
         lines += [("未合并优化：" if zh else "Unmerged optimizations: ") + links, ""]
     if 249 in active:
         lines += ["PR #249 的实测：Stream XADD MAXLEN 两组峰值提高约 9%–11%；100 MiB × 500 key 的 RPUSH 导入耗时减少约 20.7%。LSET 没有测到提升，100 MiB 组峰值低 3.3%。这些是单次扫描结果，仍未达到 Kvrocks 的写入吞吐。[原始比较与限制](diagnostics/ordered-metadata-20261004/README.md)。" if zh else "PR #249 measurements: Stream XADD MAXLEN peaks improve by about 9%–11% in two conditions; RPUSH fill time for 500 keys of 100 MiB falls by about 20.7%. LSET shows no improvement, with its 100 MiB peak 3.3% lower. These are single sweeps and do not reach Kvrocks write throughput. [Comparisons and limitations](diagnostics/ordered-metadata-20261004/README.md).", ""]
+    failures = []
+    resumes = []
+    for row in rows:
+        if not row["main"].get("fresh"):
+            continue
+        source = folder("lavik", row["main"]["tag"])
+        for path in sorted(source.glob("*.error.json")):
+            failure = json.loads(path.read_text())
+            label = f"{NAMES[row['kind']]} {failure['operation']} · {row['size']//1048576} MiB/key · {row['field']} B · {failure['connections']} connections"
+            failures.append(f"- {label}: [recorded failure]({path.relative_to(ROOT)}).")
+        if (source / "resume.json").exists():
+            resumes.append(f"[{NAMES[row['kind']]} {row['size']//1048576} MiB / {row['field']} B]({(source/'resume.json').relative_to(ROOT)})")
+    if failures:
+        lines += ["本轮失败测点（图中留空，错误请求的吞吐不计为成功 QPS）：" if zh else "Failed observations in this run (gaps in figures; errored requests are not successful QPS):", "", *failures, ""]
+    if resumes:
+        lines += [("以下扫描在正常停服后恢复同一份数据继续，只补缺失点，成功和失败的已有观察均保留：" if zh else "These grids resume the same retained dataset after a clean stop, measuring only missing points and retaining all existing successes/failures: ") + " · ".join(resumes) + ".", ""]
     for kind in ["list", "hash", "set", "zset", "stream"]:
         lines += ["## " + NAMES[kind], ""]
         if kind == "set":

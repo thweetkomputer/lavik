@@ -2,7 +2,7 @@
 
 [English](README.md)
 
-**2026-10-04：main `5d7d12ec` 已完成 25/28 组复测，包含已合并的 #244、#246、#247。**
+**2026-10-04：main `5d7d12ec` 已完成 26/28 组复测，包含已合并的 #244、#246、#247。**
 
 批量 HSET/SADD 导入另计：0/4 组已更新。未完成的图注明实际历史版本。
 
@@ -23,6 +23,12 @@ Redis/Valkey 关闭持久化；Kvrocks 使用无压缩 RAID0、关闭 WAL、80 G
 未合并优化：[PR #249](https://github.com/eloqdata/lavik/pull/249)
 
 PR #249 的实测：Stream XADD MAXLEN 两组峰值提高约 9%–11%；100 MiB × 500 key 的 RPUSH 导入耗时减少约 20.7%。LSET 没有测到提升，100 MiB 组峰值低 3.3%。这些是单次扫描结果，仍未达到 Kvrocks 的写入吞吐。[原始比较与限制](diagnostics/ordered-metadata-20261004/README.md)。
+
+本轮失败测点（图中留空，错误请求的吞吐不计为成功 QPS）：
+
+- List LRANGE · 100 MiB/key · 128 B · 16 connections: [recorded failure](raw/lavik-main5d7d12ec-ordered-list-104857600-k8-f128-20261004/list-104857600-128-lrange-c16.error.json).
+
+以下扫描在正常停服后恢复同一份数据继续，只补缺失点，成功和失败的已有观察均保留：[List 100 MiB / 128 B](raw/lavik-main5d7d12ec-ordered-list-104857600-k8-f128-20261004/resume.json).
 
 ## List
 
@@ -58,11 +64,11 @@ PR #249 的实测：Stream XADD MAXLEN 两组峰值提高约 9%–11%；100 MiB 
 
 #### 100 MiB/key
 
-128 B/entry · 8 keys · 历史测量，待复测 `646a7b4e`
+128 B/entry · 8 keys · 本轮 main 基线 `5d7d12ec`
 
 ![List LINDEX 100 MiB/key, 128 B, 8 keys](charts/list-104857600-128-k8-lindex-current.png)
 
-[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik (previous measurement) 646a7b4e](raw/lavik-100m/)
+[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-ordered-list-104857600-k8-f128-20261004/)
 
 1024 B/entry · 8 keys · 本轮 main 基线 `5d7d12ec`
 
@@ -102,11 +108,11 @@ PR #249 的实测：Stream XADD MAXLEN 两组峰值提高约 9%–11%；100 MiB 
 
 #### 100 MiB/key
 
-128 B/entry · 8 keys · 历史测量，待复测 `646a7b4e`
+128 B/entry · 8 keys · 本轮 main 基线 `5d7d12ec`
 
 ![List LSET 100 MiB/key, 128 B, 8 keys](charts/list-104857600-128-k8-lset-current.png)
 
-[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik (previous measurement) 646a7b4e](raw/lavik-100m/)
+[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-ordered-list-104857600-k8-f128-20261004/)
 
 1024 B/entry · 500 keys · 本轮 main 基线 `5d7d12ec`
 
@@ -146,11 +152,11 @@ PR #249 的实测：Stream XADD MAXLEN 两组峰值提高约 9%–11%；100 MiB 
 
 #### 100 MiB/key
 
-128 B/entry · 8 keys · 历史测量，待复测 `646a7b4e`
+128 B/entry · 8 keys · 本轮 main 基线 `5d7d12ec`
 
 ![List LRANGE 100 MiB/key, 128 B, 8 keys](charts/list-104857600-128-k8-lrange-current.png)
 
-[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik (previous measurement) 646a7b4e](raw/lavik-100m/)
+[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-ordered-list-104857600-k8-f128-20261004/)
 
 1024 B/entry · 8 keys · 本轮 main 基线 `5d7d12ec`
 
