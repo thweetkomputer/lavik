@@ -2,7 +2,7 @@
 
 [简体中文](README.zh-CN.md)
 
-**2026-10-04: main `5d7d12ec`, including merged #244/#246/#247; 15/28 conditions refreshed.**
+**2026-10-04: main `5d7d12ec`, including merged #244/#246/#247; 16/28 conditions refreshed.**
 
 Batched HSET/SADD import is tracked separately: 0/4 conditions refreshed. Pending charts identify their actual historical version.
 
@@ -13,6 +13,8 @@ Pending conditions retain explicitly labeled historical Lavik measurements. Old 
 Redis/Valkey disable persistence. Kvrocks uses uncompressed RAID0, disabled WAL and 80 GiB block/blob cache. Lavik persists through six SPDK NVMe devices without caching field/page payloads. Write QPS compares these configurations, not equivalent durability.
 
 Peers are not rerun this round. Lavik uses AMD EPYC 9V74, 16 vCPUs and 12 serving workers. Points last 8 s (10 s for high-key-count LSET), pipeline=1. Each condition is independently seeded and checked key by key. CPU profiles run separately after complete clean grids. Single sweeps have no statistical confidence intervals.
+
+FDS/Meta discovery fix #248 merged into main `d14d1b0d` during measurement; the checkout and PR #249 are rebased. This standalone experiment keeps its verified main `5d7d12ec` and PR `97f81cd6` binaries and actual measured commit labels. Storage sources are unchanged across this rebase. [Revision verification](diagnostics/main-refresh-20261004/fds-rebase-provenance.json).
 
 [Plot sources](current-main.json) · [Runner](run.py) · [Build and hardware](diagnostics/main-refresh-20261004/host-and-build.json)
 
@@ -34,7 +36,7 @@ PR #249 measurements: Stream XADD MAXLEN peaks improve by about 9%–11% in two 
 
 [Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 646a7b4e](raw/lavik/)
 
-1024 B/entry · 64 keys · Current main `5d7d12ec`
+1024 B/entry · 64 keys · Measured main baseline `5d7d12ec`
 
 ![List LINDEX 64 KiB/key, 1024 B, 64 keys](charts/list-65536-1024-k64-lindex-current.png)
 
@@ -78,7 +80,7 @@ PR #249 measurements: Stream XADD MAXLEN peaks improve by about 9%–11% in two 
 
 [Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 646a7b4e](raw/lavik/)
 
-1024 B/entry · 64 keys · Current main `5d7d12ec`
+1024 B/entry · 64 keys · Measured main baseline `5d7d12ec`
 
 ![List LSET 64 KiB/key, 1024 B, 64 keys](charts/list-65536-1024-k64-lset-current.png)
 
@@ -86,7 +88,7 @@ PR #249 measurements: Stream XADD MAXLEN peaks improve by about 9%–11% in two 
 
 #### 1 MiB/key
 
-1024 B/entry · 50,000 keys · Current main `5d7d12ec`
+1024 B/entry · 50,000 keys · Measured main baseline `5d7d12ec`
 
 ![List LSET 1 MiB/key, 1024 B, 50000 keys](charts/list-1048576-1024-k50000-lset-current.png)
 
@@ -94,7 +96,7 @@ PR #249 measurements: Stream XADD MAXLEN peaks improve by about 9%–11% in two 
 
 #### 100 MiB/key
 
-1024 B/entry · 500 keys · Current main `5d7d12ec`
+1024 B/entry · 500 keys · Measured main baseline `5d7d12ec`
 
 ![List LSET 100 MiB/key, 1024 B, 500 keys](charts/list-104857600-1024-k500-lset-current.png)
 
@@ -110,7 +112,7 @@ PR #249 measurements: Stream XADD MAXLEN peaks improve by about 9%–11% in two 
 
 [Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 646a7b4e](raw/lavik/)
 
-1024 B/entry · 64 keys · Current main `5d7d12ec`
+1024 B/entry · 64 keys · Measured main baseline `5d7d12ec`
 
 ![List LRANGE 64 KiB/key, 1024 B, 64 keys](charts/list-65536-1024-k64-lrange-current.png)
 
@@ -162,13 +164,13 @@ Independent LSET seeding timings: 32 clients, pipeline=4, 128 one-KiB entries pe
 
 #### 1 MiB/key
 
-128 B/entry · 50,000 keys · Current main `5d7d12ec`
+128 B/entry · 50,000 keys · Measured main baseline `5d7d12ec`
 
 ![Hash HGET 1 MiB/key, 128 B, 50000 keys](charts/hash-1048576-128-k50000-hget-current.png)
 
 [Redis](raw/redis-hash-1m-k50000-f128-20260929/) · [Valkey](raw/valkey-hash-1m-k50000-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-1m-k50000-f128-20260929/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-hashset-hash-1048576-k50000-f128-20261004/)
 
-1024 B/entry · 50,000 keys · Current main `5d7d12ec`
+1024 B/entry · 50,000 keys · Measured main baseline `5d7d12ec`
 
 ![Hash HGET 1 MiB/key, 1024 B, 50000 keys](charts/hash-1048576-1024-k50000-hget-current.png)
 
@@ -176,13 +178,13 @@ Independent LSET seeding timings: 32 clients, pipeline=4, 128 one-KiB entries pe
 
 #### 100 MiB/key
 
-128 B/entry · 500 keys · Current main `5d7d12ec`
+128 B/entry · 500 keys · Measured main baseline `5d7d12ec`
 
 ![Hash HGET 100 MiB/key, 128 B, 500 keys](charts/hash-104857600-128-k500-hget-current.png)
 
 [Redis](raw/redis-hash-100m-k500-f128-20260929/) · [Valkey](raw/valkey-hash-100m-k500-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-100m-k500-f128-20260929/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-hashset-hash-104857600-k500-f128-20261004/)
 
-1024 B/entry · 500 keys · Current main `5d7d12ec`
+1024 B/entry · 500 keys · Measured main baseline `5d7d12ec`
 
 ![Hash HGET 100 MiB/key, 1024 B, 500 keys](charts/hash-104857600-1024-k500-hget-current.png)
 
@@ -192,13 +194,13 @@ Independent LSET seeding timings: 32 clients, pipeline=4, 128 one-KiB entries pe
 
 #### 1 MiB/key
 
-128 B/entry · 50,000 keys · Current main `5d7d12ec`
+128 B/entry · 50,000 keys · Measured main baseline `5d7d12ec`
 
 ![Hash HSET 1 MiB/key, 128 B, 50000 keys](charts/hash-1048576-128-k50000-hset-current.png)
 
 [Redis](raw/redis-hash-1m-k50000-f128-20260929/) · [Valkey](raw/valkey-hash-1m-k50000-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-1m-k50000-f128-20260929/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-hashset-hash-1048576-k50000-f128-20261004/)
 
-1024 B/entry · 50,000 keys · Current main `5d7d12ec`
+1024 B/entry · 50,000 keys · Measured main baseline `5d7d12ec`
 
 ![Hash HSET 1 MiB/key, 1024 B, 50000 keys](charts/hash-1048576-1024-k50000-hset-current.png)
 
@@ -206,13 +208,13 @@ Independent LSET seeding timings: 32 clients, pipeline=4, 128 one-KiB entries pe
 
 #### 100 MiB/key
 
-128 B/entry · 500 keys · Current main `5d7d12ec`
+128 B/entry · 500 keys · Measured main baseline `5d7d12ec`
 
 ![Hash HSET 100 MiB/key, 128 B, 500 keys](charts/hash-104857600-128-k500-hset-current.png)
 
 [Redis](raw/redis-hash-100m-k500-f128-20260929/) · [Valkey](raw/valkey-hash-100m-k500-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-100m-k500-f128-20260929/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-hashset-hash-104857600-k500-f128-20261004/)
 
-1024 B/entry · 500 keys · Current main `5d7d12ec`
+1024 B/entry · 500 keys · Measured main baseline `5d7d12ec`
 
 ![Hash HSET 100 MiB/key, 1024 B, 500 keys](charts/hash-104857600-1024-k500-hset-current.png)
 
@@ -222,13 +224,13 @@ Independent LSET seeding timings: 32 clients, pipeline=4, 128 one-KiB entries pe
 
 #### 1 MiB/key
 
-128 B/entry · 50,000 keys · Current main `5d7d12ec`
+128 B/entry · 50,000 keys · Measured main baseline `5d7d12ec`
 
 ![Hash HGETALL 1 MiB/key, 128 B, 50000 keys](charts/hash-1048576-128-k50000-hgetall-current.png)
 
 [Redis](raw/redis-hash-1m-k50000-f128-20260929/) · [Valkey](raw/valkey-hash-1m-k50000-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-1m-k50000-f128-20260929/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-hashset-hash-1048576-k50000-f128-20261004/)
 
-1024 B/entry · 50,000 keys · Current main `5d7d12ec`
+1024 B/entry · 50,000 keys · Measured main baseline `5d7d12ec`
 
 ![Hash HGETALL 1 MiB/key, 1024 B, 50000 keys](charts/hash-1048576-1024-k50000-hgetall-current.png)
 
@@ -236,13 +238,13 @@ Independent LSET seeding timings: 32 clients, pipeline=4, 128 one-KiB entries pe
 
 #### 100 MiB/key
 
-128 B/entry · 500 keys · Current main `5d7d12ec`
+128 B/entry · 500 keys · Measured main baseline `5d7d12ec`
 
 ![Hash HGETALL 100 MiB/key, 128 B, 500 keys](charts/hash-104857600-128-k500-hgetall-current.png)
 
 [Redis](raw/redis-hash-100m-k500-f128-20260929/) · [Valkey](raw/valkey-hash-100m-k500-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-100m-k500-f128-20260929/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-hashset-hash-104857600-k500-f128-20261004/)
 
-1024 B/entry · 500 keys · Current main `5d7d12ec`
+1024 B/entry · 500 keys · Measured main baseline `5d7d12ec`
 
 ![Hash HGETALL 100 MiB/key, 1024 B, 500 keys](charts/hash-104857600-1024-k500-hgetall-current.png)
 
@@ -274,13 +276,13 @@ SADD + SREM mixes the two commands equally; QPS counts commands, not pairs. Rand
 
 #### 1 MiB/key
 
-128 B/entry · 50,000 keys · Current main `5d7d12ec`
+128 B/entry · 50,000 keys · Measured main baseline `5d7d12ec`
 
 ![Set SISMEMBER 1 MiB/key, 128 B, 50000 keys](charts/set-1048576-128-k50000-sismember-current.png)
 
 [Redis](raw/redis-set-1m-k50000-f128-20260929/) · [Valkey](raw/valkey-set-1m-k50000-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-1m-k50000-f128-20260929/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-hashset-set-1048576-k50000-f128-20261004/)
 
-1024 B/entry · 50,000 keys · Current main `5d7d12ec`
+1024 B/entry · 50,000 keys · Measured main baseline `5d7d12ec`
 
 ![Set SISMEMBER 1 MiB/key, 1024 B, 50000 keys](charts/set-1048576-1024-k50000-sismember-current.png)
 
@@ -288,13 +290,13 @@ SADD + SREM mixes the two commands equally; QPS counts commands, not pairs. Rand
 
 #### 100 MiB/key
 
-128 B/entry · 500 keys · Current main `5d7d12ec`
+128 B/entry · 500 keys · Measured main baseline `5d7d12ec`
 
 ![Set SISMEMBER 100 MiB/key, 128 B, 500 keys](charts/set-104857600-128-k500-sismember-current.png)
 
 [Redis](raw/redis-set-100m-k500-f128-20260929/) · [Valkey](raw/valkey-set-100m-k500-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-100m-k500-f128-20260929/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-hashset-set-104857600-k500-f128-20261004/)
 
-1024 B/entry · 500 keys · Current main `5d7d12ec`
+1024 B/entry · 500 keys · Measured main baseline `5d7d12ec`
 
 ![Set SISMEMBER 100 MiB/key, 1024 B, 500 keys](charts/set-104857600-1024-k500-sismember-current.png)
 
@@ -304,13 +306,13 @@ SADD + SREM mixes the two commands equally; QPS counts commands, not pairs. Rand
 
 #### 1 MiB/key
 
-128 B/entry · 50,000 keys · Current main `5d7d12ec`
+128 B/entry · 50,000 keys · Measured main baseline `5d7d12ec`
 
 ![Set SADD_SREM 1 MiB/key, 128 B, 50000 keys](charts/set-1048576-128-k50000-sadd_srem-current.png)
 
 [Redis](raw/redis-set-1m-k50000-f128-20260929/) · [Valkey](raw/valkey-set-1m-k50000-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-1m-k50000-f128-20260929/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-hashset-set-1048576-k50000-f128-20261004/)
 
-1024 B/entry · 50,000 keys · Current main `5d7d12ec`
+1024 B/entry · 50,000 keys · Measured main baseline `5d7d12ec`
 
 ![Set SADD_SREM 1 MiB/key, 1024 B, 50000 keys](charts/set-1048576-1024-k50000-sadd_srem-current.png)
 
@@ -318,13 +320,13 @@ SADD + SREM mixes the two commands equally; QPS counts commands, not pairs. Rand
 
 #### 100 MiB/key
 
-128 B/entry · 500 keys · Current main `5d7d12ec`
+128 B/entry · 500 keys · Measured main baseline `5d7d12ec`
 
 ![Set SADD_SREM 100 MiB/key, 128 B, 500 keys](charts/set-104857600-128-k500-sadd_srem-current.png)
 
 [Redis](raw/redis-set-100m-k500-f128-20260929/) · [Valkey](raw/valkey-set-100m-k500-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-100m-k500-f128-20260929/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-hashset-set-104857600-k500-f128-20261004/)
 
-1024 B/entry · 500 keys · Current main `5d7d12ec`
+1024 B/entry · 500 keys · Measured main baseline `5d7d12ec`
 
 ![Set SADD_SREM 100 MiB/key, 1024 B, 500 keys](charts/set-104857600-1024-k500-sadd_srem-current.png)
 
@@ -334,13 +336,13 @@ SADD + SREM mixes the two commands equally; QPS counts commands, not pairs. Rand
 
 #### 1 MiB/key
 
-128 B/entry · 50,000 keys · Current main `5d7d12ec`
+128 B/entry · 50,000 keys · Measured main baseline `5d7d12ec`
 
 ![Set SMEMBERS 1 MiB/key, 128 B, 50000 keys](charts/set-1048576-128-k50000-smembers-current.png)
 
 [Redis](raw/redis-set-1m-k50000-f128-20260929/) · [Valkey](raw/valkey-set-1m-k50000-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-1m-k50000-f128-20260929/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-hashset-set-1048576-k50000-f128-20261004/)
 
-1024 B/entry · 50,000 keys · Current main `5d7d12ec`
+1024 B/entry · 50,000 keys · Measured main baseline `5d7d12ec`
 
 ![Set SMEMBERS 1 MiB/key, 1024 B, 50000 keys](charts/set-1048576-1024-k50000-smembers-current.png)
 
@@ -348,13 +350,13 @@ SADD + SREM mixes the two commands equally; QPS counts commands, not pairs. Rand
 
 #### 100 MiB/key
 
-128 B/entry · 500 keys · Current main `5d7d12ec`
+128 B/entry · 500 keys · Measured main baseline `5d7d12ec`
 
 ![Set SMEMBERS 100 MiB/key, 128 B, 500 keys](charts/set-104857600-128-k500-smembers-current.png)
 
 [Redis](raw/redis-set-100m-k500-f128-20260929/) · [Valkey](raw/valkey-set-100m-k500-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-100m-k500-f128-20260929/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-hashset-set-104857600-k500-f128-20261004/)
 
-1024 B/entry · 500 keys · Current main `5d7d12ec`
+1024 B/entry · 500 keys · Measured main baseline `5d7d12ec`
 
 ![Set SMEMBERS 100 MiB/key, 1024 B, 500 keys](charts/set-104857600-1024-k500-smembers-current.png)
 
@@ -390,11 +392,11 @@ SADD + SREM mixes the two commands equally; QPS counts commands, not pairs. Rand
 
 [Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 646a7b4e](raw/lavik/)
 
-1024 B/entry · 64 keys · Historical measurement; refresh pending `646a7b4e`
+1024 B/entry · 64 keys · Measured main baseline `5d7d12ec`
 
 ![Sorted Set ZSCORE 64 KiB/key, 1024 B, 64 keys](charts/zset-65536-1024-k64-zscore-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 646a7b4e](raw/lavik/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-ordered-zset-65536-k64-f1024-20261004/)
 
 #### 1 MiB/key
 
@@ -418,7 +420,7 @@ SADD + SREM mixes the two commands equally; QPS counts commands, not pairs. Rand
 
 [Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik (previous measurement) 646a7b4e](raw/lavik-100m/)
 
-1024 B/entry · 8 keys · Current main `5d7d12ec`
+1024 B/entry · 8 keys · Measured main baseline `5d7d12ec`
 
 ![Sorted Set ZSCORE 100 MiB/key, 1024 B, 8 keys](charts/zset-104857600-1024-k8-zscore-current.png)
 
@@ -434,11 +436,11 @@ SADD + SREM mixes the two commands equally; QPS counts commands, not pairs. Rand
 
 [Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 646a7b4e](raw/lavik/)
 
-1024 B/entry · 64 keys · Historical measurement; refresh pending `646a7b4e`
+1024 B/entry · 64 keys · Measured main baseline `5d7d12ec`
 
 ![Sorted Set ZINCRBY 64 KiB/key, 1024 B, 64 keys](charts/zset-65536-1024-k64-zincrby-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 646a7b4e](raw/lavik/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-ordered-zset-65536-k64-f1024-20261004/)
 
 #### 1 MiB/key
 
@@ -462,7 +464,7 @@ SADD + SREM mixes the two commands equally; QPS counts commands, not pairs. Rand
 
 [Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik (previous measurement) 646a7b4e](raw/lavik-100m/)
 
-1024 B/entry · 8 keys · Current main `5d7d12ec`
+1024 B/entry · 8 keys · Measured main baseline `5d7d12ec`
 
 ![Sorted Set ZINCRBY 100 MiB/key, 1024 B, 8 keys](charts/zset-104857600-1024-k8-zincrby-current.png)
 
@@ -478,11 +480,11 @@ SADD + SREM mixes the two commands equally; QPS counts commands, not pairs. Rand
 
 [Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 646a7b4e](raw/lavik/)
 
-1024 B/entry · 64 keys · Historical measurement; refresh pending `646a7b4e`
+1024 B/entry · 64 keys · Measured main baseline `5d7d12ec`
 
 ![Sorted Set ZRANGE 64 KiB/key, 1024 B, 64 keys](charts/zset-65536-1024-k64-zrange-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 646a7b4e](raw/lavik/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-ordered-zset-65536-k64-f1024-20261004/)
 
 #### 1 MiB/key
 
@@ -506,7 +508,7 @@ SADD + SREM mixes the two commands equally; QPS counts commands, not pairs. Rand
 
 [Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik (previous measurement) 646a7b4e](raw/lavik-100m/)
 
-1024 B/entry · 8 keys · Current main `5d7d12ec`
+1024 B/entry · 8 keys · Measured main baseline `5d7d12ec`
 
 ![Sorted Set ZRANGE 100 MiB/key, 1024 B, 8 keys](charts/zset-104857600-1024-k8-zrange-current.png)
 
@@ -524,7 +526,7 @@ SADD + SREM mixes the two commands equally; QPS counts commands, not pairs. Rand
 
 [Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 9acd7b6f](raw/lavik-main9acd-stream-small-20260929/)
 
-1024 B/entry · 64 keys · Current main `5d7d12ec`
+1024 B/entry · 64 keys · Measured main baseline `5d7d12ec`
 
 ![Stream XRANGE 64 KiB/key, 1024 B, 64 keys](charts/stream-65536-1024-k64-xrange-current.png)
 
@@ -538,7 +540,7 @@ SADD + SREM mixes the two commands equally; QPS counts commands, not pairs. Rand
 
 [Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 9acd7b6f](raw/lavik-main9acd-stream-small-20260929/)
 
-1024 B/entry · 64 keys · Current main `5d7d12ec`
+1024 B/entry · 64 keys · Measured main baseline `5d7d12ec`
 
 ![Stream XRANGE 1 MiB/key, 1024 B, 64 keys](charts/stream-1048576-1024-k64-xrange-current.png)
 
@@ -552,7 +554,7 @@ SADD + SREM mixes the two commands equally; QPS counts commands, not pairs. Rand
 
 [Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik (previous measurement) 646a7b4e](raw/lavik-100m/)
 
-1024 B/entry · 8 keys · Current main `5d7d12ec`
+1024 B/entry · 8 keys · Measured main baseline `5d7d12ec`
 
 ![Stream XRANGE 100 MiB/key, 1024 B, 8 keys](charts/stream-104857600-1024-k8-xrange-current.png)
 
@@ -568,7 +570,7 @@ SADD + SREM mixes the two commands equally; QPS counts commands, not pairs. Rand
 
 [Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 9acd7b6f](raw/lavik-main9acd-stream-small-20260929/)
 
-1024 B/entry · 64 keys · Current main `5d7d12ec`
+1024 B/entry · 64 keys · Measured main baseline `5d7d12ec`
 
 ![Stream XADD_MAXLEN 64 KiB/key, 1024 B, 64 keys](charts/stream-65536-1024-k64-xadd_maxlen-current.png)
 
@@ -582,7 +584,7 @@ SADD + SREM mixes the two commands equally; QPS counts commands, not pairs. Rand
 
 [Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 9acd7b6f](raw/lavik-main9acd-stream-small-20260929/)
 
-1024 B/entry · 64 keys · Current main `5d7d12ec`
+1024 B/entry · 64 keys · Measured main baseline `5d7d12ec`
 
 ![Stream XADD_MAXLEN 1 MiB/key, 1024 B, 64 keys](charts/stream-1048576-1024-k64-xadd_maxlen-current.png)
 
@@ -596,7 +598,7 @@ SADD + SREM mixes the two commands equally; QPS counts commands, not pairs. Rand
 
 [Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik (previous measurement) 646a7b4e](raw/lavik-100m/)
 
-1024 B/entry · 8 keys · Current main `5d7d12ec`
+1024 B/entry · 8 keys · Measured main baseline `5d7d12ec`
 
 ![Stream XADD_MAXLEN 100 MiB/key, 1024 B, 8 keys](charts/stream-104857600-1024-k8-xadd_maxlen-current.png)
 
@@ -612,7 +614,7 @@ SADD + SREM mixes the two commands equally; QPS counts commands, not pairs. Rand
 
 [Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 9acd7b6f](raw/lavik-main9acd-stream-small-20260929/)
 
-1024 B/entry · 64 keys · Current main `5d7d12ec`
+1024 B/entry · 64 keys · Measured main baseline `5d7d12ec`
 
 ![Stream XRANGE_FULL 64 KiB/key, 1024 B, 64 keys](charts/stream-65536-1024-k64-xrange_full-current.png)
 
@@ -626,7 +628,7 @@ SADD + SREM mixes the two commands equally; QPS counts commands, not pairs. Rand
 
 [Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 9acd7b6f](raw/lavik-main9acd-stream-small-20260929/)
 
-1024 B/entry · 64 keys · Current main `5d7d12ec`
+1024 B/entry · 64 keys · Measured main baseline `5d7d12ec`
 
 ![Stream XRANGE_FULL 1 MiB/key, 1024 B, 64 keys](charts/stream-1048576-1024-k64-xrange_full-current.png)
 
@@ -640,7 +642,7 @@ SADD + SREM mixes the two commands equally; QPS counts commands, not pairs. Rand
 
 [Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik (previous measurement) 646a7b4e](raw/lavik-100m/)
 
-1024 B/entry · 8 keys · Current main `5d7d12ec`
+1024 B/entry · 8 keys · Measured main baseline `5d7d12ec`
 
 ![Stream XRANGE_FULL 100 MiB/key, 1024 B, 8 keys](charts/stream-104857600-1024-k8-xrange_full-current.png)
 

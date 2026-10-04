@@ -2,7 +2,7 @@
 
 [English](README.md)
 
-**2026-10-04：main `5d7d12ec` 已完成 15/28 组复测，包含已合并的 #244、#246、#247。**
+**2026-10-04：main `5d7d12ec` 已完成 16/28 组复测，包含已合并的 #244、#246、#247。**
 
 批量 HSET/SADD 导入另计：0/4 组已更新。未完成的图注明实际历史版本。
 
@@ -13,6 +13,8 @@
 Redis/Valkey 关闭持久化；Kvrocks 使用无压缩 RAID0、关闭 WAL、80 GiB block/blob cache；Lavik 使用六块 NVMe SPDK 持久化，不缓存字段或页内容。配置不同，写入 QPS 不代表同等持久性下的排名。
 
 本轮不重跑其他三库。Lavik 使用 AMD EPYC 9V74、16 vCPU、12 个服务 worker。每点 8 秒，较多 key 的 LSET 为 10 秒；pipeline=1。每组独立预置并逐 key 校验，perf 采样在完整连接扫描后单独进行，不混入 QPS 图。单次扫描没有统计置信区间。
+
+复测期间 #248 的 FDS/Meta 发现修复合入 main `d14d1b0d`，代码与 PR #249 已同步 rebase。本轮单机实验固定使用 main `5d7d12ec` 和 PR `97f81cd6` 的已验证二进制，图中提交号保持实际测量版本；存储源码在这次 rebase 前后一致。[版本核验](diagnostics/main-refresh-20261004/fds-rebase-provenance.json)。
 
 [绘图数据清单](current-main.json) · [复现脚本](run.py) · [构建与硬件证明](diagnostics/main-refresh-20261004/host-and-build.json)
 
@@ -34,7 +36,7 @@ PR #249 的实测：Stream XADD MAXLEN 两组峰值提高约 9%–11%；100 MiB 
 
 [Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 646a7b4e](raw/lavik/)
 
-1024 B/entry · 64 keys · 最新 main `5d7d12ec`
+1024 B/entry · 64 keys · 本轮 main 基线 `5d7d12ec`
 
 ![List LINDEX 64 KiB/key, 1024 B, 64 keys](charts/list-65536-1024-k64-lindex-current.png)
 
@@ -78,7 +80,7 @@ PR #249 的实测：Stream XADD MAXLEN 两组峰值提高约 9%–11%；100 MiB 
 
 [Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 646a7b4e](raw/lavik/)
 
-1024 B/entry · 64 keys · 最新 main `5d7d12ec`
+1024 B/entry · 64 keys · 本轮 main 基线 `5d7d12ec`
 
 ![List LSET 64 KiB/key, 1024 B, 64 keys](charts/list-65536-1024-k64-lset-current.png)
 
@@ -86,7 +88,7 @@ PR #249 的实测：Stream XADD MAXLEN 两组峰值提高约 9%–11%；100 MiB 
 
 #### 1 MiB/key
 
-1024 B/entry · 50,000 keys · 最新 main `5d7d12ec`
+1024 B/entry · 50,000 keys · 本轮 main 基线 `5d7d12ec`
 
 ![List LSET 1 MiB/key, 1024 B, 50000 keys](charts/list-1048576-1024-k50000-lset-current.png)
 
@@ -94,7 +96,7 @@ PR #249 的实测：Stream XADD MAXLEN 两组峰值提高约 9%–11%；100 MiB 
 
 #### 100 MiB/key
 
-1024 B/entry · 500 keys · 最新 main `5d7d12ec`
+1024 B/entry · 500 keys · 本轮 main 基线 `5d7d12ec`
 
 ![List LSET 100 MiB/key, 1024 B, 500 keys](charts/list-104857600-1024-k500-lset-current.png)
 
@@ -110,7 +112,7 @@ PR #249 的实测：Stream XADD MAXLEN 两组峰值提高约 9%–11%；100 MiB 
 
 [Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 646a7b4e](raw/lavik/)
 
-1024 B/entry · 64 keys · 最新 main `5d7d12ec`
+1024 B/entry · 64 keys · 本轮 main 基线 `5d7d12ec`
 
 ![List LRANGE 64 KiB/key, 1024 B, 64 keys](charts/list-65536-1024-k64-lrange-current.png)
 
@@ -162,13 +164,13 @@ PR #249 的实测：Stream XADD MAXLEN 两组峰值提高约 9%–11%；100 MiB 
 
 #### 1 MiB/key
 
-128 B/entry · 50,000 keys · 最新 main `5d7d12ec`
+128 B/entry · 50,000 keys · 本轮 main 基线 `5d7d12ec`
 
 ![Hash HGET 1 MiB/key, 128 B, 50000 keys](charts/hash-1048576-128-k50000-hget-current.png)
 
 [Redis](raw/redis-hash-1m-k50000-f128-20260929/) · [Valkey](raw/valkey-hash-1m-k50000-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-1m-k50000-f128-20260929/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-hashset-hash-1048576-k50000-f128-20261004/)
 
-1024 B/entry · 50,000 keys · 最新 main `5d7d12ec`
+1024 B/entry · 50,000 keys · 本轮 main 基线 `5d7d12ec`
 
 ![Hash HGET 1 MiB/key, 1024 B, 50000 keys](charts/hash-1048576-1024-k50000-hget-current.png)
 
@@ -176,13 +178,13 @@ PR #249 的实测：Stream XADD MAXLEN 两组峰值提高约 9%–11%；100 MiB 
 
 #### 100 MiB/key
 
-128 B/entry · 500 keys · 最新 main `5d7d12ec`
+128 B/entry · 500 keys · 本轮 main 基线 `5d7d12ec`
 
 ![Hash HGET 100 MiB/key, 128 B, 500 keys](charts/hash-104857600-128-k500-hget-current.png)
 
 [Redis](raw/redis-hash-100m-k500-f128-20260929/) · [Valkey](raw/valkey-hash-100m-k500-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-100m-k500-f128-20260929/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-hashset-hash-104857600-k500-f128-20261004/)
 
-1024 B/entry · 500 keys · 最新 main `5d7d12ec`
+1024 B/entry · 500 keys · 本轮 main 基线 `5d7d12ec`
 
 ![Hash HGET 100 MiB/key, 1024 B, 500 keys](charts/hash-104857600-1024-k500-hget-current.png)
 
@@ -192,13 +194,13 @@ PR #249 的实测：Stream XADD MAXLEN 两组峰值提高约 9%–11%；100 MiB 
 
 #### 1 MiB/key
 
-128 B/entry · 50,000 keys · 最新 main `5d7d12ec`
+128 B/entry · 50,000 keys · 本轮 main 基线 `5d7d12ec`
 
 ![Hash HSET 1 MiB/key, 128 B, 50000 keys](charts/hash-1048576-128-k50000-hset-current.png)
 
 [Redis](raw/redis-hash-1m-k50000-f128-20260929/) · [Valkey](raw/valkey-hash-1m-k50000-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-1m-k50000-f128-20260929/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-hashset-hash-1048576-k50000-f128-20261004/)
 
-1024 B/entry · 50,000 keys · 最新 main `5d7d12ec`
+1024 B/entry · 50,000 keys · 本轮 main 基线 `5d7d12ec`
 
 ![Hash HSET 1 MiB/key, 1024 B, 50000 keys](charts/hash-1048576-1024-k50000-hset-current.png)
 
@@ -206,13 +208,13 @@ PR #249 的实测：Stream XADD MAXLEN 两组峰值提高约 9%–11%；100 MiB 
 
 #### 100 MiB/key
 
-128 B/entry · 500 keys · 最新 main `5d7d12ec`
+128 B/entry · 500 keys · 本轮 main 基线 `5d7d12ec`
 
 ![Hash HSET 100 MiB/key, 128 B, 500 keys](charts/hash-104857600-128-k500-hset-current.png)
 
 [Redis](raw/redis-hash-100m-k500-f128-20260929/) · [Valkey](raw/valkey-hash-100m-k500-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-100m-k500-f128-20260929/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-hashset-hash-104857600-k500-f128-20261004/)
 
-1024 B/entry · 500 keys · 最新 main `5d7d12ec`
+1024 B/entry · 500 keys · 本轮 main 基线 `5d7d12ec`
 
 ![Hash HSET 100 MiB/key, 1024 B, 500 keys](charts/hash-104857600-1024-k500-hset-current.png)
 
@@ -222,13 +224,13 @@ PR #249 的实测：Stream XADD MAXLEN 两组峰值提高约 9%–11%；100 MiB 
 
 #### 1 MiB/key
 
-128 B/entry · 50,000 keys · 最新 main `5d7d12ec`
+128 B/entry · 50,000 keys · 本轮 main 基线 `5d7d12ec`
 
 ![Hash HGETALL 1 MiB/key, 128 B, 50000 keys](charts/hash-1048576-128-k50000-hgetall-current.png)
 
 [Redis](raw/redis-hash-1m-k50000-f128-20260929/) · [Valkey](raw/valkey-hash-1m-k50000-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-1m-k50000-f128-20260929/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-hashset-hash-1048576-k50000-f128-20261004/)
 
-1024 B/entry · 50,000 keys · 最新 main `5d7d12ec`
+1024 B/entry · 50,000 keys · 本轮 main 基线 `5d7d12ec`
 
 ![Hash HGETALL 1 MiB/key, 1024 B, 50000 keys](charts/hash-1048576-1024-k50000-hgetall-current.png)
 
@@ -236,13 +238,13 @@ PR #249 的实测：Stream XADD MAXLEN 两组峰值提高约 9%–11%；100 MiB 
 
 #### 100 MiB/key
 
-128 B/entry · 500 keys · 最新 main `5d7d12ec`
+128 B/entry · 500 keys · 本轮 main 基线 `5d7d12ec`
 
 ![Hash HGETALL 100 MiB/key, 128 B, 500 keys](charts/hash-104857600-128-k500-hgetall-current.png)
 
 [Redis](raw/redis-hash-100m-k500-f128-20260929/) · [Valkey](raw/valkey-hash-100m-k500-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-100m-k500-f128-20260929/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-hashset-hash-104857600-k500-f128-20261004/)
 
-1024 B/entry · 500 keys · 最新 main `5d7d12ec`
+1024 B/entry · 500 keys · 本轮 main 基线 `5d7d12ec`
 
 ![Hash HGETALL 100 MiB/key, 1024 B, 500 keys](charts/hash-104857600-1024-k500-hgetall-current.png)
 
@@ -274,13 +276,13 @@ SADD + SREM 为两个命令等比例混合，QPS 计算完成的命令数，不�
 
 #### 1 MiB/key
 
-128 B/entry · 50,000 keys · 最新 main `5d7d12ec`
+128 B/entry · 50,000 keys · 本轮 main 基线 `5d7d12ec`
 
 ![Set SISMEMBER 1 MiB/key, 128 B, 50000 keys](charts/set-1048576-128-k50000-sismember-current.png)
 
 [Redis](raw/redis-set-1m-k50000-f128-20260929/) · [Valkey](raw/valkey-set-1m-k50000-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-1m-k50000-f128-20260929/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-hashset-set-1048576-k50000-f128-20261004/)
 
-1024 B/entry · 50,000 keys · 最新 main `5d7d12ec`
+1024 B/entry · 50,000 keys · 本轮 main 基线 `5d7d12ec`
 
 ![Set SISMEMBER 1 MiB/key, 1024 B, 50000 keys](charts/set-1048576-1024-k50000-sismember-current.png)
 
@@ -288,13 +290,13 @@ SADD + SREM 为两个命令等比例混合，QPS 计算完成的命令数，不�
 
 #### 100 MiB/key
 
-128 B/entry · 500 keys · 最新 main `5d7d12ec`
+128 B/entry · 500 keys · 本轮 main 基线 `5d7d12ec`
 
 ![Set SISMEMBER 100 MiB/key, 128 B, 500 keys](charts/set-104857600-128-k500-sismember-current.png)
 
 [Redis](raw/redis-set-100m-k500-f128-20260929/) · [Valkey](raw/valkey-set-100m-k500-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-100m-k500-f128-20260929/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-hashset-set-104857600-k500-f128-20261004/)
 
-1024 B/entry · 500 keys · 最新 main `5d7d12ec`
+1024 B/entry · 500 keys · 本轮 main 基线 `5d7d12ec`
 
 ![Set SISMEMBER 100 MiB/key, 1024 B, 500 keys](charts/set-104857600-1024-k500-sismember-current.png)
 
@@ -304,13 +306,13 @@ SADD + SREM 为两个命令等比例混合，QPS 计算完成的命令数，不�
 
 #### 1 MiB/key
 
-128 B/entry · 50,000 keys · 最新 main `5d7d12ec`
+128 B/entry · 50,000 keys · 本轮 main 基线 `5d7d12ec`
 
 ![Set SADD_SREM 1 MiB/key, 128 B, 50000 keys](charts/set-1048576-128-k50000-sadd_srem-current.png)
 
 [Redis](raw/redis-set-1m-k50000-f128-20260929/) · [Valkey](raw/valkey-set-1m-k50000-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-1m-k50000-f128-20260929/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-hashset-set-1048576-k50000-f128-20261004/)
 
-1024 B/entry · 50,000 keys · 最新 main `5d7d12ec`
+1024 B/entry · 50,000 keys · 本轮 main 基线 `5d7d12ec`
 
 ![Set SADD_SREM 1 MiB/key, 1024 B, 50000 keys](charts/set-1048576-1024-k50000-sadd_srem-current.png)
 
@@ -318,13 +320,13 @@ SADD + SREM 为两个命令等比例混合，QPS 计算完成的命令数，不�
 
 #### 100 MiB/key
 
-128 B/entry · 500 keys · 最新 main `5d7d12ec`
+128 B/entry · 500 keys · 本轮 main 基线 `5d7d12ec`
 
 ![Set SADD_SREM 100 MiB/key, 128 B, 500 keys](charts/set-104857600-128-k500-sadd_srem-current.png)
 
 [Redis](raw/redis-set-100m-k500-f128-20260929/) · [Valkey](raw/valkey-set-100m-k500-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-100m-k500-f128-20260929/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-hashset-set-104857600-k500-f128-20261004/)
 
-1024 B/entry · 500 keys · 最新 main `5d7d12ec`
+1024 B/entry · 500 keys · 本轮 main 基线 `5d7d12ec`
 
 ![Set SADD_SREM 100 MiB/key, 1024 B, 500 keys](charts/set-104857600-1024-k500-sadd_srem-current.png)
 
@@ -334,13 +336,13 @@ SADD + SREM 为两个命令等比例混合，QPS 计算完成的命令数，不�
 
 #### 1 MiB/key
 
-128 B/entry · 50,000 keys · 最新 main `5d7d12ec`
+128 B/entry · 50,000 keys · 本轮 main 基线 `5d7d12ec`
 
 ![Set SMEMBERS 1 MiB/key, 128 B, 50000 keys](charts/set-1048576-128-k50000-smembers-current.png)
 
 [Redis](raw/redis-set-1m-k50000-f128-20260929/) · [Valkey](raw/valkey-set-1m-k50000-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-1m-k50000-f128-20260929/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-hashset-set-1048576-k50000-f128-20261004/)
 
-1024 B/entry · 50,000 keys · 最新 main `5d7d12ec`
+1024 B/entry · 50,000 keys · 本轮 main 基线 `5d7d12ec`
 
 ![Set SMEMBERS 1 MiB/key, 1024 B, 50000 keys](charts/set-1048576-1024-k50000-smembers-current.png)
 
@@ -348,13 +350,13 @@ SADD + SREM 为两个命令等比例混合，QPS 计算完成的命令数，不�
 
 #### 100 MiB/key
 
-128 B/entry · 500 keys · 最新 main `5d7d12ec`
+128 B/entry · 500 keys · 本轮 main 基线 `5d7d12ec`
 
 ![Set SMEMBERS 100 MiB/key, 128 B, 500 keys](charts/set-104857600-128-k500-smembers-current.png)
 
 [Redis](raw/redis-set-100m-k500-f128-20260929/) · [Valkey](raw/valkey-set-100m-k500-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-100m-k500-f128-20260929/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-hashset-set-104857600-k500-f128-20261004/)
 
-1024 B/entry · 500 keys · 最新 main `5d7d12ec`
+1024 B/entry · 500 keys · 本轮 main 基线 `5d7d12ec`
 
 ![Set SMEMBERS 100 MiB/key, 1024 B, 500 keys](charts/set-104857600-1024-k500-smembers-current.png)
 
@@ -390,11 +392,11 @@ SADD + SREM 为两个命令等比例混合，QPS 计算完成的命令数，不�
 
 [Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 646a7b4e](raw/lavik/)
 
-1024 B/entry · 64 keys · 历史测量，待复测 `646a7b4e`
+1024 B/entry · 64 keys · 本轮 main 基线 `5d7d12ec`
 
 ![Sorted Set ZSCORE 64 KiB/key, 1024 B, 64 keys](charts/zset-65536-1024-k64-zscore-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 646a7b4e](raw/lavik/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-ordered-zset-65536-k64-f1024-20261004/)
 
 #### 1 MiB/key
 
@@ -418,7 +420,7 @@ SADD + SREM 为两个命令等比例混合，QPS 计算完成的命令数，不�
 
 [Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik (previous measurement) 646a7b4e](raw/lavik-100m/)
 
-1024 B/entry · 8 keys · 最新 main `5d7d12ec`
+1024 B/entry · 8 keys · 本轮 main 基线 `5d7d12ec`
 
 ![Sorted Set ZSCORE 100 MiB/key, 1024 B, 8 keys](charts/zset-104857600-1024-k8-zscore-current.png)
 
@@ -434,11 +436,11 @@ SADD + SREM 为两个命令等比例混合，QPS 计算完成的命令数，不�
 
 [Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 646a7b4e](raw/lavik/)
 
-1024 B/entry · 64 keys · 历史测量，待复测 `646a7b4e`
+1024 B/entry · 64 keys · 本轮 main 基线 `5d7d12ec`
 
 ![Sorted Set ZINCRBY 64 KiB/key, 1024 B, 64 keys](charts/zset-65536-1024-k64-zincrby-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 646a7b4e](raw/lavik/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-ordered-zset-65536-k64-f1024-20261004/)
 
 #### 1 MiB/key
 
@@ -462,7 +464,7 @@ SADD + SREM 为两个命令等比例混合，QPS 计算完成的命令数，不�
 
 [Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik (previous measurement) 646a7b4e](raw/lavik-100m/)
 
-1024 B/entry · 8 keys · 最新 main `5d7d12ec`
+1024 B/entry · 8 keys · 本轮 main 基线 `5d7d12ec`
 
 ![Sorted Set ZINCRBY 100 MiB/key, 1024 B, 8 keys](charts/zset-104857600-1024-k8-zincrby-current.png)
 
@@ -478,11 +480,11 @@ SADD + SREM 为两个命令等比例混合，QPS 计算完成的命令数，不�
 
 [Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 646a7b4e](raw/lavik/)
 
-1024 B/entry · 64 keys · 历史测量，待复测 `646a7b4e`
+1024 B/entry · 64 keys · 本轮 main 基线 `5d7d12ec`
 
 ![Sorted Set ZRANGE 64 KiB/key, 1024 B, 64 keys](charts/zset-65536-1024-k64-zrange-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 646a7b4e](raw/lavik/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-ordered-zset-65536-k64-f1024-20261004/)
 
 #### 1 MiB/key
 
@@ -506,7 +508,7 @@ SADD + SREM 为两个命令等比例混合，QPS 计算完成的命令数，不�
 
 [Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik (previous measurement) 646a7b4e](raw/lavik-100m/)
 
-1024 B/entry · 8 keys · 最新 main `5d7d12ec`
+1024 B/entry · 8 keys · 本轮 main 基线 `5d7d12ec`
 
 ![Sorted Set ZRANGE 100 MiB/key, 1024 B, 8 keys](charts/zset-104857600-1024-k8-zrange-current.png)
 
@@ -524,7 +526,7 @@ SADD + SREM 为两个命令等比例混合，QPS 计算完成的命令数，不�
 
 [Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 9acd7b6f](raw/lavik-main9acd-stream-small-20260929/)
 
-1024 B/entry · 64 keys · 最新 main `5d7d12ec`
+1024 B/entry · 64 keys · 本轮 main 基线 `5d7d12ec`
 
 ![Stream XRANGE 64 KiB/key, 1024 B, 64 keys](charts/stream-65536-1024-k64-xrange-current.png)
 
@@ -538,7 +540,7 @@ SADD + SREM 为两个命令等比例混合，QPS 计算完成的命令数，不�
 
 [Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 9acd7b6f](raw/lavik-main9acd-stream-small-20260929/)
 
-1024 B/entry · 64 keys · 最新 main `5d7d12ec`
+1024 B/entry · 64 keys · 本轮 main 基线 `5d7d12ec`
 
 ![Stream XRANGE 1 MiB/key, 1024 B, 64 keys](charts/stream-1048576-1024-k64-xrange-current.png)
 
@@ -552,7 +554,7 @@ SADD + SREM 为两个命令等比例混合，QPS 计算完成的命令数，不�
 
 [Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik (previous measurement) 646a7b4e](raw/lavik-100m/)
 
-1024 B/entry · 8 keys · 最新 main `5d7d12ec`
+1024 B/entry · 8 keys · 本轮 main 基线 `5d7d12ec`
 
 ![Stream XRANGE 100 MiB/key, 1024 B, 8 keys](charts/stream-104857600-1024-k8-xrange-current.png)
 
@@ -568,7 +570,7 @@ SADD + SREM 为两个命令等比例混合，QPS 计算完成的命令数，不�
 
 [Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 9acd7b6f](raw/lavik-main9acd-stream-small-20260929/)
 
-1024 B/entry · 64 keys · 最新 main `5d7d12ec`
+1024 B/entry · 64 keys · 本轮 main 基线 `5d7d12ec`
 
 ![Stream XADD_MAXLEN 64 KiB/key, 1024 B, 64 keys](charts/stream-65536-1024-k64-xadd_maxlen-current.png)
 
@@ -582,7 +584,7 @@ SADD + SREM 为两个命令等比例混合，QPS 计算完成的命令数，不�
 
 [Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 9acd7b6f](raw/lavik-main9acd-stream-small-20260929/)
 
-1024 B/entry · 64 keys · 最新 main `5d7d12ec`
+1024 B/entry · 64 keys · 本轮 main 基线 `5d7d12ec`
 
 ![Stream XADD_MAXLEN 1 MiB/key, 1024 B, 64 keys](charts/stream-1048576-1024-k64-xadd_maxlen-current.png)
 
@@ -596,7 +598,7 @@ SADD + SREM 为两个命令等比例混合，QPS 计算完成的命令数，不�
 
 [Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik (previous measurement) 646a7b4e](raw/lavik-100m/)
 
-1024 B/entry · 8 keys · 最新 main `5d7d12ec`
+1024 B/entry · 8 keys · 本轮 main 基线 `5d7d12ec`
 
 ![Stream XADD_MAXLEN 100 MiB/key, 1024 B, 8 keys](charts/stream-104857600-1024-k8-xadd_maxlen-current.png)
 
@@ -612,7 +614,7 @@ SADD + SREM 为两个命令等比例混合，QPS 计算完成的命令数，不�
 
 [Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 9acd7b6f](raw/lavik-main9acd-stream-small-20260929/)
 
-1024 B/entry · 64 keys · 最新 main `5d7d12ec`
+1024 B/entry · 64 keys · 本轮 main 基线 `5d7d12ec`
 
 ![Stream XRANGE_FULL 64 KiB/key, 1024 B, 64 keys](charts/stream-65536-1024-k64-xrange_full-current.png)
 
@@ -626,7 +628,7 @@ SADD + SREM 为两个命令等比例混合，QPS 计算完成的命令数，不�
 
 [Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 9acd7b6f](raw/lavik-main9acd-stream-small-20260929/)
 
-1024 B/entry · 64 keys · 最新 main `5d7d12ec`
+1024 B/entry · 64 keys · 本轮 main 基线 `5d7d12ec`
 
 ![Stream XRANGE_FULL 1 MiB/key, 1024 B, 64 keys](charts/stream-1048576-1024-k64-xrange_full-current.png)
 
@@ -640,7 +642,7 @@ SADD + SREM 为两个命令等比例混合，QPS 计算完成的命令数，不�
 
 [Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik (previous measurement) 646a7b4e](raw/lavik-100m/)
 
-1024 B/entry · 8 keys · 最新 main `5d7d12ec`
+1024 B/entry · 8 keys · 本轮 main 基线 `5d7d12ec`
 
 ![Stream XRANGE_FULL 100 MiB/key, 1024 B, 8 keys](charts/stream-104857600-1024-k8-xrange_full-current.png)
 
