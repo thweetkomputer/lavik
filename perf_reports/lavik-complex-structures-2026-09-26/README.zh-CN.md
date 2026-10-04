@@ -34,7 +34,7 @@ main 随后更新至 `19496654`；本页仍使用固定基线 `a565d603`。[优�
 
 [Stream 尾部目录复用：吞吐、交替复测、perf 与测试](diagnostics/stream-suffix-20261004/README.md)
 
-[Stream 回复批处理 PR #270：初始扫描、perf 与原生验证](diagnostics/stream-reply-20261004/README.md)
+[Stream 回复批处理 PR #270：配对复测、控制项与 perf](diagnostics/stream-reply-20261004/README.md)
 
 [ZSet 成员叶页复用：吞吐、交替复测、perf 与测试](diagnostics/zset-member-probe-20261004/README.md)
 

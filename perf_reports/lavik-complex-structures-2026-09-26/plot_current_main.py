@@ -250,7 +250,7 @@ def readme(manifest, zh):
     if (ROOT / "diagnostics/stream-suffix-20261004/README.md").exists():
         lines += ["[Stream 尾部目录复用：吞吐、交替复测、perf 与测试](diagnostics/stream-suffix-20261004/README.md)" if zh else "[Stream suffix directory reuse: throughput, paired runs, perf and tests](diagnostics/stream-suffix-20261004/README.md)", ""]
     if (ROOT / "diagnostics/stream-range-main-20261004/README.md").exists():
-        lines += ["[Stream 回复批处理 PR #270：初始扫描、perf 与原生验证](diagnostics/stream-reply-20261004/README.md)" if zh else "[Stream reply batching PR #270: initial sweeps, perf and native validation](diagnostics/stream-reply-20261004/README.md)", ""]
+        lines += ["[Stream 回复批处理 PR #270：配对复测、控制项与 perf](diagnostics/stream-reply-20261004/README.md)" if zh else "[Stream reply batching PR #270: paired checks, controls and perf](diagnostics/stream-reply-20261004/README.md)", ""]
     if (ROOT / "diagnostics/zset-member-probe-20261004/README.md").exists():
         lines += ["[ZSet 成员叶页复用：吞吐、交替复测、perf 与测试](diagnostics/zset-member-probe-20261004/README.md)" if zh else "[ZSet member-leaf reuse: throughput, paired runs, perf and tests](diagnostics/zset-member-probe-20261004/README.md)", ""]
         lines += ["后续 [PR #271](https://github.com/eloqdata/lavik/pull/271) 消除内联页的重复清单查找，仍在验证，尚无吞吐收益结论。" if zh else "Follow-up [PR #271](https://github.com/eloqdata/lavik/pull/271) removes redundant inline-page manifest lookups; validation and throughput measurements remain pending.", ""]

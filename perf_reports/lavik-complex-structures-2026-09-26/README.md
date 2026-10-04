@@ -34,7 +34,7 @@ Main subsequently advanced to `19496654`; this report retains pinned baseline `a
 
 [Stream suffix directory reuse: throughput, paired runs, perf and tests](diagnostics/stream-suffix-20261004/README.md)
 
-[Stream reply batching PR #270: initial sweeps, perf and native validation](diagnostics/stream-reply-20261004/README.md)
+[Stream reply batching PR #270: paired checks, controls and perf](diagnostics/stream-reply-20261004/README.md)
 
 [ZSet member-leaf reuse: throughput, paired runs, perf and tests](diagnostics/zset-member-probe-20261004/README.md)
 
