@@ -2,7 +2,7 @@
 
 [English](README.md)
 
-**2026-10-04：main `a565d603` 已完成 25/28 组复测，包含已合并的 #244, #246, #247, #249, #258, #259, #260, #262。**
+**2026-10-04：main `a565d603` 已完成 26/28 组复测，包含已合并的 #244, #246, #247, #249, #258, #259, #260, #262。**
 
 批量 HSET/SADD 导入另计：0/4 组已更新。未完成的图注明实际历史版本。
 
@@ -132,11 +132,11 @@ Redis/Valkey 关闭持久化；Kvrocks 使用无压缩 RAID0、关闭 WAL、80 G
 
 [Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-list-104857600-k8-f128-20261004/) · [Lavik PR #267 ff9e3655](raw/lavik-candidateff9e3655-ordered-list-104857600-k8-f128-20261004/) · [Lavik draft PR #269 4863c98d](raw/lavik-candidate4863c98d-ordered-list-104857600-k8-f128-20261004/)
 
-1024 B/entry · 500 keys · 历史测量，待复测 `5d7d12ec`
+1024 B/entry · 500 keys · 本轮 main 基线 `a565d603`
 
 ![List LSET 100 MiB/key, 1024 B, 500 keys](charts/list-104857600-1024-k500-lset-current.png)
 
-[Redis](raw/redis-lset-matched-104857600-k500-f1024-20261001/) · [Valkey](raw/valkey-lset-matched-104857600-k500-f1024-20261001/) · [Kvrocks (80 GiB cache)](raw/kvrocks-lset-matched-104857600-k500-f1024-20261001/) · [Lavik (previous measurement) 5d7d12ec](raw/lavik-main5d7d12ec-lset-list-104857600-k500-f1024-20261004/)
+[Redis](raw/redis-lset-matched-104857600-k500-f1024-20261001/) · [Valkey](raw/valkey-lset-matched-104857600-k500-f1024-20261001/) · [Kvrocks (80 GiB cache)](raw/kvrocks-lset-matched-104857600-k500-f1024-20261001/) · [Lavik main a565d603](raw/lavik-maina565d603-lset-list-104857600-k500-f1024-20261004/)
 
 ### LRANGE 0 -1
 
