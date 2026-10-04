@@ -2,7 +2,7 @@
 
 [简体中文](README.zh-CN.md)
 
-**2026-10-04: main `5d7d12ec`, including merged #244/#246/#247; 26/28 conditions refreshed.**
+**2026-10-04: main `5d7d12ec`, including merged #244/#246/#247; 27/28 conditions refreshed.**
 
 Batched HSET/SADD import is tracked separately: 0/4 conditions refreshed. Pending charts identify their actual historical version.
 
@@ -27,6 +27,8 @@ PR #249 measurements: Stream XADD MAXLEN peaks improve by about 9%–11% in two 
 Failed observations in this run (gaps in figures; errored requests are not successful QPS):
 
 - List LRANGE · 100 MiB/key · 128 B · 16 connections: [recorded failure](raw/lavik-main5d7d12ec-ordered-list-104857600-k8-f128-20261004/list-104857600-128-lrange-c16.error.json).
+
+[100 MiB LRANGE admission analysis](diagnostics/main-refresh-20261004/list-lrange-admission.md)
 
 These grids resume the same retained dataset after a clean stop, measuring only missing points and retaining all existing successes/failures: [List 100 MiB / 128 B](raw/lavik-main5d7d12ec-ordered-list-104857600-k8-f128-20261004/resume.json).
 
@@ -566,11 +568,11 @@ SADD + SREM mixes the two commands equally; QPS counts commands, not pairs. Rand
 
 #### 100 MiB/key
 
-128 B/entry · 8 keys · Historical measurement; refresh pending `646a7b4e`
+128 B/entry · 8 keys · Measured main baseline `5d7d12ec`
 
 ![Stream XRANGE 100 MiB/key, 128 B, 8 keys](charts/stream-104857600-128-k8-xrange-current.png)
 
-[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik (previous measurement) 646a7b4e](raw/lavik-100m/)
+[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-ordered-stream-104857600-k8-f128-20261004/)
 
 1024 B/entry · 8 keys · Measured main baseline `5d7d12ec`
 
@@ -610,11 +612,11 @@ SADD + SREM mixes the two commands equally; QPS counts commands, not pairs. Rand
 
 #### 100 MiB/key
 
-128 B/entry · 8 keys · Historical measurement; refresh pending `646a7b4e`
+128 B/entry · 8 keys · Measured main baseline `5d7d12ec`
 
 ![Stream XADD_MAXLEN 100 MiB/key, 128 B, 8 keys](charts/stream-104857600-128-k8-xadd_maxlen-current.png)
 
-[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik (previous measurement) 646a7b4e](raw/lavik-100m/)
+[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-ordered-stream-104857600-k8-f128-20261004/)
 
 1024 B/entry · 8 keys · Measured main baseline `5d7d12ec`
 
@@ -654,11 +656,11 @@ SADD + SREM mixes the two commands equally; QPS counts commands, not pairs. Rand
 
 #### 100 MiB/key
 
-128 B/entry · 8 keys · Historical measurement; refresh pending `646a7b4e`
+128 B/entry · 8 keys · Measured main baseline `5d7d12ec`
 
 ![Stream XRANGE_FULL 100 MiB/key, 128 B, 8 keys](charts/stream-104857600-128-k8-xrange_full-current.png)
 
-[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik (previous measurement) 646a7b4e](raw/lavik-100m/)
+[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-ordered-stream-104857600-k8-f128-20261004/)
 
 1024 B/entry · 8 keys · Measured main baseline `5d7d12ec`
 

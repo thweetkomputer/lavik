@@ -2,7 +2,7 @@
 
 [English](README.md)
 
-**2026-10-04：main `5d7d12ec` 已完成 26/28 组复测，包含已合并的 #244、#246、#247。**
+**2026-10-04：main `5d7d12ec` 已完成 27/28 组复测，包含已合并的 #244、#246、#247。**
 
 批量 HSET/SADD 导入另计：0/4 组已更新。未完成的图注明实际历史版本。
 
@@ -27,6 +27,8 @@ PR #249 的实测：Stream XADD MAXLEN 两组峰值提高约 9%–11%；100 MiB 
 本轮失败测点（图中留空，错误请求的吞吐不计为成功 QPS）：
 
 - List LRANGE · 100 MiB/key · 128 B · 16 connections: [recorded failure](raw/lavik-main5d7d12ec-ordered-list-104857600-k8-f128-20261004/list-104857600-128-lrange-c16.error.json).
+
+[100 MiB LRANGE 内存准入分析](diagnostics/main-refresh-20261004/list-lrange-admission.md)
 
 以下扫描在正常停服后恢复同一份数据继续，只补缺失点，成功和失败的已有观察均保留：[List 100 MiB / 128 B](raw/lavik-main5d7d12ec-ordered-list-104857600-k8-f128-20261004/resume.json).
 
@@ -566,11 +568,11 @@ SADD + SREM 为两个命令等比例混合，QPS 计算完成的命令数，不�
 
 #### 100 MiB/key
 
-128 B/entry · 8 keys · 历史测量，待复测 `646a7b4e`
+128 B/entry · 8 keys · 本轮 main 基线 `5d7d12ec`
 
 ![Stream XRANGE 100 MiB/key, 128 B, 8 keys](charts/stream-104857600-128-k8-xrange-current.png)
 
-[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik (previous measurement) 646a7b4e](raw/lavik-100m/)
+[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-ordered-stream-104857600-k8-f128-20261004/)
 
 1024 B/entry · 8 keys · 本轮 main 基线 `5d7d12ec`
 
@@ -610,11 +612,11 @@ SADD + SREM 为两个命令等比例混合，QPS 计算完成的命令数，不�
 
 #### 100 MiB/key
 
-128 B/entry · 8 keys · 历史测量，待复测 `646a7b4e`
+128 B/entry · 8 keys · 本轮 main 基线 `5d7d12ec`
 
 ![Stream XADD_MAXLEN 100 MiB/key, 128 B, 8 keys](charts/stream-104857600-128-k8-xadd_maxlen-current.png)
 
-[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik (previous measurement) 646a7b4e](raw/lavik-100m/)
+[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-ordered-stream-104857600-k8-f128-20261004/)
 
 1024 B/entry · 8 keys · 本轮 main 基线 `5d7d12ec`
 
@@ -654,11 +656,11 @@ SADD + SREM 为两个命令等比例混合，QPS 计算完成的命令数，不�
 
 #### 100 MiB/key
 
-128 B/entry · 8 keys · 历史测量，待复测 `646a7b4e`
+128 B/entry · 8 keys · 本轮 main 基线 `5d7d12ec`
 
 ![Stream XRANGE_FULL 100 MiB/key, 128 B, 8 keys](charts/stream-104857600-128-k8-xrange_full-current.png)
 
-[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik (previous measurement) 646a7b4e](raw/lavik-100m/)
+[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-ordered-stream-104857600-k8-f128-20261004/)
 
 1024 B/entry · 8 keys · 本轮 main 基线 `5d7d12ec`
 

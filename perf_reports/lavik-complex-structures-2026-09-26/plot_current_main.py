@@ -69,6 +69,13 @@ def load(row, source, revision):
     if not (source / "complete.json").exists():
         raise ValueError(f"incomplete run: {source}")
     if revision and revision.get("fresh"):
+        complete = json.loads((source / "complete.json").read_text())
+        if complete["failures_total"] != len(list(source.glob("*.error.json"))):
+            raise ValueError(f"inconsistent failure inventory: {source}")
+        if (source / "resume.json").exists():
+            resumed = json.loads((source / "resume.json").read_text())
+            if resumed["source_commit"] != revision["commit"] or resumed["sha256"] != revision["sha256"] or not resumed["retained_seed"]:
+                raise ValueError(f"inconsistent resumed source: {source}")
         proofs = list(source.glob("provenance-*.json"))
         if len(proofs) != 1:
             raise ValueError(f"ambiguous source proof: {source}")
@@ -235,6 +242,8 @@ def readme(manifest, zh):
             resumes.append(f"[{NAMES[row['kind']]} {row['size']//1048576} MiB / {row['field']} B]({(source/'resume.json').relative_to(ROOT)})")
     if failures:
         lines += ["本轮失败测点（图中留空，错误请求的吞吐不计为成功 QPS）：" if zh else "Failed observations in this run (gaps in figures; errored requests are not successful QPS):", "", *failures, ""]
+    if any(row["kind"] == "list" and row["size"] == 104857600 and row["field"] == 128 and row["main"].get("fresh") for row in rows):
+        lines += ["[100 MiB LRANGE 内存准入分析](diagnostics/main-refresh-20261004/list-lrange-admission.md)" if zh else "[100 MiB LRANGE admission analysis](diagnostics/main-refresh-20261004/list-lrange-admission.md)", ""]
     if resumes:
         lines += [("以下扫描在正常停服后恢复同一份数据继续，只补缺失点，成功和失败的已有观察均保留：" if zh else "These grids resume the same retained dataset after a clean stop, measuring only missing points and retaining all existing successes/failures: ") + " · ".join(resumes) + ".", ""]
     for kind in ["list", "hash", "set", "zset", "stream"]:
