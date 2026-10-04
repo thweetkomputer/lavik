@@ -12,7 +12,7 @@ Redis/Valkey 关闭持久化；Kvrocks 使用无压缩 RAID0、关闭 WAL、80 G
 
 本轮不重跑其他三库。Lavik 使用 AMD EPYC 9V74、16 vCPU、12 个服务 worker。每点 8 秒，较多 key 的 LSET 为 10 秒；pipeline=1。每组独立预置并逐 key 校验，perf 采样在完整连接扫描后单独进行，不混入 QPS 图。单次扫描没有统计置信区间。
 
-复测期间 #248 的 FDS/Meta 发现修复合入 main `d14d1b0d`，代码与 PR #249 已同步 rebase。本轮单机实验固定使用 main `5d7d12ec` 和 PR `97f81cd6` 的已验证二进制，图中提交号保持实际测量版本；存储源码在这次 rebase 前后一致。[版本核验](diagnostics/main-refresh-20261004/fds-rebase-provenance.json)。
+复测期间 #248（FDS/Meta 发现）及 #245（CI 分片）合入 main `25e15941`，代码、报告与 PR #249 已同步 rebase。本轮单机实验固定使用 main `5d7d12ec` 和 PR `97f81cd6` 的已验证二进制，图中提交号保持实际测量版本；存储源码在这次 rebase 前后一致。[版本核验](diagnostics/main-refresh-20261004/fds-rebase-provenance.json)。
 
 [绘图数据清单](current-main.json) · [复现脚本](run.py) · [构建与硬件证明](diagnostics/main-refresh-20261004/host-and-build.json)
 

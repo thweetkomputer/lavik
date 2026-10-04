@@ -12,7 +12,7 @@ Redis/Valkey disable persistence. Kvrocks uses uncompressed RAID0, disabled WAL 
 
 Peers are not rerun this round. Lavik uses AMD EPYC 9V74, 16 vCPUs and 12 serving workers. Points last 8 s (10 s for high-key-count LSET), pipeline=1. Each condition is independently seeded and checked key by key. CPU profiles run separately after complete clean grids. Single sweeps have no statistical confidence intervals.
 
-FDS/Meta discovery fix #248 merged into main `d14d1b0d` during measurement; the checkout and PR #249 are rebased. This standalone experiment keeps its verified main `5d7d12ec` and PR `97f81cd6` binaries and actual measured commit labels. Storage sources are unchanged across this rebase. [Revision verification](diagnostics/main-refresh-20261004/fds-rebase-provenance.json).
+FDS/Meta discovery fix #248 and CI sharding #245 merged into main `25e15941` during measurement; the checkout, report and PR #249 are rebased. This standalone experiment keeps its verified main `5d7d12ec` and PR `97f81cd6` binaries and actual measured commit labels. Storage sources are unchanged across this rebase. [Revision verification](diagnostics/main-refresh-20261004/fds-rebase-provenance.json).
 
 [Plot sources](current-main.json) · [Runner](run.py) · [Build and hardware](diagnostics/main-refresh-20261004/host-and-build.json)
 
