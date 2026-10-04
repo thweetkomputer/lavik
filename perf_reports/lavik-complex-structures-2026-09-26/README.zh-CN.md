@@ -2,7 +2,7 @@
 
 [English](README.md)
 
-**2026-10-04：main `5d7d12ec` 已完成 6/28 组复测，包含已合并的 #244、#246、#247。**
+**2026-10-04：main `5d7d12ec` 已完成 7/28 组复测，包含已合并的 #244、#246、#247。**
 
 每张图固定命令、每 key 的 payload 大小、元素大小和 key 数；横轴为连接数，纵轴为 QPS。只保留当前 main 和后续未合并 PR，其他三库保留同负载的历史实测。
 
@@ -258,11 +258,11 @@ SADD + SREM 为两个命令等比例混合，QPS 计算完成的命令数，不�
 
 [Redis](raw/redis-set-100m-k500-f128-20260929/) · [Valkey](raw/valkey-set-100m-k500-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-100m-k500-f128-20260929/) · [Lavik (previous measurement) 44761b91](raw/lavik-main44761-hashset-set-104857600-k500-f128-20261003/)
 
-1024 B/entry · 500 keys · 历史测量，待复测 `44761b91`
+1024 B/entry · 500 keys · 最新 main `5d7d12ec`
 
 ![Set SISMEMBER 100 MiB/key, 1024 B, 500 keys](charts/set-104857600-1024-k500-sismember-current.png)
 
-[Redis](raw/redis-set-100m-k500-f1024-20260929/) · [Valkey](raw/valkey-set-100m-k500-f1024-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-100m-k500-f1024-20260929/) · [Lavik (previous measurement) 44761b91](raw/lavik-main44761-hashset-set-104857600-k500-f1024-20261003/)
+[Redis](raw/redis-set-100m-k500-f1024-20260929/) · [Valkey](raw/valkey-set-100m-k500-f1024-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-100m-k500-f1024-20260929/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-hashset-set-104857600-k500-f1024-20261004/)
 
 ### SADD + SREM
 
@@ -288,11 +288,11 @@ SADD + SREM 为两个命令等比例混合，QPS 计算完成的命令数，不�
 
 [Redis](raw/redis-set-100m-k500-f128-20260929/) · [Valkey](raw/valkey-set-100m-k500-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-100m-k500-f128-20260929/) · [Lavik (previous measurement) 44761b91](raw/lavik-main44761-hashset-set-104857600-k500-f128-20261003/)
 
-1024 B/entry · 500 keys · 历史测量，待复测 `44761b91`
+1024 B/entry · 500 keys · 最新 main `5d7d12ec`
 
 ![Set SADD_SREM 100 MiB/key, 1024 B, 500 keys](charts/set-104857600-1024-k500-sadd_srem-current.png)
 
-[Redis](raw/redis-set-100m-k500-f1024-20260929/) · [Valkey](raw/valkey-set-100m-k500-f1024-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-100m-k500-f1024-20260929/) · [Lavik (previous measurement) 44761b91](raw/lavik-main44761-hashset-set-104857600-k500-f1024-20261003/)
+[Redis](raw/redis-set-100m-k500-f1024-20260929/) · [Valkey](raw/valkey-set-100m-k500-f1024-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-100m-k500-f1024-20260929/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-hashset-set-104857600-k500-f1024-20261004/)
 
 ### SMEMBERS
 
@@ -318,11 +318,11 @@ SADD + SREM 为两个命令等比例混合，QPS 计算完成的命令数，不�
 
 [Redis](raw/redis-set-100m-k500-f128-20260929/) · [Valkey](raw/valkey-set-100m-k500-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-100m-k500-f128-20260929/) · [Lavik (previous measurement) 44761b91](raw/lavik-main44761-hashset-set-104857600-k500-f128-20261003/)
 
-1024 B/entry · 500 keys · 历史测量，待复测 `44761b91`
+1024 B/entry · 500 keys · 最新 main `5d7d12ec`
 
 ![Set SMEMBERS 100 MiB/key, 1024 B, 500 keys](charts/set-104857600-1024-k500-smembers-current.png)
 
-[Redis](raw/redis-set-100m-k500-f1024-20260929/) · [Valkey](raw/valkey-set-100m-k500-f1024-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-100m-k500-f1024-20260929/) · [Lavik (previous measurement) 44761b91](raw/lavik-main44761-hashset-set-104857600-k500-f1024-20261003/)
+[Redis](raw/redis-set-100m-k500-f1024-20260929/) · [Valkey](raw/valkey-set-100m-k500-f1024-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-100m-k500-f1024-20260929/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-hashset-set-104857600-k500-f1024-20261004/)
 
 ## Sorted Set
 
