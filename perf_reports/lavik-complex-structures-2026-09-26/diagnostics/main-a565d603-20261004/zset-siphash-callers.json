@@ -1,50 +1,10 @@
-[
-  {
-    "self_cpu_percent": 1.9239543726235742,
-    "callchain": [
-      "lavik::storage::ComputeDigest(std::basic_string_view<char, std::char_traits<char> >)",
-      "lavik::storage::DecodeHashValue(std::basic_string_view<char, std::char_traits<char> >)",
-      "lavik::storage::DecodeHashGroup(std::basic_string_view<char, std::char_traits<char> >)",
-      "lavik::storage::StorageEngine::Impl::LoadHashGroupSnapshot(lavik::storage::StorageEngine::Impl::LoadHashGroupSnapshot(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::WorkerStore::PartitionStore&, unsigned char, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::Digest const&, std::shared_ptr<lavik::storage::GroupedHashObject const>, lavik::storage::HashGroupId, bool)::_ZN5lavik7storage13StorageEngine4Impl21LoadHashGroupSnapshotERNS2_11WorkerStoreERNS3_14PartitionStoreEhSt17basic_string_viewIcSt11char_traitsIcEERKNS0_6DigestESt10shared_ptrIKNS0_17GroupedHashObjectEENS0_11HashGroupIdEb.Frame*) [clone .actor]",
-      "bycorf::Worker::ResumeReady(bycorf::Worker::ReadyTask, bycorf::TaskClass) [clone .isra.0]",
-      "bycorf::Worker::DrainReadyUntil(long)",
-      "bycorf::Worker::RunOnce(bool)"
-    ]
+{
+  "source_commit": "a565d603523467ed7bbb9ed9227ddd6b18a9ca8c",
+  "siphash_caller_cpu_percent": {
+    "leaf_loading": 3.650190114068441,
+    "other": 0.19011406844106463,
+    "split_validation": 0.7452471482889734,
+    "routing": 0.39543726235741444
   },
-  {
-    "self_cpu_percent": 1.9163498098859315,
-    "callchain": [
-      "lavik::storage::StorageEngine::Impl::LoadHashGroupSnapshot(lavik::storage::StorageEngine::Impl::LoadHashGroupSnapshot(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::WorkerStore::PartitionStore&, unsigned char, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::Digest const&, std::shared_ptr<lavik::storage::GroupedHashObject const>, lavik::storage::HashGroupId, bool)::_ZN5lavik7storage13StorageEngine4Impl21LoadHashGroupSnapshotERNS2_11WorkerStoreERNS3_14PartitionStoreEhSt17basic_string_viewIcSt11char_traitsIcEERKNS0_6DigestESt10shared_ptrIKNS0_17GroupedHashObjectEENS0_11HashGroupIdEb.Frame*) [clone .actor]",
-      "bycorf::Worker::ResumeReady(bycorf::Worker::ReadyTask, bycorf::TaskClass) [clone .isra.0]",
-      "bycorf::Worker::DrainReadyUntil(long)",
-      "bycorf::Worker::RunOnce(bool)",
-      "bycorf::Server::RunWorker(unsigned int, bycorf::Worker&)",
-      "bycorf::Runtime::Impl::Start(unsigned int, std::function<int (unsigned int, bycorf::Worker&)>, bool, std::span<unsigned int const, 18446744073709551615ul>)::{lambda()#1}::operator()() const",
-      "execute_native_thread_routine"
-    ]
-  },
-  {
-    "self_cpu_percent": 0.7452471482889734,
-    "callchain": [
-      "lavik::storage::(anonymous namespace)::ValidateFields(lavik::storage::HashGroupSnapshot const&, std::array<unsigned char, 16ul> const*) [clone .lto_priv.0]",
-      "lavik::storage::SplitHashGroup(lavik::storage::HashGroupSnapshot, std::array<unsigned char, 16ul> const&, unsigned long) [clone .constprop.0]",
-      "lavik::storage::StorageEngine::Impl::PrepareSortedSetMembers(lavik::storage::StorageEngine::Impl::PrepareSortedSetMembers(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::WorkerStore::PartitionStore&, unsigned char, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::Digest const&, std::shared_ptr<lavik::storage::GroupedHashObject const>, lavik::storage::OrderedCollectionMutationPlan const&, bool, std::optional<std::span<lavik::storage::StorageEngine::Impl::SortedSetMemberChange const, 18446744073709551615ul> >)::_ZN5lavik7storage13StorageEngine4Impl23PrepareSortedSetMembersERNS2_11WorkerStoreERNS3_14PartitionStoreEhSt17basic_string_viewIcSt11char_traitsIcEERKNS0_6DigestESt10shared_ptrIKNS0_17GroupedHashObjectEERKNS0_29OrderedCollectionMutationPlanEbSt8optionalISt4spanIKNS2_21SortedSetMemberChangeELm18446744073709551615EEE.Frame*) [clone .actor] [clone .lto_priv.0]",
-      "bycorf::Worker::ResumeReady(bycorf::Worker::ReadyTask, bycorf::TaskClass) [clone .isra.0]",
-      "bycorf::Worker::DrainReadyUntil(long)",
-      "bycorf::Worker::RunOnce(bool)",
-      "bycorf::Server::RunWorker(unsigned int, bycorf::Worker&)"
-    ]
-  },
-  {
-    "self_cpu_percent": 0.39543726235741444,
-    "callchain": [
-      "lavik::storage::HashGroupDirectory::Find(std::basic_string_view<char, std::char_traits<char> >) const",
-      "lavik::storage::StorageEngine::Impl::PrepareSortedSetMembers(lavik::storage::StorageEngine::Impl::PrepareSortedSetMembers(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::WorkerStore::PartitionStore&, unsigned char, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::Digest const&, std::shared_ptr<lavik::storage::GroupedHashObject const>, lavik::storage::OrderedCollectionMutationPlan const&, bool, std::optional<std::span<lavik::storage::StorageEngine::Impl::SortedSetMemberChange const, 18446744073709551615ul> >)::_ZN5lavik7storage13StorageEngine4Impl23PrepareSortedSetMembersERNS2_11WorkerStoreERNS3_14PartitionStoreEhSt17basic_string_viewIcSt11char_traitsIcEERKNS0_6DigestESt10shared_ptrIKNS0_17GroupedHashObjectEERKNS0_29OrderedCollectionMutationPlanEbSt8optionalISt4spanIKNS2_21SortedSetMemberChangeELm18446744073709551615EEE.Frame*) [clone .actor] [clone .lto_priv.0]",
-      "bycorf::Worker::ResumeReady(bycorf::Worker::ReadyTask, bycorf::TaskClass) [clone .isra.0]",
-      "bycorf::Worker::DrainReadyUntil(long)",
-      "bycorf::Worker::RunOnce(bool)",
-      "bycorf::Server::RunWorker(unsigned int, bycorf::Worker&)",
-      "bycorf::Runtime::Impl::Start(unsigned int, std::function<int (unsigned int, bycorf::Worker&)>, bool, std::span<unsigned int const, 18446744073709551615ul>)::{lambda()#1}::operator()() const"
-    ]
-  }
-]
+  "method": "Classify every SipHash self sample by the full visible callchain; do not attribute an entire immediate-caller bucket using only one representative stack. Samples without LoadHashGroupSnapshot/ValidateFields/HashGroupDirectory::Find remain other. Percent denominator is total recorded task-clock."
+}

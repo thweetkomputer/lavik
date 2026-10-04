@@ -38,7 +38,7 @@ The initial pure-tail attempt (`29913acf`) missed insertion before trailing Stre
 
 ## Correctness
 
-With fault injection enabled: [160 unit tests](suffix-unit.json), [103 passed ordered/Stream/ZSet end-to-end tests and one existing opt-in RDB skip](suffix-ordered.json), and [27 recovery tests](suffix-recovery.json). Differential tests verify ranks, identity shifts, byte totals, old pinned views, malformed graphs and admission failure across chunk/Fenwick boundaries. Performance binaries disable fault injection.
+With fault injection enabled: [160 unit tests](suffix-unit.json), [103 passed ordered/Stream/ZSet end-to-end tests and one existing opt-in RDB skip](suffix-ordered.json), and [27 recovery tests](suffix-recovery.json). Differential tests verify ranks, identity shifts, byte totals, old pinned views, malformed graphs and admission failure across chunk/Fenwick boundaries. Performance binaries disable fault injection. [PR #265 CI](ci-checks.json) also passes both amd64/arm64 builds, all twelve test shards, both aggregate test checks and formatting on the measured commit.
 
 ## Remaining gap
 

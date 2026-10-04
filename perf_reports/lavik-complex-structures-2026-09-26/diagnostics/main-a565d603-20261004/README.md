@@ -26,7 +26,7 @@ checks and clean comparative runs.
 The 100 MiB/key, 1 KiB-member, 8-key ZINCRBY diagnostic uses the same all-worker
 method at 80 connections after its clean sweep. The [worker summary](zset-main-workers.json)
 attributes 4.98% self task-clock to SipHash12, 2.82% to memmove and 2.66% to CRC.
-[Recorded callchains](zset-siphash-callers.json) place 3.84% of total task-clock
+[Recorded callchains](zset-siphash-callers.json) place 3.65% of total task-clock
 in SipHash below Hash-leaf loading/decoding. These percentages include kernel,
 background and polling CPU, and do not measure request latency or I/O waits.
 
