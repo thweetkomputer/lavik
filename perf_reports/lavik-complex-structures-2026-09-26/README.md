@@ -488,7 +488,7 @@ SADD + SREM mixes the two commands equally; QPS counts commands, not pairs. Rand
 
 ![Stream XRANGE 1 MiB/key, 1024 B, 64 keys](charts/stream-1048576-1024-k64-xrange-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-ordered-stream-1048576-k64-f1024-20261004/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-ordered-stream-1048576-k64-f1024-20261004/) · [Lavik PR #249 97f81cd6](raw/lavik-candidate97f81cd6-ordered-stream-1048576-k64-f1024-20261004/)
 
 #### 100 MiB/key
 
@@ -532,7 +532,7 @@ SADD + SREM mixes the two commands equally; QPS counts commands, not pairs. Rand
 
 ![Stream XADD_MAXLEN 1 MiB/key, 1024 B, 64 keys](charts/stream-1048576-1024-k64-xadd_maxlen-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-ordered-stream-1048576-k64-f1024-20261004/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-ordered-stream-1048576-k64-f1024-20261004/) · [Lavik PR #249 97f81cd6](raw/lavik-candidate97f81cd6-ordered-stream-1048576-k64-f1024-20261004/)
 
 #### 100 MiB/key
 
@@ -576,7 +576,7 @@ SADD + SREM mixes the two commands equally; QPS counts commands, not pairs. Rand
 
 ![Stream XRANGE_FULL 1 MiB/key, 1024 B, 64 keys](charts/stream-1048576-1024-k64-xrange_full-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-ordered-stream-1048576-k64-f1024-20261004/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-ordered-stream-1048576-k64-f1024-20261004/) · [Lavik PR #249 97f81cd6](raw/lavik-candidate97f81cd6-ordered-stream-1048576-k64-f1024-20261004/)
 
 #### 100 MiB/key
 

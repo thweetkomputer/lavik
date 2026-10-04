@@ -41,3 +41,9 @@ normal opt-in skip: the >1 GiB List RDB test requires a private 4 GiB image.
 The executed suite covers >512 MiB Stream/ZSet data, restart/recovery,
 concurrent pinned reads, RDB/transfer, failed writes and full-disk expiry.
 No builds or tests overlap the clean throughput measurements.
+
+The [1 MiB/key, 64-key comparison](stream-1m-comparison.json) uses the same
+1 KiB entry size and independent seed. XADD MAXLEN peak rises from 46,163.04
+to 50,510.09 QPS (+9.4%); read peaks are effectively unchanged in this sweep.
+Both sizes appear in the main report with Redis, Valkey, Kvrocks, main and
+[PR #249](https://github.com/eloqdata/lavik/pull/249) in each chart.
