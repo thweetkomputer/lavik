@@ -4,7 +4,7 @@
 
 **2026-10-04：main `a565d603` 已完成 28/28 组复测，包含已合并的 #244, #246, #247, #249, #258, #259, #260, #262。**
 
-批量 HSET/SADD 导入另计：1/4 组已更新。未完成的图注明实际历史版本。
+批量 HSET/SADD 导入另计：2/4 组已更新。未完成的图注明实际历史版本。
 
 吞吐图固定命令、每 key 的 payload 大小、元素大小和 key 数；横轴为连接数，纵轴为 QPS。批量导入图显示完成固定数据量所需的秒数。只保留当前 main 和后续未合并 PR，其他三库保留同负载的历史实测。
 
@@ -302,11 +302,11 @@ Redis/Valkey 关闭持久化；Kvrocks 使用无压缩 RAID0、关闭 WAL、80 G
 
 [Lavik raw](raw/lavik-maina565d603-import-hash-1048576-k50000-f1024-20261004/)
 
-128 B/entry · 历史测量，导入复测待完成 `5d7d12ec`
+128 B/entry · 本轮 main 基线 `a565d603`
 
 ![HSET batched import, 128 B](charts/hash-1048576-128-k50000-fill.png)
 
-[Lavik raw](raw/lavik-main5d7d12ec-import-hash-1048576-k50000-f128-20261004/)
+[Lavik raw](raw/lavik-maina565d603-import-hash-1048576-k50000-f128-20261004/)
 
 ## Set
 
