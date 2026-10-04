@@ -62,3 +62,9 @@ The initial `4fe60fee` candidate improved large-ZSet paired QPS by 9–11%, but 
 ## Remaining gap
 
 This improvement does not reach parity with the three historical peers. Redis/Valkey persistence is disabled; Kvrocks WAL is disabled with an 80 GiB cache; Lavik remains durable without a resident field/page payload cache. Peers were not rerun, and the curves do not compare equivalent durability settings. Ordered source pages are still loaded again during planning and remain a possible follow-up, subject to bounded ownership and new measurements.
+
+## CI investigation
+
+The first CI run at `a1b24b60` failed Sentinel subscriptions, an arm64 native-FULL promotion wait, and an arm64 grouped String server startup. [Investigation record](ci/pr266-ci-investigation.json) distinguishes these failures. The Sentinel EOF reproduced in 1/10 targeted runs with the exact CI amd64 binary; waiting for current-term runtime discovery authority fixes the fixture, with [30 targeted repetitions and 15 complete-suite tests passing](ci/sentinel-rechecks.json). Commit `dffc520b` changes only that fixture, so the performance binary remains `a1b24b60`.
+
+The two arm64 timeouts remain unresolved; three successful native-FULL repetitions on amd64 do not establish arm64 correctness. CI is being rerun on the updated PR. These results do not claim a green PR or change the throughput curves.

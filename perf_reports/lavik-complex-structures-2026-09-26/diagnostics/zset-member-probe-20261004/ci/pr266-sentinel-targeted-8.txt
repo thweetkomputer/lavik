@@ -1,0 +1,24 @@
+test_subscription_protocol_and_reset (__main__.SentinelTest.test_subscription_protocol_and_reset) ... [meta-integration] node 1 started (pid 459117, raft 60625, ctl /tmp/lavik-sentinel-3hgvlusb/node1/meta-admin.sock,127.0.0.1:40223, initial_manifest=True, attempt 1)
+ERROR
+test_slow_reader_keeps_admin_responsive_and_drains (__main__.SentinelTest.test_slow_reader_keeps_admin_responsive_and_drains) ... [meta-integration] node 1 started (pid 459133, raft 56273, ctl /tmp/lavik-sentinel-cega9j2v/node1/meta-admin.sock,127.0.0.1:43905, initial_manifest=True, attempt 1)
+[meta-integration] node 1: clean exit 0
+ok
+
+======================================================================
+ERROR: test_subscription_protocol_and_reset (__main__.SentinelTest.test_subscription_protocol_and_reset)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/dev/lavik-complex-next-20261004/tests/meta_integration/gate_sentinel.py", line 171, in test_subscription_protocol_and_reset
+    client.command("SUBSCRIBE", "+switch-master"),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dev/lavik-complex-next-20261004/tests/meta_integration/gate_sentinel.py", line 100, in command
+    return self.read()
+           ^^^^^^^^^^^
+  File "/mnt/dev/lavik-complex-next-20261004/tests/meta_integration/gate_sentinel.py", line 69, in read
+    raise EOFError("RESP connection closed")
+EOFError: RESP connection closed
+
+----------------------------------------------------------------------
+Ran 2 tests in 1.436s
+
+FAILED (errors=1)

@@ -1,0 +1,30 @@
+{
+  "head": "a1b24b60d887891ec90fdd98fe4c3ee8e3c2ff61",
+  "run": 37220690379,
+  "sentinel": {
+    "ci": "Two EOF failures on SUBSCRIBE",
+    "exact_ci_amd64_binary_full_suite": "15/15 passed",
+    "targeted_original": {
+      "runs": 10,
+      "failed_runs": [
+        8
+      ]
+    },
+    "diagnosis": "Raft is_leader does not imply current-term runtime authority eligibility; fixture must wait before subscribing.",
+    "targeted_fixed": {
+      "runs": 30,
+      "failed_runs": []
+    },
+    "fixed_full_suite": "15/15 passed"
+  },
+  "native_full": {
+    "ci": "arm64 explicit_full_limit cancel=true timed out waiting for promotion acknowledgement hold",
+    "exact_ci_amd64_binary_repeats": 3,
+    "passed_repeats": 3,
+    "status": "ARM64 cause unresolved; no production change made"
+  },
+  "expiration": {
+    "ci": "arm64 GroupedStringWriteE2e.ExpirationRestoresBoundedDeviceCapacity throws server startup timed out",
+    "status": "Distinct from previously fixed expiration assertion; startup logs not present in uploaded artifact. Cause unresolved."
+  }
+}
