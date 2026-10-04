@@ -229,7 +229,10 @@ def readme(manifest, zh):
             lines += ["### " + COMMANDS.get(op, op), ""]
             selected = [r for r in rows if r["kind"] == kind and op in commands(r)]
             if op == "LSET":
-                selected = [r for r in selected if r["category"] == "lset" or r["size"] == 65536]
+                # Replace only matched size/entry workloads. Keep 128-byte
+                # comparisons whose expanded-key peer runs do not exist.
+                replaced = {(r["size"], r["field"]) for r in selected if r["category"] == "lset"}
+                selected = [r for r in selected if r["category"] == "lset" or (r["size"], r["field"]) not in replaced]
             for size in sorted({r["size"] for r in selected}):
                 size_label = f"{size//1048576} MiB/key" if size >= 1048576 else f"{size//1024} KiB/key"
                 lines += ["#### " + size_label, ""]

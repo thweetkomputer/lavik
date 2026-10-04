@@ -2,7 +2,7 @@
 
 [简体中文](README.zh-CN.md)
 
-**2026-10-04: main `5d7d12ec`, including merged #244/#246/#247; 19/28 conditions refreshed.**
+**2026-10-04: main `5d7d12ec`, including merged #244/#246/#247; 20/28 conditions refreshed.**
 
 Batched HSET/SADD import is tracked separately: 0/4 conditions refreshed. Pending charts identify their actual historical version.
 
@@ -30,11 +30,11 @@ PR #249 measurements: Stream XADD MAXLEN peaks improve by about 9%–11% in two 
 
 #### 64 KiB/key
 
-128 B/entry · 64 keys · Historical measurement; refresh pending `646a7b4e`
+128 B/entry · 64 keys · Measured main baseline `5d7d12ec`
 
 ![List LINDEX 64 KiB/key, 128 B, 64 keys](charts/list-65536-128-k64-lindex-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 646a7b4e](raw/lavik/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-ordered-list-65536-k64-f128-20261004/)
 
 1024 B/entry · 64 keys · Measured main baseline `5d7d12ec`
 
@@ -74,11 +74,11 @@ PR #249 measurements: Stream XADD MAXLEN peaks improve by about 9%–11% in two 
 
 #### 64 KiB/key
 
-128 B/entry · 64 keys · Historical measurement; refresh pending `646a7b4e`
+128 B/entry · 64 keys · Measured main baseline `5d7d12ec`
 
 ![List LSET 64 KiB/key, 128 B, 64 keys](charts/list-65536-128-k64-lset-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 646a7b4e](raw/lavik/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-ordered-list-65536-k64-f128-20261004/)
 
 1024 B/entry · 64 keys · Measured main baseline `5d7d12ec`
 
@@ -88,6 +88,12 @@ PR #249 measurements: Stream XADD MAXLEN peaks improve by about 9%–11% in two 
 
 #### 1 MiB/key
 
+128 B/entry · 64 keys · Historical measurement; refresh pending `646a7b4e`
+
+![List LSET 1 MiB/key, 128 B, 64 keys](charts/list-1048576-128-k64-lset-current.png)
+
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 646a7b4e](raw/lavik/)
+
 1024 B/entry · 50,000 keys · Measured main baseline `5d7d12ec`
 
 ![List LSET 1 MiB/key, 1024 B, 50000 keys](charts/list-1048576-1024-k50000-lset-current.png)
@@ -95,6 +101,12 @@ PR #249 measurements: Stream XADD MAXLEN peaks improve by about 9%–11% in two 
 [Redis](raw/redis-lset-matched-1048576-k50000-f1024-20261001/) · [Valkey](raw/valkey-lset-matched-1048576-k50000-f1024-20261001/) · [Kvrocks (80 GiB cache)](raw/kvrocks-lset-matched-1048576-k50000-f1024-20261001/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-lset-list-1048576-k50000-f1024-20261004/) · [Lavik PR #249 97f81cd6](raw/lavik-candidate97f81cd6-lset-list-1048576-k50000-f1024-20261004/)
 
 #### 100 MiB/key
+
+128 B/entry · 8 keys · Historical measurement; refresh pending `646a7b4e`
+
+![List LSET 100 MiB/key, 128 B, 8 keys](charts/list-104857600-128-k8-lset-current.png)
+
+[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik (previous measurement) 646a7b4e](raw/lavik-100m/)
 
 1024 B/entry · 500 keys · Measured main baseline `5d7d12ec`
 
@@ -106,11 +118,11 @@ PR #249 measurements: Stream XADD MAXLEN peaks improve by about 9%–11% in two 
 
 #### 64 KiB/key
 
-128 B/entry · 64 keys · Historical measurement; refresh pending `646a7b4e`
+128 B/entry · 64 keys · Measured main baseline `5d7d12ec`
 
 ![List LRANGE 64 KiB/key, 128 B, 64 keys](charts/list-65536-128-k64-lrange-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 646a7b4e](raw/lavik/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-ordered-list-65536-k64-f128-20261004/)
 
 1024 B/entry · 64 keys · Measured main baseline `5d7d12ec`
 
