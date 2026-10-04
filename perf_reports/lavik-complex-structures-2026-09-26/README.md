@@ -2,7 +2,7 @@
 
 [简体中文](README.zh-CN.md)
 
-**2026-10-04: main `5d7d12ec`, including merged #244/#246/#247; 9/28 conditions refreshed.**
+**2026-10-04: main `5d7d12ec`, including merged #244/#246/#247; 10/28 conditions refreshed.**
 
 Batched HSET/SADD import is tracked separately: 0/4 conditions refreshed; pending charts identify their actual historical version.
 
@@ -162,11 +162,11 @@ Unmerged optimizations: [PR #249](https://github.com/eloqdata/lavik/pull/249)
 
 #### 100 MiB/key
 
-128 B/entry · 500 keys · Historical measurement; refresh pending `44761b91`
+128 B/entry · 500 keys · Current main `5d7d12ec`
 
 ![Hash HGET 100 MiB/key, 128 B, 500 keys](charts/hash-104857600-128-k500-hget-current.png)
 
-[Redis](raw/redis-hash-100m-k500-f128-20260929/) · [Valkey](raw/valkey-hash-100m-k500-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-100m-k500-f128-20260929/) · [Lavik (previous measurement) 44761b91](raw/lavik-main44761-hashset-hash-104857600-k500-f128-20261003/)
+[Redis](raw/redis-hash-100m-k500-f128-20260929/) · [Valkey](raw/valkey-hash-100m-k500-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-100m-k500-f128-20260929/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-hashset-hash-104857600-k500-f128-20261004/)
 
 1024 B/entry · 500 keys · Current main `5d7d12ec`
 
@@ -192,11 +192,11 @@ Unmerged optimizations: [PR #249](https://github.com/eloqdata/lavik/pull/249)
 
 #### 100 MiB/key
 
-128 B/entry · 500 keys · Historical measurement; refresh pending `44761b91`
+128 B/entry · 500 keys · Current main `5d7d12ec`
 
 ![Hash HSET 100 MiB/key, 128 B, 500 keys](charts/hash-104857600-128-k500-hset-current.png)
 
-[Redis](raw/redis-hash-100m-k500-f128-20260929/) · [Valkey](raw/valkey-hash-100m-k500-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-100m-k500-f128-20260929/) · [Lavik (previous measurement) 44761b91](raw/lavik-main44761-hashset-hash-104857600-k500-f128-20261003/)
+[Redis](raw/redis-hash-100m-k500-f128-20260929/) · [Valkey](raw/valkey-hash-100m-k500-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-100m-k500-f128-20260929/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-hashset-hash-104857600-k500-f128-20261004/)
 
 1024 B/entry · 500 keys · Current main `5d7d12ec`
 
@@ -222,11 +222,11 @@ Unmerged optimizations: [PR #249](https://github.com/eloqdata/lavik/pull/249)
 
 #### 100 MiB/key
 
-128 B/entry · 500 keys · Historical measurement; refresh pending `44761b91`
+128 B/entry · 500 keys · Current main `5d7d12ec`
 
 ![Hash HGETALL 100 MiB/key, 128 B, 500 keys](charts/hash-104857600-128-k500-hgetall-current.png)
 
-[Redis](raw/redis-hash-100m-k500-f128-20260929/) · [Valkey](raw/valkey-hash-100m-k500-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-100m-k500-f128-20260929/) · [Lavik (previous measurement) 44761b91](raw/lavik-main44761-hashset-hash-104857600-k500-f128-20261003/)
+[Redis](raw/redis-hash-100m-k500-f128-20260929/) · [Valkey](raw/valkey-hash-100m-k500-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-100m-k500-f128-20260929/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-hashset-hash-104857600-k500-f128-20261004/)
 
 1024 B/entry · 500 keys · Current main `5d7d12ec`
 

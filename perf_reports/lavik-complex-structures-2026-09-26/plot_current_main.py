@@ -231,11 +231,12 @@ def main():
     imports = json.loads(imports_path.read_text())
     for item in imports["plots"]:
         v = item["main"]
-        if item.get("chart_commit") == v["commit"]:
+        if item.get("chart_commit") == v["commit"] and item.get("chart_tag") == v["tag"]:
             continue
         label = ("Lavik main " if v.get("fresh") else "Lavik (previous measurement) ") + v["commit"][:8]
         subprocess.run([sys.executable, str(ROOT / "plot_fill_reference.py"), item["kind"], "--size", str(item["size"]), "--field", str(item["field"]), "--lavik-tag", v["tag"], "--lavik-commit", v["commit"], "--lavik-sha256", v["sha256"], "--lavik-label", label], check=True)
         item["chart_commit"] = v["commit"]
+        item["chart_tag"] = v["tag"]
     imports_path.write_text(json.dumps(imports, indent=2) + "\n")
     for zh, name in [(True, "README.zh-CN.md"), (False, "README.md")]:
         (ROOT / name).write_text(readme(manifest, zh))
