@@ -18,7 +18,7 @@
       "base_branch": "main",
       "ci": "https://github.com/eloqdata/lavik/actions/runs/37241591043",
       "status": "pending",
-      "note": "Main `19496654` is now integrated at `343e951e`; [CI on this updated head](https://github.com/eloqdata/lavik/actions/runs/37241591043) is pending. Formatting and conflict review pass. Historical throughput, perf and passing tests remain attributed to their original source commits and immutable binaries; they are not new measurements of this head. No local builds or tests overlap the ongoing clean Stream pairs. The read-batch fixture now returns an explicit admission error after one child starts, then joins all started reads. It no longer uses the removed allocation-throw hook or recovers from `std::bad_alloc`, preserving current main\u2019s fatal allocation policy."
+      "note": "Main `19496654` is now integrated at `343e951e`; [CI on this updated head](https://github.com/eloqdata/lavik/actions/runs/37241591043) is pending. Formatting and conflict review pass. Historical throughput, perf and passing tests remain attributed to their original source commits and immutable binaries; they are not new measurements of this head. No local builds or tests overlap the ongoing clean Stream pairs. The read-batch fixture now returns an explicit admission error after one child starts, then joins all started reads. It no longer uses the removed allocation-throw hook or recovers from `std::bad_alloc`, preserving current main’s fatal allocation policy."
     },
     {
       "pr": 269,
@@ -27,7 +27,16 @@
       "base_branch": "perf/list-range-read-window-20261004",
       "ci": "https://github.com/eloqdata/lavik/actions/runs/37241889281",
       "status": "pending",
-      "note": "Main `19496654` is now integrated at `f6a08783`; [CI on this updated head](https://github.com/eloqdata/lavik/actions/runs/37241889281) is pending. Formatting and conflict review pass. Historical throughput, perf and passing tests remain attributed to their original source commits and immutable binaries; they are not new measurements of this head. No local builds or tests overlap the ongoing clean Stream pairs. The read-batch fixture now returns an explicit admission error after one child starts, then joins all started reads. It no longer uses the removed allocation-throw hook or recovers from `std::bad_alloc`, preserving current main\u2019s fatal allocation policy."
+      "note": "Main `19496654` is now integrated at `f6a08783`; [CI on this updated head](https://github.com/eloqdata/lavik/actions/runs/37241889281) is pending. Formatting and conflict review pass. Historical throughput, perf and passing tests remain attributed to their original source commits and immutable binaries; they are not new measurements of this head. No local builds or tests overlap the ongoing clean Stream pairs. The read-batch fixture now returns an explicit admission error after one child starts, then joins all started reads. It no longer uses the removed allocation-throw hook or recovers from `std::bad_alloc`, preserving current main’s fatal allocation policy."
+    },
+    {
+      "pr": 270,
+      "url": "https://github.com/eloqdata/lavik/pull/270",
+      "head": "cfe76ab2fa8ad19006636a759aa440005cfb37a2",
+      "base_branch": "fix/grouped-expiry-recovery-20261004",
+      "ci": "https://github.com/eloqdata/lavik/actions/runs/37242737755",
+      "status": "pending",
+      "note": "Main `19496654` is integrated at `cfe76ab2`. The merge preserves reply batching and adopts main’s fatal C++ allocation policy without restoring `std::bad_alloc` recovery. Formatting and conflict review pass; [CI for this head](https://github.com/eloqdata/lavik/actions/runs/37242737755) is pending. All native validation and throughput above remain attributed to immutable `1e87107e`, not this newly integrated head. No local build or test overlaps the ongoing clean paired measurements."
     },
     {
       "pr": 271,
@@ -55,6 +64,15 @@
       "ci": "https://github.com/eloqdata/lavik/actions/runs/37241436317",
       "status": "pending",
       "note": "Main `19496654` is now integrated at `d5ca3a1b`; [CI on this updated head](https://github.com/eloqdata/lavik/actions/runs/37241436317) is pending. Formatting and conflict review pass. Historical throughput, perf and passing tests remain attributed to their original source commits and immutable binaries; they are not new measurements of this head. No local builds or tests overlap the ongoing clean Stream pairs."
+    },
+    {
+      "pr": 274,
+      "url": "https://github.com/eloqdata/lavik/pull/274",
+      "head": "85bc7ad0d7932b27dd6784c023fcbfdbd2dd8b08",
+      "base_branch": "perf/stream-reply-batching-20261004",
+      "ci": "https://github.com/eloqdata/lavik/actions/runs/37243195035",
+      "status": "pending",
+      "note": "Stacked on PR270 cfe76ab2, including main19496654. Move a complete final message up to64KiB instead of allocating/copying another chunk; retain entry/compact-state charge through EOF until producer destruction. Removes redundant chunk-limit state. Format/diff checks pass; CI37243195035 and native/performance validation pending. No measured gain claimed."
     }
   ],
   "measurements": "Existing measurements retain original source/binary proofs. New integrated heads require fresh correctness checks and native validation before performance claims."

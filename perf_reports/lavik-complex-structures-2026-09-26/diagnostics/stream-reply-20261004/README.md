@@ -6,7 +6,7 @@
 
 ## 正确性与出处
 
-[原生生产二进制测试证明](../stream-range-main-20261004/stream-reply-local-tests-passed.json) · [Stream 测试及跳过项](../stream-range-main-20261004/stream-reply-perf-stream-tests.json) · [阻塞/恢复测试](../stream-range-main-20261004/stream-reply-list-tests.json) · [pubsub/RESP3 测试](../stream-range-main-20261004/stream-reply-pubsub-tests.txt) · [两种架构完整 CI](../stream-range-main-20261004/pr270-1e-ci.json) · [二进制与源码](stream-reply-versions.json)。原生测试使用后续测量的同一不可变二进制，测试故障开关关闭；故障专用和可选 RDB 跳过项保留，完整故障覆盖来自 CI。
+[原生生产二进制测试证明](../stream-range-main-20261004/stream-reply-local-tests-passed.json) · [Stream 测试及跳过项](../stream-range-main-20261004/stream-reply-perf-stream-tests.json) · [阻塞/恢复测试](../stream-range-main-20261004/stream-reply-list-tests.json) · [pubsub/RESP3 测试](../stream-range-main-20261004/stream-reply-pubsub-tests.txt) · [两种架构完整 CI](../stream-range-main-20261004/pr270-1e-ci.json) · [二进制与源码](stream-reply-versions.json)。原生测试使用后续测量的同一不可变二进制，测试故障开关关闭；14 项 Stream 测试通过（含大 RDB 往返），仅 1 项故障专用测试跳过；完整故障覆盖来自 CI。
 
 ## 完整扫描
 
@@ -75,3 +75,7 @@
 main 附加线程中没有样本的 TID：521472；附加命令和记录日志保留在对应 profile 目录。
 
 candidate 附加线程中没有样本的 TID：579464；附加命令和记录日志保留在对应 profile 目录。
+
+## 单条回复后续优化
+
+[Draft PR #274](https://github.com/eloqdata/lavik/pull/274) 直接转移完整的小型最终消息，省去单条回复的额外分配、复制和块内存准入，并移除不再需要的块大小状态。保留原有消息/compact 状态内存计费直到生产者销毁，EOF 不提前释放计费。扩展同一个混合二进制 fixture 检查单条正反范围、96 KiB 消息和已删除 pending 消息；尚未本地构建、测试或测量，不将上面的 #270 结果归给它。[提交与 CI 状态](stream-single-reply-followup.json)。
