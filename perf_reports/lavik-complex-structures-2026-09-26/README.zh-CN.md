@@ -32,13 +32,17 @@ Redis/Valkey 关闭持久化；Kvrocks 使用无压缩 RAID0、关闭 WAL、80 G
 
 [Stream 尾部目录复用：吞吐、交替复测、perf 与测试](diagnostics/stream-suffix-20261004/README.md)
 
+[Stream 范围读取热点与回复优化草稿 PR #270（尚无候选性能结果）](diagnostics/stream-range-main-20261004/README.md)
+
 [ZSet 成员叶页复用：吞吐、交替复测、perf 与测试](diagnostics/zset-member-probe-20261004/README.md)
+
+后续 [PR #271](https://github.com/eloqdata/lavik/pull/271) 消除内联页的重复清单查找，仍在验证，尚无吞吐收益结论。
 
 [List 范围读取：吞吐、内存准入、交替复测与 perf](diagnostics/list-read-window-20261004/README.md)
 
 [List 回复空间预留：增量复测、复制热点与当前结果](diagnostics/list-reply-reserve-20261004/README.md)
 
-[List 字节受限窗口：草稿 PR #269 初步结果与 perf](diagnostics/list-byte-window-20261004/README.md)
+[List 字节受限窗口：草稿 PR #269 配对复测、回退与 perf](diagnostics/list-byte-window-20261004/README.md)
 
 [满盘过期恢复与 CI 修复（PR #268；历史观测保留原始二进制）](diagnostics/grouped-expiry-recovery-20261004/README.md)
 

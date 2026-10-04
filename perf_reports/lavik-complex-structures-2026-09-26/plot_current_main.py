@@ -226,6 +226,9 @@ def readme(manifest, zh):
     lines += ["本轮不重跑其他三库。Lavik 使用 AMD EPYC 9V74、16 vCPU、12 个服务 worker。每点 8 秒，较多 key 的 LSET 为 10 秒；pipeline=1。每组独立预置并逐 key 校验，perf 采样在完整连接扫描后单独进行，不混入 QPS 图。单次扫描没有统计置信区间。" if zh else "Peers are not rerun this round. Lavik uses AMD EPYC 9V74, 16 vCPUs and 12 serving workers. Points last 8 s (10 s for high-key-count LSET), pipeline=1. Each condition is independently seeded and checked key by key. CPU profiles run separately after complete clean grids. Single sweeps have no statistical confidence intervals.", ""]
     lines += ["本轮固定使用上述 main 提交，已合并优化不再作为独立 PR 曲线显示。历史观察仍保留原始提交号；每完成一组独立复测才替换对应图。" if zh else "This round pins the main revision above. Merged optimizations are no longer separate PR curves. Historical observations retain their measured commits; each chart is replaced only after its independent rerun completes.", ""]
     lines += ["[绘图数据清单](current-main.json) · [复现脚本](run.py) · [上一轮构建与硬件证明](diagnostics/main-refresh-20261004/host-and-build.json)" if zh else "[Plot sources](current-main.json) · [Runner](run.py) · [Previous-round build and hardware](diagnostics/main-refresh-20261004/host-and-build.json)", ""]
+    gap_report = "diagnostics/main-a565d603-20261004/main-gap-summary.md"
+    if (ROOT / gap_report).exists():
+        lines += [f"[完整 main 基线：逐命令差距与优化优先级]({gap_report})" if zh else f"[Complete main baseline: per-command gaps and optimization priorities]({gap_report})", ""]
     if manifest.get("build_proof"):
         proof = manifest["build_proof"]
         lines += [f"[本轮构建与硬件证明]({proof})" if zh else f"[Current build and hardware]({proof})", ""]
@@ -244,14 +247,17 @@ def readme(manifest, zh):
         lines += [("未合并优化：" if zh else "Unmerged optimizations: ") + links, ""]
     if (ROOT / "diagnostics/stream-suffix-20261004/README.md").exists():
         lines += ["[Stream 尾部目录复用：吞吐、交替复测、perf 与测试](diagnostics/stream-suffix-20261004/README.md)" if zh else "[Stream suffix directory reuse: throughput, paired runs, perf and tests](diagnostics/stream-suffix-20261004/README.md)", ""]
+    if (ROOT / "diagnostics/stream-range-main-20261004/README.md").exists():
+        lines += ["[Stream 范围读取热点与回复优化草稿 PR #270（尚无候选性能结果）](diagnostics/stream-range-main-20261004/README.md)" if zh else "[Stream range profile and reply draft PR #270 (candidate performance pending)](diagnostics/stream-range-main-20261004/README.md)", ""]
     if (ROOT / "diagnostics/zset-member-probe-20261004/README.md").exists():
         lines += ["[ZSet 成员叶页复用：吞吐、交替复测、perf 与测试](diagnostics/zset-member-probe-20261004/README.md)" if zh else "[ZSet member-leaf reuse: throughput, paired runs, perf and tests](diagnostics/zset-member-probe-20261004/README.md)", ""]
+        lines += ["后续 [PR #271](https://github.com/eloqdata/lavik/pull/271) 消除内联页的重复清单查找，仍在验证，尚无吞吐收益结论。" if zh else "Follow-up [PR #271](https://github.com/eloqdata/lavik/pull/271) removes redundant inline-page manifest lookups; validation and throughput measurements remain pending.", ""]
     if (ROOT / "diagnostics/list-read-window-20261004/README.md").exists():
         lines += ["[List 范围读取：吞吐、内存准入、交替复测与 perf](diagnostics/list-read-window-20261004/README.md)" if zh else "[List range reads: throughput, memory admission, paired runs and perf](diagnostics/list-read-window-20261004/README.md)", ""]
     if (ROOT / "diagnostics/list-reply-reserve-20261004/README.md").exists():
         lines += ["[List 回复空间预留：增量复测、复制热点与当前结果](diagnostics/list-reply-reserve-20261004/README.md)" if zh else "[List reply reservation: incremental repeats, copy hotspots and current results](diagnostics/list-reply-reserve-20261004/README.md)", ""]
     if (ROOT / "diagnostics/list-byte-window-20261004/README.md").exists():
-        lines += ["[List 字节受限窗口：草稿 PR #269 初步结果与 perf](diagnostics/list-byte-window-20261004/README.md)" if zh else "[List byte-bounded window: draft PR #269 initial results and perf](diagnostics/list-byte-window-20261004/README.md)", ""]
+        lines += ["[List 字节受限窗口：草稿 PR #269 配对复测、回退与 perf](diagnostics/list-byte-window-20261004/README.md)" if zh else "[List byte-bounded window: draft PR #269 paired repeats, regressions and perf](diagnostics/list-byte-window-20261004/README.md)", ""]
     if (ROOT / "diagnostics/grouped-expiry-recovery-20261004/README.md").exists():
         lines += ["[满盘过期恢复与 CI 修复（PR #268；历史观测保留原始二进制）](diagnostics/grouped-expiry-recovery-20261004/README.md)" if zh else "[Full-device expiration recovery and CI repair (PR #268; historical observations retain their original binaries)](diagnostics/grouped-expiry-recovery-20261004/README.md)", ""]
     if 249 in active:

@@ -32,13 +32,17 @@ Unmerged optimizations: [PR #265](https://github.com/eloqdata/lavik/pull/265) ·
 
 [Stream suffix directory reuse: throughput, paired runs, perf and tests](diagnostics/stream-suffix-20261004/README.md)
 
+[Stream range profile and reply draft PR #270 (candidate performance pending)](diagnostics/stream-range-main-20261004/README.md)
+
 [ZSet member-leaf reuse: throughput, paired runs, perf and tests](diagnostics/zset-member-probe-20261004/README.md)
+
+Follow-up [PR #271](https://github.com/eloqdata/lavik/pull/271) removes redundant inline-page manifest lookups; validation and throughput measurements remain pending.
 
 [List range reads: throughput, memory admission, paired runs and perf](diagnostics/list-read-window-20261004/README.md)
 
 [List reply reservation: incremental repeats, copy hotspots and current results](diagnostics/list-reply-reserve-20261004/README.md)
 
-[List byte-bounded window: draft PR #269 initial results and perf](diagnostics/list-byte-window-20261004/README.md)
+[List byte-bounded window: draft PR #269 paired repeats, regressions and perf](diagnostics/list-byte-window-20261004/README.md)
 
 [Full-device expiration recovery and CI repair (PR #268; historical observations retain their original binaries)](diagnostics/grouped-expiry-recovery-20261004/README.md)
 
