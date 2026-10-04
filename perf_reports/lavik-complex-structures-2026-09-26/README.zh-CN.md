@@ -2,7 +2,7 @@
 
 [English](README.md)
 
-**2026-10-04：main `a565d603` 已完成 2/28 组复测，包含已合并的 #244, #246, #247, #249, #258, #259, #260, #262。**
+**2026-10-04：main `a565d603` 已完成 3/28 组复测，包含已合并的 #244, #246, #247, #249, #258, #259, #260, #262。**
 
 批量 HSET/SADD 导入另计：0/4 组已更新。未完成的图注明实际历史版本。
 
@@ -398,11 +398,11 @@ SADD + SREM 为两个命令等比例混合，QPS 计算完成的命令数，不�
 
 #### 64 KiB/key
 
-128 B/entry · 64 keys · 历史测量，待复测 `5d7d12ec`
+128 B/entry · 64 keys · 本轮 main 基线 `a565d603`
 
 ![Sorted Set ZSCORE 64 KiB/key, 128 B, 64 keys](charts/zset-65536-128-k64-zscore-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 5d7d12ec](raw/lavik-main5d7d12ec-ordered-zset-65536-k64-f128-20261004/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-zset-65536-k64-f128-20261004/)
 
 1024 B/entry · 64 keys · 历史测量，待复测 `5d7d12ec`
 
@@ -442,11 +442,11 @@ SADD + SREM 为两个命令等比例混合，QPS 计算完成的命令数，不�
 
 #### 64 KiB/key
 
-128 B/entry · 64 keys · 历史测量，待复测 `5d7d12ec`
+128 B/entry · 64 keys · 本轮 main 基线 `a565d603`
 
 ![Sorted Set ZINCRBY 64 KiB/key, 128 B, 64 keys](charts/zset-65536-128-k64-zincrby-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 5d7d12ec](raw/lavik-main5d7d12ec-ordered-zset-65536-k64-f128-20261004/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-zset-65536-k64-f128-20261004/)
 
 1024 B/entry · 64 keys · 历史测量，待复测 `5d7d12ec`
 
@@ -486,11 +486,11 @@ SADD + SREM 为两个命令等比例混合，QPS 计算完成的命令数，不�
 
 #### 64 KiB/key
 
-128 B/entry · 64 keys · 历史测量，待复测 `5d7d12ec`
+128 B/entry · 64 keys · 本轮 main 基线 `a565d603`
 
 ![Sorted Set ZRANGE 64 KiB/key, 128 B, 64 keys](charts/zset-65536-128-k64-zrange-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 5d7d12ec](raw/lavik-main5d7d12ec-ordered-zset-65536-k64-f128-20261004/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-zset-65536-k64-f128-20261004/)
 
 1024 B/entry · 64 keys · 历史测量，待复测 `5d7d12ec`
 
