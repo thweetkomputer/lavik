@@ -2,7 +2,7 @@
 
 [简体中文](README.zh-CN.md)
 
-**2026-10-04: main `a565d603`, including merged #244, #246, #247, #249, #258, #259, #260, #262; 17/28 conditions refreshed.**
+**2026-10-04: main `a565d603`, including merged #244, #246, #247, #249, #258, #259, #260, #262; 18/28 conditions refreshed.**
 
 Batched HSET/SADD import is tracked separately: 0/4 conditions refreshed. Pending charts identify their actual historical version.
 
@@ -578,11 +578,11 @@ SADD + SREM mixes the two commands equally; QPS counts commands, not pairs. Rand
 
 #### 100 MiB/key
 
-128 B/entry · 8 keys · Historical measurement; refresh pending `5d7d12ec`
+128 B/entry · 8 keys · Measured main baseline `a565d603`
 
 ![Stream XRANGE 100 MiB/key, 128 B, 8 keys](charts/stream-104857600-128-k8-xrange-current.png)
 
-[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik (previous measurement) 5d7d12ec](raw/lavik-main5d7d12ec-ordered-stream-104857600-k8-f128-20261004/)
+[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-stream-104857600-k8-f128-20261004/)
 
 1024 B/entry · 8 keys · Measured main baseline `a565d603`
 
@@ -622,11 +622,11 @@ SADD + SREM mixes the two commands equally; QPS counts commands, not pairs. Rand
 
 #### 100 MiB/key
 
-128 B/entry · 8 keys · Historical measurement; refresh pending `5d7d12ec`
+128 B/entry · 8 keys · Measured main baseline `a565d603`
 
 ![Stream XADD_MAXLEN 100 MiB/key, 128 B, 8 keys](charts/stream-104857600-128-k8-xadd_maxlen-current.png)
 
-[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik (previous measurement) 5d7d12ec](raw/lavik-main5d7d12ec-ordered-stream-104857600-k8-f128-20261004/)
+[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-stream-104857600-k8-f128-20261004/)
 
 1024 B/entry · 8 keys · Measured main baseline `a565d603`
 
@@ -666,11 +666,11 @@ SADD + SREM mixes the two commands equally; QPS counts commands, not pairs. Rand
 
 #### 100 MiB/key
 
-128 B/entry · 8 keys · Historical measurement; refresh pending `5d7d12ec`
+128 B/entry · 8 keys · Measured main baseline `a565d603`
 
 ![Stream XRANGE_FULL 100 MiB/key, 128 B, 8 keys](charts/stream-104857600-128-k8-xrange_full-current.png)
 
-[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik (previous measurement) 5d7d12ec](raw/lavik-main5d7d12ec-ordered-stream-104857600-k8-f128-20261004/)
+[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-stream-104857600-k8-f128-20261004/)
 
 1024 B/entry · 8 keys · Measured main baseline `a565d603`
 
