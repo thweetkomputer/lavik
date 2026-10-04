@@ -1,0 +1,39 @@
+{
+  "candidate": {
+    "commit": "1e87107e51d658944998ec74ff05b57d2e8f40c8",
+    "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-stream-reply-1e87107e-20261004",
+    "sha256": "3d0e4a86d6f7d8b5a637aa76d5febf789e9c1f48dac31a4a9d2645089406d798",
+    "source_repo": "/mnt/dev/lavik-complex-next-20261004",
+    "bycorf_commit": "62509c93d40c2480f5046b71454db6cf95801b04",
+    "build": "RelWithDebInfo, native, LTO, GCC 13, SPDK, BUILD_TESTING=OFF, LAVIK_ENABLE_TEST_FAULTS=OFF",
+    "build_directory": "/mnt/dev/lavik-complex-next-20261004/build-spdk",
+    "no_build_or_tests_during_measurements": true
+  },
+  "completed": [
+    {
+      "size": 104857600,
+      "field": 128,
+      "keys": 8,
+      "comparison": "stream-reply-comparison-stream-104857600-128-k8.json"
+    },
+    {
+      "size": 65536,
+      "field": 128,
+      "keys": 64,
+      "comparison": "stream-reply-comparison-stream-65536-128-k64.json"
+    },
+    {
+      "size": 104857600,
+      "field": 1024,
+      "keys": 8,
+      "comparison": "stream-reply-comparison-stream-104857600-1024-k8.json"
+    },
+    {
+      "size": 65536,
+      "field": 1024,
+      "keys": 64,
+      "comparison": "stream-reply-comparison-stream-65536-1024-k64.json"
+    }
+  ],
+  "note": "Single sweeps; inspect all QPS/p99 and errors. Paired repeats still required."
+}

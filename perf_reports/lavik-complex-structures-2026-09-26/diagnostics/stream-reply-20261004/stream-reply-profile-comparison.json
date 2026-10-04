@@ -1,0 +1,431 @@
+{
+  "rows": [
+    {
+      "version": "main",
+      "source_commit": "a565d603523467ed7bbb9ed9227ddd6b18a9ca8c",
+      "profile_tag": "diagnostic-full-reused-maina565d603-ordered-stream-104857600-k8-f128-20261004",
+      "task_clock_seconds": 30.53535323,
+      "recorded_tids": [
+        "521460",
+        "521461",
+        "521462",
+        "521463",
+        "521464",
+        "521465",
+        "521466",
+        "521467",
+        "521468",
+        "521469",
+        "521470",
+        "521471",
+        "521472"
+      ],
+      "sampled_task_clock_seconds_by_tid": {
+        "521465": 16.78787862,
+        "521461": 2.10101008,
+        "521466": 2.70707068,
+        "521464": 0.09090909,
+        "521463": 0.09090909,
+        "521467": 0.09090909,
+        "521472": 0.0,
+        "521471": 6.18181812,
+        "521468": 2.11111109,
+        "521462": 0.09090909,
+        "521470": 0.09090909,
+        "521469": 0.1010101,
+        "521460": 0.09090909
+      },
+      "zero_sample_tids": [
+        "521472"
+      ],
+      "commands_in_metrics_interval": 8.0,
+      "io": {
+        "read_operations": {
+          "delta": 156058.0,
+          "per_command": 19507.25
+        },
+        "write_operations": {
+          "delta": 0.0,
+          "per_command": 0.0
+        },
+        "read_bytes": {
+          "delta": 1347515904.0,
+          "per_command": 168439488.0
+        },
+        "write_bytes": {
+          "delta": 0.0,
+          "per_command": 0.0
+        }
+      },
+      "self_cpu_percent": {
+        "syscall_entry": 3.208733046642408,
+        "tcp_sendmsg": 2.0178630499503805,
+        "worker_run_once": 29.970228250082698,
+        "allocator_entry": 1.3893483294740325,
+        "stream_reply_next": 0.4961958319550116,
+        "memcpy_memmove": 0.628514720476348,
+        "worker_poll_storage": 11.015547469401257
+      },
+      "copy_context_self_percent": {
+        "stream_reply_next": 0.4961958319550116,
+        "append_bulk": 0.26463777704267283
+      },
+      "top_self": [
+        {
+          "symbol": "bycorf::Worker::RunOnce(bool)",
+          "percent": 29.970228250082698
+        },
+        {
+          "symbol": "bycorf::Worker::PollStorage() [clone .part.0]",
+          "percent": 11.015547469401257
+        },
+        {
+          "symbol": "do_syscall_64",
+          "percent": 3.208733046642408
+        },
+        {
+          "symbol": "_raw_spin_unlock_irqrestore",
+          "percent": 2.2163413827323852
+        },
+        {
+          "symbol": "tcp_sendmsg_locked",
+          "percent": 1.7201455507773735
+        },
+        {
+          "symbol": "bycorf::Worker::DrainCrossCore()",
+          "percent": 1.6870658286470395
+        },
+        {
+          "symbol": "handle_softirqs",
+          "percent": 1.6870658286470395
+        },
+        {
+          "symbol": "__pv_queued_spin_lock_slowpath",
+          "percent": 1.554746940125703
+        },
+        {
+          "symbol": "_mi_theap_malloc_zero",
+          "percent": 1.3893483294740325
+        },
+        {
+          "symbol": "io_uring_submit_and_get_events",
+          "percent": 1.3562686073436983
+        },
+        {
+          "symbol": "finish_task_switch.isra.0",
+          "percent": 1.1908699966920278
+        },
+        {
+          "symbol": "nvme_pcie_qpair_process_completions",
+          "percent": 1.0916308303010254
+        },
+        {
+          "symbol": "spdk_nvme_qpair_process_completions",
+          "percent": 1.0254713860403573
+        },
+        {
+          "symbol": "__do_sys_io_uring_enter",
+          "percent": 0.959311941779689
+        },
+        {
+          "symbol": "io_cqring_wait",
+          "percent": 0.926232219649355
+        },
+        {
+          "symbol": "bycorf::IoUringBackend::ReapCompletions()",
+          "percent": 0.8931524975190208
+        },
+        {
+          "symbol": "io_send",
+          "percent": 0.7608336089976844
+        },
+        {
+          "symbol": "lavik::storage::StorageEngine::Impl::ActiveExpiration(lavik::storage::StorageEngine::Impl::ActiveExpiration(lavik::storage::StorageEngine::Impl::WorkerStore*)::_ZN5lavik7storage13StorageEngine4Impl16ActiveExpirationEPNS2_11WorkerStoreE.Frame*) [clone .actor]",
+          "percent": 0.7608336089976844
+        },
+        {
+          "symbol": "_copy_from_iter",
+          "percent": 0.7277538868673503
+        },
+        {
+          "symbol": "lavik::storage::StreamRecordKey(std::basic_string_view<char, std::char_traits<char> >)",
+          "percent": 0.6946741647370163
+        },
+        {
+          "symbol": "io_submit_sqes",
+          "percent": 0.6946741647370163
+        },
+        {
+          "symbol": "mi_free",
+          "percent": 0.6615944426066821
+        },
+        {
+          "symbol": "fget",
+          "percent": 0.6615944426066821
+        },
+        {
+          "symbol": "release_sock",
+          "percent": 0.6615944426066821
+        },
+        {
+          "symbol": "__memmove_avx512_unaligned_erms",
+          "percent": 0.628514720476348
+        },
+        {
+          "symbol": "[unknown]",
+          "percent": 0.5623552762156798
+        },
+        {
+          "symbol": "tcp_current_mss",
+          "percent": 0.5623552762156798
+        },
+        {
+          "symbol": "_raw_spin_unlock_irq",
+          "percent": 0.5623552762156798
+        },
+        {
+          "symbol": "_raw_spin_unlock",
+          "percent": 0.5623552762156798
+        },
+        {
+          "symbol": "sock_sendmsg",
+          "percent": 0.5292755540853457
+        },
+        {
+          "symbol": "srso_alias_safe_ret",
+          "percent": 0.5292755540853457
+        },
+        {
+          "symbol": "std::__cxx11::to_string(unsigned long long)",
+          "percent": 0.5292755540853457
+        },
+        {
+          "symbol": "std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::append(char const*)",
+          "percent": 0.5292755540853457
+        },
+        {
+          "symbol": "bycorf::Worker::Flush()",
+          "percent": 0.5292755540853457
+        },
+        {
+          "symbol": "lavik::(anonymous namespace)::StreamRangeReplyState::Next(lavik::(anonymous namespace)::StreamRangeReplyState::Next()::_ZN5lavik12_GLOBAL__N_121StreamRangeReplyState4NextEv.Frame*) [clone .actor] [clone .lto_priv.0]",
+          "percent": 0.4961958319550116
+        }
+      ]
+    },
+    {
+      "version": "candidate",
+      "source_commit": "1e87107e51d658944998ec74ff05b57d2e8f40c8",
+      "profile_tag": "diagnostic-full-candidate1e87107e-ordered-stream-104857600-k8-f128-20261004",
+      "task_clock_seconds": 34.38383804,
+      "recorded_tids": [
+        "579452",
+        "579453",
+        "579454",
+        "579455",
+        "579456",
+        "579457",
+        "579458",
+        "579459",
+        "579460",
+        "579461",
+        "579462",
+        "579463",
+        "579464"
+      ],
+      "sampled_task_clock_seconds_by_tid": {
+        "579457": 8.90909082,
+        "579456": 0.09090909,
+        "579452": 0.09090909,
+        "579455": 0.1010101,
+        "579454": 0.1010101,
+        "579458": 5.80808075,
+        "579463": 10.25252515,
+        "579460": 4.83838379,
+        "579453": 3.90909087,
+        "579459": 0.09090909,
+        "579461": 0.1010101,
+        "579462": 0.09090909,
+        "579464": 0.0
+      },
+      "zero_sample_tids": [
+        "579464"
+      ],
+      "commands_in_metrics_interval": 15.0,
+      "io": {
+        "read_operations": {
+          "delta": 292615.0,
+          "per_command": 19507.666666666668
+        },
+        "write_operations": {
+          "delta": 0.0,
+          "per_command": 0.0
+        },
+        "read_bytes": {
+          "delta": 2526656512.0,
+          "per_command": 168443767.46666667
+        },
+        "write_bytes": {
+          "delta": 0.0,
+          "per_command": 0.0
+        }
+      },
+      "self_cpu_percent": {
+        "worker_run_once": 49.38307873090482,
+        "stream_reply_next": 0.8519388954171563,
+        "memcpy_memmove": 1.1163337250293772,
+        "syscall_entry": 1.1750881316098707,
+        "allocator_entry": 0.381903642773208,
+        "tcp_sendmsg": 0.02937720329024677,
+        "worker_poll_storage": 18.301997649823736
+      },
+      "copy_context_self_percent": {
+        "stream_reply_next": 0.9400705052878966,
+        "append_bulk": 0.8225616921269095
+      },
+      "top_self": [
+        {
+          "symbol": "bycorf::Worker::RunOnce(bool)",
+          "percent": 49.38307873090482
+        },
+        {
+          "symbol": "bycorf::Worker::PollStorage() [clone .part.0]",
+          "percent": 18.301997649823736
+        },
+        {
+          "symbol": "bycorf::Worker::DrainCrossCore()",
+          "percent": 3.3490011750881314
+        },
+        {
+          "symbol": "bycorf::IoUringBackend::ReapCompletions()",
+          "percent": 2.144535840188014
+        },
+        {
+          "symbol": "nvme_pcie_qpair_process_completions",
+          "percent": 2.1151586368977675
+        },
+        {
+          "symbol": "spdk_nvme_qpair_process_completions",
+          "percent": 1.5863689776733254
+        },
+        {
+          "symbol": "_raw_spin_unlock_irqrestore",
+          "percent": 1.4394829612220916
+        },
+        {
+          "symbol": "finish_task_switch.isra.0",
+          "percent": 1.1750881316098707
+        },
+        {
+          "symbol": "do_syscall_64",
+          "percent": 1.1750881316098707
+        },
+        {
+          "symbol": "lavik::storage::StreamRecordKey(std::basic_string_view<char, std::char_traits<char> >)",
+          "percent": 1.1163337250293772
+        },
+        {
+          "symbol": "__memmove_avx512_unaligned_erms",
+          "percent": 1.1163337250293772
+        },
+        {
+          "symbol": "lavik::(anonymous namespace)::StreamRangeReplyState::Next(lavik::(anonymous namespace)::StreamRangeReplyState::Next()::_ZN5lavik12_GLOBAL__N_121StreamRangeReplyState4NextEv.Frame*) [clone .actor] [clone .lto_priv.0]",
+          "percent": 0.8519388954171563
+        },
+        {
+          "symbol": "lavik::storage::StorageEngine::Impl::ActiveExpiration(lavik::storage::StorageEngine::Impl::ActiveExpiration(lavik::storage::StorageEngine::Impl::WorkerStore*)::_ZN5lavik7storage13StorageEngine4Impl16ActiveExpirationEPNS2_11WorkerStoreE.Frame*) [clone .actor]",
+          "percent": 0.7344300822561692
+        },
+        {
+          "symbol": "io_uring_submit_and_get_events",
+          "percent": 0.5581668625146886
+        },
+        {
+          "symbol": "std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::append(char const*, unsigned long)",
+          "percent": 0.5287896592244419
+        },
+        {
+          "symbol": "std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::append(char const*)",
+          "percent": 0.5287896592244419
+        },
+        {
+          "symbol": "lavik::storage::StorageEngine::Impl::ReadValueForTransferLocked(lavik::storage::StorageEngine::Impl::ReadValueForTransferLocked(unsigned char, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::Digest const&, std::optional<lavik::storage::StreamRangeAccess>)::_ZN5lavik7storage13StorageEngine4Impl26ReadValueForTransferLockedEhSt17basic_string_viewIcSt11char_traitsIcEERKNS0_6DigestESt8optionalINS0_17StreamRangeAccessEE.Frame*)::Source::Read(lavik::storage::StorageEngine::Impl::ReadValueForTransferLocked(lavik::storage::StorageEngine::Impl::ReadValueForTransferLocked(unsigned char, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::Digest const&, std::optional<lavik::storage::StreamRangeAccess>)::_ZN5lavik7storage13StorageEngine4Impl26ReadValueForTransferLockedEhSt17basic_string_viewIcSt11char_traitsIcEERKNS0_6DigestESt8optionalINS0_17StreamRangeAccessEE.Frame*)::Source::Read(lavik::storage::StorageEngine::Impl*, std::shared_ptr<Source>)::_ZZN5lavik7storage13StorageEngine4Impl26ReadValueForTransferLockedEhSt17basic_string_viewIcSt11char_traitsIcEERKNS0_6DigestESt8optionalINS0_17StreamRangeAccessEEEN6Source4ReadEPS2_St10shared_ptrISD_E.Frame*) [clone .actor]",
+          "percent": 0.4700352526439483
+        },
+        {
+          "symbol": "nvme_transport_qpair_process_completions",
+          "percent": 0.4700352526439483
+        },
+        {
+          "symbol": "handle_softirqs",
+          "percent": 0.4406580493537015
+        },
+        {
+          "symbol": "io_cqring_wait",
+          "percent": 0.4112808460634548
+        },
+        {
+          "symbol": "lavik::(anonymous namespace)::FormatId(lavik::(anonymous namespace)::Id) [clone .lto_priv.0]",
+          "percent": 0.4112808460634548
+        },
+        {
+          "symbol": "__memcmp_evex_movbe",
+          "percent": 0.4112808460634548
+        },
+        {
+          "symbol": "_nvme_qpair_complete_abort_queued_reqs",
+          "percent": 0.4112808460634548
+        },
+        {
+          "symbol": "lavik::storage::GroupedHashObject::FindRecord(lavik::storage::HashGroupId) const",
+          "percent": 0.4112808460634548
+        },
+        {
+          "symbol": "_mi_theap_malloc_zero",
+          "percent": 0.381903642773208
+        },
+        {
+          "symbol": "absl::lts_20250512::crc_internal::(anonymous namespace)::CRC32AcceleratedX86ARMCombinedMultipleStreams<3ul, 0ul, (absl::lts_20250512::crc_internal::(anonymous namespace)::CutoffStrategy)0>::Extend(unsigned int*, void const*, unsigned long) const",
+          "percent": 0.381903642773208
+        },
+        {
+          "symbol": "mi_page_thread_collect_to_local",
+          "percent": 0.381903642773208
+        },
+        {
+          "symbol": "lavik::storage::OrderedCollectionEntry& std::vector<lavik::storage::OrderedCollectionEntry, std::allocator<lavik::storage::OrderedCollectionEntry> >::emplace_back<lavik::storage::OrderedCollectionEntry>(lavik::storage::OrderedCollectionEntry&&) [clone .isra.0]",
+          "percent": 0.381903642773208
+        },
+        {
+          "symbol": "std::__cxx11::to_string(unsigned long long)",
+          "percent": 0.3525264394829612
+        },
+        {
+          "symbol": "std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::push_back(char)",
+          "percent": 0.3525264394829612
+        },
+        {
+          "symbol": "std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::replace(unsigned long, unsigned long, char const*, unsigned long)",
+          "percent": 0.2937720329024677
+        },
+        {
+          "symbol": "mi_free",
+          "percent": 0.2937720329024677
+        },
+        {
+          "symbol": "lavik::RetainedMemoryCharge::Reset()",
+          "percent": 0.26439482961222094
+        },
+        {
+          "symbol": "std::enable_if<std::__or_<std::__or_<std::is_same<std::remove_cv<unsigned long>::type, signed char>, std::is_same<std::remove_cv<unsigned long>::type, short>, std::is_same<std::remove_cv<unsigned long>::type, int>, std::is_same<std::remove_cv<unsigned long>::type, long>, std::is_same<std::remove_cv<unsigned long>::type, long long> >, std::__or_<std::is_same<std::remove_cv<unsigned long>::type, unsigned char>, std::is_same<std::remove_cv<unsigned long>::type, unsigned short>, std::is_same<std::remove_cv<unsigned long>::type, unsigned int>, std::is_same<std::remove_cv<unsigned long>::type, unsigned long>, std::is_same<std::remove_cv<unsigned long>::type, unsigned long long> >, std::is_same<unsigned long, __int128>, std::is_same<unsigned long, unsigned __int128>, std::is_same<char, std::remove_cv<unsigned long>::type> >::value, std::to_chars_result>::type std::__to_chars_i<unsigned long>(char*, char*, unsigned long, int) [clone .constprop.0]",
+          "percent": 0.26439482961222094
+        },
+        {
+          "symbol": "__strlen_evex",
+          "percent": 0.23501762632197415
+        }
+      ]
+    }
+  ],
+  "limitations": "Separate diagnostics, never throughput-comparison points. Per-worker 25s task-clock includes polling/background/kernel work; percentages are self CPU shares, not latency fractions. The command/IO window is30s and is not aligned to task-clock, so no CPU-per-command ratio is computed. IO includes all server storage work. Each profile reuses its own bounded post-XADD population; before/after exact cardinalities are retained and checked by the runner. Attached tids with zero samples are recorded explicitly; they contribute no observed task-clock and must not be mistaken for failed attachment. The runner requires every perf record/script command to exit successfully. Copy caller categories can overlap and stack ancestry can end at coroutine scheduling boundaries."
+}

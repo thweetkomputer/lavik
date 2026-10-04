@@ -1,0 +1,265 @@
+{
+  "candidate": {
+    "commit": "1e87107e51d658944998ec74ff05b57d2e8f40c8",
+    "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-stream-reply-1e87107e-20261004",
+    "sha256": "3d0e4a86d6f7d8b5a637aa76d5febf789e9c1f48dac31a4a9d2645089406d798",
+    "source_repo": "/mnt/dev/lavik-complex-next-20261004",
+    "bycorf_commit": "62509c93d40c2480f5046b71454db6cf95801b04",
+    "build": "RelWithDebInfo, native, LTO, GCC 13, SPDK, BUILD_TESTING=OFF, LAVIK_ENABLE_TEST_FAULTS=OFF",
+    "build_directory": "/mnt/dev/lavik-complex-next-20261004/build-spdk",
+    "no_build_or_tests_during_measurements": true
+  },
+  "rows": [
+    {
+      "size": 104857600,
+      "field": 128,
+      "keys": 8,
+      "connections": 1,
+      "operation": "XRANGE_FULL",
+      "candidate_qps": 0.51,
+      "candidate_p99_ms": 2039.807,
+      "peers": {
+        "Redis": {
+          "qps": 1.57,
+          "p99_ms": 688.127
+        },
+        "Valkey": {
+          "qps": 1.85,
+          "p99_ms": 552.959
+        },
+        "Kvrocks (80 GiB cache)": {
+          "qps": 1.4,
+          "p99_ms": 749.567
+        }
+      },
+      "fraction_of_fastest_peer": 0.2756756756756757,
+      "source_csv": "stream-104857600-128-k8-current.csv"
+    },
+    {
+      "size": 104857600,
+      "field": 128,
+      "keys": 8,
+      "connections": 4,
+      "operation": "XRANGE_FULL",
+      "candidate_qps": 2.11,
+      "candidate_p99_ms": 2146.303,
+      "peers": {
+        "Redis": {
+          "qps": 3.04,
+          "p99_ms": 2686.975
+        },
+        "Valkey": {
+          "qps": 2.81,
+          "p99_ms": 2490.367
+        },
+        "Kvrocks (80 GiB cache)": {
+          "qps": 5.08,
+          "p99_ms": 987.135
+        }
+      },
+      "fraction_of_fastest_peer": 0.4153543307086614,
+      "source_csv": "stream-104857600-128-k8-current.csv"
+    },
+    {
+      "size": 104857600,
+      "field": 128,
+      "keys": 8,
+      "connections": 16,
+      "operation": "XRANGE_FULL",
+      "candidate_qps": 7.2,
+      "candidate_p99_ms": 2686.975,
+      "peers": {
+        "Redis": {
+          "qps": 3.09,
+          "p99_ms": 8355.839
+        },
+        "Valkey": {
+          "qps": 3.28,
+          "p99_ms": 8650.751
+        },
+        "Kvrocks (80 GiB cache)": {
+          "qps": 11.51,
+          "p99_ms": 3850.239
+        }
+      },
+      "fraction_of_fastest_peer": 0.6255430060816681,
+      "source_csv": "stream-104857600-128-k8-current.csv"
+    },
+    {
+      "size": 65536,
+      "field": 128,
+      "keys": 64,
+      "connections": 16,
+      "operation": "XRANGE_FULL",
+      "candidate_qps": 18655.74,
+      "candidate_p99_ms": 1.479,
+      "peers": {
+        "Redis": {
+          "qps": 7368.0,
+          "p99_ms": 3.311
+        },
+        "Valkey": {
+          "qps": 7208.04,
+          "p99_ms": 3.951
+        },
+        "Kvrocks (80 GiB cache)": {
+          "qps": 19813.01,
+          "p99_ms": 1.663
+        }
+      },
+      "fraction_of_fastest_peer": 0.9415903994395604,
+      "source_csv": "stream-65536-128-k64-current.csv"
+    },
+    {
+      "size": 65536,
+      "field": 128,
+      "keys": 64,
+      "connections": 80,
+      "operation": "XRANGE_FULL",
+      "candidate_qps": 28553.03,
+      "candidate_p99_ms": 5.343,
+      "peers": {
+        "Redis": {
+          "qps": 7484.89,
+          "p99_ms": 18.815
+        },
+        "Valkey": {
+          "qps": 7030.31,
+          "p99_ms": 17.151
+        },
+        "Kvrocks (80 GiB cache)": {
+          "qps": 32494.75,
+          "p99_ms": 4.927
+        }
+      },
+      "fraction_of_fastest_peer": 0.8786967125458728,
+      "source_csv": "stream-65536-128-k64-current.csv"
+    },
+    {
+      "size": 104857600,
+      "field": 1024,
+      "keys": 8,
+      "connections": 1,
+      "operation": "XRANGE_FULL",
+      "candidate_qps": 0.8,
+      "candidate_p99_ms": 1318.911,
+      "peers": {
+        "Redis": {
+          "qps": 5.18,
+          "p99_ms": 240.639
+        },
+        "Valkey": {
+          "qps": 3.19,
+          "p99_ms": 442.367
+        },
+        "Kvrocks (80 GiB cache)": {
+          "qps": 3.57,
+          "p99_ms": 327.679
+        }
+      },
+      "fraction_of_fastest_peer": 0.15444015444015446,
+      "source_csv": "stream-104857600-1024-k8-current.csv"
+    },
+    {
+      "size": 104857600,
+      "field": 1024,
+      "keys": 8,
+      "connections": 4,
+      "operation": "XRANGE_FULL",
+      "candidate_qps": 3.27,
+      "candidate_p99_ms": 1351.679,
+      "peers": {
+        "Redis": {
+          "qps": 10.15,
+          "p99_ms": 708.607
+        },
+        "Valkey": {
+          "qps": 7.86,
+          "p99_ms": 933.887
+        },
+        "Kvrocks (80 GiB cache)": {
+          "qps": 11.88,
+          "p99_ms": 415.743
+        }
+      },
+      "fraction_of_fastest_peer": 0.27525252525252525,
+      "source_csv": "stream-104857600-1024-k8-current.csv"
+    },
+    {
+      "size": 104857600,
+      "field": 1024,
+      "keys": 8,
+      "connections": 16,
+      "operation": "XRANGE_FULL",
+      "candidate_qps": 12.1,
+      "candidate_p99_ms": 1474.559,
+      "peers": {
+        "Redis": {
+          "qps": 10.93,
+          "p99_ms": 3637.247
+        },
+        "Valkey": {
+          "qps": 8.67,
+          "p99_ms": 3473.407
+        },
+        "Kvrocks (80 GiB cache)": {
+          "qps": 22.72,
+          "p99_ms": 1622.015
+        }
+      },
+      "fraction_of_fastest_peer": 0.5325704225352113,
+      "source_csv": "stream-104857600-1024-k8-current.csv"
+    },
+    {
+      "size": 65536,
+      "field": 1024,
+      "keys": 64,
+      "connections": 16,
+      "operation": "XRANGE_FULL",
+      "candidate_qps": 38336.75,
+      "candidate_p99_ms": 0.639,
+      "peers": {
+        "Redis": {
+          "qps": 36137.63,
+          "p99_ms": 0.767
+        },
+        "Valkey": {
+          "qps": 33688.49,
+          "p99_ms": 0.607
+        },
+        "Kvrocks (80 GiB cache)": {
+          "qps": 42269.49,
+          "p99_ms": 0.615
+        }
+      },
+      "fraction_of_fastest_peer": 0.9069603158211751,
+      "source_csv": "stream-65536-1024-k64-current.csv"
+    },
+    {
+      "size": 65536,
+      "field": 1024,
+      "keys": 64,
+      "connections": 80,
+      "operation": "XRANGE_FULL",
+      "candidate_qps": 44523.47,
+      "candidate_p99_ms": 5.919,
+      "peers": {
+        "Redis": {
+          "qps": 32947.03,
+          "p99_ms": 3.343
+        },
+        "Valkey": {
+          "qps": 38093.46,
+          "p99_ms": 3.311
+        },
+        "Kvrocks (80 GiB cache)": {
+          "qps": 44512.1,
+          "p99_ms": 5.983
+        }
+      },
+      "fraction_of_fastest_peer": 1.000255436162302,
+      "source_csv": "stream-65536-1024-k64-current.csv"
+    }
+  ],
+  "limitations": "Historical peers, differing persistence/cache settings, single candidate sweeps. These ten full-range points do not establish system-wide parity or stable gains."
+}

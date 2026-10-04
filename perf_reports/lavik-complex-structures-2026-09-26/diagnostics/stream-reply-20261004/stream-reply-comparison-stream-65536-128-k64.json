@@ -1,0 +1,135 @@
+{
+  "main_tag": "maina565d603-ordered-stream-65536-k64-f128-20261004",
+  "candidate_tag": "candidate1e87107e-ordered-stream-65536-k64-f128-20261004",
+  "main": {
+    "commit": "a565d603523467ed7bbb9ed9227ddd6b18a9ca8c",
+    "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-main-a565d603-20261004",
+    "sha256": "0ee497c48f0c5b71866aeaf3a07acf8054f8bdf99eb1ffd2bc5cd952584f349a",
+    "source_repo": "/mnt/dev/lavik-complex-next-20261004",
+    "bycorf_commit": "62509c93d40c2480f5046b71454db6cf95801b04",
+    "build": "RelWithDebInfo, native, LTO, GCC 13, SPDK, BUILD_TESTING=OFF, LAVIK_ENABLE_TEST_FAULTS=OFF",
+    "build_directory": "/mnt/dev/lavik-complex-next-20261004/build-spdk",
+    "no_build_or_tests_during_measurements": true
+  },
+  "candidate": {
+    "commit": "1e87107e51d658944998ec74ff05b57d2e8f40c8",
+    "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-stream-reply-1e87107e-20261004",
+    "sha256": "3d0e4a86d6f7d8b5a637aa76d5febf789e9c1f48dac31a4a9d2645089406d798",
+    "source_repo": "/mnt/dev/lavik-complex-next-20261004",
+    "bycorf_commit": "62509c93d40c2480f5046b71454db6cf95801b04",
+    "build": "RelWithDebInfo, native, LTO, GCC 13, SPDK, BUILD_TESTING=OFF, LAVIK_ENABLE_TEST_FAULTS=OFF",
+    "build_directory": "/mnt/dev/lavik-complex-next-20261004/build-spdk",
+    "no_build_or_tests_during_measurements": true
+  },
+  "rows": [
+    {
+      "operation": "XADD_MAXLEN",
+      "connections": 80,
+      "main_qps": 58239.94,
+      "candidate_qps": 58511.55,
+      "qps_change_percent": 0.46636380463305205,
+      "main_p99_ms": 12.671,
+      "candidate_p99_ms": 12.479
+    },
+    {
+      "operation": "XADD_MAXLEN",
+      "connections": 320,
+      "main_qps": 50186.41,
+      "candidate_qps": 48913.33,
+      "qps_change_percent": -2.536702665123891,
+      "main_p99_ms": 55.295,
+      "candidate_p99_ms": 58.623
+    },
+    {
+      "operation": "XADD_MAXLEN",
+      "connections": 1280,
+      "main_qps": 51192.46,
+      "candidate_qps": 49232.39,
+      "qps_change_percent": -3.828825573141048,
+      "main_p99_ms": 218.111,
+      "candidate_p99_ms": 229.375
+    },
+    {
+      "operation": "XADD_MAXLEN",
+      "connections": 2560,
+      "main_qps": 52218.04,
+      "candidate_qps": 50164.64,
+      "qps_change_percent": -3.932357476458326,
+      "main_p99_ms": 413.695,
+      "candidate_p99_ms": 456.703
+    },
+    {
+      "operation": "XADD_MAXLEN",
+      "connections": 5120,
+      "main_qps": 48353.33,
+      "candidate_qps": 50527.5,
+      "qps_change_percent": 4.496422480106332,
+      "main_p99_ms": 1073.151,
+      "candidate_p99_ms": 843.775
+    },
+    {
+      "operation": "XRANGE",
+      "connections": 80,
+      "main_qps": 267284.1,
+      "candidate_qps": 266073.71,
+      "qps_change_percent": -0.4528477376693818,
+      "main_p99_ms": 0.535,
+      "candidate_p99_ms": 0.535
+    },
+    {
+      "operation": "XRANGE",
+      "connections": 320,
+      "main_qps": 324813.79,
+      "candidate_qps": 326582.23,
+      "qps_change_percent": 0.5444473278058748,
+      "main_p99_ms": 1.767,
+      "candidate_p99_ms": 1.735
+    },
+    {
+      "operation": "XRANGE",
+      "connections": 1280,
+      "main_qps": 224385.26,
+      "candidate_qps": 217629.43,
+      "qps_change_percent": -3.0108171989550514,
+      "main_p99_ms": 15.807,
+      "candidate_p99_ms": 16.895
+    },
+    {
+      "operation": "XRANGE",
+      "connections": 2560,
+      "main_qps": 195093.13,
+      "candidate_qps": 198773.56,
+      "qps_change_percent": 1.886499027413202,
+      "main_p99_ms": 40.191,
+      "candidate_p99_ms": 36.863
+    },
+    {
+      "operation": "XRANGE",
+      "connections": 5120,
+      "main_qps": 182363.84,
+      "candidate_qps": 182999.84,
+      "qps_change_percent": 0.34875334934820756,
+      "main_p99_ms": 52.223,
+      "candidate_p99_ms": 48.383
+    },
+    {
+      "operation": "XRANGE_FULL",
+      "connections": 16,
+      "main_qps": 4873.52,
+      "candidate_qps": 18655.74,
+      "qps_change_percent": 282.7980597186428,
+      "main_p99_ms": 7.391,
+      "candidate_p99_ms": 1.479
+    },
+    {
+      "operation": "XRANGE_FULL",
+      "connections": 80,
+      "main_qps": 3948.37,
+      "candidate_qps": 28553.03,
+      "qps_change_percent": 623.1599368853476,
+      "main_p99_ms": 31.871,
+      "candidate_p99_ms": 5.343
+    }
+  ],
+  "limitations": "Single independent connection sweeps, no confidence interval. Perf samples are separate diagnostic runs. Paired repeats are required before asserting stable gains; include XRANGE point and XADD_MAXLEN controls. Candidate also includes the independently tested cold-recovery fix; foreground Stream changes are confined to replies."
+}

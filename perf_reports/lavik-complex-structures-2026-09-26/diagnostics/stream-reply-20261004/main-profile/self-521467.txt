@@ -1,0 +1,23 @@
+# To display the perf.data header info, please use --header/--header-only options.
+#
+#
+# Total Lost Samples: 0
+#
+# Samples: 9  of event 'task-clock'
+# Event count (approx.): 90909090
+#
+# Overhead  Symbol                                                                                                                                                                                                                                                                  IPC   [IPC Coverage]
+# ........  ......................................................................................................................................................................................................................................................................  ....................
+#
+    33.33%  [.] bycorf::Worker::RunOnce(bool)                                                                                                                                                                                                                                       -      -
+    11.11%  [k] __x64_sys_io_uring_enter                                                                                                                                                                                                                                            -      -
+    11.11%  [.] bycorf::Worker::DrainCrossCore()                                                                                                                                                                                                                                    -      -
+    11.11%  [.] bycorf::Worker::Enqueue(std::__n4861::coroutine_handle<void>, bool) [clone .constprop.0]                                                                                                                                                                            -      -
+    11.11%  [k] io_submit_sqe                                                                                                                                                                                                                                                       -      -
+    11.11%  [k] kfree                                                                                                                                                                                                                                                               -      -
+    11.11%  [.] lavik::storage::StorageEngine::Impl::ActiveExpiration(lavik::storage::StorageEngine::Impl::ActiveExpiration(lavik::storage::StorageEngine::Impl::WorkerStore*)::_ZN5lavik7storage13StorageEngine4Impl16ActiveExpirationEPNS2_11WorkerStoreE.Frame*) [clone .actor]  -      -
+
+
+#
+# (Cannot load tips.txt file, please install perf!)
+#
