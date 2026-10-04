@@ -3,6 +3,8 @@
 import argparse
 import csv
 import json
+import subprocess
+import sys
 from pathlib import Path
 
 import matplotlib
@@ -168,7 +170,10 @@ def readme(manifest, zh):
     title = "复杂数据结构性能：Redis、Valkey、Kvrocks 与 Lavik" if zh else "Complex structures: Redis, Valkey, Kvrocks and Lavik"
     lines = ["# " + title, "", "[English](README.md)" if zh else "[简体中文](README.zh-CN.md)", ""]
     lines += [f"**2026-10-04：main `{commit}` 已完成 {done}/{len(rows)} 组复测，包含已合并的 #244、#246、#247。**" if zh else f"**2026-10-04: main `{commit}`, including merged #244/#246/#247; {done}/{len(rows)} conditions refreshed.**", ""]
-    lines += [("每张图固定命令、每 key 的 payload 大小、元素大小和 key 数；横轴为连接数，纵轴为 QPS。只保留当前 main 和后续未合并 PR，其他三库保留同负载的历史实测。" if zh else "Each figure fixes the command, payload bytes per key, entry size and key count. Axes show connections and QPS. Keep the current main and subsequent unmerged PRs; peers retain historical measurements of the same workload."), ""]
+    imports = json.loads((ROOT / "current-imports.json").read_text())["plots"]
+    imported = sum(r["main"].get("fresh", False) for r in imports)
+    lines += [f"批量 HSET/SADD 导入另计：{imported}/{len(imports)} 组已更新；未完成的图注明实际历史版本。" if zh else f"Batched HSET/SADD import is tracked separately: {imported}/{len(imports)} conditions refreshed; pending charts identify their actual historical version.", ""]
+    lines += [("吞吐图固定命令、每 key 的 payload 大小、元素大小和 key 数；横轴为连接数，纵轴为 QPS。批量导入图显示完成固定数据量所需的秒数。只保留当前 main 和后续未合并 PR，其他三库保留同负载的历史实测。" if zh else "Throughput figures fix the command, payload bytes per key, entry size and key count; axes show connections and QPS. Batched-import figures show seconds to fill a fixed dataset. Keep the current main and subsequent unmerged PRs; peers retain historical measurements of the same workload."), ""]
     if done != len(rows):
         lines += ["未完成复测的图暂时保留带实际版本号的历史 Lavik 测量，图注明确标记待更新。旧结果没有改名为新 main。" if zh else "Pending conditions retain explicitly labeled historical Lavik measurements. Old observations are not relabeled as the new main.", ""]
     lines += ["Redis/Valkey 关闭持久化；Kvrocks 使用无压缩 RAID0、关闭 WAL、80 GiB block/blob cache；Lavik 使用六块 NVMe SPDK 持久化，不缓存字段或页内容。配置不同，写入 QPS 不代表同等持久性下的排名。" if zh else "Redis/Valkey disable persistence. Kvrocks uses uncompressed RAID0, disabled WAL and 80 GiB block/blob cache. Lavik persists through six SPDK NVMe devices without caching field/page payloads. Write QPS compares these configurations, not equivalent durability.", ""]
@@ -197,6 +202,15 @@ def readme(manifest, zh):
                     lines += [desc, "", f"![{NAMES[kind]} {op} {size_label}, {r['field']} B, {r['keys']} keys]({picture(r, op)})", ""]
                     links = [f"[{label}]({source.relative_to(ROOT)}/)" for label, source, _ in series(r)]
                     lines += [" · ".join(links), ""]
+        if kind in ("hash", "set"):
+            imports = json.loads((ROOT / "current-imports.json").read_text())["plots"]
+            command = "HSET" if kind == "hash" else "SADD"
+            lines += ["### " + command + (" 批量导入" if zh else " batched import"), "", "#### 1 MiB/key", ""]
+            lines += ["50,000 keys；8 个客户端、pipeline=64、每命令约 16 KiB 元素。使用与历史三库相同的逐命令 RESP 编码方式，耗时包含 Python 客户端编码；不是 RESTORE，也不代表数据库单独的吞吐上限。" if zh else "50,000 keys; 8 clients, pipeline=64, about 16 KiB entries/command. Per-command RESP encoding matches the historical peer workload; elapsed time includes Python client encoding. This is not RESTORE or a server-only throughput ceiling.", ""]
+            for item in (r for r in imports if r["kind"] == kind):
+                version = item["main"]
+                status = ("最新 main" if zh else "Current main") if version.get("fresh") else ("历史测量，导入复测待完成" if zh else "Historical measurement; import refresh pending")
+                lines += [f"{item['field']} B/entry · {status} `{version['commit'][:8]}`", "", f"![{command} batched import, {item['field']} B](charts/{kind}-1048576-{item['field']}-k50000-fill.png)", "", f"[Lavik raw](raw/lavik-{version['tag']}/)", ""]
     lines += ["## " + ("测量与复现" if zh else "Measurement and reproduction"), ""]
     lines += ["Hash/Set：1 MiB/key 使用 50,000 keys，100 MiB/key 使用 500 keys。LSET 的大 key 数负载同样使用 50,000/500 keys。其他有序结构保留既有四库一致的 64/8-key 负载，标题明确区分；不同 key 数的曲线不能直接比较。" if zh else "Hash/Set use 50,000 keys at 1 MiB/key and 500 at 100 MiB/key; high-key-count LSET uses the same counts. Other ordered-structure conditions retain the matched 64/8-key peer workloads, explicitly identified in titles. Different key counts are not interchangeable.", ""]
     lines += ["Hash/Set 以 RESTORE 独立预置后清理、重启恢复再测；LSET 大 key 数预置使用 32 个连接、128 KiB RPUSH 批次、pipeline=4。预置耗时保存在每组 raw 目录中，不将 RESTORE 与其他系统的 HSET/SADD 导入耗时混比。" if zh else "Hash/Set use independent RESTORE seeding, transaction cleanup and recovery before measurement. High-key-count LSET seeds with 32 clients, 128 KiB RPUSH batches and pipeline=4. Fill timings remain in raw directories; RESTORE timings are not equated with peer HSET/SADD import timings.", ""]
@@ -213,6 +227,16 @@ def main():
     for row in manifest["plots"]:
         if args.condition is None or key(row) == args.condition:
             draw(row)
+    imports_path = ROOT / "current-imports.json"
+    imports = json.loads(imports_path.read_text())
+    for item in imports["plots"]:
+        v = item["main"]
+        if item.get("chart_commit") == v["commit"]:
+            continue
+        label = ("Lavik main " if v.get("fresh") else "Lavik (previous measurement) ") + v["commit"][:8]
+        subprocess.run([sys.executable, str(ROOT / "plot_fill_reference.py"), item["kind"], "--size", str(item["size"]), "--field", str(item["field"]), "--lavik-tag", v["tag"], "--lavik-commit", v["commit"], "--lavik-sha256", v["sha256"], "--lavik-label", label], check=True)
+        item["chart_commit"] = v["commit"]
+    imports_path.write_text(json.dumps(imports, indent=2) + "\n")
     for zh, name in [(True, "README.zh-CN.md"), (False, "README.md")]:
         (ROOT / name).write_text(readme(manifest, zh))
 

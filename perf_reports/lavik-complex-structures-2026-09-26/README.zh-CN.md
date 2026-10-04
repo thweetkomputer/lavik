@@ -2,9 +2,11 @@
 
 [English](README.md)
 
-**2026-10-04：main `5d7d12ec` 已完成 8/28 组复测，包含已合并的 #244、#246、#247。**
+**2026-10-04：main `5d7d12ec` 已完成 9/28 组复测，包含已合并的 #244、#246、#247。**
 
-每张图固定命令、每 key 的 payload 大小、元素大小和 key 数；横轴为连接数，纵轴为 QPS。只保留当前 main 和后续未合并 PR，其他三库保留同负载的历史实测。
+批量 HSET/SADD 导入另计：0/4 组已更新；未完成的图注明实际历史版本。
+
+吞吐图固定命令、每 key 的 payload 大小、元素大小和 key 数；横轴为连接数，纵轴为 QPS。批量导入图显示完成固定数据量所需的秒数。只保留当前 main 和后续未合并 PR，其他三库保留同负载的历史实测。
 
 未完成复测的图暂时保留带实际版本号的历史 Lavik 测量，图注明确标记待更新。旧结果没有改名为新 main。
 
@@ -232,6 +234,24 @@ Redis/Valkey 关闭持久化；Kvrocks 使用无压缩 RAID0、关闭 WAL、80 G
 
 [Redis](raw/redis-hash-100m-k500-f1024-20260929/) · [Valkey](raw/valkey-hash-100m-k500-f1024-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-100m-k500-f1024-20260929/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-hashset-hash-104857600-k500-f1024-20261004/)
 
+### HSET 批量导入
+
+#### 1 MiB/key
+
+50,000 keys；8 个客户端、pipeline=64、每命令约 16 KiB 元素。使用与历史三库相同的逐命令 RESP 编码方式，耗时包含 Python 客户端编码；不是 RESTORE，也不代表数据库单独的吞吐上限。
+
+1024 B/entry · 历史测量，导入复测待完成 `ebe28dd5`
+
+![HSET batched import, 1024 B](charts/hash-1048576-1024-k50000-fill.png)
+
+[Lavik raw](raw/lavik-mainebe-hash-1m-k50000-f1024-hset-20260930/)
+
+128 B/entry · 历史测量，导入复测待完成 `ebe28dd5`
+
+![HSET batched import, 128 B](charts/hash-1048576-128-k50000-fill.png)
+
+[Lavik raw](raw/lavik-mainebe-hash-1m-k50000-f128-hset-20260930/)
+
 ## Set
 
 SADD + SREM 为两个命令等比例混合，QPS 计算完成的命令数，不是命令对数。随机命中相同 key 时可能产生空操作，因此不代表实际持久化修改次数。
@@ -240,11 +260,11 @@ SADD + SREM 为两个命令等比例混合，QPS 计算完成的命令数，不�
 
 #### 1 MiB/key
 
-128 B/entry · 50,000 keys · 历史测量，待复测 `44761b91`
+128 B/entry · 50,000 keys · 最新 main `5d7d12ec`
 
 ![Set SISMEMBER 1 MiB/key, 128 B, 50000 keys](charts/set-1048576-128-k50000-sismember-current.png)
 
-[Redis](raw/redis-set-1m-k50000-f128-20260929/) · [Valkey](raw/valkey-set-1m-k50000-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-1m-k50000-f128-20260929/) · [Lavik (previous measurement) 44761b91](raw/lavik-main44761-hashset-set-1048576-k50000-f128-20261003/)
+[Redis](raw/redis-set-1m-k50000-f128-20260929/) · [Valkey](raw/valkey-set-1m-k50000-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-1m-k50000-f128-20260929/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-hashset-set-1048576-k50000-f128-20261004/)
 
 1024 B/entry · 50,000 keys · 最新 main `5d7d12ec`
 
@@ -270,11 +290,11 @@ SADD + SREM 为两个命令等比例混合，QPS 计算完成的命令数，不�
 
 #### 1 MiB/key
 
-128 B/entry · 50,000 keys · 历史测量，待复测 `44761b91`
+128 B/entry · 50,000 keys · 最新 main `5d7d12ec`
 
 ![Set SADD_SREM 1 MiB/key, 128 B, 50000 keys](charts/set-1048576-128-k50000-sadd_srem-current.png)
 
-[Redis](raw/redis-set-1m-k50000-f128-20260929/) · [Valkey](raw/valkey-set-1m-k50000-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-1m-k50000-f128-20260929/) · [Lavik (previous measurement) 44761b91](raw/lavik-main44761-hashset-set-1048576-k50000-f128-20261003/)
+[Redis](raw/redis-set-1m-k50000-f128-20260929/) · [Valkey](raw/valkey-set-1m-k50000-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-1m-k50000-f128-20260929/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-hashset-set-1048576-k50000-f128-20261004/)
 
 1024 B/entry · 50,000 keys · 最新 main `5d7d12ec`
 
@@ -300,11 +320,11 @@ SADD + SREM 为两个命令等比例混合，QPS 计算完成的命令数，不�
 
 #### 1 MiB/key
 
-128 B/entry · 50,000 keys · 历史测量，待复测 `44761b91`
+128 B/entry · 50,000 keys · 最新 main `5d7d12ec`
 
 ![Set SMEMBERS 1 MiB/key, 128 B, 50000 keys](charts/set-1048576-128-k50000-smembers-current.png)
 
-[Redis](raw/redis-set-1m-k50000-f128-20260929/) · [Valkey](raw/valkey-set-1m-k50000-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-1m-k50000-f128-20260929/) · [Lavik (previous measurement) 44761b91](raw/lavik-main44761-hashset-set-1048576-k50000-f128-20261003/)
+[Redis](raw/redis-set-1m-k50000-f128-20260929/) · [Valkey](raw/valkey-set-1m-k50000-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-1m-k50000-f128-20260929/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-hashset-set-1048576-k50000-f128-20261004/)
 
 1024 B/entry · 50,000 keys · 最新 main `5d7d12ec`
 
@@ -325,6 +345,24 @@ SADD + SREM 为两个命令等比例混合，QPS 计算完成的命令数，不�
 ![Set SMEMBERS 100 MiB/key, 1024 B, 500 keys](charts/set-104857600-1024-k500-smembers-current.png)
 
 [Redis](raw/redis-set-100m-k500-f1024-20260929/) · [Valkey](raw/valkey-set-100m-k500-f1024-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-100m-k500-f1024-20260929/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-hashset-set-104857600-k500-f1024-20261004/)
+
+### SADD 批量导入
+
+#### 1 MiB/key
+
+50,000 keys；8 个客户端、pipeline=64、每命令约 16 KiB 元素。使用与历史三库相同的逐命令 RESP 编码方式，耗时包含 Python 客户端编码；不是 RESTORE，也不代表数据库单独的吞吐上限。
+
+1024 B/entry · 历史测量，导入复测待完成 `ebe28dd5`
+
+![SADD batched import, 1024 B](charts/set-1048576-1024-k50000-fill.png)
+
+[Lavik raw](raw/lavik-mainebe-set-1m-k50000-f1024-sadd-20260930/)
+
+128 B/entry · 历史测量，导入复测待完成 `ebe28dd5`
+
+![SADD batched import, 128 B](charts/set-1048576-128-k50000-fill.png)
+
+[Lavik raw](raw/lavik-mainebe-set-1m-k50000-f128-sadd-20260930/)
 
 ## Sorted Set
 
