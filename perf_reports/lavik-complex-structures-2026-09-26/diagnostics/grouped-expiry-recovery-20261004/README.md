@@ -1,6 +1,6 @@
 # Full-device grouped expiration: CI diagnosis and repair
 
-[PR #268](https://github.com/eloqdata/lavik/pull/268) fixes a main recovery failure encountered while validating the performance PRs. Current #266 and #267 heads also include the repair and the shared Meta test-fixture corrections. Combined-head CI is pending; the published performance binaries remain `a1b24b60` and `ff9e3655` respectively.
+[PR #268](https://github.com/eloqdata/lavik/pull/268) fixes a main recovery failure encountered while validating the performance PRs. Current #266 and #267 heads also include the repair and the shared Meta test-fixture corrections. Combined-head CI passed for all three PRs; the published performance binaries remain `a1b24b60` and `ff9e3655` respectively.
 
 ## Root cause
 
@@ -22,7 +22,7 @@ The repair discards an unreconstructable graph only for an expired, unshielded w
 
 The Sentinel protocol fixtures now wait for discovery authority, not merely Raft leadership. Discovery checks pass 20 repetitions plus all 15 tests with the original CI amd64 binary. Partition gates allow the existing uncertain-command disconnect only after the explicit fault cut, matching the controlled lease-fence gate; three one-way and one two-way runs pass. Neither fixture change alters service behavior.
 
-The earlier arm64 native-FULL timeout has not recurred in subsequent completed runs. Local amd64 repeats do not establish its arm64 root cause. New combined-head CI is still required.
+The earlier arm64 native-FULL timeout has not recurred in subsequent completed runs. Local amd64 repeats do not establish its arm64 root cause. The subsequent combined-head CI passes all software shards on both architectures.
 
 ## Report provenance repair
 
@@ -32,4 +32,4 @@ The reply-reservation publisher incorrectly reused the first List-stage director
 
 [Initial recovery-fix CI](https://github.com/eloqdata/lavik/actions/runs/37229779333) at `89d0b136` passed 11 of 12 software shards, including all six arm64 shards. Both architecture shard-0 jobs passed all 291 tests, including the previously failing grouped ordered suite. The remaining amd64 shard failed `SentinelTest.test_discovery_null_contract_on_bootstrap_leader` with `RESP connection closed`: it sent discovery commands before the elected leader had discovery authority. [Job outcomes](pr268-first-ci.json) retain the failed overall result.
 
-PR #268 now includes the already validated Meta test fixture corrections from #266/#267 at head `5c0deb3e`; the recovery implementation remains `89d0b136`. The new combined CI is pending.
+PR #268 now includes the already validated Meta test fixture corrections from #266/#267 at head `5c0deb3e`; the recovery implementation remains `89d0b136`. [Combined-head CI](https://github.com/eloqdata/lavik/actions/runs/37231917942) passed all 12 software shards on amd64/arm64, both builds and formatting. [Recorded job outcomes](pr268-5c0-ci.json).
