@@ -2,7 +2,7 @@
 
 [English](README.md)
 
-**2026-10-04：main `5d7d12ec` 已完成 22/28 组复测，包含已合并的 #244、#246、#247。**
+**2026-10-04：main `5d7d12ec` 已完成 23/28 组复测，包含已合并的 #244、#246、#247。**
 
 批量 HSET/SADD 导入另计：0/4 组已更新。未完成的图注明实际历史版本。
 
@@ -44,11 +44,11 @@ PR #249 的实测：Stream XADD MAXLEN 两组峰值提高约 9%–11%；100 MiB 
 
 #### 1 MiB/key
 
-128 B/entry · 64 keys · 历史测量，待复测 `646a7b4e`
+128 B/entry · 64 keys · 本轮 main 基线 `5d7d12ec`
 
 ![List LINDEX 1 MiB/key, 128 B, 64 keys](charts/list-1048576-128-k64-lindex-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 646a7b4e](raw/lavik/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-ordered-list-1048576-k64-f128-20261004/)
 
 1024 B/entry · 64 keys · 本轮 main 基线 `5d7d12ec`
 
@@ -88,11 +88,11 @@ PR #249 的实测：Stream XADD MAXLEN 两组峰值提高约 9%–11%；100 MiB 
 
 #### 1 MiB/key
 
-128 B/entry · 64 keys · 历史测量，待复测 `646a7b4e`
+128 B/entry · 64 keys · 本轮 main 基线 `5d7d12ec`
 
 ![List LSET 1 MiB/key, 128 B, 64 keys](charts/list-1048576-128-k64-lset-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 646a7b4e](raw/lavik/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-ordered-list-1048576-k64-f128-20261004/)
 
 1024 B/entry · 50,000 keys · 本轮 main 基线 `5d7d12ec`
 
@@ -132,11 +132,11 @@ PR #249 的实测：Stream XADD MAXLEN 两组峰值提高约 9%–11%；100 MiB 
 
 #### 1 MiB/key
 
-128 B/entry · 64 keys · 历史测量，待复测 `646a7b4e`
+128 B/entry · 64 keys · 本轮 main 基线 `5d7d12ec`
 
 ![List LRANGE 1 MiB/key, 128 B, 64 keys](charts/list-1048576-128-k64-lrange-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 646a7b4e](raw/lavik/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-ordered-list-1048576-k64-f128-20261004/)
 
 1024 B/entry · 64 keys · 本轮 main 基线 `5d7d12ec`
 
