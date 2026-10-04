@@ -2,7 +2,7 @@
 
 [简体中文](README.zh-CN.md)
 
-**2026-10-04: main `5d7d12ec`, including merged #244/#246/#247; 7/28 conditions refreshed.**
+**2026-10-04: main `5d7d12ec`, including merged #244/#246/#247; 8/28 conditions refreshed.**
 
 Each figure fixes the command, payload bytes per key, entry size and key count. Axes show connections and QPS. Keep the current main and subsequent unmerged PRs; peers retain historical measurements of the same workload.
 
@@ -13,6 +13,8 @@ Redis/Valkey disable persistence. Kvrocks uses uncompressed RAID0, disabled WAL 
 Peers are not rerun this round. Lavik uses AMD EPYC 9V74, 16 vCPUs and 12 serving workers. Points last 8 s (10 s for high-key-count LSET), pipeline=1. Each condition is independently seeded and checked key by key. CPU profiles run separately after complete clean grids. Single sweeps have no statistical confidence intervals.
 
 [Plot sources](current-main.json) · [Runner](run.py) · [Build and hardware](diagnostics/main-refresh-20261004/host-and-build.json)
+
+[Hash/Set write profiles](diagnostics/hashset-write-20261004/README.md) · [Ordered metadata optimization and tests](diagnostics/ordered-metadata-20261004/README.md)
 
 Unmerged optimizations: [PR #249](https://github.com/eloqdata/lavik/pull/249)
 
@@ -144,11 +146,11 @@ Unmerged optimizations: [PR #249](https://github.com/eloqdata/lavik/pull/249)
 
 #### 1 MiB/key
 
-128 B/entry · 50,000 keys · Historical measurement; refresh pending `44761b91`
+128 B/entry · 50,000 keys · Current main `5d7d12ec`
 
 ![Hash HGET 1 MiB/key, 128 B, 50000 keys](charts/hash-1048576-128-k50000-hget-current.png)
 
-[Redis](raw/redis-hash-1m-k50000-f128-20260929/) · [Valkey](raw/valkey-hash-1m-k50000-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-1m-k50000-f128-20260929/) · [Lavik (previous measurement) 44761b91](raw/lavik-main44761-hashset-hash-1048576-k50000-f128-20261003/)
+[Redis](raw/redis-hash-1m-k50000-f128-20260929/) · [Valkey](raw/valkey-hash-1m-k50000-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-1m-k50000-f128-20260929/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-hashset-hash-1048576-k50000-f128-20261004/)
 
 1024 B/entry · 50,000 keys · Current main `5d7d12ec`
 
@@ -174,11 +176,11 @@ Unmerged optimizations: [PR #249](https://github.com/eloqdata/lavik/pull/249)
 
 #### 1 MiB/key
 
-128 B/entry · 50,000 keys · Historical measurement; refresh pending `44761b91`
+128 B/entry · 50,000 keys · Current main `5d7d12ec`
 
 ![Hash HSET 1 MiB/key, 128 B, 50000 keys](charts/hash-1048576-128-k50000-hset-current.png)
 
-[Redis](raw/redis-hash-1m-k50000-f128-20260929/) · [Valkey](raw/valkey-hash-1m-k50000-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-1m-k50000-f128-20260929/) · [Lavik (previous measurement) 44761b91](raw/lavik-main44761-hashset-hash-1048576-k50000-f128-20261003/)
+[Redis](raw/redis-hash-1m-k50000-f128-20260929/) · [Valkey](raw/valkey-hash-1m-k50000-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-1m-k50000-f128-20260929/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-hashset-hash-1048576-k50000-f128-20261004/)
 
 1024 B/entry · 50,000 keys · Current main `5d7d12ec`
 
@@ -204,11 +206,11 @@ Unmerged optimizations: [PR #249](https://github.com/eloqdata/lavik/pull/249)
 
 #### 1 MiB/key
 
-128 B/entry · 50,000 keys · Historical measurement; refresh pending `44761b91`
+128 B/entry · 50,000 keys · Current main `5d7d12ec`
 
 ![Hash HGETALL 1 MiB/key, 128 B, 50000 keys](charts/hash-1048576-128-k50000-hgetall-current.png)
 
-[Redis](raw/redis-hash-1m-k50000-f128-20260929/) · [Valkey](raw/valkey-hash-1m-k50000-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-1m-k50000-f128-20260929/) · [Lavik (previous measurement) 44761b91](raw/lavik-main44761-hashset-hash-1048576-k50000-f128-20261003/)
+[Redis](raw/redis-hash-1m-k50000-f128-20260929/) · [Valkey](raw/valkey-hash-1m-k50000-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-1m-k50000-f128-20260929/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-hashset-hash-1048576-k50000-f128-20261004/)
 
 1024 B/entry · 50,000 keys · Current main `5d7d12ec`
 
