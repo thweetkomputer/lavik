@@ -38,6 +38,8 @@ Redis/Valkey 关闭持久化；Kvrocks 使用无压缩 RAID0、关闭 WAL、80 G
 
 后续 [PR #271](https://github.com/eloqdata/lavik/pull/271) 消除内联页的重复清单查找，仍在验证，尚无吞吐收益结论。
 
+[PR #272](https://github.com/eloqdata/lavik/pull/272) 复用解码摘要，减少重复字段检查和路由校验中的哈希计算；仍为未测量草稿。
+
 [List 范围读取：吞吐、内存准入、交替复测与 perf](diagnostics/list-read-window-20261004/README.md)
 
 [List 回复空间预留：增量复测、复制热点与当前结果](diagnostics/list-reply-reserve-20261004/README.md)

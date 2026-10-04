@@ -38,6 +38,8 @@ Unmerged optimizations: [PR #265](https://github.com/eloqdata/lavik/pull/265) ·
 
 Follow-up [PR #271](https://github.com/eloqdata/lavik/pull/271) removes redundant inline-page manifest lookups; validation and throughput measurements remain pending.
 
+[PR #272](https://github.com/eloqdata/lavik/pull/272) reuses decoded hashes in duplicate and route validation; it remains an unmeasured draft.
+
 [List range reads: throughput, memory admission, paired runs and perf](diagnostics/list-read-window-20261004/README.md)
 
 [List reply reservation: incremental repeats, copy hotspots and current results](diagnostics/list-reply-reserve-20261004/README.md)

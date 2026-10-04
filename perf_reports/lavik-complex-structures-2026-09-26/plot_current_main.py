@@ -252,6 +252,7 @@ def readme(manifest, zh):
     if (ROOT / "diagnostics/zset-member-probe-20261004/README.md").exists():
         lines += ["[ZSet 成员叶页复用：吞吐、交替复测、perf 与测试](diagnostics/zset-member-probe-20261004/README.md)" if zh else "[ZSet member-leaf reuse: throughput, paired runs, perf and tests](diagnostics/zset-member-probe-20261004/README.md)", ""]
         lines += ["后续 [PR #271](https://github.com/eloqdata/lavik/pull/271) 消除内联页的重复清单查找，仍在验证，尚无吞吐收益结论。" if zh else "Follow-up [PR #271](https://github.com/eloqdata/lavik/pull/271) removes redundant inline-page manifest lookups; validation and throughput measurements remain pending.", ""]
+    lines += ["[PR #272](https://github.com/eloqdata/lavik/pull/272) 复用解码摘要，减少重复字段检查和路由校验中的哈希计算；仍为未测量草稿。" if zh else "[PR #272](https://github.com/eloqdata/lavik/pull/272) reuses decoded hashes in duplicate and route validation; it remains an unmeasured draft.", ""]
     if (ROOT / "diagnostics/list-read-window-20261004/README.md").exists():
         lines += ["[List 范围读取：吞吐、内存准入、交替复测与 perf](diagnostics/list-read-window-20261004/README.md)" if zh else "[List range reads: throughput, memory admission, paired runs and perf](diagnostics/list-read-window-20261004/README.md)", ""]
     if (ROOT / "diagnostics/list-reply-reserve-20261004/README.md").exists():
