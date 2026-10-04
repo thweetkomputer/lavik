@@ -36,6 +36,10 @@ Unmerged optimizations: [PR #265](https://github.com/eloqdata/lavik/pull/265) ·
 
 [List range reads: throughput, memory admission, paired runs and perf](diagnostics/list-read-window-20261004/README.md)
 
+[List reply reservation: incremental repeats, copy hotspots and current results](diagnostics/list-reply-reserve-20261004/README.md)
+
+[Full-device expiration recovery and CI repair (PR #268; performance binaries remain unchanged)](diagnostics/grouped-expiry-recovery-20261004/README.md)
+
 Failed observations in this run (gaps in figures; errored requests are not successful QPS):
 
 - List LRANGE · 100 MiB/key · 128 B · 16 connections: [recorded failure](raw/lavik-maina565d603-ordered-list-104857600-k8-f128-20261004/list-104857600-128-lrange-c16.error.json).

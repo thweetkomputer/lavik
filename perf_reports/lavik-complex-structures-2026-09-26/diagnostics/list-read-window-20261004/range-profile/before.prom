@@ -16,7 +16,7 @@ lavik_command_duration_seconds_bucket{command="ping",le="0.000001"} 0
 lavik_command_duration_seconds_bucket{command="ping",le="0.000002"} 0
 lavik_command_duration_seconds_bucket{command="ping",le="0.000004"} 0
 lavik_command_duration_seconds_bucket{command="ping",le="0.000008"} 0
-lavik_command_duration_seconds_bucket{command="ping",le="0.000016"} 0
+lavik_command_duration_seconds_bucket{command="ping",le="0.000016"} 1
 lavik_command_duration_seconds_bucket{command="ping",le="0.000032"} 1
 lavik_command_duration_seconds_bucket{command="ping",le="0.000064"} 1
 lavik_command_duration_seconds_bucket{command="ping",le="0.000128"} 1
@@ -44,7 +44,7 @@ lavik_command_duration_seconds_bucket{command="ping",le="2"} 1
 lavik_command_duration_seconds_bucket{command="ping",le="4"} 1
 lavik_command_duration_seconds_bucket{command="ping",le="8"} 1
 lavik_command_duration_seconds_bucket{command="ping",le="+Inf"} 1
-lavik_command_duration_seconds_sum{command="ping"} 1.80166e-05
+lavik_command_duration_seconds_sum{command="ping"} 1.32094e-05
 lavik_command_duration_seconds_count{command="ping"} 1
 lavik_command_duration_seconds_bucket{command="dbsize",le="0.000001"} 0
 lavik_command_duration_seconds_bucket{command="dbsize",le="0.000002"} 0
@@ -78,14 +78,14 @@ lavik_command_duration_seconds_bucket{command="dbsize",le="2"} 1
 lavik_command_duration_seconds_bucket{command="dbsize",le="4"} 1
 lavik_command_duration_seconds_bucket{command="dbsize",le="8"} 1
 lavik_command_duration_seconds_bucket{command="dbsize",le="+Inf"} 1
-lavik_command_duration_seconds_sum{command="dbsize"} 0.000157142
+lavik_command_duration_seconds_sum{command="dbsize"} 0.00014986
 lavik_command_duration_seconds_count{command="dbsize"} 1
 lavik_command_duration_seconds_bucket{command="llen",le="0.000001"} 0
 lavik_command_duration_seconds_bucket{command="llen",le="0.000002"} 0
 lavik_command_duration_seconds_bucket{command="llen",le="0.000004"} 0
 lavik_command_duration_seconds_bucket{command="llen",le="0.000008"} 0
 lavik_command_duration_seconds_bucket{command="llen",le="0.000016"} 4
-lavik_command_duration_seconds_bucket{command="llen",le="0.000032"} 4
+lavik_command_duration_seconds_bucket{command="llen",le="0.000032"} 6
 lavik_command_duration_seconds_bucket{command="llen",le="0.000064"} 8
 lavik_command_duration_seconds_bucket{command="llen",le="0.000128"} 8
 lavik_command_duration_seconds_bucket{command="llen",le="0.000256"} 8
@@ -112,7 +112,7 @@ lavik_command_duration_seconds_bucket{command="llen",le="2"} 8
 lavik_command_duration_seconds_bucket{command="llen",le="4"} 8
 lavik_command_duration_seconds_bucket{command="llen",le="8"} 8
 lavik_command_duration_seconds_bucket{command="llen",le="+Inf"} 8
-lavik_command_duration_seconds_sum{command="llen"} 0.000199455
+lavik_command_duration_seconds_sum{command="llen"} 0.000162258
 lavik_command_duration_seconds_count{command="llen"} 8
 lavik_command_duration_seconds_bucket{command="info",le="0.000001"} 0
 lavik_command_duration_seconds_bucket{command="info",le="0.000002"} 0
@@ -120,7 +120,7 @@ lavik_command_duration_seconds_bucket{command="info",le="0.000004"} 0
 lavik_command_duration_seconds_bucket{command="info",le="0.000008"} 0
 lavik_command_duration_seconds_bucket{command="info",le="0.000016"} 0
 lavik_command_duration_seconds_bucket{command="info",le="0.000032"} 0
-lavik_command_duration_seconds_bucket{command="info",le="0.000064"} 0
+lavik_command_duration_seconds_bucket{command="info",le="0.000064"} 1
 lavik_command_duration_seconds_bucket{command="info",le="0.000128"} 2
 lavik_command_duration_seconds_bucket{command="info",le="0.000256"} 2
 lavik_command_duration_seconds_bucket{command="info",le="0.000512"} 2
@@ -146,16 +146,16 @@ lavik_command_duration_seconds_bucket{command="info",le="2"} 2
 lavik_command_duration_seconds_bucket{command="info",le="4"} 2
 lavik_command_duration_seconds_bucket{command="info",le="8"} 2
 lavik_command_duration_seconds_bucket{command="info",le="+Inf"} 2
-lavik_command_duration_seconds_sum{command="info"} 0.000179706
+lavik_command_duration_seconds_sum{command="info"} 0.000123932
 lavik_command_duration_seconds_count{command="info"} 2
 # HELP lavik_storage_io_operations_total Completed storage I/O operations.
 # TYPE lavik_storage_io_operations_total counter
-lavik_storage_io_operations_total{operation="read"} 1443
+lavik_storage_io_operations_total{operation="read"} 1576
 lavik_storage_io_operations_total{operation="write"} 0
 lavik_storage_io_operations_total{operation="fdatasync"} 6
 # HELP lavik_storage_io_bytes_total Bytes completed by storage reads and writes, or covered by successful fdatasync barriers.
 # TYPE lavik_storage_io_bytes_total counter
-lavik_storage_io_bytes_total{operation="read"} 1059373056
+lavik_storage_io_bytes_total{operation="read"} 1068843008
 lavik_storage_io_bytes_total{operation="write"} 0
 lavik_storage_io_bytes_total{operation="fdatasync"} 0
 # HELP lavik_connections Current TCP connections, including Redis clients, metrics scrapes, replication, and Meta control.
@@ -227,10 +227,10 @@ lavik_memory_current_bytes 31396928
 lavik_memory_used_bytes 31396928
 # HELP lavik_memory_rss_bytes Resident process memory.
 # TYPE lavik_memory_rss_bytes gauge
-lavik_memory_rss_bytes 266932224
+lavik_memory_rss_bytes 264937472
 # HELP lavik_memory_committed_bytes Memory committed by the configured allocator.
 # TYPE lavik_memory_committed_bytes gauge
-lavik_memory_committed_bytes 455147520
+lavik_memory_committed_bytes 430243840
 # HELP lavik_memory_reserved_bytes Address space reserved by the configured allocator.
 # TYPE lavik_memory_reserved_bytes gauge
 lavik_memory_reserved_bytes 1076232192
@@ -595,14 +595,14 @@ lavik_fullsync_publish_queue_capacity_bytes{worker="11"} 0
 lavik_fullsync_sessions{worker="11"} 0
 lavik_fullsync_publish_queue_backpressure_waits_total{worker="11"} 0
 lavik_storage_capacity_bytes{device="0",path="spdk://18a2:00:00.0/1"} 1919841992704
-lavik_storage_available_bytes{device="0",path="spdk://18a2:00:00.0/1"} 1919506448384
+lavik_storage_available_bytes{device="0",path="spdk://18a2:00:00.0/1"} 1919514836992
 lavik_storage_capacity_bytes{device="1",path="spdk://a3a1:00:00.0/1"} 1919841992704
 lavik_storage_available_bytes{device="1",path="spdk://a3a1:00:00.0/1"} 1919774883840
 lavik_storage_capacity_bytes{device="2",path="spdk://668e:00:00.0/1"} 1919841992704
-lavik_storage_available_bytes{device="2",path="spdk://668e:00:00.0/1"} 1919523225600
+lavik_storage_available_bytes{device="2",path="spdk://668e:00:00.0/1"} 1919506448384
 lavik_storage_capacity_bytes{device="3",path="spdk://cc2f:00:00.0/1"} 1919841992704
 lavik_storage_available_bytes{device="3",path="spdk://cc2f:00:00.0/1"} 1919774883840
 lavik_storage_capacity_bytes{device="4",path="spdk://fa20:00:00.0/1"} 1919841992704
-lavik_storage_available_bytes{device="4",path="spdk://fa20:00:00.0/1"} 1919506448384
+lavik_storage_available_bytes{device="4",path="spdk://fa20:00:00.0/1"} 1919514836992
 lavik_storage_capacity_bytes{device="5",path="spdk://53c3:00:00.0/1"} 1919841992704
-lavik_storage_available_bytes{device="5",path="spdk://53c3:00:00.0/1"} 1919514836992
+lavik_storage_available_bytes{device="5",path="spdk://53c3:00:00.0/1"} 1919506448384

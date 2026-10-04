@@ -1,0 +1,170 @@
+{
+  "profile_tag": "diagnostic-full-reused-maina565d603-ordered-stream-104857600-k8-f128-20261004",
+  "source_commit": "a565d603523467ed7bbb9ed9227ddd6b18a9ca8c",
+  "task_clock_seconds": 30.53535323,
+  "commands_in_metrics_interval": 8.0,
+  "io": {
+    "read_operations": {
+      "delta": 156058.0,
+      "per_command": 19507.25
+    },
+    "write_operations": {
+      "delta": 0.0,
+      "per_command": 0.0
+    },
+    "read_bytes": {
+      "delta": 1347515904.0,
+      "per_command": 168439488.0
+    },
+    "write_bytes": {
+      "delta": 0.0,
+      "per_command": 0.0
+    }
+  },
+  "top_self": [
+    {
+      "symbol": "bycorf::Worker::RunOnce(bool)",
+      "percent": 29.970228250082698
+    },
+    {
+      "symbol": "bycorf::Worker::PollStorage() [clone .part.0]",
+      "percent": 11.015547469401257
+    },
+    {
+      "symbol": "do_syscall_64",
+      "percent": 3.208733046642408
+    },
+    {
+      "symbol": "_raw_spin_unlock_irqrestore",
+      "percent": 2.2163413827323852
+    },
+    {
+      "symbol": "tcp_sendmsg_locked",
+      "percent": 1.7201455507773735
+    },
+    {
+      "symbol": "bycorf::Worker::DrainCrossCore()",
+      "percent": 1.6870658286470395
+    },
+    {
+      "symbol": "handle_softirqs",
+      "percent": 1.6870658286470395
+    },
+    {
+      "symbol": "__pv_queued_spin_lock_slowpath",
+      "percent": 1.554746940125703
+    },
+    {
+      "symbol": "_mi_theap_malloc_zero",
+      "percent": 1.3893483294740325
+    },
+    {
+      "symbol": "io_uring_submit_and_get_events",
+      "percent": 1.3562686073436983
+    },
+    {
+      "symbol": "finish_task_switch.isra.0",
+      "percent": 1.1908699966920278
+    },
+    {
+      "symbol": "nvme_pcie_qpair_process_completions",
+      "percent": 1.0916308303010254
+    },
+    {
+      "symbol": "spdk_nvme_qpair_process_completions",
+      "percent": 1.0254713860403573
+    },
+    {
+      "symbol": "__do_sys_io_uring_enter",
+      "percent": 0.959311941779689
+    },
+    {
+      "symbol": "io_cqring_wait",
+      "percent": 0.926232219649355
+    },
+    {
+      "symbol": "bycorf::IoUringBackend::ReapCompletions()",
+      "percent": 0.8931524975190208
+    },
+    {
+      "symbol": "io_send",
+      "percent": 0.7608336089976844
+    },
+    {
+      "symbol": "lavik::storage::StorageEngine::Impl::ActiveExpiration(lavik::storage::StorageEngine::Impl::ActiveExpiration(lavik::storage::StorageEngine::Impl::WorkerStore*)::_ZN5lavik7storage13StorageEngine4Impl16ActiveExpirationEPNS2_11WorkerStoreE.Frame*) [clone .actor]",
+      "percent": 0.7608336089976844
+    },
+    {
+      "symbol": "_copy_from_iter",
+      "percent": 0.7277538868673503
+    },
+    {
+      "symbol": "lavik::storage::StreamRecordKey(std::basic_string_view<char, std::char_traits<char> >)",
+      "percent": 0.6946741647370163
+    },
+    {
+      "symbol": "io_submit_sqes",
+      "percent": 0.6946741647370163
+    },
+    {
+      "symbol": "mi_free",
+      "percent": 0.6615944426066821
+    },
+    {
+      "symbol": "fget",
+      "percent": 0.6615944426066821
+    },
+    {
+      "symbol": "release_sock",
+      "percent": 0.6615944426066821
+    },
+    {
+      "symbol": "__memmove_avx512_unaligned_erms",
+      "percent": 0.628514720476348
+    },
+    {
+      "symbol": "[unknown]",
+      "percent": 0.5623552762156798
+    },
+    {
+      "symbol": "tcp_current_mss",
+      "percent": 0.5623552762156798
+    },
+    {
+      "symbol": "_raw_spin_unlock_irq",
+      "percent": 0.5623552762156798
+    },
+    {
+      "symbol": "_raw_spin_unlock",
+      "percent": 0.5623552762156798
+    },
+    {
+      "symbol": "sock_sendmsg",
+      "percent": 0.5292755540853457
+    },
+    {
+      "symbol": "srso_alias_safe_ret",
+      "percent": 0.5292755540853457
+    },
+    {
+      "symbol": "std::__cxx11::to_string(unsigned long long)",
+      "percent": 0.5292755540853457
+    },
+    {
+      "symbol": "std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::append(char const*)",
+      "percent": 0.5292755540853457
+    },
+    {
+      "symbol": "bycorf::Worker::Flush()",
+      "percent": 0.5292755540853457
+    },
+    {
+      "symbol": "lavik::(anonymous namespace)::StreamRangeReplyState::Next(lavik::(anonymous namespace)::StreamRangeReplyState::Next()::_ZN5lavik12_GLOBAL__N_121StreamRangeReplyState4NextEv.Frame*) [clone .actor] [clone .lto_priv.0]",
+      "percent": 0.4961958319550116
+    }
+  ],
+  "memmove_caller_self_percent": {
+    "AppendBulk": 0.26463777704267283
+  },
+  "limitations": "All-worker task-clock self samples include polling/background/kernel work and are not latency fractions. Perf spans 25 seconds; command/IO counters span a separate 30-second diagnostic. Reused post-write Stream population has 819207..819284 entries/key (nominal 819200), unchanged across read-only sampling. Not a clean QPS comparison."
+}

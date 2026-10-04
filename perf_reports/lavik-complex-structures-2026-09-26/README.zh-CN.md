@@ -36,6 +36,10 @@ Redis/Valkey 关闭持久化；Kvrocks 使用无压缩 RAID0、关闭 WAL、80 G
 
 [List 范围读取：吞吐、内存准入、交替复测与 perf](diagnostics/list-read-window-20261004/README.md)
 
+[List 回复空间预留：增量复测、复制热点与当前结果](diagnostics/list-reply-reserve-20261004/README.md)
+
+[满盘过期恢复与 CI 修复（PR #268；性能数据仍使用原始二进制）](diagnostics/grouped-expiry-recovery-20261004/README.md)
+
 本轮失败测点（图中留空，错误请求的吞吐不计为成功 QPS）：
 
 - List LRANGE · 100 MiB/key · 128 B · 16 connections: [recorded failure](raw/lavik-maina565d603-ordered-list-104857600-k8-f128-20261004/list-104857600-128-lrange-c16.error.json).

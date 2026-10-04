@@ -1,0 +1,64 @@
+[==========] Running 28 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 28 tests from GroupedRecoveryE2e
+[ RUN      ] GroupedRecoveryE2e.RestoresRootAndAuxiliaryWithoutExposingExtraKeys
+[       OK ] GroupedRecoveryE2e.RestoresRootAndAuxiliaryWithoutExposingExtraKeys (94 ms)
+[ RUN      ] GroupedRecoveryE2e.IgnoresUncommittedAndFutureGroupVersions
+[       OK ] GroupedRecoveryE2e.IgnoresUncommittedAndFutureGroupVersions (94 ms)
+[ RUN      ] GroupedRecoveryE2e.FailedCommandBatchDoesNotCommitWithItsOuterTransaction
+[       OK ] GroupedRecoveryE2e.FailedCommandBatchDoesNotCommitWithItsOuterTransaction (336 ms)
+[ RUN      ] GroupedRecoveryE2e.RejectsCommittedRootWithMissingGroup
+[       OK ] GroupedRecoveryE2e.RejectsCommittedRootWithMissingGroup (101 ms)
+[ RUN      ] GroupedRecoveryE2e.ManyInlineOrderedRootsRecoverOnSmallStack
+[       OK ] GroupedRecoveryE2e.ManyInlineOrderedRootsRecoverOnSmallStack (278 ms)
+[ RUN      ] GroupedRecoveryE2e.LegacySortedSetCanStillMutateAndRecover
+[       OK ] GroupedRecoveryE2e.LegacySortedSetCanStillMutateAndRecover (456 ms)
+[ RUN      ] GroupedRecoveryE2e.ReclaimedExpiredGraphsDoNotPreventStartup
+[       OK ] GroupedRecoveryE2e.ReclaimedExpiredGraphsDoNotPreventStartup (1355 ms)
+[ RUN      ] GroupedRecoveryE2e.IndexedSortedSetRequiresAndChecksMemberGraph
+[       OK ] GroupedRecoveryE2e.IndexedSortedSetRequiresAndChecksMemberGraph (787 ms)
+[ RUN      ] GroupedRecoveryE2e.RetainsSplitParentRetirementEvidence
+[       OK ] GroupedRecoveryE2e.RetainsSplitParentRetirementEvidence (82 ms)
+[ RUN      ] GroupedRecoveryE2e.ValidatesOversizedGroupBeyondItsEnvelopeExtent
+[       OK ] GroupedRecoveryE2e.ValidatesOversizedGroupBeyondItsEnvelopeExtent (132 ms)
+[ RUN      ] GroupedRecoveryE2e.RestoresOversizedGroupAcrossWorkerTopologyChange
+[       OK ] GroupedRecoveryE2e.RestoresOversizedGroupAcrossWorkerTopologyChange (134 ms)
+[ RUN      ] GroupedRecoveryE2e.ObsoleteGroupDoesNotReadAlreadyReclaimedValueExtents
+[       OK ] GroupedRecoveryE2e.ObsoleteGroupDoesNotReadAlreadyReclaimedValueExtents (98 ms)
+[ RUN      ] GroupedRecoveryE2e.CheckpointDeclinesSafelyAndColdRecoveryRetainsGraph
+[       OK ] GroupedRecoveryE2e.CheckpointDeclinesSafelyAndColdRecoveryRetainsGraph (386 ms)
+[ RUN      ] GroupedRecoveryE2e.FlushDbDetachesAndRetiresTheCompleteGraph
+[       OK ] GroupedRecoveryE2e.FlushDbDetachesAndRetiresTheCompleteGraph (672 ms)
+[ RUN      ] GroupedRecoveryE2e.AuxiliaryAndRootGcCrashKeepTheDurableGraph
+[       OK ] GroupedRecoveryE2e.AuxiliaryAndRootGcCrashKeepTheDurableGraph (673 ms)
+[ RUN      ] GroupedRecoveryE2e.CommandBatchCrashNeverPublishesWithoutOuterDecision
+[       OK ] GroupedRecoveryE2e.CommandBatchCrashNeverPublishesWithoutOuterDecision (559 ms)
+[ RUN      ] GroupedRecoveryE2e.FailedPostRootBatchPoisonsOuterCommit
+[       OK ] GroupedRecoveryE2e.FailedPostRootBatchPoisonsOuterCommit (188 ms)
+[ RUN      ] GroupedRecoveryE2e.FailedMultiKeyOverwriteRestoresTheGroupedGraph
+[       OK ] GroupedRecoveryE2e.FailedMultiKeyOverwriteRestoresTheGroupedGraph (741 ms)
+[ RUN      ] GroupedRecoveryE2e.SameCommandRootsUseRevisionBeforePhysicalLsn
+[       OK ] GroupedRecoveryE2e.SameCommandRootsUseRevisionBeforePhysicalLsn (326 ms)
+[ RUN      ] GroupedRecoveryE2e.PublicationLsnFollowsGcDuringForegroundAllocationWait
+[       OK ] GroupedRecoveryE2e.PublicationLsnFollowsGcDuringForegroundAllocationWait (1203 ms)
+[ RUN      ] GroupedRecoveryE2e.TaggedRootDependencyPinsCrossRecoveredPhysicalOwners
+[       OK ] GroupedRecoveryE2e.TaggedRootDependencyPinsCrossRecoveredPhysicalOwners (2583 ms)
+[ RUN      ] GroupedRecoveryE2e.FailedOverwriteReleasesTaggedRootOnItsPhysicalOwner
+[       OK ] GroupedRecoveryE2e.FailedOverwriteReleasesTaggedRootOnItsPhysicalOwner (1307 ms)
+[ RUN      ] GroupedRecoveryE2e.OrderedRetirementSkipsFreedObsoletePageExtents
+[       OK ] GroupedRecoveryE2e.OrderedRetirementSkipsFreedObsoletePageExtents (678 ms)
+[ RUN      ] GroupedRecoveryE2e.OrderedOversizedItemChecksEveryLiveExtent
+[       OK ] GroupedRecoveryE2e.OrderedOversizedItemChecksEveryLiveExtent (556 ms)
+[ RUN      ] GroupedRecoveryE2e.OrderedGcCrashesPreservePagesMarkersAndRoot
+[       OK ] GroupedRecoveryE2e.OrderedGcCrashesPreservePagesMarkersAndRoot (1490 ms)
+[ RUN      ] GroupedRecoveryE2e.OrderedBgSavePinsExactPreCutPagesAndExpiration
+[       OK ] GroupedRecoveryE2e.OrderedBgSavePinsExactPreCutPagesAndExpiration (3085 ms)
+[ RUN      ] GroupedRecoveryE2e.BgSaveRetainsPreCutGroupedValueAcrossReplacement
+[       OK ] GroupedRecoveryE2e.BgSaveRetainsPreCutGroupedValueAcrossReplacement (1540 ms)
+[ RUN      ] GroupedRecoveryE2e.FlushDbCancelsPausedGroupedSnapshotWithoutLeakingPins
+[       OK ] GroupedRecoveryE2e.FlushDbCancelsPausedGroupedSnapshotWithoutLeakingPins (1229 ms)
+[----------] 28 tests from GroupedRecoveryE2e (21178 ms total)
+
+[----------] Global test environment tear-down
+[==========] 28 tests from 1 test suite ran. (21178 ms total)
+[  PASSED  ] 28 tests.

@@ -624,9 +624,16 @@ def main():
                                 print(time.strftime("%F %T", time.gmtime()),
                                       directory.name, stem, "FAILED", str(exc)[:240],
                                       flush=True)
-                    save(directory / f"{combo}.after.json",
-                         validate(kind, field_bytes, entries, opt.keys, opt.product,
-                                  after=opt.mode != "full"))
+                    # A reused Stream/Set may start with the bounded cardinality
+                    # variation left by its preceding write grid. A read-only
+                    # diagnostic must preserve that actual population, rather
+                    # than demand an exact original seed after accepting reuse.
+                    after = validate(kind, field_bytes, entries, opt.keys, opt.product,
+                                     after=opt.mode != "full" or opt.reuse_seeded_data)
+                    if opt.reuse_seeded_data and opt.mode == "full":
+                        if after["sample_cardinalities"] != validated["sample_cardinalities"]:
+                            raise RuntimeError(f"{kind}: reused read-only population changed")
+                    save(directory / f"{combo}.after.json", after)
                     save(directory / f"{combo}.complete.json", {"time": time.time()})
         save(directory / "complete.json", {"time": time.time(),
                                            "failures_in_this_run": failures,

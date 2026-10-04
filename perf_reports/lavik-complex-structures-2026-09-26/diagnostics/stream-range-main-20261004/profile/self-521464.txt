@@ -1,0 +1,20 @@
+# To display the perf.data header info, please use --header/--header-only options.
+#
+#
+# Total Lost Samples: 0
+#
+# Samples: 9  of event 'task-clock'
+# Event count (approx.): 90909090
+#
+# Overhead  Symbol                                                                                                                                                                                                                                                                  IPC   [IPC Coverage]
+# ........  ......................................................................................................................................................................................................................................................................  ....................
+#
+    44.44%  [.] bycorf::Worker::RunOnce(bool)                                                                                                                                                                                                                                       -      -
+    33.33%  [.] lavik::storage::StorageEngine::Impl::ActiveExpiration(lavik::storage::StorageEngine::Impl::ActiveExpiration(lavik::storage::StorageEngine::Impl::WorkerStore*)::_ZN5lavik7storage13StorageEngine4Impl16ActiveExpirationEPNS2_11WorkerStoreE.Frame*) [clone .actor]  -      -
+    11.11%  [.] bycorf::Worker::DrainCrossCore()                                                                                                                                                                                                                                    -      -
+    11.11%  [k] do_syscall_64                                                                                                                                                                                                                                                       -      -
+
+
+#
+# (Cannot load tips.txt file, please install perf!)
+#

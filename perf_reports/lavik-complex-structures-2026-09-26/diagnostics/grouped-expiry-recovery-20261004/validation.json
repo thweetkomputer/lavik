@@ -1,0 +1,27 @@
+{
+  "fix_commit": "89d0b136ec21ad0225dd76478d9909328e0124cf",
+  "pr": 268,
+  "test_binary_sha256": "0421f7f681dc635765921728a037f9da51c5ec2026ce8148df7c65b4cdb89865",
+  "cmake": {
+    "BUILD_TESTING": "BUILD_TESTING:BOOL=ON",
+    "LAVIK_ENABLE_TEST_FAULTS": "LAVIK_ENABLE_TEST_FAULTS:BOOL=ON",
+    "LAVIK_KERNEL_BYPASS": "LAVIK_KERNEL_BYPASS:BOOL=ON",
+    "LAVIK_MARCH": "LAVIK_MARCH:STRING=native",
+    "LAVIK_STATIC_CXX_RUNTIME": "LAVIK_STATIC_CXX_RUNTIME:BOOL=ON"
+  },
+  "bounded_disk_repeats": {
+    "passes": 10,
+    "json_covers": "last repetition only; text log contains all ten"
+  },
+  "ttl_exit": 0,
+  "sentinel_discovery_targeted_runs": 20,
+  "sentinel_full_suite_tests": 15,
+  "partition_fixture_cases": [
+    "one-way-partition",
+    "one-way-partition",
+    "one-way-partition",
+    "two-way-partition"
+  ],
+  "combined_ci": "pending",
+  "performance_note": "QPS binaries and pinned main are unchanged; no throughput claim for the recovery repair."
+}
