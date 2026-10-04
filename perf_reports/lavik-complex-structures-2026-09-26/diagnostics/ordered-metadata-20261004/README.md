@@ -47,3 +47,22 @@ The [1 MiB/key, 64-key comparison](stream-1m-comparison.json) uses the same
 to 50,510.09 QPS (+9.4%); read peaks are effectively unchanged in this sweep.
 Both sizes appear in the main report with Redis, Valkey, Kvrocks, main and
 [PR #249](https://github.com/eloqdata/lavik/pull/249) in each chart.
+
+## List point writes and batched RPUSH
+
+The same PR is measured with 1 KiB entries and the expanded key counts.
+[1 MiB/key, 50,000 keys](list-1048576-comparison.json) has LSET peaks of
+140,453.57 (main) and 140,644.89 QPS (PR), a 0.1% difference. RPUSH seed time
+is 40.1 versus 40.6 seconds.
+
+[100 MiB/key, 500 keys](list-104857600-comparison.json) has LSET peaks of
+158,818.44 versus 153,574.57 QPS (-3.3%); its 320-connection point is 5.3%
+lower, while the other connection points differ by -1.4% to +1.7%. These
+single sweeps establish no LSET improvement or statistical regression bound.
+The RPUSH seed finishes in 87.2 versus 69.2 seconds, about 20.7% less time.
+
+Both seeds use 32 clients, pipeline 4 and 128 entries (128 KiB payload) per
+RPUSH, with shared operand encoding and 400,000 commands in total. Each
+key's final length is checked. Seed duration includes client work, and the
+peer databases retain their differing persistence/cache settings. The
+main report includes all five series for both LSET and RPUSH.

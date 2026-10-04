@@ -1,0 +1,83 @@
+{
+  "kind": "list",
+  "size": 104857600,
+  "field": 1024,
+  "keys": 500,
+  "category": "lset",
+  "versions": {
+    "main": {
+      "commit": "5d7d12ec064d562955531cfc1fabf1e13d779f02",
+      "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-main-5d7d12ec-20261004",
+      "sha256": "d06f0c4ddcb64fdabac2e50c04679be4919a5418d92bd747581f55713c396229",
+      "source_repo": "/mnt/dev/lavik-main-bench-20261004",
+      "bycorf_commit": "62509c93d40c2480f5046b71454db6cf95801b04",
+      "tests_during_build": false,
+      "source_files_verified": 678,
+      "build": "Release SPDK, GCC, existing benchmark CMake cache"
+    },
+    "candidate": {
+      "commit": "97f81cd6d8ee8457daf5a87fab92305d2b78ab6b",
+      "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-candidate-97f81cd6-20261004",
+      "sha256": "600f0e47d3de6635fecb37b03e41f25ff677fd6d54c69c9282a756be5fa726e8",
+      "source_repo": "/mnt/dev/lavik-complex-write-followup-20261004",
+      "bycorf_commit": "62509c93d40c2480f5046b71454db6cf95801b04",
+      "tests_during_build": false,
+      "source_files_verified": 678,
+      "build": "Release SPDK, GCC, existing benchmark CMake cache"
+    }
+  },
+  "tags": {
+    "main": "main5d7d12ec-lset-list-104857600-k500-f1024-20261004",
+    "candidate": "candidate97f81cd6-lset-list-104857600-k500-f1024-20261004"
+  },
+  "operations": {
+    "LSET": {
+      "main_peak_qps": 158818.44,
+      "candidate_peak_qps": 153574.57,
+      "peak_change_percent": -3.3018017303280356,
+      "connections": {
+        "1280": {
+          "main_qps": 102269.36,
+          "candidate_qps": 100832.42,
+          "change_percent": -1.4050542606309446
+        },
+        "5120": {
+          "main_qps": 101751.8,
+          "candidate_qps": 103431.97,
+          "change_percent": 1.6512435160852101
+        },
+        "80": {
+          "main_qps": 154205.17,
+          "candidate_qps": 153574.57,
+          "change_percent": -0.40893570559275005
+        },
+        "2560": {
+          "main_qps": 102371.68,
+          "candidate_qps": 101610.87,
+          "change_percent": -0.7431840524645072
+        },
+        "320": {
+          "main_qps": 158818.44,
+          "candidate_qps": 150328.33,
+          "change_percent": -5.345796117881541
+        }
+      }
+    }
+  },
+  "rpush_fill": {
+    "main": {
+      "seconds": 87.1859792030009,
+      "commands": 400000,
+      "entries_per_command": 128,
+      "client_encoding": "shared-list-operands-v1",
+      "command": "RPUSH"
+    },
+    "candidate": {
+      "seconds": 69.18146467700717,
+      "commands": 400000,
+      "entries_per_command": 128,
+      "client_encoding": "shared-list-operands-v1",
+      "command": "RPUSH"
+    }
+  }
+}
