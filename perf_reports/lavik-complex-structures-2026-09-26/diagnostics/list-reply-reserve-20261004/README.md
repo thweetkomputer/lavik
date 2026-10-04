@@ -53,3 +53,23 @@ Both versions read 14,125 physical pages and about 124.3 MB per range. Sampled s
 [Validation record](list-reply-validation.json): seven List/collection integration cases and three grouped cases pass against the exact fault-disabled benchmark binary. Coverage includes large byte-exact replies, transactions, blocking operations, low-memory ranges and real OOM. The test-driver sources are unchanged for this incremental production change; their provenance is recorded. Earlier 289 passing tests belong to `13041873`, not an unperformed full local suite on this revision.
 
 PR #267 and #266 encountered full-disk String expiration recovery startup failures on both architectures. The root cause and locally validated fix are now recorded in [the recovery investigation](../grouped-expiry-recovery-20261004/README.md) and PR #268. Combined-head CI is pending; these earlier QPS observations do not measure the recovery repair.
+
+## Additional 100 MiB / 1024 B sweep
+
+The clean 8-key sweep uses the same immutable `ff9e3655` binary. [All points and p99](comparison-list-104857600-1024-k8.json) are retained, including point-operation regressions. This is a single independent sweep, not a paired improvement estimate.
+
+| Operation | Connections | Main QPS | PR QPS | Change |
+|---|---:|---:|---:|---:|
+| LINDEX | 80 | 359035.12 | 348621.27 | -2.9% |
+| LINDEX | 320 | 451016.79 | 444320.18 | -1.5% |
+| LINDEX | 1280 | 315330.10 | 320095.73 | +1.5% |
+| LINDEX | 2560 | 291125.29 | 290946.04 | -0.1% |
+| LINDEX | 5120 | 256346.62 | 261638.82 | +2.1% |
+| LRANGE | 1 | 0.95 | 4.17 | +338.9% |
+| LRANGE | 4 | 3.72 | 13.86 | +272.6% |
+| LRANGE | 16 | 13.52 | 26.74 | +97.8% |
+| LSET | 80 | 52356.29 | 48920.66 | -6.6% |
+| LSET | 320 | 46202.71 | 47864.89 | +3.6% |
+| LSET | 1280 | 46997.25 | 46220.43 | -1.7% |
+| LSET | 2560 | 47316.22 | 45169.72 | -4.5% |
+| LSET | 5120 | 46461.04 | 45639.81 | -1.8% |
