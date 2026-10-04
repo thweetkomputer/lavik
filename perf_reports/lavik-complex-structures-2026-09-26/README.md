@@ -2,7 +2,7 @@
 
 [简体中文](README.zh-CN.md)
 
-**2026-10-04: main `a565d603`, including merged #244, #246, #247, #249, #258, #259, #260, #262; 20/28 conditions refreshed.**
+**2026-10-04: main `a565d603`, including merged #244, #246, #247, #249, #258, #259, #260, #262; 21/28 conditions refreshed.**
 
 Batched HSET/SADD import is tracked separately: 0/4 conditions refreshed. Pending charts identify their actual historical version.
 
@@ -118,11 +118,11 @@ Failed observations in this run (gaps in figures; errored requests are not succe
 
 [Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-list-1048576-k64-f128-20261004/)
 
-1024 B/entry · 50,000 keys · Historical measurement; refresh pending `5d7d12ec`
+1024 B/entry · 50,000 keys · Measured main baseline `a565d603`
 
 ![List LSET 1 MiB/key, 1024 B, 50000 keys](charts/list-1048576-1024-k50000-lset-current.png)
 
-[Redis](raw/redis-lset-matched-1048576-k50000-f1024-20261001/) · [Valkey](raw/valkey-lset-matched-1048576-k50000-f1024-20261001/) · [Kvrocks (80 GiB cache)](raw/kvrocks-lset-matched-1048576-k50000-f1024-20261001/) · [Lavik (previous measurement) 5d7d12ec](raw/lavik-main5d7d12ec-lset-list-1048576-k50000-f1024-20261004/)
+[Redis](raw/redis-lset-matched-1048576-k50000-f1024-20261001/) · [Valkey](raw/valkey-lset-matched-1048576-k50000-f1024-20261001/) · [Kvrocks (80 GiB cache)](raw/kvrocks-lset-matched-1048576-k50000-f1024-20261001/) · [Lavik main a565d603](raw/lavik-maina565d603-lset-list-1048576-k50000-f1024-20261004/)
 
 #### 100 MiB/key
 
