@@ -2,7 +2,7 @@
 
 [English](README.md)
 
-**2026-10-04：main `5d7d12ec` 已完成 11/28 组复测，包含已合并的 #244、#246、#247。**
+**2026-10-04：main `5d7d12ec` 已完成 12/28 组复测，包含已合并的 #244、#246、#247。**
 
 批量 HSET/SADD 导入另计：0/4 组已更新；未完成的图注明实际历史版本。
 
@@ -84,11 +84,11 @@ Redis/Valkey 关闭持久化；Kvrocks 使用无压缩 RAID0、关闭 WAL、80 G
 
 #### 1 MiB/key
 
-1024 B/entry · 50,000 keys · 历史测量，待复测 `44761b91`
+1024 B/entry · 50,000 keys · 最新 main `5d7d12ec`
 
 ![List LSET 1 MiB/key, 1024 B, 50000 keys](charts/list-1048576-1024-k50000-lset-current.png)
 
-[Redis](raw/redis-lset-matched-1048576-k50000-f1024-20261001/) · [Valkey](raw/valkey-lset-matched-1048576-k50000-f1024-20261001/) · [Kvrocks (80 GiB cache)](raw/kvrocks-lset-matched-1048576-k50000-f1024-20261001/) · [Lavik (previous measurement) 44761b91](raw/lavik-main44761-lset-list-1048576-k50000-f1024-20261003/)
+[Redis](raw/redis-lset-matched-1048576-k50000-f1024-20261001/) · [Valkey](raw/valkey-lset-matched-1048576-k50000-f1024-20261001/) · [Kvrocks (80 GiB cache)](raw/kvrocks-lset-matched-1048576-k50000-f1024-20261001/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-lset-list-1048576-k50000-f1024-20261004/)
 
 #### 100 MiB/key
 
