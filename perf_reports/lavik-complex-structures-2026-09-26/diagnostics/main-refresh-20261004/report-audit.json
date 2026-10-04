@@ -1,0 +1,35 @@
+{
+  "time": 1791098583.3938773,
+  "measured_main": "5d7d12ec064d562955531cfc1fabf1e13d779f02",
+  "main_conditions": 28,
+  "import_conditions": 4,
+  "embedded_figures": {
+    "README.md": 84,
+    "README.zh-CN.md": 84
+  },
+  "observations_by_series": {
+    "Redis": 332,
+    "Valkey": 332,
+    "Kvrocks (80 GiB cache)": 332,
+    "Lavik main 5d7d12ec": 332,
+    "Lavik PR #249 97f81cd6": 35
+  },
+  "failed_observations": [
+    {
+      "series": "Lavik main 5d7d12ec",
+      "condition": "list-104857600-128-k8",
+      "operation": "LRANGE",
+      "connections": 16,
+      "source": "raw/lavik-main5d7d12ec-ordered-list-104857600-k8-f128-20261004"
+    }
+  ],
+  "checks": [
+    "raw QPS and p99 match plot CSV",
+    "complete connection grids",
+    "source commits and binary hashes match manifest",
+    "cardinality checks and clean server exits",
+    "all relative README links and images exist",
+    "no result tables or 10 MiB conditions",
+    "no pending historical main rows"
+  ]
+}

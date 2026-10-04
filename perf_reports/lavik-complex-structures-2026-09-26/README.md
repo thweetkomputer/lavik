@@ -16,6 +16,8 @@ FDS/Meta discovery fix #248 merged into main `d14d1b0d` during measurement; the 
 
 [Plot sources](current-main.json) · [Runner](run.py) · [Build and hardware](diagnostics/main-refresh-20261004/host-and-build.json)
 
+[Plot-data audit](diagnostics/main-refresh-20261004/report-audit.json) · [Audit script](diagnostics/main-refresh-20261004/audit-report.py)
+
 [Hash/Set write profiles](diagnostics/hashset-write-20261004/README.md) · [Ordered metadata optimization and tests](diagnostics/ordered-metadata-20261004/README.md)
 
 Unmerged optimizations: [PR #249](https://github.com/eloqdata/lavik/pull/249)

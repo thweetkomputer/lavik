@@ -16,6 +16,8 @@ Redis/Valkey 关闭持久化；Kvrocks 使用无压缩 RAID0、关闭 WAL、80 G
 
 [绘图数据清单](current-main.json) · [复现脚本](run.py) · [构建与硬件证明](diagnostics/main-refresh-20261004/host-and-build.json)
 
+[绘图数据核验结果](diagnostics/main-refresh-20261004/report-audit.json) · [核验脚本](diagnostics/main-refresh-20261004/audit-report.py)
+
 [Hash/Set 写入 perf 分析](diagnostics/hashset-write-20261004/README.md) · [有序目录优化与测试](diagnostics/ordered-metadata-20261004/README.md)
 
 未合并优化：[PR #249](https://github.com/eloqdata/lavik/pull/249)
