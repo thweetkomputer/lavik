@@ -4,7 +4,7 @@
 
 **2026-10-04：main `5d7d12ec` 已完成 28/28 组复测，包含已合并的 #244、#246、#247。**
 
-批量 HSET/SADD 导入另计：0/4 组已更新。未完成的图注明实际历史版本。
+批量 HSET/SADD 导入另计：1/4 组已更新。未完成的图注明实际历史版本。
 
 吞吐图固定命令、每 key 的 payload 大小、元素大小和 key 数；横轴为连接数，纵轴为 QPS。批量导入图显示完成固定数据量所需的秒数。只保留当前 main 和后续未合并 PR，其他三库保留同负载的历史实测。
 
@@ -274,11 +274,11 @@ PR #249 的实测：Stream XADD MAXLEN 两组峰值提高约 9%–11%；100 MiB 
 
 50,000 keys；8 个客户端、pipeline=64、每命令约 16 KiB 元素。使用与历史三库相同的逐命令 RESP 编码方式，耗时包含 Python 客户端编码；不是 RESTORE，也不代表数据库单独的吞吐上限。
 
-1024 B/entry · 历史测量，导入复测待完成 `ebe28dd5`
+1024 B/entry · 本轮 main 基线 `5d7d12ec`
 
 ![HSET batched import, 1024 B](charts/hash-1048576-1024-k50000-fill.png)
 
-[Lavik raw](raw/lavik-mainebe-hash-1m-k50000-f1024-hset-20260930/)
+[Lavik raw](raw/lavik-main5d7d12ec-import-hash-1048576-k50000-f1024-20261004/)
 
 128 B/entry · 历史测量，导入复测待完成 `ebe28dd5`
 
