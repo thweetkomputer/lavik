@@ -2,7 +2,7 @@
 
 [简体中文](README.zh-CN.md)
 
-**2026-10-04: main `a565d603`, including merged #244, #246, #247, #249, #258, #259, #260, #262; 22/28 conditions refreshed.**
+**2026-10-04: main `a565d603`, including merged #244, #246, #247, #249, #258, #259, #260, #262; 23/28 conditions refreshed.**
 
 Batched HSET/SADD import is tracked separately: 0/4 conditions refreshed. Pending charts identify their actual historical version.
 
@@ -318,11 +318,11 @@ SADD + SREM mixes the two commands equally; QPS counts commands, not pairs. Rand
 
 [Redis](raw/redis-set-1m-k50000-f128-20260929/) · [Valkey](raw/valkey-set-1m-k50000-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-1m-k50000-f128-20260929/) · [Lavik main a565d603](raw/lavik-maina565d603-hashset-set-1048576-k50000-f128-20261004/)
 
-1024 B/entry · 50,000 keys · Historical measurement; refresh pending `5d7d12ec`
+1024 B/entry · 50,000 keys · Measured main baseline `a565d603`
 
 ![Set SISMEMBER 1 MiB/key, 1024 B, 50000 keys](charts/set-1048576-1024-k50000-sismember-current.png)
 
-[Redis](raw/redis-set-1m-k50000-f1024-20260929/) · [Valkey](raw/valkey-set-1m-k50000-f1024-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-1m-k50000-f1024-20260929/) · [Lavik (previous measurement) 5d7d12ec](raw/lavik-main5d7d12ec-hashset-set-1048576-k50000-f1024-20261004/)
+[Redis](raw/redis-set-1m-k50000-f1024-20260929/) · [Valkey](raw/valkey-set-1m-k50000-f1024-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-1m-k50000-f1024-20260929/) · [Lavik main a565d603](raw/lavik-maina565d603-hashset-set-1048576-k50000-f1024-20261004/)
 
 #### 100 MiB/key
 
@@ -348,11 +348,11 @@ SADD + SREM mixes the two commands equally; QPS counts commands, not pairs. Rand
 
 [Redis](raw/redis-set-1m-k50000-f128-20260929/) · [Valkey](raw/valkey-set-1m-k50000-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-1m-k50000-f128-20260929/) · [Lavik main a565d603](raw/lavik-maina565d603-hashset-set-1048576-k50000-f128-20261004/)
 
-1024 B/entry · 50,000 keys · Historical measurement; refresh pending `5d7d12ec`
+1024 B/entry · 50,000 keys · Measured main baseline `a565d603`
 
 ![Set SADD_SREM 1 MiB/key, 1024 B, 50000 keys](charts/set-1048576-1024-k50000-sadd_srem-current.png)
 
-[Redis](raw/redis-set-1m-k50000-f1024-20260929/) · [Valkey](raw/valkey-set-1m-k50000-f1024-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-1m-k50000-f1024-20260929/) · [Lavik (previous measurement) 5d7d12ec](raw/lavik-main5d7d12ec-hashset-set-1048576-k50000-f1024-20261004/)
+[Redis](raw/redis-set-1m-k50000-f1024-20260929/) · [Valkey](raw/valkey-set-1m-k50000-f1024-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-1m-k50000-f1024-20260929/) · [Lavik main a565d603](raw/lavik-maina565d603-hashset-set-1048576-k50000-f1024-20261004/)
 
 #### 100 MiB/key
 
@@ -378,11 +378,11 @@ SADD + SREM mixes the two commands equally; QPS counts commands, not pairs. Rand
 
 [Redis](raw/redis-set-1m-k50000-f128-20260929/) · [Valkey](raw/valkey-set-1m-k50000-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-1m-k50000-f128-20260929/) · [Lavik main a565d603](raw/lavik-maina565d603-hashset-set-1048576-k50000-f128-20261004/)
 
-1024 B/entry · 50,000 keys · Historical measurement; refresh pending `5d7d12ec`
+1024 B/entry · 50,000 keys · Measured main baseline `a565d603`
 
 ![Set SMEMBERS 1 MiB/key, 1024 B, 50000 keys](charts/set-1048576-1024-k50000-smembers-current.png)
 
-[Redis](raw/redis-set-1m-k50000-f1024-20260929/) · [Valkey](raw/valkey-set-1m-k50000-f1024-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-1m-k50000-f1024-20260929/) · [Lavik (previous measurement) 5d7d12ec](raw/lavik-main5d7d12ec-hashset-set-1048576-k50000-f1024-20261004/)
+[Redis](raw/redis-set-1m-k50000-f1024-20260929/) · [Valkey](raw/valkey-set-1m-k50000-f1024-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-1m-k50000-f1024-20260929/) · [Lavik main a565d603](raw/lavik-maina565d603-hashset-set-1048576-k50000-f1024-20261004/)
 
 #### 100 MiB/key
 
