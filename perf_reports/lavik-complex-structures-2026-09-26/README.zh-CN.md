@@ -4,7 +4,7 @@
 
 **2026-10-04：main `5d7d12ec` 已完成 28/28 组复测，包含已合并的 #244、#246、#247。**
 
-批量 HSET/SADD 导入另计：3/4 组已更新。未完成的图注明实际历史版本。
+批量 HSET/SADD 导入另计：4/4 组已更新。
 
 吞吐图固定命令、每 key 的 payload 大小、元素大小和 key 数；横轴为连接数，纵轴为 QPS。批量导入图显示完成固定数据量所需的秒数。只保留当前 main 和后续未合并 PR，其他三库保留同负载的历史实测。
 
@@ -392,11 +392,11 @@ SADD + SREM 为两个命令等比例混合，QPS 计算完成的命令数，不�
 
 [Lavik raw](raw/lavik-main5d7d12ec-import-set-1048576-k50000-f1024-20261004/)
 
-128 B/entry · 历史测量，导入复测待完成 `ebe28dd5`
+128 B/entry · 本轮 main 基线 `5d7d12ec`
 
 ![SADD batched import, 128 B](charts/set-1048576-128-k50000-fill.png)
 
-[Lavik raw](raw/lavik-mainebe-set-1m-k50000-f128-sadd-20260930/)
+[Lavik raw](raw/lavik-main5d7d12ec-import-set-1048576-k50000-f128-20261004/)
 
 ## Sorted Set
 

@@ -4,7 +4,7 @@
 
 **2026-10-04: main `5d7d12ec`, including merged #244/#246/#247; 28/28 conditions refreshed.**
 
-Batched HSET/SADD import is tracked separately: 3/4 conditions refreshed. Pending charts identify their actual historical version.
+Batched HSET/SADD import is tracked separately: 4/4 conditions refreshed.
 
 Throughput figures fix the command, payload bytes per key, entry size and key count; axes show connections and QPS. Batched-import figures show seconds to fill a fixed dataset. Keep the current main and subsequent unmerged PRs; peers retain historical measurements of the same workload.
 
@@ -392,11 +392,11 @@ SADD + SREM mixes the two commands equally; QPS counts commands, not pairs. Rand
 
 [Lavik raw](raw/lavik-main5d7d12ec-import-set-1048576-k50000-f1024-20261004/)
 
-128 B/entry · Historical measurement; import refresh pending `ebe28dd5`
+128 B/entry · Measured main baseline `5d7d12ec`
 
 ![SADD batched import, 128 B](charts/set-1048576-128-k50000-fill.png)
 
-[Lavik raw](raw/lavik-mainebe-set-1m-k50000-f128-sadd-20260930/)
+[Lavik raw](raw/lavik-main5d7d12ec-import-set-1048576-k50000-f128-20261004/)
 
 ## Sorted Set
 
