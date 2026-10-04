@@ -2,7 +2,7 @@
 
 [English](README.md)
 
-**2026-10-04：main `a565d603` 已完成 18/28 组复测，包含已合并的 #244, #246, #247, #249, #258, #259, #260, #262。**
+**2026-10-04：main `a565d603` 已完成 19/28 组复测，包含已合并的 #244, #246, #247, #249, #258, #259, #260, #262。**
 
 批量 HSET/SADD 导入另计：0/4 组已更新。未完成的图注明实际历史版本。
 
@@ -198,11 +198,11 @@ Redis/Valkey 关闭持久化；Kvrocks 使用无压缩 RAID0、关闭 WAL、80 G
 
 #### 1 MiB/key
 
-128 B/entry · 50,000 keys · 历史测量，待复测 `5d7d12ec`
+128 B/entry · 50,000 keys · 本轮 main 基线 `a565d603`
 
 ![Hash HGET 1 MiB/key, 128 B, 50000 keys](charts/hash-1048576-128-k50000-hget-current.png)
 
-[Redis](raw/redis-hash-1m-k50000-f128-20260929/) · [Valkey](raw/valkey-hash-1m-k50000-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-1m-k50000-f128-20260929/) · [Lavik (previous measurement) 5d7d12ec](raw/lavik-main5d7d12ec-hashset-hash-1048576-k50000-f128-20261004/)
+[Redis](raw/redis-hash-1m-k50000-f128-20260929/) · [Valkey](raw/valkey-hash-1m-k50000-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-1m-k50000-f128-20260929/) · [Lavik main a565d603](raw/lavik-maina565d603-hashset-hash-1048576-k50000-f128-20261004/)
 
 1024 B/entry · 50,000 keys · 历史测量，待复测 `5d7d12ec`
 
@@ -228,11 +228,11 @@ Redis/Valkey 关闭持久化；Kvrocks 使用无压缩 RAID0、关闭 WAL、80 G
 
 #### 1 MiB/key
 
-128 B/entry · 50,000 keys · 历史测量，待复测 `5d7d12ec`
+128 B/entry · 50,000 keys · 本轮 main 基线 `a565d603`
 
 ![Hash HSET 1 MiB/key, 128 B, 50000 keys](charts/hash-1048576-128-k50000-hset-current.png)
 
-[Redis](raw/redis-hash-1m-k50000-f128-20260929/) · [Valkey](raw/valkey-hash-1m-k50000-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-1m-k50000-f128-20260929/) · [Lavik (previous measurement) 5d7d12ec](raw/lavik-main5d7d12ec-hashset-hash-1048576-k50000-f128-20261004/)
+[Redis](raw/redis-hash-1m-k50000-f128-20260929/) · [Valkey](raw/valkey-hash-1m-k50000-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-1m-k50000-f128-20260929/) · [Lavik main a565d603](raw/lavik-maina565d603-hashset-hash-1048576-k50000-f128-20261004/)
 
 1024 B/entry · 50,000 keys · 历史测量，待复测 `5d7d12ec`
 
@@ -258,11 +258,11 @@ Redis/Valkey 关闭持久化；Kvrocks 使用无压缩 RAID0、关闭 WAL、80 G
 
 #### 1 MiB/key
 
-128 B/entry · 50,000 keys · 历史测量，待复测 `5d7d12ec`
+128 B/entry · 50,000 keys · 本轮 main 基线 `a565d603`
 
 ![Hash HGETALL 1 MiB/key, 128 B, 50000 keys](charts/hash-1048576-128-k50000-hgetall-current.png)
 
-[Redis](raw/redis-hash-1m-k50000-f128-20260929/) · [Valkey](raw/valkey-hash-1m-k50000-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-1m-k50000-f128-20260929/) · [Lavik (previous measurement) 5d7d12ec](raw/lavik-main5d7d12ec-hashset-hash-1048576-k50000-f128-20261004/)
+[Redis](raw/redis-hash-1m-k50000-f128-20260929/) · [Valkey](raw/valkey-hash-1m-k50000-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-1m-k50000-f128-20260929/) · [Lavik main a565d603](raw/lavik-maina565d603-hashset-hash-1048576-k50000-f128-20261004/)
 
 1024 B/entry · 50,000 keys · 历史测量，待复测 `5d7d12ec`
 

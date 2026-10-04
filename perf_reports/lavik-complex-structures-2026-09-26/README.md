@@ -2,7 +2,7 @@
 
 [简体中文](README.zh-CN.md)
 
-**2026-10-04: main `a565d603`, including merged #244, #246, #247, #249, #258, #259, #260, #262; 18/28 conditions refreshed.**
+**2026-10-04: main `a565d603`, including merged #244, #246, #247, #249, #258, #259, #260, #262; 19/28 conditions refreshed.**
 
 Batched HSET/SADD import is tracked separately: 0/4 conditions refreshed. Pending charts identify their actual historical version.
 
@@ -198,11 +198,11 @@ Independent LSET seeding timings: 32 clients, pipeline=4, 128 one-KiB entries pe
 
 #### 1 MiB/key
 
-128 B/entry · 50,000 keys · Historical measurement; refresh pending `5d7d12ec`
+128 B/entry · 50,000 keys · Measured main baseline `a565d603`
 
 ![Hash HGET 1 MiB/key, 128 B, 50000 keys](charts/hash-1048576-128-k50000-hget-current.png)
 
-[Redis](raw/redis-hash-1m-k50000-f128-20260929/) · [Valkey](raw/valkey-hash-1m-k50000-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-1m-k50000-f128-20260929/) · [Lavik (previous measurement) 5d7d12ec](raw/lavik-main5d7d12ec-hashset-hash-1048576-k50000-f128-20261004/)
+[Redis](raw/redis-hash-1m-k50000-f128-20260929/) · [Valkey](raw/valkey-hash-1m-k50000-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-1m-k50000-f128-20260929/) · [Lavik main a565d603](raw/lavik-maina565d603-hashset-hash-1048576-k50000-f128-20261004/)
 
 1024 B/entry · 50,000 keys · Historical measurement; refresh pending `5d7d12ec`
 
@@ -228,11 +228,11 @@ Independent LSET seeding timings: 32 clients, pipeline=4, 128 one-KiB entries pe
 
 #### 1 MiB/key
 
-128 B/entry · 50,000 keys · Historical measurement; refresh pending `5d7d12ec`
+128 B/entry · 50,000 keys · Measured main baseline `a565d603`
 
 ![Hash HSET 1 MiB/key, 128 B, 50000 keys](charts/hash-1048576-128-k50000-hset-current.png)
 
-[Redis](raw/redis-hash-1m-k50000-f128-20260929/) · [Valkey](raw/valkey-hash-1m-k50000-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-1m-k50000-f128-20260929/) · [Lavik (previous measurement) 5d7d12ec](raw/lavik-main5d7d12ec-hashset-hash-1048576-k50000-f128-20261004/)
+[Redis](raw/redis-hash-1m-k50000-f128-20260929/) · [Valkey](raw/valkey-hash-1m-k50000-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-1m-k50000-f128-20260929/) · [Lavik main a565d603](raw/lavik-maina565d603-hashset-hash-1048576-k50000-f128-20261004/)
 
 1024 B/entry · 50,000 keys · Historical measurement; refresh pending `5d7d12ec`
 
@@ -258,11 +258,11 @@ Independent LSET seeding timings: 32 clients, pipeline=4, 128 one-KiB entries pe
 
 #### 1 MiB/key
 
-128 B/entry · 50,000 keys · Historical measurement; refresh pending `5d7d12ec`
+128 B/entry · 50,000 keys · Measured main baseline `a565d603`
 
 ![Hash HGETALL 1 MiB/key, 128 B, 50000 keys](charts/hash-1048576-128-k50000-hgetall-current.png)
 
-[Redis](raw/redis-hash-1m-k50000-f128-20260929/) · [Valkey](raw/valkey-hash-1m-k50000-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-1m-k50000-f128-20260929/) · [Lavik (previous measurement) 5d7d12ec](raw/lavik-main5d7d12ec-hashset-hash-1048576-k50000-f128-20261004/)
+[Redis](raw/redis-hash-1m-k50000-f128-20260929/) · [Valkey](raw/valkey-hash-1m-k50000-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-1m-k50000-f128-20260929/) · [Lavik main a565d603](raw/lavik-maina565d603-hashset-hash-1048576-k50000-f128-20261004/)
 
 1024 B/entry · 50,000 keys · Historical measurement; refresh pending `5d7d12ec`
 
