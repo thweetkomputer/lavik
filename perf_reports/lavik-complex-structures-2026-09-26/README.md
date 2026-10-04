@@ -1,526 +1,601 @@
-# Complex Redis collection performance: Redis, Valkey, Lavik, and Kvrocks
+# Complex structures: Redis, Valkey, Kvrocks and Lavik
 
 [简体中文](README.zh-CN.md)
 
-This report compares five Redis-compatible collection types on one server and one
-remote memtier client. Each chart fixes the collection type, logical payload per
-key, and payload bytes per entry. The horizontal axis is simultaneous
-connections; the vertical axis is completed commands per second.
+**2026-10-04: main `5d7d12ec`, including merged #244/#246/#247; 1/28 conditions refreshed.**
 
+Each figure fixes the command, payload bytes per key, entry size and key count. Axes show connections and QPS. Keep the current main and subsequent unmerged PRs; peers retain historical measurements of the same workload.
 
-**October 3 main refresh is complete: `44761b91` includes #235/#243. Eight Hash/Set conditions, two high-key LSET conditions and three 100 MiB List/ZSet/Stream supplemental conditions compare this measured main with unmerged [PR #244](https://github.com/eloqdata/lavik/pull/244) `faaaba58` in the same five-series charts.**
+Pending conditions retain explicitly labeled historical Lavik measurements. Old observations are not relabeled as the new main.
 
-Merged PR #235 curves are removed. Pending main curves still measure `06562381`, not the latest code. Earlier supplementary List/Stream/ZSet workloads keep explicit measured versions.
+Redis/Valkey disable persistence. Kvrocks uses uncompressed RAID0, disabled WAL and 80 GiB block/blob cache. Lavik persists through six SPDK NVMe devices without caching field/page payloads. Write QPS compares these configurations, not equivalent durability.
 
-Redis/Valkey disable persistence; Kvrocks uses uncompressed RAID0, disabled WAL and 80 GiB block/blob cache; Lavik persists through six SPDK NVMe devices. Configurations differ. Sources: [Hash/Set](published-main.json), [LSET](lset-large-published.json), [ordered structures](ordered-published.json).
+Peers are not rerun this round. Lavik uses AMD EPYC 9V74, 16 vCPUs and 12 serving workers. Points last 8 s (10 s for high-key-count LSET), pipeline=1. Each condition is independently seeded and checked key by key. CPU profiles run separately after complete clean grids. Single sweeps have no statistical confidence intervals.
 
-[Historical HSET perf diagnosis](diagnostics/shared-pipeline-20261001/hset-deep-diagnosis.md) has complete callchains for all 12 workers. Further optimization targets repeated index lookup, temporary allocation and page rebuilding. Historical PR comparisons remain in raw evidence and diagnostics.
-
-
-Scratch NVMe serials/PCI addresses changed since October 1; all six dedicated devices were checked for mounts and RAID holders. This run uses AMD EPYC 9V74, 16 vCPUs and 12 server workers. Peer curves retain historical matched-workload results; cross-round differences cannot be attributed solely to code. Current main and upcoming optimizations will be compared directly on this host. [Host and build proof](diagnostics/main-refresh-20261003/host-and-build.json).
-
-
-**Further optimization: [PR #244](https://github.com/eloqdata/lavik/pull/244) `faaaba58` coalesces inline grouped-record coordinate updates, reduces index-path/page copying, and removes publication allocations and repeated route lookup. It retains metadata only, with no field/page payload cache; String keeps its positional index. Each workload is one connection sweep, not a statistical repeat experiment.**
-
-[October 3 HSET index diagnosis and measured results](diagnostics/main-refresh-20261003/index-publication-diagnosis.md).
-
-**Subsequent ZSet rerun: after #242 merged, new charts compare main `6111d0b1` with [PR #246](https://github.com/eloqdata/lavik/pull/246). Other chapters retain their measured `44761b91` baseline; each chart identifies its version.**
+[Plot sources](current-main.json) · [Runner](run.py) · [Build and hardware](diagnostics/main-refresh-20261004/host-and-build.json)
 
 ## List
 
-Current baseline: main `06562381`, including merged #233. Each LSET chart fixes key counts, key sizes and entry sizes and includes the matched peer workloads.
+### LINDEX
 
-### LSET with more independent keys
+#### 64 KiB/key
 
-Use 50,000 keys at 1 MiB/key and 500 keys at 100 MiB/key, with 1 KiB elements. Each version receives independently seeded identical initial data; the October 1 runs additionally clear dedicated benchmark media before each seed. Seeding uses 32 seed clients, 128 KiB RPUSH batches and seed pipeline=4. Measured memtier traffic is single-element LSET with pipeline=1, 10 seconds per point, at 80/320/1280/2560/5120 connections. CPU profiles run after the entire clean grid and are excluded from curves. Earlier peer curves retain their own workloads and key counts.
+128 B/entry · 64 keys · Historical measurement; refresh pending `646a7b4e`
 
-#### 1 MiB/key × 50,000 keys
+![List LINDEX 64 KiB/key, 128 B, 64 keys](charts/list-65536-128-k64-lindex-current.png)
 
-![LSET 1 MiB, 50,000 keys: four databases ](charts/list-lset-1048576-1024-k50000-main-pr.png)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 646a7b4e](raw/lavik/)
 
-**Current main `44761b91` and [PR #244](https://github.com/eloqdata/lavik/pull/244) `faaaba58` share a chart with Redis, Valkey and Kvrocks.** 50,000 keys × 1 MiB/key; 1024 B/entry. Both versions independently seed fresh media on this host; every key passes before/after checks, with zero errors at all points. [PR raw](raw/lavik-index-pr244-faaaba58-lset-list-1048576-k50000-f1024-20261003/) · [Main raw](raw/lavik-main44761-lset-list-1048576-k50000-f1024-20261003/).
+1024 B/entry · 64 keys · Historical measurement; refresh pending `646a7b4e`
 
-#### 100 MiB/key × 500 keys
+![List LINDEX 64 KiB/key, 1024 B, 64 keys](charts/list-65536-1024-k64-lindex-current.png)
 
-![LSET 100 MiB, 500 keys: four databases ](charts/list-lset-104857600-1024-k500-main-pr.png)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 646a7b4e](raw/lavik/)
 
-**Current main `44761b91` and [PR #244](https://github.com/eloqdata/lavik/pull/244) `faaaba58` share a chart with Redis, Valkey and Kvrocks.** 500 keys × 100 MiB/key; 1024 B/entry. Both versions independently seed fresh media on this host; every key passes before/after checks, with zero errors at all points. [PR raw](raw/lavik-index-pr244-faaaba58-lset-list-104857600-k500-f1024-20261003/) · [Main raw](raw/lavik-main44761-lset-list-104857600-k500-f1024-20261003/).
+#### 1 MiB/key
 
+128 B/entry · 64 keys · Historical measurement; refresh pending `646a7b4e`
 
+![List LINDEX 1 MiB/key, 128 B, 64 keys](charts/list-1048576-128-k64-lindex-current.png)
 
-<details>
-<summary>Historical LINDEX / LSET: earlier revisions with fewer keys (expand)</summary>
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 646a7b4e](raw/lavik/)
 
-### LINDEX / LSET
+1024 B/entry · 64 keys · Historical measurement; refresh pending `646a7b4e`
 
-#### 64 KiB per key
+![List LINDEX 1 MiB/key, 1024 B, 64 keys](charts/list-1048576-1024-k64-lindex-current.png)
 
-![List 64 KiB per key, 128 B entries: LINDEX / LSET QPS by connection count](charts/list-65536-128.png)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 646a7b4e](raw/lavik/)
 
-![List 64 KiB per key, 1 KiB entries: LINDEX / LSET QPS by connection count](charts/list-65536-1024.png)
+#### 100 MiB/key
 
-#### 1 MiB per key
+128 B/entry · 8 keys · Historical measurement; refresh pending `646a7b4e`
 
-![List 1 MiB per key, 128 B entries: LINDEX / LSET QPS by connection count](charts/list-1048576-128.png)
+![List LINDEX 100 MiB/key, 128 B, 8 keys](charts/list-104857600-128-k8-lindex-current.png)
 
-![List 1 MiB per key, 1 KiB entries: LINDEX / LSET QPS by connection count](charts/list-1048576-1024.png)
+[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik (previous measurement) 646a7b4e](raw/lavik-100m/)
 
-#### 100 MiB per key
+1024 B/entry · 8 keys · Historical measurement; refresh pending `44761b91`
 
-![List 100 MiB per key, 128 B entries: LINDEX / LSET QPS by connection count](charts/list-104857600-128.png)
+![List LINDEX 100 MiB/key, 1024 B, 8 keys](charts/list-104857600-1024-k8-lindex-current.png)
 
-![List 100 MiB per key, 1 KiB entries: LINDEX / LSET QPS by connection count](charts/list-104857600-1024-ab.png)
+[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik (previous measurement) 44761b91](raw/lavik-main44761-ordered-list-104857600-k8-f1024-20261003/)
 
-**Current main `44761b91` and [PR #244](https://github.com/eloqdata/lavik/pull/244) `faaaba58` share a chart with Redis, Valkey and Kvrocks.** 8 keys × 100 MiB/key; 1024 B/entry. Both versions independently seed fresh media on this host; every key passes before/after checks, with zero errors at all points. [PR raw](raw/lavik-index-pr244-faaaba58-ordered-list-104857600-k8-f1024-20261003/) · [Main raw](raw/lavik-main44761-ordered-list-104857600-k8-f1024-20261003/).
+### LSET
 
-</details>
+#### 64 KiB/key
+
+128 B/entry · 64 keys · Historical measurement; refresh pending `646a7b4e`
+
+![List LSET 64 KiB/key, 128 B, 64 keys](charts/list-65536-128-k64-lset-current.png)
+
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 646a7b4e](raw/lavik/)
+
+1024 B/entry · 64 keys · Historical measurement; refresh pending `646a7b4e`
+
+![List LSET 64 KiB/key, 1024 B, 64 keys](charts/list-65536-1024-k64-lset-current.png)
+
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 646a7b4e](raw/lavik/)
+
+#### 1 MiB/key
+
+1024 B/entry · 50,000 keys · Historical measurement; refresh pending `44761b91`
+
+![List LSET 1 MiB/key, 1024 B, 50000 keys](charts/list-1048576-1024-k50000-lset-current.png)
+
+[Redis](raw/redis-lset-matched-1048576-k50000-f1024-20261001/) · [Valkey](raw/valkey-lset-matched-1048576-k50000-f1024-20261001/) · [Kvrocks (80 GiB cache)](raw/kvrocks-lset-matched-1048576-k50000-f1024-20261001/) · [Lavik (previous measurement) 44761b91](raw/lavik-main44761-lset-list-1048576-k50000-f1024-20261003/)
+
+#### 100 MiB/key
+
+1024 B/entry · 500 keys · Historical measurement; refresh pending `44761b91`
+
+![List LSET 100 MiB/key, 1024 B, 500 keys](charts/list-104857600-1024-k500-lset-current.png)
+
+[Redis](raw/redis-lset-matched-104857600-k500-f1024-20261001/) · [Valkey](raw/valkey-lset-matched-104857600-k500-f1024-20261001/) · [Kvrocks (80 GiB cache)](raw/kvrocks-lset-matched-104857600-k500-f1024-20261001/) · [Lavik (previous measurement) 44761b91](raw/lavik-main44761-lset-list-104857600-k500-f1024-20261003/)
 
 ### LRANGE 0 -1
 
-#### 64 KiB per key
+#### 64 KiB/key
 
-![List 64 KiB per key, 128 B entries: LRANGE 0 -1 QPS by connection count](charts/list-65536-128-full.png)
+128 B/entry · 64 keys · Historical measurement; refresh pending `646a7b4e`
 
-![List 64 KiB per key, 1 KiB entries: LRANGE 0 -1 QPS by connection count](charts/list-65536-1024-full.png)
+![List LRANGE 64 KiB/key, 128 B, 64 keys](charts/list-65536-128-k64-lrange-current.png)
 
-#### 1 MiB per key
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 646a7b4e](raw/lavik/)
 
-![List 1 MiB per key, 128 B entries: LRANGE 0 -1 QPS by connection count](charts/list-1048576-128-full.png)
+1024 B/entry · 64 keys · Historical measurement; refresh pending `646a7b4e`
 
-![List 1 MiB per key, 1 KiB entries: LRANGE 0 -1 QPS by connection count](charts/list-1048576-1024-full.png)
+![List LRANGE 64 KiB/key, 1024 B, 64 keys](charts/list-65536-1024-k64-lrange-current.png)
 
-#### 100 MiB per key
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 646a7b4e](raw/lavik/)
 
-![List 100 MiB per key, 128 B entries: LRANGE 0 -1 QPS by connection count](charts/list-104857600-128-full.png)
+#### 1 MiB/key
 
-![List 100 MiB per key, 1 KiB entries: LRANGE 0 -1 QPS by connection count](charts/list-104857600-1024-ab-full.png)
+128 B/entry · 64 keys · Historical measurement; refresh pending `646a7b4e`
 
-For 1 MiB `LINDEX`, Lavik peaked near 139k QPS with 128 B entries and 677k with 1 KiB entries. The entry-count difference matters, but the available profiling does not isolate one cause.
+![List LRANGE 1 MiB/key, 128 B, 64 keys](charts/list-1048576-128-k64-lrange-current.png)
+
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 646a7b4e](raw/lavik/)
+
+1024 B/entry · 64 keys · Historical measurement; refresh pending `646a7b4e`
+
+![List LRANGE 1 MiB/key, 1024 B, 64 keys](charts/list-1048576-1024-k64-lrange-current.png)
+
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 646a7b4e](raw/lavik/)
+
+#### 100 MiB/key
+
+128 B/entry · 8 keys · Historical measurement; refresh pending `646a7b4e`
+
+![List LRANGE 100 MiB/key, 128 B, 8 keys](charts/list-104857600-128-k8-lrange-current.png)
+
+[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik (previous measurement) 646a7b4e](raw/lavik-100m/)
+
+1024 B/entry · 8 keys · Historical measurement; refresh pending `44761b91`
+
+![List LRANGE 100 MiB/key, 1024 B, 8 keys](charts/list-104857600-1024-k8-lrange-current.png)
+
+[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik (previous measurement) 44761b91](raw/lavik-main44761-ordered-list-104857600-k8-f1024-20261003/)
 
 ## Hash
 
-### HGET / HSET
+### HGET
 
-#### 1 MiB
+#### 1 MiB/key
 
-![Hash 1 MiB, 128 B: HGET / HSET](charts/hash-1048576-128-ab.png)
+128 B/entry · 50,000 keys · Historical measurement; refresh pending `44761b91`
 
-**Current main `44761b91` and [PR #244](https://github.com/eloqdata/lavik/pull/244) `faaaba58` share a chart with Redis, Valkey and Kvrocks.** 50,000 keys × 1 MiB/key; 128 B/entry. Both versions independently seed fresh media on this host; every key passes before/after checks, with zero errors at all points. [PR raw](raw/lavik-index-pr244-faaaba58-hashset-hash-1048576-k50000-f128-20261003/) · [Main raw](raw/lavik-main44761-hashset-hash-1048576-k50000-f128-20261003/).
+![Hash HGET 1 MiB/key, 128 B, 50000 keys](charts/hash-1048576-128-k50000-hget-current.png)
 
-![Hash 1 MiB, 1024 B: HGET / HSET](charts/hash-1048576-1024-ab.png)
+[Redis](raw/redis-hash-1m-k50000-f128-20260929/) · [Valkey](raw/valkey-hash-1m-k50000-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-1m-k50000-f128-20260929/) · [Lavik (previous measurement) 44761b91](raw/lavik-main44761-hashset-hash-1048576-k50000-f128-20261003/)
 
-**Current main `44761b91` and [PR #244](https://github.com/eloqdata/lavik/pull/244) `faaaba58` share a chart with Redis, Valkey and Kvrocks.** 50,000 keys × 1 MiB/key; 1024 B/entry. Both versions independently seed fresh media on this host; every key passes before/after checks, with zero errors at all points. [PR raw](raw/lavik-index-pr244-faaaba58-hashset-hash-1048576-k50000-f1024-20261003/) · [Main raw](raw/lavik-main44761-hashset-hash-1048576-k50000-f1024-20261003/).
+1024 B/entry · 50,000 keys · Historical measurement; refresh pending `44761b91`
 
-#### 100 MiB
+![Hash HGET 1 MiB/key, 1024 B, 50000 keys](charts/hash-1048576-1024-k50000-hget-current.png)
 
-![Hash 100 MiB, 128 B: HGET / HSET](charts/hash-104857600-128-ab.png)
+[Redis](raw/redis-hash-1m-k50000-f1024-20260929/) · [Valkey](raw/valkey-hash-1m-k50000-f1024-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-1m-k50000-f1024-20260929/) · [Lavik (previous measurement) 44761b91](raw/lavik-main44761-hashset-hash-1048576-k50000-f1024-20261003/)
 
-**Current main `44761b91` and [PR #244](https://github.com/eloqdata/lavik/pull/244) `faaaba58` share a chart with Redis, Valkey and Kvrocks.** 500 keys × 100 MiB/key; 128 B/entry. Both versions independently seed fresh media on this host; every key passes before/after checks, with zero errors at all points. [PR raw](raw/lavik-index-pr244-faaaba58-hashset-hash-104857600-k500-f128-20261003/) · [Main raw](raw/lavik-main44761-hashset-hash-104857600-k500-f128-20261003/).
+#### 100 MiB/key
 
-![Hash 100 MiB, 1024 B: HGET / HSET](charts/hash-104857600-1024-ab.png)
+128 B/entry · 500 keys · Historical measurement; refresh pending `44761b91`
 
-**Current main `44761b91` and [PR #244](https://github.com/eloqdata/lavik/pull/244) `faaaba58` share a chart with Redis, Valkey and Kvrocks.** 500 keys × 100 MiB/key; 1024 B/entry. Both versions independently seed fresh media on this host; every key passes before/after checks, with zero errors at all points. [PR raw](raw/lavik-index-pr244-faaaba58-hashset-hash-104857600-k500-f1024-20261003/) · [Main raw](raw/lavik-main44761-hashset-hash-104857600-k500-f1024-20261003/).
+![Hash HGET 100 MiB/key, 128 B, 500 keys](charts/hash-104857600-128-k500-hget-current.png)
+
+[Redis](raw/redis-hash-100m-k500-f128-20260929/) · [Valkey](raw/valkey-hash-100m-k500-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-100m-k500-f128-20260929/) · [Lavik (previous measurement) 44761b91](raw/lavik-main44761-hashset-hash-104857600-k500-f128-20261003/)
+
+1024 B/entry · 500 keys · Historical measurement; refresh pending `44761b91`
+
+![Hash HGET 100 MiB/key, 1024 B, 500 keys](charts/hash-104857600-1024-k500-hget-current.png)
+
+[Redis](raw/redis-hash-100m-k500-f1024-20260929/) · [Valkey](raw/valkey-hash-100m-k500-f1024-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-100m-k500-f1024-20260929/) · [Lavik (previous measurement) 44761b91](raw/lavik-main44761-hashset-hash-104857600-k500-f1024-20261003/)
+
+### HSET
+
+#### 1 MiB/key
+
+128 B/entry · 50,000 keys · Historical measurement; refresh pending `44761b91`
+
+![Hash HSET 1 MiB/key, 128 B, 50000 keys](charts/hash-1048576-128-k50000-hset-current.png)
+
+[Redis](raw/redis-hash-1m-k50000-f128-20260929/) · [Valkey](raw/valkey-hash-1m-k50000-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-1m-k50000-f128-20260929/) · [Lavik (previous measurement) 44761b91](raw/lavik-main44761-hashset-hash-1048576-k50000-f128-20261003/)
+
+1024 B/entry · 50,000 keys · Historical measurement; refresh pending `44761b91`
+
+![Hash HSET 1 MiB/key, 1024 B, 50000 keys](charts/hash-1048576-1024-k50000-hset-current.png)
+
+[Redis](raw/redis-hash-1m-k50000-f1024-20260929/) · [Valkey](raw/valkey-hash-1m-k50000-f1024-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-1m-k50000-f1024-20260929/) · [Lavik (previous measurement) 44761b91](raw/lavik-main44761-hashset-hash-1048576-k50000-f1024-20261003/)
+
+#### 100 MiB/key
+
+128 B/entry · 500 keys · Historical measurement; refresh pending `44761b91`
+
+![Hash HSET 100 MiB/key, 128 B, 500 keys](charts/hash-104857600-128-k500-hset-current.png)
+
+[Redis](raw/redis-hash-100m-k500-f128-20260929/) · [Valkey](raw/valkey-hash-100m-k500-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-100m-k500-f128-20260929/) · [Lavik (previous measurement) 44761b91](raw/lavik-main44761-hashset-hash-104857600-k500-f128-20261003/)
+
+1024 B/entry · 500 keys · Historical measurement; refresh pending `44761b91`
+
+![Hash HSET 100 MiB/key, 1024 B, 500 keys](charts/hash-104857600-1024-k500-hset-current.png)
+
+[Redis](raw/redis-hash-100m-k500-f1024-20260929/) · [Valkey](raw/valkey-hash-100m-k500-f1024-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-100m-k500-f1024-20260929/) · [Lavik (previous measurement) 44761b91](raw/lavik-main44761-hashset-hash-104857600-k500-f1024-20261003/)
 
 ### HGETALL
 
-#### 1 MiB
+#### 1 MiB/key
 
-![Hash 1 MiB, 128 B: HGETALL](charts/hash-1048576-128-ab-full.png)
+128 B/entry · 50,000 keys · Historical measurement; refresh pending `44761b91`
 
-![Hash 1 MiB, 1024 B: HGETALL](charts/hash-1048576-1024-ab-full.png)
+![Hash HGETALL 1 MiB/key, 128 B, 50000 keys](charts/hash-1048576-128-k50000-hgetall-current.png)
 
-#### 100 MiB
+[Redis](raw/redis-hash-1m-k50000-f128-20260929/) · [Valkey](raw/valkey-hash-1m-k50000-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-1m-k50000-f128-20260929/) · [Lavik (previous measurement) 44761b91](raw/lavik-main44761-hashset-hash-1048576-k50000-f128-20261003/)
 
-![Hash 100 MiB, 128 B: HGETALL](charts/hash-104857600-128-ab-full.png)
+1024 B/entry · 50,000 keys · Historical measurement; refresh pending `44761b91`
 
-![Hash 100 MiB, 1024 B: HGETALL](charts/hash-104857600-1024-ab-full.png)
+![Hash HGETALL 1 MiB/key, 1024 B, 50000 keys](charts/hash-1048576-1024-k50000-hgetall-current.png)
 
-### Batched import (HSET)
+[Redis](raw/redis-hash-1m-k50000-f1024-20260929/) · [Valkey](raw/valkey-hash-1m-k50000-f1024-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-1m-k50000-f1024-20260929/) · [Lavik (previous measurement) 44761b91](raw/lavik-main44761-hashset-hash-1048576-k50000-f1024-20261003/)
 
-#### 1 MiB / 1024 B
+#### 100 MiB/key
 
-![Hash batched HSET import](charts/hash-1048576-1024-k50000-fill.png)
+128 B/entry · 500 keys · Historical measurement; refresh pending `44761b91`
 
-Historical import measurement: Lavik main `ebe28dd5`, not repeated during this main refresh.
+![Hash HGETALL 100 MiB/key, 128 B, 500 keys](charts/hash-104857600-128-k500-hgetall-current.png)
 
-All four use HSET, 16 entries per command, eight clients and pipeline 64. Main fill time: **500.3 seconds**. Persistence settings still differ.
+[Redis](raw/redis-hash-100m-k500-f128-20260929/) · [Valkey](raw/valkey-hash-100m-k500-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-100m-k500-f128-20260929/) · [Lavik (previous measurement) 44761b91](raw/lavik-main44761-hashset-hash-104857600-k500-f128-20261003/)
 
-#### 1 MiB / 128 B
+1024 B/entry · 500 keys · Historical measurement; refresh pending `44761b91`
 
-![Hash batched HSET import](charts/hash-1048576-128-k50000-fill.png)
+![Hash HGETALL 100 MiB/key, 1024 B, 500 keys](charts/hash-104857600-1024-k500-hgetall-current.png)
 
-Historical import measurement: Lavik main `ebe28dd5`, not repeated during this main refresh.
-
-All four use HSET, 128 entries per command, eight clients and pipeline 64. Main fill time: **1306.3 seconds**. Persistence settings still differ.
-
-### RESTORE
-
-Independent seed timings: 50,000 keys/32 clients at 1 MiB; 500 keys/eight clients at 100 MiB. RESTORE fill only, excluding cleanup/recovery; not mixed with peer HSET/SADD import timings.
-
-Independent RESTORE seed timings for measured main `44761b91` and PR #244 are retained in each `.fill.json` linked through the [workload inventory](published-main.json).
+[Redis](raw/redis-hash-100m-k500-f1024-20260929/) · [Valkey](raw/valkey-hash-100m-k500-f1024-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-100m-k500-f1024-20260929/) · [Lavik (previous measurement) 44761b91](raw/lavik-main44761-hashset-hash-104857600-k500-f1024-20261003/)
 
 ## Set
 
-### SISMEMBER / SADD + SREM
+SADD + SREM mixes the two commands equally; QPS counts commands, not pairs.
 
-#### 1 MiB
+### SISMEMBER
 
-![Set 1 MiB, 128 B: SISMEMBER / SADD + SREM](charts/set-1048576-128-ab.png)
+#### 1 MiB/key
 
-**Current main `44761b91` and [PR #244](https://github.com/eloqdata/lavik/pull/244) `faaaba58` share a chart with Redis, Valkey and Kvrocks.** 50,000 keys × 1 MiB/key; 128 B/entry. Both versions independently seed fresh media on this host; every key passes before/after checks, with zero errors at all points. [PR raw](raw/lavik-index-pr244-faaaba58-hashset-set-1048576-k50000-f128-20261003/) · [Main raw](raw/lavik-main44761-hashset-set-1048576-k50000-f128-20261003/).
+128 B/entry · 50,000 keys · Historical measurement; refresh pending `44761b91`
 
-![Set 1 MiB, 1024 B: SISMEMBER / SADD + SREM](charts/set-1048576-1024-ab.png)
+![Set SISMEMBER 1 MiB/key, 128 B, 50000 keys](charts/set-1048576-128-k50000-sismember-current.png)
 
-**Current main `44761b91` and [PR #244](https://github.com/eloqdata/lavik/pull/244) `faaaba58` share a chart with Redis, Valkey and Kvrocks.** 50,000 keys × 1 MiB/key; 1024 B/entry. Both versions independently seed fresh media on this host; every key passes before/after checks, with zero errors at all points. [PR raw](raw/lavik-index-pr244-faaaba58-hashset-set-1048576-k50000-f1024-20261003/) · [Main raw](raw/lavik-main44761-hashset-set-1048576-k50000-f1024-20261003/).
+[Redis](raw/redis-set-1m-k50000-f128-20260929/) · [Valkey](raw/valkey-set-1m-k50000-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-1m-k50000-f128-20260929/) · [Lavik (previous measurement) 44761b91](raw/lavik-main44761-hashset-set-1048576-k50000-f128-20261003/)
 
-#### 100 MiB
+1024 B/entry · 50,000 keys · Historical measurement; refresh pending `44761b91`
 
-![Set 100 MiB, 128 B: SISMEMBER / SADD + SREM](charts/set-104857600-128-ab.png)
+![Set SISMEMBER 1 MiB/key, 1024 B, 50000 keys](charts/set-1048576-1024-k50000-sismember-current.png)
 
-**Current main `44761b91` and [PR #244](https://github.com/eloqdata/lavik/pull/244) `faaaba58` share a chart with Redis, Valkey and Kvrocks.** 500 keys × 100 MiB/key; 128 B/entry. Both versions independently seed fresh media on this host; every key passes before/after checks, with zero errors at all points. [PR raw](raw/lavik-index-pr244-faaaba58-hashset-set-104857600-k500-f128-20261003/) · [Main raw](raw/lavik-main44761-hashset-set-104857600-k500-f128-20261003/).
+[Redis](raw/redis-set-1m-k50000-f1024-20260929/) · [Valkey](raw/valkey-set-1m-k50000-f1024-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-1m-k50000-f1024-20260929/) · [Lavik (previous measurement) 44761b91](raw/lavik-main44761-hashset-set-1048576-k50000-f1024-20261003/)
 
-![Set 100 MiB, 1024 B: SISMEMBER / SADD + SREM](charts/set-104857600-1024-ab.png)
+#### 100 MiB/key
 
-**Current main `44761b91` and [PR #244](https://github.com/eloqdata/lavik/pull/244) `faaaba58` share a chart with Redis, Valkey and Kvrocks.** 500 keys × 100 MiB/key; 1024 B/entry. Both versions independently seed fresh media on this host; every key passes before/after checks, with zero errors at all points. [PR raw](raw/lavik-index-pr244-faaaba58-hashset-set-104857600-k500-f1024-20261003/) · [Main raw](raw/lavik-main44761-hashset-set-104857600-k500-f1024-20261003/).
+128 B/entry · 500 keys · Historical measurement; refresh pending `44761b91`
+
+![Set SISMEMBER 100 MiB/key, 128 B, 500 keys](charts/set-104857600-128-k500-sismember-current.png)
+
+[Redis](raw/redis-set-100m-k500-f128-20260929/) · [Valkey](raw/valkey-set-100m-k500-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-100m-k500-f128-20260929/) · [Lavik (previous measurement) 44761b91](raw/lavik-main44761-hashset-set-104857600-k500-f128-20261003/)
+
+1024 B/entry · 500 keys · Historical measurement; refresh pending `44761b91`
+
+![Set SISMEMBER 100 MiB/key, 1024 B, 500 keys](charts/set-104857600-1024-k500-sismember-current.png)
+
+[Redis](raw/redis-set-100m-k500-f1024-20260929/) · [Valkey](raw/valkey-set-100m-k500-f1024-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-100m-k500-f1024-20260929/) · [Lavik (previous measurement) 44761b91](raw/lavik-main44761-hashset-set-104857600-k500-f1024-20261003/)
+
+### SADD + SREM
+
+#### 1 MiB/key
+
+128 B/entry · 50,000 keys · Historical measurement; refresh pending `44761b91`
+
+![Set SADD_SREM 1 MiB/key, 128 B, 50000 keys](charts/set-1048576-128-k50000-sadd_srem-current.png)
+
+[Redis](raw/redis-set-1m-k50000-f128-20260929/) · [Valkey](raw/valkey-set-1m-k50000-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-1m-k50000-f128-20260929/) · [Lavik (previous measurement) 44761b91](raw/lavik-main44761-hashset-set-1048576-k50000-f128-20261003/)
+
+1024 B/entry · 50,000 keys · Historical measurement; refresh pending `44761b91`
+
+![Set SADD_SREM 1 MiB/key, 1024 B, 50000 keys](charts/set-1048576-1024-k50000-sadd_srem-current.png)
+
+[Redis](raw/redis-set-1m-k50000-f1024-20260929/) · [Valkey](raw/valkey-set-1m-k50000-f1024-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-1m-k50000-f1024-20260929/) · [Lavik (previous measurement) 44761b91](raw/lavik-main44761-hashset-set-1048576-k50000-f1024-20261003/)
+
+#### 100 MiB/key
+
+128 B/entry · 500 keys · Historical measurement; refresh pending `44761b91`
+
+![Set SADD_SREM 100 MiB/key, 128 B, 500 keys](charts/set-104857600-128-k500-sadd_srem-current.png)
+
+[Redis](raw/redis-set-100m-k500-f128-20260929/) · [Valkey](raw/valkey-set-100m-k500-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-100m-k500-f128-20260929/) · [Lavik (previous measurement) 44761b91](raw/lavik-main44761-hashset-set-104857600-k500-f128-20261003/)
+
+1024 B/entry · 500 keys · Historical measurement; refresh pending `44761b91`
+
+![Set SADD_SREM 100 MiB/key, 1024 B, 500 keys](charts/set-104857600-1024-k500-sadd_srem-current.png)
+
+[Redis](raw/redis-set-100m-k500-f1024-20260929/) · [Valkey](raw/valkey-set-100m-k500-f1024-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-100m-k500-f1024-20260929/) · [Lavik (previous measurement) 44761b91](raw/lavik-main44761-hashset-set-104857600-k500-f1024-20261003/)
 
 ### SMEMBERS
 
-#### 1 MiB
+#### 1 MiB/key
 
-![Set 1 MiB, 128 B: SMEMBERS](charts/set-1048576-128-ab-full.png)
+128 B/entry · 50,000 keys · Historical measurement; refresh pending `44761b91`
 
-![Set 1 MiB, 1024 B: SMEMBERS](charts/set-1048576-1024-ab-full.png)
+![Set SMEMBERS 1 MiB/key, 128 B, 50000 keys](charts/set-1048576-128-k50000-smembers-current.png)
 
-#### 100 MiB
+[Redis](raw/redis-set-1m-k50000-f128-20260929/) · [Valkey](raw/valkey-set-1m-k50000-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-1m-k50000-f128-20260929/) · [Lavik (previous measurement) 44761b91](raw/lavik-main44761-hashset-set-1048576-k50000-f128-20261003/)
 
-![Set 100 MiB, 128 B: SMEMBERS](charts/set-104857600-128-ab-full.png)
+1024 B/entry · 50,000 keys · Historical measurement; refresh pending `44761b91`
 
-![Set 100 MiB, 1024 B: SMEMBERS](charts/set-104857600-1024-ab-full.png)
+![Set SMEMBERS 1 MiB/key, 1024 B, 50000 keys](charts/set-1048576-1024-k50000-smembers-current.png)
 
-Historical sustained SMEMBERS repeats at 100 MiB / 128 B and 16 connections encountered memory-admission rejection. Successful eight-second points do not establish sustained stability. [Failure evidence](raw/lavik-fullcheck-maina6d-set-100m-k500-f128-20260930/).
+[Redis](raw/redis-set-1m-k50000-f1024-20260929/) · [Valkey](raw/valkey-set-1m-k50000-f1024-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-1m-k50000-f1024-20260929/) · [Lavik (previous measurement) 44761b91](raw/lavik-main44761-hashset-set-1048576-k50000-f1024-20261003/)
 
-### Batched import (SADD)
+#### 100 MiB/key
 
-#### 1 MiB / 1024 B
+128 B/entry · 500 keys · Historical measurement; refresh pending `44761b91`
 
-![Set batched SADD import](charts/set-1048576-1024-k50000-fill.png)
+![Set SMEMBERS 100 MiB/key, 128 B, 500 keys](charts/set-104857600-128-k500-smembers-current.png)
 
-Historical import measurement: Lavik main `ebe28dd5`, not repeated during this main refresh.
+[Redis](raw/redis-set-100m-k500-f128-20260929/) · [Valkey](raw/valkey-set-100m-k500-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-100m-k500-f128-20260929/) · [Lavik (previous measurement) 44761b91](raw/lavik-main44761-hashset-set-104857600-k500-f128-20261003/)
 
-All four use SADD, 16 entries per command, eight clients and pipeline 64. Main fill time: **517.9 seconds**. Persistence settings still differ.
+1024 B/entry · 500 keys · Historical measurement; refresh pending `44761b91`
 
-#### 1 MiB / 128 B
+![Set SMEMBERS 100 MiB/key, 1024 B, 500 keys](charts/set-104857600-1024-k500-smembers-current.png)
 
-![Set batched SADD import](charts/set-1048576-128-k50000-fill.png)
-
-Historical import measurement: Lavik main `ebe28dd5`, not repeated during this main refresh.
-
-All four use SADD, 128 entries per command, eight clients and pipeline 64. Main fill time: **1724.2 seconds**. Persistence settings still differ.
-
-The matching 100 MiB SADD import measurement is pending. The previous mixed RESTORE/SADD figure has been removed.
-
-### RESTORE
-
-Independent seed timings: 50,000 keys/32 clients at 1 MiB; 500 keys/eight clients at 100 MiB. RESTORE fill only, excluding cleanup/recovery; not mixed with peer HSET/SADD import timings.
-
-Independent RESTORE seed timings for measured main `44761b91` and PR #244 are retained in each `.fill.json` linked through the [workload inventory](published-main.json).
-
-## Workloads
-
-For positional reads and overwrites, memtier cycles through eight evenly spaced
-entry positions per key. The earlier 64 KiB and 1 MiB conditions use 64
-keys, and the 100 MiB extension uses eight. This Hash/Set retest uses 50,000
-keys at 1 MiB and 500 at 100 MiB. Each operation chooses a key uniformly
-within its condition. Each field value, member, or element is exactly 128 B
-or 1 KiB.
-Stream field names and collection metadata are extra. All seeded entries and
-sample payloads are checked before measurement. Cardinality is checked after
-the write sweep. Set toggle commands can return no-op results when their
-randomly chosen key is already in the target state, so their throughput is the
-combined command rate, not the rate of durable mutations.
-
-Each refreshed Hash/Set main condition is independently seeded and recovered, then runs full reads, point reads and writes. Writes at successive connection levels change accessed field values and physical layout.
-
-## Test configuration
-
-Bulk imports use a Python client on the server host; point-command QPS uses memtier on the separate client host. New import comparisons share pre-encoded operand bytes while preserving RESP commands, connection counts and pipelines. Kvrocks uses 16 workers.
-
-- Server: 172.16.0.4, 16 vCPUs on AMD EPYC 9V74, CPUs 0–15, 100 Gb/s NIC.
-  Redis 8.8.0 and Valkey 9.1.0 use 12 I/O
-  threads, with RDB and AOF disabled. Lavik uses 12 workers, kernel TCP, and
-  six dedicated SPDK NVMe devices. These are different durability settings.
-- List and Sorted Set 100 MiB / 1 KiB samples use the main revisions identified with each figure; other conditions retain early [PR #203](https://github.com/eloqdata/lavik/pull/203)
-  binary `646a7b4e`. The Hash/Set and Stream chapters state their merged-main
-  versions. Measurements from different versions are not joined into one Lavik curve.
-- Kvrocks uses the same cache and compression settings across sizes. The
-  List and Sorted Set 64 KiB and 1 MiB points were retested on 2026-09-27;
-  Hash and Set were freshly filled with this retest's key counts. The saved
-  configuration enables an 80 GiB RocksDB block
-  cache and blob caching; its hot-read QPS therefore includes a large memory
-  cache, unlike Lavik's data-page path.
-- Client: 172.16.0.5, 16 vCPUs on AMD EPYC 9V45, memtier_benchmark 2.5.1,
-  pipeline 1, random key selection, and eight seconds per point. Point
-  operations use 16 client threads and 80/320/1280/2560/5120 connections.
-  Full reads use 16/80 connections for 64 KiB and 1 MiB, and 1/4/16 for
-  100 MiB; the client thread count is capped by the connection count.
-- Each condition is filled from scratch using concurrent RESP clients on
-  disjoint keys. Earlier runs used the default eight; newer provenance records
-  the seed-client count, target payload bytes per seed command, and pipeline.
-  Reads run before writes, and writes preserve approximately the original
-  collection length. The same keys are used at all connection levels within
-  a condition. Fill pipelines are bounded; each run's provenance gives its depth.
-- Logical sizes describe payload bytes only, not Redis memory usage or Lavik
-  disk consumption. The earlier List, Sorted Set, and Stream runs use hot-key
-  counts stated in their sections; Hash and Set use 50,000 or 500 keys.
-- QPS and latency come from memtier's JSON output. The script rejects
-  connection errors, interrupted runs, and server error responses.
+[Redis](raw/redis-set-100m-k500-f1024-20260929/) · [Valkey](raw/valkey-set-100m-k500-f1024-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-100m-k500-f1024-20260929/) · [Lavik (previous measurement) 44761b91](raw/lavik-main44761-hashset-set-104857600-k500-f1024-20261003/)
 
 ## Sorted Set
 
-[Current ZSet measurements by connection count](zset-write-summary.json) · [perf diagnosis, build and test evidence](diagnostics/zset-write-20261003/README.md).
+### ZSCORE
 
+#### 64 KiB/key
 
+128 B/entry · 64 keys · Historical measurement; refresh pending `646a7b4e`
 
-Newly rerun 1 KiB-entry charts compare main `6111d0b1` with the ZSet optimization PR; other supplemental workloads retain their measured historical revisions, identified beside each chart.
+![Sorted Set ZSCORE 64 KiB/key, 128 B, 64 keys](charts/zset-65536-128-k64-zscore-current.png)
 
-### ZSCORE / ZINCRBY
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 646a7b4e](raw/lavik/)
 
-#### 64 KiB per key
+1024 B/entry · 64 keys · Historical measurement; refresh pending `646a7b4e`
 
-![Sorted Set 64 KiB per key, 128 B entries: ZSCORE / ZINCRBY QPS by connection count](charts/zset-65536-128.png)
+![Sorted Set ZSCORE 64 KiB/key, 1024 B, 64 keys](charts/zset-65536-1024-k64-zscore-current.png)
 
-![Sorted Set 64 KiB per key, 1 KiB entries: ZSCORE / ZINCRBY QPS by connection count](charts/zset-65536-1024.png)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 646a7b4e](raw/lavik/)
 
-#### 1 MiB per key
+#### 1 MiB/key
 
-![Sorted Set 1 MiB per key, 128 B entries: ZSCORE / ZINCRBY QPS by connection count](charts/zset-1048576-128.png)
+128 B/entry · 64 keys · Historical measurement; refresh pending `646a7b4e`
 
-![Sorted Set 1 MiB per key, 1 KiB entries: ZSCORE / ZINCRBY QPS by connection count](charts/zset-1048576-1024-ab.png)
+![Sorted Set ZSCORE 1 MiB/key, 128 B, 64 keys](charts/zset-1048576-128-k64-zscore-current.png)
 
-**ZSet: measured main `6111d0b1` and [PR #246](https://github.com/eloqdata/lavik/pull/246) `c9519328`, with Redis, Valkey, Kvrocks and other unmerged optimization PRs.** 64 keys × 1 MiB/key; 1 KiB/entry. Each version independently seeds fresh media on the same host; every-key checks pass before/after, with zero errors at all points. [Main raw](raw/lavik-zset-main6111d0b1-k64-1048576-f1024-20261003/) · [PR raw](raw/lavik-zset-prc9519328-k64-1048576-f1024-20261003/).
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 646a7b4e](raw/lavik/)
 
-#### 100 MiB per key
+1024 B/entry · 64 keys · Historical measurement; refresh pending `6111d0b1`
 
-![Sorted Set 100 MiB per key, 128 B entries: ZSCORE / ZINCRBY QPS by connection count](charts/zset-104857600-128.png)
+![Sorted Set ZSCORE 1 MiB/key, 1024 B, 64 keys](charts/zset-1048576-1024-k64-zscore-current.png)
 
-![Sorted Set 100 MiB per key, 1 KiB entries: ZSCORE / ZINCRBY QPS by connection count](charts/zset-104857600-1024-ab.png)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 6111d0b1](raw/lavik-zset-main6111d0b1-k64-1048576-f1024-20261003/)
 
-**ZSet: measured main `6111d0b1` and [PR #246](https://github.com/eloqdata/lavik/pull/246) `c9519328`, with Redis, Valkey, Kvrocks and other unmerged optimization PRs.** 8 keys × 100 MiB/key; 1 KiB/entry. Each version independently seeds fresh media on the same host; every-key checks pass before/after, with zero errors at all points.The #244 curve retains its measured older base `44761b91`; its differences do not establish gains over the new main. [Main raw](raw/lavik-zset-main6111d0b1-k8-104857600-f1024-20261003/) · [PR raw](raw/lavik-zset-prc9519328-k8-104857600-f1024-20261003/).
+#### 100 MiB/key
 
+128 B/entry · 8 keys · Historical measurement; refresh pending `646a7b4e`
 
-### ZRANGE WITHSCORES
+![Sorted Set ZSCORE 100 MiB/key, 128 B, 8 keys](charts/zset-104857600-128-k8-zscore-current.png)
 
-#### 64 KiB per key
+[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik (previous measurement) 646a7b4e](raw/lavik-100m/)
 
-![Sorted Set 64 KiB per key, 128 B entries: ZRANGE WITHSCORES QPS by connection count](charts/zset-65536-128-full.png)
+1024 B/entry · 8 keys · Historical measurement; refresh pending `6111d0b1`
 
-![Sorted Set 64 KiB per key, 1 KiB entries: ZRANGE WITHSCORES QPS by connection count](charts/zset-65536-1024-full.png)
+![Sorted Set ZSCORE 100 MiB/key, 1024 B, 8 keys](charts/zset-104857600-1024-k8-zscore-current.png)
 
-#### 1 MiB per key
+[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik (previous measurement) 6111d0b1](raw/lavik-zset-main6111d0b1-k8-104857600-f1024-20261003/)
 
-![Sorted Set 1 MiB per key, 128 B entries: ZRANGE WITHSCORES QPS by connection count](charts/zset-1048576-128-full.png)
+### ZINCRBY
 
-![Sorted Set 1 MiB per key, 1 KiB entries: ZRANGE WITHSCORES QPS by connection count](charts/zset-1048576-1024-ab-full.png)
+#### 64 KiB/key
 
-**ZSet: measured main `6111d0b1` and [PR #246](https://github.com/eloqdata/lavik/pull/246) `c9519328`, with Redis, Valkey, Kvrocks and other unmerged optimization PRs.** 64 keys × 1 MiB/key; 1 KiB/entry. Each version independently seeds fresh media on the same host; every-key checks pass before/after, with zero errors at all points. [Main raw](raw/lavik-zset-main6111d0b1-k64-1048576-f1024-20261003/) · [PR raw](raw/lavik-zset-prc9519328-k64-1048576-f1024-20261003/).
+128 B/entry · 64 keys · Historical measurement; refresh pending `646a7b4e`
 
-#### 100 MiB per key
+![Sorted Set ZINCRBY 64 KiB/key, 128 B, 64 keys](charts/zset-65536-128-k64-zincrby-current.png)
 
-![Sorted Set 100 MiB per key, 128 B entries: ZRANGE WITHSCORES QPS by connection count](charts/zset-104857600-128-full.png)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 646a7b4e](raw/lavik/)
 
-![Sorted Set 100 MiB per key, 1 KiB entries: ZRANGE WITHSCORES QPS by connection count](charts/zset-104857600-1024-ab-full.png)
+1024 B/entry · 64 keys · Historical measurement; refresh pending `646a7b4e`
 
-**ZSet: measured main `6111d0b1` and [PR #246](https://github.com/eloqdata/lavik/pull/246) `c9519328`, with Redis, Valkey, Kvrocks and other unmerged optimization PRs.** 8 keys × 100 MiB/key; 1 KiB/entry. Each version independently seeds fresh media on the same host; every-key checks pass before/after, with zero errors at all points.The #244 curve retains its measured older base `44761b91`; its differences do not establish gains over the new main. [Main raw](raw/lavik-zset-main6111d0b1-k8-104857600-f1024-20261003/) · [PR raw](raw/lavik-zset-prc9519328-k8-104857600-f1024-20261003/).
+![Sorted Set ZINCRBY 64 KiB/key, 1024 B, 64 keys](charts/zset-65536-1024-k64-zincrby-current.png)
 
-## Measurement limits
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 646a7b4e](raw/lavik/)
 
-Each point is one eight-second run, without a repeated-run confidence interval. Redis/Valkey have persistence disabled; Kvrocks has WAL disabled with an 80 GiB block cache; Lavik commits to SPDK. Write rates do not compare equivalent durability. Some 100 MiB full-read points completed fewer than 100 replies, so small differences are fragile.
+#### 1 MiB/key
 
-The [HGETALL memory investigation](diagnostics/hgetall-oom-20260929/README.md) and [HSET write diagnostic](diagnostics/hset-20260929/README.md) retain the analysis. Earlier Hash/Set samples remain under `raw/` and are not presented as current-main values.
+128 B/entry · 64 keys · Historical measurement; refresh pending `646a7b4e`
+
+![Sorted Set ZINCRBY 1 MiB/key, 128 B, 64 keys](charts/zset-1048576-128-k64-zincrby-current.png)
+
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 646a7b4e](raw/lavik/)
+
+1024 B/entry · 64 keys · Historical measurement; refresh pending `6111d0b1`
+
+![Sorted Set ZINCRBY 1 MiB/key, 1024 B, 64 keys](charts/zset-1048576-1024-k64-zincrby-current.png)
+
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 6111d0b1](raw/lavik-zset-main6111d0b1-k64-1048576-f1024-20261003/)
+
+#### 100 MiB/key
+
+128 B/entry · 8 keys · Historical measurement; refresh pending `646a7b4e`
+
+![Sorted Set ZINCRBY 100 MiB/key, 128 B, 8 keys](charts/zset-104857600-128-k8-zincrby-current.png)
+
+[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik (previous measurement) 646a7b4e](raw/lavik-100m/)
+
+1024 B/entry · 8 keys · Historical measurement; refresh pending `6111d0b1`
+
+![Sorted Set ZINCRBY 100 MiB/key, 1024 B, 8 keys](charts/zset-104857600-1024-k8-zincrby-current.png)
+
+[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik (previous measurement) 6111d0b1](raw/lavik-zset-main6111d0b1-k8-104857600-f1024-20261003/)
+
+### ZRANGE 0 -1 WITHSCORES
+
+#### 64 KiB/key
+
+128 B/entry · 64 keys · Historical measurement; refresh pending `646a7b4e`
+
+![Sorted Set ZRANGE 64 KiB/key, 128 B, 64 keys](charts/zset-65536-128-k64-zrange-current.png)
+
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 646a7b4e](raw/lavik/)
+
+1024 B/entry · 64 keys · Historical measurement; refresh pending `646a7b4e`
+
+![Sorted Set ZRANGE 64 KiB/key, 1024 B, 64 keys](charts/zset-65536-1024-k64-zrange-current.png)
+
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 646a7b4e](raw/lavik/)
+
+#### 1 MiB/key
+
+128 B/entry · 64 keys · Historical measurement; refresh pending `646a7b4e`
+
+![Sorted Set ZRANGE 1 MiB/key, 128 B, 64 keys](charts/zset-1048576-128-k64-zrange-current.png)
+
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 646a7b4e](raw/lavik/)
+
+1024 B/entry · 64 keys · Historical measurement; refresh pending `6111d0b1`
+
+![Sorted Set ZRANGE 1 MiB/key, 1024 B, 64 keys](charts/zset-1048576-1024-k64-zrange-current.png)
+
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 6111d0b1](raw/lavik-zset-main6111d0b1-k64-1048576-f1024-20261003/)
+
+#### 100 MiB/key
+
+128 B/entry · 8 keys · Historical measurement; refresh pending `646a7b4e`
+
+![Sorted Set ZRANGE 100 MiB/key, 128 B, 8 keys](charts/zset-104857600-128-k8-zrange-current.png)
+
+[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik (previous measurement) 646a7b4e](raw/lavik-100m/)
+
+1024 B/entry · 8 keys · Historical measurement; refresh pending `6111d0b1`
+
+![Sorted Set ZRANGE 100 MiB/key, 1024 B, 8 keys](charts/zset-104857600-1024-k8-zrange-current.png)
+
+[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik (previous measurement) 6111d0b1](raw/lavik-zset-main6111d0b1-k8-104857600-f1024-20261003/)
 
 ## Stream
 
-[Current Stream measurements by connection count](stream-write-summary.json) · [perf, build and test evidence](diagnostics/stream-write-20261003/README.md).
+### XRANGE (one ID)
 
+#### 64 KiB/key
 
-New 1 MiB/100 MiB, 1 KiB-entry charts use main `6111d0b1` and PR #247; remaining supplements retain their measured historical revisions.
+128 B/entry · 64 keys · Historical measurement; refresh pending `9acd7b6f`
 
-Point reads and writes cover 80–5120 connections. Full reads use 16/80 for the smaller sizes and 1/4/16 for 100 MiB. Redis and Valkey have persistence disabled; Kvrocks has WAL disabled with an 80 GiB block cache; Lavik commits to SPDK. Write QPS reflects these configurations.
+![Stream XRANGE 64 KiB/key, 128 B, 64 keys](charts/stream-65536-128-k64-xrange-current.png)
 
-[Small and historical 100 MiB points](stream-latest.csv), [current 100 MiB points](stream-104857600-1024-current.csv), and [current plot provenance](ordered-published.json); Lavik [small](raw/lavik-main9acd-stream-small-20260929/) and [100 MiB](raw/lavik-ordered-pipeline-main-stream-100m-k8-f1024-20261001/) raw runs retain the evidence. Each point is one eight-second run. Older optimization-stage samples remain under `raw/` and are not plotted.
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 9acd7b6f](raw/lavik-main9acd-stream-small-20260929/)
 
-### Exact-ID `XRANGE`
+1024 B/entry · 64 keys · Historical measurement; refresh pending `9acd7b6f`
 
-#### 64 KiB per key
+![Stream XRANGE 64 KiB/key, 1024 B, 64 keys](charts/stream-65536-1024-k64-xrange-current.png)
 
-![64 KiB per key, 128 B entries: Exact-ID `XRANGE` QPS by connection count](charts/stream-65536-128-xrange-latest.png)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 9acd7b6f](raw/lavik-main9acd-stream-small-20260929/)
 
-![64 KiB per key, 1 KiB entries: Exact-ID `XRANGE` QPS by connection count](charts/stream-65536-1024-xrange-latest.png)
+#### 1 MiB/key
 
-#### 1 MiB per key
+128 B/entry · 64 keys · Historical measurement; refresh pending `9acd7b6f`
 
-![1 MiB per key, 128 B entries: Exact-ID `XRANGE` QPS by connection count](charts/stream-1048576-128-xrange-latest.png)
+![Stream XRANGE 1 MiB/key, 128 B, 64 keys](charts/stream-1048576-128-k64-xrange-current.png)
 
-![1 MiB per key, 1 KiB entries: Exact-ID `XRANGE` QPS by connection count](charts/stream-1048576-1024-xrange-latest.png)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 9acd7b6f](raw/lavik-main9acd-stream-small-20260929/)
 
-**Measured Stream: main `6111d0b1` / [PR #247](https://github.com/eloqdata/lavik/pull/247) `6562e3b8`.** 64 keys × 1 MiB/key; 1 KiB/entry. Independent fresh-media seed, every-key validation before/after, zero errors at all points. [Main raw](raw/lavik-stream-main6111-writepaths-1m-k64-f1024-20261003/). [PR raw](raw/lavik-stream-pr6562e3b8-writepaths-1048576-k64-f1024-20261003/).
+1024 B/entry · 64 keys · Historical measurement; refresh pending `6111d0b1`
 
-#### 100 MiB per key
+![Stream XRANGE 1 MiB/key, 1024 B, 64 keys](charts/stream-1048576-1024-k64-xrange-current.png)
 
-![100 MiB per key, 1 KiB entries: Exact-ID `XRANGE` QPS by connection count](charts/stream-104857600-1024-xrange-latest.png)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 6111d0b1](raw/lavik-stream-main6111-writepaths-1m-k64-f1024-20261003/)
 
-**Measured Stream: main `6111d0b1` / [PR #247](https://github.com/eloqdata/lavik/pull/247) `6562e3b8`.** 8 keys × 100 MiB/key; 1 KiB/entry. Independent fresh-media seed, every-key validation before/after, zero errors at all points. [Main raw](raw/lavik-stream-main6111-writepaths-100m-k8-f1024-20261003/). [PR raw](raw/lavik-stream-pr6562e3b8-writepaths-104857600-k8-f1024-20261003/).The #244 curve retains its measured older base `44761b91`; it does not establish gains over the new main.
+#### 100 MiB/key
 
-### `XADD MAXLEN`
+128 B/entry · 8 keys · Historical measurement; refresh pending `646a7b4e`
 
-#### 64 KiB per key
+![Stream XRANGE 100 MiB/key, 128 B, 8 keys](charts/stream-104857600-128-k8-xrange-current.png)
 
-![64 KiB per key, 128 B entries: `XADD MAXLEN` QPS by connection count](charts/stream-65536-128-xadd_maxlen-latest.png)
+[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik (previous measurement) 646a7b4e](raw/lavik-100m/)
 
-![64 KiB per key, 1 KiB entries: `XADD MAXLEN` QPS by connection count](charts/stream-65536-1024-xadd_maxlen-latest.png)
+1024 B/entry · 8 keys · Current main `5d7d12ec`
 
-#### 1 MiB per key
+![Stream XRANGE 100 MiB/key, 1024 B, 8 keys](charts/stream-104857600-1024-k8-xrange-current.png)
 
-![1 MiB per key, 128 B entries: `XADD MAXLEN` QPS by connection count](charts/stream-1048576-128-xadd_maxlen-latest.png)
+[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-ordered-stream-104857600-k8-f1024-20261004/)
 
-![1 MiB per key, 1 KiB entries: `XADD MAXLEN` QPS by connection count](charts/stream-1048576-1024-xadd_maxlen-latest.png)
+### XADD MAXLEN ~
 
-**Measured Stream: main `6111d0b1` / [PR #247](https://github.com/eloqdata/lavik/pull/247) `6562e3b8`.** 64 keys × 1 MiB/key; 1 KiB/entry. Independent fresh-media seed, every-key validation before/after, zero errors at all points. [Main raw](raw/lavik-stream-main6111-writepaths-1m-k64-f1024-20261003/). [PR raw](raw/lavik-stream-pr6562e3b8-writepaths-1048576-k64-f1024-20261003/).
+#### 64 KiB/key
 
-#### 100 MiB per key
+128 B/entry · 64 keys · Historical measurement; refresh pending `9acd7b6f`
 
-![100 MiB per key, 1 KiB entries: `XADD MAXLEN` QPS by connection count](charts/stream-104857600-1024-xadd_maxlen-latest.png)
+![Stream XADD_MAXLEN 64 KiB/key, 128 B, 64 keys](charts/stream-65536-128-k64-xadd_maxlen-current.png)
 
-**Measured Stream: main `6111d0b1` / [PR #247](https://github.com/eloqdata/lavik/pull/247) `6562e3b8`.** 8 keys × 100 MiB/key; 1 KiB/entry. Independent fresh-media seed, every-key validation before/after, zero errors at all points. [Main raw](raw/lavik-stream-main6111-writepaths-100m-k8-f1024-20261003/). [PR raw](raw/lavik-stream-pr6562e3b8-writepaths-104857600-k8-f1024-20261003/).The #244 curve retains its measured older base `44761b91`; it does not establish gains over the new main.
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 9acd7b6f](raw/lavik-main9acd-stream-small-20260929/)
 
+1024 B/entry · 64 keys · Historical measurement; refresh pending `9acd7b6f`
 
-### Full `XRANGE - +`
+![Stream XADD_MAXLEN 64 KiB/key, 1024 B, 64 keys](charts/stream-65536-1024-k64-xadd_maxlen-current.png)
 
-#### 64 KiB per key
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 9acd7b6f](raw/lavik-main9acd-stream-small-20260929/)
 
-![64 KiB per key, 128 B entries: Full `XRANGE - +` QPS by connection count](charts/stream-65536-128-xrange_full-latest.png)
+#### 1 MiB/key
 
-![64 KiB per key, 1 KiB entries: Full `XRANGE - +` QPS by connection count](charts/stream-65536-1024-xrange_full-latest.png)
+128 B/entry · 64 keys · Historical measurement; refresh pending `9acd7b6f`
 
-#### 1 MiB per key
+![Stream XADD_MAXLEN 1 MiB/key, 128 B, 64 keys](charts/stream-1048576-128-k64-xadd_maxlen-current.png)
 
-![1 MiB per key, 128 B entries: Full `XRANGE - +` QPS by connection count](charts/stream-1048576-128-xrange_full-latest.png)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 9acd7b6f](raw/lavik-main9acd-stream-small-20260929/)
 
-![1 MiB per key, 1 KiB entries: Full `XRANGE - +` QPS by connection count](charts/stream-1048576-1024-xrange_full-latest.png)
+1024 B/entry · 64 keys · Historical measurement; refresh pending `6111d0b1`
 
-**Measured Stream: main `6111d0b1` / [PR #247](https://github.com/eloqdata/lavik/pull/247) `6562e3b8`.** 64 keys × 1 MiB/key; 1 KiB/entry. Independent fresh-media seed, every-key validation before/after, zero errors at all points. [Main raw](raw/lavik-stream-main6111-writepaths-1m-k64-f1024-20261003/). [PR raw](raw/lavik-stream-pr6562e3b8-writepaths-1048576-k64-f1024-20261003/).
+![Stream XADD_MAXLEN 1 MiB/key, 1024 B, 64 keys](charts/stream-1048576-1024-k64-xadd_maxlen-current.png)
 
-#### 100 MiB per key
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 6111d0b1](raw/lavik-stream-main6111-writepaths-1m-k64-f1024-20261003/)
 
-![100 MiB per key, 1 KiB entries: Full `XRANGE - +` QPS by connection count](charts/stream-104857600-1024-xrange_full-latest.png)
+#### 100 MiB/key
 
-**Measured Stream: main `6111d0b1` / [PR #247](https://github.com/eloqdata/lavik/pull/247) `6562e3b8`.** 8 keys × 100 MiB/key; 1 KiB/entry. Independent fresh-media seed, every-key validation before/after, zero errors at all points. [Main raw](raw/lavik-stream-main6111-writepaths-100m-k8-f1024-20261003/). [PR raw](raw/lavik-stream-pr6562e3b8-writepaths-104857600-k8-f1024-20261003/).The #244 curve retains its measured older base `44761b91`; it does not establish gains over the new main.
+128 B/entry · 8 keys · Historical measurement; refresh pending `646a7b4e`
 
-## Reproduce
+![Stream XADD_MAXLEN 100 MiB/key, 128 B, 8 keys](charts/stream-104857600-128-k8-xadd_maxlen-current.png)
 
-Run from this directory, with an otherwise idle benchmark server and client:
+[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik (previous measurement) 646a7b4e](raw/lavik-100m/)
 
-```bash
-python3 run.py redis
-python3 run.py valkey
-python3 run.py redis --levels 16,80 --mode full
-python3 run.py valkey --levels 16,80 --mode full
-sudo python3 spdk_host.py prepare --discard-scratch
-sudo python3 run.py lavik
-sudo python3 run.py lavik --levels 16,80 --mode full
-sudo python3 run.py lavik --tag backlog64 --types hash --sizes 1048576 \
-  --fields 128 --levels 80,320,2560 --backlog-mb 64
-sudo python3 spdk_host.py restore
-sudo python3 kvrocks_host.py prepare --discard-scratch
-python3 run.py kvrocks --sizes 65536,1048576 --fields 128,1024 --keys 64 \
-  --mode both --levels 80,320,1280,2560,5120 --full-levels 16,80 \
-  --seed-pipeline 64 --seconds 8 --continue-on-error
-sudo python3 kvrocks_host.py restore
-python3 -m venv .venv
-.venv/bin/pip install -r requirements.txt
-.venv/bin/python collect_plot.py
-```
+1024 B/entry · 8 keys · Current main `5d7d12ec`
 
-For the 100 MiB extension, run the four products serially on an idle server.
-The six scratch drives are discarded separately for Lavik SPDK and Kvrocks
-RAID0; both helpers verify their serial numbers and PCI addresses first.
+![Stream XADD_MAXLEN 100 MiB/key, 1024 B, 8 keys](charts/stream-104857600-1024-k8-xadd_maxlen-current.png)
 
-```bash
-large=(--tag 100m --sizes 104857600 --fields 128,1024 --keys 8 \
-  --mode both --levels 80,320,1280,2560,5120 --full-levels 1,4,16 \
-  --seed-pipeline 64 --seconds 8)
-python3 run.py redis "${large[@]}"
-python3 run.py valkey "${large[@]}"
-sudo python3 spdk_host.py prepare --discard-scratch
-sudo python3 run.py lavik "${large[@]}" --continue-on-error
-sudo python3 spdk_host.py restore
-sudo python3 kvrocks_host.py prepare --discard-scratch
-python3 run.py kvrocks "${large[@]}" --continue-on-error
-sudo python3 kvrocks_host.py restore
-.venv/bin/python collect_plot.py
-```
+[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-ordered-stream-104857600-k8-f1024-20261004/)
 
-The SPDK preparation helper verifies the six dedicated controller serial
-numbers and PCI addresses before discarding their scratch datasets. Do not
-prepare devices that contain data to keep. Server commands, binary hashes,
-memtier invocations, fill timings, validation checks, and per-run JSON are
-committed under `raw/`. Console output is retained locally and omitted from
-the branch because the JSON contains the measured data.
+### XRANGE - +
 
-The commands above reproduce the earlier 64/8-key figures. This Hash/Set
-retest fills one collection type, size, and entry length per run. The tag
-matches the raw directory name. For example, Redis Hash at 1 MiB per key,
-50,000 keys, and 128 B per field:
+#### 64 KiB/key
 
-```bash
-python3 run_with_memory_guard.py --minimum-available-gib=20 -- \
-  python3 run.py redis --tag=hash-1m-k50000-f128-20260929 \
-  --types=hash --sizes=1048576 --fields=128 --keys=50000 \
-  --levels=80,320,1280,2560,5120 --full-levels=16,80 \
-  --seconds=8 --mode=both --seed-pipeline=64 --continue-on-error
-```
+128 B/entry · 64 keys · Historical measurement; refresh pending `9acd7b6f`
 
-For 100 MiB use `--sizes=104857600 --keys=500 --full-levels=1,4,16`.
-Run both 128 B and 1 KiB for Hash and Set. Valkey uses the same arguments.
-Run Kvrocks after `kvrocks_host.py prepare --discard-scratch`, then restore
-RAID0. After that, prepare the SPDK devices and run Lavik as root with its
-`--binary`, `--source-commit`, and a `main<first-eight-commit-digits>-` tag
-prefix. Each run's provenance JSON records the exact source revision and
-binary SHA256. Most Lavik conditions use
-`--fill-workers=64 --seed-command-bytes=65536` to seed disjoint keys with fewer
-setup commands. The first Set 1 MiB/1 KiB run used the earlier default of
-eight; Set 1 MiB/128 B still used 16 KiB target batches. Newer provenance
-gives the actual value for each run.
-The new 2026-09-30 1 MiB main/PR comparisons seed with batched HSET/SADD:
-`--fill-workers=8 --seed-pipeline=64 --seed-command-bytes=16384`, without `--seed-dump-path`.
-Each command contains 128 entries at 128 B or 16 entries at 1 KiB, matching the
-recorded peer fills. Main starts on empty benchmark devices; PR uses
-`--reuse-seeded-data --seed-source-tag=<main-tag>` to recover the same keys.
-Every key's cardinality is validated before and after measurements. Import charts
-compare matching commands and batches. The RDB procedure below is only for
-standalone RESTORE measurements and the earlier 100 MiB benchmark preparation.
+![Stream XRANGE_FULL 64 KiB/key, 128 B, 64 keys](charts/stream-65536-128-k64-xrange_full-current.png)
 
-For Lavik's 100 MiB/128 B runs, the [RDB seed generator](make_rdb_seed_dump.py)
-creates one 819,200-entry Hash or Set, which `RESTORE` imports into 500 distinct
-keys. The generator verifies Redis's checksum and recalculates it for Lavik's
-RDB v11 reader. The run records the seed SHA256. Generate the Set seed with:
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 9acd7b6f](raw/lavik-main9acd-stream-small-20260929/)
 
-```bash
-python3 make_rdb_seed_dump.py set 104857600 128 /tmp/lavik-set-100m-f128-generated.dump \
-  --redis-binary=/mnt/dev/peer-bench/redis/v8.8.0/src/src/redis-server
-```
+1024 B/entry · 64 keys · Historical measurement; refresh pending `9acd7b6f`
 
-The Lavik run also uses
-`--fill-workers=8 --seed-dump-path=/tmp/lavik-set-100m-f128-generated.dump`.
-For Hash, change `set` to `hash` and use a separate output file. Formal points
-start after validation of every key's cardinality, one content sample, and
-settled TxCleaner backlog.
+![Stream XRANGE_FULL 64 KiB/key, 1024 B, 64 keys](charts/stream-65536-1024-k64-xrange_full-current.png)
 
-Redraw one condition with:
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 9acd7b6f](raw/lavik-main9acd-stream-small-20260929/)
 
-```bash
-.venv/bin/python plot_set_hash_high_keys.py set 1048576 128 \
-  --main-tag pr222faef28d9-set-1m-k50000-f128-leaf-c64-20260930 \
-  --main-commit faef28d9411fa32ae5f3a39915a6ca2c2b01f191 \
-  --main-sha256 b0c664967357b9c648f066b11ff33febb10540bf941c36b6ac0973690d212b8c
-```
+#### 1 MiB/key
+
+128 B/entry · 64 keys · Historical measurement; refresh pending `9acd7b6f`
+
+![Stream XRANGE_FULL 1 MiB/key, 128 B, 64 keys](charts/stream-1048576-128-k64-xrange_full-current.png)
+
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 9acd7b6f](raw/lavik-main9acd-stream-small-20260929/)
+
+1024 B/entry · 64 keys · Historical measurement; refresh pending `6111d0b1`
+
+![Stream XRANGE_FULL 1 MiB/key, 1024 B, 64 keys](charts/stream-1048576-1024-k64-xrange_full-current.png)
+
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 6111d0b1](raw/lavik-stream-main6111-writepaths-1m-k64-f1024-20261003/)
+
+#### 100 MiB/key
+
+128 B/entry · 8 keys · Historical measurement; refresh pending `646a7b4e`
+
+![Stream XRANGE_FULL 100 MiB/key, 128 B, 8 keys](charts/stream-104857600-128-k8-xrange_full-current.png)
+
+[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik (previous measurement) 646a7b4e](raw/lavik-100m/)
+
+1024 B/entry · 8 keys · Current main `5d7d12ec`
+
+![Stream XRANGE_FULL 100 MiB/key, 1024 B, 8 keys](charts/stream-104857600-1024-k8-xrange_full-current.png)
+
+[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-ordered-stream-104857600-k8-f1024-20261004/)
+
+## Measurement and reproduction
+
+Hash/Set use 50,000 keys at 1 MiB/key and 500 at 100 MiB/key; high-key-count LSET uses the same counts. Other ordered-structure conditions retain the matched 64/8-key peer workloads, explicitly identified in titles. Different key counts are not interchangeable.
+
+Hash/Set use independent RESTORE seeding, transaction cleanup and recovery before measurement. High-key-count LSET seeds with 32 clients, 128 KiB RPUSH batches and pipeline=4. Fill timings remain in raw directories; RESTORE timings are not equated with peer HSET/SADD import timings.
+
+Low-throughput whole-key reads can complete few replies in eight seconds; small differences are not performance conclusions. Failed points remain gaps with annotations, never zeroes or interpolated values.
+
+Historical optimization evidence remains in raw/ and diagnostics/; merged PRs are not shown as separate series.

@@ -1,0 +1,221 @@
+{
+  "build": {
+    "commit": "5d7d12ec064d562955531cfc1fabf1e13d779f02",
+    "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-main-5d7d12ec-20261004",
+    "sha256": "d06f0c4ddcb64fdabac2e50c04679be4919a5418d92bd747581f55713c396229",
+    "source_repo": "/mnt/dev/lavik-main-bench-20261004",
+    "bycorf_commit": "62509c93d40c2480f5046b71454db6cf95801b04",
+    "tests_during_build": false,
+    "source_files_verified": 678,
+    "build": "Release SPDK, GCC, existing benchmark CMake cache"
+  },
+  "cpu": {
+    "lscpu": [
+      {
+        "field": "Architecture:",
+        "data": "x86_64"
+      },
+      {
+        "field": "CPU op-mode(s):",
+        "data": "32-bit, 64-bit"
+      },
+      {
+        "field": "Address sizes:",
+        "data": "48 bits physical, 48 bits virtual"
+      },
+      {
+        "field": "Byte Order:",
+        "data": "Little Endian"
+      },
+      {
+        "field": "CPU(s):",
+        "data": "16"
+      },
+      {
+        "field": "On-line CPU(s) list:",
+        "data": "0-15"
+      },
+      {
+        "field": "Vendor ID:",
+        "data": "AuthenticAMD"
+      },
+      {
+        "field": "Model name:",
+        "data": "AMD EPYC 9V74 80-Core Processor"
+      },
+      {
+        "field": "CPU family:",
+        "data": "25"
+      },
+      {
+        "field": "Model:",
+        "data": "17"
+      },
+      {
+        "field": "Thread(s) per core:",
+        "data": "2"
+      },
+      {
+        "field": "Core(s) per socket:",
+        "data": "8"
+      },
+      {
+        "field": "Socket(s):",
+        "data": "1"
+      },
+      {
+        "field": "Stepping:",
+        "data": "1"
+      },
+      {
+        "field": "BogoMIPS:",
+        "data": "5192.31"
+      },
+      {
+        "field": "Flags:",
+        "data": "fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology tsc_reliable nonstop_tsc cpuid extd_apicid aperfmperf tsc_known_freq pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 movbe popcnt aes xsave avx f16c rdrand hypervisor lahf_lm cmp_legacy svm cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw topoext vmmcall fsgsbase bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves user_shstk avx512_bf16 clzero xsaveerptr rdpru arat npt nrip_save tsc_scale vmcb_clean flushbyasid decodeassists pausefilter pfthreshold v_vmsave_vmload avx512vbmi umip avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid fsrm"
+      },
+      {
+        "field": "Virtualization:",
+        "data": "AMD-V"
+      },
+      {
+        "field": "Hypervisor vendor:",
+        "data": "Microsoft"
+      },
+      {
+        "field": "Virtualization type:",
+        "data": "full"
+      },
+      {
+        "field": "L1d cache:",
+        "data": "256 KiB (8 instances)"
+      },
+      {
+        "field": "L1i cache:",
+        "data": "256 KiB (8 instances)"
+      },
+      {
+        "field": "L2 cache:",
+        "data": "8 MiB (8 instances)"
+      },
+      {
+        "field": "L3 cache:",
+        "data": "32 MiB (1 instance)"
+      },
+      {
+        "field": "NUMA node(s):",
+        "data": "1"
+      },
+      {
+        "field": "NUMA node0 CPU(s):",
+        "data": "0-15"
+      },
+      {
+        "field": "Vulnerability Gather data sampling:",
+        "data": "Not affected"
+      },
+      {
+        "field": "Vulnerability Ghostwrite:",
+        "data": "Not affected"
+      },
+      {
+        "field": "Vulnerability Indirect target selection:",
+        "data": "Not affected"
+      },
+      {
+        "field": "Vulnerability Itlb multihit:",
+        "data": "Not affected"
+      },
+      {
+        "field": "Vulnerability L1tf:",
+        "data": "Not affected"
+      },
+      {
+        "field": "Vulnerability Mds:",
+        "data": "Not affected"
+      },
+      {
+        "field": "Vulnerability Meltdown:",
+        "data": "Not affected"
+      },
+      {
+        "field": "Vulnerability Mmio stale data:",
+        "data": "Not affected"
+      },
+      {
+        "field": "Vulnerability Old microcode:",
+        "data": "Not affected"
+      },
+      {
+        "field": "Vulnerability Reg file data sampling:",
+        "data": "Not affected"
+      },
+      {
+        "field": "Vulnerability Retbleed:",
+        "data": "Not affected"
+      },
+      {
+        "field": "Vulnerability Spec rstack overflow:",
+        "data": "Vulnerable: Safe RET, no microcode"
+      },
+      {
+        "field": "Vulnerability Spec store bypass:",
+        "data": "Vulnerable"
+      },
+      {
+        "field": "Vulnerability Spectre v1:",
+        "data": "Mitigation; usercopy/swapgs barriers and __user pointer sanitization"
+      },
+      {
+        "field": "Vulnerability Spectre v2:",
+        "data": "Mitigation; Retpolines; STIBP disabled; RSB filling; PBRSB-eIBRS Not affected; BHI Not affected"
+      },
+      {
+        "field": "Vulnerability Srbds:",
+        "data": "Not affected"
+      },
+      {
+        "field": "Vulnerability Tsa:",
+        "data": "Vulnerable: No microcode"
+      },
+      {
+        "field": "Vulnerability Tsx async abort:",
+        "data": "Not affected"
+      },
+      {
+        "field": "Vulnerability Vmscape:",
+        "data": "Not affected"
+      }
+    ]
+  },
+  "scratch_preparation": {
+    "time": 1791086445.4137917,
+    "hugepages": "0",
+    "unsafe_noiommu": "N",
+    "devices": {
+      "c08bc35101567ebd0002": "/dev/nvme5n1",
+      "c08bc35101567ebd0001": "/dev/nvme3n1",
+      "c08bc35101567ebd0005": "/dev/nvme1n1",
+      "c08bc35101567ebd0006": "/dev/nvme6n1",
+      "c08bc35101567ebd0003": "/dev/nvme4n1",
+      "c08bc35101567ebd0004": "/dev/nvme2n1"
+    },
+    "pci_allowed": "18a2:00:00.0 a3a1:00:00.0 668e:00:00.0 cc2f:00:00.0 fa20:00:00.0 53c3:00:00.0"
+  },
+  "scratch_restored": {
+    "time": 1791086698.6242213,
+    "devices": {
+      "c08bc35101567ebd0002": "/dev/nvme5n1",
+      "c08bc35101567ebd0001": "/dev/nvme3n1",
+      "c08bc35101567ebd0005": "/dev/nvme1n1",
+      "c08bc35101567ebd0006": "/dev/nvme6n1",
+      "c08bc35101567ebd0003": "/dev/nvme4n1",
+      "c08bc35101567ebd0004": "/dev/nvme2n1"
+    },
+    "hugepages": "0",
+    "unsafe_noiommu": "N"
+  },
+  "peer_measurements": "Historical raw records, not rerun in this round",
+  "no_build_or_tests_during_measurements": true
+}
