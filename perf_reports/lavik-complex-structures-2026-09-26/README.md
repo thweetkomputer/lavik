@@ -2,9 +2,9 @@
 
 [简体中文](README.zh-CN.md)
 
-**2026-10-04: main `5d7d12ec`, including merged #244/#246/#247; 14/28 conditions refreshed.**
+**2026-10-04: main `5d7d12ec`, including merged #244/#246/#247; 15/28 conditions refreshed.**
 
-Batched HSET/SADD import is tracked separately: 0/4 conditions refreshed; pending charts identify their actual historical version.
+Batched HSET/SADD import is tracked separately: 0/4 conditions refreshed. Pending charts identify their actual historical version.
 
 Throughput figures fix the command, payload bytes per key, entry size and key count; axes show connections and QPS. Batched-import figures show seconds to fill a fixed dataset. Keep the current main and subsequent unmerged PRs; peers retain historical measurements of the same workload.
 
@@ -19,6 +19,8 @@ Peers are not rerun this round. Lavik uses AMD EPYC 9V74, 16 vCPUs and 12 servin
 [Hash/Set write profiles](diagnostics/hashset-write-20261004/README.md) · [Ordered metadata optimization and tests](diagnostics/ordered-metadata-20261004/README.md)
 
 Unmerged optimizations: [PR #249](https://github.com/eloqdata/lavik/pull/249)
+
+PR #249 measurements: Stream XADD MAXLEN peaks improve by about 9%–11% in two conditions; RPUSH fill time for 500 keys of 100 MiB falls by about 20.7%. LSET shows no improvement, with its 100 MiB peak 3.3% lower. These are single sweeps and do not reach Kvrocks write throughput. [Comparisons and limitations](diagnostics/ordered-metadata-20261004/README.md).
 
 ## List
 
@@ -522,11 +524,11 @@ SADD + SREM mixes the two commands equally; QPS counts commands, not pairs. Rand
 
 [Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 9acd7b6f](raw/lavik-main9acd-stream-small-20260929/)
 
-1024 B/entry · 64 keys · Historical measurement; refresh pending `9acd7b6f`
+1024 B/entry · 64 keys · Current main `5d7d12ec`
 
 ![Stream XRANGE 64 KiB/key, 1024 B, 64 keys](charts/stream-65536-1024-k64-xrange-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 9acd7b6f](raw/lavik-main9acd-stream-small-20260929/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-ordered-stream-65536-k64-f1024-20261004/)
 
 #### 1 MiB/key
 
@@ -566,11 +568,11 @@ SADD + SREM mixes the two commands equally; QPS counts commands, not pairs. Rand
 
 [Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 9acd7b6f](raw/lavik-main9acd-stream-small-20260929/)
 
-1024 B/entry · 64 keys · Historical measurement; refresh pending `9acd7b6f`
+1024 B/entry · 64 keys · Current main `5d7d12ec`
 
 ![Stream XADD_MAXLEN 64 KiB/key, 1024 B, 64 keys](charts/stream-65536-1024-k64-xadd_maxlen-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 9acd7b6f](raw/lavik-main9acd-stream-small-20260929/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-ordered-stream-65536-k64-f1024-20261004/)
 
 #### 1 MiB/key
 
@@ -610,11 +612,11 @@ SADD + SREM mixes the two commands equally; QPS counts commands, not pairs. Rand
 
 [Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 9acd7b6f](raw/lavik-main9acd-stream-small-20260929/)
 
-1024 B/entry · 64 keys · Historical measurement; refresh pending `9acd7b6f`
+1024 B/entry · 64 keys · Current main `5d7d12ec`
 
 ![Stream XRANGE_FULL 64 KiB/key, 1024 B, 64 keys](charts/stream-65536-1024-k64-xrange_full-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 9acd7b6f](raw/lavik-main9acd-stream-small-20260929/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-ordered-stream-65536-k64-f1024-20261004/)
 
 #### 1 MiB/key
 

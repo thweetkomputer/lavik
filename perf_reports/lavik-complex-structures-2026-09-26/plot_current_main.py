@@ -203,7 +203,10 @@ def readme(manifest, zh):
     lines += [f"**2026-10-04：main `{commit}` 已完成 {done}/{len(rows)} 组复测，包含已合并的 #244、#246、#247。**" if zh else f"**2026-10-04: main `{commit}`, including merged #244/#246/#247; {done}/{len(rows)} conditions refreshed.**", ""]
     imports = json.loads((ROOT / "current-imports.json").read_text())["plots"]
     imported = sum(r["main"].get("fresh", False) for r in imports)
-    lines += [f"批量 HSET/SADD 导入另计：{imported}/{len(imports)} 组已更新；未完成的图注明实际历史版本。" if zh else f"Batched HSET/SADD import is tracked separately: {imported}/{len(imports)} conditions refreshed; pending charts identify their actual historical version.", ""]
+    import_status = f"批量 HSET/SADD 导入另计：{imported}/{len(imports)} 组已更新。" if zh else f"Batched HSET/SADD import is tracked separately: {imported}/{len(imports)} conditions refreshed."
+    if imported != len(imports):
+        import_status += "未完成的图注明实际历史版本。" if zh else " Pending charts identify their actual historical version."
+    lines += [import_status, ""]
     lines += [("吞吐图固定命令、每 key 的 payload 大小、元素大小和 key 数；横轴为连接数，纵轴为 QPS。批量导入图显示完成固定数据量所需的秒数。只保留当前 main 和后续未合并 PR，其他三库保留同负载的历史实测。" if zh else "Throughput figures fix the command, payload bytes per key, entry size and key count; axes show connections and QPS. Batched-import figures show seconds to fill a fixed dataset. Keep the current main and subsequent unmerged PRs; peers retain historical measurements of the same workload."), ""]
     if done != len(rows):
         lines += ["未完成复测的图暂时保留带实际版本号的历史 Lavik 测量，图注明确标记待更新。旧结果没有改名为新 main。" if zh else "Pending conditions retain explicitly labeled historical Lavik measurements. Old observations are not relabeled as the new main.", ""]
@@ -215,6 +218,8 @@ def readme(manifest, zh):
     if active:
         links = " · ".join(f"[PR #{number}]({url})" for number, url in sorted(active.items()))
         lines += [("未合并优化：" if zh else "Unmerged optimizations: ") + links, ""]
+    if 249 in active:
+        lines += ["PR #249 的实测：Stream XADD MAXLEN 两组峰值提高约 9%–11%；100 MiB × 500 key 的 RPUSH 导入耗时减少约 20.7%。LSET 没有测到提升，100 MiB 组峰值低 3.3%。这些是单次扫描结果，仍未达到 Kvrocks 的写入吞吐。[原始比较与限制](diagnostics/ordered-metadata-20261004/README.md)。" if zh else "PR #249 measurements: Stream XADD MAXLEN peaks improve by about 9%–11% in two conditions; RPUSH fill time for 500 keys of 100 MiB falls by about 20.7%. LSET shows no improvement, with its 100 MiB peak 3.3% lower. These are single sweeps and do not reach Kvrocks write throughput. [Comparisons and limitations](diagnostics/ordered-metadata-20261004/README.md).", ""]
     for kind in ["list", "hash", "set", "zset", "stream"]:
         lines += ["## " + NAMES[kind], ""]
         if kind == "set":
