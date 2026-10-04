@@ -2,9 +2,9 @@ from pathlib import Path
 import argparse,json,os,subprocess,time
 W=Path(__file__).parent
 R=Path('/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26')
-p=argparse.ArgumentParser();p.add_argument('kind');p.add_argument('size',type=int);p.add_argument('field',type=int);p.add_argument('keys',type=int);p.add_argument('category',choices=['ordered','lset','hashset']);p.add_argument('--profile',action='store_true');a=p.parse_args()
-v=json.loads((W/'versions.json').read_text())['main']
-tag=f'main{v["commit"][:8]}-{a.category}-{a.kind}-{a.size}-k{a.keys}-f{a.field}-20261004'
+p=argparse.ArgumentParser();p.add_argument('kind');p.add_argument('size',type=int);p.add_argument('field',type=int);p.add_argument('keys',type=int);p.add_argument('category',choices=['ordered','lset','hashset']);p.add_argument('--profile',action='store_true');p.add_argument('--version',default='main');a=p.parse_args()
+v=json.loads((W/'versions.json').read_text())[a.version]
+tag=f'{a.version}{v["commit"][:8]}-{a.category}-{a.kind}-{a.size}-k{a.keys}-f{a.field}-20261004'
 raw=R/'raw'/('lavik-'+tag)
 def run(args):
  with (W/'commands.jsonl').open('a') as f:f.write(json.dumps({'time':time.time(),'argv':args,'cwd':str(R.parents[1])})+'\n')

@@ -2,7 +2,7 @@
 
 [简体中文](README.zh-CN.md)
 
-**2026-10-04: main `a565d603`, including merged #244, #246, #247, #249, #258, #259, #260, #262; 4/28 conditions refreshed.**
+**2026-10-04: main `a565d603`, including merged #244, #246, #247, #249, #258, #259, #260, #262; 5/28 conditions refreshed.**
 
 Batched HSET/SADD import is tracked separately: 0/4 conditions refreshed. Pending charts identify their actual historical version.
 
@@ -38,11 +38,11 @@ Unmerged optimizations: [PR #265](https://github.com/eloqdata/lavik/pull/265)
 
 #### 64 KiB/key
 
-128 B/entry · 64 keys · Historical measurement; refresh pending `5d7d12ec`
+128 B/entry · 64 keys · Measured main baseline `a565d603`
 
 ![List LINDEX 64 KiB/key, 128 B, 64 keys](charts/list-65536-128-k64-lindex-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 5d7d12ec](raw/lavik-main5d7d12ec-ordered-list-65536-k64-f128-20261004/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-list-65536-k64-f128-20261004/)
 
 1024 B/entry · 64 keys · Historical measurement; refresh pending `5d7d12ec`
 
@@ -82,11 +82,11 @@ Unmerged optimizations: [PR #265](https://github.com/eloqdata/lavik/pull/265)
 
 #### 64 KiB/key
 
-128 B/entry · 64 keys · Historical measurement; refresh pending `5d7d12ec`
+128 B/entry · 64 keys · Measured main baseline `a565d603`
 
 ![List LSET 64 KiB/key, 128 B, 64 keys](charts/list-65536-128-k64-lset-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 5d7d12ec](raw/lavik-main5d7d12ec-ordered-list-65536-k64-f128-20261004/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-list-65536-k64-f128-20261004/)
 
 1024 B/entry · 64 keys · Historical measurement; refresh pending `5d7d12ec`
 
@@ -126,11 +126,11 @@ Unmerged optimizations: [PR #265](https://github.com/eloqdata/lavik/pull/265)
 
 #### 64 KiB/key
 
-128 B/entry · 64 keys · Historical measurement; refresh pending `5d7d12ec`
+128 B/entry · 64 keys · Measured main baseline `a565d603`
 
 ![List LRANGE 64 KiB/key, 128 B, 64 keys](charts/list-65536-128-k64-lrange-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 5d7d12ec](raw/lavik-main5d7d12ec-ordered-list-65536-k64-f128-20261004/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-list-65536-k64-f128-20261004/)
 
 1024 B/entry · 64 keys · Historical measurement; refresh pending `5d7d12ec`
 
