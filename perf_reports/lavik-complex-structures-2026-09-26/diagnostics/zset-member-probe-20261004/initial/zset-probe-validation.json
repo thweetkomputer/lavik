@@ -1,0 +1,45 @@
+{
+  "source_commit": "4fe60fee",
+  "base": "a565d603",
+  "configuration": "BUILD_TESTING=ON, LAVIK_ENABLE_TEST_FAULTS=ON",
+  "suite_runs": {
+    "zset-probe-unit": {
+      "tests": 157,
+      "failures": 0,
+      "disabled": 0,
+      "errors": 0,
+      "timestamp": "2026-10-04T16:32:50Z"
+    },
+    "zset-probe-ordered": {
+      "tests": 105,
+      "failures": 1,
+      "disabled": 0,
+      "errors": 0,
+      "timestamp": "2026-10-04T16:32:56Z"
+    },
+    "zset-probe-recovery": {
+      "tests": 27,
+      "failures": 0,
+      "disabled": 0,
+      "errors": 0,
+      "timestamp": "2026-10-04T16:39:03Z"
+    }
+  },
+  "expiry_repetitions": {
+    "expiry-baseline-repro": {
+      "passed": 4,
+      "failed": 1
+    },
+    "expiry-baseline-fixed": {
+      "passed": 5,
+      "failed": 0
+    },
+    "expiry-candidate-fixed": {
+      "passed": 5,
+      "failed": 0
+    }
+  },
+  "unique_passed_tests_after_targeted_revalidation": 288,
+  "existing_opt_in_skips": 1,
+  "notes": "Initial full ordered suite: 103 passed, one existing opt-in skip, one expiry fixture failure. Frozen main reproduced expiry failure 1/5 times. After fixing only that fixture, it passed five times each on frozen main and candidate. Other ordered tests passed in the original run; unit and recovery suites passed. No production code changed during this revalidation."
+}

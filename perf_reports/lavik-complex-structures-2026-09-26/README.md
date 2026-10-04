@@ -28,9 +28,11 @@ This round pins the main revision above. Merged optimizations are no longer sepa
 
 [Hash/Set write profiles](diagnostics/hashset-write-20261004/README.md) · [Ordered metadata optimization and tests](diagnostics/ordered-metadata-20261004/README.md)
 
-Unmerged optimizations: [PR #265](https://github.com/eloqdata/lavik/pull/265)
+Unmerged optimizations: [PR #265](https://github.com/eloqdata/lavik/pull/265) · [PR #266](https://github.com/eloqdata/lavik/pull/266)
 
 [Stream suffix directory reuse: throughput, paired runs, perf and tests](diagnostics/stream-suffix-20261004/README.md)
+
+[ZSet member-leaf reuse: throughput, paired runs, perf and tests](diagnostics/zset-member-probe-20261004/README.md)
 
 ## List
 
@@ -410,7 +412,7 @@ SADD + SREM mixes the two commands equally; QPS counts commands, not pairs. Rand
 
 ![Sorted Set ZSCORE 64 KiB/key, 128 B, 64 keys](charts/zset-65536-128-k64-zscore-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-zset-65536-k64-f128-20261004/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-zset-65536-k64-f128-20261004/) · [Lavik PR #266 a1b24b60](raw/lavik-candidatea1b24b60-ordered-zset-65536-k64-f128-20261004/)
 
 1024 B/entry · 64 keys · Historical measurement; refresh pending `5d7d12ec`
 
@@ -444,7 +446,7 @@ SADD + SREM mixes the two commands equally; QPS counts commands, not pairs. Rand
 
 ![Sorted Set ZSCORE 100 MiB/key, 1024 B, 8 keys](charts/zset-104857600-1024-k8-zscore-current.png)
 
-[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-zset-104857600-k8-f1024-20261004/)
+[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-zset-104857600-k8-f1024-20261004/) · [Lavik PR #266 a1b24b60](raw/lavik-candidatea1b24b60-ordered-zset-104857600-k8-f1024-20261004/)
 
 ### ZINCRBY
 
@@ -454,7 +456,7 @@ SADD + SREM mixes the two commands equally; QPS counts commands, not pairs. Rand
 
 ![Sorted Set ZINCRBY 64 KiB/key, 128 B, 64 keys](charts/zset-65536-128-k64-zincrby-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-zset-65536-k64-f128-20261004/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-zset-65536-k64-f128-20261004/) · [Lavik PR #266 a1b24b60](raw/lavik-candidatea1b24b60-ordered-zset-65536-k64-f128-20261004/)
 
 1024 B/entry · 64 keys · Historical measurement; refresh pending `5d7d12ec`
 
@@ -488,7 +490,7 @@ SADD + SREM mixes the two commands equally; QPS counts commands, not pairs. Rand
 
 ![Sorted Set ZINCRBY 100 MiB/key, 1024 B, 8 keys](charts/zset-104857600-1024-k8-zincrby-current.png)
 
-[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-zset-104857600-k8-f1024-20261004/)
+[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-zset-104857600-k8-f1024-20261004/) · [Lavik PR #266 a1b24b60](raw/lavik-candidatea1b24b60-ordered-zset-104857600-k8-f1024-20261004/)
 
 ### ZRANGE 0 -1 WITHSCORES
 
@@ -498,7 +500,7 @@ SADD + SREM mixes the two commands equally; QPS counts commands, not pairs. Rand
 
 ![Sorted Set ZRANGE 64 KiB/key, 128 B, 64 keys](charts/zset-65536-128-k64-zrange-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-zset-65536-k64-f128-20261004/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-zset-65536-k64-f128-20261004/) · [Lavik PR #266 a1b24b60](raw/lavik-candidatea1b24b60-ordered-zset-65536-k64-f128-20261004/)
 
 1024 B/entry · 64 keys · Historical measurement; refresh pending `5d7d12ec`
 
@@ -532,7 +534,7 @@ SADD + SREM mixes the two commands equally; QPS counts commands, not pairs. Rand
 
 ![Sorted Set ZRANGE 100 MiB/key, 1024 B, 8 keys](charts/zset-104857600-1024-k8-zrange-current.png)
 
-[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-zset-104857600-k8-f1024-20261004/)
+[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-zset-104857600-k8-f1024-20261004/) · [Lavik PR #266 a1b24b60](raw/lavik-candidatea1b24b60-ordered-zset-104857600-k8-f1024-20261004/)
 
 ## Stream
 

@@ -1,0 +1,115 @@
+{
+  "main_tag": "maina565d603-ordered-zset-65536-k64-f128-20261004",
+  "candidate_tag": "candidatea1b24b60-ordered-zset-65536-k64-f128-20261004",
+  "rows": [
+    {
+      "operation": "ZINCRBY",
+      "connections": 80,
+      "main_qps": 68405.42,
+      "candidate_qps": 78150.54,
+      "qps_change_percent": 14.246122602565702,
+      "main_p99_ms": 13.887,
+      "candidate_p99_ms": 11.903
+    },
+    {
+      "operation": "ZINCRBY",
+      "connections": 320,
+      "main_qps": 70798.6,
+      "candidate_qps": 82880.55,
+      "qps_change_percent": 17.065238578163978,
+      "main_p99_ms": 36.863,
+      "candidate_p99_ms": 33.279
+    },
+    {
+      "operation": "ZINCRBY",
+      "connections": 1280,
+      "main_qps": 68862.58,
+      "candidate_qps": 79155.19,
+      "qps_change_percent": 14.946593636195459,
+      "main_p99_ms": 148.479,
+      "candidate_p99_ms": 133.119
+    },
+    {
+      "operation": "ZINCRBY",
+      "connections": 2560,
+      "main_qps": 72104.24,
+      "candidate_qps": 79276.88,
+      "qps_change_percent": 9.947598088545128,
+      "main_p99_ms": 299.007,
+      "candidate_p99_ms": 266.239
+    },
+    {
+      "operation": "ZINCRBY",
+      "connections": 5120,
+      "main_qps": 69984.55,
+      "candidate_qps": 81526.43,
+      "qps_change_percent": 16.492040028834932,
+      "main_p99_ms": 593.919,
+      "candidate_p99_ms": 536.575
+    },
+    {
+      "operation": "ZRANGE",
+      "connections": 16,
+      "main_qps": 31861.14,
+      "candidate_qps": 31886.67,
+      "qps_change_percent": 0.08012895960407551,
+      "main_p99_ms": 0.951,
+      "candidate_p99_ms": 0.943
+    },
+    {
+      "operation": "ZRANGE",
+      "connections": 80,
+      "main_qps": 40684.85,
+      "candidate_qps": 40656.93,
+      "qps_change_percent": -0.06862505330608171,
+      "main_p99_ms": 7.615,
+      "candidate_p99_ms": 9.791
+    },
+    {
+      "operation": "ZSCORE",
+      "connections": 80,
+      "main_qps": 391886.87,
+      "candidate_qps": 401882.63,
+      "qps_change_percent": 2.5506748924759792,
+      "main_p99_ms": 0.399,
+      "candidate_p99_ms": 0.383
+    },
+    {
+      "operation": "ZSCORE",
+      "connections": 320,
+      "main_qps": 506631.76,
+      "candidate_qps": 509252.91,
+      "qps_change_percent": 0.5173678807660842,
+      "main_p99_ms": 1.455,
+      "candidate_p99_ms": 1.495
+    },
+    {
+      "operation": "ZSCORE",
+      "connections": 1280,
+      "main_qps": 436472.38,
+      "candidate_qps": 434831.15,
+      "qps_change_percent": -0.3760215022082236,
+      "main_p99_ms": 12.543,
+      "candidate_p99_ms": 12.095
+    },
+    {
+      "operation": "ZSCORE",
+      "connections": 2560,
+      "main_qps": 407851.87,
+      "candidate_qps": 396544.81,
+      "qps_change_percent": -2.772344773115787,
+      "main_p99_ms": 45.311,
+      "candidate_p99_ms": 46.335
+    },
+    {
+      "operation": "ZSCORE",
+      "connections": 5120,
+      "main_qps": 305258.99,
+      "candidate_qps": 287481.36,
+      "qps_change_percent": -5.823785894069822,
+      "main_p99_ms": 126.463,
+      "candidate_p99_ms": 132.095
+    }
+  ],
+  "limitations": "Single independent connection sweeps, no confidence interval. Perf samples are separate diagnostic runs. Repeat key write points before asserting an improvement."
+}

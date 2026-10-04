@@ -1,0 +1,77 @@
+{
+  "rows": [
+    {
+      "version": "main",
+      "commit": "a565d603523467ed7bbb9ed9227ddd6b18a9ca8c",
+      "profile_tag": "diagnostic-maina565d603-ordered-zset-104857600-k8-f1024-20261004",
+      "profile_task_clock_seconds": 132.8282815,
+      "self_cpu_percent": {
+        "allocator": 1.741444866920152,
+        "siphash": 4.980988593155893,
+        "memmove": 2.821292775665399
+      },
+      "siphash_caller_cpu_percent": {
+        "leaf_loading": 3.650190114068441,
+        "other": 0.19011406844106463,
+        "split_validation": 0.7452471482889734,
+        "routing": 0.39543726235741444
+      },
+      "completed_zincrby_commands_during_metrics_interval": 1137092.0,
+      "io": {
+        "read_operations": {
+          "delta": 221968.0,
+          "per_command": 0.19520672030055616
+        },
+        "write_operations": {
+          "delta": 2099302.0,
+          "per_command": 1.8462024180980958
+        },
+        "read_bytes": {
+          "delta": 21035705344.0,
+          "per_command": 18499.563222676792
+        },
+        "write_bytes": {
+          "delta": 24533602304.0,
+          "per_command": 21575.740840670765
+        }
+      }
+    },
+    {
+      "version": "candidate",
+      "commit": "a1b24b60d887891ec90fdd98fe4c3ee8e3c2ff61",
+      "profile_tag": "diagnostic-candidatea1b24b60-ordered-zset-104857600-k8-f1024-20261004",
+      "profile_task_clock_seconds": 134.06060472,
+      "self_cpu_percent": {
+        "allocator": 1.5747438215792646,
+        "memmove": 2.200120554550934,
+        "siphash": 3.5488245931283906
+      },
+      "siphash_caller_cpu_percent": {
+        "split_validation": 0.9945750452079566,
+        "routing": 0.40687160940325495,
+        "other": 0.15822784810126583,
+        "leaf_loading": 1.9891500904159132
+      },
+      "completed_zincrby_commands_during_metrics_interval": 1217705.0,
+      "io": {
+        "read_operations": {
+          "delta": 201018.0,
+          "per_command": 0.16507939114974482
+        },
+        "write_operations": {
+          "delta": 2224145.0,
+          "per_command": 1.8265055986466345
+        },
+        "read_bytes": {
+          "delta": 22027276288.0,
+          "per_command": 18089.172901482707
+        },
+        "write_bytes": {
+          "delta": 25925660672.0,
+          "per_command": 21290.592279739347
+        }
+      }
+    }
+  ],
+  "limitations": "25-second sampled task-clock includes polling, background and kernel CPU; shares are not latency fractions. Metrics span the separate 30-second diagnostic and include all server storage work; physical read counts are not logical leaf loads. Clean sweeps and independent paired runs are the throughput evidence."
+}
