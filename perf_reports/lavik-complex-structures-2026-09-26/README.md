@@ -4,7 +4,7 @@
 
 **2026-10-04: main `a565d603`, including merged #244, #246, #247, #249, #258, #259, #260, #262; 28/28 conditions refreshed.**
 
-Batched HSET/SADD import is tracked separately: 0/4 conditions refreshed. Pending charts identify their actual historical version.
+Batched HSET/SADD import is tracked separately: 1/4 conditions refreshed. Pending charts identify their actual historical version.
 
 Throughput figures fix the command, payload bytes per key, entry size and key count; axes show connections and QPS. Batched-import figures show seconds to fill a fixed dataset. Keep the current main and subsequent unmerged PRs; peers retain historical measurements of the same workload.
 
@@ -296,11 +296,11 @@ Independent LSET seeding timings: 32 clients, pipeline=4, 128 one-KiB entries pe
 
 50,000 keys; 8 clients, pipeline=64, about 16 KiB entries/command. Per-command RESP encoding matches the historical peer workload; elapsed time includes Python client encoding. This is not RESTORE or a server-only throughput ceiling.
 
-1024 B/entry · Historical measurement; import refresh pending `5d7d12ec`
+1024 B/entry · Measured main baseline `a565d603`
 
 ![HSET batched import, 1024 B](charts/hash-1048576-1024-k50000-fill.png)
 
-[Lavik raw](raw/lavik-main5d7d12ec-import-hash-1048576-k50000-f1024-20261004/)
+[Lavik raw](raw/lavik-maina565d603-import-hash-1048576-k50000-f1024-20261004/)
 
 128 B/entry · Historical measurement; import refresh pending `5d7d12ec`
 
