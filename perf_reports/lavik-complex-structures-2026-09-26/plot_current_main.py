@@ -226,6 +226,12 @@ def readme(manifest, zh):
     if manifest.get("build_proof"):
         proof = manifest["build_proof"]
         lines += [f"[本轮构建与硬件证明]({proof})" if zh else f"[Current build and hardware]({proof})", ""]
+        diagnostic = Path(proof).parent
+        for filename, title in [("README.md", "本轮 perf 分析" if zh else "Current perf analysis"),
+                                ("report-audit.json", "本轮绘图数据核验" if zh else "Current plot-data audit")]:
+            path = diagnostic / filename
+            if (ROOT / path).exists():
+                lines += [f"[{title}]({path})", ""]
     if (ROOT / "diagnostics/main-refresh-20261004/report-audit.json").exists():
         lines += ["[上一轮绘图数据核验](diagnostics/main-refresh-20261004/report-audit.json) · [上一轮核验脚本](diagnostics/main-refresh-20261004/audit-report.py)" if zh else "[Previous-round plot-data audit](diagnostics/main-refresh-20261004/report-audit.json) · [Previous-round audit script](diagnostics/main-refresh-20261004/audit-report.py)", ""]
     lines += ["[Hash/Set 写入 perf 分析](diagnostics/hashset-write-20261004/README.md) · [有序目录优化与测试](diagnostics/ordered-metadata-20261004/README.md)" if zh else "[Hash/Set write profiles](diagnostics/hashset-write-20261004/README.md) · [Ordered metadata optimization and tests](diagnostics/ordered-metadata-20261004/README.md)", ""]

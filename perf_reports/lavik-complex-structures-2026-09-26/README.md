@@ -20,6 +20,10 @@ This round pins the main revision above. Merged optimizations are no longer sepa
 
 [Current build and hardware](diagnostics/main-a565d603-20261004/host-and-build.json)
 
+[Current perf analysis](diagnostics/main-a565d603-20261004/README.md)
+
+[Current plot-data audit](diagnostics/main-a565d603-20261004/report-audit.json)
+
 [Previous-round plot-data audit](diagnostics/main-refresh-20261004/report-audit.json) · [Previous-round audit script](diagnostics/main-refresh-20261004/audit-report.py)
 
 [Hash/Set write profiles](diagnostics/hashset-write-20261004/README.md) · [Ordered metadata optimization and tests](diagnostics/ordered-metadata-20261004/README.md)
