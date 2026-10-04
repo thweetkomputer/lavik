@@ -1,0 +1,49 @@
+{
+  "candidate": {
+    "commit": "4863c98d037a63ef091447e722f677aa1ee348d2",
+    "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-list-window64-4863c98d-20261004",
+    "sha256": "cf6bfc803f20b5f0f613dca4b3c11a0df1649815936207249c2a2da831d09d34",
+    "source_repo": "/mnt/dev/lavik-complex-next-20261004",
+    "bycorf_commit": "62509c93d40c2480f5046b71454db6cf95801b04",
+    "build": "RelWithDebInfo, native, LTO, GCC 13, SPDK, BUILD_TESTING=OFF, LAVIK_ENABLE_TEST_FAULTS=OFF",
+    "build_directory": "/mnt/dev/lavik-complex-next-20261004/build-spdk",
+    "no_build_or_tests_during_measurements": true
+  },
+  "tests": [
+    {
+      "file": "list64-ordered-tests.json",
+      "tests": 107,
+      "failures": 0,
+      "disabled": 0,
+      "skipped": 1,
+      "passed": 106
+    },
+    {
+      "file": "list64-recovery-tests.json",
+      "tests": 28,
+      "failures": 0,
+      "disabled": 0,
+      "skipped": 0,
+      "passed": 28
+    },
+    {
+      "file": "list64-perf-range-tests.json",
+      "tests": 2,
+      "failures": 0,
+      "disabled": 0,
+      "skipped": 0,
+      "passed": 2
+    },
+    {
+      "file": "list64-perf-list-tests.json",
+      "tests": 3,
+      "failures": 0,
+      "disabled": 0,
+      "skipped": 0,
+      "passed": 3
+    }
+  ],
+  "architecture": "Bounded owned reads, full joins and population checks remain unchanged; no architectural claim changes.",
+  "oversized_fixture": "16 x 4 MiB elements at 96 MiB server budget, client quota disabled. Both previous ff9e3655 and candidate pass; coverage of the oversized-page path, not evidence of an old OOM.",
+  "performance_comparison": "Previous ff9e3655 vs candidate; candidate also contains the separately tested cold-recovery repair. No concurrent build, tests or perf during throughput."
+}

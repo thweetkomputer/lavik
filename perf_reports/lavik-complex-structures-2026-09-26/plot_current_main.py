@@ -250,8 +250,10 @@ def readme(manifest, zh):
         lines += ["[List 范围读取：吞吐、内存准入、交替复测与 perf](diagnostics/list-read-window-20261004/README.md)" if zh else "[List range reads: throughput, memory admission, paired runs and perf](diagnostics/list-read-window-20261004/README.md)", ""]
     if (ROOT / "diagnostics/list-reply-reserve-20261004/README.md").exists():
         lines += ["[List 回复空间预留：增量复测、复制热点与当前结果](diagnostics/list-reply-reserve-20261004/README.md)" if zh else "[List reply reservation: incremental repeats, copy hotspots and current results](diagnostics/list-reply-reserve-20261004/README.md)", ""]
+    if (ROOT / "diagnostics/list-byte-window-20261004/README.md").exists():
+        lines += ["[List 字节受限窗口：草稿 PR #269 初步结果与 perf](diagnostics/list-byte-window-20261004/README.md)" if zh else "[List byte-bounded window: draft PR #269 initial results and perf](diagnostics/list-byte-window-20261004/README.md)", ""]
     if (ROOT / "diagnostics/grouped-expiry-recovery-20261004/README.md").exists():
-        lines += ["[满盘过期恢复与 CI 修复（PR #268；性能数据仍使用原始二进制）](diagnostics/grouped-expiry-recovery-20261004/README.md)" if zh else "[Full-device expiration recovery and CI repair (PR #268; performance binaries remain unchanged)](diagnostics/grouped-expiry-recovery-20261004/README.md)", ""]
+        lines += ["[满盘过期恢复与 CI 修复（PR #268；历史观测保留原始二进制）](diagnostics/grouped-expiry-recovery-20261004/README.md)" if zh else "[Full-device expiration recovery and CI repair (PR #268; historical observations retain their original binaries)](diagnostics/grouped-expiry-recovery-20261004/README.md)", ""]
     if 249 in active:
         lines += ["PR #249 的实测：Stream XADD MAXLEN 两组峰值提高约 9%–11%；100 MiB × 500 key 的 RPUSH 导入耗时减少约 20.7%。LSET 没有测到提升，100 MiB 组峰值低 3.3%。这些是单次扫描结果，仍未达到 Kvrocks 的写入吞吐。[原始比较与限制](diagnostics/ordered-metadata-20261004/README.md)。" if zh else "PR #249 measurements: Stream XADD MAXLEN peaks improve by about 9%–11% in two conditions; RPUSH fill time for 500 keys of 100 MiB falls by about 20.7%. LSET shows no improvement, with its 100 MiB peak 3.3% lower. These are single sweeps and do not reach Kvrocks write throughput. [Comparisons and limitations](diagnostics/ordered-metadata-20261004/README.md).", ""]
     failures = []
