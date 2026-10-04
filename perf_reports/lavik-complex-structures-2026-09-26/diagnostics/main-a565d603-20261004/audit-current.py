@@ -1,6 +1,6 @@
 from pathlib import Path
 import csv,importlib.util,json,re,time
-R=Path(__file__).resolve().parents[2]
+R=Path('/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26')
 spec=importlib.util.spec_from_file_location('plot',R/'plot_current_main.py');plot=importlib.util.module_from_spec(spec);spec.loader.exec_module(plot)
 m=json.loads((R/'current-main.json').read_text());observations=0;failures=[]
 for row in m['plots']:
@@ -15,7 +15,7 @@ for row in m['plots']:
    key=v['command'],int(v['connections'])
    if key in data:assert float(v['qps'])==data[key]['qps'] and float(v['p99_ms'])==data[key]['p99_ms'] and not v['error']
    else:
-    assert not v['qps'] and v['error']==errors[key]['error'];failures.append({'condition':plot.key(row),'series':label,'operation':key[0],'connections':key[1]})
+    assert not v['qps'] and v['error']=='\n'.join(line.rstrip() for line in errors[key]['error'].splitlines()).rstrip();failures.append({'condition':plot.key(row),'series':label,'operation':key[0],'connections':key[1]})
  assert expected==len(table);observations+=expected
 for name in ['README.md','README.zh-CN.md']:
  text=(R/name).read_text();images=re.findall(r'!\[[^]]*\]\(([^)]+)\)',text)

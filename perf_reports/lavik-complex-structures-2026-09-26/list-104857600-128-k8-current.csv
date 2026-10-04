@@ -14,11 +14,11 @@ Kvrocks (80 GiB cache),LINDEX,320,668089.07,0.959,
 Kvrocks (80 GiB cache),LINDEX,1280,684900.27,3.871,
 Kvrocks (80 GiB cache),LINDEX,2560,673940.64,6.431,
 Kvrocks (80 GiB cache),LINDEX,5120,586476.89,30.975,
-Lavik (previous measurement) 5d7d12ec,LINDEX,80,303487.6,1.255,
-Lavik (previous measurement) 5d7d12ec,LINDEX,320,320226.25,6.175,
-Lavik (previous measurement) 5d7d12ec,LINDEX,1280,290359.62,17.791,
-Lavik (previous measurement) 5d7d12ec,LINDEX,2560,266882.28,38.911,
-Lavik (previous measurement) 5d7d12ec,LINDEX,5120,245200.46,82.943,
+Lavik main a565d603,LINDEX,80,342926.76,0.695,
+Lavik main a565d603,LINDEX,320,413335.48,3.455,
+Lavik main a565d603,LINDEX,1280,314498.0,16.383,
+Lavik main a565d603,LINDEX,2560,289614.88,36.863,
+Lavik main a565d603,LINDEX,5120,256590.01,93.183,
 Redis,LSET,80,78222.73,1.559,
 Redis,LSET,320,83624.47,6.591,
 Redis,LSET,1280,84162.84,27.263,
@@ -34,11 +34,11 @@ Kvrocks (80 GiB cache),LSET,320,335995.03,1.751,
 Kvrocks (80 GiB cache),LSET,1280,333597.33,6.143,
 Kvrocks (80 GiB cache),LSET,2560,337065.99,15.295,
 Kvrocks (80 GiB cache),LSET,5120,303167.51,51.199,
-Lavik (previous measurement) 5d7d12ec,LSET,80,52597.79,27.007,
-Lavik (previous measurement) 5d7d12ec,LSET,320,49933.63,75.775,
-Lavik (previous measurement) 5d7d12ec,LSET,1280,49257.7,139.263,
-Lavik (previous measurement) 5d7d12ec,LSET,2560,45007.92,299.007,
-Lavik (previous measurement) 5d7d12ec,LSET,5120,43309.52,481.279,
+Lavik main a565d603,LSET,80,43190.22,33.535,
+Lavik main a565d603,LSET,320,47503.41,87.039,
+Lavik main a565d603,LSET,1280,48874.24,137.215,
+Lavik main a565d603,LSET,2560,50287.26,186.367,
+Lavik main a565d603,LSET,5120,48524.25,301.055,
 Redis,LRANGE,1,5.26,198.655,
 Redis,LRANGE,4,14.1,614.399,
 Redis,LRANGE,16,16.47,1908.735,
@@ -48,6 +48,35 @@ Valkey,LRANGE,16,8.37,3129.343,
 Kvrocks (80 GiB cache),LRANGE,1,2.91,382.975,
 Kvrocks (80 GiB cache),LRANGE,4,12.03,391.167,
 Kvrocks (80 GiB cache),LRANGE,16,21.86,1712.127,
-Lavik (previous measurement) 5d7d12ec,LRANGE,1,0.87,1327.103,
-Lavik (previous measurement) 5d7d12ec,LRANGE,4,3.41,1679.359,
-Lavik (previous measurement) 5d7d12ec,LRANGE,16,,,server 172.16.0.4:6379 handle error response: -OOM grouped operation scratch admission
+Lavik main a565d603,LRANGE,1,0.9,1261.567,
+Lavik main a565d603,LRANGE,4,3.43,1474.559,
+Lavik main a565d603,LRANGE,16,,,"server/client error in list-104857600-128-lrange-c16:         33 ops,       8 (avg:       8) ops/sec, 956.15MB/sec (avg: 876.40MB/sec), 1468.13 (avg: 1487.99) msec latency
+[RUN #1 63%,   5 secs] 16 threads  1 conns:          48 ops,      14 (avg:       9) ops/sec, 1.56GB/sec (avg: 1019.83MB/sec), 1379.04 (avg: 1453.94) msec latency
+[RUN #1 75%,   6 secs] 16 threads  1 conns:          60 ops,      11 (avg:       9) ops/sec, 1.24GB/sec (avg: 1.04GB/sec), 1405.33 (avg: 1444.22) msec latency
+server 172.16.0.4:6379 handle error response: -OOM grouped operation scratch admission
+[RUN #1 88%,   7 secs] 16 threads  1 conns:          71 ops,      10 (avg:      10) ops/sec, 1.04GB/sec (avg: 1.04GB/sec), 1274.24 (avg: 1417.89) msec latency
+server 172.16.0.4:6379 handle error response: -OOM grouped operation scratch admission
+server 172.16.0.4:6379 handle error response: -OOM grouped operation scratch admission
+[RUN #1 100%,   8 secs] 16 threads  1 conns:          83 ops,      11 (avg:      10) ops/sec, 1.04GB/sec (avg: 1.04GB/sec), 1224.56 (avg: 1389.94) msec latency
+[RUN #1 107%,   8 secs]  2 threads  1 conns:          97 ops,      11 (avg:      11) ops/sec, 1.04GB/sec (avg: 1.13GB/sec), 1224.56 (avg: 1391.73) msec latency
+[RUN #1 108%,   8 secs]  0 threads  1 conns:          99 ops,      11 (avg:      11) ops/sec, 1.04GB/sec (avg: 1.16GB/sec), 1224.56 (avg: 1390.74) msec latency
+
+
+CPU Utilization Summary
+  Total CPU time:   13.644s  (user 4.911s, sys 8.733s)
+  Wall time:        9.091s
+  Cores used:       1.501   (avg 9.4% across 16 worker threads)
+  Peak utilization: 237.3%
+16        Threads
+1         Connections per thread
+8         Seconds
+
+
+ALL STATS
+============================================================================================================================================
+Type         Ops/sec     Hits/sec   Misses/sec    Avg. Latency     p50 Latency     p95 Latency     p99 Latency   p99.9 Latency       KB/sec
+--------------------------------------------------------------------------------------------------------------------------------------------
+Lranges        11.13         0.00         0.00      1390.78768      1417.21500      1662.97500      1744.89500      1777.66300   1174591.84
+Totals         11.13         0.00         0.00      1390.78768      1417.21500      1662.97500      1744.89500      1777.66300   2349183.68
+Saving JSON output file: /mnt/dev/lavik-complex-20260926-client/lavik-maina565d603-ordered-list-104857600-k8-f128-20261004/list-104857600-128-lrange-c16.json
+Json file closed."

@@ -2,7 +2,7 @@
 
 [English](README.md)
 
-**2026-10-04：main `a565d603` 已完成 10/28 组复测，包含已合并的 #244, #246, #247, #249, #258, #259, #260, #262。**
+**2026-10-04：main `a565d603` 已完成 11/28 组复测，包含已合并的 #244, #246, #247, #249, #258, #259, #260, #262。**
 
 批量 HSET/SADD 导入另计：0/4 组已更新。未完成的图注明实际历史版本。
 
@@ -33,6 +33,12 @@ Redis/Valkey 关闭持久化；Kvrocks 使用无压缩 RAID0、关闭 WAL、80 G
 [Stream 尾部目录复用：吞吐、交替复测、perf 与测试](diagnostics/stream-suffix-20261004/README.md)
 
 [ZSet 成员叶页复用：吞吐、交替复测、perf 与测试](diagnostics/zset-member-probe-20261004/README.md)
+
+本轮失败测点（图中留空，错误请求的吞吐不计为成功 QPS）：
+
+- List LRANGE · 100 MiB/key · 128 B · 16 connections: [recorded failure](raw/lavik-maina565d603-ordered-list-104857600-k8-f128-20261004/list-104857600-128-lrange-c16.error.json).
+
+[100 MiB LRANGE 内存准入分析](diagnostics/main-refresh-20261004/list-lrange-admission.md)
 
 ## List
 
@@ -68,11 +74,11 @@ Redis/Valkey 关闭持久化；Kvrocks 使用无压缩 RAID0、关闭 WAL、80 G
 
 #### 100 MiB/key
 
-128 B/entry · 8 keys · 历史测量，待复测 `5d7d12ec`
+128 B/entry · 8 keys · 本轮 main 基线 `a565d603`
 
 ![List LINDEX 100 MiB/key, 128 B, 8 keys](charts/list-104857600-128-k8-lindex-current.png)
 
-[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik (previous measurement) 5d7d12ec](raw/lavik-main5d7d12ec-ordered-list-104857600-k8-f128-20261004/)
+[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-list-104857600-k8-f128-20261004/)
 
 1024 B/entry · 8 keys · 历史测量，待复测 `5d7d12ec`
 
@@ -112,11 +118,11 @@ Redis/Valkey 关闭持久化；Kvrocks 使用无压缩 RAID0、关闭 WAL、80 G
 
 #### 100 MiB/key
 
-128 B/entry · 8 keys · 历史测量，待复测 `5d7d12ec`
+128 B/entry · 8 keys · 本轮 main 基线 `a565d603`
 
 ![List LSET 100 MiB/key, 128 B, 8 keys](charts/list-104857600-128-k8-lset-current.png)
 
-[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik (previous measurement) 5d7d12ec](raw/lavik-main5d7d12ec-ordered-list-104857600-k8-f128-20261004/)
+[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-list-104857600-k8-f128-20261004/)
 
 1024 B/entry · 500 keys · 历史测量，待复测 `5d7d12ec`
 
@@ -156,11 +162,11 @@ Redis/Valkey 关闭持久化；Kvrocks 使用无压缩 RAID0、关闭 WAL、80 G
 
 #### 100 MiB/key
 
-128 B/entry · 8 keys · 历史测量，待复测 `5d7d12ec`
+128 B/entry · 8 keys · 本轮 main 基线 `a565d603`
 
 ![List LRANGE 100 MiB/key, 128 B, 8 keys](charts/list-104857600-128-k8-lrange-current.png)
 
-[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik (previous measurement) 5d7d12ec](raw/lavik-main5d7d12ec-ordered-list-104857600-k8-f128-20261004/)
+[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-list-104857600-k8-f128-20261004/)
 
 1024 B/entry · 8 keys · 历史测量，待复测 `5d7d12ec`
 

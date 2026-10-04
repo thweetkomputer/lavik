@@ -146,7 +146,10 @@ def draw(row):
                 data = values.get((op, n), {})
                 records.append({"series": label, "command": op, "connections": n,
                                 "qps": data.get("qps", ""), "p99_ms": data.get("p99_ms", ""),
-                                "error": errors.get((op, n), {}).get("error", "")})
+                                # Console tables can contain trailing spaces;
+                                # keep raw diagnostics intact in their JSON.
+                                "error": "\n".join(line.rstrip() for line in
+                                    errors.get((op, n), {}).get("error", "").splitlines()).rstrip()})
         ax.set_xscale("log")
         ax.set_xticks(xs, [f"{n:,}" for n in xs])
         ax.set_xlabel("Connections (log scale)")

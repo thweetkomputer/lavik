@@ -1,4 +1,4 @@
-"""Independent ordered-write diagnosis with explicit worker thread attachment."""
+"""Independent ordered-command diagnosis with explicit worker thread attachment."""
 import importlib.util
 import json
 import os
@@ -34,7 +34,7 @@ def measure(directory, kind, size, field, entries, keys, op, connections, second
                   '-t', str(tid), '-o', str(d / f'cpu-{tid}.perf'), '--', 'sleep', '25'] for tid in workers]
     run.save(d / 'profile-provenance.json', {'source_commit': profile.option('--source-commit'),
              'binary': binary, 'argv_by_tid': dict(zip(map(str, workers), args_list)), 'connections': connections,
-             'time': time.time(), 'note': 'Each worker recorded separately on recovered same-binary ordered-write data; not a throughput-comparison point. No perf recorder shares a worker counter.'})
+             'time': time.time(), 'note': 'Each worker recorded separately on recovered same-binary ordered-collection data; not a throughput-comparison point. No perf recorder shares a worker counter.'})
     profile.metrics(d / 'before.prom')
     processes, logs = [], []
     try:
