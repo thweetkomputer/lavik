@@ -2,7 +2,7 @@
 
 [简体中文](README.zh-CN.md)
 
-**2026-10-04: main `5d7d12ec`, including merged #244/#246/#247; 2/28 conditions refreshed.**
+**2026-10-04: main `5d7d12ec`, including merged #244/#246/#247; 3/28 conditions refreshed.**
 
 Each figure fixes the command, payload bytes per key, entry size and key count. Axes show connections and QPS. Keep the current main and subsequent unmerged PRs; peers retain historical measurements of the same workload.
 
@@ -148,11 +148,11 @@ Peers are not rerun this round. Lavik uses AMD EPYC 9V74, 16 vCPUs and 12 servin
 
 [Redis](raw/redis-hash-1m-k50000-f128-20260929/) · [Valkey](raw/valkey-hash-1m-k50000-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-1m-k50000-f128-20260929/) · [Lavik (previous measurement) 44761b91](raw/lavik-main44761-hashset-hash-1048576-k50000-f128-20261003/)
 
-1024 B/entry · 50,000 keys · Historical measurement; refresh pending `44761b91`
+1024 B/entry · 50,000 keys · Current main `5d7d12ec`
 
 ![Hash HGET 1 MiB/key, 1024 B, 50000 keys](charts/hash-1048576-1024-k50000-hget-current.png)
 
-[Redis](raw/redis-hash-1m-k50000-f1024-20260929/) · [Valkey](raw/valkey-hash-1m-k50000-f1024-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-1m-k50000-f1024-20260929/) · [Lavik (previous measurement) 44761b91](raw/lavik-main44761-hashset-hash-1048576-k50000-f1024-20261003/)
+[Redis](raw/redis-hash-1m-k50000-f1024-20260929/) · [Valkey](raw/valkey-hash-1m-k50000-f1024-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-1m-k50000-f1024-20260929/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-hashset-hash-1048576-k50000-f1024-20261004/)
 
 #### 100 MiB/key
 
@@ -178,11 +178,11 @@ Peers are not rerun this round. Lavik uses AMD EPYC 9V74, 16 vCPUs and 12 servin
 
 [Redis](raw/redis-hash-1m-k50000-f128-20260929/) · [Valkey](raw/valkey-hash-1m-k50000-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-1m-k50000-f128-20260929/) · [Lavik (previous measurement) 44761b91](raw/lavik-main44761-hashset-hash-1048576-k50000-f128-20261003/)
 
-1024 B/entry · 50,000 keys · Historical measurement; refresh pending `44761b91`
+1024 B/entry · 50,000 keys · Current main `5d7d12ec`
 
 ![Hash HSET 1 MiB/key, 1024 B, 50000 keys](charts/hash-1048576-1024-k50000-hset-current.png)
 
-[Redis](raw/redis-hash-1m-k50000-f1024-20260929/) · [Valkey](raw/valkey-hash-1m-k50000-f1024-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-1m-k50000-f1024-20260929/) · [Lavik (previous measurement) 44761b91](raw/lavik-main44761-hashset-hash-1048576-k50000-f1024-20261003/)
+[Redis](raw/redis-hash-1m-k50000-f1024-20260929/) · [Valkey](raw/valkey-hash-1m-k50000-f1024-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-1m-k50000-f1024-20260929/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-hashset-hash-1048576-k50000-f1024-20261004/)
 
 #### 100 MiB/key
 
@@ -208,11 +208,11 @@ Peers are not rerun this round. Lavik uses AMD EPYC 9V74, 16 vCPUs and 12 servin
 
 [Redis](raw/redis-hash-1m-k50000-f128-20260929/) · [Valkey](raw/valkey-hash-1m-k50000-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-1m-k50000-f128-20260929/) · [Lavik (previous measurement) 44761b91](raw/lavik-main44761-hashset-hash-1048576-k50000-f128-20261003/)
 
-1024 B/entry · 50,000 keys · Historical measurement; refresh pending `44761b91`
+1024 B/entry · 50,000 keys · Current main `5d7d12ec`
 
 ![Hash HGETALL 1 MiB/key, 1024 B, 50000 keys](charts/hash-1048576-1024-k50000-hgetall-current.png)
 
-[Redis](raw/redis-hash-1m-k50000-f1024-20260929/) · [Valkey](raw/valkey-hash-1m-k50000-f1024-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-1m-k50000-f1024-20260929/) · [Lavik (previous measurement) 44761b91](raw/lavik-main44761-hashset-hash-1048576-k50000-f1024-20261003/)
+[Redis](raw/redis-hash-1m-k50000-f1024-20260929/) · [Valkey](raw/valkey-hash-1m-k50000-f1024-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-1m-k50000-f1024-20260929/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-hashset-hash-1048576-k50000-f1024-20261004/)
 
 #### 100 MiB/key
 
