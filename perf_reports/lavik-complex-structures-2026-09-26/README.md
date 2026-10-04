@@ -2,7 +2,7 @@
 
 [简体中文](README.zh-CN.md)
 
-**2026-10-04: main `5d7d12ec`, including merged #244/#246/#247; 21/28 conditions refreshed.**
+**2026-10-04: main `5d7d12ec`, including merged #244/#246/#247; 22/28 conditions refreshed.**
 
 Batched HSET/SADD import is tracked separately: 0/4 conditions refreshed. Pending charts identify their actual historical version.
 
@@ -398,11 +398,11 @@ SADD + SREM mixes the two commands equally; QPS counts commands, not pairs. Rand
 
 #### 64 KiB/key
 
-128 B/entry · 64 keys · Historical measurement; refresh pending `646a7b4e`
+128 B/entry · 64 keys · Measured main baseline `5d7d12ec`
 
 ![Sorted Set ZSCORE 64 KiB/key, 128 B, 64 keys](charts/zset-65536-128-k64-zscore-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 646a7b4e](raw/lavik/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-ordered-zset-65536-k64-f128-20261004/)
 
 1024 B/entry · 64 keys · Measured main baseline `5d7d12ec`
 
@@ -442,11 +442,11 @@ SADD + SREM mixes the two commands equally; QPS counts commands, not pairs. Rand
 
 #### 64 KiB/key
 
-128 B/entry · 64 keys · Historical measurement; refresh pending `646a7b4e`
+128 B/entry · 64 keys · Measured main baseline `5d7d12ec`
 
 ![Sorted Set ZINCRBY 64 KiB/key, 128 B, 64 keys](charts/zset-65536-128-k64-zincrby-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 646a7b4e](raw/lavik/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-ordered-zset-65536-k64-f128-20261004/)
 
 1024 B/entry · 64 keys · Measured main baseline `5d7d12ec`
 
@@ -486,11 +486,11 @@ SADD + SREM mixes the two commands equally; QPS counts commands, not pairs. Rand
 
 #### 64 KiB/key
 
-128 B/entry · 64 keys · Historical measurement; refresh pending `646a7b4e`
+128 B/entry · 64 keys · Measured main baseline `5d7d12ec`
 
 ![Sorted Set ZRANGE 64 KiB/key, 128 B, 64 keys](charts/zset-65536-128-k64-zrange-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 646a7b4e](raw/lavik/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-ordered-zset-65536-k64-f128-20261004/)
 
 1024 B/entry · 64 keys · Measured main baseline `5d7d12ec`
 
