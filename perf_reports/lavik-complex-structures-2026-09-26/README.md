@@ -2,7 +2,7 @@
 
 [简体中文](README.zh-CN.md)
 
-**2026-10-04: main `5d7d12ec`, including merged #244/#246/#247; 23/28 conditions refreshed.**
+**2026-10-04: main `5d7d12ec`, including merged #244/#246/#247; 24/28 conditions refreshed.**
 
 Batched HSET/SADD import is tracked separately: 0/4 conditions refreshed. Pending charts identify their actual historical version.
 
@@ -546,11 +546,11 @@ SADD + SREM mixes the two commands equally; QPS counts commands, not pairs. Rand
 
 #### 1 MiB/key
 
-128 B/entry · 64 keys · Historical measurement; refresh pending `9acd7b6f`
+128 B/entry · 64 keys · Measured main baseline `5d7d12ec`
 
 ![Stream XRANGE 1 MiB/key, 128 B, 64 keys](charts/stream-1048576-128-k64-xrange-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 9acd7b6f](raw/lavik-main9acd-stream-small-20260929/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-ordered-stream-1048576-k64-f128-20261004/)
 
 1024 B/entry · 64 keys · Measured main baseline `5d7d12ec`
 
@@ -590,11 +590,11 @@ SADD + SREM mixes the two commands equally; QPS counts commands, not pairs. Rand
 
 #### 1 MiB/key
 
-128 B/entry · 64 keys · Historical measurement; refresh pending `9acd7b6f`
+128 B/entry · 64 keys · Measured main baseline `5d7d12ec`
 
 ![Stream XADD_MAXLEN 1 MiB/key, 128 B, 64 keys](charts/stream-1048576-128-k64-xadd_maxlen-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 9acd7b6f](raw/lavik-main9acd-stream-small-20260929/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-ordered-stream-1048576-k64-f128-20261004/)
 
 1024 B/entry · 64 keys · Measured main baseline `5d7d12ec`
 
@@ -634,11 +634,11 @@ SADD + SREM mixes the two commands equally; QPS counts commands, not pairs. Rand
 
 #### 1 MiB/key
 
-128 B/entry · 64 keys · Historical measurement; refresh pending `9acd7b6f`
+128 B/entry · 64 keys · Measured main baseline `5d7d12ec`
 
 ![Stream XRANGE_FULL 1 MiB/key, 128 B, 64 keys](charts/stream-1048576-128-k64-xrange_full-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 9acd7b6f](raw/lavik-main9acd-stream-small-20260929/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-ordered-stream-1048576-k64-f128-20261004/)
 
 1024 B/entry · 64 keys · Measured main baseline `5d7d12ec`
 
