@@ -3,6 +3,8 @@ import argparse,json,os,subprocess,time
 W=Path(__file__).parent
 R=Path('/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26')
 p=argparse.ArgumentParser();p.add_argument('kind');p.add_argument('size',type=int);p.add_argument('field',type=int);p.add_argument('keys',type=int);p.add_argument('category',choices=['ordered','lset','hashset']);p.add_argument('--profile',action='store_true');p.add_argument('--version',default='main');a=p.parse_args()
+# Capture the next large Sorted Set write hotspot after its clean sweep.
+if (a.version,a.kind,a.size,a.field)==('main','zset',104857600,1024):a.profile=True
 v=json.loads((W/'versions.json').read_text())[a.version]
 tag=f'{a.version}{v["commit"][:8]}-{a.category}-{a.kind}-{a.size}-k{a.keys}-f{a.field}-20261004'
 raw=R/'raw'/('lavik-'+tag)
@@ -28,8 +30,8 @@ try:
  else:
   run(guard+[str(R/'run.py'),*base,'--tag='+tag,'--mode=both','--levels=80,320,1280,2560,5120','--full-levels='+('1,4,16' if a.size==104857600 else '16,80'),'--seconds=8','--continue-on-error'])
  if a.profile:
-  assert a.kind=='stream'
-  run(guard+['/mnt/dev/lavik-write-paths-20261003/profile-stream-allworkers.py',*base,'--tag=diagnostic-'+tag,'--reuse-seeded-data','--seed-source-tag='+tag,'--mode=point','--levels=80','--seconds=30'])
+  assert a.kind in ('stream','zset','list')
+  run(guard+[str(W/'profile-ordered-allworkers.py'),*base,'--tag=diagnostic-'+tag,'--reuse-seeded-data','--seed-source-tag='+tag,'--mode=point','--levels=80','--seconds=30'])
  print('COMPLETE',tag,time.time(),flush=True)
 finally:run(['sudo','-n','python3',str(W/'host.py'),'restore'])
 for source_tag in [tag]+(['seed-'+tag] if a.category=='hashset' else []):
