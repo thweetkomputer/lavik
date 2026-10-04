@@ -2,7 +2,7 @@
 
 [简体中文](README.zh-CN.md)
 
-**2026-10-04: main `a565d603`, including merged #244, #246, #247, #249, #258, #259, #260, #262; 11/28 conditions refreshed.**
+**2026-10-04: main `a565d603`, including merged #244, #246, #247, #249, #258, #259, #260, #262; 12/28 conditions refreshed.**
 
 Batched HSET/SADD import is tracked separately: 0/4 conditions refreshed. Pending charts identify their actual historical version.
 
@@ -62,11 +62,11 @@ Failed observations in this run (gaps in figures; errored requests are not succe
 
 #### 1 MiB/key
 
-128 B/entry · 64 keys · Historical measurement; refresh pending `5d7d12ec`
+128 B/entry · 64 keys · Measured main baseline `a565d603`
 
 ![List LINDEX 1 MiB/key, 128 B, 64 keys](charts/list-1048576-128-k64-lindex-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 5d7d12ec](raw/lavik-main5d7d12ec-ordered-list-1048576-k64-f128-20261004/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-list-1048576-k64-f128-20261004/)
 
 1024 B/entry · 64 keys · Historical measurement; refresh pending `5d7d12ec`
 
@@ -106,11 +106,11 @@ Failed observations in this run (gaps in figures; errored requests are not succe
 
 #### 1 MiB/key
 
-128 B/entry · 64 keys · Historical measurement; refresh pending `5d7d12ec`
+128 B/entry · 64 keys · Measured main baseline `a565d603`
 
 ![List LSET 1 MiB/key, 128 B, 64 keys](charts/list-1048576-128-k64-lset-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 5d7d12ec](raw/lavik-main5d7d12ec-ordered-list-1048576-k64-f128-20261004/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-list-1048576-k64-f128-20261004/)
 
 1024 B/entry · 50,000 keys · Historical measurement; refresh pending `5d7d12ec`
 
@@ -150,11 +150,11 @@ Failed observations in this run (gaps in figures; errored requests are not succe
 
 #### 1 MiB/key
 
-128 B/entry · 64 keys · Historical measurement; refresh pending `5d7d12ec`
+128 B/entry · 64 keys · Measured main baseline `a565d603`
 
 ![List LRANGE 1 MiB/key, 128 B, 64 keys](charts/list-1048576-128-k64-lrange-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 5d7d12ec](raw/lavik-main5d7d12ec-ordered-list-1048576-k64-f128-20261004/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-list-1048576-k64-f128-20261004/)
 
 1024 B/entry · 64 keys · Historical measurement; refresh pending `5d7d12ec`
 
