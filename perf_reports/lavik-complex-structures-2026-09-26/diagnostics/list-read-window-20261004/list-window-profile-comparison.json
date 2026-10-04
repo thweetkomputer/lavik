@@ -1,0 +1,137 @@
+{
+  "rows": [
+    {
+      "version": "main",
+      "commit": "a565d603523467ed7bbb9ed9227ddd6b18a9ca8c",
+      "operation": "LRANGE",
+      "connections": 1,
+      "profile_tag": "diagnostic-full-maina565d603-ordered-list-104857600-k8-f128-20261004",
+      "profile_task_clock_seconds": 22.20201998,
+      "self_cpu_percent": {
+        "worker_run_once": 42.22020018198362,
+        "storage_poll": 30.75523202911738,
+        "memmove": 2.092811646951774,
+        "allocator": 0.272975432211101
+      },
+      "completed_commands_in_metrics_interval": 25.0,
+      "io": {
+        "read_operations": {
+          "delta": 353125.0,
+          "per_command": 14125.0
+        },
+        "write_operations": {
+          "delta": 0.0,
+          "per_command": 0.0
+        },
+        "read_bytes": {
+          "delta": 3107356672.0,
+          "per_command": 124294266.88
+        },
+        "write_bytes": {
+          "delta": 0.0,
+          "per_command": 0.0
+        }
+      }
+    },
+    {
+      "version": "main",
+      "commit": "a565d603523467ed7bbb9ed9227ddd6b18a9ca8c",
+      "operation": "LSET",
+      "connections": 80,
+      "profile_tag": "diagnostic-maina565d603-ordered-list-104857600-k8-f128-20261004",
+      "profile_task_clock_seconds": 138.80807942,
+      "self_cpu_percent": {
+        "worker_run_once": 31.37097947896958,
+        "storage_poll": 12.800174647067385,
+        "allocator": 1.7319167515645466,
+        "memmove": 1.8046863629748218
+      },
+      "completed_commands_in_metrics_interval": 1531323.0,
+      "io": {
+        "read_operations": {
+          "delta": 25427.0,
+          "per_command": 0.016604596156395483
+        },
+        "write_operations": {
+          "delta": 2040373.0,
+          "per_command": 1.3324249684749723
+        },
+        "read_bytes": {
+          "delta": 1271101440.0,
+          "per_command": 830.0674906600372
+        },
+        "write_bytes": {
+          "delta": 19412062208.0,
+          "per_command": 12676.660775029173
+        }
+      }
+    },
+    {
+      "version": "candidate",
+      "commit": "13041873749206f22329d584778d3096c8e1220a",
+      "operation": "LRANGE",
+      "connections": 1,
+      "profile_tag": "diagnostic-full-candidate13041873-ordered-list-104857600-k8-f128-20261004",
+      "profile_task_clock_seconds": 18.56565638,
+      "self_cpu_percent": {
+        "worker_run_once": 20.40261153427639,
+        "storage_poll": 12.513601741022851,
+        "memmove": 12.023939064200217,
+        "allocator": 0.9793253536452666
+      },
+      "completed_commands_in_metrics_interval": 99.0,
+      "io": {
+        "read_operations": {
+          "delta": 1398375.0,
+          "per_command": 14125.0
+        },
+        "write_operations": {
+          "delta": 0.0,
+          "per_command": 0.0
+        },
+        "read_bytes": {
+          "delta": 12304905728.0,
+          "per_command": 124291977.05050506
+        },
+        "write_bytes": {
+          "delta": 0.0,
+          "per_command": 0.0
+        }
+      }
+    },
+    {
+      "version": "candidate",
+      "commit": "13041873749206f22329d584778d3096c8e1220a",
+      "operation": "LSET",
+      "connections": 80,
+      "profile_tag": "diagnostic-candidate13041873-ordered-list-104857600-k8-f128-20261004",
+      "profile_task_clock_seconds": 139.95959456,
+      "self_cpu_percent": {
+        "memmove": 1.7681870669745958,
+        "storage_poll": 12.117494226327944,
+        "worker_run_once": 31.314953810623557,
+        "allocator": 1.8114896073903002
+      },
+      "completed_commands_in_metrics_interval": 1615335.0,
+      "io": {
+        "read_operations": {
+          "delta": 26792.0,
+          "per_command": 0.01658603323768754
+        },
+        "write_operations": {
+          "delta": 2154963.0,
+          "per_command": 1.3340656891604528
+        },
+        "read_bytes": {
+          "delta": 1432614400.0,
+          "per_command": 886.8837733349429
+        },
+        "write_bytes": {
+          "delta": 20485976064.0,
+          "per_command": 12682.184230515652
+        }
+      }
+    }
+  ],
+  "limitations": "Task-clock self CPU includes polling, background and kernel work and is not a latency fraction. Perf spans 25 s; command and I/O counters span the separate 30 s diagnostic. Diagnostic throughput is excluded from clean curves. Physical I/O includes all server work."
+}

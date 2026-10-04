@@ -1,0 +1,148 @@
+{
+  "main_tag": "maina565d603-ordered-list-104857600-k8-f128-20261004",
+  "candidate_tag": "candidate13041873-ordered-list-104857600-k8-f128-20261004",
+  "rows": [
+    {
+      "operation": "LINDEX",
+      "connections": 80,
+      "main_qps": 342926.76,
+      "candidate_qps": 334839.36,
+      "qps_change_percent": -2.3583461378167248,
+      "main_p99_ms": 0.695,
+      "candidate_p99_ms": 0.735
+    },
+    {
+      "operation": "LINDEX",
+      "connections": 320,
+      "main_qps": 413335.48,
+      "candidate_qps": 384772.5,
+      "qps_change_percent": -6.910362497794765,
+      "main_p99_ms": 3.455,
+      "candidate_p99_ms": 4.639
+    },
+    {
+      "operation": "LINDEX",
+      "connections": 1280,
+      "main_qps": 314498.0,
+      "candidate_qps": 321019.45,
+      "qps_change_percent": 2.0736061914543136,
+      "main_p99_ms": 16.383,
+      "candidate_p99_ms": 15.999
+    },
+    {
+      "operation": "LINDEX",
+      "connections": 2560,
+      "main_qps": 289614.88,
+      "candidate_qps": 289288.12,
+      "qps_change_percent": -0.11282569459138969,
+      "main_p99_ms": 36.863,
+      "candidate_p99_ms": 36.863
+    },
+    {
+      "operation": "LINDEX",
+      "connections": 5120,
+      "main_qps": 256590.01,
+      "candidate_qps": 261288.0,
+      "qps_change_percent": 1.830932544879671,
+      "main_p99_ms": 93.183,
+      "candidate_p99_ms": 77.311
+    },
+    {
+      "operation": "LRANGE",
+      "connections": 1,
+      "main_qps": 0.9,
+      "candidate_qps": 3.31,
+      "qps_change_percent": 267.77777777777777,
+      "main_p99_ms": 1261.567,
+      "candidate_p99_ms": 454.655
+    },
+    {
+      "operation": "LRANGE",
+      "connections": 4,
+      "main_qps": 3.43,
+      "candidate_qps": 9.75,
+      "qps_change_percent": 184.25655976676384,
+      "main_p99_ms": 1474.559,
+      "candidate_p99_ms": 692.223
+    },
+    {
+      "operation": "LRANGE",
+      "connections": 16,
+      "main": {
+        "product": "lavik",
+        "type": "list",
+        "logical_bytes": 104857600,
+        "field_bytes": 128,
+        "operation": "LRANGE",
+        "connections": 16,
+        "error": "server/client error in list-104857600-128-lrange-c16:         33 ops,       8 (avg:       8) ops/sec, 956.15MB/sec (avg: 876.40MB/sec), 1468.13 (avg: 1487.99) msec latency\n[RUN #1 63%,   5 secs] 16 threads  1 conns:          48 ops,      14 (avg:       9) ops/sec, 1.56GB/sec (avg: 1019.83MB/sec), 1379.04 (avg: 1453.94) msec latency\n[RUN #1 75%,   6 secs] 16 threads  1 conns:          60 ops,      11 (avg:       9) ops/sec, 1.24GB/sec (avg: 1.04GB/sec), 1405.33 (avg: 1444.22) msec latency\nserver 172.16.0.4:6379 handle error response: -OOM grouped operation scratch admission\n[RUN #1 88%,   7 secs] 16 threads  1 conns:          71 ops,      10 (avg:      10) ops/sec, 1.04GB/sec (avg: 1.04GB/sec), 1274.24 (avg: 1417.89) msec latency\nserver 172.16.0.4:6379 handle error response: -OOM grouped operation scratch admission\nserver 172.16.0.4:6379 handle error response: -OOM grouped operation scratch admission\n[RUN #1 100%,   8 secs] 16 threads  1 conns:          83 ops,      11 (avg:      10) ops/sec, 1.04GB/sec (avg: 1.04GB/sec), 1224.56 (avg: 1389.94) msec latency\n[RUN #1 107%,   8 secs]  2 threads  1 conns:          97 ops,      11 (avg:      11) ops/sec, 1.04GB/sec (avg: 1.13GB/sec), 1224.56 (avg: 1391.73) msec latency\n[RUN #1 108%,   8 secs]  0 threads  1 conns:          99 ops,      11 (avg:      11) ops/sec, 1.04GB/sec (avg: 1.16GB/sec), 1224.56 (avg: 1390.74) msec latency\n\n\nCPU Utilization Summary\n  Total CPU time:   13.644s  (user 4.911s, sys 8.733s)\n  Wall time:        9.091s\n  Cores used:       1.501   (avg 9.4% across 16 worker threads)\n  Peak utilization: 237.3%\n16        Threads\n1         Connections per thread\n8         Seconds\n\n\nALL STATS\n============================================================================================================================================\nType         Ops/sec     Hits/sec   Misses/sec    Avg. Latency     p50 Latency     p95 Latency     p99 Latency   p99.9 Latency       KB/sec \n--------------------------------------------------------------------------------------------------------------------------------------------\nLranges        11.13         0.00         0.00      1390.78768      1417.21500      1662.97500      1744.89500      1777.66300   1174591.84 \nTotals         11.13         0.00         0.00      1390.78768      1417.21500      1662.97500      1744.89500      1777.66300   2349183.68 \nSaving JSON output file: /mnt/dev/lavik-complex-20260926-client/lavik-maina565d603-ordered-list-104857600-k8-f128-20261004/list-104857600-128-lrange-c16.json\nJson file closed.\n",
+        "time": 1791135421.511747
+      },
+      "candidate": {
+        "product": "lavik-candidate13041873-ordered-list-104857600-k8-f128-20261004",
+        "type": "list",
+        "logical_bytes": 104857600,
+        "field_bytes": 128,
+        "entries_per_key": 819200,
+        "keys": 8,
+        "operation": "LRANGE",
+        "connections": 16,
+        "qps": 18.06,
+        "p50_ms": 884.735,
+        "p99_ms": 1409.023,
+        "p999_ms": 1433.599,
+        "requests": 163,
+        "elapsed_seconds": 10.238790057017468,
+        "seconds": 8
+      },
+      "qps_change_percent": null,
+      "note": "An error is not a throughput result; no QPS ratio is defined."
+    },
+    {
+      "operation": "LSET",
+      "connections": 80,
+      "main_qps": 43190.22,
+      "candidate_qps": 47994.97,
+      "qps_change_percent": 11.124624972968423,
+      "main_p99_ms": 33.535,
+      "candidate_p99_ms": 36.607
+    },
+    {
+      "operation": "LSET",
+      "connections": 320,
+      "main_qps": 47503.41,
+      "candidate_qps": 47508.37,
+      "qps_change_percent": 0.01044135568373239,
+      "main_p99_ms": 87.039,
+      "candidate_p99_ms": 97.791
+    },
+    {
+      "operation": "LSET",
+      "connections": 1280,
+      "main_qps": 48874.24,
+      "candidate_qps": 49999.36,
+      "qps_change_percent": 2.30207160254563,
+      "main_p99_ms": 137.215,
+      "candidate_p99_ms": 144.383
+    },
+    {
+      "operation": "LSET",
+      "connections": 2560,
+      "main_qps": 50287.26,
+      "candidate_qps": 50840.25,
+      "qps_change_percent": 1.0996622206101536,
+      "main_p99_ms": 186.367,
+      "candidate_p99_ms": 201.727
+    },
+    {
+      "operation": "LSET",
+      "connections": 5120,
+      "main_qps": 48524.25,
+      "candidate_qps": 46164.92,
+      "qps_change_percent": -4.8621668547169765,
+      "main_p99_ms": 301.055,
+      "candidate_p99_ms": 272.383
+    }
+  ],
+  "limitations": "Single independent connection sweeps, no confidence interval. Perf samples are separate diagnostic runs. Repeat key write points before asserting an improvement."
+}

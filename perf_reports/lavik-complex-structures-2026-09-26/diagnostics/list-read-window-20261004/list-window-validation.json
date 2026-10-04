@@ -1,0 +1,31 @@
+{
+  "commit": "13041873749206f22329d584778d3096c8e1220a",
+  "pr": 267,
+  "tests": [
+    {
+      "file": "list-window-unit.json",
+      "tests": 157,
+      "failures": 0,
+      "disabled": 0,
+      "errors": 0
+    },
+    {
+      "file": "list-window-ordered-final.json",
+      "tests": 106,
+      "failures": 0,
+      "disabled": 0,
+      "errors": 0
+    },
+    {
+      "file": "list-window-recovery.json",
+      "tests": 27,
+      "failures": 0,
+      "disabled": 0,
+      "errors": 0
+    }
+  ],
+  "passed": 289,
+  "skipped": 1,
+  "baseline_reproduction": "New low-memory range test returns OOM using frozen a565d603 main server; candidate passes.",
+  "faults": "Partial batch launch allocation failure and page-read failure both join started reads before returning."
+}

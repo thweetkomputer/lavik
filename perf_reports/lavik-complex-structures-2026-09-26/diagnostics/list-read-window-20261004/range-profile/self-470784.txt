@@ -1,0 +1,22 @@
+# To display the perf.data header info, please use --header/--header-only options.
+#
+#
+# Total Lost Samples: 0
+#
+# Samples: 10  of event 'task-clock'
+# Event count (approx.): 101010100
+#
+# Overhead  Symbol                                                                                                                                                                                                                                                                  IPC   [IPC Coverage]
+# ........  ......................................................................................................................................................................................................................................................................  ....................
+#
+    40.00%  [.] bycorf::Worker::RunOnce(bool)                                                                                                                                                                                                                                       -      -
+    20.00%  [.] lavik::storage::StorageEngine::Impl::ActiveExpiration(lavik::storage::StorageEngine::Impl::ActiveExpiration(lavik::storage::StorageEngine::Impl::WorkerStore*)::_ZN5lavik7storage13StorageEngine4Impl16ActiveExpirationEPNS2_11WorkerStoreE.Frame*) [clone .actor]  -      -
+    10.00%  [k] __do_sys_io_uring_enter                                                                                                                                                                                                                                             -      -
+    10.00%  [k] do_syscall_64                                                                                                                                                                                                                                                       -      -
+    10.00%  [k] srso_alias_safe_ret                                                                                                                                                                                                                                                 -      -
+    10.00%  [k] x64_sys_call                                                                                                                                                                                                                                                        -      -
+
+
+#
+# (Cannot load tips.txt file, please install perf!)
+#

@@ -1,0 +1,205 @@
+{
+  "main": {
+    "commit": "a565d603523467ed7bbb9ed9227ddd6b18a9ca8c",
+    "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-main-a565d603-20261004",
+    "sha256": "0ee497c48f0c5b71866aeaf3a07acf8054f8bdf99eb1ffd2bc5cd952584f349a",
+    "source_repo": "/mnt/dev/lavik-complex-next-20261004",
+    "bycorf_commit": "62509c93d40c2480f5046b71454db6cf95801b04",
+    "build": "RelWithDebInfo, native, LTO, GCC 13, SPDK, BUILD_TESTING=OFF, LAVIK_ENABLE_TEST_FAULTS=OFF",
+    "build_directory": "/mnt/dev/lavik-complex-next-20261004/build-spdk",
+    "no_build_or_tests_during_measurements": true
+  },
+  "candidate": {
+    "commit": "13041873749206f22329d584778d3096c8e1220a",
+    "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-list-read-window-13041873-20261004",
+    "sha256": "f32f70daede971cf1bf8348c5b7774c5b32f802e6b1d22a70b08793bed39600e",
+    "source_repo": "/mnt/dev/lavik-complex-next-20261004",
+    "bycorf_commit": "62509c93d40c2480f5046b71454db6cf95801b04",
+    "build": "RelWithDebInfo, native, LTO, GCC 13, SPDK, BUILD_TESTING=OFF, LAVIK_ENABLE_TEST_FAULTS=OFF",
+    "build_directory": "/mnt/dev/lavik-complex-next-20261004/build-spdk",
+    "no_build_or_tests_during_measurements": true
+  },
+  "method": "Three independent seed pairs ordered A/B, B/A, A/B; 15-second LRANGE points at 1/4/16 connections and LINDEX at 320; errors retained without a QPS ratio; same baseline workload and settings; no concurrent build, tests or perf.",
+  "conditions": [
+    {
+      "operation": "LRANGE",
+      "connections": 1,
+      "pairs": [
+        {
+          "round": 1,
+          "main_status": "success",
+          "main_qps": 0.91,
+          "main_p99_ms": 1228.799,
+          "candidate_status": "success",
+          "candidate_qps": 3.27,
+          "candidate_p99_ms": 452.607,
+          "change_percent": 259.34065934065933
+        },
+        {
+          "round": 2,
+          "main_status": "success",
+          "main_qps": 0.92,
+          "main_p99_ms": 1286.143,
+          "candidate_status": "success",
+          "candidate_qps": 3.37,
+          "candidate_p99_ms": 303.103,
+          "change_percent": 266.30434782608694
+        },
+        {
+          "round": 3,
+          "main_status": "success",
+          "main_qps": 0.9,
+          "main_p99_ms": 1269.759,
+          "candidate_status": "success",
+          "candidate_qps": 3.35,
+          "candidate_p99_ms": 335.871,
+          "change_percent": 272.22222222222223
+        }
+      ],
+      "valid_paired_ratios": 3,
+      "main_failed_runs": 0,
+      "median_main_qps": 0.91,
+      "median_main_p99_ms": 1269.759,
+      "candidate_failed_runs": 0,
+      "median_candidate_qps": 3.35,
+      "median_candidate_p99_ms": 335.871,
+      "median_paired_change_percent": 266.30434782608694,
+      "paired_change_range_percent": [
+        259.34065934065933,
+        272.22222222222223
+      ]
+    },
+    {
+      "operation": "LRANGE",
+      "connections": 4,
+      "pairs": [
+        {
+          "round": 1,
+          "main_status": "success",
+          "main_qps": 3.44,
+          "main_p99_ms": 1376.255,
+          "candidate_status": "success",
+          "candidate_qps": 10.17,
+          "candidate_p99_ms": 659.455,
+          "change_percent": 195.63953488372096
+        },
+        {
+          "round": 2,
+          "main_status": "success",
+          "main_qps": 3.41,
+          "main_p99_ms": 1523.711,
+          "candidate_status": "success",
+          "candidate_qps": 9.54,
+          "candidate_p99_ms": 1245.183,
+          "change_percent": 179.76539589442814
+        },
+        {
+          "round": 3,
+          "main_status": "success",
+          "main_qps": 3.41,
+          "main_p99_ms": 1425.407,
+          "candidate_status": "success",
+          "candidate_qps": 10.07,
+          "candidate_p99_ms": 831.487,
+          "change_percent": 195.30791788856305
+        }
+      ],
+      "valid_paired_ratios": 3,
+      "main_failed_runs": 0,
+      "median_main_qps": 3.41,
+      "median_main_p99_ms": 1425.407,
+      "candidate_failed_runs": 0,
+      "median_candidate_qps": 10.07,
+      "median_candidate_p99_ms": 831.487,
+      "median_paired_change_percent": 195.30791788856305,
+      "paired_change_range_percent": [
+        179.76539589442814,
+        195.63953488372096
+      ]
+    },
+    {
+      "operation": "LRANGE",
+      "connections": 16,
+      "pairs": [
+        {
+          "round": 1,
+          "main_status": "error",
+          "main_error": "server/client error in list-104857600-128-lrange-c16: response: -OOM grouped operation scratch admission\n[RUN #1 67%,  10 secs] 16 threads  1 conns:         110 ops,      11 (avg:      10) ops/sec, 1.04GB/sec (avg: 1.09GB/sec), 1136.88 (avg: 1355.92) msec latency\n[RUN #1 73%,  11 secs] 16 threads  1 conns:         120 ops,       9 (avg:      10) ops/sec, 1.04GB/sec (avg: 1.08GB/sec), 1404.68 (avg: 1359.98) msec latency\n[RUN #1 80%,  12 secs] 16 threads  1 conns:         132 ops,      11 (avg:      10) ops/sec, 1.24GB/sec (avg: 1.10GB/sec), 1357.36 (avg: 1359.74) msec latency\n[RUN #1 87%,  13 secs] 16 threads  1 conns:         145 ops,      12 (avg:      11) ops/sec, 1.35GB/sec (avg: 1.12GB/sec), 1418.79 (avg: 1365.03) msec latency\n[RUN #1 93%,  14 secs] 16 threads  1 conns:         155 ops,       9 (avg:      11) ops/sec, 1.04GB/sec (avg: 1.11GB/sec), 1440.17 (avg: 1369.88) msec latency\n[RUN #1 100%,  15 secs] 16 threads  1 conns:         166 ops,      10 (avg:      11) ops/sec, 1.14GB/sec (avg: 1.11GB/sec), 1424.77 (avg: 1373.52) msec latency\n[RUN #1 104%,  15 secs]  4 threads  1 conns:         178 ops,      10 (avg:      11) ops/sec, 1.14GB/sec (avg: 1.15GB/sec), 1424.77 (avg: 1378.00) msec latency\n[RUN #1 104%,  15 secs]  0 threads  1 conns:         182 ops,      10 (avg:      11) ops/sec, 1.14GB/sec (avg: 1.17GB/sec), 1424.77 (avg: 1377.70) msec latency\n\n\nCPU Utilization Summary\n  Total CPU time:   22.741s  (user 8.910s, sys 13.831s)\n  Wall time:        16.317s\n  Cores used:       1.394   (avg 8.7% across 16 worker threads)\n  Peak utilization: 225.5%\nSaving JSON output file: /mnt/dev/lavik-complex-20260926-client/lavik-maina565d603-list-100m-f128-k8-against13041873-repeat1-20261004/list-104857600-128-lrange-c16.json\nJson file closed.\n16        Threads\n1         Connections per thread\n15        Seconds\n\n\nALL STATS\n============================================================================================================================================\nType         Ops/sec     Hits/sec   Misses/sec    Avg. Latency     p50 Latency     p95 Latency     p99 Latency   p99.9 Latency       KB/sec \n--------------------------------------------------------------------------------------------------------------------------------------------\nLranges        11.95         0.00         0.00      1377.48969      1392.63900      1654.78300      1753.08700      1777.66300   1264561.91 \nTotals         11.95         0.00         0.00      1377.48969      1392.63900      1654.78300      1753.08700      1777.66300   2529123.82 \n",
+          "candidate_status": "success",
+          "candidate_qps": 19.32,
+          "candidate_p99_ms": 1449.983
+        },
+        {
+          "round": 2,
+          "main_status": "error",
+          "main_error": "server/client error in list-104857600-128-lrange-c16:  conns:         105 ops,      10 (avg:      10) ops/sec, 1.04GB/sec (avg: 1.07GB/sec), 1286.99 (avg: 1407.90) msec latency\nserver 172.16.0.4:6379 handle error response: -OOM grouped operation scratch admission\n[RUN #1 73%,  11 secs] 16 threads  1 conns:         119 ops,      13 (avg:      10) ops/sec, 1.35GB/sec (avg: 1.09GB/sec), 1297.37 (avg: 1394.90) msec latency\n[RUN #1 80%,  12 secs] 16 threads  1 conns:         129 ops,       9 (avg:      10) ops/sec, 1.04GB/sec (avg: 1.09GB/sec), 1423.32 (avg: 1397.10) msec latency\n[RUN #1 87%,  13 secs] 16 threads  1 conns:         142 ops,      12 (avg:      10) ops/sec, 1.35GB/sec (avg: 1.11GB/sec), 1395.80 (avg: 1396.98) msec latency\n[RUN #1 93%,  14 secs] 16 threads  1 conns:         152 ops,       9 (avg:      10) ops/sec, 1.04GB/sec (avg: 1.10GB/sec), 1396.26 (avg: 1396.94) msec latency\n[RUN #1 100%,  15 secs] 16 threads  1 conns:         163 ops,      10 (avg:      10) ops/sec, 1.14GB/sec (avg: 1.11GB/sec), 1353.99 (avg: 1394.04) msec latency\n[RUN #1 104%,  15 secs]  4 threads  1 conns:         175 ops,      10 (avg:      11) ops/sec, 1.14GB/sec (avg: 1.14GB/sec), 1353.99 (avg: 1399.94) msec latency\n[RUN #1 105%,  15 secs]  0 threads  1 conns:         179 ops,      10 (avg:      11) ops/sec, 1.14GB/sec (avg: 1.16GB/sec), 1353.99 (avg: 1402.38) msec latency\n\n\nCPU Utilization Summary\n  Total CPU time:   23.434s  (user 8.788s, sys 14.646s)\n  Wall time:        16.504s\n  Cores used:       1.420   (avg 8.9% across 16 worker threads)\n  Peak utilization: 239.4%\n16        Threads\n1         Connections per thread\n15        Seconds\n\n\nALL STATS\n============================================================================================================================================\nType         Ops/sec     Hits/sec   Misses/sec    Avg. Latency     p50 Latency     p95 Latency     p99 Latency   p99.9 Latency       KB/sec \n--------------------------------------------------------------------------------------------------------------------------------------------\nLranges        11.53         0.00         0.00      1402.41334      1425.40700      1638.39900      1753.08700      1941.50300   1233042.18 \nTotals         11.53         0.00         0.00      1402.41334      1425.40700      1638.39900      1753.08700      1941.50300   2466084.37 \nSaving JSON output file: /mnt/dev/lavik-complex-20260926-client/lavik-maina565d603-list-100m-f128-k8-against13041873-repeat2-20261004/list-104857600-128-lrange-c16.json\nJson file closed.\n",
+          "candidate_status": "success",
+          "candidate_qps": 18.55,
+          "candidate_p99_ms": 1507.327
+        },
+        {
+          "round": 3,
+          "main_status": "error",
+          "main_error": "server/client error in list-104857600-128-lrange-c16: 06GB/sec), 1431.07 (avg: 1381.61) msec latency\n[RUN #1 67%,  10 secs] 16 threads  1 conns:         108 ops,      11 (avg:      10) ops/sec, 1.24GB/sec (avg: 1.08GB/sec), 1522.95 (avg: 1397.31) msec latency\n[RUN #1 73%,  11 secs] 16 threads  1 conns:         116 ops,       7 (avg:      10) ops/sec, 849.90MB/sec (avg: 1.06GB/sec), 1412.94 (avg: 1398.39) msec latency\n[RUN #1 80%,  12 secs] 16 threads  1 conns:         127 ops,      10 (avg:      10) ops/sec, 1.14GB/sec (avg: 1.06GB/sec), 1457.29 (avg: 1403.49) msec latency\n[RUN #1 87%,  13 secs] 16 threads  1 conns:         140 ops,      12 (avg:      10) ops/sec, 1.35GB/sec (avg: 1.09GB/sec), 1593.52 (avg: 1421.14) msec latency\n[RUN #1 93%,  14 secs] 16 threads  1 conns:         149 ops,       8 (avg:      10) ops/sec, 956.14MB/sec (avg: 1.07GB/sec), 1389.86 (avg: 1419.25) msec latency\n[RUN #1 100%,  15 secs] 16 threads  1 conns:         160 ops,      10 (avg:      10) ops/sec, 1.14GB/sec (avg: 1.08GB/sec), 1409.21 (avg: 1418.56) msec latency\n[RUN #1 104%,  15 secs]  3 threads  1 conns:         173 ops,      10 (avg:      11) ops/sec, 1.14GB/sec (avg: 1.12GB/sec), 1409.21 (avg: 1420.59) msec latency\n[RUN #1 104%,  15 secs]  0 threads  1 conns:         176 ops,      10 (avg:      11) ops/sec, 1.14GB/sec (avg: 1.14GB/sec), 1409.21 (avg: 1422.86) msec latency\n\n\nCPU Utilization Summary\n  Total CPU time:   24.696s  (user 8.743s, sys 15.952s)\n  Wall time:        16.409s\n  Cores used:       1.505   (avg 9.4% across 16 worker threads)\n  Peak utilization: 230.4%\nSaving JSON output file: /mnt/dev/lavik-complex-20260926-client/lavik-maina565d603-list-100m-f128-k8-against13041873-repeat3-20261004/list-104857600-128-lrange-c16.json\nJson file closed.\n16        Threads\n1         Connections per thread\n15        Seconds\n\n\nALL STATS\n============================================================================================================================================\nType         Ops/sec     Hits/sec   Misses/sec    Avg. Latency     p50 Latency     p95 Latency     p99 Latency   p99.9 Latency       KB/sec \n--------------------------------------------------------------------------------------------------------------------------------------------\nLranges        11.43         0.00         0.00      1422.87891      1425.40700      1671.16700      2039.80700      3538.94300   1214951.08 \nTotals         11.43         0.00         0.00      1422.87891      1425.40700      1671.16700      2039.80700      3538.94300   2429902.16 \n",
+          "candidate_status": "success",
+          "candidate_qps": 18.63,
+          "candidate_p99_ms": 1605.631
+        }
+      ],
+      "valid_paired_ratios": 0,
+      "main_failed_runs": 3,
+      "candidate_failed_runs": 0,
+      "median_candidate_qps": 18.63,
+      "median_candidate_p99_ms": 1507.327
+    },
+    {
+      "operation": "LINDEX",
+      "connections": 320,
+      "pairs": [
+        {
+          "round": 1,
+          "main_status": "success",
+          "main_qps": 355230.9,
+          "main_p99_ms": 5.023,
+          "candidate_status": "success",
+          "candidate_qps": 409720.96,
+          "candidate_p99_ms": 3.455,
+          "change_percent": 15.339335626489703
+        },
+        {
+          "round": 2,
+          "main_status": "success",
+          "main_qps": 370903.69,
+          "main_p99_ms": 5.375,
+          "candidate_status": "success",
+          "candidate_qps": 323527.2,
+          "candidate_p99_ms": 6.559,
+          "change_percent": -12.773259279248473
+        },
+        {
+          "round": 3,
+          "main_status": "success",
+          "main_qps": 313314.01,
+          "main_p99_ms": 6.655,
+          "candidate_status": "success",
+          "candidate_qps": 376732.19,
+          "candidate_p99_ms": 5.375,
+          "change_percent": 20.241092953360116
+        }
+      ],
+      "valid_paired_ratios": 3,
+      "main_failed_runs": 0,
+      "median_main_qps": 355230.9,
+      "median_main_p99_ms": 5.375,
+      "candidate_failed_runs": 0,
+      "median_candidate_qps": 376732.19,
+      "median_candidate_p99_ms": 5.375,
+      "median_paired_change_percent": 15.339335626489703,
+      "paired_change_range_percent": [
+        -12.773259279248473,
+        20.241092953360116
+      ]
+    }
+  ],
+  "limitations": "Three repetitions, not a confidence interval. Failed observations are retained and excluded from QPS ratios. Historical peers are not rerun and use different persistence/cache configurations."
+}

@@ -1,0 +1,115 @@
+{
+  "main_tag": "maina565d603-ordered-list-65536-k64-f1024-20261004",
+  "candidate_tag": "candidate13041873-ordered-list-65536-k64-f1024-20261004",
+  "rows": [
+    {
+      "operation": "LINDEX",
+      "connections": 80,
+      "main_qps": 522536.12,
+      "candidate_qps": 534331.06,
+      "qps_change_percent": 2.2572487429194377,
+      "main_p99_ms": 0.287,
+      "candidate_p99_ms": 0.279
+    },
+    {
+      "operation": "LINDEX",
+      "connections": 320,
+      "main_qps": 771657.72,
+      "candidate_qps": 773901.93,
+      "qps_change_percent": 0.29082972175800137,
+      "main_p99_ms": 1.015,
+      "candidate_p99_ms": 1.071
+    },
+    {
+      "operation": "LINDEX",
+      "connections": 1280,
+      "main_qps": 778902.41,
+      "candidate_qps": 792324.82,
+      "qps_change_percent": 1.7232466901726307,
+      "main_p99_ms": 4.319,
+      "candidate_p99_ms": 4.351
+    },
+    {
+      "operation": "LINDEX",
+      "connections": 2560,
+      "main_qps": 639348.95,
+      "candidate_qps": 663213.38,
+      "qps_change_percent": 3.7326142476655333,
+      "main_p99_ms": 15.359,
+      "candidate_p99_ms": 16.511
+    },
+    {
+      "operation": "LINDEX",
+      "connections": 5120,
+      "main_qps": 411838.97,
+      "candidate_qps": 467901.03,
+      "qps_change_percent": 13.61261660109534,
+      "main_p99_ms": 94.719,
+      "candidate_p99_ms": 92.671
+    },
+    {
+      "operation": "LRANGE",
+      "connections": 16,
+      "main_qps": 45652.35,
+      "candidate_qps": 45633.37,
+      "qps_change_percent": -0.04157507773421276,
+      "main_p99_ms": 2.831,
+      "candidate_p99_ms": 2.927
+    },
+    {
+      "operation": "LRANGE",
+      "connections": 80,
+      "main_qps": 45631.56,
+      "candidate_qps": 45661.91,
+      "qps_change_percent": 0.06651098494112606,
+      "main_p99_ms": 7.519,
+      "candidate_p99_ms": 7.487
+    },
+    {
+      "operation": "LSET",
+      "connections": 80,
+      "main_qps": 157907.85,
+      "candidate_qps": 167073.7,
+      "qps_change_percent": 5.804556264935523,
+      "main_p99_ms": 6.943,
+      "candidate_p99_ms": 5.759
+    },
+    {
+      "operation": "LSET",
+      "connections": 320,
+      "main_qps": 161400.54,
+      "candidate_qps": 154604.07,
+      "qps_change_percent": -4.210933866764011,
+      "main_p99_ms": 24.703,
+      "candidate_p99_ms": 25.471
+    },
+    {
+      "operation": "LSET",
+      "connections": 1280,
+      "main_qps": 157217.26,
+      "candidate_qps": 165713.55,
+      "qps_change_percent": 5.404171272289049,
+      "main_p99_ms": 59.903,
+      "candidate_p99_ms": 54.015
+    },
+    {
+      "operation": "LSET",
+      "connections": 2560,
+      "main_qps": 152787.48,
+      "candidate_qps": 156363.2,
+      "qps_change_percent": 2.340322649473636,
+      "main_p99_ms": 110.591,
+      "candidate_p99_ms": 110.591
+    },
+    {
+      "operation": "LSET",
+      "connections": 5120,
+      "main_qps": 142823.92,
+      "candidate_qps": 152355.33,
+      "qps_change_percent": 6.6735389982294,
+      "main_p99_ms": 193.535,
+      "candidate_p99_ms": 244.735
+    }
+  ],
+  "limitations": "Single independent connection sweeps, no confidence interval. Perf samples are separate diagnostic runs. Repeat key write points before asserting an improvement."
+}
