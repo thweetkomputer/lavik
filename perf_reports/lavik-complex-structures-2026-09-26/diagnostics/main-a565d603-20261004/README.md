@@ -20,3 +20,27 @@ retain the measurement evidence. These hotspots motivate incremental validation
 and index updates around Stream message insertion, which precedes trailing
 node/group metadata. Candidate results are reported separately with correctness
 checks and clean comparative runs.
+
+## Large Sorted Set writes
+
+The 100 MiB/key, 1 KiB-member, 8-key ZINCRBY diagnostic uses the same all-worker
+method at 80 connections after its clean sweep. The [worker summary](zset-main-workers.json)
+attributes 4.98% self task-clock to SipHash12, 2.82% to memmove and 2.66% to CRC.
+[Recorded callchains](zset-siphash-callers.json) place 3.84% of total task-clock
+in SipHash below Hash-leaf loading/decoding. These percentages include kernel,
+background and polling CPU, and do not measure request latency or I/O waits.
+
+The source first loads a requested member-index leaf for its old score, then
+loads it again while preparing the updated leaf. Reusing a checked command-local
+leaf may avoid decoding, hashing and copying the same members twice. That
+hypothesis requires separate correctness and clean throughput validation.
+
+[Server counter deltas](zset-main-io.json) cover 1,137,092 ZINCRBY commands and
+include background storage work. They show 0.195 completed storage reads and
+1.846 writes per command, with about 18.5 KiB read and 21.6 KiB written per
+command (decimal byte ratios). These physical counters do not count logical
+leaf loads: reads can be served from live write buffers or share larger reads.
+They cannot establish how many disk operations a reused leaf would save.
+
+[Recorder arguments, threads, metrics and self reports](zset-100m-profile/)
+retain the diagnostic evidence. Diagnostic QPS is excluded from throughput curves.
