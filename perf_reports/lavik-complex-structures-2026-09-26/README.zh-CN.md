@@ -2,7 +2,7 @@
 
 [English](README.md)
 
-**2026-10-04：main `5d7d12ec` 已完成 13/28 组复测，包含已合并的 #244、#246、#247。**
+**2026-10-04：main `5d7d12ec` 已完成 14/28 组复测，包含已合并的 #244、#246、#247。**
 
 批量 HSET/SADD 导入另计：0/4 组已更新；未完成的图注明实际历史版本。
 
@@ -32,11 +32,11 @@ Redis/Valkey 关闭持久化；Kvrocks 使用无压缩 RAID0、关闭 WAL、80 G
 
 [Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 646a7b4e](raw/lavik/)
 
-1024 B/entry · 64 keys · 历史测量，待复测 `646a7b4e`
+1024 B/entry · 64 keys · 最新 main `5d7d12ec`
 
 ![List LINDEX 64 KiB/key, 1024 B, 64 keys](charts/list-65536-1024-k64-lindex-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 646a7b4e](raw/lavik/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-ordered-list-65536-k64-f1024-20261004/)
 
 #### 1 MiB/key
 
@@ -76,11 +76,11 @@ Redis/Valkey 关闭持久化；Kvrocks 使用无压缩 RAID0、关闭 WAL、80 G
 
 [Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 646a7b4e](raw/lavik/)
 
-1024 B/entry · 64 keys · 历史测量，待复测 `646a7b4e`
+1024 B/entry · 64 keys · 最新 main `5d7d12ec`
 
 ![List LSET 64 KiB/key, 1024 B, 64 keys](charts/list-65536-1024-k64-lset-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 646a7b4e](raw/lavik/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-ordered-list-65536-k64-f1024-20261004/)
 
 #### 1 MiB/key
 
@@ -108,11 +108,11 @@ Redis/Valkey 关闭持久化；Kvrocks 使用无压缩 RAID0、关闭 WAL、80 G
 
 [Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 646a7b4e](raw/lavik/)
 
-1024 B/entry · 64 keys · 历史测量，待复测 `646a7b4e`
+1024 B/entry · 64 keys · 最新 main `5d7d12ec`
 
 ![List LRANGE 64 KiB/key, 1024 B, 64 keys](charts/list-65536-1024-k64-lrange-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 646a7b4e](raw/lavik/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-ordered-list-65536-k64-f1024-20261004/)
 
 #### 1 MiB/key
 
@@ -141,6 +141,18 @@ Redis/Valkey 关闭持久化；Kvrocks 使用无压缩 RAID0、关闭 WAL、80 G
 ![List LRANGE 100 MiB/key, 1024 B, 8 keys](charts/list-104857600-1024-k8-lrange-current.png)
 
 [Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik (previous measurement) 44761b91](raw/lavik-main44761-ordered-list-104857600-k8-f1024-20261003/)
+
+### RPUSH 批量预置
+
+与 LSET 使用同一组独立预置计时：32 客户端、pipeline=4、每命令 128 个 1 KiB 元素，四库使用相同的客户端编码。
+
+#### 1 MiB/key
+
+![List RPUSH fill, 50000 keys](charts/list-1048576-1024-k50000-rpush-fill-current.png)
+
+#### 100 MiB/key
+
+![List RPUSH fill, 500 keys](charts/list-104857600-1024-k500-rpush-fill-current.png)
 
 ## Hash
 

@@ -163,6 +163,37 @@ def draw(row):
         writer.writerows(records)
 
 
+def draw_list_fill(row):
+    measured = []
+    for label, source, revision in series(row):
+        proof = json.loads(next(source.glob("provenance-*.json")).read_text())
+        for name, value in {"fill_workers": 32, "seed_pipeline": 4, "seed_command_bytes": 131072}.items():
+            if proof.get(name) != value:
+                raise ValueError(f"{source}: unmatched RPUSH {name}")
+        fill = json.loads((source / f"list-{row['size']}-{row['field']}.fill.json").read_text())
+        if fill.get("command") != "RPUSH" or fill.get("client_encoding") != "shared-list-operands-v1" or fill.get("entries_per_command") != 128 or fill["commands"] != row["keys"] * (row["size"] // row["field"] // 128):
+            raise ValueError(f"{source}: unmatched RPUSH client workload")
+        measured.append({"series": label, "seconds": fill["seconds"], "source": str(source.relative_to(ROOT)), "source_commit": revision["commit"] if revision else ""})
+    fig, ax = plt.subplots(figsize=(9.2, 4.8))
+    maximum = max(r["seconds"] for r in measured)
+    bars = ax.barh([r["series"] for r in measured], [r["seconds"] for r in measured], color=[STYLES[i][0] for i in range(len(measured))])
+    ax.invert_yaxis()
+    ax.set_xlim(0, maximum * 1.2)
+    ax.set_xlabel("RPUSH fill time (seconds; lower is better)")
+    ax.set_title(f"List · {row['size']//1048576} MiB/key · {row['keys']:,} keys · 1024 B/entry")
+    ax.grid(axis="x", alpha=.2)
+    for bar, record in zip(bars, measured):
+        ax.text(record["seconds"] + maximum * .02, bar.get_y() + bar.get_height()/2, f"{record['seconds']:.1f} s", va="center")
+    fig.text(.5, .01, "32 clients · 128 entries/command · pipeline 4 · persistence settings differ", ha="center", fontsize=9)
+    fig.tight_layout(rect=(0, .05, 1, 1))
+    fig.savefig(ROOT / "charts" / (key(row) + "-rpush-fill-current.png"), dpi=150)
+    plt.close(fig)
+    with (ROOT / (key(row) + "-rpush-fill-current.csv")).open("w", newline="") as output:
+        writer = csv.DictWriter(output, fieldnames=list(measured[0]), lineterminator="\n")
+        writer.writeheader()
+        writer.writerows(measured)
+
+
 def readme(manifest, zh):
     rows = manifest["plots"]
     done = sum(r["main"].get("fresh", False) for r in rows)
@@ -202,6 +233,10 @@ def readme(manifest, zh):
                     lines += [desc, "", f"![{NAMES[kind]} {op} {size_label}, {r['field']} B, {r['keys']} keys]({picture(r, op)})", ""]
                     links = [f"[{label}]({source.relative_to(ROOT)}/)" for label, source, _ in series(r)]
                     lines += [" · ".join(links), ""]
+        if kind == "list":
+            lines += ["### RPUSH " + ("批量预置" if zh else "batched seeding"), "", "与 LSET 使用同一组独立预置计时：32 客户端、pipeline=4、每命令 128 个 1 KiB 元素，四库使用相同的客户端编码。" if zh else "Independent LSET seeding timings: 32 clients, pipeline=4, 128 one-KiB entries per command, with the same client encoder across all four databases.", ""]
+            for r in (r for r in rows if r["category"] == "lset"):
+                lines += [f"#### {r['size']//1048576} MiB/key", "", f"![List RPUSH fill, {r['keys']} keys](charts/{key(r)}-rpush-fill-current.png)", ""]
         if kind in ("hash", "set"):
             imports = json.loads((ROOT / "current-imports.json").read_text())["plots"]
             command = "HSET" if kind == "hash" else "SADD"
@@ -228,6 +263,9 @@ def main():
     for row in manifest["plots"]:
         if args.condition is None or key(row) == args.condition:
             draw(row)
+    for row in manifest["plots"]:
+        if row["category"] == "lset" and (args.condition is None or key(row) == args.condition or not (ROOT / "charts" / (key(row) + "-rpush-fill-current.png")).exists()):
+            draw_list_fill(row)
     imports_path = ROOT / "current-imports.json"
     imports = json.loads(imports_path.read_text())
     for item in imports["plots"]:

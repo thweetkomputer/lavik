@@ -2,7 +2,7 @@
 
 [简体中文](README.zh-CN.md)
 
-**2026-10-04: main `5d7d12ec`, including merged #244/#246/#247; 13/28 conditions refreshed.**
+**2026-10-04: main `5d7d12ec`, including merged #244/#246/#247; 14/28 conditions refreshed.**
 
 Batched HSET/SADD import is tracked separately: 0/4 conditions refreshed; pending charts identify their actual historical version.
 
@@ -32,11 +32,11 @@ Unmerged optimizations: [PR #249](https://github.com/eloqdata/lavik/pull/249)
 
 [Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 646a7b4e](raw/lavik/)
 
-1024 B/entry · 64 keys · Historical measurement; refresh pending `646a7b4e`
+1024 B/entry · 64 keys · Current main `5d7d12ec`
 
 ![List LINDEX 64 KiB/key, 1024 B, 64 keys](charts/list-65536-1024-k64-lindex-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 646a7b4e](raw/lavik/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-ordered-list-65536-k64-f1024-20261004/)
 
 #### 1 MiB/key
 
@@ -76,11 +76,11 @@ Unmerged optimizations: [PR #249](https://github.com/eloqdata/lavik/pull/249)
 
 [Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 646a7b4e](raw/lavik/)
 
-1024 B/entry · 64 keys · Historical measurement; refresh pending `646a7b4e`
+1024 B/entry · 64 keys · Current main `5d7d12ec`
 
 ![List LSET 64 KiB/key, 1024 B, 64 keys](charts/list-65536-1024-k64-lset-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 646a7b4e](raw/lavik/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-ordered-list-65536-k64-f1024-20261004/)
 
 #### 1 MiB/key
 
@@ -108,11 +108,11 @@ Unmerged optimizations: [PR #249](https://github.com/eloqdata/lavik/pull/249)
 
 [Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 646a7b4e](raw/lavik/)
 
-1024 B/entry · 64 keys · Historical measurement; refresh pending `646a7b4e`
+1024 B/entry · 64 keys · Current main `5d7d12ec`
 
 ![List LRANGE 64 KiB/key, 1024 B, 64 keys](charts/list-65536-1024-k64-lrange-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik (previous measurement) 646a7b4e](raw/lavik/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main 5d7d12ec](raw/lavik-main5d7d12ec-ordered-list-65536-k64-f1024-20261004/)
 
 #### 1 MiB/key
 
@@ -141,6 +141,18 @@ Unmerged optimizations: [PR #249](https://github.com/eloqdata/lavik/pull/249)
 ![List LRANGE 100 MiB/key, 1024 B, 8 keys](charts/list-104857600-1024-k8-lrange-current.png)
 
 [Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik (previous measurement) 44761b91](raw/lavik-main44761-ordered-list-104857600-k8-f1024-20261003/)
+
+### RPUSH batched seeding
+
+Independent LSET seeding timings: 32 clients, pipeline=4, 128 one-KiB entries per command, with the same client encoder across all four databases.
+
+#### 1 MiB/key
+
+![List RPUSH fill, 50000 keys](charts/list-1048576-1024-k50000-rpush-fill-current.png)
+
+#### 100 MiB/key
+
+![List RPUSH fill, 500 keys](charts/list-104857600-1024-k500-rpush-fill-current.png)
 
 ## Hash
 
