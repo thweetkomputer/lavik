@@ -1,0 +1,121 @@
+{
+  "kind": "stream",
+  "size": 104857600,
+  "field": 1024,
+  "keys": 8,
+  "category": "ordered",
+  "versions": {
+    "main": {
+      "commit": "5d7d12ec064d562955531cfc1fabf1e13d779f02",
+      "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-main-5d7d12ec-20261004",
+      "sha256": "d06f0c4ddcb64fdabac2e50c04679be4919a5418d92bd747581f55713c396229",
+      "source_repo": "/mnt/dev/lavik-main-bench-20261004",
+      "bycorf_commit": "62509c93d40c2480f5046b71454db6cf95801b04",
+      "tests_during_build": false,
+      "source_files_verified": 678,
+      "build": "Release SPDK, GCC, existing benchmark CMake cache"
+    },
+    "candidate": {
+      "commit": "97f81cd6d8ee8457daf5a87fab92305d2b78ab6b",
+      "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-candidate-97f81cd6-20261004",
+      "sha256": "600f0e47d3de6635fecb37b03e41f25ff677fd6d54c69c9282a756be5fa726e8",
+      "source_repo": "/mnt/dev/lavik-complex-write-followup-20261004",
+      "bycorf_commit": "62509c93d40c2480f5046b71454db6cf95801b04",
+      "tests_during_build": false,
+      "source_files_verified": 678,
+      "build": "Release SPDK, GCC, existing benchmark CMake cache"
+    }
+  },
+  "tags": {
+    "main": "main5d7d12ec-ordered-stream-104857600-k8-f1024-20261004",
+    "candidate": "candidate97f81cd6-ordered-stream-104857600-k8-f1024-20261004"
+  },
+  "operations": {
+    "XADD_MAXLEN": {
+      "main_peak_qps": 10100.19,
+      "candidate_peak_qps": 11217.83,
+      "peak_change_percent": 11.06553441073881,
+      "connections": {
+        "80": {
+          "main_qps": 9568.95,
+          "candidate_qps": 9429.15,
+          "change_percent": -1.4609753421221838
+        },
+        "2560": {
+          "main_qps": 9769.98,
+          "candidate_qps": 11217.83,
+          "change_percent": 14.819375269959622
+        },
+        "1280": {
+          "main_qps": 8535.86,
+          "candidate_qps": 9045.04,
+          "change_percent": 5.96518687045009
+        },
+        "5120": {
+          "main_qps": 9632.85,
+          "candidate_qps": 10825.11,
+          "change_percent": 12.377022376555225
+        },
+        "320": {
+          "main_qps": 10100.19,
+          "candidate_qps": 10779.37,
+          "change_percent": 6.724427956305767
+        }
+      }
+    },
+    "XRANGE": {
+      "main_peak_qps": 199875.65,
+      "candidate_peak_qps": 203250.69,
+      "peak_change_percent": 1.6885698683156258,
+      "connections": {
+        "320": {
+          "main_qps": 199875.65,
+          "candidate_qps": 203250.69,
+          "change_percent": 1.6885698683156258
+        },
+        "5120": {
+          "main_qps": 122477.28,
+          "candidate_qps": 120222.39,
+          "change_percent": -1.8410679923656081
+        },
+        "2560": {
+          "main_qps": 128772.93,
+          "candidate_qps": 123153.62,
+          "change_percent": -4.363735452784989
+        },
+        "1280": {
+          "main_qps": 147538.53,
+          "candidate_qps": 141188.71,
+          "change_percent": -4.303838461722509
+        },
+        "80": {
+          "main_qps": 183499.69,
+          "candidate_qps": 180225.97,
+          "change_percent": -1.7840466106509467
+        }
+      }
+    },
+    "XRANGE_FULL": {
+      "main_peak_qps": 7.77,
+      "candidate_peak_qps": 8.28,
+      "peak_change_percent": 6.563706563706551,
+      "connections": {
+        "4": {
+          "main_qps": 2.15,
+          "candidate_qps": 2.42,
+          "change_percent": 12.558139534883717
+        },
+        "16": {
+          "main_qps": 7.77,
+          "candidate_qps": 8.28,
+          "change_percent": 6.563706563706551
+        },
+        "1": {
+          "main_qps": 0.6,
+          "candidate_qps": 0.6,
+          "change_percent": 0.0
+        }
+      }
+    }
+  }
+}

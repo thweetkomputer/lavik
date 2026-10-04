@@ -174,10 +174,14 @@ def readme(manifest, zh):
     lines += ["Redis/Valkey 关闭持久化；Kvrocks 使用无压缩 RAID0、关闭 WAL、80 GiB block/blob cache；Lavik 使用六块 NVMe SPDK 持久化，不缓存字段或页内容。配置不同，写入 QPS 不代表同等持久性下的排名。" if zh else "Redis/Valkey disable persistence. Kvrocks uses uncompressed RAID0, disabled WAL and 80 GiB block/blob cache. Lavik persists through six SPDK NVMe devices without caching field/page payloads. Write QPS compares these configurations, not equivalent durability.", ""]
     lines += ["本轮不重跑其他三库。Lavik 使用 AMD EPYC 9V74、16 vCPU、12 个服务 worker。每点 8 秒，较多 key 的 LSET 为 10 秒；pipeline=1。每组独立预置并逐 key 校验，perf 采样在完整连接扫描后单独进行，不混入 QPS 图。单次扫描没有统计置信区间。" if zh else "Peers are not rerun this round. Lavik uses AMD EPYC 9V74, 16 vCPUs and 12 serving workers. Points last 8 s (10 s for high-key-count LSET), pipeline=1. Each condition is independently seeded and checked key by key. CPU profiles run separately after complete clean grids. Single sweeps have no statistical confidence intervals.", ""]
     lines += ["[绘图数据清单](current-main.json) · [复现脚本](run.py) · [构建与硬件证明](diagnostics/main-refresh-20261004/host-and-build.json)" if zh else "[Plot sources](current-main.json) · [Runner](run.py) · [Build and hardware](diagnostics/main-refresh-20261004/host-and-build.json)", ""]
+    active = {v["pr"]: v["url"] for r in rows for v in r.get("variants", []) if "pr" in v}
+    if active:
+        links = " · ".join(f"[PR #{number}]({url})" for number, url in sorted(active.items()))
+        lines += [("未合并优化：" if zh else "Unmerged optimizations: ") + links, ""]
     for kind in ["list", "hash", "set", "zset", "stream"]:
         lines += ["## " + NAMES[kind], ""]
         if kind == "set":
-            lines += ["SADD + SREM 为两个命令等比例混合，QPS 计算完成的命令数，不是命令对数。" if zh else "SADD + SREM mixes the two commands equally; QPS counts commands, not pairs.", ""]
+            lines += ["SADD + SREM 为两个命令等比例混合，QPS 计算完成的命令数，不是命令对数。随机命中相同 key 时可能产生空操作，因此不代表实际持久化修改次数。" if zh else "SADD + SREM mixes the two commands equally; QPS counts commands, not pairs. Random concurrent access can produce no-op additions/removals, so this is not the rate of durable changes.", ""]
         for op in OPS[kind]:
             lines += ["### " + COMMANDS.get(op, op), ""]
             selected = [r for r in rows if r["kind"] == kind and op in commands(r)]
@@ -195,7 +199,7 @@ def readme(manifest, zh):
     lines += ["## " + ("测量与复现" if zh else "Measurement and reproduction"), ""]
     lines += ["Hash/Set：1 MiB/key 使用 50,000 keys，100 MiB/key 使用 500 keys。LSET 的大 key 数负载同样使用 50,000/500 keys。其他有序结构保留既有四库一致的 64/8-key 负载，标题明确区分；不同 key 数的曲线不能直接比较。" if zh else "Hash/Set use 50,000 keys at 1 MiB/key and 500 at 100 MiB/key; high-key-count LSET uses the same counts. Other ordered-structure conditions retain the matched 64/8-key peer workloads, explicitly identified in titles. Different key counts are not interchangeable.", ""]
     lines += ["Hash/Set 以 RESTORE 独立预置后清理、重启恢复再测；LSET 大 key 数预置使用 32 个连接、128 KiB RPUSH 批次、pipeline=4。预置耗时保存在每组 raw 目录中，不将 RESTORE 与其他系统的 HSET/SADD 导入耗时混比。" if zh else "Hash/Set use independent RESTORE seeding, transaction cleanup and recovery before measurement. High-key-count LSET seeds with 32 clients, 128 KiB RPUSH batches and pipeline=4. Fill timings remain in raw directories; RESTORE timings are not equated with peer HSET/SADD import timings.", ""]
-    lines += ["读取整个 100 MiB key 的低吞吐测点可能只有少量完成回复，小差异不作性能结论。失败测点保留断线与说明，不填零、不插值。" if zh else "Low-throughput whole-key reads can complete few replies in eight seconds; small differences are not performance conclusions. Failed points remain gaps with annotations, never zeroes or interpolated values.", ""]
+    lines += ["读取整个 100 MiB key 的低吞吐测点可能只有少量完成回复，小差异不作性能结论。八秒成功不代表长时间高并发下内存稳定；历史 SMEMBERS 持续负载曾触发内存准入拒绝。失败测点保留断线与说明，不填零、不插值。" if zh else "Low-throughput whole-key reads can complete few replies in eight seconds; small differences are not performance conclusions. Eight successful seconds do not establish sustained memory stability: an earlier sustained SMEMBERS run exhausted memory admission. Failed points remain gaps with annotations, never zeroes or interpolated values.", ""]
     lines += ["历史优化数据保存在 `raw/` 和 `diagnostics/`，不再显示为已合并 PR 的独立曲线。" if zh else "Historical optimization evidence remains in raw/ and diagnostics/; merged PRs are not shown as separate series.", ""]
     return "\n".join(lines)
 
