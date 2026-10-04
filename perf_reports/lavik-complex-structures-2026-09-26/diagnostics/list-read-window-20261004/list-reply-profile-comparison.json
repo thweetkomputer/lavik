@@ -1,0 +1,69 @@
+{
+  "rows": [
+    {
+      "version": "previous",
+      "commit": "13041873749206f22329d584778d3096c8e1220a",
+      "profile_tag": "diagnostic-full-candidate13041873-ordered-list-104857600-k8-f128-20261004",
+      "task_clock_seconds": 18.56565638,
+      "self_cpu_percent": {
+        "worker_run_once": 20.40261153427639,
+        "storage_poll": 12.513601741022851,
+        "memmove": 12.023939064200217,
+        "memmove_array_reply": 9.357997823721437,
+        "allocator": 0.9793253536452666
+      },
+      "metric_commands": 99.0,
+      "io": {
+        "read_operations": {
+          "delta": 1398375.0,
+          "per_command": 14125.0
+        },
+        "write_operations": {
+          "delta": 0.0,
+          "per_command": 0.0
+        },
+        "read_bytes": {
+          "delta": 12304905728.0,
+          "per_command": 124291977.05050506
+        },
+        "write_bytes": {
+          "delta": 0.0,
+          "per_command": 0.0
+        }
+      }
+    },
+    {
+      "version": "candidate",
+      "commit": "ff9e36550d3c899011cb07e037f4521273e667ae",
+      "profile_tag": "diagnostic-full-candidateff9e3655-ordered-list-104857600-k8-f128-20261004",
+      "task_clock_seconds": 18.29292911,
+      "self_cpu_percent": {
+        "storage_poll": 12.976256212037548,
+        "worker_run_once": 23.246824958586416,
+        "memmove": 8.117062396466041,
+        "memmove_array_reply": 5.30093870789619,
+        "allocator": 1.4356709000552181
+      },
+      "metric_commands": 102.0,
+      "io": {
+        "read_operations": {
+          "delta": 1440750.0,
+          "per_command": 14125.0
+        },
+        "write_operations": {
+          "delta": 0.0,
+          "per_command": 0.0
+        },
+        "read_bytes": {
+          "delta": 12678054400.0,
+          "per_command": 124294650.98039216
+        },
+        "write_bytes": {
+          "delta": 0.0,
+          "per_command": 0.0
+        }
+      }
+    }
+  ],
+  "limitations": "All-worker 25 s sampled task-clock, including polling/background/kernel work, is not a latency fraction. Counters span a separate 30 s diagnostic. Copy stack attribution does not distinguish every growth copy from required serialization. Use clean sweeps/paired repeats for QPS."
+}

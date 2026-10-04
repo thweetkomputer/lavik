@@ -1,0 +1,218 @@
+{
+  "main": {
+    "commit": "13041873749206f22329d584778d3096c8e1220a",
+    "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-list-read-window-13041873-20261004",
+    "sha256": "f32f70daede971cf1bf8348c5b7774c5b32f802e6b1d22a70b08793bed39600e",
+    "source_repo": "/mnt/dev/lavik-complex-next-20261004",
+    "bycorf_commit": "62509c93d40c2480f5046b71454db6cf95801b04",
+    "build": "RelWithDebInfo, native, LTO, GCC 13, SPDK, BUILD_TESTING=OFF, LAVIK_ENABLE_TEST_FAULTS=OFF",
+    "build_directory": "/mnt/dev/lavik-complex-next-20261004/build-spdk",
+    "no_build_or_tests_during_measurements": true
+  },
+  "candidate": {
+    "commit": "ff9e36550d3c899011cb07e037f4521273e667ae",
+    "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-list-reply-reserve-ff9e3655-20261004",
+    "sha256": "d2fe35779a4f0db3d11b063db66eb14030257c5c8b9af47d3029c0f2476f1e93",
+    "source_repo": "/mnt/dev/lavik-complex-next-20261004",
+    "bycorf_commit": "62509c93d40c2480f5046b71454db6cf95801b04",
+    "build": "RelWithDebInfo, native, LTO, GCC 13, SPDK, BUILD_TESTING=OFF, LAVIK_ENABLE_TEST_FAULTS=OFF",
+    "build_directory": "/mnt/dev/lavik-complex-next-20261004/build-spdk",
+    "no_build_or_tests_during_measurements": true
+  },
+  "method": "Three independent seed pairs ordered A/B, B/A, A/B; 15-second LRANGE points at 1/4/16 connections and LSET at 2560; previous is PR #267 at 13041873, isolating reply reservation; same baseline workload and settings; no concurrent build, tests or perf.",
+  "conditions": [
+    {
+      "operation": "LRANGE",
+      "connections": 1,
+      "pairs": [
+        {
+          "round": 1,
+          "main_status": "success",
+          "main_qps": 3.36,
+          "main_p99_ms": 327.679,
+          "candidate_status": "success",
+          "candidate_qps": 3.43,
+          "candidate_p99_ms": 301.055,
+          "change_percent": 2.083333333333348
+        },
+        {
+          "round": 2,
+          "main_status": "success",
+          "main_qps": 3.24,
+          "main_p99_ms": 444.415,
+          "candidate_status": "success",
+          "candidate_qps": 3.46,
+          "candidate_p99_ms": 296.959,
+          "change_percent": 6.790123456790109
+        },
+        {
+          "round": 3,
+          "main_status": "success",
+          "main_qps": 3.37,
+          "main_p99_ms": 303.103,
+          "candidate_status": "success",
+          "candidate_qps": 3.47,
+          "candidate_p99_ms": 294.911,
+          "change_percent": 2.9673590504451175
+        }
+      ],
+      "valid_paired_ratios": 3,
+      "main_failed_runs": 0,
+      "median_main_qps": 3.36,
+      "median_main_p99_ms": 327.679,
+      "candidate_failed_runs": 0,
+      "median_candidate_qps": 3.46,
+      "median_candidate_p99_ms": 296.959,
+      "median_paired_change_percent": 2.9673590504451175,
+      "paired_change_range_percent": [
+        2.083333333333348,
+        6.790123456790109
+      ]
+    },
+    {
+      "operation": "LRANGE",
+      "connections": 4,
+      "pairs": [
+        {
+          "round": 1,
+          "main_status": "success",
+          "main_qps": 9.72,
+          "main_p99_ms": 1187.839,
+          "candidate_status": "success",
+          "candidate_qps": 10.95,
+          "candidate_p99_ms": 606.207,
+          "change_percent": 12.65432098765431
+        },
+        {
+          "round": 2,
+          "main_status": "success",
+          "main_qps": 10.37,
+          "main_p99_ms": 663.551,
+          "candidate_status": "success",
+          "candidate_qps": 10.77,
+          "candidate_p99_ms": 618.495,
+          "change_percent": 3.8572806171649043
+        },
+        {
+          "round": 3,
+          "main_status": "success",
+          "main_qps": 9.61,
+          "main_p99_ms": 782.335,
+          "candidate_status": "success",
+          "candidate_qps": 9.82,
+          "candidate_p99_ms": 688.127,
+          "change_percent": 2.1852237252861784
+        }
+      ],
+      "valid_paired_ratios": 3,
+      "main_failed_runs": 0,
+      "median_main_qps": 9.72,
+      "median_main_p99_ms": 782.335,
+      "candidate_failed_runs": 0,
+      "median_candidate_qps": 10.77,
+      "median_candidate_p99_ms": 618.495,
+      "median_paired_change_percent": 3.8572806171649043,
+      "paired_change_range_percent": [
+        2.1852237252861784,
+        12.65432098765431
+      ]
+    },
+    {
+      "operation": "LRANGE",
+      "connections": 16,
+      "pairs": [
+        {
+          "round": 1,
+          "main_status": "success",
+          "main_qps": 18.8,
+          "main_p99_ms": 1630.207,
+          "candidate_status": "success",
+          "candidate_qps": 20.94,
+          "candidate_p99_ms": 1409.023,
+          "change_percent": 11.382978723404257
+        },
+        {
+          "round": 2,
+          "main_status": "success",
+          "main_qps": 18.3,
+          "main_p99_ms": 1957.887,
+          "candidate_status": "success",
+          "candidate_qps": 20.5,
+          "candidate_p99_ms": 1474.559,
+          "change_percent": 12.021857923497258
+        },
+        {
+          "round": 3,
+          "main_status": "success",
+          "main_qps": 18.74,
+          "main_p99_ms": 1843.199,
+          "candidate_status": "success",
+          "candidate_qps": 20.89,
+          "candidate_p99_ms": 1835.007,
+          "change_percent": 11.472785485592318
+        }
+      ],
+      "valid_paired_ratios": 3,
+      "main_failed_runs": 0,
+      "median_main_qps": 18.74,
+      "median_main_p99_ms": 1843.199,
+      "candidate_failed_runs": 0,
+      "median_candidate_qps": 20.89,
+      "median_candidate_p99_ms": 1474.559,
+      "median_paired_change_percent": 11.472785485592318,
+      "paired_change_range_percent": [
+        11.382978723404257,
+        12.021857923497258
+      ]
+    },
+    {
+      "operation": "LSET",
+      "connections": 2560,
+      "pairs": [
+        {
+          "round": 1,
+          "main_status": "success",
+          "main_qps": 45996.42,
+          "main_p99_ms": 270.335,
+          "candidate_status": "success",
+          "candidate_qps": 47294.09,
+          "candidate_p99_ms": 232.447,
+          "change_percent": 2.8212413053015917
+        },
+        {
+          "round": 2,
+          "main_status": "success",
+          "main_qps": 46553.62,
+          "main_p99_ms": 209.919,
+          "candidate_status": "success",
+          "candidate_qps": 47675.5,
+          "candidate_p99_ms": 236.543,
+          "change_percent": 2.4098663004080034
+        },
+        {
+          "round": 3,
+          "main_status": "success",
+          "main_qps": 48538.34,
+          "main_p99_ms": 272.383,
+          "candidate_status": "success",
+          "candidate_qps": 50455.24,
+          "candidate_p99_ms": 228.351,
+          "change_percent": 3.9492491914639105
+        }
+      ],
+      "valid_paired_ratios": 3,
+      "main_failed_runs": 0,
+      "median_main_qps": 46553.62,
+      "median_main_p99_ms": 270.335,
+      "candidate_failed_runs": 0,
+      "median_candidate_qps": 47675.5,
+      "median_candidate_p99_ms": 232.447,
+      "median_paired_change_percent": 2.8212413053015917,
+      "paired_change_range_percent": [
+        2.4098663004080034,
+        3.9492491914639105
+      ]
+    }
+  ],
+  "limitations": "Three repetitions, not a confidence interval. Failed observations are retained and excluded from QPS ratios. Historical peers are not rerun and use different persistence/cache configurations."
+}

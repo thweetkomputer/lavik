@@ -1,0 +1,135 @@
+{
+  "previous": {
+    "commit": "13041873749206f22329d584778d3096c8e1220a",
+    "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-list-read-window-13041873-20261004",
+    "sha256": "f32f70daede971cf1bf8348c5b7774c5b32f802e6b1d22a70b08793bed39600e",
+    "source_repo": "/mnt/dev/lavik-complex-next-20261004",
+    "bycorf_commit": "62509c93d40c2480f5046b71454db6cf95801b04",
+    "build": "RelWithDebInfo, native, LTO, GCC 13, SPDK, BUILD_TESTING=OFF, LAVIK_ENABLE_TEST_FAULTS=OFF",
+    "build_directory": "/mnt/dev/lavik-complex-next-20261004/build-spdk",
+    "no_build_or_tests_during_measurements": true
+  },
+  "candidate": {
+    "commit": "ff9e36550d3c899011cb07e037f4521273e667ae",
+    "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-list-reply-reserve-ff9e3655-20261004",
+    "sha256": "d2fe35779a4f0db3d11b063db66eb14030257c5c8b9af47d3029c0f2476f1e93",
+    "source_repo": "/mnt/dev/lavik-complex-next-20261004",
+    "bycorf_commit": "62509c93d40c2480f5046b71454db6cf95801b04",
+    "build": "RelWithDebInfo, native, LTO, GCC 13, SPDK, BUILD_TESTING=OFF, LAVIK_ENABLE_TEST_FAULTS=OFF",
+    "build_directory": "/mnt/dev/lavik-complex-next-20261004/build-spdk",
+    "no_build_or_tests_during_measurements": true
+  },
+  "previous_tag": "candidate13041873-ordered-list-65536-k64-f1024-20261004",
+  "candidate_tag": "candidateff9e3655-ordered-list-65536-k64-f1024-20261004",
+  "rows": [
+    {
+      "operation": "LINDEX",
+      "connections": 80,
+      "previous_qps": 534331.06,
+      "candidate_qps": 531005.88,
+      "qps_change_percent": -0.6223070768148986,
+      "previous_p99_ms": 0.279,
+      "candidate_p99_ms": 0.271
+    },
+    {
+      "operation": "LINDEX",
+      "connections": 320,
+      "previous_qps": 773901.93,
+      "candidate_qps": 780289.41,
+      "qps_change_percent": 0.825360391593799,
+      "previous_p99_ms": 1.071,
+      "candidate_p99_ms": 0.959
+    },
+    {
+      "operation": "LINDEX",
+      "connections": 1280,
+      "previous_qps": 792324.82,
+      "candidate_qps": 787519.69,
+      "qps_change_percent": -0.6064596083207419,
+      "previous_p99_ms": 4.351,
+      "candidate_p99_ms": 4.255
+    },
+    {
+      "operation": "LINDEX",
+      "connections": 2560,
+      "previous_qps": 663213.38,
+      "candidate_qps": 618881.93,
+      "qps_change_percent": -6.6843419232585415,
+      "previous_p99_ms": 16.511,
+      "candidate_p99_ms": 17.663
+    },
+    {
+      "operation": "LINDEX",
+      "connections": 5120,
+      "previous_qps": 467901.03,
+      "candidate_qps": 439319.71,
+      "qps_change_percent": -6.108411430511273,
+      "previous_p99_ms": 92.671,
+      "candidate_p99_ms": 96.767
+    },
+    {
+      "operation": "LRANGE",
+      "connections": 16,
+      "previous_qps": 45633.37,
+      "candidate_qps": 45633.81,
+      "qps_change_percent": 0.0009642066759463219,
+      "previous_p99_ms": 2.927,
+      "candidate_p99_ms": 2.943
+    },
+    {
+      "operation": "LRANGE",
+      "connections": 80,
+      "previous_qps": 45661.91,
+      "candidate_qps": 45631.77,
+      "qps_change_percent": -0.06600687531469474,
+      "previous_p99_ms": 7.487,
+      "candidate_p99_ms": 7.519
+    },
+    {
+      "operation": "LSET",
+      "connections": 80,
+      "previous_qps": 167073.7,
+      "candidate_qps": 155306.62,
+      "qps_change_percent": -7.043047469470065,
+      "previous_p99_ms": 5.759,
+      "candidate_p99_ms": 7.743
+    },
+    {
+      "operation": "LSET",
+      "connections": 320,
+      "previous_qps": 154604.07,
+      "candidate_qps": 155460.99,
+      "qps_change_percent": 0.5542674264655378,
+      "previous_p99_ms": 25.471,
+      "candidate_p99_ms": 26.111
+    },
+    {
+      "operation": "LSET",
+      "connections": 1280,
+      "previous_qps": 165713.55,
+      "candidate_qps": 164909.85,
+      "qps_change_percent": -0.48499353251437727,
+      "previous_p99_ms": 54.015,
+      "candidate_p99_ms": 56.319
+    },
+    {
+      "operation": "LSET",
+      "connections": 2560,
+      "previous_qps": 156363.2,
+      "candidate_qps": 157502.0,
+      "qps_change_percent": 0.7283043580586623,
+      "previous_p99_ms": 110.591,
+      "candidate_p99_ms": 107.007
+    },
+    {
+      "operation": "LSET",
+      "connections": 5120,
+      "previous_qps": 152355.33,
+      "candidate_qps": 155640.02,
+      "qps_change_percent": 2.1559403271286914,
+      "previous_p99_ms": 244.735,
+      "candidate_p99_ms": 209.919
+    }
+  ],
+  "limitations": "Single independent sweeps. Previous is PR #267, isolating the reply-reservation change; no confidence interval."
+}
