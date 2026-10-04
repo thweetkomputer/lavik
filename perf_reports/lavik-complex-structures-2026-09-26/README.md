@@ -16,6 +16,8 @@ This round pins the main revision above. Merged optimizations are no longer sepa
 
 [Plot sources](current-main.json) · [Runner](run.py) · [Previous-round build and hardware](diagnostics/main-refresh-20261004/host-and-build.json)
 
+[Complete main baseline: per-command gaps and optimization priorities](diagnostics/main-a565d603-20261004/main-gap-summary.md)
+
 [Current build and hardware](diagnostics/main-a565d603-20261004/host-and-build.json)
 
 [Current perf analysis](diagnostics/main-a565d603-20261004/README.md)

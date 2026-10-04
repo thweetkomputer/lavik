@@ -16,6 +16,8 @@ Redis/Valkey 关闭持久化；Kvrocks 使用无压缩 RAID0、关闭 WAL、80 G
 
 [绘图数据清单](current-main.json) · [复现脚本](run.py) · [上一轮构建与硬件证明](diagnostics/main-refresh-20261004/host-and-build.json)
 
+[完整 main 基线：逐命令差距与优化优先级](diagnostics/main-a565d603-20261004/main-gap-summary.md)
+
 [本轮构建与硬件证明](diagnostics/main-a565d603-20261004/host-and-build.json)
 
 [本轮 perf 分析](diagnostics/main-a565d603-20261004/README.md)
