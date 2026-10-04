@@ -52,7 +52,7 @@ Both versions read 14,125 physical pages and about 124.3 MB per range. Sampled s
 
 [Validation record](list-reply-validation.json): seven List/collection integration cases and three grouped cases pass against the exact fault-disabled benchmark binary. Coverage includes large byte-exact replies, transactions, blocking operations, low-memory ranges and real OOM. The test-driver sources are unchanged for this incremental production change; their provenance is recorded. Earlier 289 passing tests belong to `13041873`, not an unperformed full local suite on this revision.
 
-PR #267 and #266 encountered full-disk String expiration recovery startup failures on both architectures. The root cause and locally validated fix are now recorded in [the recovery investigation](../grouped-expiry-recovery-20261004/README.md) and PR #268. Combined-head CI is pending; these earlier QPS observations do not measure the recovery repair.
+PR #267 and #266 encountered full-disk String expiration recovery startup failures on both architectures. The root cause and locally validated fix are now recorded in [the recovery investigation](../grouped-expiry-recovery-20261004/README.md) and PR #268. PR #267 combined-head CI at `a672d2e7` [passed on both architectures](https://github.com/eloqdata/lavik/actions/runs/37229865721), including all 12 test shards and formatting ([record](pr267-a672-ci.json)). PR #266 remains in progress at this checkpoint. These earlier QPS observations do not measure the recovery repair.
 
 ## Additional 100 MiB / 1024 B sweep
 
