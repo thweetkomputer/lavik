@@ -57,7 +57,7 @@ for command in sorted({p['command'] for p in points}):
                     'at_least_80pct': sum(r >= .8 for r in ratios),
                     'at_least_fastest': sum(r >= 1 for r in ratios)})
 summary.sort(key=lambda row: row['median_ratio'] if row['median_ratio'] is not None else -1)
-out = root / 'diagnostics' / ('main-' + commit[:8] + '-20261004')
+out = root / Path(manifest['build_proof']).parent
 record = {'main_commit': commit, 'conditions': len(manifest['plots']), 'points': len(points),
           'scope': 'All fresh pinned-main observations only; no best-of-PR composition. Historical peers use different persistence/cache settings. Unweighted median of per-point ratios is not aggregate throughput. The 80% band is a provisional triage aid, not a user-agreed acceptance criterion. Errors remain in denominators and are excluded from ratio statistics.',
           'sources': sources, 'summary': summary, 'points_detail': points}

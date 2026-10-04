@@ -226,8 +226,8 @@ def readme(manifest, zh):
     lines += ["本轮不重跑其他三库。Lavik 使用 AMD EPYC 9V74、16 vCPU、12 个服务 worker。每点 8 秒，较多 key 的 LSET 为 10 秒；pipeline=1。每组独立预置并逐 key 校验，perf 采样在完整连接扫描后单独进行，不混入 QPS 图。单次扫描没有统计置信区间。" if zh else "Peers are not rerun this round. Lavik uses AMD EPYC 9V74, 16 vCPUs and 12 serving workers. Points last 8 s (10 s for high-key-count LSET), pipeline=1. Each condition is independently seeded and checked key by key. CPU profiles run separately after complete clean grids. Single sweeps have no statistical confidence intervals.", ""]
     lines += ["本轮固定使用上述 main 提交，已合并优化不再作为独立 PR 曲线显示。历史观察仍保留原始提交号；每完成一组独立复测才替换对应图。" if zh else "This round pins the main revision above. Merged optimizations are no longer separate PR curves. Historical observations retain their measured commits; each chart is replaced only after its independent rerun completes.", ""]
     lines += ["[绘图数据清单](current-main.json) · [复现脚本](run.py) · [上一轮构建与硬件证明](diagnostics/main-refresh-20261004/host-and-build.json)" if zh else "[Plot sources](current-main.json) · [Runner](run.py) · [Previous-round build and hardware](diagnostics/main-refresh-20261004/host-and-build.json)", ""]
-    gap_report = "diagnostics/main-a565d603-20261004/main-gap-summary.md"
-    if (ROOT / gap_report).exists():
+    gap_report = str(Path(manifest["build_proof"]).parent / "main-gap-summary.md") if manifest.get("build_proof") else None
+    if gap_report and (ROOT / gap_report).exists():
         lines += [f"[完整 main 基线：逐命令差距与优化优先级]({gap_report})" if zh else f"[Complete main baseline: per-command gaps and optimization priorities]({gap_report})", ""]
     if manifest.get("build_proof"):
         proof = manifest["build_proof"]
