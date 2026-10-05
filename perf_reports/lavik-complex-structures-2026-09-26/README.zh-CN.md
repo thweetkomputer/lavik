@@ -36,7 +36,9 @@ main 已更新至 `4610d607`；本页仍使用固定基线 `a565d603`。[组合�
 
 [Stream 回复批处理 PR #270：配对复测、控制项与 perf](diagnostics/stream-reply-20261004/README.md)
 
-后续 singleton PR #274 的 60 点三轮对照已完成，未显示预期收益，决定撤回：大/小对象点读 QPS 中位数 −0.39%/−3.18%；小对象两档写入为 −3.36%/−3.31%，三轮全降。独立 perf 继续诊断原因；不能把源码少一次复制当成已测得的吞吐提升。
+后续 singleton PR #274 的 60 点三轮对照已完成，未显示预期收益，已关闭：大/小对象点读 QPS 中位数 −0.39%/−3.18%；小对象两档写入为 −3.36%/−3.31%，三轮全降。四组独立 perf 已完成，完整来源及 CPU/I/O 摘要见上方诊断；不能把源码少一次复制当成已测得的吞吐提升。
+
+[Stream 页内 key 校验复用原型](diagnostics/stream-key-validation-20261005/README.md) 已通过全部 17 个 CI 检查，仍待本机验证和性能对照，尚无 QPS 收益结论。
 
 [ZSet 成员叶页复用：吞吐、交替复测、perf 与测试](diagnostics/zset-member-probe-20261004/README.md)
 
@@ -44,7 +46,7 @@ main 已更新至 `4610d607`；本页仍使用固定基线 `a565d603`。[组合�
 
 [PR #272](https://github.com/eloqdata/lavik/pull/272) 复用解码摘要，减少重复字段检查和路由校验中的哈希计算；仍为未测量草稿。
 
-[PR #273](https://github.com/eloqdata/lavik/pull/273) 复用单成员写入已经解码的有序源页并转移其内存预算；仍为未测量草稿。
+[PR #273](https://github.com/eloqdata/lavik/pull/273) 复用单成员写入已经解码的有序源页并转移其内存预算；96 点对照正在执行，完整配对结果尚未汇总，仍为草稿。
 
 [List 范围读取：吞吐、内存准入、交替复测与 perf](diagnostics/list-read-window-20261004/README.md)
 

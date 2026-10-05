@@ -36,7 +36,9 @@ Main has advanced to `4610d607`; this report retains pinned baseline `a565d603`.
 
 [Stream reply batching PR #270: paired checks, controls and perf](diagnostics/stream-reply-20261004/README.md)
 
-The subsequent singleton PR #274 completed all 60 observations in three paired rounds without the intended gain and is being withdrawn: large/small point-read QPS medians −0.39%/−3.18%; small writes −3.36%/−3.31%, declining in all three pairs at both levels. Separate perf continues for diagnosis. Removing a source-level copy is not itself a measured throughput gain.
+The subsequent singleton PR #274 completed all 60 observations in three paired rounds without the intended gain and has been closed: large/small point-read QPS medians −0.39%/−3.18%; small writes −3.36%/−3.31%, declining in all three pairs at both levels. All four separate profiles are complete; the linked diagnosis includes provenance and CPU/IO summaries. Removing a source-level copy is not itself a measured throughput gain.
+
+The [Stream page-key validation prototype](diagnostics/stream-key-validation-20261005/README.md) passes all 17 CI checks. Native validation and paired performance measurements remain pending; no QPS gain is claimed.
 
 [ZSet member-leaf reuse: throughput, paired runs, perf and tests](diagnostics/zset-member-probe-20261004/README.md)
 
@@ -44,7 +46,7 @@ Follow-up [PR #271](https://github.com/eloqdata/lavik/pull/271) removes redundan
 
 [PR #272](https://github.com/eloqdata/lavik/pull/272) reuses decoded hashes in duplicate and route validation; it remains an unmeasured draft.
 
-[PR #273](https://github.com/eloqdata/lavik/pull/273) reuses an admitted ordered source page for point writes; it remains an unmeasured draft.
+[PR #273](https://github.com/eloqdata/lavik/pull/273) reuses an admitted ordered source page for point writes. Its 96-observation comparison is running; complete paired results are not yet summarized, and the PR remains a draft.
 
 [List range reads: throughput, memory admission, paired runs and perf](diagnostics/list-read-window-20261004/README.md)
 
