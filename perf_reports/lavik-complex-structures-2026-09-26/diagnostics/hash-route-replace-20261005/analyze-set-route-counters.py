@@ -3,10 +3,10 @@ from pathlib import Path
 import argparse,hashlib,json
 p=argparse.ArgumentParser(description=__doc__)
 p.add_argument('--report-root',type=Path,default=Path('/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26'))
-p.add_argument('--scope',choices=['set-large','hash-large','hash-small'],default='set-large')
+p.add_argument('--scope',choices=['set-large','set-small','hash-large','hash-small'],default='set-large')
 p.add_argument('--output',type=Path,required=True)
 a=p.parse_args();r=a.report_root
-prefix={'set-large':'hash-route-set-large','hash-large':'hash-route-large','hash-small':'hash-route-hash-small'}[a.scope]
+prefix={'set-large':'hash-route-set-large','hash-large':'hash-route-large','hash-small':'hash-route-hash-small','set-small':'hash-route-set-small'}[a.scope]
 kind=a.scope.split('-')[0]
 operations=['SISMEMBER','SADD_SREM'] if kind=='set' else ['HGET','HSET']
 observation=r/'diagnostics/hash-route-replace-20261005'/(prefix+'-observations.json')
