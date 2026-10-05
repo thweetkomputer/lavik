@@ -93,3 +93,5 @@ main 已前进至 `19496654`。List 分支已解决冲突，并把批量启动�
 候选 `343e951e` 再次在 9 MiB key 的 GET 等待回复头超过原 60 秒限制，此前 3 个外部 key 和 6 MiB key 的读取均通过。main `19496654` 从另一份相同镜像副本完成全部读取、覆盖和正常关闭，但同一 GET 也耗时 **50.008 秒**。[逐操作结果与来源](pr267-retained-image-replays.json) · [诊断摘要](pr267-retained-replay-summary.json) · [候选日志](pr267-retained-replay-candidate.log) · [main 日志](pr267-retained-replay-main.log)。
 
 候选超时后才附加调试器：三个 worker 的回溯进入 `_io_uring_get_cqe`，内核等待点为 `io_cqring_wait`；liburing 之后的回溯不完整，尚不能识别具体等待的协程。原始镜像前后 SHA-256 一致，保持只读；磁盘镜像和原始线程转储未入库。这一对固定顺序重放不能证明死锁、数据损坏或候选独有回归，也不能证明与 CI 的 SET 超时同源。下一步在干净压测结束后采集逐操作 CPU、存储和协程进展。
+
+[长 key perf 调度](profile-pr267-retained-image.py) 已排队，等待小回复的独立压测与 perf 退出后再取得主机锁。仅对 9 MiB key GET 采集 49 Hz task-clock/DWARF，同时每 0.5 秒记录进程 I/O、各线程 CPU 与等待点，并区分发送、回复头和完整响应耗时；调试器只在停止采样后的失败路径附加。采样会扰动延迟，不把这些耗时用于干净性能比较。
