@@ -4,7 +4,7 @@
 
 [Reproduction audit for paired results and perf: 1,146 input files](diagnostics/zset-score-views-20261005/published-report-reproduction-20261005.json)
 
-**Current PR status:** [Heads, dependencies, CI and disposition](diagnostics/grouped-expiry-recovery-20261004/pr-cleanup-current.md). #266, #267 and #282 pass all 17 jobs on their rebased heads; the other retained PRs have replacement CI pending. Original failures and frozen performance results remain separately recorded.
+**Current PR status:** [Heads, dependencies, CI and disposition](diagnostics/grouped-expiry-recovery-20261004/pr-cleanup-current.md). #266, #267, #272 and #282 pass all 17 jobs on their rebased heads; the other retained PRs have replacement CI pending. Original failures and frozen performance results remain separately recorded.
 
 **2026-10-05 PR consolidation:** #268 is merged as main `330738d9`. #266/#267/#270/#280/#282 are rebased onto it; #271/#272 follow rebased #266 and #275 follows rebased #270. #269/#273/#276 are closed for insufficient overall benefit or control regressions; #274 was already closed. New optimization exploration is suspended while retained candidates finish validation and CI. [Commits, dependencies and checks](diagnostics/grouped-expiry-recovery-20261004/prs-rebased-after268.json). Historical measurements and closed-candidate curves remain evidence, not validation of the rebased heads.
 

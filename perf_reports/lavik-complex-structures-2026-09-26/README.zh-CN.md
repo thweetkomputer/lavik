@@ -4,7 +4,7 @@
 
 [新增配对结果与 perf 的复算核验：1,146 个输入文件](diagnostics/zset-score-views-20261005/published-report-reproduction-20261005.json)
 
-**当前 PR 状态：** [head、依赖、CI 与处理结论](diagnostics/grouped-expiry-recovery-20261004/pr-cleanup-current.md)。#266、#267 与 #282 的 rebase 后版本均已全部 17 项通过；其余保留 PR 的新版 CI 待完成。原失败与固定历史版本的性能证据分别保留。
+**当前 PR 状态：** [head、依赖、CI 与处理结论](diagnostics/grouped-expiry-recovery-20261004/pr-cleanup-current.md)。#266、#267、#272 与 #282 的 rebase 后版本均已全部 17 项通过；其余保留 PR 的新版 CI 待完成。原失败与固定历史版本的性能证据分别保留。
 
 **2026-10-05 PR 收敛：** #268 已合入 main `330738d9`；#266/#267/#270/#280/#282 已 rebase 到该 main，#271/#272 随 #266、#275 随 #270 更新。#269/#273/#276 因整体收益不足或控制项回退已关闭；#274 此前已关闭。暂停寻找新优化，仅完成保留候选的验证与 CI。[提交、依赖与检查记录](diagnostics/grouped-expiry-recovery-20261004/prs-rebased-after268.json)。历史测量及已关闭候选的曲线保留，不代表新 head 已通过验证。
 
