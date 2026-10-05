@@ -1,0 +1,145 @@
+{
+  "original_image": "/mnt/dev/lavik-complex-iterations-20261004/pr267-extent-ci-repro/candidate-round1/lavik-extent-recovery-696331.data",
+  "original_sha256": "b4e0113cf9b7dcbe03175c5e5665be8589ebef9dbc9c2847adc3cd3010b956ae",
+  "versions": {
+    "main": {
+      "source_head": "19496654cc43b21df11fb59be60e174dc4c89dbc",
+      "built_revision": "19496654cc43b21df11fb59be60e174dc4c89dbc",
+      "tree": "0d962b0f608d93f47f0d955e468828837d7b5935",
+      "ci_run": "https://github.com/eloqdata/lavik/actions/runs/37237724710",
+      "artifact_id": 11316029042,
+      "binary": "/mnt/dev/lavik-complex-iterations-20261004/pr267-extent-ci-repro/main/build_ci/lavik",
+      "test": "/mnt/dev/lavik-complex-iterations-20261004/pr267-extent-ci-repro/main/build_ci/lavik_extent_recovery_e2e_test",
+      "binary_sha256": "84708b47529efbf36b694622474e2ce5565cf44e732ea0b06e22ee9a3454b208",
+      "test_sha256": "4a68d975e9c1f849cf2199246531165609f480691a68a7fd1e41d1263637a7c6"
+    },
+    "candidate": {
+      "source_head": "28d7cca498655e02f46407adb65335219b10ee6b",
+      "built_revision": "28d7cca498655e02f46407adb65335219b10ee6b",
+      "ci_run": "https://github.com/thweetkomputer/lavik/actions/runs/37258994628",
+      "artifact_id": 11323789590,
+      "binary": "/mnt/dev/lavik-complex-iterations-20261004/grouped-verified-root-ci/build_ci/lavik",
+      "binary_sha256": "3b3dbc5482bf6586b0f06e00d92a6c5e589f58528b13105d01ea3b8a226e5090",
+      "test": "/mnt/dev/lavik-complex-iterations-20261004/grouped-verified-root-ci/build_ci/lavik_extent_recovery_e2e_test",
+      "test_sha256": "4a68d975e9c1f849cf2199246531165609f480691a68a7fd1e41d1263637a7c6"
+    }
+  },
+  "rows": [
+    {
+      "version": "main",
+      "round": 1,
+      "port": 44775,
+      "argv": [
+        "/mnt/dev/lavik-complex-iterations-20261004/pr267-extent-ci-repro/main/build_ci/lavik",
+        "--logtostderr",
+        "--port",
+        "44775",
+        "--threads",
+        "2",
+        "--no-pin-workers",
+        "--recv-buffers-per-worker",
+        "0",
+        "--data-file",
+        "/mnt/dev/lavik-complex-iterations-20261004/grouped-verified-root-replay/main-round1/working.data"
+      ],
+      "operations": [
+        {
+          "command": "STRLEN",
+          "key_bytes": 5009,
+          "stage": "reply header",
+          "received_payload_bytes": 0,
+          "send_seconds": 2.7731992304325104e-05,
+          "header": ":9437184\r\n",
+          "header_seconds": 0.0030004180152900517,
+          "seconds": 0.0030012099887244403,
+          "proc_io_before": "rchar: 318994\nwchar: 2944\nsyscr: 94\nsyscw: 19\nread_bytes: 94846976\nwrite_bytes: 4096\ncancelled_write_bytes: 0\n",
+          "proc_io_after": "rchar: 318994\nwchar: 2944\nsyscr: 94\nsyscw: 19\nread_bytes: 94855168\nwrite_bytes: 4096\ncancelled_write_bytes: 0\n"
+        },
+        {
+          "command": "GET",
+          "key_bytes": 5009,
+          "stage": "reply payload",
+          "received_payload_bytes": 9437184,
+          "send_seconds": 2.7169997338205576e-05,
+          "header": "$9437184\r\n",
+          "header_seconds": 10.104018729995005,
+          "seconds": 10.10887921700487,
+          "proc_io_before": "rchar: 318994\nwchar: 2944\nsyscr: 94\nsyscw: 19\nread_bytes: 94855168\nwrite_bytes: 4096\ncancelled_write_bytes: 0\n",
+          "proc_io_after": "rchar: 318994\nwchar: 2944\nsyscr: 94\nsyscw: 19\nread_bytes: 118657024\nwrite_bytes: 4096\ncancelled_write_bytes: 0\n"
+        },
+        {
+          "command": "STRLEN",
+          "key_bytes": 5009,
+          "stage": "reply header",
+          "received_payload_bytes": 0,
+          "send_seconds": 4.409701796248555e-05,
+          "header": ":9437184\r\n",
+          "header_seconds": 0.003239957964979112,
+          "seconds": 0.0032404689700342715,
+          "proc_io_before": "rchar: 318994\nwchar: 2944\nsyscr: 94\nsyscw: 19\nread_bytes: 118657024\nwrite_bytes: 4096\ncancelled_write_bytes: 0\n",
+          "proc_io_after": "rchar: 318994\nwchar: 2944\nsyscr: 94\nsyscw: 19\nread_bytes: 118665216\nwrite_bytes: 4096\ncancelled_write_bytes: 0\n"
+        },
+        {
+          "command": "GET",
+          "key_bytes": 5009,
+          "stage": "reply payload",
+          "received_payload_bytes": 9437184,
+          "send_seconds": 2.409599255770445e-05,
+          "header": "$9437184\r\n",
+          "header_seconds": 3.8659673770307563,
+          "seconds": 3.8703582900343463,
+          "proc_io_before": "rchar: 318994\nwchar: 2944\nsyscr: 94\nsyscw: 19\nread_bytes: 118665216\nwrite_bytes: 4096\ncancelled_write_bytes: 0\n",
+          "proc_io_after": "rchar: 318994\nwchar: 2944\nsyscr: 94\nsyscw: 19\nread_bytes: 142458880\nwrite_bytes: 4096\ncancelled_write_bytes: 0\n"
+        },
+        {
+          "command": "STRLEN",
+          "key_bytes": 5009,
+          "stage": "reply header",
+          "received_payload_bytes": 0,
+          "send_seconds": 2.895400393754244e-05,
+          "header": ":9437184\r\n",
+          "header_seconds": 0.0019881509942933917,
+          "seconds": 0.0019887620001100004,
+          "proc_io_before": "rchar: 318994\nwchar: 2944\nsyscr: 94\nsyscw: 19\nread_bytes: 142458880\nwrite_bytes: 4096\ncancelled_write_bytes: 0\n",
+          "proc_io_after": "rchar: 318994\nwchar: 2944\nsyscr: 94\nsyscw: 19\nread_bytes: 142467072\nwrite_bytes: 4096\ncancelled_write_bytes: 0\n"
+        },
+        {
+          "command": "GET",
+          "key_bytes": 5009,
+          "stage": "reply payload",
+          "received_payload_bytes": 9437184,
+          "send_seconds": 2.5107001420110464e-05,
+          "header": "$9437184\r\n",
+          "header_seconds": 3.7385515900095925,
+          "seconds": 3.740492829994764,
+          "proc_io_before": "rchar: 318994\nwchar: 2944\nsyscr: 94\nsyscw: 19\nread_bytes: 142467072\nwrite_bytes: 4096\ncancelled_write_bytes: 0\n",
+          "proc_io_after": "rchar: 318994\nwchar: 2944\nsyscr: 94\nsyscw: 19\nread_bytes: 166256640\nwrite_bytes: 4096\ncancelled_write_bytes: 0\n"
+        },
+        {
+          "command": "GET",
+          "key_bytes": 6291456,
+          "stage": "reply payload",
+          "received_payload_bytes": 1048576,
+          "send_seconds": 0.019328888040035963,
+          "header": "$1048576\r\n",
+          "header_seconds": 5.587322023988236,
+          "seconds": 5.587626120017376,
+          "proc_io_before": "rchar: 318994\nwchar: 2944\nsyscr: 94\nsyscw: 19\nread_bytes: 166256640\nwrite_bytes: 4096\ncancelled_write_bytes: 0\n",
+          "proc_io_after": "rchar: 318994\nwchar: 2944\nsyscr: 94\nsyscw: 19\nread_bytes: 979972096\nwrite_bytes: 4096\ncancelled_write_bytes: 0\n"
+        }
+      ],
+      "success": false,
+      "image": "/mnt/dev/lavik-complex-iterations-20261004/grouped-verified-root-replay/main-round1/working.data",
+      "error": "TimeoutError('timed out')",
+      "failed_phase": {
+        "command": "GET",
+        "key_bytes": 9437184,
+        "stage": "reply header",
+        "received_payload_bytes": 0,
+        "send_seconds": 0.025541072012856603
+      },
+      "gdb_exit": 0
+    }
+  ],
+  "method": "Three AB/BA/AB pairs on independent writable copies of the same retained image. Exact main194 and root-reuse28 CI binaries; 2workers, original60s socket and120s shutdown. Verify complete reply payloads then overwrites and clean shutdown. Process IO counters bracket each operation and include background IO. No perf sampling and no general QPS claim. Stop at first failure and retain diagnostics. Original image remains read-only and SHA checked after each run."
+}

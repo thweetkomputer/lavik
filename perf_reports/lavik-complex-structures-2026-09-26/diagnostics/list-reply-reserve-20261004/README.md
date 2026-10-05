@@ -121,4 +121,21 @@ main `19496654` 和 #267 候选 `343e951e` 的同镜像独立副本采样均完�
 
 `28d7cca4` 的失败项重跑已成功，[完整 CI 17 项现全部通过](grouped-root-28d7cca4-full-ci.json)，包括 amd64/arm64 的 12 个软件分片。首次 runner 失联记录继续保留；未修改源码或测试超时。候选在保留镜像上的无采样对照仍排队，尚无性能结论。
 
-原后处理器要求 recorder 返回 0，但主动对 sudo/perf 进程组发 SIGINT 后 sudo 返回了 `-2`，因此后处理器在解码前退出。两个 recorder 日志均包含完整写出摘要，分别写出 271、265 个样本，文件约 2.35/2.29 MB。没有重新采样；[恢复解析脚本](analyze-retained-key-profiles-resume.py) 保留原返回码，要求主动 SIGINT 返回值、完整写出日志及后续 report/script 两种解码成功，才接纳数据。解析继续受主机锁保护，尚未完成；前述 `/proc` 计数不依赖 perf 解码。
+原后处理器要求 recorder 返回 0，但主动对 sudo/perf 进程组发 SIGINT 后 sudo 返回了 `-2`，因此后处理器在解码前退出。两个 recorder 日志均包含完整写出摘要，分别写出 271、265 个样本，文件约 2.35/2.29 MB。没有重新采样；[恢复解析脚本](analyze-retained-key-profiles-resume.py) 保留原返回码，要求主动 SIGINT 返回值、完整写出日志及后续 report/script 两种解码成功，才接纳数据。解析已在主机锁内完成；前述 `/proc` 计数不依赖 perf 解码。结果见下节。
+
+
+## 已完成的采样解析与新的无采样基线失败
+
+两个原始 perf 文件的 report/script 解码均成功，[解码命令与来源](pr267-retained-key-profile-analysis.json) 保留主动 SIGINT 的 `-2` 返回码。以下是进程级 **CPU self** 占比，均在 9 MiB key GET 等待期间采集：
+
+| 符号 | main `19496654`（271 样本） | #267 `343e951e`（265 样本） |
+|---|---:|---:|
+| CRC32::Extend | 31.00% | 29.81% |
+| memmove | 16.24% | 12.83% |
+| memcmp | 12.55% | 15.47% |
+
+[逐符号汇总与输入 SHA-256](pr267-retained-key-self-summary.json) · [main 完整 self 表](pr267-retained-main-self.txt) · [候选完整 self 表](pr267-retained-candidate-self.txt)。表中空白被压缩，全部符号行保留。四舍五入后的覆盖合计均为 100.11%，未重新归一化；丢样为 0 不代表调用栈完整。样本较少，含内核、轮询和后台工作，不能据此估计精确优化幅度。两次 GET 均超时，不能把采样耗时当作吞吐对照；这里也没有根记录复用 `28d7cca4` 的样本。
+
+随后启动的 `19496654` / `28d7cca4` 三轮无采样对照在 **main 第一轮**停止：3 个 5009 字节外部 key 的完整 GET 通过，6 MiB key 的 1 MiB value 也校验通过，但 9 MiB key GET 在原 60 秒 socket 限制处等待回复头超时，收到的 payload 为 0。候选尚未执行，原定三轮没有完成。[原始操作记录、失败阶段及二进制身份](grouped-verified-root-replays.json)。保留本次失败，不重跑基线来替换它，也不提高超时。
+
+[候选独立重放脚本](replay-grouped-verified-root-candidate.py) 已排队：对相同只读原始镜像的三份独立副本，固定 `28d7cca4` CI 二进制、2 workers、60 秒 socket/120 秒关闭限制，验证完整 payload、覆盖与正常退出，首个失败即停。原始镜像 SHA-256 为 `b4e0113cf9b7dcbe03175c5e5665be8589ebef9dbc9c2847adc3cd3010b956ae`。这是候选正确性/故障重现检查，**不是完成的三轮配对性能比较**；不能从被超时截断的基线算精确加速比。目前仍不能认定 #267 引入该故障、原型已修复它，或原 CI 的 SET 超时与该 GET 同源。

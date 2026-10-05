@@ -1,0 +1,88 @@
+# To display the perf.data header info, please use --header/--header-only options.
+#
+#
+# Total Lost Samples: 0
+#
+# Samples: 271 of event 'task-clock'
+# Event count (approx.): 5530612173
+#
+# Overhead Symbol IPC [IPC Coverage]
+#
+31.00% [.] absl::lts_20250512::crc_internal::CRC32::Extend(unsigned int*, void const*, unsigned long) const - -
+16.24% [.] __memmove_avx512_unaligned_erms - -
+12.55% [.] __memcmp_evex_movbe - -
+2.21% [.] bycorf::Worker::BusyPoll() - -
+1.85% [k] gup_fast - -
+1.85% [.] lavik::storage::StorageEngine::Impl::ActiveExpiration(lavik::storage::StorageEngine::Impl::WorkerStore*) [clone .resume] - -
+1.48% [k] bio_split_io_at - -
+1.48% [.] bycorf::CrossCore::TakeActiveSenders(unsigned int, unsigned int) - -
+1.48% [.] lavik::storage::(anonymous namespace)::SipRound(unsigned long*, unsigned long*, unsigned long*, unsigned long*) - -
+1.11% [.] bycorf::(anonymous namespace)::CycleNow() - -
+1.11% [.] io_uring_cqe_shift - -
+1.11% [.] lavik::storage::(anonymous namespace)::RedisCrc16(std::basic_string_view<char, std::char_traits<char> >) - -
+1.11% [k] nvme_pci_setup_data_prp - -
+0.74% [k] __bio_clone - -
+0.74% [k] __submit_bio - -
+0.74% [.] bycorf::CrossCore::active_sender_word_count() const - -
+0.74% [k] io_cqring_wait - -
+0.74% [.] io_uring_cqe_iter_next - -
+0.74% [k] iov_iter_extract_bvecs - -
+0.74% [.] lavik::storage::(anonymous namespace)::LoadLittleEndian(unsigned char const*) - -
+0.74% [.] lavik::storage::StorageEngine::Impl::AdvanceExpiryMap(lavik::storage::StorageEngine::Impl::WorkerStore&) - -
+0.74% [.] unsigned long std::__rotl<unsigned long>(unsigned long, int) - -
+0.37% [.] _ZN9__gnu_cxxeqIPKN5lavik7storage13StorageEngine4Impl11WorkerStore14PartitionStoreESt6vectorIS6_SaIS6_EEEEbRKNS_17__normal_iteratorIT_T0_EESH_QrqXeqcldtfp_4baseEcldtfp0_4baseERSt14convertible_toIbEE - -
+0.37% [k] __do_sys_io_uring_enter - -
+0.37% [.] __gnu_cxx::__normal_iterator<lavik::storage::StorageEngine::Impl::WorkerStore::PartitionStore const*, std::vector<lavik::storage::StorageEngine::Impl::WorkerStore::PartitionStore, std::allocator<lavik::storage::StorageEngine::Impl::WorkerStore::PartitionStore> > >::__normal_iterator(lavik::storage::StorageEngine::Impl::WorkerStore::PartitionStore const* const&) - -
+0.37% [.] __memset_avx512_unaligned_erms - -
+0.37% [k] __pi_memset - -
+0.37% [.] _mi_prim_thread_id - -
+0.37% [.] _mi_theap_heap_peek - -
+0.37% [k] _raw_spin_unlock_irq - -
+0.37% [.] absl::lts_20250512::container_internal::raw_hash_set<absl::lts_20250512::container_internal::FlatHashMapPolicy<std::pair<unsigned long, unsigned long>, absl::lts_20250512::flat_hash_map<unsigned int, std::shared_ptr<lavik::storage::IndirectKey>, absl::lts_20250512::hash_internal::Hash<unsigned int>, std::equal_to<unsigned int>, std::allocator<std::pair<unsigned int const, std::shared_ptr<lavik::storage::IndirectKey> > > > >, absl::lts_20250512::hash_internal::Hash<std::pair<unsigned long, unsigned long> >, std::equal_to<std::pair<unsigned long, unsigned long> >, std::allocator<std::pair<std::pair<unsigned long, unsigned long> const, absl::lts_20250512::flat_hash_map<unsigned int, std::shared_ptr<lavik::storage::IndirectKey>, absl::lts_20250512::hash_internal::Hash<unsigned int>, std::equal_to<unsigned int>, std::allocator<std::pair<unsigned int const, std::shared_ptr<lavik::storage::IndirectKey> > > > > > >::capacity() const - -
+0.37% [.] absl::lts_20250512::internal_statusor::StatusOrData<lavik::storage::ReadBufferLease>::EnsureOk() const - -
+0.37% [k] bio_first_folio - -
+0.37% [k] bio_set_pages_dirty - -
+0.37% [k] bio_submit_split - -
+0.37% [k] blk_map_iter_next - -
+0.37% [k] blk_mq_get_tag - -
+0.37% [k] blk_rq_dma_map_iter_next - -
+0.37% [.] bycorf::IoUringBackend::Poll() - -
+0.37% [.] bycorf::IoUringBackend::ReapCompletions() - -
+0.37% [.] bycorf::ThisWorker() - -
+0.37% [.] bycorf::Worker::DrainBackgroundUntil(long) - -
+0.37% [.] bycorf::Worker::DrainCrossCore() - -
+0.37% [k] do_syscall_64 - -
+0.37% [k] fget - -
+0.37% [k] finish_task_switch.isra.0 - -
+0.37% [k] folio_mark_dirty - -
+0.37% [k] io_run_task_work - -
+0.37% [.] io_uring_cqe_iter_init - -
+0.37% [.] io_uring_cqe_shift_from_flags - -
+0.37% [.] io_uring_prep_timeout - -
+0.37% [.] io_uring_submit_and_get_events - -
+0.37% [.] lavik::(anonymous namespace)::UpdatePeak(unsigned long) - -
+0.37% [.] lavik::storage::(anonymous namespace)::SipHash12(std::basic_string_view<char, std::char_traits<char> >, std::array<unsigned char, 16ul> const&) - -
+0.37% [.] lavik::storage::RecordLocationCore::value_type() const - -
+0.37% [.] lavik::storage::ScanHashMap<lavik::storage::RecordLocation, 32u, lavik::storage::RecordIndexEntryPolicy>::Rehashing() const - -
+0.37% [.] lavik::storage::StorageEngine::Impl::ReadExtentInto(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::ExtentRef, unsigned int, std::byte*) - -
+0.37% [k] memcg1_commit_charge - -
+0.37% [.] mi_arena_is_suitable - -
+0.37% [.] mi_bbitmap_try_find_and_clear_generic - -
+0.37% [.] mi_block_nextx - -
+0.37% [.] mi_clz - -
+0.37% [.] mi_mem_is_zero - -
+0.37% [.] mi_page_meta_is_separated - -
+0.37% [.] mi_validate_block_from_ptr - -
+0.37% [k] schedule - -
+0.37% [.] std::array<unsigned long, 16ul>::operator[](unsigned long) - -
+0.37% [.] std::operator&(std::memory_order, std::__memory_order_modifier) - -
+0.37% [.] std::operator-(std::_Deque_iterator<lavik::storage::StorageEngine::Impl::WorkerStore::ExpireCandidate, lavik::storage::StorageEngine::Impl::WorkerStore::ExpireCandidate&, lavik::storage::StorageEngine::Impl::WorkerStore::ExpireCandidate*> const&, std::_Deque_iterator<lavik::storage::StorageEngine::Impl::WorkerStore::ExpireCandidate, lavik::storage::StorageEngine::Impl::WorkerStore::ExpireCandidate&, lavik::storage::StorageEngine::Impl::WorkerStore::ExpireCandidate*> const&) - -
+0.37% [.] std::shared_ptr<lavik::storage::IndirectKey>::shared_ptr(std::shared_ptr<lavik::storage::IndirectKey>&&) - -
+0.37% [.] std::unique_ptr<bycorf::ActiveSenderWord [], std::default_delete<bycorf::ActiveSenderWord []> >::get() const - -
+0.37% [.] std::vector<lavik::storage::StorageDevice, std::allocator<lavik::storage::StorageDevice> >::size() const - -
+0.37% [k] zap_pte_range - -
+
+
+#
+# (Cannot load tips.txt file, please install perf!)
+#

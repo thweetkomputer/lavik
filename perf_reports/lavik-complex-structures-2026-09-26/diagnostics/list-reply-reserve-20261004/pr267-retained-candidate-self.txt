@@ -1,0 +1,86 @@
+# To display the perf.data header info, please use --header/--header-only options.
+#
+#
+# Total Lost Samples: 0
+#
+# Samples: 265 of event 'task-clock'
+# Event count (approx.): 5408163195
+#
+# Overhead Symbol IPC [IPC Coverage]
+#
+29.81% [.] absl::lts_20250512::crc_internal::CRC32::Extend(unsigned int*, void const*, unsigned long) const - -
+15.47% [.] __memcmp_evex_movbe - -
+12.83% [.] __memmove_avx512_unaligned_erms - -
+4.15% [k] gup_fast - -
+3.40% [.] bycorf::Worker::BusyPoll() - -
+1.89% [k] blk_rq_dma_map_iter_next - -
+1.51% [.] bycorf::(anonymous namespace)::CycleNow() - -
+1.51% [k] nvme_pci_setup_data_prp - -
+1.13% [k] do_syscall_64 - -
+1.13% [.] lavik::storage::(anonymous namespace)::RedisCrc16(std::basic_string_view<char, std::char_traits<char> >) - -
+1.13% [.] lavik::storage::ScanHashMap<lavik::storage::RecordLocation, 32u, lavik::storage::RecordIndexEntryPolicy>::Rehashing() const - -
+1.13% [.] lavik::storage::StorageEngine::Impl::ActiveExpiration(lavik::storage::StorageEngine::Impl::WorkerStore*) [clone .resume] - -
+1.13% [.] unsigned long std::__rotl<unsigned long>(unsigned long, int) - -
+0.75% [.] __memset_avx512_unaligned_erms - -
+0.75% [k] _raw_spin_unlock_irqrestore - -
+0.75% [.] bycorf::Worker::DrainCrossCore() - -
+0.75% [k] finish_task_switch.isra.0 - -
+0.75% [.] std::operator-(std::_Deque_iterator<lavik::storage::StorageEngine::Impl::WorkerStore::ExpireCandidate, lavik::storage::StorageEngine::Impl::WorkerStore::ExpireCandidate&, lavik::storage::StorageEngine::Impl::WorkerStore::ExpireCandidate*> const&, std::_Deque_iterator<lavik::storage::StorageEngine::Impl::WorkerStore::ExpireCandidate, lavik::storage::StorageEngine::Impl::WorkerStore::ExpireCandidate&, lavik::storage::StorageEngine::Impl::WorkerStore::ExpireCandidate*> const&) - -
+0.38% [.] _ZN9__gnu_cxxeqIPKN5lavik7storage13StorageEngine4Impl11WorkerStore14PartitionStoreESt6vectorIS6_SaIS6_EEEEbRKNS_17__normal_iteratorIT_T0_EESH_QrqXeqcldtfp_4baseEcldtfp0_4baseERSt14convertible_toIbEE - -
+0.38% [.] __gnu_cxx::__normal_iterator<void* const*, std::vector<void*, std::allocator<void*> > > std::__find_if<__gnu_cxx::__normal_iterator<void* const*, std::vector<void*, std::allocator<void*> > >, __gnu_cxx::__ops::_Iter_equals_val<void* const> >(__gnu_cxx::__normal_iterator<void* const*, std::vector<void*, std::allocator<void*> > >, __gnu_cxx::__normal_iterator<void* const*, std::vector<void*, std::allocator<void*> > >, __gnu_cxx::__ops::_Iter_equals_val<void* const>, std::random_access_iterator_tag) - -
+0.38% [k] __io_run_local_work - -
+0.38% [.] _io_uring_get_cqe - -
+0.38% [.] _mi_safe_ptr_page - -
+0.38% [.] absl::lts_20250512::container_internal::raw_hash_set<absl::lts_20250512::container_internal::FlatHashMapPolicy<std::pair<unsigned long, unsigned long>, absl::lts_20250512::flat_hash_map<unsigned int, std::shared_ptr<lavik::storage::IndirectKey>, absl::lts_20250512::hash_internal::Hash<unsigned int>, std::equal_to<unsigned int>, std::allocator<std::pair<unsigned int const, std::shared_ptr<lavik::storage::IndirectKey> > > > >, absl::lts_20250512::hash_internal::Hash<std::pair<unsigned long, unsigned long> >, std::equal_to<std::pair<unsigned long, unsigned long> >, std::allocator<std::pair<std::pair<unsigned long, unsigned long> const, absl::lts_20250512::flat_hash_map<unsigned int, std::shared_ptr<lavik::storage::IndirectKey>, absl::lts_20250512::hash_internal::Hash<unsigned int>, std::equal_to<unsigned int>, std::allocator<std::pair<unsigned int const, std::shared_ptr<lavik::storage::IndirectKey> > > > > > >::common() - -
+0.38% [k] bio_alloc_bioset - -
+0.38% [k] bio_set_pages_dirty - -
+0.38% [k] bio_split_io_at - -
+0.38% [k] blk_map_iter_next - -
+0.38% [.] bycorf::CrossCore::TakeActiveSenders(unsigned int, unsigned int) - -
+0.38% [.] bycorf::CrossCore::active_sender_word_count() const - -
+0.38% [.] bycorf::CrossCore::mailbox(unsigned int) - -
+0.38% [.] bycorf::IoCompletion::IoCompletion() - -
+0.38% [.] bycorf::IoCompletion::~IoCompletion() - -
+0.38% [.] bycorf::IoUringBackend::DispatchCqe(io_uring_cqe*) - -
+0.38% [.] bycorf::IoUringBackend::Poll() - -
+0.38% [.] bycorf::IoUringBackend::ReapCompletions() - -
+0.38% [.] bycorf::SleepFor(bycorf::Worker&, std::chrono::duration<long, std::ratio<1l, 1000000000l> >) - -
+0.38% [.] bycorf::Task<absl::lts_20250512::Status>::SetCompletionCallback(void*, void (*)(void*, std::__n4861::coroutine_handle<void>) noexcept) - -
+0.38% [.] clock_gettime@@GLIBC_2.17 - -
+0.38% [k] dma_direct_map_phys - -
+0.38% [k] dma_map_phys - -
+0.38% [k] ext4_set_iomap - -
+0.38% [k] get_page_from_freelist - -
+0.38% [.] getenv - -
+0.38% [k] io_cqring_wait - -
+0.38% [.] io_uring_cqe_iter_next - -
+0.38% [k] iomap_dio_rw - -
+0.38% [k] kmem_cache_alloc_noprof - -
+0.38% [k] ktime_get - -
+0.38% [.] lavik::storage::(anonymous namespace)::BuildPhysical(std::span<lavik::storage::HashGroupLocation const, 18446744073709551615ul>, std::shared_ptr<lavik::storage::ScanHashMapEntryArena> const&) - -
+0.38% [.] lavik::storage::(anonymous namespace)::SipRound(unsigned long*, unsigned long*, unsigned long*, unsigned long*) - -
+0.38% [.] lavik::storage::DecodeRecordHeader(std::span<std::byte const, 18446744073709551615ul>, lavik::storage::RecordHeader*, std::basic_string_view<char, std::char_traits<char> >*) - -
+0.38% [.] lavik::storage::ReadBufferLease::Reset() - -
+0.38% [.] lavik::storage::RegisteredBufferPool::AllocateHeapReadBuffer(unsigned long) - -
+0.38% [.] lavik::storage::ScanHashMap<lavik::storage::RecordLocation, 32u, lavik::storage::RecordIndexEntryPolicy>::Maintain() - -
+0.38% [.] lavik::storage::StorageEngine::Impl::LoadIndirectKey[abi:cxx11](std::shared_ptr<lavik::storage::IndirectKey>) [clone .destroy] - -
+0.38% [.] lavik::storage::StorageEngine::Impl::ValidGroupedWrite(lavik::storage::StorageEngine::Impl::RecordWriteRequest const&, unsigned long, unsigned long) - -
+0.38% [.] mi_arenas_page_alloc_fresh - -
+0.38% [.] mi_page_decode_padding - -
+0.38% [.] mi_page_xthread_id - -
+0.38% [k] srso_alias_return_thunk - -
+0.38% [.] std::_Optional_base_impl<lavik::MemoryReservation, std::_Optional_base<lavik::MemoryReservation, false, false> >::_M_is_engaged() const - -
+0.38% [.] std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_construct<char const*>(char const*, char const*, std::forward_iterator_tag)::_Guard::~_Guard() - -
+0.38% [.] std::__deque_buf_size(unsigned long) - -
+0.38% [.] std::__n4861::coroutine_handle<bycorf::Task<absl::lts_20250512::StatusOr<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::promise_type>::address() const - -
+0.38% [.] std::atomic<bool>::exchange(bool, std::memory_order) - -
+0.38% [.] std::deque<lavik::storage::StorageEngine::Impl::WorkerStore::ExpireCandidate, std::allocator<lavik::storage::StorageEngine::Impl::WorkerStore::ExpireCandidate> >::size() const - -
+0.38% [.] std::operator&(std::memory_order, std::__memory_order_modifier) - -
+0.38% [.] std::tuple_element<0ul, std::tuple<bycorf::WorkerMailbox*, std::default_delete<bycorf::WorkerMailbox []> > >::type const& std::get<0ul, bycorf::WorkerMailbox*, std::default_delete<bycorf::WorkerMailbox []> >(std::tuple<bycorf::WorkerMailbox*, std::default_delete<bycorf::WorkerMailbox []> > const&) - -
+0.38% [.] std::unique_ptr<absl::lts_20250512::InlinedVector<absl::lts_20250512::status_internal::Payload, 1ul, std::allocator<absl::lts_20250512::status_internal::Payload> >, std::default_delete<absl::lts_20250512::InlinedVector<absl::lts_20250512::status_internal::Payload, 1ul, std::allocator<absl::lts_20250512::status_internal::Payload> > > >::unique_ptr(std::unique_ptr<absl::lts_20250512::InlinedVector<absl::lts_20250512::status_internal::Payload, 1ul, std::allocator<absl::lts_20250512::status_internal::Payload> >, std::default_delete<absl::lts_20250512::InlinedVector<absl::lts_20250512::status_internal::Payload, 1ul, std::allocator<absl::lts_20250512::status_internal::Payload> > > >&&) - -
+0.38% [k] x64_sys_call - -
+
+
+#
+# (Cannot load tips.txt file, please install perf!)
+#

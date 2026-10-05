@@ -2,6 +2,8 @@
 
 [简体中文](README.zh-CN.md)
 
+Long-key diagnosis updated: main also hit the original 60-second GET timeout on an unsampled copy of the retained image. Earlier perf captures show CRC, copy and comparison hotspots; the root-reuse candidate still awaits independent replay. [Evidence and limitations](diagnostics/list-reply-reserve-20261004/README.md).
+
 **2026-10-04: main `a565d603`, including merged #244, #246, #247, #249, #258, #259, #260, #262; 28/28 conditions refreshed.**
 
 Batched HSET/SADD import is tracked separately: 4/4 conditions refreshed.

@@ -1,0 +1,749 @@
+{
+  "profiles": {
+    "main": {
+      "samples": 271,
+      "task_clock_seconds": 5.530612173,
+      "lost_samples": 0,
+      "reported_coverage_percent": 100.11,
+      "self_symbols": [
+        {
+          "mode": ".",
+          "symbol": "absl::lts_20250512::crc_internal::CRC32::Extend(unsigned int*, void const*, unsigned long) const",
+          "percent": 31.0
+        },
+        {
+          "mode": ".",
+          "symbol": "__memmove_avx512_unaligned_erms",
+          "percent": 16.24
+        },
+        {
+          "mode": ".",
+          "symbol": "__memcmp_evex_movbe",
+          "percent": 12.55
+        },
+        {
+          "mode": ".",
+          "symbol": "bycorf::Worker::BusyPoll()",
+          "percent": 2.21
+        },
+        {
+          "mode": "k",
+          "symbol": "gup_fast",
+          "percent": 1.85
+        },
+        {
+          "mode": ".",
+          "symbol": "lavik::storage::StorageEngine::Impl::ActiveExpiration(lavik::storage::StorageEngine::Impl::WorkerStore*) [clone .resume]",
+          "percent": 1.85
+        },
+        {
+          "mode": "k",
+          "symbol": "bio_split_io_at",
+          "percent": 1.48
+        },
+        {
+          "mode": ".",
+          "symbol": "bycorf::CrossCore::TakeActiveSenders(unsigned int, unsigned int)",
+          "percent": 1.48
+        },
+        {
+          "mode": ".",
+          "symbol": "lavik::storage::(anonymous namespace)::SipRound(unsigned long*, unsigned long*, unsigned long*, unsigned long*)",
+          "percent": 1.48
+        },
+        {
+          "mode": ".",
+          "symbol": "bycorf::(anonymous namespace)::CycleNow()",
+          "percent": 1.11
+        },
+        {
+          "mode": ".",
+          "symbol": "io_uring_cqe_shift",
+          "percent": 1.11
+        },
+        {
+          "mode": ".",
+          "symbol": "lavik::storage::(anonymous namespace)::RedisCrc16(std::basic_string_view<char, std::char_traits<char> >)",
+          "percent": 1.11
+        },
+        {
+          "mode": "k",
+          "symbol": "nvme_pci_setup_data_prp",
+          "percent": 1.11
+        },
+        {
+          "mode": "k",
+          "symbol": "__bio_clone",
+          "percent": 0.74
+        },
+        {
+          "mode": "k",
+          "symbol": "__submit_bio",
+          "percent": 0.74
+        },
+        {
+          "mode": ".",
+          "symbol": "bycorf::CrossCore::active_sender_word_count() const",
+          "percent": 0.74
+        },
+        {
+          "mode": "k",
+          "symbol": "io_cqring_wait",
+          "percent": 0.74
+        },
+        {
+          "mode": ".",
+          "symbol": "io_uring_cqe_iter_next",
+          "percent": 0.74
+        },
+        {
+          "mode": "k",
+          "symbol": "iov_iter_extract_bvecs",
+          "percent": 0.74
+        },
+        {
+          "mode": ".",
+          "symbol": "lavik::storage::(anonymous namespace)::LoadLittleEndian(unsigned char const*)",
+          "percent": 0.74
+        },
+        {
+          "mode": ".",
+          "symbol": "lavik::storage::StorageEngine::Impl::AdvanceExpiryMap(lavik::storage::StorageEngine::Impl::WorkerStore&)",
+          "percent": 0.74
+        },
+        {
+          "mode": ".",
+          "symbol": "unsigned long std::__rotl<unsigned long>(unsigned long, int)",
+          "percent": 0.74
+        },
+        {
+          "mode": ".",
+          "symbol": "_ZN9__gnu_cxxeqIPKN5lavik7storage13StorageEngine4Impl11WorkerStore14PartitionStoreESt6vectorIS6_SaIS6_EEEEbRKNS_17__normal_iteratorIT_T0_EESH_QrqXeqcldtfp_4baseEcldtfp0_4baseERSt14convertible_toIbEE",
+          "percent": 0.37
+        },
+        {
+          "mode": "k",
+          "symbol": "__do_sys_io_uring_enter",
+          "percent": 0.37
+        },
+        {
+          "mode": ".",
+          "symbol": "__gnu_cxx::__normal_iterator<lavik::storage::StorageEngine::Impl::WorkerStore::PartitionStore const*, std::vector<lavik::storage::StorageEngine::Impl::WorkerStore::PartitionStore, std::allocator<lavik::storage::StorageEngine::Impl::WorkerStore::PartitionStore> > >::__normal_iterator(lavik::storage::StorageEngine::Impl::WorkerStore::PartitionStore const* const&)",
+          "percent": 0.37
+        },
+        {
+          "mode": ".",
+          "symbol": "__memset_avx512_unaligned_erms",
+          "percent": 0.37
+        },
+        {
+          "mode": "k",
+          "symbol": "__pi_memset",
+          "percent": 0.37
+        },
+        {
+          "mode": ".",
+          "symbol": "_mi_prim_thread_id",
+          "percent": 0.37
+        },
+        {
+          "mode": ".",
+          "symbol": "_mi_theap_heap_peek",
+          "percent": 0.37
+        },
+        {
+          "mode": "k",
+          "symbol": "_raw_spin_unlock_irq",
+          "percent": 0.37
+        },
+        {
+          "mode": ".",
+          "symbol": "absl::lts_20250512::container_internal::raw_hash_set<absl::lts_20250512::container_internal::FlatHashMapPolicy<std::pair<unsigned long, unsigned long>, absl::lts_20250512::flat_hash_map<unsigned int, std::shared_ptr<lavik::storage::IndirectKey>, absl::lts_20250512::hash_internal::Hash<unsigned int>, std::equal_to<unsigned int>, std::allocator<std::pair<unsigned int const, std::shared_ptr<lavik::storage::IndirectKey> > > > >, absl::lts_20250512::hash_internal::Hash<std::pair<unsigned long, unsigned long> >, std::equal_to<std::pair<unsigned long, unsigned long> >, std::allocator<std::pair<std::pair<unsigned long, unsigned long> const, absl::lts_20250512::flat_hash_map<unsigned int, std::shared_ptr<lavik::storage::IndirectKey>, absl::lts_20250512::hash_internal::Hash<unsigned int>, std::equal_to<unsigned int>, std::allocator<std::pair<unsigned int const, std::shared_ptr<lavik::storage::IndirectKey> > > > > > >::capacity() const",
+          "percent": 0.37
+        },
+        {
+          "mode": ".",
+          "symbol": "absl::lts_20250512::internal_statusor::StatusOrData<lavik::storage::ReadBufferLease>::EnsureOk() const",
+          "percent": 0.37
+        },
+        {
+          "mode": "k",
+          "symbol": "bio_first_folio",
+          "percent": 0.37
+        },
+        {
+          "mode": "k",
+          "symbol": "bio_set_pages_dirty",
+          "percent": 0.37
+        },
+        {
+          "mode": "k",
+          "symbol": "bio_submit_split",
+          "percent": 0.37
+        },
+        {
+          "mode": "k",
+          "symbol": "blk_map_iter_next",
+          "percent": 0.37
+        },
+        {
+          "mode": "k",
+          "symbol": "blk_mq_get_tag",
+          "percent": 0.37
+        },
+        {
+          "mode": "k",
+          "symbol": "blk_rq_dma_map_iter_next",
+          "percent": 0.37
+        },
+        {
+          "mode": ".",
+          "symbol": "bycorf::IoUringBackend::Poll()",
+          "percent": 0.37
+        },
+        {
+          "mode": ".",
+          "symbol": "bycorf::IoUringBackend::ReapCompletions()",
+          "percent": 0.37
+        },
+        {
+          "mode": ".",
+          "symbol": "bycorf::ThisWorker()",
+          "percent": 0.37
+        },
+        {
+          "mode": ".",
+          "symbol": "bycorf::Worker::DrainBackgroundUntil(long)",
+          "percent": 0.37
+        },
+        {
+          "mode": ".",
+          "symbol": "bycorf::Worker::DrainCrossCore()",
+          "percent": 0.37
+        },
+        {
+          "mode": "k",
+          "symbol": "do_syscall_64",
+          "percent": 0.37
+        },
+        {
+          "mode": "k",
+          "symbol": "fget",
+          "percent": 0.37
+        },
+        {
+          "mode": "k",
+          "symbol": "finish_task_switch.isra.0",
+          "percent": 0.37
+        },
+        {
+          "mode": "k",
+          "symbol": "folio_mark_dirty",
+          "percent": 0.37
+        },
+        {
+          "mode": "k",
+          "symbol": "io_run_task_work",
+          "percent": 0.37
+        },
+        {
+          "mode": ".",
+          "symbol": "io_uring_cqe_iter_init",
+          "percent": 0.37
+        },
+        {
+          "mode": ".",
+          "symbol": "io_uring_cqe_shift_from_flags",
+          "percent": 0.37
+        },
+        {
+          "mode": ".",
+          "symbol": "io_uring_prep_timeout",
+          "percent": 0.37
+        },
+        {
+          "mode": ".",
+          "symbol": "io_uring_submit_and_get_events",
+          "percent": 0.37
+        },
+        {
+          "mode": ".",
+          "symbol": "lavik::(anonymous namespace)::UpdatePeak(unsigned long)",
+          "percent": 0.37
+        },
+        {
+          "mode": ".",
+          "symbol": "lavik::storage::(anonymous namespace)::SipHash12(std::basic_string_view<char, std::char_traits<char> >, std::array<unsigned char, 16ul> const&)",
+          "percent": 0.37
+        },
+        {
+          "mode": ".",
+          "symbol": "lavik::storage::RecordLocationCore::value_type() const",
+          "percent": 0.37
+        },
+        {
+          "mode": ".",
+          "symbol": "lavik::storage::ScanHashMap<lavik::storage::RecordLocation, 32u, lavik::storage::RecordIndexEntryPolicy>::Rehashing() const",
+          "percent": 0.37
+        },
+        {
+          "mode": ".",
+          "symbol": "lavik::storage::StorageEngine::Impl::ReadExtentInto(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::ExtentRef, unsigned int, std::byte*)",
+          "percent": 0.37
+        },
+        {
+          "mode": "k",
+          "symbol": "memcg1_commit_charge",
+          "percent": 0.37
+        },
+        {
+          "mode": ".",
+          "symbol": "mi_arena_is_suitable",
+          "percent": 0.37
+        },
+        {
+          "mode": ".",
+          "symbol": "mi_bbitmap_try_find_and_clear_generic",
+          "percent": 0.37
+        },
+        {
+          "mode": ".",
+          "symbol": "mi_block_nextx",
+          "percent": 0.37
+        },
+        {
+          "mode": ".",
+          "symbol": "mi_clz",
+          "percent": 0.37
+        },
+        {
+          "mode": ".",
+          "symbol": "mi_mem_is_zero",
+          "percent": 0.37
+        },
+        {
+          "mode": ".",
+          "symbol": "mi_page_meta_is_separated",
+          "percent": 0.37
+        },
+        {
+          "mode": ".",
+          "symbol": "mi_validate_block_from_ptr",
+          "percent": 0.37
+        },
+        {
+          "mode": "k",
+          "symbol": "schedule",
+          "percent": 0.37
+        },
+        {
+          "mode": ".",
+          "symbol": "std::array<unsigned long, 16ul>::operator[](unsigned long)",
+          "percent": 0.37
+        },
+        {
+          "mode": ".",
+          "symbol": "std::operator&(std::memory_order, std::__memory_order_modifier)",
+          "percent": 0.37
+        },
+        {
+          "mode": ".",
+          "symbol": "std::operator-(std::_Deque_iterator<lavik::storage::StorageEngine::Impl::WorkerStore::ExpireCandidate, lavik::storage::StorageEngine::Impl::WorkerStore::ExpireCandidate&, lavik::storage::StorageEngine::Impl::WorkerStore::ExpireCandidate*> const&, std::_Deque_iterator<lavik::storage::StorageEngine::Impl::WorkerStore::ExpireCandidate, lavik::storage::StorageEngine::Impl::WorkerStore::ExpireCandidate&, lavik::storage::StorageEngine::Impl::WorkerStore::ExpireCandidate*> const&)",
+          "percent": 0.37
+        },
+        {
+          "mode": ".",
+          "symbol": "std::shared_ptr<lavik::storage::IndirectKey>::shared_ptr(std::shared_ptr<lavik::storage::IndirectKey>&&)",
+          "percent": 0.37
+        },
+        {
+          "mode": ".",
+          "symbol": "std::unique_ptr<bycorf::ActiveSenderWord [], std::default_delete<bycorf::ActiveSenderWord []> >::get() const",
+          "percent": 0.37
+        },
+        {
+          "mode": ".",
+          "symbol": "std::vector<lavik::storage::StorageDevice, std::allocator<lavik::storage::StorageDevice> >::size() const",
+          "percent": 0.37
+        },
+        {
+          "mode": "k",
+          "symbol": "zap_pte_range",
+          "percent": 0.37
+        }
+      ],
+      "source_report_sha256": "ae293512e713cd426120d3b11acf6f5142b456596f2ebb9afaf89e616622a456",
+      "published_report": "pr267-retained-main-self.txt",
+      "published_report_sha256": "e199b63e65c68216c1c5e2aa5d075d0b8b702c1689fa13ec60409e3a764da4e7",
+      "published_report_transform": "Whitespace collapsed, dotted table ruler removed; all symbol rows preserved and parsed values matched."
+    },
+    "candidate": {
+      "samples": 265,
+      "task_clock_seconds": 5.408163195,
+      "lost_samples": 0,
+      "reported_coverage_percent": 100.11,
+      "self_symbols": [
+        {
+          "mode": ".",
+          "symbol": "absl::lts_20250512::crc_internal::CRC32::Extend(unsigned int*, void const*, unsigned long) const",
+          "percent": 29.81
+        },
+        {
+          "mode": ".",
+          "symbol": "__memcmp_evex_movbe",
+          "percent": 15.47
+        },
+        {
+          "mode": ".",
+          "symbol": "__memmove_avx512_unaligned_erms",
+          "percent": 12.83
+        },
+        {
+          "mode": "k",
+          "symbol": "gup_fast",
+          "percent": 4.15
+        },
+        {
+          "mode": ".",
+          "symbol": "bycorf::Worker::BusyPoll()",
+          "percent": 3.4
+        },
+        {
+          "mode": "k",
+          "symbol": "blk_rq_dma_map_iter_next",
+          "percent": 1.89
+        },
+        {
+          "mode": ".",
+          "symbol": "bycorf::(anonymous namespace)::CycleNow()",
+          "percent": 1.51
+        },
+        {
+          "mode": "k",
+          "symbol": "nvme_pci_setup_data_prp",
+          "percent": 1.51
+        },
+        {
+          "mode": "k",
+          "symbol": "do_syscall_64",
+          "percent": 1.13
+        },
+        {
+          "mode": ".",
+          "symbol": "lavik::storage::(anonymous namespace)::RedisCrc16(std::basic_string_view<char, std::char_traits<char> >)",
+          "percent": 1.13
+        },
+        {
+          "mode": ".",
+          "symbol": "lavik::storage::ScanHashMap<lavik::storage::RecordLocation, 32u, lavik::storage::RecordIndexEntryPolicy>::Rehashing() const",
+          "percent": 1.13
+        },
+        {
+          "mode": ".",
+          "symbol": "lavik::storage::StorageEngine::Impl::ActiveExpiration(lavik::storage::StorageEngine::Impl::WorkerStore*) [clone .resume]",
+          "percent": 1.13
+        },
+        {
+          "mode": ".",
+          "symbol": "unsigned long std::__rotl<unsigned long>(unsigned long, int)",
+          "percent": 1.13
+        },
+        {
+          "mode": ".",
+          "symbol": "__memset_avx512_unaligned_erms",
+          "percent": 0.75
+        },
+        {
+          "mode": "k",
+          "symbol": "_raw_spin_unlock_irqrestore",
+          "percent": 0.75
+        },
+        {
+          "mode": ".",
+          "symbol": "bycorf::Worker::DrainCrossCore()",
+          "percent": 0.75
+        },
+        {
+          "mode": "k",
+          "symbol": "finish_task_switch.isra.0",
+          "percent": 0.75
+        },
+        {
+          "mode": ".",
+          "symbol": "std::operator-(std::_Deque_iterator<lavik::storage::StorageEngine::Impl::WorkerStore::ExpireCandidate, lavik::storage::StorageEngine::Impl::WorkerStore::ExpireCandidate&, lavik::storage::StorageEngine::Impl::WorkerStore::ExpireCandidate*> const&, std::_Deque_iterator<lavik::storage::StorageEngine::Impl::WorkerStore::ExpireCandidate, lavik::storage::StorageEngine::Impl::WorkerStore::ExpireCandidate&, lavik::storage::StorageEngine::Impl::WorkerStore::ExpireCandidate*> const&)",
+          "percent": 0.75
+        },
+        {
+          "mode": ".",
+          "symbol": "_ZN9__gnu_cxxeqIPKN5lavik7storage13StorageEngine4Impl11WorkerStore14PartitionStoreESt6vectorIS6_SaIS6_EEEEbRKNS_17__normal_iteratorIT_T0_EESH_QrqXeqcldtfp_4baseEcldtfp0_4baseERSt14convertible_toIbEE",
+          "percent": 0.38
+        },
+        {
+          "mode": ".",
+          "symbol": "__gnu_cxx::__normal_iterator<void* const*, std::vector<void*, std::allocator<void*> > > std::__find_if<__gnu_cxx::__normal_iterator<void* const*, std::vector<void*, std::allocator<void*> > >, __gnu_cxx::__ops::_Iter_equals_val<void* const> >(__gnu_cxx::__normal_iterator<void* const*, std::vector<void*, std::allocator<void*> > >, __gnu_cxx::__normal_iterator<void* const*, std::vector<void*, std::allocator<void*> > >, __gnu_cxx::__ops::_Iter_equals_val<void* const>, std::random_access_iterator_tag)",
+          "percent": 0.38
+        },
+        {
+          "mode": "k",
+          "symbol": "__io_run_local_work",
+          "percent": 0.38
+        },
+        {
+          "mode": ".",
+          "symbol": "_io_uring_get_cqe",
+          "percent": 0.38
+        },
+        {
+          "mode": ".",
+          "symbol": "_mi_safe_ptr_page",
+          "percent": 0.38
+        },
+        {
+          "mode": ".",
+          "symbol": "absl::lts_20250512::container_internal::raw_hash_set<absl::lts_20250512::container_internal::FlatHashMapPolicy<std::pair<unsigned long, unsigned long>, absl::lts_20250512::flat_hash_map<unsigned int, std::shared_ptr<lavik::storage::IndirectKey>, absl::lts_20250512::hash_internal::Hash<unsigned int>, std::equal_to<unsigned int>, std::allocator<std::pair<unsigned int const, std::shared_ptr<lavik::storage::IndirectKey> > > > >, absl::lts_20250512::hash_internal::Hash<std::pair<unsigned long, unsigned long> >, std::equal_to<std::pair<unsigned long, unsigned long> >, std::allocator<std::pair<std::pair<unsigned long, unsigned long> const, absl::lts_20250512::flat_hash_map<unsigned int, std::shared_ptr<lavik::storage::IndirectKey>, absl::lts_20250512::hash_internal::Hash<unsigned int>, std::equal_to<unsigned int>, std::allocator<std::pair<unsigned int const, std::shared_ptr<lavik::storage::IndirectKey> > > > > > >::common()",
+          "percent": 0.38
+        },
+        {
+          "mode": "k",
+          "symbol": "bio_alloc_bioset",
+          "percent": 0.38
+        },
+        {
+          "mode": "k",
+          "symbol": "bio_set_pages_dirty",
+          "percent": 0.38
+        },
+        {
+          "mode": "k",
+          "symbol": "bio_split_io_at",
+          "percent": 0.38
+        },
+        {
+          "mode": "k",
+          "symbol": "blk_map_iter_next",
+          "percent": 0.38
+        },
+        {
+          "mode": ".",
+          "symbol": "bycorf::CrossCore::TakeActiveSenders(unsigned int, unsigned int)",
+          "percent": 0.38
+        },
+        {
+          "mode": ".",
+          "symbol": "bycorf::CrossCore::active_sender_word_count() const",
+          "percent": 0.38
+        },
+        {
+          "mode": ".",
+          "symbol": "bycorf::CrossCore::mailbox(unsigned int)",
+          "percent": 0.38
+        },
+        {
+          "mode": ".",
+          "symbol": "bycorf::IoCompletion::IoCompletion()",
+          "percent": 0.38
+        },
+        {
+          "mode": ".",
+          "symbol": "bycorf::IoCompletion::~IoCompletion()",
+          "percent": 0.38
+        },
+        {
+          "mode": ".",
+          "symbol": "bycorf::IoUringBackend::DispatchCqe(io_uring_cqe*)",
+          "percent": 0.38
+        },
+        {
+          "mode": ".",
+          "symbol": "bycorf::IoUringBackend::Poll()",
+          "percent": 0.38
+        },
+        {
+          "mode": ".",
+          "symbol": "bycorf::IoUringBackend::ReapCompletions()",
+          "percent": 0.38
+        },
+        {
+          "mode": ".",
+          "symbol": "bycorf::SleepFor(bycorf::Worker&, std::chrono::duration<long, std::ratio<1l, 1000000000l> >)",
+          "percent": 0.38
+        },
+        {
+          "mode": ".",
+          "symbol": "bycorf::Task<absl::lts_20250512::Status>::SetCompletionCallback(void*, void (*)(void*, std::__n4861::coroutine_handle<void>) noexcept)",
+          "percent": 0.38
+        },
+        {
+          "mode": ".",
+          "symbol": "clock_gettime@@GLIBC_2.17",
+          "percent": 0.38
+        },
+        {
+          "mode": "k",
+          "symbol": "dma_direct_map_phys",
+          "percent": 0.38
+        },
+        {
+          "mode": "k",
+          "symbol": "dma_map_phys",
+          "percent": 0.38
+        },
+        {
+          "mode": "k",
+          "symbol": "ext4_set_iomap",
+          "percent": 0.38
+        },
+        {
+          "mode": "k",
+          "symbol": "get_page_from_freelist",
+          "percent": 0.38
+        },
+        {
+          "mode": ".",
+          "symbol": "getenv",
+          "percent": 0.38
+        },
+        {
+          "mode": "k",
+          "symbol": "io_cqring_wait",
+          "percent": 0.38
+        },
+        {
+          "mode": ".",
+          "symbol": "io_uring_cqe_iter_next",
+          "percent": 0.38
+        },
+        {
+          "mode": "k",
+          "symbol": "iomap_dio_rw",
+          "percent": 0.38
+        },
+        {
+          "mode": "k",
+          "symbol": "kmem_cache_alloc_noprof",
+          "percent": 0.38
+        },
+        {
+          "mode": "k",
+          "symbol": "ktime_get",
+          "percent": 0.38
+        },
+        {
+          "mode": ".",
+          "symbol": "lavik::storage::(anonymous namespace)::BuildPhysical(std::span<lavik::storage::HashGroupLocation const, 18446744073709551615ul>, std::shared_ptr<lavik::storage::ScanHashMapEntryArena> const&)",
+          "percent": 0.38
+        },
+        {
+          "mode": ".",
+          "symbol": "lavik::storage::(anonymous namespace)::SipRound(unsigned long*, unsigned long*, unsigned long*, unsigned long*)",
+          "percent": 0.38
+        },
+        {
+          "mode": ".",
+          "symbol": "lavik::storage::DecodeRecordHeader(std::span<std::byte const, 18446744073709551615ul>, lavik::storage::RecordHeader*, std::basic_string_view<char, std::char_traits<char> >*)",
+          "percent": 0.38
+        },
+        {
+          "mode": ".",
+          "symbol": "lavik::storage::ReadBufferLease::Reset()",
+          "percent": 0.38
+        },
+        {
+          "mode": ".",
+          "symbol": "lavik::storage::RegisteredBufferPool::AllocateHeapReadBuffer(unsigned long)",
+          "percent": 0.38
+        },
+        {
+          "mode": ".",
+          "symbol": "lavik::storage::ScanHashMap<lavik::storage::RecordLocation, 32u, lavik::storage::RecordIndexEntryPolicy>::Maintain()",
+          "percent": 0.38
+        },
+        {
+          "mode": ".",
+          "symbol": "lavik::storage::StorageEngine::Impl::LoadIndirectKey[abi:cxx11](std::shared_ptr<lavik::storage::IndirectKey>) [clone .destroy]",
+          "percent": 0.38
+        },
+        {
+          "mode": ".",
+          "symbol": "lavik::storage::StorageEngine::Impl::ValidGroupedWrite(lavik::storage::StorageEngine::Impl::RecordWriteRequest const&, unsigned long, unsigned long)",
+          "percent": 0.38
+        },
+        {
+          "mode": ".",
+          "symbol": "mi_arenas_page_alloc_fresh",
+          "percent": 0.38
+        },
+        {
+          "mode": ".",
+          "symbol": "mi_page_decode_padding",
+          "percent": 0.38
+        },
+        {
+          "mode": ".",
+          "symbol": "mi_page_xthread_id",
+          "percent": 0.38
+        },
+        {
+          "mode": "k",
+          "symbol": "srso_alias_return_thunk",
+          "percent": 0.38
+        },
+        {
+          "mode": ".",
+          "symbol": "std::_Optional_base_impl<lavik::MemoryReservation, std::_Optional_base<lavik::MemoryReservation, false, false> >::_M_is_engaged() const",
+          "percent": 0.38
+        },
+        {
+          "mode": ".",
+          "symbol": "std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_construct<char const*>(char const*, char const*, std::forward_iterator_tag)::_Guard::~_Guard()",
+          "percent": 0.38
+        },
+        {
+          "mode": ".",
+          "symbol": "std::__deque_buf_size(unsigned long)",
+          "percent": 0.38
+        },
+        {
+          "mode": ".",
+          "symbol": "std::__n4861::coroutine_handle<bycorf::Task<absl::lts_20250512::StatusOr<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::promise_type>::address() const",
+          "percent": 0.38
+        },
+        {
+          "mode": ".",
+          "symbol": "std::atomic<bool>::exchange(bool, std::memory_order)",
+          "percent": 0.38
+        },
+        {
+          "mode": ".",
+          "symbol": "std::deque<lavik::storage::StorageEngine::Impl::WorkerStore::ExpireCandidate, std::allocator<lavik::storage::StorageEngine::Impl::WorkerStore::ExpireCandidate> >::size() const",
+          "percent": 0.38
+        },
+        {
+          "mode": ".",
+          "symbol": "std::operator&(std::memory_order, std::__memory_order_modifier)",
+          "percent": 0.38
+        },
+        {
+          "mode": ".",
+          "symbol": "std::tuple_element<0ul, std::tuple<bycorf::WorkerMailbox*, std::default_delete<bycorf::WorkerMailbox []> > >::type const& std::get<0ul, bycorf::WorkerMailbox*, std::default_delete<bycorf::WorkerMailbox []> >(std::tuple<bycorf::WorkerMailbox*, std::default_delete<bycorf::WorkerMailbox []> > const&)",
+          "percent": 0.38
+        },
+        {
+          "mode": ".",
+          "symbol": "std::unique_ptr<absl::lts_20250512::InlinedVector<absl::lts_20250512::status_internal::Payload, 1ul, std::allocator<absl::lts_20250512::status_internal::Payload> >, std::default_delete<absl::lts_20250512::InlinedVector<absl::lts_20250512::status_internal::Payload, 1ul, std::allocator<absl::lts_20250512::status_internal::Payload> > > >::unique_ptr(std::unique_ptr<absl::lts_20250512::InlinedVector<absl::lts_20250512::status_internal::Payload, 1ul, std::allocator<absl::lts_20250512::status_internal::Payload> >, std::default_delete<absl::lts_20250512::InlinedVector<absl::lts_20250512::status_internal::Payload, 1ul, std::allocator<absl::lts_20250512::status_internal::Payload> > > >&&)",
+          "percent": 0.38
+        },
+        {
+          "mode": "k",
+          "symbol": "x64_sys_call",
+          "percent": 0.38
+        }
+      ],
+      "source_report_sha256": "ac37915a70dfe70ab05dddb43beafa33052157334d54516ac88ecb55cd552349",
+      "published_report": "pr267-retained-candidate-self.txt",
+      "published_report_sha256": "85d9e436cd33e86c9632b74805b654ded5b549bbbf6d651ea7564c2f8b3bfcd8",
+      "published_report_transform": "Whitespace collapsed, dotted table ruler removed; all symbol rows preserved and parsed values matched."
+    }
+  },
+  "limits": "Rounded self percentages from completed perf report decoders, 0.1% cutoff; 271/265 samples only. Whole process capture while target GET was pending, includes background/kernel/polling CPU. Low sample count and zero reported lost samples do not prove complete callchain unwinding or precise effect sizes. No candidate root-reuse28 sample or clean throughput comparison."
+}

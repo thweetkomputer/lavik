@@ -1,0 +1,100 @@
+{
+  "rows": [
+    {
+      "version": "main",
+      "source": {
+        "source_head": "19496654cc43b21df11fb59be60e174dc4c89dbc",
+        "built_revision": "19496654cc43b21df11fb59be60e174dc4c89dbc",
+        "tree": "0d962b0f608d93f47f0d955e468828837d7b5935",
+        "ci_run": "https://github.com/eloqdata/lavik/actions/runs/37237724710",
+        "artifact_id": 11316029042,
+        "binary": "/mnt/dev/lavik-complex-iterations-20261004/pr267-extent-ci-repro/main/build_ci/lavik",
+        "test": "/mnt/dev/lavik-complex-iterations-20261004/pr267-extent-ci-repro/main/build_ci/lavik_extent_recovery_e2e_test",
+        "binary_sha256": "84708b47529efbf36b694622474e2ce5565cf44e732ea0b06e22ee9a3454b208",
+        "test_sha256": "4a68d975e9c1f849cf2199246531165609f480691a68a7fd1e41d1263637a7c6"
+      },
+      "report": "/mnt/dev/lavik-complex-iterations-20261004/pr267-retained-image-profile/main/self.txt",
+      "stacks_local_only": "/mnt/dev/lavik-complex-iterations-20261004/pr267-retained-image-profile/main/stacks.txt",
+      "report_argv": [
+        "sudo",
+        "-n",
+        "perf",
+        "report",
+        "--stdio",
+        "--no-inline",
+        "--no-children",
+        "--call-graph",
+        "none",
+        "--sort",
+        "symbol",
+        "--percent-limit",
+        "0.1",
+        "-i",
+        "/mnt/dev/lavik-complex-iterations-20261004/pr267-retained-image-profile/main/long-key.perf"
+      ],
+      "stack_argv": [
+        "sudo",
+        "-n",
+        "perf",
+        "script",
+        "--no-inline",
+        "-F",
+        "comm,pid,tid,time,period,event,ip,sym,dso",
+        "-i",
+        "/mnt/dev/lavik-complex-iterations-20261004/pr267-retained-image-profile/main/long-key.perf"
+      ],
+      "recorder_exit": -2,
+      "recording_validation": "Intentional SIGINT; completed perf write summary; successful report and script decoding required",
+      "get_completed": false
+    },
+    {
+      "version": "candidate",
+      "source": {
+        "source_head": "343e951e3341593cc46b2cfae42f7d8f9b26304e",
+        "built_revision": "2d15726a961c919b2ca71f785b0b958bbabd57a6",
+        "tree": "693123acc8989edf33e790ceddf0f3ebe907d8ac",
+        "ci_run": "https://github.com/eloqdata/lavik/actions/runs/37241591043",
+        "artifact_id": 11317164871,
+        "binary": "/mnt/dev/lavik-complex-iterations-20261004/pr267-extent-ci-repro/candidate/build_ci/lavik",
+        "test": "/mnt/dev/lavik-complex-iterations-20261004/pr267-extent-ci-repro/candidate/build_ci/lavik_extent_recovery_e2e_test",
+        "binary_sha256": "7f84a76db72951edd6a9065373ae67d8669c3db80624d692922c48a2df7db77f",
+        "test_sha256": "4a68d975e9c1f849cf2199246531165609f480691a68a7fd1e41d1263637a7c6"
+      },
+      "report": "/mnt/dev/lavik-complex-iterations-20261004/pr267-retained-image-profile/candidate/self.txt",
+      "stacks_local_only": "/mnt/dev/lavik-complex-iterations-20261004/pr267-retained-image-profile/candidate/stacks.txt",
+      "report_argv": [
+        "sudo",
+        "-n",
+        "perf",
+        "report",
+        "--stdio",
+        "--no-inline",
+        "--no-children",
+        "--call-graph",
+        "none",
+        "--sort",
+        "symbol",
+        "--percent-limit",
+        "0.1",
+        "-i",
+        "/mnt/dev/lavik-complex-iterations-20261004/pr267-retained-image-profile/candidate/long-key.perf"
+      ],
+      "stack_argv": [
+        "sudo",
+        "-n",
+        "perf",
+        "script",
+        "--no-inline",
+        "-F",
+        "comm,pid,tid,time,period,event,ip,sym,dso",
+        "-i",
+        "/mnt/dev/lavik-complex-iterations-20261004/pr267-retained-image-profile/candidate/long-key.perf"
+      ],
+      "recorder_exit": -2,
+      "recording_validation": "Intentional SIGINT; completed perf write summary; successful report and script decoding required",
+      "get_completed": false
+    }
+  ],
+  "progress_summary": "/mnt/dev/lavik-complex-iterations-20261004/pr267-retained-key-progress-summary.json",
+  "limits": "Diagnosis only: sampled CPU includes kernel, polling and background work; process IO is not command-exclusive. Interpret incomplete GETs separately. Raw perf and stack dumps stay local. No clean throughput is measured here."
+}
