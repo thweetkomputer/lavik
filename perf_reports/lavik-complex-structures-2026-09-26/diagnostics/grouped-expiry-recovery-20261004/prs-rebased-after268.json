@@ -1,0 +1,311 @@
+[
+  {
+    "pr": 266,
+    "previous_head": "138d39ac1850f5a660addf2d924fa57d0a745319",
+    "head": "3acb7fd2d892caacde0725a8480ab4cb3c90415c",
+    "base": "330738d9a483abc3cb43247d47ef2c594d890f3b",
+    "worktree": "/mnt/dev/lavik-pr266-after268-20261005",
+    "changed_files": [
+      "src/storage/engine/grouped/zset.cpp",
+      "src/storage/engine/grouped/zset_members.cpp",
+      "src/storage/engine/impl.h",
+      "tests/grouped/zset_write_e2e_test.cpp"
+    ],
+    "recovery_files_identical_to_main": [
+      "src/storage/engine/alloc.cpp",
+      "src/storage/engine/init.cpp",
+      "src/storage/engine/recovery.cpp",
+      "tests/grouped/recovery_e2e_test.cpp",
+      "tests/meta_integration/gate_sentinel.py",
+      "tests/meta_integration/gate_automatic_failover.py",
+      "docs/architecture/04-storage-and-recovery.md"
+    ],
+    "clang_format_23_1_1": "pass",
+    "diff_check": "pass",
+    "new_ci": {
+      "conclusion": "",
+      "databaseId": 37297041275,
+      "headSha": "3acb7fd2d892caacde0725a8480ab4cb3c90415c",
+      "status": "in_progress",
+      "workflowName": "CI"
+    },
+    "new_native_or_benchmarks": false,
+    "pushed": true,
+    "base_branch": "main",
+    "mergeable": "MERGEABLE",
+    "pr_body_updated": true
+  },
+  {
+    "pr": 267,
+    "previous_head": "343e951e3341593cc46b2cfae42f7d8f9b26304e",
+    "head": "c7c37ff64c9d9d265fbe00201413616f725c660d",
+    "base": "330738d9a483abc3cb43247d47ef2c594d890f3b",
+    "worktree": "/mnt/dev/lavik-pr267-after268-20261005",
+    "changed_files": [
+      "docs/architecture/09-grouped-collections.md",
+      "src/redis/list_command.cpp",
+      "src/storage/engine/grouped/list.cpp",
+      "tests/grouped/ordered_write_e2e_test.cpp",
+      "tests/grouped/transfer_e2e_test.cpp"
+    ],
+    "recovery_files_identical_to_main": [
+      "src/storage/engine/alloc.cpp",
+      "src/storage/engine/init.cpp",
+      "src/storage/engine/recovery.cpp",
+      "tests/grouped/recovery_e2e_test.cpp",
+      "tests/meta_integration/gate_sentinel.py",
+      "tests/meta_integration/gate_automatic_failover.py",
+      "docs/architecture/04-storage-and-recovery.md"
+    ],
+    "clang_format_23_1_1": "pass",
+    "diff_check": "pass",
+    "new_ci": {
+      "conclusion": "",
+      "databaseId": 37297041183,
+      "headSha": "c7c37ff64c9d9d265fbe00201413616f725c660d",
+      "status": "in_progress",
+      "workflowName": "CI"
+    },
+    "new_native_or_benchmarks": false,
+    "pushed": true,
+    "base_branch": "main",
+    "mergeable": "MERGEABLE",
+    "pr_body_updated": true
+  },
+  {
+    "pr": 270,
+    "previous_head": "22b04837a0e6dfb3e2d83433bffb1d9783141f98",
+    "head": "e9714eb323209e7b781e0bac7820ffd7d1e0ccc2",
+    "base": "330738d9a483abc3cb43247d47ef2c594d890f3b",
+    "worktree": "/mnt/dev/lavik-pr270-after268-20261005",
+    "changed_files": [
+      "src/redis/stream_command.cpp",
+      "tests/cluster/replication_manager_integration_test.cpp",
+      "tests/grouped/stream_e2e_test.cpp"
+    ],
+    "recovery_files_identical_to_main": [
+      "src/storage/engine/alloc.cpp",
+      "src/storage/engine/init.cpp",
+      "src/storage/engine/recovery.cpp",
+      "tests/grouped/recovery_e2e_test.cpp",
+      "tests/meta_integration/gate_sentinel.py",
+      "tests/meta_integration/gate_automatic_failover.py",
+      "docs/architecture/04-storage-and-recovery.md"
+    ],
+    "clang_format_23_1_1": "pass",
+    "diff_check": "pass",
+    "new_ci": {
+      "conclusion": "",
+      "databaseId": 37297041978,
+      "headSha": "e9714eb323209e7b781e0bac7820ffd7d1e0ccc2",
+      "status": "queued",
+      "workflowName": "CI"
+    },
+    "new_native_or_benchmarks": false,
+    "pushed": true,
+    "base_branch": "main",
+    "mergeable": "MERGEABLE",
+    "pr_body_updated": true
+  },
+  {
+    "pr": 271,
+    "previous_head": "2e6e4f3559d284e6fe5d0dddc7eb1de5929761ae",
+    "head": "d471dd651004258d3b901a707027d94323f86547",
+    "base": "3acb7fd2d892caacde0725a8480ab4cb3c90415c",
+    "base_branch": "perf/zset-member-probe-20261004",
+    "branch": "perf/grouped-inline-manifest-20261004",
+    "worktree": "/mnt/dev/lavik-pr271-cleanup-20261005",
+    "changed_files": [
+      "CMakeLists.txt",
+      "docs/architecture/09-grouped-collections.md",
+      "include/lavik/storage/detail/grouped/scratch.h",
+      "src/storage/engine/grouped/hash_random.cpp",
+      "src/storage/engine/grouped/list.cpp",
+      "src/storage/engine/grouped/mutation.cpp",
+      "src/storage/engine/grouped/ordered_io.cpp",
+      "src/storage/engine/grouped/ordered_mutation.cpp",
+      "src/storage/engine/grouped/read.cpp",
+      "src/storage/engine/grouped/stream.cpp",
+      "src/storage/engine/grouped/zset.cpp",
+      "src/storage/engine/grouped/zset_members.cpp",
+      "tests/grouped/object_index_test.cpp",
+      "tests/meta_integration/gate_sentinel_ha.py",
+      "tests/meta_integration/test_sentinel_recovery_probe.py"
+    ],
+    "byte_identical_to_previous": [
+      "include/lavik/storage/detail/grouped/scratch.h",
+      "src/storage/engine/grouped/hash_random.cpp",
+      "src/storage/engine/grouped/list.cpp",
+      "src/storage/engine/grouped/mutation.cpp",
+      "src/storage/engine/grouped/ordered_io.cpp",
+      "src/storage/engine/grouped/ordered_mutation.cpp",
+      "src/storage/engine/grouped/read.cpp",
+      "src/storage/engine/grouped/stream.cpp",
+      "src/storage/engine/grouped/zset.cpp",
+      "src/storage/engine/grouped/zset_members.cpp",
+      "tests/grouped/object_index_test.cpp",
+      "tests/meta_integration/gate_sentinel_ha.py",
+      "tests/meta_integration/test_sentinel_recovery_probe.py"
+    ],
+    "clang_format_23_1_1": "pass",
+    "diff_check": "pass",
+    "python_syntax": "pass",
+    "new_ci": {
+      "conclusion": "",
+      "databaseId": 37297692802,
+      "headSha": "d471dd651004258d3b901a707027d94323f86547",
+      "status": "queued",
+      "workflowName": "CI"
+    },
+    "new_native_or_benchmarks": false,
+    "head_repository": "eloqdata/lavik",
+    "pushed": true,
+    "mergeable": "MERGEABLE",
+    "pr_body_updated": true
+  },
+  {
+    "pr": 272,
+    "previous_head": "8babe581213f2cd781f13665a45fdbf1012cf449",
+    "head": "c6956c8b70fe19f3fc142430a1fac4e39dd4973e",
+    "base": "3acb7fd2d892caacde0725a8480ab4cb3c90415c",
+    "base_branch": "perf/zset-member-probe-20261004",
+    "branch": "perf/grouped-route-digest-reuse-20261004",
+    "worktree": "/mnt/dev/lavik-pr272-cleanup-20261005",
+    "changed_files": [
+      "include/lavik/storage/detail/grouped/hash.h",
+      "src/storage/engine/grouped/hash.cpp",
+      "src/storage/engine/grouped/read.cpp",
+      "tests/grouped/hash_test.cpp"
+    ],
+    "byte_identical_to_previous": [
+      "include/lavik/storage/detail/grouped/hash.h",
+      "src/storage/engine/grouped/hash.cpp",
+      "src/storage/engine/grouped/read.cpp",
+      "tests/grouped/hash_test.cpp"
+    ],
+    "clang_format_23_1_1": "pass",
+    "diff_check": "pass",
+    "python_syntax": "pass",
+    "new_ci": {
+      "conclusion": "",
+      "databaseId": 37297692702,
+      "headSha": "c6956c8b70fe19f3fc142430a1fac4e39dd4973e",
+      "status": "queued",
+      "workflowName": "CI"
+    },
+    "new_native_or_benchmarks": false,
+    "head_repository": "eloqdata/lavik",
+    "pushed": true,
+    "mergeable": "MERGEABLE",
+    "pr_body_updated": true
+  },
+  {
+    "pr": 275,
+    "previous_head": "5b9ebdedecc0cc7a3fea93fb73b1fbbb6b7186c6",
+    "head": "291cbcb77c36774670f10ac51ef67831868a6539",
+    "base": "e9714eb323209e7b781e0bac7820ffd7d1e0ccc2",
+    "base_branch": "perf/stream-reply-batching-20261004",
+    "branch": "perf/stream-range-read-window-20261004",
+    "worktree": "/mnt/dev/lavik-pr275-cleanup-20261005",
+    "changed_files": [
+      "docs/architecture/12-streams.md",
+      "include/lavik/storage/detail/grouped/scratch.h",
+      "src/storage/engine/transfer_api.cpp",
+      "tests/grouped/stream_e2e_test.cpp"
+    ],
+    "byte_identical_to_previous": [
+      "docs/architecture/12-streams.md",
+      "include/lavik/storage/detail/grouped/scratch.h",
+      "src/storage/engine/transfer_api.cpp",
+      "tests/grouped/stream_e2e_test.cpp"
+    ],
+    "clang_format_23_1_1": "pass",
+    "diff_check": "pass",
+    "python_syntax": "pass",
+    "new_ci": {
+      "conclusion": "",
+      "databaseId": 37297694693,
+      "headSha": "291cbcb77c36774670f10ac51ef67831868a6539",
+      "status": "queued",
+      "workflowName": "CI"
+    },
+    "new_native_or_benchmarks": false,
+    "head_repository": "eloqdata/lavik",
+    "pushed": true,
+    "mergeable": "MERGEABLE",
+    "pr_body_updated": true
+  },
+  {
+    "pr": 280,
+    "previous_head": "9d1ffc8572f558cc139b1801488d014c2099dbfd",
+    "head": "a5c825e91f9b9b3859f7e4620211bc2a14a17828",
+    "base": "330738d9a483abc3cb43247d47ef2c594d890f3b",
+    "base_branch": "main",
+    "branch": "perf/zset-score-views-20261005",
+    "worktree": "/mnt/dev/lavik-pr280-cleanup-20261005",
+    "changed_files": [
+      "include/lavik/storage/detail/grouped/hash.h",
+      "src/storage/engine/grouped/hash.cpp",
+      "src/storage/engine/grouped/zset.cpp",
+      "tests/grouped/hash_test.cpp",
+      "tests/grouped/zset_write_e2e_test.cpp"
+    ],
+    "byte_identical_to_previous": [
+      "include/lavik/storage/detail/grouped/hash.h",
+      "src/storage/engine/grouped/hash.cpp",
+      "src/storage/engine/grouped/zset.cpp",
+      "tests/grouped/hash_test.cpp",
+      "tests/grouped/zset_write_e2e_test.cpp"
+    ],
+    "clang_format_23_1_1": "pass",
+    "diff_check": "pass",
+    "python_syntax": "pass",
+    "new_ci": {
+      "conclusion": "",
+      "databaseId": 37297696440,
+      "headSha": "a5c825e91f9b9b3859f7e4620211bc2a14a17828",
+      "status": "queued",
+      "workflowName": "CI"
+    },
+    "new_native_or_benchmarks": false,
+    "head_repository": "thweetkomputer/lavik",
+    "pushed": true,
+    "mergeable": "MERGEABLE",
+    "pr_body_updated": true
+  },
+  {
+    "pr": 282,
+    "previous_head": "28d7cca498655e02f46407adb65335219b10ee6b",
+    "head": "2c94e9dabecb8c77636f29a24f1325e00263fc5d",
+    "base": "330738d9a483abc3cb43247d47ef2c594d890f3b",
+    "base_branch": "main",
+    "branch": "perf/grouped-verified-root-20261005",
+    "worktree": "/mnt/dev/lavik-pr282-cleanup-20261005",
+    "changed_files": [
+      "src/storage/engine/grouped/ordered_io.cpp",
+      "src/storage/engine/grouped/read.cpp",
+      "src/storage/engine/impl.h",
+      "src/storage/engine/read.cpp"
+    ],
+    "byte_identical_to_previous": [
+      "src/storage/engine/grouped/ordered_io.cpp",
+      "src/storage/engine/grouped/read.cpp",
+      "src/storage/engine/read.cpp"
+    ],
+    "clang_format_23_1_1": "pass",
+    "diff_check": "pass",
+    "python_syntax": "pass",
+    "new_ci": {
+      "conclusion": "",
+      "databaseId": 37297697141,
+      "headSha": "2c94e9dabecb8c77636f29a24f1325e00263fc5d",
+      "status": "queued",
+      "workflowName": "CI"
+    },
+    "new_native_or_benchmarks": false,
+    "head_repository": "thweetkomputer/lavik",
+    "pushed": true,
+    "mergeable": "MERGEABLE",
+    "pr_body_updated": true
+  }
+]

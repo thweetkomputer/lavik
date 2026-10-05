@@ -1,10 +1,10 @@
 # Full-device grouped expiration: CI diagnosis and repair
 
-[PR #268](https://github.com/eloqdata/lavik/pull/268) fixes a main recovery failure encountered while validating the performance PRs. The current head is `cf895883`; [its CI](https://github.com/eloqdata/lavik/actions/runs/37294618671) is pending and **this head is not yet verified for merge**. [Observed head/job state](pr268-cf895883-ci-observation.json) retains the cancelled test shards from the superseded `e4f4da7c` run. Earlier green CI and native results below belong to their recorded commits and do not validate the later changes.
+[PR #268](https://github.com/eloqdata/lavik/pull/268) 已于 2026-10-05 合并到 main，合并提交 `330738d9`。[合并记录](pr268-merged.json)。合并是远端状态，不等于最终 head 的全部 CI 已完成；历史测试与失败仍按原提交保留。
 
-The `e4f4da7c` follow-up covers reclaimed extent identities on both Hash and ordered recovery paths, validates the selected graph before publication or live accounting, and waits for detached-root tombstones to become durable before readiness. Only tagged foreground disk exhaustion permits skipping that repair; admission, I/O and payload-checksum failures remain fatal. Added regressions cover reclaimed Hash/List extents and crash followed by clock rollback. `cf895883` then reorders the transient tombstone fields and their initializers to reduce padding; it does not intentionally change recovery behavior. Full validation of the final head remains pending.
+The `e4f4da7c` follow-up covers reclaimed extent identities on both Hash and ordered recovery paths, validates the selected graph before publication or live accounting, and waits for detached-root tombstones to become durable before readiness. Only tagged foreground disk exhaustion permits skipping that repair; admission, I/O and payload-checksum failures remain fatal. Added regressions cover reclaimed Hash/List extents and crash followed by clock rollback. `cf895883` then reorders the transient tombstone fields and their initializers to reduce padding; it does not intentionally change recovery behavior. The final-head CI was still pending when the PR was merged; no old pass is relabeled as current validation.
 
-#266 `138d39ac` includes main `741dc326` and the `e4f4da7c` repair. #267 `343e951e` still carries the earlier repair and has a distinct unresolved extent-test SET timeout; it remains draft. The published performance binaries remain `a1b24b60` and `ff9e3655` respectively. No new foreground-QPS result is inferred from recovery changes.
+[本轮 rebase 记录](prs-rebased-after268.json)：#266/#267/#270/#280/#282 直接基于 main `330738d9`；#271/#272 基于新 #266，#275 基于新 #270。相关恢复代码与 main 一致，不再携带独立 #268 提交。全部变更通过格式及差异检查，新 CI 待完成；#267 历史 `343e951e` 的 SET 超时仍未解释。既有性能测量和排队对照保留固定源码、二进制和 CI 身份，不转记为新 head 的结果。
 
 ## Root cause
 
@@ -37,3 +37,20 @@ The reply-reservation publisher incorrectly reused the first List-stage director
 [Initial recovery-fix CI](https://github.com/eloqdata/lavik/actions/runs/37229779333) at `89d0b136` passed 11 of 12 software shards, including all six arm64 shards. Both architecture shard-0 jobs passed all 291 tests, including the previously failing grouped ordered suite. The remaining amd64 shard failed `SentinelTest.test_discovery_null_contract_on_bootstrap_leader` with `RESP connection closed`: it sent discovery commands before the elected leader had discovery authority. [Job outcomes](pr268-first-ci.json) retain the failed overall result.
 
 At historical head `5c0deb3e`, PR #268 included the validated Meta test fixture corrections from #266/#267, with recovery implementation `89d0b136`. [Combined-head CI](https://github.com/eloqdata/lavik/actions/runs/37231917942) passed all 12 software shards on amd64/arm64, both builds and formatting. [Recorded job outcomes](pr268-5c0-ci.json).
+
+## 当前保留 PR
+
+| PR | 新 head | 基础分支 | 本轮 CI |
+|---|---|---|---|
+| #266 | `3acb7fd2` | `main` | [新 CI](https://github.com/eloqdata/lavik/actions/runs/37297041275)，待完成 |
+| #267 | `c7c37ff6` | `main` | [新 CI](https://github.com/eloqdata/lavik/actions/runs/37297041183)，待完成 |
+| #270 | `e9714eb3` | `main` | [新 CI](https://github.com/eloqdata/lavik/actions/runs/37297041978)，待完成 |
+| #271 | `d471dd65` | `perf/zset-member-probe-20261004` | [新 CI](https://github.com/eloqdata/lavik/actions/runs/37297692802)，待完成 |
+| #272 | `c6956c8b` | `perf/zset-member-probe-20261004` | [新 CI](https://github.com/eloqdata/lavik/actions/runs/37297692702)，待完成 |
+| #275 | `291cbcb7` | `perf/stream-reply-batching-20261004` | [新 CI](https://github.com/eloqdata/lavik/actions/runs/37297694693)，待完成 |
+| #280 | `a5c825e9` | `main` | [新 CI](https://github.com/eloqdata/lavik/actions/runs/37297696440)，待完成 |
+| #282 | `2c94e9da` | `main` | [新 CI](https://github.com/eloqdata/lavik/actions/runs/37297697141)，待完成 |
+
+#269/#273/#276 因实测整体收益不足或控制回退已关闭，#274 此前已关闭。暂停寻找新优化；#271/#272/#280 的收益尚未验证，保持草稿，不能据此称为无效或推荐合并。
+
+[调度调整记录](pr-cleanup-requeued-processes.json)：仅重启尚未取得主机锁的等待任务，允许 PR rebase 后继续测量原固定提交；原始等待日志保留，未重跑或覆盖任何观测。源提交、完整 CI、二进制 SHA 和构建配置检查保留。#276 的未开始补充采样已[取消](pr276-unstarted-perf-cancelled.json)。

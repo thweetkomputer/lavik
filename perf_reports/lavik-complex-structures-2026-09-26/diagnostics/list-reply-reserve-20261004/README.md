@@ -1,5 +1,7 @@
 # List reply capacity: incremental measurements
 
+**2026-10-05 当前 PR：** #267 已 rebase 为 `c7c37ff6`，基于 `main`，[新 CI](https://github.com/eloqdata/lavik/actions/runs/37297041183) 待完成；#282 已 rebase 为 `2c94e9da`，基于 `main`，[新 CI](https://github.com/eloqdata/lavik/actions/runs/37297697141) 待完成。以下 native、CI 和性能数据仍归属各自标注的原提交；正在执行或排队的对照仍用固定提交，不代表新 head 已通过。[完整记录](../grouped-expiry-recovery-20261004/prs-rebased-after268.json)。
+
 This is the second measured stage of [PR #267](https://github.com/eloqdata/lavik/pull/267). The previous production revision is `13041873` (bounded page reads); this candidate is `ff9e36550d3c899011cb07e037f4521273e667ae` (adds reply preallocation). Later branch heads also include the independently submitted recovery repair in [PR #268](https://github.com/eloqdata/lavik/pull/268); these performance measurements remain pinned to `ff9e3655` and predate that repair. [First-stage results](../list-read-window-20261004/README.md) · [binary/build proof](list-reply-versions.json).
 
 ## Change and scope

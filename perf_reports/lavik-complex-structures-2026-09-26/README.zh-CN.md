@@ -1,14 +1,16 @@
 # 复杂数据结构性能：Redis、Valkey、Kvrocks 与 Lavik
 
+**2026-10-05 PR 收敛：** #268 已合入 main `330738d9`；#266/#267/#270/#280/#282 已 rebase 到该 main，#271/#272 随 #266、#275 随 #270 更新。#269/#273/#276 因整体收益不足或控制项回退已关闭；#274 此前已关闭。暂停寻找新优化，仅完成保留候选的验证与 CI。[提交、依赖与检查记录](diagnostics/grouped-expiry-recovery-20261004/prs-rebased-after268.json)。历史测量及已关闭候选的曲线保留，不代表新 head 已通过验证。
+
 [Stream 读取窗口 #275：24 点大对象读取三轮对照](diagnostics/stream-reply-20261004/stream-window-large-reads.md)已完成。100 MiB / 128 B / 8 keys，全量读取 c1/4/16 的配对 QPS 中位数提升 **+327.45% / +233.85% / +128.49%**；点读 c2560 为 **−1.07%**。全量读取 QPS 中位数为 2.18 / 6.41 / 16.28，超过对应的三库历史测量，但其他三库未重跑、持久化配置不同，不能据此宣称整体追平。写入和小对象控制继续执行；原生产 RDB 超时仍未解释，PR 保持草稿。
 
-Hash/Set 单路由替换的[全部 144 点对照](diagnostics/hash-route-replace-20261005/hash-route-complete.md)已完成。大 Hash HSET c5120 的 QPS +7.81% 未推广到其他范围：小 Hash HSET 与两种 Set 写入中位均回退，#276 保持草稿。完整 QPS/p99、反向结果和历史 peer 差距均已公开；[四组大对象 perf](diagnostics/hash-route-replace-20261005/hash-route-large-perf.md)已完成，小 Hash 采样仍排队，回退原因尚未确定。
+Hash/Set 单路由替换的[全部 144 点对照](diagnostics/hash-route-replace-20261005/hash-route-complete.md)已完成。大 Hash HSET c5120 的 QPS +7.81% 未推广到其他范围：小 Hash HSET 与两种 Set 写入中位均回退，#276 已关闭。完整 QPS/p99、反向结果和历史 peer 差距均已公开；[四组大对象 perf](diagnostics/hash-route-replace-20261005/hash-route-large-perf.md)已完成，小 Hash 补充采样已取消，回退原因尚未确定。
 
 [English](README.md)
 
 [ZINCRBY worker 分布分析](diagnostics/zset-worker-distribution-20261005/README.md)：现有 8 个 key 在 12 workers 下仅落到 4 个数据 owner；已核对 perf 线程分布，固定二进制的 8/12-worker 配置对照已排队，尚无调参收益结论。
 
-[ZSCORE/ZMSCORE 成员页借用视图](diagnostics/zset-score-views-20261005/README.md)：去掉整页字段/值复制，保留完整校验；fork 与上游 CI 各 17 项通过，[PR #280](https://github.com/eloqdata/lavik/pull/280) 保持草稿；96 点配对及独立读 perf 已排队，尚无性能结论。
+[ZSCORE/ZMSCORE 成员页借用视图](diagnostics/zset-score-views-20261005/README.md)：去掉整页字段/值复制，保留完整校验；历史 `9d1ffc85` 的 fork 与上游 CI 各 17 项通过，新 head CI 待完成，[PR #280](https://github.com/eloqdata/lavik/pull/280) 保持草稿；96 点配对及独立读 perf 已排队，尚无性能结论。
 
 [草稿 PR #282](https://github.com/eloqdata/lavik/pull/282)：长 key 根记录复用已通过三轮独立镜像回放：9 MiB key GET 在 **1.823 / 1.832 / 1.820 秒**返回并校验完整 6 MiB value。原 60 秒基线超时仍保留；这是候选单侧检查，不能计算精确加速比或外推普通 QPS。`28d7cca4` 的 fork 与上游 CI 各 17 项通过；普通短 key 原生回归和 72 点配对对照仍需完成。[证据与限制](diagnostics/list-reply-reserve-20261004/README.md)。
 
@@ -16,7 +18,7 @@ Hash/Set 单路由替换的[全部 144 点对照](diagnostics/hash-route-replace
 
 批量 HSET/SADD 导入另计：4/4 组已更新。
 
-吞吐图固定命令、每 key 的 payload 大小、元素大小和 key 数；横轴为连接数，纵轴为 QPS。批量导入图显示完成固定数据量所需的秒数。只保留当前 main 和后续未合并 PR，其他三库保留同负载的历史实测。
+吞吐图固定命令、每 key 的 payload 大小、元素大小和 key 数；横轴为连接数，纵轴为 QPS。批量导入图显示完成固定数据量所需的秒数。图中保留固定 main、候选及已关闭方案的历史观测，其他三库保留同负载的历史实测。
 
 Redis/Valkey 关闭持久化；Kvrocks 使用无压缩 RAID0、关闭 WAL、80 GiB block/blob cache；Lavik 使用六块 NVMe SPDK 持久化，不缓存字段或页内容。配置不同，写入 QPS 不代表同等持久性下的排名。
 
@@ -40,7 +42,7 @@ Redis/Valkey 关闭持久化；Kvrocks 使用无压缩 RAID0、关闭 WAL、80 G
 
 #265 已于 2026-10-05 合并；其测量仍归属原始提交，不代表新 main 已重跑。
 
-未合并优化：[PR #266](https://github.com/eloqdata/lavik/pull/266) · [PR #267](https://github.com/eloqdata/lavik/pull/267) · [PR #269](https://github.com/eloqdata/lavik/pull/269) · [PR #270](https://github.com/eloqdata/lavik/pull/270) · [PR #276：Hash/Set 单路由替换（验证中）](diagnostics/hash-route-replace-20261005/README.md)
+未合并优化：[PR #266](https://github.com/eloqdata/lavik/pull/266) · [PR #267](https://github.com/eloqdata/lavik/pull/267) · [PR #270](https://github.com/eloqdata/lavik/pull/270)
 
 集成分支已包含更新的 main 提交；本页仍使用固定基线 `a565d603`。[组合验证分支及状态](diagnostics/combined-20261005/README.md)。[优化分支的新提交与验证状态](diagnostics/main-a565d603-20261004/pr-main-integration.json)，新提交尚未替换已测量二进制。
 
@@ -58,13 +60,13 @@ Redis/Valkey 关闭持久化；Kvrocks 使用无压缩 RAID0、关闭 WAL、80 G
 
 [PR #272](https://github.com/eloqdata/lavik/pull/272) 复用解码摘要，减少重复字段检查和路由校验中的哈希计算；仍为草稿，待上述独立对照完成。
 
-[PR #273](https://github.com/eloqdata/lavik/pull/273) 复用单成员写入已经解码的有序源页并转移其内存预算。[大对象 48 点三轮结果](diagnostics/zset-member-probe-20261004/zset-source-reuse-large.md)：ZINCRBY 四档并发 QPS 配对中位数 +2.08%/+1.46%/+1.46%/−0.36%；高并发写 p99 改善，但读控制项 c5120 p99 中位数变差 14.81%。[小对象 48 点结果](diagnostics/zset-member-probe-20261004/zset-source-reuse-small.md)也已完成：写 QPS 中位数 +1.04%–+2.88%，但低两档读 QPS −3.00%/−2.22%、p99 +4.46%/+8.21%。[独立写 perf](diagnostics/zset-member-probe-20261004/zset-source-reuse-perf.md)已完成，未显示数量级成本下降；读回退原因尚待核对，保持草稿。
+[PR #273](https://github.com/eloqdata/lavik/pull/273) 复用单成员写入已经解码的有序源页并转移其内存预算。[大对象 48 点三轮结果](diagnostics/zset-member-probe-20261004/zset-source-reuse-large.md)：ZINCRBY 四档并发 QPS 配对中位数 +2.08%/+1.46%/+1.46%/−0.36%；高并发写 p99 改善，但读控制项 c5120 p99 中位数变差 14.81%。[小对象 48 点结果](diagnostics/zset-member-probe-20261004/zset-source-reuse-small.md)也已完成：写 QPS 中位数 +1.04%–+2.88%，但低两档读 QPS −3.00%/−2.22%、p99 +4.46%/+8.21%。[独立写 perf](diagnostics/zset-member-probe-20261004/zset-source-reuse-perf.md)已完成，未显示数量级成本下降；未证明足够的整体收益，#273 已关闭。
 
 [List 范围读取：吞吐、内存准入、交替复测与 perf](diagnostics/list-read-window-20261004/README.md)
 
 [List 回复空间预留：增量复测、复制热点与当前结果](diagnostics/list-reply-reserve-20261004/README.md)
 
-[List 字节受限窗口：草稿 PR #269 配对复测、回退与 perf](diagnostics/list-byte-window-20261004/README.md)
+[List 字节受限窗口：已关闭 PR #269 配对复测、回退与 perf](diagnostics/list-byte-window-20261004/README.md)
 
 [满盘过期恢复与 CI 修复（PR #268；历史观测保留原始二进制）](diagnostics/grouped-expiry-recovery-20261004/README.md)
 
@@ -84,13 +86,13 @@ Redis/Valkey 关闭持久化；Kvrocks 使用无压缩 RAID0、关闭 WAL、80 G
 
 ![List LINDEX 64 KiB/key, 128 B, 64 keys](charts/list-65536-128-k64-lindex-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-list-65536-k64-f128-20261004/) · [Lavik PR #267 ff9e3655](raw/lavik-candidateff9e3655-ordered-list-65536-k64-f128-20261004/) · [Lavik draft PR #269 4863c98d](raw/lavik-candidate4863c98d-ordered-list-65536-k64-f128-20261004/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-list-65536-k64-f128-20261004/) · [Lavik PR #267 ff9e3655](raw/lavik-candidateff9e3655-ordered-list-65536-k64-f128-20261004/) · [Lavik closed PR #269 4863c98d](raw/lavik-candidate4863c98d-ordered-list-65536-k64-f128-20261004/)
 
 1024 B/entry · 64 keys · 本轮 main 基线 `a565d603`
 
 ![List LINDEX 64 KiB/key, 1024 B, 64 keys](charts/list-65536-1024-k64-lindex-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-list-65536-k64-f1024-20261004/) · [Lavik PR #267 ff9e3655](raw/lavik-candidateff9e3655-ordered-list-65536-k64-f1024-20261004/) · [Lavik draft PR #269 4863c98d](raw/lavik-candidate4863c98d-ordered-list-65536-k64-f1024-20261004/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-list-65536-k64-f1024-20261004/) · [Lavik PR #267 ff9e3655](raw/lavik-candidateff9e3655-ordered-list-65536-k64-f1024-20261004/) · [Lavik closed PR #269 4863c98d](raw/lavik-candidate4863c98d-ordered-list-65536-k64-f1024-20261004/)
 
 #### 1 MiB/key
 
@@ -112,13 +114,13 @@ Redis/Valkey 关闭持久化；Kvrocks 使用无压缩 RAID0、关闭 WAL、80 G
 
 ![List LINDEX 100 MiB/key, 128 B, 8 keys](charts/list-104857600-128-k8-lindex-current.png)
 
-[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-list-104857600-k8-f128-20261004/) · [Lavik PR #267 ff9e3655](raw/lavik-candidateff9e3655-ordered-list-104857600-k8-f128-20261004/) · [Lavik draft PR #269 4863c98d](raw/lavik-candidate4863c98d-ordered-list-104857600-k8-f128-20261004/)
+[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-list-104857600-k8-f128-20261004/) · [Lavik PR #267 ff9e3655](raw/lavik-candidateff9e3655-ordered-list-104857600-k8-f128-20261004/) · [Lavik closed PR #269 4863c98d](raw/lavik-candidate4863c98d-ordered-list-104857600-k8-f128-20261004/)
 
 1024 B/entry · 8 keys · 本轮 main 基线 `a565d603`
 
 ![List LINDEX 100 MiB/key, 1024 B, 8 keys](charts/list-104857600-1024-k8-lindex-current.png)
 
-[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-list-104857600-k8-f1024-20261004/) · [Lavik PR #267 ff9e3655](raw/lavik-candidateff9e3655-ordered-list-104857600-k8-f1024-20261004/) · [Lavik draft PR #269 4863c98d](raw/lavik-candidate4863c98d-ordered-list-104857600-k8-f1024-20261004/)
+[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-list-104857600-k8-f1024-20261004/) · [Lavik PR #267 ff9e3655](raw/lavik-candidateff9e3655-ordered-list-104857600-k8-f1024-20261004/) · [Lavik closed PR #269 4863c98d](raw/lavik-candidate4863c98d-ordered-list-104857600-k8-f1024-20261004/)
 
 ### LSET
 
@@ -128,13 +130,13 @@ Redis/Valkey 关闭持久化；Kvrocks 使用无压缩 RAID0、关闭 WAL、80 G
 
 ![List LSET 64 KiB/key, 128 B, 64 keys](charts/list-65536-128-k64-lset-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-list-65536-k64-f128-20261004/) · [Lavik PR #267 ff9e3655](raw/lavik-candidateff9e3655-ordered-list-65536-k64-f128-20261004/) · [Lavik draft PR #269 4863c98d](raw/lavik-candidate4863c98d-ordered-list-65536-k64-f128-20261004/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-list-65536-k64-f128-20261004/) · [Lavik PR #267 ff9e3655](raw/lavik-candidateff9e3655-ordered-list-65536-k64-f128-20261004/) · [Lavik closed PR #269 4863c98d](raw/lavik-candidate4863c98d-ordered-list-65536-k64-f128-20261004/)
 
 1024 B/entry · 64 keys · 本轮 main 基线 `a565d603`
 
 ![List LSET 64 KiB/key, 1024 B, 64 keys](charts/list-65536-1024-k64-lset-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-list-65536-k64-f1024-20261004/) · [Lavik PR #267 ff9e3655](raw/lavik-candidateff9e3655-ordered-list-65536-k64-f1024-20261004/) · [Lavik draft PR #269 4863c98d](raw/lavik-candidate4863c98d-ordered-list-65536-k64-f1024-20261004/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-list-65536-k64-f1024-20261004/) · [Lavik PR #267 ff9e3655](raw/lavik-candidateff9e3655-ordered-list-65536-k64-f1024-20261004/) · [Lavik closed PR #269 4863c98d](raw/lavik-candidate4863c98d-ordered-list-65536-k64-f1024-20261004/)
 
 #### 1 MiB/key
 
@@ -156,7 +158,7 @@ Redis/Valkey 关闭持久化；Kvrocks 使用无压缩 RAID0、关闭 WAL、80 G
 
 ![List LSET 100 MiB/key, 128 B, 8 keys](charts/list-104857600-128-k8-lset-current.png)
 
-[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-list-104857600-k8-f128-20261004/) · [Lavik PR #267 ff9e3655](raw/lavik-candidateff9e3655-ordered-list-104857600-k8-f128-20261004/) · [Lavik draft PR #269 4863c98d](raw/lavik-candidate4863c98d-ordered-list-104857600-k8-f128-20261004/)
+[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-list-104857600-k8-f128-20261004/) · [Lavik PR #267 ff9e3655](raw/lavik-candidateff9e3655-ordered-list-104857600-k8-f128-20261004/) · [Lavik closed PR #269 4863c98d](raw/lavik-candidate4863c98d-ordered-list-104857600-k8-f128-20261004/)
 
 1024 B/entry · 500 keys · 本轮 main 基线 `a565d603`
 
@@ -172,13 +174,13 @@ Redis/Valkey 关闭持久化；Kvrocks 使用无压缩 RAID0、关闭 WAL、80 G
 
 ![List LRANGE 64 KiB/key, 128 B, 64 keys](charts/list-65536-128-k64-lrange-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-list-65536-k64-f128-20261004/) · [Lavik PR #267 ff9e3655](raw/lavik-candidateff9e3655-ordered-list-65536-k64-f128-20261004/) · [Lavik draft PR #269 4863c98d](raw/lavik-candidate4863c98d-ordered-list-65536-k64-f128-20261004/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-list-65536-k64-f128-20261004/) · [Lavik PR #267 ff9e3655](raw/lavik-candidateff9e3655-ordered-list-65536-k64-f128-20261004/) · [Lavik closed PR #269 4863c98d](raw/lavik-candidate4863c98d-ordered-list-65536-k64-f128-20261004/)
 
 1024 B/entry · 64 keys · 本轮 main 基线 `a565d603`
 
 ![List LRANGE 64 KiB/key, 1024 B, 64 keys](charts/list-65536-1024-k64-lrange-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-list-65536-k64-f1024-20261004/) · [Lavik PR #267 ff9e3655](raw/lavik-candidateff9e3655-ordered-list-65536-k64-f1024-20261004/) · [Lavik draft PR #269 4863c98d](raw/lavik-candidate4863c98d-ordered-list-65536-k64-f1024-20261004/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-list-65536-k64-f1024-20261004/) · [Lavik PR #267 ff9e3655](raw/lavik-candidateff9e3655-ordered-list-65536-k64-f1024-20261004/) · [Lavik closed PR #269 4863c98d](raw/lavik-candidate4863c98d-ordered-list-65536-k64-f1024-20261004/)
 
 #### 1 MiB/key
 
@@ -200,13 +202,13 @@ Redis/Valkey 关闭持久化；Kvrocks 使用无压缩 RAID0、关闭 WAL、80 G
 
 ![List LRANGE 100 MiB/key, 128 B, 8 keys](charts/list-104857600-128-k8-lrange-current.png)
 
-[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-list-104857600-k8-f128-20261004/) · [Lavik PR #267 ff9e3655](raw/lavik-candidateff9e3655-ordered-list-104857600-k8-f128-20261004/) · [Lavik draft PR #269 4863c98d](raw/lavik-candidate4863c98d-ordered-list-104857600-k8-f128-20261004/)
+[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-list-104857600-k8-f128-20261004/) · [Lavik PR #267 ff9e3655](raw/lavik-candidateff9e3655-ordered-list-104857600-k8-f128-20261004/) · [Lavik closed PR #269 4863c98d](raw/lavik-candidate4863c98d-ordered-list-104857600-k8-f128-20261004/)
 
 1024 B/entry · 8 keys · 本轮 main 基线 `a565d603`
 
 ![List LRANGE 100 MiB/key, 1024 B, 8 keys](charts/list-104857600-1024-k8-lrange-current.png)
 
-[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-list-104857600-k8-f1024-20261004/) · [Lavik PR #267 ff9e3655](raw/lavik-candidateff9e3655-ordered-list-104857600-k8-f1024-20261004/) · [Lavik draft PR #269 4863c98d](raw/lavik-candidate4863c98d-ordered-list-104857600-k8-f1024-20261004/)
+[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-list-104857600-k8-f1024-20261004/) · [Lavik PR #267 ff9e3655](raw/lavik-candidateff9e3655-ordered-list-104857600-k8-f1024-20261004/) · [Lavik closed PR #269 4863c98d](raw/lavik-candidate4863c98d-ordered-list-104857600-k8-f1024-20261004/)
 
 ### RPUSH 批量预置
 

@@ -1,0 +1,87 @@
+{
+  "stopped_waiters": [
+    {
+      "pid": 837357,
+      "script": "repeat-grouped-root-controls.py",
+      "log": "/mnt/dev/lavik-complex-iterations-20261004/grouped-root-controls-repeat-driver.log",
+      "start_ticks": "29612201",
+      "reason": "Explicit user PR rebase/cleanup: replace only unstarted scheduling guards; preserve frozen comparison commits and binaries.",
+      "retained_log": "/mnt/dev/lavik-complex-iterations-20261004/grouped-root-controls-repeat-driver.log.before-pr-cleanup"
+    },
+    {
+      "pid": 837210,
+      "script": "validate-grouped-root-native.py",
+      "log": "/mnt/dev/lavik-complex-iterations-20261004/grouped-root-native-driver.log",
+      "start_ticks": "29601758",
+      "reason": "Explicit user PR rebase/cleanup: replace only unstarted scheduling guards; preserve frozen comparison commits and binaries.",
+      "retained_log": "/mnt/dev/lavik-complex-iterations-20261004/grouped-root-native-driver.log.before-pr-cleanup"
+    },
+    {
+      "pid": 826529,
+      "script": "repeat-combined-controls.py",
+      "log": "/mnt/dev/lavik-complex-iterations-20261004/combined-controls-repeat-driver.log",
+      "start_ticks": "29415269",
+      "reason": "Explicit user PR rebase/cleanup: replace only unstarted scheduling guards; preserve frozen comparison commits and binaries.",
+      "retained_log": "/mnt/dev/lavik-complex-iterations-20261004/combined-controls-repeat-driver.log.before-pr-cleanup"
+    },
+    {
+      "pid": 798316,
+      "script": "repeat-grouped-lookup.py",
+      "log": "/mnt/dev/lavik-complex-iterations-20261004/grouped-lookup-repeat-driver.log",
+      "start_ticks": "29039958",
+      "reason": "Explicit user PR rebase/cleanup: replace only unstarted scheduling guards; preserve frozen comparison commits and binaries.",
+      "retained_log": "/mnt/dev/lavik-complex-iterations-20261004/grouped-lookup-repeat-driver.log.before-pr-cleanup"
+    },
+    {
+      "pid": 792453,
+      "script": "validate-grouped-lookup-native.py",
+      "log": "/mnt/dev/lavik-complex-iterations-20261004/grouped-lookup-native-driver.log",
+      "start_ticks": "28765305",
+      "reason": "Explicit user PR rebase/cleanup: replace only unstarted scheduling guards; preserve frozen comparison commits and binaries.",
+      "retained_log": "/mnt/dev/lavik-complex-iterations-20261004/grouped-lookup-native-driver.log.before-pr-cleanup"
+    }
+  ],
+  "new_waiters": [
+    {
+      "pid": 851633,
+      "start_ticks": "30142390",
+      "script": "validate-grouped-lookup-native-pinned-after-rebase.py",
+      "sha256": "5de10cc854b2b7cde6e010c190d01e1ec48d51915e80d0327c97e99d428a721c",
+      "log": "/mnt/dev/lavik-complex-iterations-20261004/grouped-lookup-native-driver.log",
+      "frozen_test_heads_unchanged": true
+    },
+    {
+      "pid": 851634,
+      "start_ticks": "30142391",
+      "script": "repeat-grouped-lookup-pinned-after-rebase.py",
+      "sha256": "64bd30879d68d246a4434445aff7eb7edae3d4e70d1619079eb03144da26adc6",
+      "log": "/mnt/dev/lavik-complex-iterations-20261004/grouped-lookup-repeat-driver.log",
+      "frozen_test_heads_unchanged": true
+    },
+    {
+      "pid": 851635,
+      "start_ticks": "30142391",
+      "script": "repeat-combined-controls-pinned-after-rebase.py",
+      "sha256": "4cbea8dbd1ea5ae32479d3113e519bce7e5168dd204cb883532f0b9bb8c2965e",
+      "log": "/mnt/dev/lavik-complex-iterations-20261004/combined-controls-repeat-driver.log",
+      "frozen_test_heads_unchanged": true
+    },
+    {
+      "pid": 851636,
+      "start_ticks": "30142392",
+      "script": "validate-grouped-root-native-pinned-after-rebase.py",
+      "sha256": "558aca655770fbacb2557a905785e202f695dcaf5e9ddf958f17b31325d551a1",
+      "log": "/mnt/dev/lavik-complex-iterations-20261004/grouped-root-native-driver.log",
+      "frozen_test_heads_unchanged": true
+    },
+    {
+      "pid": 851637,
+      "start_ticks": "30142393",
+      "script": "repeat-grouped-root-controls-pinned-after-rebase.py",
+      "sha256": "c4a2a1d5f635bb5a400781c7c65b6a4d161ef574ae0d586a1654bf2931c9849a",
+      "log": "/mnt/dev/lavik-complex-iterations-20261004/grouped-root-controls-repeat-driver.log",
+      "frozen_test_heads_unchanged": true
+    }
+  ],
+  "scope": "Only waiting schedulers restarted for explicit PR rebase. No measured output existed; no timeout-driven retry. Existing source/CI/binary/build/options guards retained; mutable PR-head equality replaced by explicit attribution."
+}

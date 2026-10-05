@@ -1,5 +1,7 @@
 # 内联页查找与解码摘要：独立对照
 
+**2026-10-05 当前 PR：** #271 已 rebase 为 `d471dd65`，基于 `perf/zset-member-probe-20261004`，[新 CI](https://github.com/eloqdata/lavik/actions/runs/37297692802) 待完成；#272 已 rebase 为 `c6956c8b`，基于 `perf/zset-member-probe-20261004`，[新 CI](https://github.com/eloqdata/lavik/actions/runs/37297692702) 待完成。以下 native、CI 和性能数据仍归属各自标注的原提交；正在执行或排队的对照仍用固定提交，不代表新 head 已通过。[完整记录](../grouped-expiry-recovery-20261004/prs-rebased-after268.json)。
+
 [PR #271](https://github.com/eloqdata/lavik/pull/271) 跳过内联页不需要的 extent 清单查找；[PR #272](https://github.com/eloqdata/lavik/pull/272) 复用已解码字段摘要。这两项分别基于 #266，不将收益相加，也没有合并为一个候选。
 
 | 角色 | 固定提交 | 完整 CI |

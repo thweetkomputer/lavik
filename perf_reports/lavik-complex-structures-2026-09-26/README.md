@@ -1,8 +1,10 @@
 # Complex structures: Redis, Valkey, Kvrocks and Lavik
 
+**2026-10-05 PR consolidation:** #268 is merged as main `330738d9`. #266/#267/#270/#280/#282 are rebased onto it; #271/#272 follow rebased #266 and #275 follows rebased #270. #269/#273/#276 are closed for insufficient overall benefit or control regressions; #274 was already closed. New optimization exploration is suspended while retained candidates finish validation and CI. [Commits, dependencies and checks](diagnostics/grouped-expiry-recovery-20261004/prs-rebased-after268.json). Historical measurements and closed-candidate curves remain evidence, not validation of the rebased heads.
+
 [Stream read-window #275: all 24 large-read observations](diagnostics/stream-reply-20261004/stream-window-large-reads.md) are complete. For 100 MiB / 128 B / 8 keys, median paired full-read QPS changes at c1/4/16 are **+327.45% / +233.85% / +128.49%**; point reads at c2560 change **−1.07%**. Full-read QPS medians are 2.18 / 6.41 / 16.28, above the corresponding historical peer measurements. Peers were not rerun and durability differs; this does not establish overall parity. Write and small-object controls continue; the original production RDB timeout remains unexplained and the PR stays draft.
 
-All [144 Hash/Set route-replacement observations](diagnostics/hash-route-replace-20261005/hash-route-complete.md) are complete. Large-Hash HSET c5120 gains +7.81% QPS, but smaller-Hash HSET and both Set write scopes have negative paired medians. #276 remains draft; all QPS/p99 tradeoffs and historical peer gaps are retained. [Four large-object perf captures](diagnostics/hash-route-replace-20261005/hash-route-large-perf.md) are complete; small-Hash sampling remains pending and the regressions are not yet explained.
+All [144 Hash/Set route-replacement observations](diagnostics/hash-route-replace-20261005/hash-route-complete.md) are complete. Large-Hash HSET c5120 gains +7.81% QPS, but smaller-Hash HSET and both Set write scopes have negative paired medians. #276 is closed; all QPS/p99 tradeoffs and historical peer gaps are retained. [Four large-object perf captures](diagnostics/hash-route-replace-20261005/hash-route-large-perf.md) are complete; the unstarted small-Hash sampling was cancelled and the regressions are not yet explained.
 
 [简体中文](README.zh-CN.md)
 
@@ -16,7 +18,7 @@ All [144 Hash/Set route-replacement observations](diagnostics/hash-route-replace
 
 Batched HSET/SADD import is tracked separately: 4/4 conditions refreshed.
 
-Throughput figures fix the command, payload bytes per key, entry size and key count; axes show connections and QPS. Batched-import figures show seconds to fill a fixed dataset. Keep the current main and subsequent unmerged PRs; peers retain historical measurements of the same workload.
+Throughput figures fix the command, payload bytes per key, entry size and key count; axes show connections and QPS. Batched-import figures show seconds to fill a fixed dataset. Figures retain the fixed main baseline and historical candidates, including closed PRs; peers retain historical measurements of the same workload.
 
 Redis/Valkey disable persistence. Kvrocks uses uncompressed RAID0, disabled WAL and 80 GiB block/blob cache. Lavik persists through six SPDK NVMe devices without caching field/page payloads. Write QPS compares these configurations, not equivalent durability.
 
@@ -38,7 +40,7 @@ This round pins the main revision above. Merged optimizations are no longer sepa
 
 [Hash/Set write profiles](diagnostics/hashset-write-20261004/README.md) · [Ordered metadata optimization and tests](diagnostics/ordered-metadata-20261004/README.md)
 
-Unmerged optimizations: [PR #266](https://github.com/eloqdata/lavik/pull/266) · [PR #267](https://github.com/eloqdata/lavik/pull/267) · [PR #269](https://github.com/eloqdata/lavik/pull/269) · [PR #270](https://github.com/eloqdata/lavik/pull/270)
+Unmerged optimizations: [PR #266](https://github.com/eloqdata/lavik/pull/266) · [PR #267](https://github.com/eloqdata/lavik/pull/267) · [PR #270](https://github.com/eloqdata/lavik/pull/270)
 
 Integration branches include newer main revisions; this report retains pinned baseline `a565d603`. [Combined validation branch and status](diagnostics/combined-20261005/README.md). [Integrated PR heads and validation status](diagnostics/main-a565d603-20261004/pr-main-integration.json) remain separate from the measured binaries.
 
@@ -56,13 +58,13 @@ Follow-up [PR #271](https://github.com/eloqdata/lavik/pull/271) removes redundan
 
 [PR #272](https://github.com/eloqdata/lavik/pull/272) reuses decoded hashes in duplicate and route validation; it remains an unmeasured draft.
 
-[PR #273](https://github.com/eloqdata/lavik/pull/273) reuses an admitted ordered source page for point writes. [All 48 large-object observations](diagnostics/zset-member-probe-20261004/zset-source-reuse-large.md) show median paired ZINCRBY QPS changes of +2.08%/+1.46%/+1.46%/−0.36% at the four concurrency levels. High-load write p99 improves, but the c5120 read control has a +14.81% median p99 regression. [All 48 small-object controls](diagnostics/zset-member-probe-20261004/zset-source-reuse-small.md) are also complete: write QPS medians improve +1.04% to +2.88%, but low-concurrency read QPS changes are −3.00%/−2.22% and p99 +4.46%/+8.21%. [Separate write perf](diagnostics/zset-member-probe-20261004/zset-source-reuse-perf.md) is complete and shows no order-of-magnitude cost reduction. Read-regression diagnosis remains pending; the PR stays a draft.
+[PR #273](https://github.com/eloqdata/lavik/pull/273) reuses an admitted ordered source page for point writes. [All 48 large-object observations](diagnostics/zset-member-probe-20261004/zset-source-reuse-large.md) show median paired ZINCRBY QPS changes of +2.08%/+1.46%/+1.46%/−0.36% at the four concurrency levels. High-load write p99 improves, but the c5120 read control has a +14.81% median p99 regression. [All 48 small-object controls](diagnostics/zset-member-probe-20261004/zset-source-reuse-small.md) are also complete: write QPS medians improve +1.04% to +2.88%, but low-concurrency read QPS changes are −3.00%/−2.22% and p99 +4.46%/+8.21%. [Separate write perf](diagnostics/zset-member-probe-20261004/zset-source-reuse-perf.md) is complete and shows no order-of-magnitude cost reduction. The overall benefit is insufficient to justify the complexity; #273 is closed.
 
 [List range reads: throughput, memory admission, paired runs and perf](diagnostics/list-read-window-20261004/README.md)
 
 [List reply reservation: incremental repeats, copy hotspots and current results](diagnostics/list-reply-reserve-20261004/README.md)
 
-[List byte-bounded window: draft PR #269 paired repeats, regressions and perf](diagnostics/list-byte-window-20261004/README.md)
+[List byte-bounded window: closed PR #269 paired repeats, regressions and perf](diagnostics/list-byte-window-20261004/README.md)
 
 [Full-device expiration recovery and CI repair (PR #268; historical observations retain their original binaries)](diagnostics/grouped-expiry-recovery-20261004/README.md)
 
@@ -82,13 +84,13 @@ Failed observations in this run (gaps in figures; errored requests are not succe
 
 ![List LINDEX 64 KiB/key, 128 B, 64 keys](charts/list-65536-128-k64-lindex-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-list-65536-k64-f128-20261004/) · [Lavik PR #267 ff9e3655](raw/lavik-candidateff9e3655-ordered-list-65536-k64-f128-20261004/) · [Lavik draft PR #269 4863c98d](raw/lavik-candidate4863c98d-ordered-list-65536-k64-f128-20261004/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-list-65536-k64-f128-20261004/) · [Lavik PR #267 ff9e3655](raw/lavik-candidateff9e3655-ordered-list-65536-k64-f128-20261004/) · [Lavik closed PR #269 4863c98d](raw/lavik-candidate4863c98d-ordered-list-65536-k64-f128-20261004/)
 
 1024 B/entry · 64 keys · Measured main baseline `a565d603`
 
 ![List LINDEX 64 KiB/key, 1024 B, 64 keys](charts/list-65536-1024-k64-lindex-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-list-65536-k64-f1024-20261004/) · [Lavik PR #267 ff9e3655](raw/lavik-candidateff9e3655-ordered-list-65536-k64-f1024-20261004/) · [Lavik draft PR #269 4863c98d](raw/lavik-candidate4863c98d-ordered-list-65536-k64-f1024-20261004/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-list-65536-k64-f1024-20261004/) · [Lavik PR #267 ff9e3655](raw/lavik-candidateff9e3655-ordered-list-65536-k64-f1024-20261004/) · [Lavik closed PR #269 4863c98d](raw/lavik-candidate4863c98d-ordered-list-65536-k64-f1024-20261004/)
 
 #### 1 MiB/key
 
@@ -110,13 +112,13 @@ Failed observations in this run (gaps in figures; errored requests are not succe
 
 ![List LINDEX 100 MiB/key, 128 B, 8 keys](charts/list-104857600-128-k8-lindex-current.png)
 
-[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-list-104857600-k8-f128-20261004/) · [Lavik PR #267 ff9e3655](raw/lavik-candidateff9e3655-ordered-list-104857600-k8-f128-20261004/) · [Lavik draft PR #269 4863c98d](raw/lavik-candidate4863c98d-ordered-list-104857600-k8-f128-20261004/)
+[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-list-104857600-k8-f128-20261004/) · [Lavik PR #267 ff9e3655](raw/lavik-candidateff9e3655-ordered-list-104857600-k8-f128-20261004/) · [Lavik closed PR #269 4863c98d](raw/lavik-candidate4863c98d-ordered-list-104857600-k8-f128-20261004/)
 
 1024 B/entry · 8 keys · Measured main baseline `a565d603`
 
 ![List LINDEX 100 MiB/key, 1024 B, 8 keys](charts/list-104857600-1024-k8-lindex-current.png)
 
-[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-list-104857600-k8-f1024-20261004/) · [Lavik PR #267 ff9e3655](raw/lavik-candidateff9e3655-ordered-list-104857600-k8-f1024-20261004/) · [Lavik draft PR #269 4863c98d](raw/lavik-candidate4863c98d-ordered-list-104857600-k8-f1024-20261004/)
+[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-list-104857600-k8-f1024-20261004/) · [Lavik PR #267 ff9e3655](raw/lavik-candidateff9e3655-ordered-list-104857600-k8-f1024-20261004/) · [Lavik closed PR #269 4863c98d](raw/lavik-candidate4863c98d-ordered-list-104857600-k8-f1024-20261004/)
 
 ### LSET
 
@@ -126,13 +128,13 @@ Failed observations in this run (gaps in figures; errored requests are not succe
 
 ![List LSET 64 KiB/key, 128 B, 64 keys](charts/list-65536-128-k64-lset-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-list-65536-k64-f128-20261004/) · [Lavik PR #267 ff9e3655](raw/lavik-candidateff9e3655-ordered-list-65536-k64-f128-20261004/) · [Lavik draft PR #269 4863c98d](raw/lavik-candidate4863c98d-ordered-list-65536-k64-f128-20261004/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-list-65536-k64-f128-20261004/) · [Lavik PR #267 ff9e3655](raw/lavik-candidateff9e3655-ordered-list-65536-k64-f128-20261004/) · [Lavik closed PR #269 4863c98d](raw/lavik-candidate4863c98d-ordered-list-65536-k64-f128-20261004/)
 
 1024 B/entry · 64 keys · Measured main baseline `a565d603`
 
 ![List LSET 64 KiB/key, 1024 B, 64 keys](charts/list-65536-1024-k64-lset-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-list-65536-k64-f1024-20261004/) · [Lavik PR #267 ff9e3655](raw/lavik-candidateff9e3655-ordered-list-65536-k64-f1024-20261004/) · [Lavik draft PR #269 4863c98d](raw/lavik-candidate4863c98d-ordered-list-65536-k64-f1024-20261004/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-list-65536-k64-f1024-20261004/) · [Lavik PR #267 ff9e3655](raw/lavik-candidateff9e3655-ordered-list-65536-k64-f1024-20261004/) · [Lavik closed PR #269 4863c98d](raw/lavik-candidate4863c98d-ordered-list-65536-k64-f1024-20261004/)
 
 #### 1 MiB/key
 
@@ -154,7 +156,7 @@ Failed observations in this run (gaps in figures; errored requests are not succe
 
 ![List LSET 100 MiB/key, 128 B, 8 keys](charts/list-104857600-128-k8-lset-current.png)
 
-[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-list-104857600-k8-f128-20261004/) · [Lavik PR #267 ff9e3655](raw/lavik-candidateff9e3655-ordered-list-104857600-k8-f128-20261004/) · [Lavik draft PR #269 4863c98d](raw/lavik-candidate4863c98d-ordered-list-104857600-k8-f128-20261004/)
+[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-list-104857600-k8-f128-20261004/) · [Lavik PR #267 ff9e3655](raw/lavik-candidateff9e3655-ordered-list-104857600-k8-f128-20261004/) · [Lavik closed PR #269 4863c98d](raw/lavik-candidate4863c98d-ordered-list-104857600-k8-f128-20261004/)
 
 1024 B/entry · 500 keys · Measured main baseline `a565d603`
 
@@ -170,13 +172,13 @@ Failed observations in this run (gaps in figures; errored requests are not succe
 
 ![List LRANGE 64 KiB/key, 128 B, 64 keys](charts/list-65536-128-k64-lrange-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-list-65536-k64-f128-20261004/) · [Lavik PR #267 ff9e3655](raw/lavik-candidateff9e3655-ordered-list-65536-k64-f128-20261004/) · [Lavik draft PR #269 4863c98d](raw/lavik-candidate4863c98d-ordered-list-65536-k64-f128-20261004/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-list-65536-k64-f128-20261004/) · [Lavik PR #267 ff9e3655](raw/lavik-candidateff9e3655-ordered-list-65536-k64-f128-20261004/) · [Lavik closed PR #269 4863c98d](raw/lavik-candidate4863c98d-ordered-list-65536-k64-f128-20261004/)
 
 1024 B/entry · 64 keys · Measured main baseline `a565d603`
 
 ![List LRANGE 64 KiB/key, 1024 B, 64 keys](charts/list-65536-1024-k64-lrange-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-list-65536-k64-f1024-20261004/) · [Lavik PR #267 ff9e3655](raw/lavik-candidateff9e3655-ordered-list-65536-k64-f1024-20261004/) · [Lavik draft PR #269 4863c98d](raw/lavik-candidate4863c98d-ordered-list-65536-k64-f1024-20261004/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-list-65536-k64-f1024-20261004/) · [Lavik PR #267 ff9e3655](raw/lavik-candidateff9e3655-ordered-list-65536-k64-f1024-20261004/) · [Lavik closed PR #269 4863c98d](raw/lavik-candidate4863c98d-ordered-list-65536-k64-f1024-20261004/)
 
 #### 1 MiB/key
 
@@ -198,13 +200,13 @@ Failed observations in this run (gaps in figures; errored requests are not succe
 
 ![List LRANGE 100 MiB/key, 128 B, 8 keys](charts/list-104857600-128-k8-lrange-current.png)
 
-[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-list-104857600-k8-f128-20261004/) · [Lavik PR #267 ff9e3655](raw/lavik-candidateff9e3655-ordered-list-104857600-k8-f128-20261004/) · [Lavik draft PR #269 4863c98d](raw/lavik-candidate4863c98d-ordered-list-104857600-k8-f128-20261004/)
+[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-list-104857600-k8-f128-20261004/) · [Lavik PR #267 ff9e3655](raw/lavik-candidateff9e3655-ordered-list-104857600-k8-f128-20261004/) · [Lavik closed PR #269 4863c98d](raw/lavik-candidate4863c98d-ordered-list-104857600-k8-f128-20261004/)
 
 1024 B/entry · 8 keys · Measured main baseline `a565d603`
 
 ![List LRANGE 100 MiB/key, 1024 B, 8 keys](charts/list-104857600-1024-k8-lrange-current.png)
 
-[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-list-104857600-k8-f1024-20261004/) · [Lavik PR #267 ff9e3655](raw/lavik-candidateff9e3655-ordered-list-104857600-k8-f1024-20261004/) · [Lavik draft PR #269 4863c98d](raw/lavik-candidate4863c98d-ordered-list-104857600-k8-f1024-20261004/)
+[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main a565d603](raw/lavik-maina565d603-ordered-list-104857600-k8-f1024-20261004/) · [Lavik PR #267 ff9e3655](raw/lavik-candidateff9e3655-ordered-list-104857600-k8-f1024-20261004/) · [Lavik closed PR #269 4863c98d](raw/lavik-candidate4863c98d-ordered-list-104857600-k8-f1024-20261004/)
 
 ### RPUSH batched seeding
 

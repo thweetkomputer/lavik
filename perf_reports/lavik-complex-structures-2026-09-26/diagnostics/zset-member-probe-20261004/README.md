@@ -2,16 +2,9 @@
 
 ## Current version status — October 5
 
-PR #266 is at `138d39ac`, integrating main `741dc326` and recovery PR #268
-`e4f4da7c`. [Integration checks](pr266-integration-138d39ac.json) confirm the ZSet
-implementation and its reuse fixture are byte-identical to the previously validated
-`067c7589`; the recovery implementation and fixture retain #268's latest extent
-validation and deletion-durability changes. Formatting, Python syntax and diff
-checks pass; [new-head CI](https://github.com/eloqdata/lavik/actions/runs/37292566851)
-is running. Previous full CI/native passes remain attributed to `067c7589`.
-The published baseline/member-leaf figures below remain measurements of
-`a565d603` and `a1b24b60`. Queued controls keep their frozen `067c7589` parent;
-this integration is not a new throughput measurement.
+PR #266 is rebased onto main `330738d9` at `3acb7fd2` after #268 merged. Only the member-leaf implementation, its API contract and focused fixture differ from main (four files). Production ZSet implementation and fixture are byte-identical to the previous candidate. Formatting and diff checks pass; [new-head CI](https://github.com/eloqdata/lavik/actions/runs/37297041275) is pending. [Rebase evidence](../grouped-expiry-recovery-20261004/prs-rebased-after268.json). Historical tests/perf remain at their recorded commits; queued controls still use the frozen `067c7589` parent.
+
+**PR #273 is closed:** the completed 96-point comparison shows only modest write gains alongside read regressions, insufficient to justify its extra retained-page complexity. Its measurements remain below.
 
 PR #273's planner-fixture repair `92906489` [passes full CI](pr273-92906489-full-ci.json).
 Its [96-observation comparison](zset-source-reuse-complete-summary.json) is complete:

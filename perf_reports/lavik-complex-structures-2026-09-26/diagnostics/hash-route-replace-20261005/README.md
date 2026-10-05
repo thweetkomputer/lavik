@@ -1,18 +1,20 @@
 # Hash/Set 单路由替换
 
-[草稿 PR #276](https://github.com/eloqdata/lavik/pull/276) 从 main `19496654` 开始，候选提交 `27c65ff9`。[现有 perf](../hashset-write-20261004/README.md) 的 HSET 采样中，`SetNode` 自身占 3.28%、`Balance` 占 0.67%、目录 `Apply` 占 0.54%；这些比例包含全部 worker 的轮询、后台和内核工作，不是延迟占比或预计收益。
+**PR #276 已关闭（2026-10-05）。** 大 Hash 个别点改善未推广到小 Hash 和 Set，完整 144 点对照显示整体收益不足。尚未开始的小 Hash 补充 perf 已取消。 历史数据、失败和已有 perf 全部保留。
+
+[已关闭 PR #276](https://github.com/eloqdata/lavik/pull/276) 从 main `19496654` 开始，候选提交 `27c65ff9`。[现有 perf](../hashset-write-20261004/README.md) 的 HSET 采样中，`SetNode` 自身占 3.28%、`Balance` 占 0.67%、目录 `Apply` 占 0.54%；这些比例包含全部 worker 的轮询、后台和内核工作，不是延迟占比或预计收益。
 
 单个活跃叶子的替换现在通过一次 AVL 遍历返回旧元数据并构造新路径。相同前缀区间保证拓扑不变，因此省去独立精确/前驱/退休目录查询和插入平衡检查；旧元数据仍用于核对字段总数、group 总数和 payload 总量。递归辅助函数借用不可变元数据，减少逐层按值复制。它仍分配相同数量的路径节点，旧快照继续持有原节点；多叶拆分与退休保留原覆盖校验。
 
 新增测试保留 32 次非单调替换的所有旧版本，核对 revision、字段数、物理 token 和字节总量，并检查区间变更、缺失路由、溢出及 OOM 失败后的原子性、重试和内存计数恢复。格式检查和 `git diff --check` 通过；[远端 CI](https://github.com/eloqdata/lavik/actions/runs/37255329628) 已全部通过：amd64/arm64 构建、12 个软件测试分片、格式及汇总共 17 个 job（[精确提交记录](pr276-27c65ff9-full-ci.json)）。本地原生验证也已完成，见下文。
 
-原生验证已通过，两个生产二进制和 SHA-256 已冻结；生产构建关闭测试和故障注入，fault 覆盖由完整 CI 补充。**[全部 144 点三轮对照](hash-route-complete.md)已完成，但没有通用吞吐收益：大 Hash HSET c5120 获益，小 Hash HSET 与两种 Set 写入中位均回退。** [四组大对象 perf](hash-route-large-perf.md)已完成；目录更新/分配器 self 占比下降，但回退原因未确定，小 Hash 采样仍排队，PR 保持草稿。架构、磁盘格式、durability 和快照所有权没有改变。
+原生验证已通过，两个生产二进制和 SHA-256 已冻结；生产构建关闭测试和故障注入，fault 覆盖由完整 CI 补充。**[全部 144 点三轮对照](hash-route-complete.md)已完成，但没有通用吞吐收益：大 Hash HSET c5120 获益，小 Hash HSET 与两种 Set 写入中位均回退。** [四组大对象 perf](hash-route-large-perf.md)已完成；目录更新/分配器 self 占比下降，但回退原因未确定，小 Hash 补充采样已取消，PR 已关闭。架构、磁盘格式、durability 和快照所有权没有改变。
 
 ## 对照与 perf 调度
 
 [干净对照](repeat-hash-route-replace-resume.py) 已在原生验证后独占主机完成。Hash 和 Set 各覆盖 500 个 100 MiB key（1024 B 元素）及 50,000 个 1 MiB key（128 B 元素），沿用报告对应的数据规模。每个版本独立恢复同一校验过的 RDB 内容并重启，路由种子和物理图分别生成。三轮 A/B、B/A、A/B，各在 c80/320/5120 测 30 秒 HGET/HSET 或 SISMEMBER/SADD_SREM，共 144 个观测，保留 p99、错误、二进制来源和完整基数校验；首个失败条件结束后停止。Set 的添加/删除可能为无操作，统计命令 QPS，不等同于 durable mutation 数。
 
-[独立 perf](profile-hash-route-replace-resume.py) 的四组大对象采样已完成，[结果与来源](hash-route-large-perf.md)保留完整的 self 覆盖率、存储计数和限制。[采样驱动](profile-hash-route-allworkers.py)保留零样本辅助线程；诊断 QPS 不混入干净对照，错开的计数与 CPU 窗口不换算 CPU/命令。两组小 Hash HSET 采样仍排队。
+[独立 perf](profile-hash-route-replace-resume.py) 的四组大对象采样已完成，[结果与来源](hash-route-large-perf.md)保留完整的 self 覆盖率、存储计数和限制。[采样驱动](profile-hash-route-allworkers.py)保留零样本辅助线程；诊断 QPS 不混入干净对照，错开的计数与 CPU 窗口不换算 CPU/命令。两组尚未开始的小 Hash HSET 采样已随 #276 关闭而取消。
 
 ## 原生验证结果与构建恢复
 
@@ -48,7 +50,7 @@
 
 [全部 36 点与历史对照差距](hash-route-set-large.md)，包含每轮 QPS/p99 变化和原始来源核验；独立 perf 与其余范围的状态单独记录。
 
-大 Set 的 SADD/SREM QPS 配对中位下降 6.95%/6.55%/10.62%（c80/c320/c5120），均为两轮下降、一轮上升；c320/c5120 的 p99 三轮均改善。SISMEMBER 吞吐中位也均为负。完整结果保留吞吐与尾延迟的取舍，不以 p99 改善掩盖 QPS 回退；已完成的大对象 perf 仍不足以指定回退原因。小 Set 结果同样回退，#276 保持草稿。
+大 Set 的 SADD/SREM QPS 配对中位下降 6.95%/6.55%/10.62%（c80/c320/c5120），均为两轮下降、一轮上升；c320/c5120 的 p99 三轮均改善。SISMEMBER 吞吐中位也均为负。完整结果保留吞吐与尾延迟的取舍，不以 p99 改善掩盖 QPS 回退；已完成的大对象 perf 仍不足以指定回退原因。小 Set 结果同样回退，#276 已关闭。
 
 [大 Set INFO 计数核对](hash-route-set-large-counters.md)已完成：全部 36 点命令差分与客户端请求数一致，写入窗口变更/命令比例在 49.92%–50.08%；提交批量与高水位事件因轮次而异。c80 没有高水位事件仍有 QPS 回退，原因尚不能归于单个计数。
 

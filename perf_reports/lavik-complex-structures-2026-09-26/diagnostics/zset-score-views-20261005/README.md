@@ -1,5 +1,7 @@
 # ZSCORE / ZMSCORE 成员页借用视图（验证中）
 
+**2026-10-05 当前 PR：** #280 已 rebase 为 `a5c825e9`，基于 `main`，[新 CI](https://github.com/eloqdata/lavik/actions/runs/37297696440) 待完成。以下 native、CI 和性能数据仍归属各自标注的原提交；正在执行或排队的对照仍用固定提交，不代表新 head 已通过。[完整记录](../grouped-expiry-recovery-20261004/prs-rebased-after268.json)。
+
 候选 [`9d1ffc85`](https://github.com/thweetkomputer/lavik/commit/9d1ffc8572f558cc139b1801488d014c2099dbfd) 从 main `4610d607` 开始。原 indexed score lookup 会完整解码所选 Hash 成员页，复制每个字段和值，并重建进程级 digest，最后只保留请求成员的 double 分数。候选同步遍历已加载页的借用视图，只保留所需分数；路由验证计算的持久化 seed digest 同时用于临时查重表。
 
 这仍会分配查重表，不是零分配读取。完整字段路由、重复字段、内部计数、编码和尾部校验均保留；原有页 scratch admission、人口代次/逻辑根检查、页读取和 GC 身份验证保持。借用视图不跨越 read lease；失败时丢弃未发布的命令 scratch。写入路径继续使用 owning snapshot，磁盘格式与缓存策略不变。
