@@ -144,3 +144,7 @@ candidate 附加线程中没有样本的 TID：579464；附加命令和记录日
 `ac62975f` 的原生生产版本已通过所选 Stream/迁移、5 个阻塞/恢复和 Pub/Sub 检查，但 fault-only 用例被跳过。完整 CI 的 amd64、arm64 shard 0 随后均在新增的 `ReadWindowsRespectCountAndJoinFailedStarts` 失败，报 `XREVRANGE: connection closed before response completed`，因此不能以原生普通路径通过代替故障路径验证。
 
 初步定位到独占上界位于下一页开头时，范围仍包含这个空边界页；反向 COUNT 2 可能先消耗一次不产出消息的单页读取，随后触发故障窗口。已准备排除该空边界页的本地修正，格式检查通过，尚未验证或推送。[失败证据与状态](stream-window-count-ci-failure.json) · [原版本复现及修正版验证脚本](validate-stream-window-boundary-fault.py)。上面的吞吐和 perf 等待进程已在任何测量开始前停止；修正完成、精确版本重新验证并通过完整 CI 后再安排。
+
+## 原生生产验证完成（不替代故障 CI）
+
+固定二进制的原生检查现已完成：[提交、SHA-256、逐例结果及编译配置](stream-followup-native-validation.json)。`85bc7ad0` 小回复版本通过 23 个 Stream/迁移用例，跳过 2 个 fault-only 用例；`ac62975f` 窗口版本通过 23 个用例，跳过 3 个 fault-only 用例。两者另各通过 5 个阻塞/恢复用例和 Pub/Sub 驱动。父版本的 ENOSPC 初次失败及单例重试仍单独保留。窗口版本的完整 CI 故障尚待修正，不能由这些普通路径结果宣称修复；性能测试继续暂停。
