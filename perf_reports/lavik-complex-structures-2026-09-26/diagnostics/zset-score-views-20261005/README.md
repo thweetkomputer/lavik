@@ -1,4 +1,4 @@
-# ZSCORE / ZMSCORE 成员页借用视图（验证中）
+# ZSCORE / ZMSCORE 成员页借用视图
 
 **当前 PR 与 CI：** 见[统一收敛状态](../grouped-expiry-recovery-20261004/pr-cleanup-current.md)。下述原生、CI 和性能数据仍归属各自标注的提交；固定历史版本的测量不能代替当前 head 验证。
 
@@ -8,15 +8,17 @@
 
 现有 HGET/HMGET 视图扫描器只检查请求字段的重复，不能直接替代原 ZSCORE 全页校验；因此复用 HashValueReader 并增加完整校验 visitor。原 Hash 编辑中的临时字段 key/hash 类型移至同文件共享，避免复制该类型实现。测试扩展已有 codec corruption/binary/empty fixture，覆盖命中后的无关重复字段、错误路由和 visitor 错误；现有 ZSet fixture 增加反序 256 成员跨页 ZMSCORE 检查，没有新增磁盘 fixture。
 
-[固定 head 的完整 fork CI](zset-score-views-9d1ffc85-full-ci.json) 已通过全部 17 项：两种架构编译、12 个软件分片、格式和汇总检查。[草稿 PR #280](https://github.com/eloqdata/lavik/pull/280) 的[独立上游 pull_request CI](pr280-upstream-full-ci.json)也已通过全部 17 项（[运行记录](https://github.com/eloqdata/lavik/actions/runs/37276852398)）；PR 创建时 main 已新增两个 Meta 优化提交，性能对照仍固定原父版本 `4610d607` 和候选 `9d1ffc85`，不重标为其他版本。[PR 身份](pr280-created.json) · [源码及脚本身份](prototype-status.json)。固定提交的原生回归已完成；96 点性能对照已开始，大对象读取 24 点已完成，大对象写入控制也已完成，整体收益仍待小对象控制。不能把已有 ZINCRBY 采样称为 ZSCORE 读热点证明。
+[固定 head 的完整 fork CI](zset-score-views-9d1ffc85-full-ci.json) 已通过全部 17 项：两种架构编译、12 个软件分片、格式和汇总检查。[PR #280](https://github.com/eloqdata/lavik/pull/280) 的[独立上游 pull_request CI](pr280-upstream-full-ci.json)也已通过全部 17 项（[运行记录](https://github.com/eloqdata/lavik/actions/runs/37276852398)）；PR 创建时 main 已新增两个 Meta 优化提交，性能对照仍固定原父版本 `4610d607` 和候选 `9d1ffc85`，不重标为其他版本。[PR 身份](pr280-created.json) · [源码及脚本身份](prototype-status.json)。固定提交的原生回归、全部 96 点性能对照和四组独立 ZSCORE perf 均已完成。当前 `253ab6a9` 的[完整 CI](../grouped-expiry-recovery-20261004/pr280-rebased-full-ci.json)也全部 17 项通过，已转为非 draft；前一 `a5c825e9` 的 RESTORE 超时仍保留，未宣称找到根因。
 
-## 已完成的大对象读取
+## 已完成的 96 点对照与独立 perf
 
-[24 点 ZSCORE 三轮对照](zset-score-views-large-reads.md)：c80/320/2560/5120 的配对 QPS 中位数分别 **+16.27% / +19.82% / +17.08% / +14.45%**，每档三轮均提升。前三档 p99 三轮均改善；c5120 p99 两轮变差，中位 **+2.40%**。[大对象写入 24 点](zset-score-views-large-writes.md)也已完成：c80/320/2560/5120 的配对 QPS 中位 **−1.10%/+0.24%/−0.76%/−1.62%**，各档方向混合；c2560 p99 中位 **+6.67%**。小对象对照、独立 perf 尚未完成，PR 保持草稿。该部分不是整体性能或追平对手的结论。
+[24 点 ZSCORE 三轮对照](zset-score-views-large-reads.md)：c80/320/2560/5120 的配对 QPS 中位数分别 **+16.27% / +19.82% / +17.08% / +14.45%**，每档三轮均提升。前三档 p99 三轮均改善；c5120 p99 两轮变差，中位 **+2.40%**。[大对象写入 24 点](zset-score-views-large-writes.md)也已完成：c80/320/2560/5120 的配对 QPS 中位 **−1.10%/+0.24%/−0.76%/−1.62%**，各档方向混合；c2560 p99 中位 **+6.67%**。[小对象及完整 96 点结果](zset-score-views-complete.md)也已完成：小对象 ZSCORE 各档三轮 QPS 均提升，配对中位 +12.61%–31.98%，p99 各轮均改善；写收益仍不稳定。不是整体性能或追平对手的结论。
 
 已完成的 48 个大对象点也通过 INFO 命令计数核验：[读取 24 点](zset-score-views-large-reads-command-audit.json) · [写入 24 点](zset-score-views-large-writes-command-audit.json)。每点实际业务调用数等于 requests，失败/拒绝增量为零，除 INFO 外没有其他命令混入测量窗口。这不证明性能变化的因果。
 
-## 原生验证结果与后续测量
+[四组独立 perf](zset-score-views-perf.md)已经完成。小对象的哈希、mimalloc 和 memmove 自身 CPU 占比下降；大对象哈希占比下降，但 memmove 略增、mimalloc 近乎不变。两版本在两个对象大小上均为每次 ZSCORE 一次存储读取。采样占比不是实际分配次数、复制字节数或每命令 CPU 成本；吞吐证据来自独立的干净配对对照。
+
+## 原生验证结果与测量协议
 
 [原生验证摘要](zset-score-views-native-summary.json) · [二进制、依赖及完整测试清单](zset-score-views-versions.json) · [验证驱动日志](zset-score-views-native-driver.log)
 
@@ -27,7 +29,7 @@
 
 原生范围涵盖 Sorted Set 点读写、反序多成员分数回复、超过 512 MiB 的聚合恢复、demotion、跨 worker transfer 和三项 RDB 用例。七项跳过均要求生产构建关闭的故障注入；不能把跳过算作通过。故障注入的历史完整 CI 见上方独立记录。每个版本分别构建其测试驱动，候选新增 visitor 单元覆盖，端到端使用扩展后的既有 fixture。
 
-生产二进制父/候选 SHA-256 分别为 `44695167697904ad6a210dd50e6fcdf3634f494fb633eb1267c5e9b568eed552` / `36de21675ae4c15ac391cb73579080b5d6fbee65cb2a6e5358d5daa4e8ce5675`。实际 CMake 依赖为 `62509c93`，嵌套 SPDK 工作区修改状态仍记录；不宣称递归依赖干净。所有结果属于上述冻结提交，不替代 rebase 后 `a5c825e9` 的 CI，也不是 QPS 收益证据。
+生产二进制父/候选 SHA-256 分别为 `44695167697904ad6a210dd50e6fcdf3634f494fb633eb1267c5e9b568eed552` / `36de21675ae4c15ac391cb73579080b5d6fbee65cb2a6e5358d5daa4e8ce5675`。实际 CMake 依赖为 `62509c93`，嵌套 SPDK 工作区修改状态仍记录；不宣称递归依赖干净。所有结果属于上述冻结提交，不替代当前 `253ab6a9` 的 CI，也不是 QPS 收益证据。
 
 
 [原生验证](validate-zset-score-views-native.py) 已在前置任务结束后取得主机锁并完成。两个固定提交分别构建测试驱动，运行相关 Hash/Sorted Set、demotion、transfer 和 RDB 用例，冻结 tests/faults OFF 的生产二进制并记录 SHA-256。构建使用 `/mnt/dev` TMPDIR 和实际 CMake 选定的 Bycorf 源目录。
