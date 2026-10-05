@@ -150,3 +150,9 @@ candidate 附加线程中没有样本的 TID：579464；附加命令和记录日
 固定二进制的原生检查现已完成：[提交、SHA-256、逐例结果及编译配置](stream-followup-native-validation.json)。`85bc7ad0` 小回复版本通过 23 个 Stream/迁移用例，跳过 2 个 fault-only 用例；`ac62975f` 窗口版本通过 23 个用例，跳过 3 个 fault-only 用例。两者另各通过 5 个阻塞/恢复用例和 Pub/Sub 驱动。父版本的 ENOSPC 初次失败及单例重试仍单独保留。窗口版本的完整 CI 故障尚待修正，不能由这些普通路径结果宣称修复；性能测试继续暂停。
 
 小回复版本 `85bc7ad0` 的[完整 CI 已通过](pr274-85bc7ad0-full-ci.json)：两种架构编译、全部 12 个软件测试分片、两个汇总检查和格式检查均成功。原生生产验证也已完成；吞吐和 perf 尚未测量，不能据此宣称收益。
+
+## 空上界页修正已验证
+
+`5b9ebded` 已推送到 #275：独占上界位于下一页开头时，不再 pin 或访问这个不含目标记录的边界页，避免反向读取先消耗一个空的 demand read。没有修改测试或延长超时。原 `ac62975f` 在本机带故障构建上复现同样的 XREVRANGE 断连；修正版 26 个所选 Stream/迁移/RDB 故障测试全部通过、无跳过，包括 COUNT 2 正反方向、窗口准入回退、子任务启动失败清理和大型 RDB 往返。[原版本失败与修正版完整结果](stream-window-boundary-validation.json)。
+
+旧 CI 已取消，保留两架构原始失败证据；[修正版完整 CI](https://github.com/eloqdata/lavik/actions/runs/37251491010) 待完成。关闭故障注入的原生生产构建和检查正在执行。[修正后对照脚本](repeat-stream-followups-corrected.py) 与[独立 perf 调度](profile-stream-followups-corrected.py) 已重新排队：仍需等待精确版本的原生验证、完整 CI 及前序 ZSet/故障复现任务，尚无新的性能结果。

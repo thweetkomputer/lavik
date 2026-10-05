@@ -11,5 +11,13 @@
   "hypothesis": "An exclusive upper bound at the beginning of the next page still includes that empty boundary in the pinned/read interval. Reverse COUNT2 then consumes its first demand read without a message and enables a two-page fault-injected window.",
   "local_candidate": "5b9ebdedecc0cc7a3fea93fb73b1fbbb6b7186c6; excludes the empty upper-bound page. Format/diff passed; not pushed or validated yet.",
   "validation": "Queued fault-enabled original-case reproduction then corrected selected Stream/transfer/RDB cases under the shared host lock. No timeout changes.",
-  "performance": "Stream follow-up clean measurement and profiling waiters stopped before any measurement; reschedule only after correction is validated, pushed, and exact native production builds/full CI pass."
+  "performance": "Stream follow-up clean measurement and profiling waiters stopped before any measurement; reschedule only after correction is validated, pushed, and exact native production builds/full CI pass.",
+  "followup": {
+    "commit": "5b9ebdedecc0cc7a3fea93fb73b1fbbb6b7186c6",
+    "ci": "https://github.com/eloqdata/lavik/actions/runs/37251491010",
+    "status": "pushed; full CI pending; native fault-disabled production build/checks running",
+    "validation": "Original ac fault case reproduces CI failure; fixed5b all26 selected fault-enabled Stream/transfer/RDB cases pass, zero skips. Only source change excludes empty exclusive upper-bound page, no test or timeout changes.",
+    "proof": "stream-window-boundary-validation.json",
+    "performance": "Corrected90row driver rescheduled but waits correctednativeproduction+exactfullCI+priorZset/perf/extent work and commonhostlock; no measurement yet."
+  }
 }
