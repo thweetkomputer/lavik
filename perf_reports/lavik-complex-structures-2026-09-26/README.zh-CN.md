@@ -52,9 +52,9 @@ main 已更新至 `4610d607`；本页仍使用固定基线 `a565d603`。[组合�
 
 [ZSet 成员叶页复用：吞吐、交替复测、perf 与测试](diagnostics/zset-member-probe-20261004/README.md)
 
-后续 [PR #271](https://github.com/eloqdata/lavik/pull/271) 消除内联页的重复清单查找，仍在验证，尚无吞吐收益结论。
+后续 [PR #271](https://github.com/eloqdata/lavik/pull/271) 消除内联页的重复清单查找；与 #272 的固定父版本原生验证和 [72 点独立对照](diagnostics/grouped-lookup-controls-20261005/README.md)已排队，尚无吞吐收益结论。
 
-[PR #272](https://github.com/eloqdata/lavik/pull/272) 复用解码摘要，减少重复字段检查和路由校验中的哈希计算；仍为未测量草稿。
+[PR #272](https://github.com/eloqdata/lavik/pull/272) 复用解码摘要，减少重复字段检查和路由校验中的哈希计算；仍为草稿，待上述独立对照完成。
 
 [PR #273](https://github.com/eloqdata/lavik/pull/273) 复用单成员写入已经解码的有序源页并转移其内存预算。[大对象 48 点三轮结果](diagnostics/zset-member-probe-20261004/zset-source-reuse-large.md)：ZINCRBY 四档并发 QPS 配对中位数 +2.08%/+1.46%/+1.46%/−0.36%；高并发写 p99 改善，但读控制项 c5120 p99 中位数变差 14.81%。[小对象 48 点结果](diagnostics/zset-member-probe-20261004/zset-source-reuse-small.md)也已完成：写 QPS 中位数 +1.04%–+2.88%，但低两档读 QPS −3.00%/−2.22%、p99 +4.46%/+8.21%。[独立写 perf](diagnostics/zset-member-probe-20261004/zset-source-reuse-perf.md)已完成，未显示数量级成本下降；读回退原因尚待核对，保持草稿。
 

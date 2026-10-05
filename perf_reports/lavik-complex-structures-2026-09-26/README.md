@@ -52,7 +52,7 @@ The [Stream page-key validation prototype](diagnostics/stream-key-validation-202
 
 [ZSet member-leaf reuse: throughput, paired runs, perf and tests](diagnostics/zset-member-probe-20261004/README.md)
 
-Follow-up [PR #271](https://github.com/eloqdata/lavik/pull/271) removes redundant inline-page manifest lookups; validation and throughput measurements remain pending.
+Follow-up [PR #271](https://github.com/eloqdata/lavik/pull/271) removes redundant inline-page manifest lookups. Native validation and [72 observations against the common parent](diagnostics/grouped-lookup-controls-20261005/README.md) for #271/#272 are queued; no throughput gain is established.
 
 [PR #272](https://github.com/eloqdata/lavik/pull/272) reuses decoded hashes in duplicate and route validation; it remains an unmeasured draft.
 
