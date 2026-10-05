@@ -1,0 +1,18 @@
+{
+  "pr": 267,
+  "head": "343e951e3341593cc46b2cfae42f7d8f9b26304e",
+  "run": "https://github.com/eloqdata/lavik/actions/runs/37241591043",
+  "job": "https://github.com/eloqdata/lavik/actions/runs/37241591043/job/111552665978",
+  "test": "lavik_extent_recovery_e2e",
+  "status": "amd64 shard 4 failed; other shards still running or queued; not a passing current head",
+  "error": "SET key_bytes=5009: recv failed: Resource temporarily unavailable",
+  "evidence": [
+    "289 of 290 tests in this shard passed.",
+    "The failure occurs after recovery from four workers to two, during the phase that overwrites external 5009-byte keys with small values.",
+    "Recovery scans 93 blocks on a 95-data-block file, completes at 23:42:52 UTC, and both workers initialize at 23:42:53 UTC.",
+    "The client has a 60-second socket timeout. The log contains no later storage error, allocator diagnostic or task stack.",
+    "The 155586-byte test-results artifact and job log are saved locally; no large build artifact or disk image was downloaded."
+  ],
+  "interpretation": "Cause unresolved. Possible space-reclamation/progress issue requires reproduction and thread/storage diagnostics. This is not enough evidence to label it infrastructure noise or to extend the timeout. No source change or blind rerun has been made.",
+  "next": "After the existing serial controls and native-validation work finish, reproduce this exact test on the current main and PR head with an isolated file backend; retain failed image and inspect blocked tasks before changing behavior."
+}

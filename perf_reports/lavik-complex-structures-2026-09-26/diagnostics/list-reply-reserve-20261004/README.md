@@ -77,3 +77,7 @@ The clean 8-key sweep uses the same immutable `ff9e3655` binary. [All points and
 ## 后续 main 同步
 
 main 已前进至 `19496654`。List 分支已解决冲突，并把批量启动失败的测试故障点改成显式 admission 错误，保留所有已启动读取的 join；实际 C++ 分配异常遵循 main 的终止策略。[新提交及待完成的 CI](../main-a565d603-20261004/pr-main-integration.json)。本页吞吐、perf 与旧 CI 仍对应各自记录的冻结提交，不代表新提交已完成测量；64 页版本已有的尾延迟和写入退化结论仍然保留。
+
+## 当前 main 整合版本的 CI 失败
+
+`343e951e` 的 amd64 分片 4 在 `lavik_extent_recovery_e2e` 失败：从 4 workers 恢复到 2 workers 后，覆盖 5009 字节外部 key 的 `SET` 等待回复超时；同分片其余 289 项通过。恢复扫描已完成，但日志不足以区分空间回收停滞与环境因素。保留失败，尚未修改超时或通过重跑排除它。[失败证据与后续复现范围](pr267-current-ci-failure.json)。这不改变历史版本的性能结果，也不代表当前 head 已验证通过。
