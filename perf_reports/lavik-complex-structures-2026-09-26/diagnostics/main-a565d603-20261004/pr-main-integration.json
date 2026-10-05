@@ -8,8 +8,8 @@
       "head": "067c75891f819831620e277eac0592c360f8b585",
       "base_branch": "main",
       "ci": "https://github.com/eloqdata/lavik/actions/runs/37241392671",
-      "status": "pending",
-      "note": "Main `19496654` is now integrated at `067c7589`; [CI on this updated head](https://github.com/eloqdata/lavik/actions/runs/37241392671) is pending. Formatting and conflict review pass. Historical throughput, perf and passing tests remain attributed to their original source commits and immutable binaries; they are not new measurements of this head. No local builds or tests overlap the ongoing clean Stream pairs."
+      "status": "full current-head CI passed; native20passed/7fault-onlyskips",
+      "note": "Exact067c7589 run37241392671 passed all12software shards, builds,format,aggregates. NativeproductionbinarySHA656b990f passes20ZSet/demotioncases,7fault-onlyskips. Newpairedperformance notstarted; publishedoldQPS stilla1b24b60."
     },
     {
       "pr": 267,
@@ -63,7 +63,7 @@
       "base_branch": "perf/zset-member-probe-20261004",
       "ci": "https://github.com/eloqdata/lavik/actions/runs/37243651484",
       "status": "pending after two fixture failures on previous head",
-      "note": "Main 19496654 remains integrated; current head is d012a301. [New CI](https://github.com/eloqdata/lavik/actions/runs/37243651484) is pending. The prior d5ca3a1b run exposed two fixture failures: native FULL-tail collection assertions raced initialization-to-Follow-Owner ingress replacement and received LOADING; Sentinel HA checked independent clients serially under one shared 30-second budget. The first fix waits for all source flows to CONTINUE and a fresh live-flow/known-seed readiness probe before one-shot collection assertions, retaining exactly one original FULL per source worker. The second reuses the reviewed concurrent-probe fix from #271 without extending the deadline. Formatting/diff checks pass. The Sentinel helper\u2019s four unit tests passed at the original shared fix revision; no local integration run or native performance claim is made for this new head while Stream controls run."
+      "note": "Main 19496654 remains integrated; current head is d012a301. [New CI](https://github.com/eloqdata/lavik/actions/runs/37243651484) is pending. The prior d5ca3a1b run exposed two fixture failures: native FULL-tail collection assertions raced initialization-to-Follow-Owner ingress replacement and received LOADING; Sentinel HA checked independent clients serially under one shared 30-second budget. The first fix waits for all source flows to CONTINUE and a fresh live-flow/known-seed readiness probe before one-shot collection assertions, retaining exactly one original FULL per source worker. The second reuses the reviewed concurrent-probe fix from #271 without extending the deadline. Formatting/diff checks pass. The Sentinel helper\u2019s four unit tests passed at the original shared fix revision; no local integration run or native performance claim is made for this new head while Stream controls run. Nativeproductiond012 now20casespassed/7fault-onlyskips; pairedperformance awaits fullCI. See ../zset-member-probe-20261004/zset-source-reuse-native-validation.json."
     },
     {
       "pr": 274,

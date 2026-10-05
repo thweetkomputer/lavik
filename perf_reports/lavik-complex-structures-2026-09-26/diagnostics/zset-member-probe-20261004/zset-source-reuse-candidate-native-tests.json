@@ -1,0 +1,349 @@
+{
+  "tests": 27,
+  "failures": 0,
+  "disabled": 0,
+  "errors": 0,
+  "timestamp": "2026-10-05T00:42:59Z",
+  "time": "76.505s",
+  "name": "AllTests",
+  "testsuites": [
+    {
+      "name": "GroupedDemotionE2e",
+      "tests": 1,
+      "failures": 0,
+      "disabled": 0,
+      "errors": 0,
+      "timestamp": "2026-10-05T00:42:59Z",
+      "time": "0.786s",
+      "testsuite": [
+        {
+          "name": "StringListSetSortedSetGeoAndStreamRecoverCompact",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/ordered_write_e2e_test.cpp",
+          "line": 111,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-05T00:42:59Z",
+          "time": "0.786s",
+          "classname": "GroupedDemotionE2e"
+        }
+      ]
+    },
+    {
+      "name": "GroupedOrderedWriteE2e",
+      "tests": 4,
+      "failures": 0,
+      "disabled": 0,
+      "errors": 0,
+      "timestamp": "2026-10-05T00:42:59Z",
+      "time": "3.02s",
+      "testsuite": [
+        {
+          "name": "SortedSetPointUpdateOnlyRewritesNearbyPages",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/ordered_write_e2e_test.cpp",
+          "line": 1017,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-05T00:42:59Z",
+          "time": "0.663s",
+          "classname": "GroupedOrderedWriteE2e"
+        },
+        {
+          "name": "SortedSetCrossEndMovesDoNotRewriteMiddlePages",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/ordered_write_e2e_test.cpp",
+          "line": 1050,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-05T00:43:00Z",
+          "time": "0.944s",
+          "classname": "GroupedOrderedWriteE2e"
+        },
+        {
+          "name": "SortedSetRemovalPopAndStoreCommandSurface",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/ordered_write_e2e_test.cpp",
+          "line": 1316,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-05T00:43:01Z",
+          "time": "0.428s",
+          "classname": "GroupedOrderedWriteE2e"
+        },
+        {
+          "name": "LargeSortedSetMemberUsesExtents",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/ordered_write_e2e_test.cpp",
+          "line": 1368,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-05T00:43:01Z",
+          "time": "0.984s",
+          "classname": "GroupedOrderedWriteE2e"
+        }
+      ]
+    },
+    {
+      "name": "GroupedSortedSetWriteE2e",
+      "tests": 22,
+      "failures": 0,
+      "disabled": 0,
+      "errors": 0,
+      "timestamp": "2026-10-05T00:43:02Z",
+      "time": "72.698s",
+      "testsuite": [
+        {
+          "name": "TypedChangesDoNotRereadOrderedMemberDiff",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/zset_write_e2e_test.cpp",
+          "line": 63,
+          "status": "RUN",
+          "result": "SKIPPED",
+          "timestamp": "2026-10-05T00:43:02Z",
+          "time": "0s",
+          "classname": "GroupedSortedSetWriteE2e",
+          "skipped": [
+            {
+              "message": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/zset_write_e2e_test.cpp:65\nrequires member-diff read failure injection\n"
+            }
+          ]
+        },
+        {
+          "name": "PointWritesReuseMemberLeafAndKeepBatchFailureAtomic",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/zset_write_e2e_test.cpp",
+          "line": 125,
+          "status": "RUN",
+          "result": "SKIPPED",
+          "timestamp": "2026-10-05T00:43:02Z",
+          "time": "0s",
+          "classname": "GroupedSortedSetWriteE2e",
+          "skipped": [
+            {
+              "message": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/zset_write_e2e_test.cpp:128\nrequires member-index leaf read failure injection\n"
+            }
+          ]
+        },
+        {
+          "name": "AdjacentScoreMovesReusePagesAcrossRecovery",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/zset_write_e2e_test.cpp",
+          "line": 215,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-05T00:43:02Z",
+          "time": "1.082s",
+          "classname": "GroupedSortedSetWriteE2e"
+        },
+        {
+          "name": "PlannerSkipsUnchangedNeighborButChecksNewLinks",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/zset_write_e2e_test.cpp",
+          "line": 279,
+          "status": "RUN",
+          "result": "SKIPPED",
+          "timestamp": "2026-10-05T00:43:04Z",
+          "time": "0s",
+          "classname": "GroupedSortedSetWriteE2e",
+          "skipped": [
+            {
+              "message": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/zset_write_e2e_test.cpp:281\nrequires plan-page read failure injection\n"
+            }
+          ]
+        },
+        {
+          "name": "BatchedMemberIndexChangesMatchOrderedPages",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/zset_write_e2e_test.cpp",
+          "line": 342,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-05T00:43:04Z",
+          "time": "0.435s",
+          "classname": "GroupedSortedSetWriteE2e"
+        },
+        {
+          "name": "MemberScoresUsePrefixPagesWithoutOrderedReads",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/zset_write_e2e_test.cpp",
+          "line": 422,
+          "status": "RUN",
+          "result": "SKIPPED",
+          "timestamp": "2026-10-05T00:43:04Z",
+          "time": "0s",
+          "classname": "GroupedSortedSetWriteE2e",
+          "skipped": [
+            {
+              "message": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/zset_write_e2e_test.cpp:424\nrequires ordered-read failure injection\n"
+            }
+          ]
+        },
+        {
+          "name": "ScoreBoundsSkipUnrelatedPagesAfterRecovery",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/zset_write_e2e_test.cpp",
+          "line": 460,
+          "status": "RUN",
+          "result": "SKIPPED",
+          "timestamp": "2026-10-05T00:43:04Z",
+          "time": "0s",
+          "classname": "GroupedSortedSetWriteE2e",
+          "skipped": [
+            {
+              "message": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/zset_write_e2e_test.cpp:462\nrequires selected ordered-page failure injection\n"
+            }
+          ]
+        },
+        {
+          "name": "ScoreBoundsHandleLongTieRunsAndMixedBatchMoves",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/zset_write_e2e_test.cpp",
+          "line": 499,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-05T00:43:04Z",
+          "time": "0.724s",
+          "classname": "GroupedSortedSetWriteE2e"
+        },
+        {
+          "name": "ScoreBoundsRecoverAfterMultiExtentParentKey",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/zset_write_e2e_test.cpp",
+          "line": 601,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-05T00:43:05Z",
+          "time": "2.169s",
+          "classname": "GroupedSortedSetWriteE2e"
+        },
+        {
+          "name": "FailedMemberWriteCannotCommitOrderedHalf",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/zset_write_e2e_test.cpp",
+          "line": 635,
+          "status": "RUN",
+          "result": "SKIPPED",
+          "timestamp": "2026-10-05T00:43:07Z",
+          "time": "0s",
+          "classname": "GroupedSortedSetWriteE2e",
+          "skipped": [
+            {
+              "message": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/zset_write_e2e_test.cpp:637\nrequires auxiliary-write failure injection\n"
+            }
+          ]
+        },
+        {
+          "name": "PointFlagsDuplicatesScoresAndAtomicNan",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/zset_write_e2e_test.cpp",
+          "line": 683,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-05T00:43:07Z",
+          "time": "0.103s",
+          "classname": "GroupedSortedSetWriteE2e"
+        },
+        {
+          "name": "PointScoreMovesRewriteOnlyEndpointPages",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/zset_write_e2e_test.cpp",
+          "line": 714,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-05T00:43:07Z",
+          "time": "0.679s",
+          "classname": "GroupedSortedSetWriteE2e"
+        },
+        {
+          "name": "BoundedRangeAliasesRanksBoundsAndMixedScoreLex",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/zset_write_e2e_test.cpp",
+          "line": 751,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-05T00:43:08Z",
+          "time": "0.102s",
+          "classname": "GroupedSortedSetWriteE2e"
+        },
+        {
+          "name": "PageScanRepliesOwnBinaryMembersAcrossRecovery",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/zset_write_e2e_test.cpp",
+          "line": 805,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-05T00:43:08Z",
+          "time": "0.447s",
+          "classname": "GroupedSortedSetWriteE2e"
+        },
+        {
+          "name": "ScanCursorsAndAllPopEntryPointsRecover",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/zset_write_e2e_test.cpp",
+          "line": 842,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-05T00:43:08Z",
+          "time": "0.447s",
+          "classname": "GroupedSortedSetWriteE2e"
+        },
+        {
+          "name": "FullImageAndRandomReplyOomAreAtomic",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/zset_write_e2e_test.cpp",
+          "line": 929,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-05T00:43:09Z",
+          "time": "2.554s",
+          "classname": "GroupedSortedSetWriteE2e"
+        },
+        {
+          "name": "RangeRemovalFitsSelectedPagesAndRecovers",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/zset_write_e2e_test.cpp",
+          "line": 1020,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-05T00:43:11Z",
+          "time": "2.727s",
+          "classname": "GroupedSortedSetWriteE2e"
+        },
+        {
+          "name": "FailedRangeRemovalPreservesExecPrefixAndRecovery",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/zset_write_e2e_test.cpp",
+          "line": 1072,
+          "status": "RUN",
+          "result": "SKIPPED",
+          "timestamp": "2026-10-05T00:43:14Z",
+          "time": "0s",
+          "classname": "GroupedSortedSetWriteE2e",
+          "skipped": [
+            {
+              "message": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/zset_write_e2e_test.cpp:1075\nrequires auxiliary-write failure injection\n"
+            }
+          ]
+        },
+        {
+          "name": "RandomAndRangeRemovalPreserveSemantics",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/zset_write_e2e_test.cpp",
+          "line": 1126,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-05T00:43:14Z",
+          "time": "0.099s",
+          "classname": "GroupedSortedSetWriteE2e"
+        },
+        {
+          "name": "GeoPointReadsPreserveRepliesAndExecVisibility",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/zset_write_e2e_test.cpp",
+          "line": 1222,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-05T00:43:14Z",
+          "time": "0.461s",
+          "classname": "GroupedSortedSetWriteE2e"
+        },
+        {
+          "name": "MultiKeyAggregateOomPreservesStoreAndExecPrefix",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/zset_write_e2e_test.cpp",
+          "line": 1339,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-05T00:43:14Z",
+          "time": "1.831s",
+          "classname": "GroupedSortedSetWriteE2e"
+        },
+        {
+          "name": "AggregateAbove512MiBRemainsBoundedAndRecovers",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/zset_write_e2e_test.cpp",
+          "line": 1430,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-05T00:43:16Z",
+          "time": "58.831s",
+          "classname": "GroupedSortedSetWriteE2e"
+        }
+      ]
+    }
+  ]
+}
