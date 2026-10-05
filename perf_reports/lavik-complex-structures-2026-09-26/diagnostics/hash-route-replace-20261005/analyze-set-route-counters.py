@@ -1,11 +1,15 @@
-"""Audit retained INFO windows for the complete large-Set paired comparison."""
+"""Audit retained INFO windows for a complete Hash/Set paired comparison."""
 from pathlib import Path
 import argparse,hashlib,json
 p=argparse.ArgumentParser(description=__doc__)
 p.add_argument('--report-root',type=Path,default=Path('/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26'))
+p.add_argument('--scope',choices=['set-large','hash-large','hash-small'],default='set-large')
 p.add_argument('--output',type=Path,required=True)
 a=p.parse_args();r=a.report_root
-observation=r/'diagnostics/hash-route-replace-20261005/hash-route-set-large-observations.json'
+prefix={'set-large':'hash-route-set-large','hash-large':'hash-route-large','hash-small':'hash-route-hash-small'}[a.scope]
+kind=a.scope.split('-')[0]
+operations=['SISMEMBER','SADD_SREM'] if kind=='set' else ['HGET','HSET']
+observation=r/'diagnostics/hash-route-replace-20261005'/(prefix+'-observations.json')
 data=json.loads(observation.read_text());assert len(data['rows'])==36
 counters=['rdb_changes_since_last_save','tx_commit_batches','tx_commit_batch_transactions',
           'tx_commit_backpressure_waits','tx_fastpath_runs','tx_queued_runs','tx_schedule_retries',
@@ -33,7 +37,8 @@ for row in data['rows']:
     source=json.loads(next(raw.glob('provenance-*.json')).read_text())
     assert source['sha256']==data['versions'][row['version']]['sha256']
     assert source['source_commit']==data['versions'][row['version']]['commit']
-    stem=f'set-104857600-1024-{row["operation"].lower()}-c{row["connections"]}'
+    assert row['type']==kind
+    stem=f'{kind}-{row["logical_bytes"]}-{row["field_bytes"]}-{row["operation"].lower()}-c{row["connections"]}'
     result=json.loads((raw/(stem+'.result.json')).read_text())
     assert all(row[k]==v for k,v in result.items())
     paths=[raw/(stem+'.info-'+phase+'.txt') for phase in ['before','after']]
@@ -44,7 +49,7 @@ for row in data['rows']:
     assert before['rdb_bgsave_in_progress']==after['rdb_bgsave_in_progress']=='0'
     assert before['tomb_raider_enabled']==after['tomb_raider_enabled']=='0'
     assert before['defrag_paused']==after['defrag_paused']=='1'
-    command_names=['sadd','srem'] if row['operation']=='SADD_SREM' else ['sismember']
+    command_names=['sadd','srem'] if row['operation']=='SADD_SREM' else [row['operation'].lower()]
     command_delta={c:calls(after,c)-calls(before,c) for c in command_names}
     count=sum(command_delta.values());assert count==row['requests'] and count>0
     delta={k:int(after[k])-int(before[k]) for k in counters}
@@ -62,12 +67,12 @@ for row in data['rows']:
                  # Queue peak is a lifetime gauge: preserve snapshots, do not difference it.
                  'queue_peak_before':int(before['tx_commit_queue_peak']),
                  'queue_peak_after':int(after['tx_commit_queue_peak'])})
-assert seen=={(n,v,op,c) for n in [1,2,3] for v in ['parent','candidate'] for op in ['SISMEMBER','SADD_SREM'] for c in [80,320,5120]}
-write=[v for v in rows if v['operation']=='SADD_SREM']
+assert seen=={(n,v,op,c) for n in [1,2,3] for v in ['parent','candidate'] for op in operations for c in [80,320,5120]}
+write=[v for v in rows if v['operation'] in ['SADD_SREM','HSET']]
 summary=[]
 for c in [80,320,5120]:
     for version in ['parent','candidate']:
-        values=[v for v in write if v['connections']==c and v['version']==version]
+        values=sorted((v for v in write if v['connections']==c and v['version']==version),key=lambda row:row['round'])
         summary.append({'connections':c,'version':version,
             'changes_per_call_range':[min(v['changes_per_measured_call'] for v in values),max(v['changes_per_measured_call'] for v in values)],
             'batches_mean_transactions_each_round':[v['commit_transactions_per_batch'] for v in values],
