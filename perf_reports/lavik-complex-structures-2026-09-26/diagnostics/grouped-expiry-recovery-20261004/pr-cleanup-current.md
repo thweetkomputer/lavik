@@ -6,14 +6,14 @@
 
 | PR | 当前 head | 基底 | 当前 head CI | 处理 |
 | --- | --- | --- | --- | --- |
-| [#266](https://github.com/eloqdata/lavik/pull/266) | `3acb7fd2` | main | [17/17 通过](https://github.com/eloqdata/lavik/actions/runs/37297041275) | [17/17 通过](https://github.com/eloqdata/lavik/actions/runs/37297041275)
-| [#267](https://github.com/eloqdata/lavik/pull/267) | `0cc00887` | main | [16/17 通过，其余待完成](https://github.com/eloqdata/lavik/actions/runs/37303614082) | [17/17 通过](https://github.com/eloqdata/lavik/actions/runs/37303614082)
-| [#270](https://github.com/eloqdata/lavik/pull/270) | `631e6104` | main | [3/17 通过，其余待完成](https://github.com/eloqdata/lavik/actions/runs/37308667273) | [4/17 通过，其余待完成](https://github.com/eloqdata/lavik/actions/runs/37308667273)
-| [#271](https://github.com/eloqdata/lavik/pull/271) | `a27637f0` | #266 | [3/17 通过，其余待完成](https://github.com/eloqdata/lavik/actions/runs/37312155267) | [3/17 通过，其余待完成](https://github.com/eloqdata/lavik/actions/runs/37312155267)
-| [#272](https://github.com/eloqdata/lavik/pull/272) | `0d36b4a9` | #266 | [11/17 通过，其余待完成](https://github.com/eloqdata/lavik/actions/runs/37308612324) | [14/17 通过，其余待完成](https://github.com/eloqdata/lavik/actions/runs/37308612324)
-| [#275](https://github.com/eloqdata/lavik/pull/275) | `38485460` | #270 | [4/17 通过，其余待完成](https://github.com/eloqdata/lavik/actions/runs/37308704165) | [4/17 通过，其余待完成](https://github.com/eloqdata/lavik/actions/runs/37308704165)
-| [#280](https://github.com/eloqdata/lavik/pull/280) | `253ab6a9` | main | [3/17 通过，其余待完成](https://github.com/eloqdata/lavik/actions/runs/37312803218) | [3/17 通过，其余待完成](https://github.com/eloqdata/lavik/actions/runs/37312803218)
-| [#282](https://github.com/eloqdata/lavik/pull/282) | `2c94e9da` | main | [17/17 通过](https://github.com/eloqdata/lavik/actions/runs/37297697141) | [17/17 通过](https://github.com/eloqdata/lavik/actions/runs/37297697141)
+| [#266](https://github.com/eloqdata/lavik/pull/266) | `3acb7fd2` | main | [17/17 通过](https://github.com/eloqdata/lavik/actions/runs/37297041275) | 保留：历史大 ZINCRBY 配对中位 +1.0%–6.5%，p99 有混合结果。 |
+| [#267](https://github.com/eloqdata/lavik/pull/267) | `0cc00887` | main | [17/17 通过](https://github.com/eloqdata/lavik/actions/runs/37303614082) | 草稿：大 List 全量读取有收益；原巨型 key SET 超时仍未解释。 |
+| [#270](https://github.com/eloqdata/lavik/pull/270) | `631e6104` | main | [4/17 通过，其余待完成](https://github.com/eloqdata/lavik/actions/runs/37308667273) | 草稿：大 Stream 全量读取有收益；点读控制有回退，Sentinel 测试修复待 CI。 |
+| [#271](https://github.com/eloqdata/lavik/pull/271) | `a27637f0` | #266 | [3/17 通过，其余待完成](https://github.com/eloqdata/lavik/actions/runs/37312155267) | 草稿：已完成固定历史版本原生测试，72 点吞吐对照进行中。 |
+| [#272](https://github.com/eloqdata/lavik/pull/272) | `0d36b4a9` | #266 | [14/17 通过，其余待完成](https://github.com/eloqdata/lavik/actions/runs/37308612324) | 草稿：已完成固定历史版本原生测试，72 点吞吐对照进行中。 |
+| [#275](https://github.com/eloqdata/lavik/pull/275) | `38485460` | #270 | [4/17 通过，其余待完成](https://github.com/eloqdata/lavik/actions/runs/37308704165) | 草稿：大 Stream 全量读取 +128%–327%；小对象写及尾延迟回退，原 RDB 超时未解释。 |
+| [#280](https://github.com/eloqdata/lavik/pull/280) | `253ab6a9` | main | [3/17 通过，其余待完成](https://github.com/eloqdata/lavik/actions/runs/37312803218) | 草稿：96 点完成，ZSCORE 各条件三轮 QPS 均提升；写收益不稳定，原 RESTORE 超时未解释。当前仅追加诊断。 |
+| [#282](https://github.com/eloqdata/lavik/pull/282) | `2c94e9da` | main | [17/17 通过](https://github.com/eloqdata/lavik/actions/runs/37297697141) | 草稿：长 key 候选回放通过；普通短 key 原生回归及 72 点对照待完成，尚无配对 QPS 结论。 |
 
 CI 与原生性能实验是不同证据：上表只使用与当前远端 head 完全匹配的 CI。历史基准及队列中的实验继续使用其冻结提交和二进制，不能转记成 rebase 后版本的性能。通过 CI 也不代表已排除报告中尚未复现的历史超时。
 
