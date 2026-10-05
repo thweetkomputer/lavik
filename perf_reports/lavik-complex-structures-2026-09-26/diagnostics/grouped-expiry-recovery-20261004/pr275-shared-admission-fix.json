@@ -1,0 +1,39 @@
+{
+  "observed_unix": 1791216879.8125906,
+  "previous_head": "dbd72cb1cdd899b0c90f9807621efb863592a7e1",
+  "new_head": "c7c3aa28b701f67d2fb4c4f134830e7cee79aa82",
+  "failure_run": 37332687744,
+  "data_control_failed_job": 111843850235,
+  "data_control_failure": "TLS startup commit_service_mode received exact preflight membership-gate busy rejection",
+  "source_files": [
+    "tests/meta_integration/gate_bootstrap.py",
+    "tests/meta_integration/gate_cluster_create.py",
+    "tests/meta_integration/gate_data_control.py",
+    "tests/meta_integration/test_native_fixture_startup.py"
+  ],
+  "local_checks": "9 fixture helper tests passed (6 admission behavior cases, 1 actual Data-control orchestration regression, 2 existing startup cases); Ruff check/format and diff check pass",
+  "production_changed": false,
+  "unresolved": "ListIndirect RESTORE timeout remains; helper sharing does not fix or explain it",
+  "original_data_control_log_sha256": "fe6efc3886b710a940d1037c6b8821052645c56a131cfa4b31ebc86d2ee2482a",
+  "logs": [
+    {
+      "file": "pr275-bootstrap-fix-arm64-shard1.log",
+      "original_sha256": "fe6efc3886b710a940d1037c6b8821052645c56a131cfa4b31ebc86d2ee2482a",
+      "published_sha256": "39faf7a87e057833f50cb2ab6c57558212f9926b5f38a190b2878f1ec93b8224",
+      "normalization": "Trailing whitespace only, no lines removed; original retained locally."
+    },
+    {
+      "file": "pr275-bootstrap-fix-amd64-shard2-passed.log",
+      "original_sha256": "2de7961d50b070dfd602a80428e4e6f0108371b71bcb37bbbccaa7e078a5a845",
+      "published_sha256": "04fd3d224b8a0f6955563c7d5ad94d7e3f3b39fe3e567280bc1da7f1fcf31929",
+      "normalization": "Trailing whitespace only, no lines removed; original retained locally."
+    }
+  ],
+  "bootstrap_case_pass": {
+    "run": 37332687744,
+    "job": 111843850105,
+    "seconds": 2.89,
+    "head": "dbd72cb1cdd899b0c90f9807621efb863592a7e1"
+  },
+  "new_ci_run": 37339320997
+}

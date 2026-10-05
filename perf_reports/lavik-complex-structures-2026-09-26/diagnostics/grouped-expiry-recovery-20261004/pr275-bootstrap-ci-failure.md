@@ -11,3 +11,5 @@
 [完整 CI 终态](pr275-after270-full-ci.json) · [原分片日志](pr275-after270-amd64-shard2.log) · [修复身份及本地验证记录](pr275-bootstrap-admission-fix.json)。性能测量仍使用原有冻结提交和二进制。
 
 发布的日志仅去除行尾空白；原始下载日志保留在本机，原始及发布版 SHA-256 均记录在修复证据中，未删除日志行。
+
+后续 `dbd72cb1` 的 bootstrap 用例通过，但 Data-control 同类 admission 拒绝与独立 List RESTORE 超时导致 CI 失败；[共享夹具修复及当前验证](pr275-shared-admission-fix.md)。

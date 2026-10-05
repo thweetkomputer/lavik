@@ -1,0 +1,1109 @@
+﻿2026-10-05T14:53:38.0374567Z Current runner version: '2.337.0'
+2026-10-05T14:53:38.0402409Z ##[group]Runner Image Provisioner
+2026-10-05T14:53:38.0403506Z Hosted Compute Agent
+2026-10-05T14:53:38.0404110Z Version: 20260901.588
+2026-10-05T14:53:38.0404818Z Commit: f88ec8081b781fac6c440065ac7ff9e710ce3d0b
+2026-10-05T14:53:38.0405569Z Build Date: 2026-09-01T19:56:44Z
+2026-10-05T14:53:38.0406269Z Worker ID: {b620c639-21c0-4751-991b-fdd3b234c7fb}
+2026-10-05T14:53:38.0407342Z Azure Region: northcentralus
+2026-10-05T14:53:38.0407977Z ##[endgroup]
+2026-10-05T14:53:38.0410016Z ##[group]Operating System
+2026-10-05T14:53:38.0410827Z Ubuntu
+2026-10-05T14:53:38.0411381Z 24.04.5
+2026-10-05T14:53:38.0412047Z LTS
+2026-10-05T14:53:38.0412558Z ##[endgroup]
+2026-10-05T14:53:38.0413108Z ##[group]Runner Image
+2026-10-05T14:53:38.0413834Z Image: ubuntu-24.04-arm
+2026-10-05T14:53:38.0414435Z Version: 20260927.135.1
+2026-10-05T14:53:38.0415889Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24-arm64/20260927.135/images/ubuntu/Ubuntu2404-Arm64-Readme.md
+2026-10-05T14:53:38.0417834Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24-arm64%2F20260927.135
+2026-10-05T14:53:38.0418954Z ##[endgroup]
+2026-10-05T14:53:38.0420124Z ##[group]GITHUB_TOKEN Permissions
+2026-10-05T14:53:38.0422727Z Contents: read
+2026-10-05T14:53:38.0423344Z Metadata: read
+2026-10-05T14:53:38.0424048Z ##[endgroup]
+2026-10-05T14:53:38.0427350Z Secret source: Actions
+2026-10-05T14:53:38.0428512Z Cache mode: write
+2026-10-05T14:53:38.0429464Z Prepare workflow directory
+2026-10-05T14:53:38.1022857Z Prepare all required actions
+2026-10-05T14:53:38.1073376Z Getting action download info
+2026-10-05T14:53:38.4055860Z Download action repository 'actions/checkout@v7' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+2026-10-05T14:53:38.5296843Z Download action repository 'actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e' (SHA:b7ad1dad31e06c5925ef5d2fc7ad053ef454303e)
+2026-10-05T14:53:38.8989873Z Download action repository 'actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c' (SHA:3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c)
+2026-10-05T14:53:39.2883350Z Download action repository 'actions/upload-artifact@v7' (SHA:043fb46d1a93c77aae656e7c1c64a875d1fc6a0a)
+2026-10-05T14:53:39.4524920Z Complete job name: Test shard (arm64, 0)
+2026-10-05T14:53:39.5355867Z ##[group]Run actions/checkout@v7
+2026-10-05T14:53:39.5357456Z with:
+2026-10-05T14:53:39.5358079Z   persist-credentials: false
+2026-10-05T14:53:39.5358802Z   repository: eloqdata/lavik
+2026-10-05T14:53:39.5364413Z   token: ***
+2026-10-05T14:53:39.5364979Z   ssh-strict: true
+2026-10-05T14:53:39.5365579Z   ssh-user: git
+2026-10-05T14:53:39.5366139Z   clean: true
+2026-10-05T14:53:39.5366743Z   sparse-checkout-cone-mode: true
+2026-10-05T14:53:39.5367623Z   fetch-depth: 1
+2026-10-05T14:53:39.5368223Z   fetch-tags: false
+2026-10-05T14:53:39.5368813Z   show-progress: true
+2026-10-05T14:53:39.5369416Z   lfs: false
+2026-10-05T14:53:39.5369960Z   submodules: false
+2026-10-05T14:53:39.5370563Z   set-safe-directory: true
+2026-10-05T14:53:39.5371301Z   allow-unsafe-pr-checkout: false
+2026-10-05T14:53:39.5372435Z env:
+2026-10-05T14:53:39.5373243Z   PYTHONPATH: /home/runner/work/lavik/lavik/build_ci/test_tools/redis_py
+2026-10-05T14:53:39.5374237Z ##[endgroup]
+2026-10-05T14:53:39.6229660Z Syncing repository: eloqdata/lavik
+2026-10-05T14:53:39.6232423Z ##[group]Getting Git version info
+2026-10-05T14:53:39.6233484Z Working directory is '/home/runner/work/lavik/lavik'
+2026-10-05T14:53:39.6235143Z [command]/usr/bin/git version
+2026-10-05T14:53:39.6294065Z git version 2.55.0
+2026-10-05T14:53:39.6312495Z ##[endgroup]
+2026-10-05T14:53:39.6320924Z Temporarily overriding HOME='/home/runner/work/_temp/15cd938d-ad80-45ba-a94b-91e9f80bf422' before making global git config changes
+2026-10-05T14:53:39.6323366Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-05T14:53:39.6325197Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/lavik/lavik
+2026-10-05T14:53:39.6352914Z Deleting the contents of '/home/runner/work/lavik/lavik'
+2026-10-05T14:53:39.6358352Z ##[group]Determining repository object format
+2026-10-05T14:53:39.6363796Z ##[endgroup]
+2026-10-05T14:53:39.6365156Z ##[group]Initializing the repository
+2026-10-05T14:53:39.6366223Z [command]/usr/bin/git init /home/runner/work/lavik/lavik
+2026-10-05T14:53:39.6433569Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-10-05T14:53:39.6442219Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-10-05T14:53:39.6447334Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-10-05T14:53:39.6448603Z hint: call:
+2026-10-05T14:53:39.6449277Z hint:
+2026-10-05T14:53:39.6450223Z hint: 	git config --global init.defaultBranch <name>
+2026-10-05T14:53:39.6451174Z hint:
+2026-10-05T14:53:39.6452181Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-10-05T14:53:39.6453717Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-10-05T14:53:39.6454941Z hint:
+2026-10-05T14:53:39.6455694Z hint: 	git branch -m <name>
+2026-10-05T14:53:39.6456432Z hint:
+2026-10-05T14:53:39.6457547Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-10-05T14:53:39.6459213Z Initialized empty Git repository in /home/runner/work/lavik/lavik/.git/
+2026-10-05T14:53:39.6461720Z [command]/usr/bin/git remote add origin https://github.com/eloqdata/lavik
+2026-10-05T14:53:39.6487663Z ##[endgroup]
+2026-10-05T14:53:39.6489106Z ##[group]Disabling automatic garbage collection
+2026-10-05T14:53:39.6490227Z [command]/usr/bin/git config --local gc.auto 0
+2026-10-05T14:53:39.6520568Z ##[endgroup]
+2026-10-05T14:53:39.6521769Z ##[group]Setting up auth
+2026-10-05T14:53:39.6522583Z Removing SSH command configuration
+2026-10-05T14:53:39.6524379Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-05T14:53:39.6553085Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-05T14:53:39.6830406Z Removing HTTP extra header
+2026-10-05T14:53:39.6835759Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-05T14:53:39.6867229Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-05T14:53:39.7042315Z Removing includeIf entries pointing to credentials config files
+2026-10-05T14:53:39.7052256Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-05T14:53:39.7081656Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-05T14:53:39.7270187Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-d3f66138-487e-40a7-84f8-e67f55b893f0.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-10-05T14:53:39.7304890Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/lavik/lavik/.git.path /home/runner/work/_temp/git-credentials-d3f66138-487e-40a7-84f8-e67f55b893f0.config
+2026-10-05T14:53:39.7334051Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/lavik/lavik/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-d3f66138-487e-40a7-84f8-e67f55b893f0.config
+2026-10-05T14:53:39.7363864Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-d3f66138-487e-40a7-84f8-e67f55b893f0.config
+2026-10-05T14:53:39.7392757Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-d3f66138-487e-40a7-84f8-e67f55b893f0.config
+2026-10-05T14:53:39.7419677Z ##[endgroup]
+2026-10-05T14:53:39.7421019Z ##[group]Fetching the repository
+2026-10-05T14:53:39.7425291Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +7a8b169398912864e19ddf23d19c1312b8679198:refs/remotes/pull/275/merge
+2026-10-05T14:53:40.4733491Z From https://github.com/eloqdata/lavik
+2026-10-05T14:53:40.4734803Z  * [new ref]         7a8b169398912864e19ddf23d19c1312b8679198 -> pull/275/merge
+2026-10-05T14:53:40.4738656Z ##[endgroup]
+2026-10-05T14:53:40.4740303Z ##[group]Determining the checkout info
+2026-10-05T14:53:40.4741843Z ##[endgroup]
+2026-10-05T14:53:40.4742786Z [command]/usr/bin/git sparse-checkout disable
+2026-10-05T14:53:40.4785684Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-10-05T14:53:40.4813569Z ##[group]Checking out the ref
+2026-10-05T14:53:40.4816405Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/275/merge
+2026-10-05T14:53:40.5984880Z Note: switching to 'refs/remotes/pull/275/merge'.
+2026-10-05T14:53:40.5986061Z
+2026-10-05T14:53:40.5986791Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-10-05T14:53:40.5988359Z changes and commit them, and you can discard any commits you make in this
+2026-10-05T14:53:40.5989876Z state without impacting any branches by switching back to a branch.
+2026-10-05T14:53:40.5990680Z
+2026-10-05T14:53:40.5991237Z If you want to create a new branch to retain commits you create, you may
+2026-10-05T14:53:40.5992606Z do so (now or later) by using -c with the switch command. Example:
+2026-10-05T14:53:40.5993389Z
+2026-10-05T14:53:40.5993761Z   git switch -c <new-branch-name>
+2026-10-05T14:53:40.5994286Z
+2026-10-05T14:53:40.5994599Z Or undo this operation with:
+2026-10-05T14:53:40.5995153Z
+2026-10-05T14:53:40.5995445Z   git switch -
+2026-10-05T14:53:40.5995869Z
+2026-10-05T14:53:40.5996480Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-10-05T14:53:40.5997422Z
+2026-10-05T14:53:40.5998436Z HEAD is now at 7a8b169 Merge 0b1fb8bc4320c920096eceba83114c2766777a93 into 5a3903d9b3c0632e3b34e827b779d9daa58455c2
+2026-10-05T14:53:40.6001566Z ##[endgroup]
+2026-10-05T14:53:40.6029955Z [command]/usr/bin/git log -1 --format=%H
+2026-10-05T14:53:40.6053670Z 7a8b169398912864e19ddf23d19c1312b8679198
+2026-10-05T14:53:40.6063163Z ##[group]Removing auth
+2026-10-05T14:53:40.6064454Z Removing SSH command configuration
+2026-10-05T14:53:40.6066544Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-05T14:53:40.6097587Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-05T14:53:40.6279079Z Removing HTTP extra header
+2026-10-05T14:53:40.6280957Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-05T14:53:40.6310151Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-05T14:53:40.6491260Z Removing includeIf entries pointing to credentials config files
+2026-10-05T14:53:40.6493098Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-05T14:53:40.6515042Z includeif.gitdir:/home/runner/work/lavik/lavik/.git.path
+2026-10-05T14:53:40.6516295Z includeif.gitdir:/home/runner/work/lavik/lavik/.git/worktrees/*.path
+2026-10-05T14:53:40.6517881Z includeif.gitdir:/github/workspace/.git.path
+2026-10-05T14:53:40.6518954Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-10-05T14:53:40.6522921Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/lavik/lavik/.git.path
+2026-10-05T14:53:40.6545066Z /home/runner/work/_temp/git-credentials-d3f66138-487e-40a7-84f8-e67f55b893f0.config
+2026-10-05T14:53:40.6555953Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/lavik/lavik/.git.path \/home\/runner\/work\/_temp\/git\-credentials\-d3f66138\-487e\-40a7\-84f8\-e67f55b893f0\.config
+2026-10-05T14:53:40.6588656Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/lavik/lavik/.git/worktrees/*.path
+2026-10-05T14:53:40.6610774Z /home/runner/work/_temp/git-credentials-d3f66138-487e-40a7-84f8-e67f55b893f0.config
+2026-10-05T14:53:40.6618602Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/lavik/lavik/.git/worktrees/*.path \/home\/runner\/work\/_temp\/git\-credentials\-d3f66138\-487e\-40a7\-84f8\-e67f55b893f0\.config
+2026-10-05T14:53:40.6648792Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+2026-10-05T14:53:40.6671067Z /github/runner_temp/git-credentials-d3f66138-487e-40a7-84f8-e67f55b893f0.config
+2026-10-05T14:53:40.6679359Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-d3f66138\-487e\-40a7\-84f8\-e67f55b893f0\.config
+2026-10-05T14:53:40.6715783Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-10-05T14:53:40.6738237Z /github/runner_temp/git-credentials-d3f66138-487e-40a7-84f8-e67f55b893f0.config
+2026-10-05T14:53:40.6749201Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-d3f66138\-487e\-40a7\-84f8\-e67f55b893f0\.config
+2026-10-05T14:53:40.6778678Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-05T14:53:40.6953842Z Removing credentials config '/home/runner/work/_temp/git-credentials-d3f66138-487e-40a7-84f8-e67f55b893f0.config'
+2026-10-05T14:53:40.6962892Z ##[endgroup]
+2026-10-05T14:53:40.7239998Z ##[group]Run actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e
+2026-10-05T14:53:40.7241143Z with:
+2026-10-05T14:53:40.7241883Z   go-version-file: raft/go.mod
+2026-10-05T14:53:40.7243447Z   cache-dependency-path: raft/go.sum
+tests/meta_integration/cluster_client_go/go.sum
+tests/meta_integration/sentinel_client_go/go.sum
+
+2026-10-05T14:53:40.7245056Z   check-latest: false
+2026-10-05T14:53:40.7250966Z   token: ***
+2026-10-05T14:53:40.7251630Z   cache: true
+2026-10-05T14:53:40.7252355Z env:
+2026-10-05T14:53:40.7253231Z   PYTHONPATH: /home/runner/work/lavik/lavik/build_ci/test_tools/redis_py
+2026-10-05T14:53:40.7254276Z ##[endgroup]
+2026-10-05T14:53:40.8197540Z Setup go version spec 1.26.8
+2026-10-05T14:53:40.8668297Z Found in cache @ /opt/hostedtoolcache/go/1.26.8/arm64
+2026-10-05T14:53:40.8669400Z Added go to the path
+2026-10-05T14:53:40.8671885Z Successfully set up Go version 1.26.8
+2026-10-05T14:53:45.9112049Z [command]/opt/hostedtoolcache/go/1.26.8/arm64/bin/go env GOMODCACHE
+2026-10-05T14:53:45.9143379Z [command]/opt/hostedtoolcache/go/1.26.8/arm64/bin/go env GOCACHE
+2026-10-05T14:53:45.9168566Z /home/runner/go/pkg/mod
+2026-10-05T14:53:45.9181053Z /home/runner/.cache/go-build
+2026-10-05T14:53:46.0339199Z Cache hit for: setup-go-Linux-arm64-ubuntu24-arm64-go-1.26.8-52a31333fdbe81b448a90130b1fe6ac14c2f243aba4a731c327db2137c0da2d4
+2026-10-05T14:53:47.1414984Z Received 134217728 of 162327702 (82.7%), 126.5 MBs/sec
+2026-10-05T14:53:47.3650382Z Received 162327702 of 162327702 (100.0%), 125.4 MBs/sec
+2026-10-05T14:53:47.3651545Z Cache Size: ~155 MB (162327702 B)
+2026-10-05T14:53:47.3685712Z [command]/usr/bin/tar -xf /home/runner/work/_temp/862cb878-4485-48bf-9ca5-26a1f13a016a/cache.tzst -P -C /home/runner/work/lavik/lavik --use-compress-program unzstd
+2026-10-05T14:53:48.0272448Z Cache restored successfully
+2026-10-05T14:53:48.0334039Z Cache restored from key: setup-go-Linux-arm64-ubuntu24-arm64-go-1.26.8-52a31333fdbe81b448a90130b1fe6ac14c2f243aba4a731c327db2137c0da2d4
+2026-10-05T14:53:48.0358392Z go version go1.26.8 linux/arm64
+2026-10-05T14:53:48.0358659Z
+2026-10-05T14:53:48.0359214Z ##[group]go env
+2026-10-05T14:53:48.1551255Z AR='ar'
+2026-10-05T14:53:48.1551918Z CC='gcc'
+2026-10-05T14:53:48.1552628Z CGO_CFLAGS='-O2 -g'
+2026-10-05T14:53:48.1552976Z CGO_CPPFLAGS=''
+2026-10-05T14:53:48.1553318Z CGO_CXXFLAGS='-O2 -g'
+2026-10-05T14:53:48.1553607Z CGO_ENABLED='1'
+2026-10-05T14:53:48.1553894Z CGO_FFLAGS='-O2 -g'
+2026-10-05T14:53:48.1554216Z CGO_LDFLAGS='-O2 -g'
+2026-10-05T14:53:48.1554470Z CXX='g++'
+2026-10-05T14:53:48.1554765Z GCCGO='gccgo'
+2026-10-05T14:53:48.1554994Z GO111MODULE=''
+2026-10-05T14:53:48.1555301Z GOARCH='arm64'
+2026-10-05T14:53:48.1555583Z GOARM64='v8.0'
+2026-10-05T14:53:48.1555882Z GOAUTH='netrc'
+2026-10-05T14:53:48.1556132Z GOBIN=''
+2026-10-05T14:53:48.1556425Z GOCACHE='/home/runner/.cache/go-build'
+2026-10-05T14:53:48.1556838Z GOCACHEPROG=''
+2026-10-05T14:53:48.1557487Z GODEBUG=''
+2026-10-05T14:53:48.1557823Z GOENV='/home/runner/.config/go/env'
+2026-10-05T14:53:48.1558157Z GOEXE=''
+2026-10-05T14:53:48.1558403Z GOEXPERIMENT=''
+2026-10-05T14:53:48.1558735Z GOFIPS140='off'
+2026-10-05T14:53:48.1559001Z GOFLAGS=''
+2026-10-05T14:53:48.1559734Z GOGCCFLAGS='-fPIC -pthread -Wl,--no-gc-sections -fmessage-length=0 -ffile-prefix-map=/tmp/go-build2047193605=/tmp/go-build -gno-record-gcc-switches'
+2026-10-05T14:53:48.1560448Z GOHOSTARCH='arm64'
+2026-10-05T14:53:48.1560717Z GOHOSTOS='linux'
+2026-10-05T14:53:48.1561042Z GOINSECURE=''
+2026-10-05T14:53:48.1561333Z GOMOD='/dev/null'
+2026-10-05T14:53:48.1561644Z GOMODCACHE='/home/runner/go/pkg/mod'
+2026-10-05T14:53:48.1561982Z GONOPROXY=''
+2026-10-05T14:53:48.1562210Z GONOSUMDB=''
+2026-10-05T14:53:48.1562514Z GOOS='linux'
+2026-10-05T14:53:48.1562761Z GOPATH='/home/runner/go'
+2026-10-05T14:53:48.1563066Z GOPRIVATE=''
+2026-10-05T14:53:48.1563440Z GOPROXY='https://proxy.golang.org,direct'
+2026-10-05T14:53:48.1563865Z GOROOT='/opt/hostedtoolcache/go/1.26.8/arm64'
+2026-10-05T14:53:48.1564365Z GOSUMDB='sum.golang.org'
+2026-10-05T14:53:48.1564929Z GOTELEMETRY='local'
+2026-10-05T14:53:48.1565330Z GOTELEMETRYDIR='/home/runner/.config/go/telemetry'
+2026-10-05T14:53:48.1565685Z GOTMPDIR=''
+2026-10-05T14:53:48.1565924Z GOTOOLCHAIN='local'
+2026-10-05T14:53:48.1566402Z GOTOOLDIR='/opt/hostedtoolcache/go/1.26.8/arm64/pkg/tool/linux_arm64'
+2026-10-05T14:53:48.1566833Z GOVCS=''
+2026-10-05T14:53:48.1567316Z GOVERSION='go1.26.8'
+2026-10-05T14:53:48.1567575Z GOWORK=''
+2026-10-05T14:53:48.1567941Z PKG_CONFIG='pkg-config'
+2026-10-05T14:53:48.1568200Z
+2026-10-05T14:53:48.1568616Z ##[endgroup]
+2026-10-05T14:53:48.1766441Z ##[group]Run sudo apt-get update
+2026-10-05T14:53:48.1767532Z [36;1msudo apt-get update[0m
+2026-10-05T14:53:48.1768145Z [36;1msudo apt-get install -y --no-install-recommends \[0m
+2026-10-05T14:53:48.1768653Z [36;1m  build-essential clang-18 cmake openssl python3 tcl zstd[0m
+2026-10-05T14:53:48.1873503Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-05T14:53:48.1873937Z env:
+2026-10-05T14:53:48.1874546Z   PYTHONPATH: /home/runner/work/lavik/lavik/build_ci/test_tools/redis_py
+2026-10-05T14:53:48.1874982Z   GOTOOLCHAIN: local
+2026-10-05T14:53:48.1875350Z ##[endgroup]
+2026-10-05T14:53:48.2733167Z Get:1 https://packages.microsoft.com/ubuntu/24.04/prod noble InRelease [3600 B]
+2026-10-05T14:53:48.3218162Z Get:2 https://packages.microsoft.com/ubuntu/24.04/prod noble/main armhf Packages [12.6 kB]
+2026-10-05T14:53:48.3346114Z Get:3 https://packages.microsoft.com/ubuntu/24.04/prod noble/main amd64 Packages [511 kB]
+2026-10-05T14:53:48.3399062Z Get:4 https://packages.microsoft.com/ubuntu/24.04/prod noble/main arm64 Packages [458 kB]
+2026-10-05T14:53:48.4099637Z Hit:5 http://ports.ubuntu.com/ubuntu-ports noble InRelease
+2026-10-05T14:53:48.4391459Z Get:6 http://ports.ubuntu.com/ubuntu-ports noble-updates InRelease [126 kB]
+2026-10-05T14:53:48.5657368Z Get:7 http://ports.ubuntu.com/ubuntu-ports noble-backports InRelease [126 kB]
+2026-10-05T14:53:48.6250316Z Get:8 http://ports.ubuntu.com/ubuntu-ports noble-security InRelease [126 kB]
+2026-10-05T14:53:48.6670187Z Get:9 http://ports.ubuntu.com/ubuntu-ports noble-updates/main arm64 Packages [1424 kB]
+2026-10-05T14:53:48.8018776Z Get:10 http://ports.ubuntu.com/ubuntu-ports noble-updates/main Translation-en [304 kB]
+2026-10-05T14:53:48.8359966Z Get:11 http://ports.ubuntu.com/ubuntu-ports noble-updates/main arm64 Components [178 kB]
+2026-10-05T14:53:48.8674439Z Get:12 http://ports.ubuntu.com/ubuntu-ports noble-updates/universe arm64 Packages [1736 kB]
+2026-10-05T14:53:48.9395926Z Get:13 http://ports.ubuntu.com/ubuntu-ports noble-updates/universe Translation-en [341 kB]
+2026-10-05T14:53:48.9717976Z Get:14 http://ports.ubuntu.com/ubuntu-ports noble-updates/universe arm64 Components [387 kB]
+2026-10-05T14:53:49.0043890Z Get:15 http://ports.ubuntu.com/ubuntu-ports noble-updates/restricted arm64 Packages [2571 kB]
+2026-10-05T14:53:49.0692618Z Get:16 http://ports.ubuntu.com/ubuntu-ports noble-updates/restricted Translation-en [394 kB]
+2026-10-05T14:53:49.1007294Z Get:17 http://ports.ubuntu.com/ubuntu-ports noble-backports/main arm64 Components [3568 B]
+2026-10-05T14:53:49.1299783Z Get:18 http://ports.ubuntu.com/ubuntu-ports noble-backports/universe arm64 Components [12.6 kB]
+2026-10-05T14:53:49.2292904Z Get:19 http://ports.ubuntu.com/ubuntu-ports noble-security/main arm64 Packages [1134 kB]
+2026-10-05T14:53:49.2641998Z Get:20 http://ports.ubuntu.com/ubuntu-ports noble-security/main Translation-en [221 kB]
+2026-10-05T14:53:49.2943681Z Get:21 http://ports.ubuntu.com/ubuntu-ports noble-security/main arm64 Components [43.3 kB]
+2026-10-05T14:53:49.3239448Z Get:22 http://ports.ubuntu.com/ubuntu-ports noble-security/universe arm64 Packages [1286 kB]
+2026-10-05T14:53:49.3598495Z Get:23 http://ports.ubuntu.com/ubuntu-ports noble-security/universe Translation-en [244 kB]
+2026-10-05T14:53:49.3899938Z Get:24 http://ports.ubuntu.com/ubuntu-ports noble-security/universe arm64 Components [76.3 kB]
+2026-10-05T14:53:49.4197358Z Get:25 http://ports.ubuntu.com/ubuntu-ports noble-security/restricted arm64 Packages [2371 kB]
+2026-10-05T14:53:49.4612838Z Get:26 http://ports.ubuntu.com/ubuntu-ports noble-security/restricted Translation-en [361 kB]
+2026-10-05T14:53:53.0812646Z Fetched 14.5 MB in 2s (9439 kB/s)
+2026-10-05T14:53:54.0031310Z Reading package lists...
+2026-10-05T14:53:54.0317521Z Reading package lists...
+2026-10-05T14:53:54.2673016Z Building dependency tree...
+2026-10-05T14:53:54.2679372Z Reading state information...
+2026-10-05T14:53:54.4901814Z clang-18 is already the newest version (1:18.1.3-1ubuntu1).
+2026-10-05T14:53:54.4902849Z python3 is already the newest version (3.12.3-0ubuntu2.1).
+2026-10-05T14:53:54.4903294Z tcl is already the newest version (8.6.14build1).
+2026-10-05T14:53:54.4903634Z tcl set to manually installed.
+2026-10-05T14:53:54.4904168Z zstd is already the newest version (1.5.5+dfsg2-2build1.1).
+2026-10-05T14:53:54.4904531Z zstd set to manually installed.
+2026-10-05T14:53:54.4904895Z The following additional packages will be installed:
+2026-10-05T14:53:54.4910329Z   cmake-data libjsoncpp25 librhash0 libssl-dev libssl3t64
+2026-10-05T14:53:54.4918444Z Suggested packages:
+2026-10-05T14:53:54.4919032Z   cmake-doc cmake-format elpa-cmake-mode ninja-build libssl-doc
+2026-10-05T14:53:54.5107349Z The following NEW packages will be installed:
+2026-10-05T14:53:54.5114573Z   build-essential cmake cmake-data libjsoncpp25 librhash0
+2026-10-05T14:53:54.5122909Z The following packages will be upgraded:
+2026-10-05T14:53:54.5125895Z   libssl-dev libssl3t64 openssl
+2026-10-05T14:53:54.7531787Z 3 upgraded, 5 newly installed, 0 to remove and 24 not upgraded.
+2026-10-05T14:53:54.7532527Z Need to get 17.9 MB of archives.
+2026-10-05T14:53:54.7532934Z After this operation, 45.0 MB of additional disk space will be used.
+2026-10-05T14:53:54.7533648Z Get:1 http://ports.ubuntu.com/ubuntu-ports noble-updates/main arm64 libssl-dev arm64 3.0.13-0ubuntu3.16 [2379 kB]
+2026-10-05T14:53:56.0035119Z Get:2 http://ports.ubuntu.com/ubuntu-ports noble-updates/main arm64 libssl3t64 arm64 3.0.13-0ubuntu3.16 [1838 kB]
+2026-10-05T14:53:56.2565800Z Get:3 http://ports.ubuntu.com/ubuntu-ports noble-updates/main arm64 openssl arm64 3.0.13-0ubuntu3.16 [985 kB]
+2026-10-05T14:53:56.3980867Z Get:4 http://ports.ubuntu.com/ubuntu-ports noble/main arm64 build-essential arm64 12.10ubuntu1 [4932 B]
+2026-10-05T14:53:56.5099853Z Get:5 http://ports.ubuntu.com/ubuntu-ports noble/main arm64 libjsoncpp25 arm64 1.9.5-6build1 [78.2 kB]
+2026-10-05T14:53:56.6232275Z Get:6 http://ports.ubuntu.com/ubuntu-ports noble/main arm64 librhash0 arm64 1.4.3-3build1 [126 kB]
+2026-10-05T14:53:56.7373172Z Get:7 http://ports.ubuntu.com/ubuntu-ports noble/main arm64 cmake-data all 3.28.3-1build7 [2155 kB]
+2026-10-05T14:53:56.9140753Z Get:8 http://ports.ubuntu.com/ubuntu-ports noble/main arm64 cmake arm64 3.28.3-1build7 [10.3 MB]
+2026-10-05T14:53:57.4619501Z Fetched 17.9 MB in 3s (6626 kB/s)
+2026-10-05T14:53:57.5037049Z (Reading database ...
+2026-10-05T14:53:57.5038195Z (Reading database ... 5%
+2026-10-05T14:53:57.5038589Z (Reading database ... 10%
+2026-10-05T14:53:57.5038868Z (Reading database ... 15%
+2026-10-05T14:53:57.5039187Z (Reading database ... 20%
+2026-10-05T14:53:57.5039516Z (Reading database ... 25%
+2026-10-05T14:53:57.5039812Z (Reading database ... 30%
+2026-10-05T14:53:57.5040085Z (Reading database ... 35%
+2026-10-05T14:53:57.5040375Z (Reading database ... 40%
+2026-10-05T14:53:57.5040721Z (Reading database ... 45%
+2026-10-05T14:53:57.5040989Z (Reading database ... 50%
+2026-10-05T14:53:57.5311245Z (Reading database ... 55%
+2026-10-05T14:53:57.6739223Z (Reading database ... 60%
+2026-10-05T14:53:57.8753516Z (Reading database ... 65%
+2026-10-05T14:53:58.0832523Z (Reading database ... 70%
+2026-10-05T14:53:58.2299945Z (Reading database ... 75%
+2026-10-05T14:53:58.3833363Z (Reading database ... 80%
+2026-10-05T14:53:58.5728837Z (Reading database ... 85%
+2026-10-05T14:53:58.7859068Z (Reading database ... 90%
+2026-10-05T14:53:58.9692669Z (Reading database ... 95%
+2026-10-05T14:53:58.9693159Z (Reading database ... 100%
+2026-10-05T14:53:58.9693557Z (Reading database ... 201617 files and directories currently installed.)
+2026-10-05T14:53:58.9737641Z Preparing to unpack .../libssl-dev_3.0.13-0ubuntu3.16_arm64.deb ...
+2026-10-05T14:53:58.9831523Z Unpacking libssl-dev:arm64 (3.0.13-0ubuntu3.16) over (3.0.13-0ubuntu3.15) ...
+2026-10-05T14:53:59.1800336Z Preparing to unpack .../libssl3t64_3.0.13-0ubuntu3.16_arm64.deb ...
+2026-10-05T14:53:59.1834621Z Unpacking libssl3t64:arm64 (3.0.13-0ubuntu3.16) over (3.0.13-0ubuntu3.15) ...
+2026-10-05T14:53:59.2515644Z Setting up libssl3t64:arm64 (3.0.13-0ubuntu3.16) ...
+2026-10-05T14:53:59.2798044Z (Reading database ...
+2026-10-05T14:53:59.2798967Z (Reading database ... 5%
+2026-10-05T14:53:59.2799483Z (Reading database ... 10%
+2026-10-05T14:53:59.2799959Z (Reading database ... 15%
+2026-10-05T14:53:59.2800417Z (Reading database ... 20%
+2026-10-05T14:53:59.2800841Z (Reading database ... 25%
+2026-10-05T14:53:59.2801285Z (Reading database ... 30%
+2026-10-05T14:53:59.2801702Z (Reading database ... 35%
+2026-10-05T14:53:59.2802164Z (Reading database ... 40%
+2026-10-05T14:53:59.2802989Z (Reading database ... 45%
+2026-10-05T14:53:59.2803538Z (Reading database ... 50%
+2026-10-05T14:53:59.2815471Z (Reading database ... 55%
+2026-10-05T14:53:59.2904761Z (Reading database ... 60%
+2026-10-05T14:53:59.2938247Z (Reading database ... 65%
+2026-10-05T14:53:59.2938876Z (Reading database ... 70%
+2026-10-05T14:53:59.2966435Z (Reading database ... 75%
+2026-10-05T14:53:59.2983540Z (Reading database ... 80%
+2026-10-05T14:53:59.3005420Z (Reading database ... 85%
+2026-10-05T14:53:59.3165930Z (Reading database ... 90%
+2026-10-05T14:53:59.3320607Z (Reading database ... 95%
+2026-10-05T14:53:59.3321002Z (Reading database ... 100%
+2026-10-05T14:53:59.3321394Z (Reading database ... 201617 files and directories currently installed.)
+2026-10-05T14:53:59.3355759Z Preparing to unpack .../0-openssl_3.0.13-0ubuntu3.16_arm64.deb ...
+2026-10-05T14:53:59.3380150Z Unpacking openssl (3.0.13-0ubuntu3.16) over (3.0.13-0ubuntu3.15) ...
+2026-10-05T14:53:59.4043810Z Selecting previously unselected package build-essential.
+2026-10-05T14:53:59.4206182Z Preparing to unpack .../1-build-essential_12.10ubuntu1_arm64.deb ...
+2026-10-05T14:53:59.4213294Z Unpacking build-essential (12.10ubuntu1) ...
+2026-10-05T14:53:59.4393756Z Selecting previously unselected package libjsoncpp25:arm64.
+2026-10-05T14:53:59.4550347Z Preparing to unpack .../2-libjsoncpp25_1.9.5-6build1_arm64.deb ...
+2026-10-05T14:53:59.4559909Z Unpacking libjsoncpp25:arm64 (1.9.5-6build1) ...
+2026-10-05T14:53:59.4756374Z Selecting previously unselected package librhash0:arm64.
+2026-10-05T14:53:59.4908170Z Preparing to unpack .../3-librhash0_1.4.3-3build1_arm64.deb ...
+2026-10-05T14:53:59.4918792Z Unpacking librhash0:arm64 (1.4.3-3build1) ...
+2026-10-05T14:53:59.5119397Z Selecting previously unselected package cmake-data.
+2026-10-05T14:53:59.5275539Z Preparing to unpack .../4-cmake-data_3.28.3-1build7_all.deb ...
+2026-10-05T14:53:59.5335594Z Unpacking cmake-data (3.28.3-1build7) ...
+2026-10-05T14:53:59.8430484Z Selecting previously unselected package cmake.
+2026-10-05T14:53:59.8614790Z Preparing to unpack .../5-cmake_3.28.3-1build7_arm64.deb ...
+2026-10-05T14:53:59.8625509Z Unpacking cmake (3.28.3-1build7) ...
+2026-10-05T14:54:00.0430758Z Setting up libssl-dev:arm64 (3.0.13-0ubuntu3.16) ...
+2026-10-05T14:54:00.0455370Z Setting up libjsoncpp25:arm64 (1.9.5-6build1) ...
+2026-10-05T14:54:00.0476485Z Setting up librhash0:arm64 (1.4.3-3build1) ...
+2026-10-05T14:54:00.0494104Z Setting up build-essential (12.10ubuntu1) ...
+2026-10-05T14:54:00.0509657Z Setting up cmake-data (3.28.3-1build7) ...
+2026-10-05T14:54:00.0561516Z Setting up openssl (3.0.13-0ubuntu3.16) ...
+2026-10-05T14:54:00.0597714Z Setting up cmake (3.28.3-1build7) ...
+2026-10-05T14:54:00.0623430Z Processing triggers for man-db (2.12.0-4build2) ...
+2026-10-05T14:54:00.0645323Z Not building database; man-db/auto-update is not 'true'.
+2026-10-05T14:54:00.0659689Z Processing triggers for libc-bin (2.39-0ubuntu8.9) ...
+2026-10-05T14:54:02.5686024Z
+2026-10-05T14:54:02.5687046Z Running kernel seems to be up-to-date.
+2026-10-05T14:54:02.5687365Z
+2026-10-05T14:54:02.5687514Z Restarting services...
+2026-10-05T14:54:02.6053025Z  /etc/needrestart/restart.d/systemd-manager
+2026-10-05T14:54:02.8468393Z  systemctl restart packagekit.service php8.3-fpm.service systemd-journald.service systemd-networkd.service systemd-resolved.service systemd-udevd.service udisks2.service
+2026-10-05T14:54:02.9833701Z
+2026-10-05T14:54:02.9834343Z Service restarts being deferred:
+2026-10-05T14:54:02.9834922Z  systemctl restart hosted-compute-agent.service
+2026-10-05T14:54:02.9836013Z  systemctl restart systemd-logind.service
+2026-10-05T14:54:02.9836603Z  systemctl restart walinuxagent.service
+2026-10-05T14:54:02.9837090Z
+2026-10-05T14:54:02.9837378Z No containers need to be restarted.
+2026-10-05T14:54:02.9837569Z
+2026-10-05T14:54:02.9837727Z User sessions running outdated binaries:
+2026-10-05T14:54:02.9838079Z  runner @ user manager service: systemd[1181]
+2026-10-05T14:54:03.0300839Z
+2026-10-05T14:54:03.0301696Z No VM guests are running outdated hypervisor (qemu) binaries on this host.
+2026-10-05T14:54:04.1619223Z ##[group]Run actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+2026-10-05T14:54:04.1619749Z with:
+2026-10-05T14:54:04.1620052Z   name: ci-build-arm64
+2026-10-05T14:54:04.1620379Z   path: /home/runner/work/_temp/ci-build
+2026-10-05T14:54:04.1620703Z   merge-multiple: false
+2026-10-05T14:54:04.1621023Z   repository: eloqdata/lavik
+2026-10-05T14:54:04.1621286Z   run-id: 37327265108
+2026-10-05T14:54:04.1621555Z   skip-decompress: false
+2026-10-05T14:54:04.1621860Z   digest-mismatch: error
+2026-10-05T14:54:04.1622113Z env:
+2026-10-05T14:54:04.1622499Z   PYTHONPATH: /home/runner/work/lavik/lavik/build_ci/test_tools/redis_py
+2026-10-05T14:54:04.1622907Z   GOTOOLCHAIN: local
+2026-10-05T14:54:04.1623184Z ##[endgroup]
+2026-10-05T14:54:04.2714710Z Downloading single artifact
+2026-10-05T14:54:04.4337893Z Preparing to download the following artifacts:
+2026-10-05T14:54:04.4339278Z - ci-build-arm64 (ID: 11353320756, Size: 701865891, Expected Digest: sha256:71df0caa929a388aac6a4be8f163a442ba54b382fcf3ded61bc9fcc58508478f)
+2026-10-05T14:54:04.7052174Z Redirecting to blob download url: https://productionresultssa19.blob.core.windows.net/actions-results/b07a8ab4-9cf0-8226-a3a0-d2a9f33486d5/workflow-job-run-d81a44a3-7891-58e5-b9ac-4c6d68881f97/artifacts/7bb5f06eea2576c73442d51f5183ca756bff64318b614cf43b2784045c2b3a2c.zip
+2026-10-05T14:54:04.7053880Z Starting download of artifact to: /home/runner/work/_temp/ci-build
+2026-10-05T14:54:04.9087723Z (node:3049) [DEP0005] DeprecationWarning: Buffer() is deprecated due to security and usability issues. Please use the Buffer.alloc(), Buffer.allocUnsafe(), or Buffer.from() methods instead.
+2026-10-05T14:54:04.9088742Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-05T14:54:12.6862537Z SHA256 digest of downloaded artifact is 71df0caa929a388aac6a4be8f163a442ba54b382fcf3ded61bc9fcc58508478f
+2026-10-05T14:54:12.6863430Z Artifact download completed successfully.
+2026-10-05T14:54:12.6863825Z Total of 1 artifact(s) downloaded
+2026-10-05T14:54:12.6868676Z Download artifact has finished successfully
+2026-10-05T14:54:12.6967664Z ##[group]Run tar --zstd -xf "$RUNNER_TEMP/ci-build/ci-build.tar.zst"
+2026-10-05T14:54:12.6968457Z [36;1mtar --zstd -xf "$RUNNER_TEMP/ci-build/ci-build.tar.zst"[0m
+2026-10-05T14:54:12.6968957Z [36;1mpython3 scripts/ci_build_bundle.py validate build_ci[0m
+2026-10-05T14:54:12.6969442Z [36;1mecho "$GITHUB_WORKSPACE/build_ci/test_tools/redis" >> "$GITHUB_PATH"[0m
+2026-10-05T14:54:12.6970018Z [36;1mecho "$GITHUB_WORKSPACE/build_ci/test_tools/redis-shake" >> "$GITHUB_PATH"[0m
+2026-10-05T14:54:12.7006271Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-05T14:54:12.7006665Z env:
+2026-10-05T14:54:12.7007348Z   PYTHONPATH: /home/runner/work/lavik/lavik/build_ci/test_tools/redis_py
+2026-10-05T14:54:12.7007770Z   GOTOOLCHAIN: local
+2026-10-05T14:54:12.7008002Z ##[endgroup]
+2026-10-05T14:54:22.1961668Z Validated /home/runner/work/lavik/lavik/build_ci: 1746 CTest cases
+2026-10-05T14:54:22.2064815Z ##[group]Run sudo sysctl -w kernel.io_uring_disabled=0
+2026-10-05T14:54:22.2065403Z [36;1msudo sysctl -w kernel.io_uring_disabled=0[0m
+2026-10-05T14:54:22.2065865Z [36;1msudo install -d -o "$(id -u)" -g "$(id -g)" /mnt/dev[0m
+2026-10-05T14:54:22.2101134Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-05T14:54:22.2101549Z env:
+2026-10-05T14:54:22.2101986Z   PYTHONPATH: /home/runner/work/lavik/lavik/build_ci/test_tools/redis_py
+2026-10-05T14:54:22.2102385Z   GOTOOLCHAIN: local
+2026-10-05T14:54:22.2102683Z ##[endgroup]
+2026-10-05T14:54:22.2206666Z kernel.io_uring_disabled = 0
+2026-10-05T14:54:22.2333873Z ##[group]Run sudo prlimit --pid "$$" --memlock=unlimited
+2026-10-05T14:54:22.2334529Z [36;1msudo prlimit --pid "$$" --memlock=unlimited[0m
+2026-10-05T14:54:22.2334977Z [36;1m# Each shard has an isolated VM and remains serial internally, so[0m
+2026-10-05T14:54:22.2335549Z [36;1m# fixed ports, large fixtures, and timing-sensitive faults cannot race.[0m
+2026-10-05T14:54:22.2336067Z [36;1mscratch_image=$(mktemp "$RUNNER_TEMP/lavik-ci-gate.XXXXXX")[0m
+2026-10-05T14:54:22.2336463Z [36;1mscratch_device=[0m
+2026-10-05T14:54:22.2336781Z [36;1mcleanup() {[0m
+2026-10-05T14:54:22.2337393Z [36;1m  if [[ -n "$scratch_device" ]]; then[0m
+2026-10-05T14:54:22.2337815Z [36;1m    sudo losetup --detach "$scratch_device"[0m
+2026-10-05T14:54:22.2338136Z [36;1m  fi[0m
+2026-10-05T14:54:22.2338429Z [36;1m  rm -f -- "$scratch_image"[0m
+2026-10-05T14:54:22.2338717Z [36;1m}[0m
+2026-10-05T14:54:22.2338939Z [36;1mtrap cleanup EXIT[0m
+2026-10-05T14:54:22.2339306Z [36;1mtruncate -s 16M "$scratch_image"[0m
+2026-10-05T14:54:22.2339711Z [36;1mscratch_device=$(sudo losetup --find --show "$scratch_image")[0m
+2026-10-05T14:54:22.2340187Z [36;1mexport LAVIK_CLUSTER_HARDWARE_OPT_IN=1[0m
+2026-10-05T14:54:22.2340595Z [36;1mexport LAVIK_CLUSTER_SCRATCH_DEVICE="$scratch_device"[0m
+2026-10-05T14:54:22.2341122Z [36;1m./scripts/run_ci_tests.sh build_ci --shard-index "$SHARD_INDEX" --shard-count 6[0m
+2026-10-05T14:54:22.2373148Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-05T14:54:22.2373528Z env:
+2026-10-05T14:54:22.2373911Z   PYTHONPATH: /home/runner/work/lavik/lavik/build_ci/test_tools/redis_py
+2026-10-05T14:54:22.2374571Z   GOTOOLCHAIN: local
+2026-10-05T14:54:22.2374831Z   SHARD_INDEX: 0
+2026-10-05T14:54:22.2375133Z ##[endgroup]
+2026-10-05T14:54:22.5457853Z Discovered 1746 CTest cases and 4 external suites; inventory fd69d883759a7cc6e54b88cb124bff9a05a5bb5c7a7809761ee0ceed6ba0418f
+2026-10-05T14:54:22.5458608Z Shard 0/6: 274 items, estimated 30.0 minutes
+2026-10-05T14:54:22.5459191Z Shard 1/6: 301 items, estimated 30.0 minutes
+2026-10-05T14:54:22.5459562Z Shard 2/6: 276 items, estimated 30.0 minutes
+2026-10-05T14:54:22.5459948Z Shard 3/6: 276 items, estimated 30.0 minutes
+2026-10-05T14:54:22.5460317Z Shard 4/6: 324 items, estimated 30.0 minutes
+2026-10-05T14:54:22.5460713Z Shard 5/6: 299 items, estimated 30.0 minutes
+2026-10-05T14:54:22.5461290Z Selected shard 0; full manifest: /home/runner/work/lavik/lavik/build_ci/test-results/shard-0-of-6/plan.json
+2026-10-05T14:54:22.5535247Z Internal ctest changing into directory: /home/runner/work/lavik/lavik/build_ci
+2026-10-05T14:54:22.5536711Z Test project /home/runner/work/lavik/lavik/build_ci
+2026-10-05T14:54:22.6354430Z         Start    8: cluster_model.LftTraceTest.ActionCodecPreservesTypedArgumentsAndPayload
+2026-10-05T14:54:22.6378621Z   1/274 Test    #8: cluster_model.LftTraceTest.ActionCodecPreservesTypedArgumentsAndPayload ............................................................................................   Passed    0.00 sec
+2026-10-05T14:54:22.6381523Z         Start   11: cluster_model.ScenarioRunnerTest.GoodScenarioExploresAndReplaysDistinctSchedules
+2026-10-05T14:54:23.0953534Z   2/274 Test   #11: cluster_model.ScenarioRunnerTest.GoodScenarioExploresAndReplaysDistinctSchedules ...................................................................................   Passed    0.46 sec
+2026-10-05T14:54:23.0954852Z         Start   16: cluster_model.ClusterInvariantTest.AcceptsDirectiveForTheAssignedReplicationGroup
+2026-10-05T14:54:23.0976789Z   3/274 Test   #16: cluster_model.ClusterInvariantTest.AcceptsDirectiveForTheAssignedReplicationGroup ..................................................................................   Passed    0.00 sec
+2026-10-05T14:54:23.0978445Z         Start   17: cluster_model.ClusterInvariantTest.RejectsDestructiveResetWithoutSafeSource
+2026-10-05T14:54:23.0998221Z   4/274 Test   #17: cluster_model.ClusterInvariantTest.RejectsDestructiveResetWithoutSafeSource ........................................................................................   Passed    0.00 sec
+2026-10-05T14:54:23.0999529Z         Start   23: cluster_model.ClusterInvariantTest.RejectsRetryAfterPopulationFailedStopped
+2026-10-05T14:54:23.1019312Z   5/274 Test   #23: cluster_model.ClusterInvariantTest.RejectsRetryAfterPopulationFailedStopped ........................................................................................   Passed    0.00 sec
+2026-10-05T14:54:23.1021142Z         Start   33: cluster_model.RequiredFaults/CounterexampleTest.GeneratesReplaysAndMinimizesStableFinding/(1-byte object <03>, "replication.reparent-requires-complete-history")
+2026-10-05T14:54:23.1046205Z   6/274 Test   #33: cluster_model.RequiredFaults/CounterexampleTest.GeneratesReplaysAndMinimizesStableFinding/(1-byte object <03>, "replication.reparent-requires-complete-history") ...   Passed    0.00 sec
+2026-10-05T14:54:23.1047864Z         Start   44: cluster_status.ClusterCreateManifestTest.ParsesStrictBootstrapPolicyOverrides
+2026-10-05T14:54:23.1081999Z   7/274 Test   #44: cluster_status.ClusterCreateManifestTest.ParsesStrictBootstrapPolicyOverrides ......................................................................................   Passed    0.00 sec
+2026-10-05T14:54:23.1083380Z         Start   50: cluster_status.ClusterCreateManifestTest.SentinelRegistrationRequiresUniqueUsableRoutesAndSingleCoverage
+2026-10-05T14:54:23.1116612Z   8/274 Test   #50: cluster_status.ClusterCreateManifestTest.SentinelRegistrationRequiresUniqueUsableRoutesAndSingleCoverage ...........................................................   Passed    0.00 sec
+2026-10-05T14:54:23.1118326Z         Start   53: cluster_status.ClusterCreateManifestTest.RejectsInvalidReplicaMembership
+2026-10-05T14:54:23.1146192Z   9/274 Test   #53: cluster_status.ClusterCreateManifestTest.RejectsInvalidReplicaMembership ...........................................................................................   Passed    0.00 sec
+2026-10-05T14:54:23.1147534Z         Start   62: cluster_status.ClusterCreateOperatorTest.RejectsActiveCreateBeforeMutation
+2026-10-05T14:54:23.1172386Z  10/274 Test   #62: cluster_status.ClusterCreateOperatorTest.RejectsActiveCreateBeforeMutation .........................................................................................   Passed    0.00 sec
+2026-10-05T14:54:23.1173589Z         Start   67: cluster_status.MetaClusterStatusWireTest.RoundTripsStrictBoundedV1Messages
+2026-10-05T14:54:23.1196809Z  11/274 Test   #67: cluster_status.MetaClusterStatusWireTest.RoundTripsStrictBoundedV1Messages .........................................................................................   Passed    0.00 sec
+2026-10-05T14:54:23.1198300Z         Start   70: cluster_status.MetaClusterStatusWireTest.AllowsBlockedPrePolicyDiagnosticsForNonPristineGroup
+2026-10-05T14:54:23.1220006Z  12/274 Test   #70: cluster_status.MetaClusterStatusWireTest.AllowsBlockedPrePolicyDiagnosticsForNonPristineGroup ......................................................................   Passed    0.00 sec
+2026-10-05T14:54:23.1221454Z         Start   75: cluster_status.MetaClusterStatusOperatorTest.LearnedTcpRequiresExplicitSecurityMode
+2026-10-05T14:54:23.1242672Z  13/274 Test   #75: cluster_status.MetaClusterStatusOperatorTest.LearnedTcpRequiresExplicitSecurityMode ................................................................................   Passed    0.00 sec
+2026-10-05T14:54:23.1243977Z         Start   77: cluster_status.MetaClusterStatusOperatorTest.TypedBusyExpiresAsRetryable
+2026-10-05T14:54:23.1386054Z  14/274 Test   #77: cluster_status.MetaClusterStatusOperatorTest.TypedBusyExpiresAsRetryable ...........................................................................................   Passed    0.01 sec
+2026-10-05T14:54:23.1387853Z         Start   89: cluster_status.MetaFailoverOperatorTest.SubmitsStableRequestToTheDiscoveredLeaderAndReportsCommit
+2026-10-05T14:54:23.1410525Z  15/274 Test   #89: cluster_status.MetaFailoverOperatorTest.SubmitsStableRequestToTheDiscoveredLeaderAndReportsCommit ..................................................................   Passed    0.00 sec
+2026-10-05T14:54:23.1412013Z         Start   99: meta.MetaDataControlLifecycleDeathTest.RejectedActiveShutdownNotificationFailsStop
+2026-10-05T14:54:23.3911499Z  16/274 Test   #99: meta.MetaDataControlLifecycleDeathTest.RejectedActiveShutdownNotificationFailsStop .................................................................................   Passed    0.25 sec
+2026-10-05T14:54:23.3914789Z         Start  100: meta.MetaProposalViewDeathTest.UncapturedAndWrongKeyQueriesNeverMeanAbsent
+2026-10-05T14:54:24.5547190Z  17/274 Test  #100: meta.MetaProposalViewDeathTest.UncapturedAndWrongKeyQueriesNeverMeanAbsent .........................................................................................   Passed    1.16 sec
+2026-10-05T14:54:24.5549520Z         Start  101: meta.MetaAutomaticFailoverStateMachineTest.DeferredTriggerPreservesDebounceUntilCommittedCutIsConfirmed
+2026-10-05T14:54:24.5631876Z  18/274 Test  #101: meta.MetaAutomaticFailoverStateMachineTest.DeferredTriggerPreservesDebounceUntilCommittedCutIsConfirmed ............................................................   Passed    0.01 sec
+2026-10-05T14:54:24.5633849Z         Start  106: meta.MetaAutomaticFailoverStateMachineTest.LeadershipEligibilityLossAndRegainBothResetElapsedTime
+2026-10-05T14:54:24.5704174Z  19/274 Test  #106: meta.MetaAutomaticFailoverStateMachineTest.LeadershipEligibilityLossAndRegainBothResetElapsedTime ..................................................................   Passed    0.01 sec
+2026-10-05T14:54:24.5706482Z         Start  127: meta.MetaAutomaticFailoverReconcilerTest.FailureReasonChangeImmediatelyBeforeAppendPreservesAdmission
+2026-10-05T14:54:27.8692312Z  20/274 Test  #127: meta.MetaAutomaticFailoverReconcilerTest.FailureReasonChangeImmediatelyBeforeAppendPreservesAdmission ..............................................................   Passed    3.30 sec
+2026-10-05T14:54:27.8694148Z         Start  129: meta.MetaAutomaticFailoverReconcilerTest.AutomaticBeginAtomicallyPreemptsPristineControlledRequest
+2026-10-05T14:54:28.5729291Z  21/274 Test  #129: meta.MetaAutomaticFailoverReconcilerTest.AutomaticBeginAtomicallyPreemptsPristineControlledRequest .................................................................   Passed    0.70 sec
+2026-10-05T14:54:28.5730989Z         Start  130: meta.MetaAutomaticFailoverReconcilerTest.OrdinaryHeartbeatsCannotKeepMissingCausalConfirmationPendingForever
+2026-10-05T14:54:29.5281281Z  22/274 Test  #130: meta.MetaAutomaticFailoverReconcilerTest.OrdinaryHeartbeatsCannotKeepMissingCausalConfirmationPendingForever .......................................................   Passed    0.95 sec
+2026-10-05T14:54:29.5282913Z         Start  131: meta.MetaAutomaticFailoverReconcilerTest.StaleProjectionCannotHideKnownExpiredOwnerLease
+2026-10-05T14:54:30.2878335Z  23/274 Test  #131: meta.MetaAutomaticFailoverReconcilerTest.StaleProjectionCannotHideKnownExpiredOwnerLease ...........................................................................   Passed    0.76 sec
+2026-10-05T14:54:30.2879709Z         Start  140: meta.ClusterCreateV1RecoveryTest.CapturePreservesExtraDataAndGroupsForRejection
+2026-10-05T14:54:31.0891734Z  24/274 Test  #140: meta.ClusterCreateV1RecoveryTest.CapturePreservesExtraDataAndGroupsForRejection ....................................................................................   Passed    0.80 sec
+2026-10-05T14:54:31.0893013Z         Start  146: meta.ClusterCreateV1RecoveryTest.InstallsRecoveryPolicyBeforeDataTopology
+2026-10-05T14:54:31.7826490Z  25/274 Test  #146: meta.ClusterCreateV1RecoveryTest.InstallsRecoveryPolicyBeforeDataTopology ..........................................................................................   Passed    0.69 sec
+2026-10-05T14:54:31.7828224Z         Start  148: meta.ClusterCreateV1RecoveryTest.PreservesValidPoliciesPreseededBeforeBootstrap
+2026-10-05T14:54:32.4545426Z  26/274 Test  #148: meta.ClusterCreateV1RecoveryTest.PreservesValidPoliciesPreseededBeforeBootstrap ....................................................................................   Passed    0.67 sec
+2026-10-05T14:54:32.4547238Z         Start  151: meta.ClusterCreateV1RecoveryTest.WaitsForCurrentSourceLeaseBeforeReplicaRebuild
+2026-10-05T14:54:33.7968648Z  27/274 Test  #151: meta.ClusterCreateV1RecoveryTest.WaitsForCurrentSourceLeaseBeforeReplicaRebuild ....................................................................................   Passed    1.34 sec
+2026-10-05T14:54:33.7970003Z         Start  152: meta.ClusterCreateV1RecoveryTest.SlowReplicaDoesNotBlockIndependentGroup
+2026-10-05T14:54:35.5171924Z  28/274 Test  #152: meta.ClusterCreateV1RecoveryTest.SlowReplicaDoesNotBlockIndependentGroup ...........................................................................................   Passed    1.72 sec
+2026-10-05T14:54:35.5173104Z         Start  180: meta.MembershipRecoveryTest.DoesNotUndoChangedConfiguration
+2026-10-05T14:54:35.5667719Z  29/274 Test  #180: meta.MembershipRecoveryTest.DoesNotUndoChangedConfiguration ........................................................................................................   Passed    0.05 sec
+2026-10-05T14:54:35.5670669Z         Start  182: meta.MembershipRecoveryTest.RejectsConcurrentCreationAndMembershipAtApply
+2026-10-05T14:54:35.5898702Z  30/274 Test  #182: meta.MembershipRecoveryTest.RejectsConcurrentCreationAndMembershipAtApply ..........................................................................................   Passed    0.02 sec
+2026-10-05T14:54:35.5900099Z         Start  188: meta.MetaCoordinatorComponentTest.CommitRevalidationPurgesRetiredNodeWithoutSubscribers
+2026-10-05T14:54:35.6030881Z  31/274 Test  #188: meta.MetaCoordinatorComponentTest.CommitRevalidationPurgesRetiredNodeWithoutSubscribers ............................................................................   Passed    0.01 sec
+2026-10-05T14:54:35.6032283Z         Start  192: meta.MetaCoordinatorComponentTest.SubscriptionHandleDestroyUnsubscribesAndWaitsInFlight
+2026-10-05T14:54:35.7805259Z  32/274 Test  #192: meta.MetaCoordinatorComponentTest.SubscriptionHandleDestroyUnsubscribesAndWaitsInFlight ............................................................................   Passed    0.18 sec
+2026-10-05T14:54:35.7806638Z         Start  197: meta.MetaCoordinatorServerTest.AttachedCoordinatorRequiresContinuationExecutor
+2026-10-05T14:54:35.8026857Z  33/274 Test  #197: meta.MetaCoordinatorServerTest.AttachedCoordinatorRequiresContinuationExecutor .....................................................................................   Passed    0.02 sec
+2026-10-05T14:54:35.8028604Z         Start  200: meta.MetaCoordinatorServerTest.FailSafeSnapshotFailureGate
+2026-10-05T14:54:36.0269011Z  34/274 Test  #200: meta.MetaCoordinatorServerTest.FailSafeSnapshotFailureGate .........................................................................................................   Passed    0.22 sec
+2026-10-05T14:54:36.0270447Z         Start  212: meta.MetaCoordinatorServerTest.ReconcilerStartCancelRestartIsIdempotent
+2026-10-05T14:54:36.4125534Z  35/274 Test  #212: meta.MetaCoordinatorServerTest.ReconcilerStartCancelRestartIsIdempotent ............................................................................................   Passed    0.39 sec
+2026-10-05T14:54:36.4127129Z         Start  216: meta.MetaCandidatePlanTest.IncomparableMaximaMinimizeEnvelopeDeficit
+2026-10-05T14:54:36.4194752Z  36/274 Test  #216: meta.MetaCandidatePlanTest.IncomparableMaximaMinimizeEnvelopeDeficit ...............................................................................................   Passed    0.01 sec
+2026-10-05T14:54:36.4196157Z         Start  221: meta.MetaCandidatePlanTest.UncontrolledSameTermDomainsUseCanonicalDomainIdentity
+2026-10-05T14:54:36.4262015Z  37/274 Test  #221: meta.MetaCandidatePlanTest.UncontrolledSameTermDomainsUseCanonicalDomainIdentity ...................................................................................   Passed    0.01 sec
+2026-10-05T14:54:36.4263744Z         Start  227: meta.MetaControlProjector.ProjectsCompleteCanonicalStateForOneNode
+2026-10-05T14:54:36.4409589Z  38/274 Test  #227: meta.MetaControlProjector.ProjectsCompleteCanonicalStateForOneNode .................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:36.4410944Z         Start  231: meta.MetaControlProjector.EnablesSteadyReplicationOnlyAfterClusterCreationCompletes
+2026-10-05T14:54:36.4583417Z  39/274 Test  #231: meta.MetaControlProjector.EnablesSteadyReplicationOnlyAfterClusterCreationCompletes ................................................................................   Passed    0.02 sec
+2026-10-05T14:54:36.4584716Z         Start  247: meta.MetaDataControlRuntimeStatusTest.UnregisteredRetryEvidenceIsBounded
+2026-10-05T14:54:36.4758510Z  40/274 Test  #247: meta.MetaDataControlRuntimeStatusTest.UnregisteredRetryEvidenceIsBounded ...........................................................................................   Passed    0.02 sec
+2026-10-05T14:54:36.4761366Z         Start  255: meta.MetaDataControlLeaseTest.NewAuthorityWaitsOutPriorLeaseAndEqualSafetyMarginBeforeGrant
+2026-10-05T14:54:36.4825102Z  41/274 Test  #255: meta.MetaDataControlLeaseTest.NewAuthorityWaitsOutPriorLeaseAndEqualSafetyMarginBeforeGrant ........................................................................   Passed    0.01 sec
+2026-10-05T14:54:36.4826466Z         Start  262: meta.MetaDataControlLeaseTest.InvalidChallengeDoesNotBecomeAGrant
+2026-10-05T14:54:36.4889751Z  42/274 Test  #262: meta.MetaDataControlLeaseTest.InvalidChallengeDoesNotBecomeAGrant ..................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:36.4891947Z         Start  269: meta.MetaDataControlProjectionLimitTest.BatchWeightIncludesOwnedCapacities
+2026-10-05T14:54:36.4953925Z  43/274 Test  #269: meta.MetaDataControlProjectionLimitTest.BatchWeightIncludesOwnedCapacities .........................................................................................   Passed    0.01 sec
+2026-10-05T14:54:36.4955377Z         Start  278: meta.MetaDataControlFenceTest.ChunkBoundaryCheckSelectsEachSupersededAnchorOnce
+2026-10-05T14:54:36.5018888Z  44/274 Test  #278: meta.MetaDataControlFenceTest.ChunkBoundaryCheckSelectsEachSupersededAnchorOnce ....................................................................................   Passed    0.01 sec
+2026-10-05T14:54:36.5020488Z         Start  284: meta.MetaHeartbeatObservationTest.LeaseOnlyHeartbeatRetainsOperatorRecoveryWithoutRefreshingExpiry
+2026-10-05T14:54:36.5086433Z  45/274 Test  #284: meta.MetaHeartbeatObservationTest.LeaseOnlyHeartbeatRetainsOperatorRecoveryWithoutRefreshingExpiry .................................................................   Passed    0.01 sec
+2026-10-05T14:54:36.5088159Z         Start  288: meta.MetaFailoverTransitionApply.BeginUncontrolledWithoutCandidateAtomicallyFencesAndPersists
+2026-10-05T14:54:36.5212401Z  46/274 Test  #288: meta.MetaFailoverTransitionApply.BeginUncontrolledWithoutCandidateAtomicallyFencesAndPersists ......................................................................   Passed    0.01 sec
+2026-10-05T14:54:36.5214070Z         Start  289: meta.MetaFailoverTransitionApply.AutomaticBeginAtomicallyPreemptsPristineControlledRequest
+2026-10-05T14:54:36.5307896Z  47/274 Test  #289: meta.MetaFailoverTransitionApply.AutomaticBeginAtomicallyPreemptsPristineControlledRequest .........................................................................   Passed    0.01 sec
+2026-10-05T14:54:36.5309395Z         Start  299: meta.MetaFailoverTransitionApply.BeginUncontrolledRejectsOperationCleanupPartialStateWithoutRepair
+2026-10-05T14:54:36.5398526Z  48/274 Test  #299: meta.MetaFailoverTransitionApply.BeginUncontrolledRejectsOperationCleanupPartialStateWithoutRepair .................................................................   Passed    0.01 sec
+2026-10-05T14:54:36.5400542Z         Start  308: meta.MetaFailoverTransitionW2.ControlledBeginPersistsTransitionWithoutChangingAuthority
+2026-10-05T14:54:36.5493831Z  49/274 Test  #308: meta.MetaFailoverTransitionW2.ControlledBeginPersistsTransitionWithoutChangingAuthority ............................................................................   Passed    0.01 sec
+2026-10-05T14:54:36.5495374Z         Start  313: meta.MetaFailoverTransitionW2.PostBeginTypedAbortAtomicallyClearsTransitionAndRejectsPartialRepair
+2026-10-05T14:54:36.5602974Z  50/274 Test  #313: meta.MetaFailoverTransitionW2.PostBeginTypedAbortAtomicallyClearsTransitionAndRejectsPartialRepair .................................................................   Passed    0.01 sec
+2026-10-05T14:54:36.5605472Z         Start  321: meta.MetaFailoverAggregateRevision.RestoreRejectsCreatedClusterMissingEitherRequiredCurrentPolicy
+2026-10-05T14:54:36.5743558Z  51/274 Test  #321: meta.MetaFailoverAggregateRevision.RestoreRejectsCreatedClusterMissingEitherRequiredCurrentPolicy ..................................................................   Passed    0.01 sec
+2026-10-05T14:54:36.5745157Z         Start  324: meta.MetaFailoverObservationStore.SourceDisconnectRetainsExactObservationOnlyThroughIndependentGrace
+2026-10-05T14:54:36.5813996Z  52/274 Test  #324: meta.MetaFailoverObservationStore.SourceDisconnectRetainsExactObservationOnlyThroughIndependentGrace ...............................................................   Passed    0.01 sec
+2026-10-05T14:54:36.5815645Z         Start  337: meta.MetaFailoverReconcilerPlannerTest.ControlledCandidateDisconnectAbortsWhileSourceIsHealthy
+2026-10-05T14:54:36.5992531Z  53/274 Test  #337: meta.MetaFailoverReconcilerPlannerTest.ControlledCandidateDisconnectAbortsWhileSourceIsHealthy .....................................................................   Passed    0.02 sec
+2026-10-05T14:54:36.5995074Z         Start  344: meta.MetaFailoverReconcilerPlannerTest.MatchingPreparedFromNewSessionDoesNotReviveDisconnectedAction
+2026-10-05T14:54:36.6216554Z  54/274 Test  #344: meta.MetaFailoverReconcilerPlannerTest.MatchingPreparedFromNewSessionDoesNotReviveDisconnectedAction ...............................................................   Passed    0.02 sec
+2026-10-05T14:54:36.6218475Z         Start  348: meta.MetaFailoverReconcilerPlannerTest.ControlledSourceDisconnectWaitsGraceThenDegradesAndClearsCandidate
+2026-10-05T14:54:36.6440116Z  55/274 Test  #348: meta.MetaFailoverReconcilerPlannerTest.ControlledSourceDisconnectWaitsGraceThenDegradesAndClearsCandidate ..........................................................   Passed    0.02 sec
+2026-10-05T14:54:36.6441584Z         Start  354: meta.MetaFailoverReconcilerPlannerTest.SubmittedControlledFailuresUseTypedPreBeginAbort
+2026-10-05T14:54:36.6721959Z  56/274 Test  #354: meta.MetaFailoverReconcilerPlannerTest.SubmittedControlledFailuresUseTypedPreBeginAbort ............................................................................   Passed    0.03 sec
+2026-10-05T14:54:36.6723513Z         Start  360: meta.MetaFailoverReconcilerPlannerTest.UncontrolledWaitsWithoutCandidateThenReplacesFailureAndCommits
+2026-10-05T14:54:36.7010330Z  57/274 Test  #360: meta.MetaFailoverReconcilerPlannerTest.UncontrolledWaitsWithoutCandidateThenReplacesFailureAndCommits ..............................................................   Passed    0.03 sec
+2026-10-05T14:54:36.7011941Z         Start  363: meta.MetaFailoverReconcilerLifecycleTest.LostProposalReplyIsRecoveredFromCommittedTransitionAndCancellationJoins
+2026-10-05T14:54:38.2339390Z  58/274 Test  #363: meta.MetaFailoverReconcilerLifecycleTest.LostProposalReplyIsRecoveredFromCommittedTransitionAndCancellationJoins ...................................................   Passed    1.53 sec
+2026-10-05T14:54:38.2341002Z         Start  365: meta.MetaFailoverViewsTest.DiscoveryOwnsSelectedOperationsInSequenceOrder
+2026-10-05T14:54:38.2473420Z  59/274 Test  #365: meta.MetaFailoverViewsTest.DiscoveryOwnsSelectedOperationsInSequenceOrder ..........................................................................................   Passed    0.01 sec
+2026-10-05T14:54:38.2475004Z         Start  374: meta.MetaFailoverValidationTest.RejectsControlledBeginWhenCandidateDisconnectsAfterPlanning
+2026-10-05T14:54:38.2678310Z  60/274 Test  #374: meta.MetaFailoverValidationTest.RejectsControlledBeginWhenCandidateDisconnectsAfterPlanning ........................................................................   Passed    0.02 sec
+2026-10-05T14:54:38.2679935Z         Start  375: meta.MetaFailoverValidationTest.AcceptsControlledBeginAfterSameSessionCandidateProgressAdvances
+2026-10-05T14:54:38.2841637Z  61/274 Test  #375: meta.MetaFailoverValidationTest.AcceptsControlledBeginAfterSameSessionCandidateProgressAdvances ....................................................................   Passed    0.02 sec
+2026-10-05T14:54:38.2843216Z         Start  383: meta.MetaFailoverValidationTest.RejectsRetainingCandidateOnDegradeWhenObservationIsWithdrawnAfterPlanning
+2026-10-05T14:54:38.3137592Z  62/274 Test  #383: meta.MetaFailoverValidationTest.RejectsRetainingCandidateOnDegradeWhenObservationIsWithdrawnAfterPlanning ..........................................................   Passed    0.03 sec
+2026-10-05T14:54:38.3140474Z         Start  388: meta.MetaAuditStore.AppendAndFindByLogIndex
+2026-10-05T14:54:38.3204810Z  63/274 Test  #388: meta.MetaAuditStore.AppendAndFindByLogIndex ........................................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:38.3205950Z         Start  396: meta.MetaAuditStore.DisabledSuppressesOrdinaryRecordsButForcedRecordRemains
+2026-10-05T14:54:38.3270698Z  64/274 Test  #396: meta.MetaAuditStore.DisabledSuppressesOrdinaryRecordsButForcedRecordRemains ........................................................................................   Passed    0.01 sec
+2026-10-05T14:54:38.3271771Z         Start  398: meta.MetaAuditStore.PrunePreservesRemainingRecords
+2026-10-05T14:54:38.3335348Z  65/274 Test  #398: meta.MetaAuditStore.PrunePreservesRemainingRecords .................................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:38.3336421Z         Start  401: meta.MetaAuditStore.SerializationRoundTripPreservesWindow
+2026-10-05T14:54:38.3400963Z  66/274 Test  #401: meta.MetaAuditStore.SerializationRoundTripPreservesWindow ..........................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:38.3402110Z         Start  410: meta.MetaOperationStore.DuplicateSubmitIsIdempotentOnlyForSameIntent
+2026-10-05T14:54:38.3464877Z  67/274 Test  #410: meta.MetaOperationStore.DuplicateSubmitIsIdempotentOnlyForSameIntent ...............................................................................................   Passed    0.01 sec
+2026-10-05T14:54:38.3466110Z         Start  415: meta.MetaOperationStore.TransitionRunsWithRevisionCas
+2026-10-05T14:54:38.3534272Z  68/274 Test  #415: meta.MetaOperationStore.TransitionRunsWithRevisionCas ..............................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:38.3535667Z         Start  419: meta.MetaOperationStore.ArchiveMovesTerminalOpsToTombstonesNonContiguously
+2026-10-05T14:54:38.3601970Z  69/274 Test  #419: meta.MetaOperationStore.ArchiveMovesTerminalOpsToTombstonesNonContiguously .........................................................................................   Passed    0.01 sec
+2026-10-05T14:54:38.3603400Z         Start  425: meta.MetaOperationStore.ReusedOrZeroSeqFailsStop
+2026-10-05T14:54:38.8308041Z  70/274 Test  #425: meta.MetaOperationStore.ReusedOrZeroSeqFailsStop ...................................................................................................................   Passed    0.47 sec
+2026-10-05T14:54:38.8309844Z         Start  431: meta.MetaTopologyAuthority.ActivateInstallsGrantWithoutMovingTerm
+2026-10-05T14:54:38.8397776Z  71/274 Test  #431: meta.MetaTopologyAuthority.ActivateInstallsGrantWithoutMovingTerm ..................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:38.8399328Z         Start  436: meta.MetaTopologyAuthority.EachTermInstallsAtMostOneGrant
+2026-10-05T14:54:38.8470682Z  72/274 Test  #436: meta.MetaTopologyAuthority.EachTermInstallsAtMostOneGrant ..........................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:38.8471982Z         Start  446: meta.MetaModelEncoding.StringLengthPrefixOverCapFailsWithoutBody
+2026-10-05T14:54:38.8537855Z  73/274 Test  #446: meta.MetaModelEncoding.StringLengthPrefixOverCapFailsWithoutBody ...................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:38.8539358Z         Start  447: meta.MetaModelEncoding.ListCountOverCapFails
+2026-10-05T14:54:38.8602020Z  74/274 Test  #447: meta.MetaModelEncoding.ListCountOverCapFails .......................................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:38.8603554Z         Start  454: meta.MetaModelCommands.RegisterNodeRoundTrip
+2026-10-05T14:54:38.8665555Z  75/274 Test  #454: meta.MetaModelCommands.RegisterNodeRoundTrip .......................................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:38.8667468Z         Start  455: meta.MetaModelCommands.EnvelopeStartsWithFormatVersionThenTag
+2026-10-05T14:54:38.8729537Z  76/274 Test  #455: meta.MetaModelCommands.EnvelopeStartsWithFormatVersionThenTag ......................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:38.8730753Z         Start  459: meta.MetaModelCommands.ActorContextRoundTripsOnTheWire
+2026-10-05T14:54:38.8793435Z  77/274 Test  #459: meta.MetaModelCommands.ActorContextRoundTripsOnTheWire .............................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:38.8794585Z         Start  462: meta.MetaModelCommands.UpdateNodeRoundTrip
+2026-10-05T14:54:38.8858621Z  78/274 Test  #462: meta.MetaModelCommands.UpdateNodeRoundTrip .........................................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:38.8860193Z         Start  476: meta.MetaModelCommands.SubmitOperationRoundTrip
+2026-10-05T14:54:38.8925833Z  79/274 Test  #476: meta.MetaModelCommands.SubmitOperationRoundTrip ....................................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:38.8927381Z         Start  478: meta.MetaModelCommands.CompleteOperationRoundTrip
+2026-10-05T14:54:38.8992371Z  80/274 Test  #478: meta.MetaModelCommands.CompleteOperationRoundTrip ..................................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:38.8993612Z         Start  491: meta.MetaModelCommands.DecodeRejectsTrailingBytes
+2026-10-05T14:54:38.9059351Z  81/274 Test  #491: meta.MetaModelCommands.DecodeRejectsTrailingBytes ..................................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:38.9061197Z         Start  493: meta.MetaStateApply.RegisterNodeAcceptedAndAudited
+2026-10-05T14:54:38.9130934Z  82/274 Test  #493: meta.MetaStateApply.RegisterNodeAcceptedAndAudited .................................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:38.9132795Z         Start  497: meta.MetaStateApply.CreateGroupOwnsInitiallyFencedAuthority
+2026-10-05T14:54:38.9201765Z  83/274 Test  #497: meta.MetaStateApply.CreateGroupOwnsInitiallyFencedAuthority ........................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:38.9203215Z         Start  505: meta.MetaStateApply.RetireNodeWithMembershipRejected
+2026-10-05T14:54:38.9277318Z  84/274 Test  #505: meta.MetaStateApply.RetireNodeWithMembershipRejected ...............................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:38.9278709Z         Start  507: meta.MetaStateApply.BeginGroupTermRaisesTermInBothStores
+2026-10-05T14:54:38.9354850Z  85/274 Test  #507: meta.MetaStateApply.BeginGroupTermRaisesTermInBothStores ...........................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:38.9356265Z         Start  508: meta.MetaStateApply.GroupReplicationStateAdvancesWithTopologyEpoch
+2026-10-05T14:54:38.9443259Z  86/274 Test  #508: meta.MetaStateApply.GroupReplicationStateAdvancesWithTopologyEpoch .................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:38.9445046Z         Start  514: meta.MetaStateApply.ActivateAuthorityRequiresABegunNonzeroTerm
+2026-10-05T14:54:38.9524056Z  87/274 Test  #514: meta.MetaStateApply.ActivateAuthorityRequiresABegunNonzeroTerm .....................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:38.9525625Z         Start  527: meta.MetaStateApply.ClusterRootTerminalReplayRejectsInvalidGenesisAnchor
+2026-10-05T14:54:38.9625633Z  88/274 Test  #527: meta.MetaStateApply.ClusterRootTerminalReplayRejectsInvalidGenesisAnchor ...........................................................................................   Passed    0.01 sec
+2026-10-05T14:54:38.9629369Z         Start  531: meta.MetaStateApply.MetaStoresDeserializeRejectsUnprojectableActiveGrantAnchors
+2026-10-05T14:54:38.9715017Z  89/274 Test  #531: meta.MetaStateApply.MetaStoresDeserializeRejectsUnprojectableActiveGrantAnchors ....................................................................................   Passed    0.01 sec
+2026-10-05T14:54:38.9716500Z         Start  543: meta.MetaStateApply.TransitionRejectsAggregateRecipientProjectionOverDirectiveCapAtomically
+2026-10-05T14:54:39.1526469Z  90/274 Test  #543: meta.MetaStateApply.TransitionRejectsAggregateRecipientProjectionOverDirectiveCapAtomically ........................................................................   Passed    0.18 sec
+2026-10-05T14:54:39.1528145Z         Start  549: meta.MetaObservationStore.AdoptSessionRejectsEqualOrOlderGeneration
+2026-10-05T14:54:39.1597398Z  91/274 Test  #549: meta.MetaObservationStore.AdoptSessionRejectsEqualOrOlderGeneration ................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:39.1598868Z         Start  551: meta.MetaObservationStore.OwnerObservationIsOneAtomicHeartbeatAndCausalLeaseCut
+2026-10-05T14:54:39.1666171Z  92/274 Test  #551: meta.MetaObservationStore.OwnerObservationIsOneAtomicHeartbeatAndCausalLeaseCut ....................................................................................   Passed    0.01 sec
+2026-10-05T14:54:39.1667593Z         Start  561: meta.MetaObservationStore.IngestRejectsBootMismatchAndMissingSession
+2026-10-05T14:54:39.1732748Z  93/274 Test  #561: meta.MetaObservationStore.IngestRejectsBootMismatchAndMissingSession ...............................................................................................   Passed    0.01 sec
+2026-10-05T14:54:39.1733946Z         Start  562: meta.MetaObservationStore.NewGenerationAtomicallyPurgesOldObservations
+2026-10-05T14:54:39.1799685Z  94/274 Test  #562: meta.MetaObservationStore.NewGenerationAtomicallyPurgesOldObservations .............................................................................................   Passed    0.01 sec
+2026-10-05T14:54:39.1801242Z         Start  568: meta.MetaObservationStore.CandidateRequiresExactReporterMembershipAndAssignment
+2026-10-05T14:54:39.1864670Z  95/274 Test  #568: meta.MetaObservationStore.CandidateRequiresExactReporterMembershipAndAssignment ....................................................................................   Passed    0.01 sec
+2026-10-05T14:54:39.1865915Z         Start  580: meta.MetaObservationStore.EpochOnlyCommitRefiltersThenPurgesCandidate
+2026-10-05T14:54:39.1930171Z  96/274 Test  #580: meta.MetaObservationStore.EpochOnlyCommitRefiltersThenPurgesCandidate ..............................................................................................   Passed    0.01 sec
+2026-10-05T14:54:39.1931352Z         Start  586: meta.MetaObservationStore.SessionCapacityRejectsOnlyNewNodeKeys
+2026-10-05T14:54:39.1996010Z  97/274 Test  #586: meta.MetaObservationStore.SessionCapacityRejectsOnlyNewNodeKeys ....................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:39.1997556Z         Start  595: meta.MetaObservationFactsFixture.CopiedAndMovedFactsPreserveFencedOwnerEvidenceAfterStateReplacement
+2026-10-05T14:54:39.2179316Z  98/274 Test  #595: meta.MetaObservationFactsFixture.CopiedAndMovedFactsPreserveFencedOwnerEvidenceAfterStateReplacement ...............................................................   Passed    0.02 sec
+2026-10-05T14:54:39.2180711Z         Start  600: meta.MetaOwnerServiceabilityTest.FullyCurrentOwnerWithCausalLeaseIsServiceable
+2026-10-05T14:54:39.2246796Z  99/274 Test  #600: meta.MetaOwnerServiceabilityTest.FullyCurrentOwnerWithCausalLeaseIsServiceable .....................................................................................   Passed    0.01 sec
+2026-10-05T14:54:39.2248689Z         Start  605: meta.MetaOwnerServiceabilityTest.UnserviceableReasonsHaveFixedFailurePrecedence
+2026-10-05T14:54:39.2315085Z 100/274 Test  #605: meta.MetaOwnerServiceabilityTest.UnserviceableReasonsHaveFixedFailurePrecedence ....................................................................................   Passed    0.01 sec
+2026-10-05T14:54:39.2316548Z         Start  618: meta.MetaSentinelDiscoveryTest.PeerDirectoryExcludesSelfRetiredAndStagedMembers
+2026-10-05T14:54:39.2386652Z 101/274 Test  #618: meta.MetaSentinelDiscoveryTest.PeerDirectoryExcludesSelfRetiredAndStagedMembers ....................................................................................   Passed    0.01 sec
+2026-10-05T14:54:39.2388151Z         Start  620: meta.MetaSentinelDiscoveryTest.AddressReplyShapeAndUnknownName
+2026-10-05T14:54:39.2454119Z 102/274 Test  #620: meta.MetaSentinelDiscoveryTest.AddressReplyShapeAndUnknownName .....................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:39.2455275Z         Start  628: meta.MetaSentinelDiscoveryTest.GraceOmitsNeverObservedReplicas
+2026-10-05T14:54:39.2522277Z 103/274 Test  #628: meta.MetaSentinelDiscoveryTest.GraceOmitsNeverObservedReplicas .....................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:39.2523489Z         Start  629: meta.MetaSentinelDiscoveryTest.ReplicaListingReflectsCommittedMembership
+2026-10-05T14:54:39.2590562Z 104/274 Test  #629: meta.MetaSentinelDiscoveryTest.ReplicaListingReflectsCommittedMembership ...........................................................................................   Passed    0.01 sec
+2026-10-05T14:54:39.2591832Z         Start  637: meta.MetaSentinelServerTest.ResetCannotEraseAuthorityAcrossEligibilityABA
+2026-10-05T14:54:39.4937527Z 105/274 Test  #637: meta.MetaSentinelServerTest.ResetCannotEraseAuthorityAcrossEligibilityABA ..........................................................................................   Passed    0.23 sec
+2026-10-05T14:54:39.4938738Z         Start  644: meta.MetaIdentitySecurity.MemberDescriptorRoundTrips
+2026-10-05T14:54:39.5011158Z 106/274 Test  #644: meta.MetaIdentitySecurity.MemberDescriptorRoundTrips ...............................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:39.5012282Z         Start  649: meta.MetaIdentitySecurity.UnixAdminRequiresPathAndExplicitUid
+2026-10-05T14:54:39.5080351Z 107/274 Test  #649: meta.MetaIdentitySecurity.UnixAdminRequiresPathAndExplicitUid ......................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:39.5081695Z         Start  650: meta.MetaIdentitySecurity.RegistrationRejectsPrincipalForAnotherNode
+2026-10-05T14:54:39.5146788Z 108/274 Test  #650: meta.MetaIdentitySecurity.RegistrationRejectsPrincipalForAnotherNode ...............................................................................................   Passed    0.01 sec
+2026-10-05T14:54:39.5148277Z         Start  656: meta.MetaCtlPolicyAdmin.PolicyVersionRequiresCanonicalPositiveDecimal
+2026-10-05T14:54:39.5211511Z 109/274 Test  #656: meta.MetaCtlPolicyAdmin.PolicyVersionRequiresCanonicalPositiveDecimal ..............................................................................................   Passed    0.01 sec
+2026-10-05T14:54:39.5212876Z         Start  658: meta.MetaClusterStatusRuntimeTest.HealthLossBeforeAckRemainsEncodable
+2026-10-05T14:54:39.5278824Z 110/274 Test  #658: meta.MetaClusterStatusRuntimeTest.HealthLossBeforeAckRemainsEncodable ..............................................................................................   Passed    0.01 sec
+2026-10-05T14:54:39.5280277Z         Start  667: meta.MetaStateMachineTest.DomainRejectConsumesIndexWithoutStateChange
+2026-10-05T14:54:39.5367508Z 111/274 Test  #667: meta.MetaStateMachineTest.DomainRejectConsumesIndexWithoutStateChange ..............................................................................................   Passed    0.01 sec
+2026-10-05T14:54:39.5368586Z         Start  673: meta.MetaStateMachineTest.SnapshotExactCutPoint
+2026-10-05T14:54:39.5494809Z 112/274 Test  #673: meta.MetaStateMachineTest.SnapshotExactCutPoint ....................................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:39.5495925Z         Start  680: meta.MetaServerIntegrationTest.SnapshotCompactionAndRestart
+2026-10-05T14:54:40.1457436Z 113/274 Test  #680: meta.MetaServerIntegrationTest.SnapshotCompactionAndRestart ........................................................................................................   Passed    0.60 sec
+2026-10-05T14:54:40.1458579Z         Start  683: meta.MetaIdentityStore.RegisterNodeCreatesQueryableRecord
+2026-10-05T14:54:40.1530192Z 114/274 Test  #683: meta.MetaIdentityStore.RegisterNodeCreatesQueryableRecord ..........................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:40.1531269Z         Start  690: meta.MetaIdentityStore.UpdateNodeCasConflictRejected
+2026-10-05T14:54:40.1597142Z 115/274 Test  #690: meta.MetaIdentityStore.UpdateNodeCasConflictRejected ...............................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:40.1598262Z         Start  695: meta.MetaIdentityStore.RetireNodeReplayIsIdempotentAccept
+2026-10-05T14:54:40.1665216Z 116/274 Test  #695: meta.MetaIdentityStore.RetireNodeReplayIsIdempotentAccept ..........................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:40.1666555Z         Start  704: meta.MetaTopologyStore.ClusterLifecycleFailureIsBoundedAndSerialized
+2026-10-05T14:54:40.1753691Z 117/274 Test  #704: meta.MetaTopologyStore.ClusterLifecycleFailureIsBoundedAndSerialized ...............................................................................................   Passed    0.01 sec
+2026-10-05T14:54:40.1755007Z         Start  707: meta.MetaTopologyStore.CreateGroupRequiresExactNextEpoch
+2026-10-05T14:54:40.1824013Z 118/274 Test  #707: meta.MetaTopologyStore.CreateGroupRequiresExactNextEpoch ...........................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:40.1825614Z         Start  719: meta.MetaTopologyStore.AssignNodeToGroupReplayIsIdempotentAccept
+2026-10-05T14:54:40.1895165Z 119/274 Test  #719: meta.MetaTopologyStore.AssignNodeToGroupReplayIsIdempotentAccept ...................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:40.1896473Z         Start  723: meta.MetaTopologyStore.RemoveNodeFromGroupReplayIsIdempotentAccept
+2026-10-05T14:54:40.1967524Z 120/274 Test  #723: meta.MetaTopologyStore.RemoveNodeFromGroupReplayIsIdempotentAccept .................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:40.1968652Z         Start  727: meta.MetaTopologyStore.SetSlotMapRequiresExactNextEpoch
+2026-10-05T14:54:40.2044188Z 121/274 Test  #727: meta.MetaTopologyStore.SetSlotMapRequiresExactNextEpoch ............................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:40.2045456Z         Start  732: meta.MetaTopologyStore.SetSlotMapEmptyRangesClearMap
+2026-10-05T14:54:40.2122398Z 122/274 Test  #732: meta.MetaTopologyStore.SetSlotMapEmptyRangesClearMap ...............................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:40.2123536Z         Start  738: meta.MetaTopologyStore.FailoverTransitionSerializationRoundTrip
+2026-10-05T14:54:40.2214041Z 123/274 Test  #738: meta.MetaTopologyStore.FailoverTransitionSerializationRoundTrip ....................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:40.2215261Z         Start  748: meta.MetaPolicyStore.RejectsUnregisteredPolicyAndInvalidCommandFields
+2026-10-05T14:54:40.2286412Z 124/274 Test  #748: meta.MetaPolicyStore.RejectsUnregisteredPolicyAndInvalidCommandFields ..............................................................................................   Passed    0.01 sec
+2026-10-05T14:54:40.2287682Z         Start  756: meta.MetaPolicyStore.EmptyPolicyStoreRoundTrip
+2026-10-05T14:54:40.2355028Z 125/274 Test  #756: meta.MetaPolicyStore.EmptyPolicyStoreRoundTrip .....................................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:40.2356530Z         Start  765: meta.AllActivePhases/ClusterCreateSiblingFailureTest.RetiresAllStartedWorkBeforeRootAbort/3
+2026-10-05T14:54:41.5686805Z 126/274 Test  #765: meta.AllActivePhases/ClusterCreateSiblingFailureTest.RetiresAllStartedWorkBeforeRootAbort/3 ........................................................................   Passed    1.33 sec
+2026-10-05T14:54:41.5688701Z         Start  766: meta.FullObservationAndCursor/MetaSubscriptionCaptureTest.CommitBetweenCaptureAndRegistration/Full  # GetParam() = 0
+2026-10-05T14:54:41.5890610Z 127/274 Test  #766: meta.FullObservationAndCursor/MetaSubscriptionCaptureTest.CommitBetweenCaptureAndRegistration/Full  # GetParam() = 0 ...............................................   Passed    0.02 sec
+2026-10-05T14:54:41.5892200Z         Start  775: meta.FullObservationAndCursor/MetaSubscriptionCaptureTest.OverflowResyncReplayAndCallbackLifetime/Full  # GetParam() = 0
+2026-10-05T14:54:41.6357515Z 128/274 Test  #775: meta.FullObservationAndCursor/MetaSubscriptionCaptureTest.OverflowResyncReplayAndCallbackLifetime/Full  # GetParam() = 0 ...........................................   Passed    0.05 sec
+2026-10-05T14:54:41.6359115Z         Start  780: cluster_integration.ProcessSupportTest.SpawnsWithEnvironmentAndControlsLifecycle
+2026-10-05T14:54:41.7390215Z 129/274 Test  #780: cluster_integration.ProcessSupportTest.SpawnsWithEnvironmentAndControlsLifecycle ...................................................................................   Passed    0.10 sec
+2026-10-05T14:54:41.7391482Z         Start  787: LocalSharedPtrDeathTest.RejectsForeignAccess
+2026-10-05T14:54:41.8205005Z 130/274 Test  #787: LocalSharedPtrDeathTest.RejectsForeignAccess .......................................................................................................................   Passed    0.08 sec
+2026-10-05T14:54:41.8206170Z         Start  838: GroupInFlightTest.MoveTransfersOwnership
+2026-10-05T14:54:41.8302430Z 131/274 Test  #838: GroupInFlightTest.MoveTransfersOwnership ...........................................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:41.8303670Z         Start  865: NodeDescriptorTest.PreservesInlineAndOverflowHosts
+2026-10-05T14:54:41.8366514Z 132/274 Test  #865: NodeDescriptorTest.PreservesInlineAndOverflowHosts .................................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:41.8368240Z         Start  873: ServingStateBuilderTest.RejectsInconsistentGroupNodeRoles
+2026-10-05T14:54:41.8432587Z 133/274 Test  #873: ServingStateBuilderTest.RejectsInconsistentGroupNodeRoles ..........................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:41.8433899Z         Start  875: ServingStateBuilderTest.RejectsSlotRangeBeyondSlotCount
+2026-10-05T14:54:41.8496309Z 134/274 Test  #875: ServingStateBuilderTest.RejectsSlotRangeBeyondSlotCount ............................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:41.8498450Z         Start  887: ServingStateTest.AuthorityToken
+2026-10-05T14:54:41.8700818Z 135/274 Test  #887: ServingStateTest.AuthorityToken ....................................................................................................................................   Passed    0.02 sec
+2026-10-05T14:54:41.8702392Z         Start  892: TopologyCacheTest.ContentIdenticalRepublishKeepsVersionAndSnapshot
+2026-10-05T14:54:41.8806066Z 136/274 Test  #892: TopologyCacheTest.ContentIdenticalRepublishKeepsVersionAndSnapshot .................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:41.8807957Z         Start  897: TopologyCacheTest.CachedOwnersIsolateRequestCopiesAndOutliveWorkers
+2026-10-05T14:54:41.8915251Z 137/274 Test  #897: TopologyCacheTest.CachedOwnersIsolateRequestCopiesAndOutliveWorkers ................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:41.8916980Z         Start  905: RedisConfigTest.ParsesClientBufferPercentAndAbsoluteLimits
+2026-10-05T14:54:41.8978867Z 138/274 Test  #905: RedisConfigTest.ParsesClientBufferPercentAndAbsoluteLimits .........................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:41.8980386Z         Start  917: RedisConfigTest.ClusterModeRejectsStandalonePopulationSources
+2026-10-05T14:54:41.9043858Z 139/274 Test  #917: RedisConfigTest.ClusterModeRejectsStandalonePopulationSources ......................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:41.9045242Z         Start  919: RedisConfigTest.RejectsLoadRdbWithReplicaOf
+2026-10-05T14:54:41.9109557Z 140/274 Test  #919: RedisConfigTest.RejectsLoadRdbWithReplicaOf ........................................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:41.9111145Z         Start  921: RedisConfigTest.RejectsConflictingRedisPsyncSources
+2026-10-05T14:54:41.9173694Z 141/274 Test  #921: RedisConfigTest.RejectsConflictingRedisPsyncSources ................................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:41.9175043Z         Start  928: RedisConfigTest.AppliesClusterDirectives
+2026-10-05T14:54:41.9236764Z 142/274 Test  #928: RedisConfigTest.AppliesClusterDirectives ...........................................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:41.9238966Z         Start  934: RedisConfigTest.RequiresNodeIdAndMetaSeedWhenManaged
+2026-10-05T14:54:41.9302346Z 143/274 Test  #934: RedisConfigTest.RequiresNodeIdAndMetaSeedWhenManaged ...............................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:41.9304070Z         Start  939: ControlProtocolFrameTest.EncodesNetworkOrderAndChecksCrcAndSequence
+2026-10-05T14:54:41.9366863Z 144/274 Test  #939: ControlProtocolFrameTest.EncodesNetworkOrderAndChecksCrcAndSequence ................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:41.9368416Z         Start  944: ControlProtocolCodecTest.RejectsMalformedTypedCandidateAndRoleTag
+2026-10-05T14:54:41.9433579Z 145/274 Test  #944: ControlProtocolCodecTest.RejectsMalformedTypedCandidateAndRoleTag ..................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:41.9435289Z         Start  948: ControlProtocolCodecTest.FailoverObservationValidationAndSingleFrameBudgetAreStrict
+2026-10-05T14:54:41.9507887Z 146/274 Test  #948: ControlProtocolCodecTest.FailoverObservationValidationAndSingleFrameBudgetAreStrict ................................................................................   Passed    0.01 sec
+2026-10-05T14:54:41.9509715Z         Start  959: ControlProtocolFullStateTest.RejectsZeroLeaseAndDerivesHeartbeatCadence
+2026-10-05T14:54:41.9574110Z 147/274 Test  #959: ControlProtocolFullStateTest.RejectsZeroLeaseAndDerivesHeartbeatCadence ............................................................................................   Passed    0.01 sec
+2026-10-05T14:54:41.9575330Z         Start  971: ControlProtocolIdentityTest.GeneratesCanonicalIndependentIdentities
+2026-10-05T14:54:41.9637873Z 148/274 Test  #971: ControlProtocolIdentityTest.GeneratesCanonicalIndependentIdentities ................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:41.9639016Z         Start  972: ControlNodeStateTest.RemoteWorkDoesNotAdvanceLocalControl
+2026-10-05T14:54:41.9703149Z 149/274 Test  #972: ControlNodeStateTest.RemoteWorkDoesNotAdvanceLocalControl ..........................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:41.9704311Z         Start  979: ControlSessionWriterTest.AuthorityOvertakesTransferBetweenBulkChunks
+2026-10-05T14:54:41.9790032Z 150/274 Test  #979: ControlSessionWriterTest.AuthorityOvertakesTransferBetweenBulkChunks ...............................................................................................   Passed    0.01 sec
+2026-10-05T14:54:41.9791252Z         Start  982: ControlSessionWriterTest.TerminalWriteErrorPoisonsQueuedAndFutureWork
+2026-10-05T14:54:41.9875551Z 151/274 Test  #982: ControlSessionWriterTest.TerminalWriteErrorPoisonsQueuedAndFutureWork ..............................................................................................   Passed    0.01 sec
+2026-10-05T14:54:41.9876831Z         Start  989: SpscRingTest.RefreshesCachedHeadAfterConsumerProgress
+2026-10-05T14:54:41.9940336Z 152/274 Test  #989: SpscRingTest.RefreshesCachedHeadAfterConsumerProgress ..............................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:41.9941718Z         Start  993: CrossCoreActiveSenderTest.ConcurrentDrainReactivatesNonemptyLanes
+2026-10-05T14:54:42.0337692Z 153/274 Test  #993: CrossCoreActiveSenderTest.ConcurrentDrainReactivatesNonemptyLanes ..................................................................................................   Passed    0.04 sec
+2026-10-05T14:54:42.0339015Z         Start  995: DeviceAffinityTest.RejectsInsufficientQpairCapacity
+2026-10-05T14:54:42.0406078Z 154/274 Test  #995: DeviceAffinityTest.RejectsInsufficientQpairCapacity ................................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:42.0407375Z         Start 1004: HashGroupEdits.SplitsAndOversizedValuesKeepOwnedStreamingPath
+2026-10-05T14:54:42.0484896Z 155/274 Test #1004: HashGroupEdits.SplitsAndOversizedValuesKeepOwnedStreamingPath ......................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:42.0486108Z         Start 1009: GroupedHashTest.CompactReaderPreservesBinaryViewsAndCopiedPosition
+2026-10-05T14:54:42.0551350Z 156/274 Test #1009: GroupedHashTest.CompactReaderPreservesBinaryViewsAndCopiedPosition .................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:42.0552458Z         Start 1017: GroupedHashTest.PointLookupRejectsCorruptionAfterMatch
+2026-10-05T14:54:42.0618975Z 157/274 Test #1017: GroupedHashTest.PointLookupRejectsCorruptionAfterMatch .............................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:42.0620099Z         Start 1025: GroupedHashTest.MaximalIndividualValueLeavesRoomForGroupFraming
+2026-10-05T14:54:42.0685886Z 158/274 Test #1025: GroupedHashTest.MaximalIndividualValueLeavesRoomForGroupFraming ....................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:42.0687715Z         Start 1032: GroupedHashTest.DurableRoutingDoesNotDependOnProcessLookupSeed
+2026-10-05T14:54:42.0759156Z 159/274 Test #1032: GroupedHashTest.DurableRoutingDoesNotDependOnProcessLookupSeed .....................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:42.0760643Z         Start 1038: GroupedHashTest.RejectsCountsGapsOverlapsAndMalformedIdentities
+2026-10-05T14:54:42.0827622Z 160/274 Test #1038: GroupedHashTest.RejectsCountsGapsOverlapsAndMalformedIdentities ....................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:42.0829082Z         Start 1039: GroupedHashTest.SingleFieldUpdateWritesOnlyItsGroup
+2026-10-05T14:54:42.0939728Z 161/274 Test #1039: GroupedHashTest.SingleFieldUpdateWritesOnlyItsGroup ................................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:42.0941312Z         Start 1049: GroupedCommitDecisionTest.DurableDecisionCannotBeReversedByLateFailure
+2026-10-05T14:54:42.1004246Z 162/274 Test #1049: GroupedCommitDecisionTest.DurableDecisionCannotBeReversedByLateFailure .............................................................................................   Passed    0.01 sec
+2026-10-05T14:54:42.1005969Z         Start 1055: GroupedCollectionTest.StringAndStreamHaveDistinctDurableKinds
+2026-10-05T14:54:42.1069328Z 163/274 Test #1055: GroupedCollectionTest.StringAndStreamHaveDistinctDurableKinds ......................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:42.1070504Z         Start 1062: GroupedCollectionTest.MemberScoresAreExactAndRejectMalformedValues
+2026-10-05T14:54:42.1134022Z 164/274 Test #1062: GroupedCollectionTest.MemberScoresAreExactAndRejectMalformedValues .................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:42.1135230Z         Start 1072: GroupedCollectionTest.SameSizeListReplacementNeedsOnlyItsOwnPage
+2026-10-05T14:54:42.1206422Z 165/274 Test #1072: GroupedCollectionTest.SameSizeListReplacementNeedsOnlyItsOwnPage ...................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:42.1208619Z         Start 1074: GroupedCollectionTest.SortedSetSpliceChecksBoundsAndRepositionsCompleteEntries
+2026-10-05T14:54:42.1293646Z 166/274 Test #1074: GroupedCollectionTest.SortedSetSpliceChecksBoundsAndRepositionsCompleteEntries .....................................................................................   Passed    0.01 sec
+2026-10-05T14:54:42.1295233Z         Start 1078: GroupedCollectionTest.EnvelopeOnlyDecodeAndDualDecisionRetirement
+2026-10-05T14:54:42.1361845Z 167/274 Test #1078: GroupedCollectionTest.EnvelopeOnlyDecodeAndDualDecisionRetirement ..................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:42.1363622Z         Start 1079: GroupedCollectionTest.StreamRanksMatchCountsAcrossSparseUpdatesAndSnapshots
+2026-10-05T14:54:46.1947362Z 168/274 Test #1079: GroupedCollectionTest.StreamRanksMatchCountsAcrossSparseUpdatesAndSnapshots ........................................................................................   Passed    4.06 sec
+2026-10-05T14:54:46.1948584Z         Start 1093: GroupedSortedRewriteTest.NoopDeletionAndInvalidOrder
+2026-10-05T14:54:46.2022661Z 169/274 Test #1093: GroupedSortedRewriteTest.NoopDeletionAndInvalidOrder ...............................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:46.2025609Z         Start 1100: OrderedCompactCodecTest.LargeSortedSetRoundTripsBeyondRecordLimit
+2026-10-05T14:54:50.9574441Z 170/274 Test #1100: OrderedCompactCodecTest.LargeSortedSetRoundTripsBeyondRecordLimit ..................................................................................................   Passed    4.75 sec
+2026-10-05T14:54:50.9575833Z         Start 1121: GroupedOrderedObjectTest.BothKindsRetainRetiredPhysicalRecordsAndRanks
+2026-10-05T14:54:50.9659686Z 171/274 Test #1121: GroupedOrderedObjectTest.BothKindsRetainRetiredPhysicalRecordsAndRanks .............................................................................................   Passed    0.01 sec
+2026-10-05T14:54:50.9661581Z         Start 1123: GroupedOrderedObjectTest.UpdatesSameCommandRevisionAndPreservesOldView
+2026-10-05T14:54:50.9739740Z 172/274 Test #1123: GroupedOrderedObjectTest.UpdatesSameCommandRevisionAndPreservesOldView .............................................................................................   Passed    0.01 sec
+2026-10-05T14:54:50.9741087Z         Start 1131: RecordPayloadCursorTest.RefusesUnconsumedAndOverlongOutput
+2026-10-05T14:54:50.9802598Z 173/274 Test #1131: RecordPayloadCursorTest.RefusesUnconsumedAndOverlongOutput .........................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:50.9803947Z         Start 1136: GroupedObjectIndexTest.PartialConstructionFailureUnwindsGroupEntries
+2026-10-05T14:54:51.4126623Z 174/274 Test #1136: GroupedObjectIndexTest.PartialConstructionFailureUnwindsGroupEntries ...............................................................................................   Passed    0.43 sec
+2026-10-05T14:54:51.4128069Z         Start 1140: GroupedObjectIndexTest.ManifestReaderRetainsItsOwnMemoryCharge
+2026-10-05T14:54:51.4259403Z 175/274 Test #1140: GroupedObjectIndexTest.ManifestReaderRetainsItsOwnMemoryCharge .....................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:51.4262811Z         Start 1156: GroupedObjectIndexTest.RejectsConflictingAllocationsBeforeCompactingLocations
+2026-10-05T14:54:51.4345796Z 176/274 Test #1156: GroupedObjectIndexTest.RejectsConflictingAllocationsBeforeCompactingLocations ......................................................................................   Passed    0.01 sec
+2026-10-05T14:54:51.4347557Z         Start 1160: GroupedObjectIndexTest.RootRelocationSharesAllMetadataAndRefreshesGroupGc
+2026-10-05T14:54:51.4476856Z 177/274 Test #1160: GroupedObjectIndexTest.RootRelocationSharesAllMetadataAndRefreshesGroupGc ..........................................................................................   Passed    0.01 sec
+2026-10-05T14:54:51.4478611Z         Start 1168: GroupedObjectIndexTest.CoordinateChangesPreserveSnapshotsAndTraversal
+2026-10-05T14:54:51.5980938Z 178/274 Test #1168: GroupedObjectIndexTest.CoordinateChangesPreserveSnapshotsAndTraversal ..............................................................................................   Passed    0.15 sec
+2026-10-05T14:54:51.5982384Z         Start 1169: GroupedObjectIndexTest.ExternalReplacementFoldsPendingInlineCoordinates
+2026-10-05T14:54:51.6139727Z 179/274 Test #1169: GroupedObjectIndexTest.ExternalReplacementFoldsPendingInlineCoordinates ............................................................................................   Passed    0.02 sec
+2026-10-05T14:54:51.6141723Z         Start 1174: GroupedMetadataArrayTest.AppendsPreservePinnedTailsAcrossTreeGrowth
+2026-10-05T14:54:51.6347890Z 180/274 Test #1174: GroupedMetadataArrayTest.AppendsPreservePinnedTailsAcrossTreeGrowth ................................................................................................   Passed    0.02 sec
+2026-10-05T14:54:51.6349182Z         Start 1184: LocalSharedPtrTest.ConstructorFailureDoesNotLeak
+2026-10-05T14:54:51.6411131Z 181/274 Test #1184: LocalSharedPtrTest.ConstructorFailureDoesNotLeak ...................................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:51.6412588Z         Start 1187: LoggingTest.DefaultsToRotatingFileOnly
+2026-10-05T14:54:51.6479483Z 182/274 Test #1187: LoggingTest.DefaultsToRotatingFileOnly .............................................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:51.6480715Z         Start 1194: LuaEvalTest.CatalogSwapKeepsSuspendedExecutionRuntimeAlive
+2026-10-05T14:54:51.6554985Z 183/274 Test #1194: LuaEvalTest.CatalogSwapKeepsSuspendedExecutionRuntimeAlive .........................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:51.6556209Z         Start 1202: MemoryTest.RetainedChargeTransfersOwnershipWithoutGlobalNewHooks
+2026-10-05T14:54:51.6622487Z 184/274 Test #1202: MemoryTest.RetainedChargeTransfersOwnershipWithoutGlobalNewHooks ...................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:51.6623672Z         Start 1208: MetaControlMapperTest.SourceIndexDoesNotBecomeTopologyEpoch
+2026-10-05T14:54:51.6713072Z 185/274 Test #1208: MetaControlMapperTest.SourceIndexDoesNotBecomeTopologyEpoch ........................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:51.6714185Z         Start 1212: MetaControlMapperTest.AcceptsGrantlessGroupWithOwnerIntent
+2026-10-05T14:54:51.6791001Z 186/274 Test #1212: MetaControlMapperTest.AcceptsGrantlessGroupWithOwnerIntent .........................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:51.6792031Z         Start 1216: MetaControlMapperTest.RejectsMalformedNodeHosts
+2026-10-05T14:54:51.6892801Z 187/274 Test #1216: MetaControlMapperTest.RejectsMalformedNodeHosts ....................................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:51.6894043Z         Start 1224: MetaSessionRunResultTest.StopAfterSessionReturnStillPropagatesCleanupFailure
+2026-10-05T14:54:51.6957465Z 188/274 Test #1224: MetaSessionRunResultTest.StopAfterSessionReturnStillPropagatesCleanupFailure .......................................................................................   Passed    0.01 sec
+2026-10-05T14:54:51.6958991Z         Start 1228: MetaEndpointDirectoryTest.RejectsMissingOrMismatchedPrincipalBinding
+2026-10-05T14:54:51.7020950Z 189/274 Test #1228: MetaEndpointDirectoryTest.RejectsMissingOrMismatchedPrincipalBinding ...............................................................................................   Passed    0.01 sec
+2026-10-05T14:54:51.7022246Z         Start 1233: MetaCandidateProjectionTest.FencedHistoricalOwnerUsesAuthenticatedSelfOriginLineage
+2026-10-05T14:54:51.7085366Z 190/274 Test #1233: MetaCandidateProjectionTest.FencedHistoricalOwnerUsesAuthenticatedSelfOriginLineage ................................................................................   Passed    0.01 sec
+2026-10-05T14:54:51.7087045Z         Start 1235: MetaInboundTransferAbortTest.SupersededFullStateKeepsTheAuthenticatedSessionAndHeartbeat
+2026-10-05T14:54:51.7153085Z 191/274 Test #1235: MetaInboundTransferAbortTest.SupersededFullStateKeepsTheAuthenticatedSessionAndHeartbeat ...........................................................................   Passed    0.01 sec
+2026-10-05T14:54:51.7154737Z         Start 1246: MetaFailoverHeartbeatTest.ExactPreparingAndPreparedActionsBridgeHistoryRotationUntilCutover
+2026-10-05T14:54:51.7221504Z 192/274 Test #1246: MetaFailoverHeartbeatTest.ExactPreparingAndPreparedActionsBridgeHistoryRotationUntilCutover ........................................................................   Passed    0.01 sec
+2026-10-05T14:54:51.7223129Z         Start 1251: NodeControlInstallerTest.FullStateReconcilesChangedClusterControlAfterSourceCleanupOnly
+2026-10-05T14:54:51.7362482Z 193/274 Test #1251: NodeControlInstallerTest.FullStateReconcilesChangedClusterControlAfterSourceCleanupOnly ............................................................................   Passed    0.01 sec
+2026-10-05T14:54:51.7364188Z         Start 1254: NodeControlInstallerTest.ControlledPausePreservesFiniteLeaseAndRejectsOnlyMutations
+2026-10-05T14:54:51.7570416Z 194/274 Test #1254: NodeControlInstallerTest.ControlledPausePreservesFiniteLeaseAndRejectsOnlyMutations ................................................................................   Passed    0.02 sec
+2026-10-05T14:54:51.7571836Z         Start 1266: NodeControlInstallerTest.SteadyOwnerGrantSkipsPromotionAndEnablesFiniteExpirationFirst
+2026-10-05T14:54:51.7670765Z 195/274 Test #1266: NodeControlInstallerTest.SteadyOwnerGrantSkipsPromotionAndEnablesFiniteExpirationFirst .............................................................................   Passed    0.01 sec
+2026-10-05T14:54:51.7672196Z         Start 1270: NodeControlInstallerTest.SessionLossRevokesFiniteExpirationAuthorityAndTheWriteLease
+2026-10-05T14:54:51.7768907Z 196/274 Test #1270: NodeControlInstallerTest.SessionLossRevokesFiniteExpirationAuthorityAndTheWriteLease ...............................................................................   Passed    0.01 sec
+2026-10-05T14:54:51.7770260Z         Start 1272: NodeControlInstallerTest.ProjectionRefreshPreservesSharedLeaseCapability
+2026-10-05T14:54:51.7889961Z 197/274 Test #1272: NodeControlInstallerTest.ProjectionRefreshPreservesSharedLeaseCapability ...........................................................................................   Passed    0.01 sec
+2026-10-05T14:54:51.7891365Z         Start 1289: NodeControlInstallerTest.LeaseTimerExpiresExactLeaseButCannotRevokeItsRenewal
+2026-10-05T14:54:53.7000531Z 198/274 Test #1289: NodeControlInstallerTest.LeaseTimerExpiresExactLeaseButCannotRevokeItsRenewal ......................................................................................   Passed    1.91 sec
+2026-10-05T14:54:53.7002967Z         Start 1299: NodeControlInstallerTest.ExactFdsRefreshPreservesSourceExportsAndAuthorityChangeDrainsOldWork
+2026-10-05T14:54:53.7184823Z 199/274 Test #1299: NodeControlInstallerTest.ExactFdsRefreshPreservesSourceExportsAndAuthorityChangeDrainsOldWork ......................................................................   Passed    0.02 sec
+2026-10-05T14:54:53.7186544Z         Start 1302: NodeControlInstallerTest.SessionInvalidationClosesLeaseBeforeAsynchronousCleanup
+2026-10-05T14:54:53.7274081Z 200/274 Test #1302: NodeControlInstallerTest.SessionInvalidationClosesLeaseBeforeAsynchronousCleanup ...................................................................................   Passed    0.01 sec
+2026-10-05T14:54:53.7275483Z         Start 1307: NodeControlInstallerTest.ReplicaReadinessAndRebuildUseTargetMemberAssignment
+2026-10-05T14:54:53.7567296Z 201/274 Test #1307: NodeControlInstallerTest.ReplicaReadinessAndRebuildUseTargetMemberAssignment .......................................................................................   Passed    0.03 sec
+2026-10-05T14:54:53.7568692Z         Start 1318: RespParserTest.DoesNotEagerlyAllocateDeclaredArrayLength
+2026-10-05T14:54:53.7634543Z 202/274 Test #1318: RespParserTest.DoesNotEagerlyAllocateDeclaredArrayLength ...........................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:53.7635879Z         Start 1320: RespParserTest.ReturnsPipelinedCommandsInWireOrder
+2026-10-05T14:54:53.7701117Z 203/274 Test #1320: RespParserTest.ReturnsPipelinedCommandsInWireOrder .................................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:53.7702424Z         Start 1323: RespParserTest.AcceptsInlineCommandsQuotesAndEscapesIncrementally
+2026-10-05T14:54:53.7766478Z 204/274 Test #1323: RespParserTest.AcceptsInlineCommandsQuotesAndEscapesIncrementally ..................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:53.7768025Z         Start 1327: ReplyBuilderTest.EncodesProtocolSpecificResp3Types
+2026-10-05T14:54:53.7831194Z 205/274 Test #1327: ReplyBuilderTest.EncodesProtocolSpecificResp3Types .................................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:53.7832379Z         Start 1335: ScanHashMapTest.TaggedAddressSurvivesChainCompactionAndRejectsStaleSlots
+2026-10-05T14:54:53.7950789Z 206/274 Test #1335: ScanHashMapTest.TaggedAddressSurvivesChainCompactionAndRejectsStaleSlots ...........................................................................................   Passed    0.01 sec
+2026-10-05T14:54:53.7952165Z         Start 1347: ScanHashMapTest.SharedArenaReusesSlotsAndRejectsPageIdExhaustion
+2026-10-05T14:54:53.8126836Z 207/274 Test #1347: ScanHashMapTest.SharedArenaReusesSlotsAndRejectsPageIdExhaustion ...................................................................................................   Passed    0.02 sec
+2026-10-05T14:54:53.8128423Z         Start 1355: ScanHashMapTest.AmortizesAlignmentAcrossSixteenLogicalPages
+2026-10-05T14:54:53.8243280Z 208/274 Test #1355: ScanHashMapTest.AmortizesAlignmentAcrossSixteenLogicalPages ........................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:53.8245655Z         Start 1356: ScanHashMapTest.RehashDefersOverflowAllocationWhenAdmissionIsFull
+2026-10-05T14:54:53.8367268Z 209/274 Test #1356: ScanHashMapTest.RehashDefersOverflowAllocationWhenAdmissionIsFull ..................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:53.8368799Z         Start 1359: ScanHashMapTest.InlineShortKeyComparisonCoversEveryByte
+2026-10-05T14:54:53.8478728Z 210/274 Test #1359: ScanHashMapTest.InlineShortKeyComparisonCoversEveryByte ............................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:53.8480196Z         Start 1362: ScanHashMapTest.ConstAndMutableLookupCrossBucketBoundaries
+2026-10-05T14:54:53.8702738Z 211/274 Test #1362: ScanHashMapTest.ConstAndMutableLookupCrossBucketBoundaries .........................................................................................................   Passed    0.02 sec
+2026-10-05T14:54:53.8705509Z         Start 1370: SourceAuthorizationLedgerTest.RevocationRejectsTheOldRevisionButAllowsANewerCompleteIdentity
+2026-10-05T14:54:53.8769815Z 212/274 Test #1370: SourceAuthorizationLedgerTest.RevocationRejectsTheOldRevisionButAllowsANewerCompleteIdentity .......................................................................   Passed    0.01 sec
+2026-10-05T14:54:53.8771122Z         Start 1374: SourceAuthorizationLedgerTest.AuthorizationIsBoundToTheExactDirectiveIdentity
+2026-10-05T14:54:53.8835683Z 213/274 Test #1374: SourceAuthorizationLedgerTest.AuthorizationIsBoundToTheExactDirectiveIdentity ......................................................................................   Passed    0.01 sec
+2026-10-05T14:54:53.8836843Z         Start 1383: CommandTableTest.ResolvesSortStoreDestination
+2026-10-05T14:54:53.8901731Z 214/274 Test #1383: CommandTableTest.ResolvesSortStoreDestination ......................................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:53.8902897Z         Start 1394: CommandTableTest.ReplicationGateCandidatesAreClassified
+2026-10-05T14:54:53.8968930Z 215/274 Test #1394: CommandTableTest.ReplicationGateCandidatesAreClassified ............................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:53.8970020Z         Start 1402: RdbTest.StreamEncoderSupportsRedisSevenCompatibilityHeader
+2026-10-05T14:54:53.9033738Z 216/274 Test #1402: RdbTest.StreamEncoderSupportsRedisSevenCompatibilityHeader .........................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:53.9035201Z         Start 1409: RdbTest.DecodesLzfAcrossFileBuffersWithoutBorrowedInput
+2026-10-05T14:54:54.4853437Z 217/274 Test #1409: RdbTest.DecodesLzfAcrossFileBuffersWithoutBorrowedInput ............................................................................................................   Passed    0.58 sec
+2026-10-05T14:54:54.4854563Z         Start 1411: RdbTest.ReadsFileMetadataDatabasesAndExpirations
+2026-10-05T14:54:54.4925463Z 218/274 Test #1411: RdbTest.ReadsFileMetadataDatabasesAndExpirations ...................................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:54.4926538Z         Start 1420: RdbTest.AcceptsAllRedisStreamEncodings
+2026-10-05T14:54:54.4996584Z 219/274 Test #1420: RdbTest.AcceptsAllRedisStreamEncodings .............................................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:54.4997999Z         Start 1426: RdbCollectionTest.AggregateCountUsesRdb64BitLengthWithoutAllocation
+2026-10-05T14:54:54.5062528Z 220/274 Test #1426: RdbCollectionTest.AggregateCountUsesRdb64BitLengthWithoutAllocation ................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:54.5063866Z         Start 1428: RdbCollectionImportTest.FourTypesConsumeAdmittedPagesAndRewind
+2026-10-05T14:54:56.0685833Z 221/274 Test #1428: RdbCollectionImportTest.FourTypesConsumeAdmittedPagesAndRewind .....................................................................................................   Passed    1.56 sec
+2026-10-05T14:54:56.0687271Z         Start 1438: RecordLocationTest.GroupedRepresentationSurvivesIndexAndExpiryChanges
+2026-10-05T14:54:56.0801146Z 222/274 Test #1438: RecordLocationTest.GroupedRepresentationSurvivesIndexAndExpiryChanges ..............................................................................................   Passed    0.01 sec
+2026-10-05T14:54:56.0803951Z         Start 1441: RecordLocationTest.RemoteMaterializationRejectsReusedBlockByEpoch
+2026-10-05T14:54:56.0942866Z 223/274 Test #1441: RecordLocationTest.RemoteMaterializationRejectsReusedBlockByEpoch ..................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:56.0944225Z         Start 1449: ReplicationCommandTest.CapturePreparationOomPreservesEarlierEffects
+2026-10-05T14:54:56.1008813Z 224/274 Test #1449: ReplicationCommandTest.CapturePreparationOomPreservesEarlierEffects ................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:56.1011318Z         Start 1451: ReplicationCommandTest.SetAlreadyCarriesFinalExpirationSemantics
+2026-10-05T14:54:56.1073559Z 225/274 Test #1451: ReplicationCommandTest.SetAlreadyCarriesFinalExpirationSemantics ...................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:56.1074813Z         Start 1461: PopulationManifestTest.SupportsEmptyAndFullDesiredPopulations
+2026-10-05T14:54:56.1220583Z 226/274 Test #1461: PopulationManifestTest.SupportsEmptyAndFullDesiredPopulations ......................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:56.1221834Z         Start 1472: ReplicationGroupTest.RejectsStaleIdentityAndAttemptReuse
+2026-10-05T14:54:56.1374833Z 227/274 Test #1472: ReplicationGroupTest.RejectsStaleIdentityAndAttemptReuse ...........................................................................................................   Passed    0.02 sec
+2026-10-05T14:54:56.1376140Z         Start 1475: ReplicationGroupTest.InvalidatePublishedProofRequiresFreshAttempt
+2026-10-05T14:54:56.1655782Z 228/274 Test #1475: ReplicationGroupTest.InvalidatePublishedProofRequiresFreshAttempt ..................................................................................................   Passed    0.03 sec
+2026-10-05T14:54:56.1658537Z         Start 1476: ReplicationGroupTest.RestartDropsProofAtEveryRebuildBoundary
+2026-10-05T14:54:56.1944646Z 229/274 Test #1476: ReplicationGroupTest.RestartDropsProofAtEveryRebuildBoundary .......................................................................................................   Passed    0.03 sec
+2026-10-05T14:54:56.1945770Z         Start 1482: ReplicationGroupTest.ConflictingFlowCutVectorCannotBeRewritten
+2026-10-05T14:54:56.2097654Z 230/274 Test #1482: ReplicationGroupTest.ConflictingFlowCutVectorCannotBeRewritten .....................................................................................................   Passed    0.02 sec
+2026-10-05T14:54:56.2100415Z         Start 1487: ReplicationHistoryTest.GapsAndHistoryChangesNeverAdvertiseInventedCoverage
+2026-10-05T14:54:56.2170606Z 231/274 Test #1487: ReplicationHistoryTest.GapsAndHistoryChangesNeverAdvertiseInventedCoverage .........................................................................................   Passed    0.01 sec
+2026-10-05T14:54:56.2172361Z         Start 1500: NativeReplayTest.SingleFlowCompletionDoesNotRequireOptionalRetention
+2026-10-05T14:54:56.2243796Z 232/274 Test #1500: NativeReplayTest.SingleFlowCompletionDoesNotRequireOptionalRetention ...............................................................................................   Passed    0.01 sec
+2026-10-05T14:54:56.2259521Z         Start 1504: NativeReparentTest.LaggingRequiresEveryParentSuffixAndNoDivergentComponent
+2026-10-05T14:54:56.2307949Z 233/274 Test #1504: NativeReparentTest.LaggingRequiresEveryParentSuffixAndNoDivergentComponent .........................................................................................   Passed    0.01 sec
+2026-10-05T14:54:56.2309956Z         Start 1506: ReplicaAppliedFrontierTest.AdvancesOnlyTheCompletedEvent
+2026-10-05T14:54:56.2373657Z 234/274 Test #1506: ReplicaAppliedFrontierTest.AdvancesOnlyTheCompletedEvent ...........................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:56.2375592Z         Start 1514: ReplicaAppliedFrontierTest.PublicationSequenceNeverWraps
+2026-10-05T14:54:56.2438551Z 235/274 Test #1514: ReplicaAppliedFrontierTest.PublicationSequenceNeverWraps ...........................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:56.2439771Z         Start 1515: FullSyncHandoffProgressTest.OutOfOrderAckDoesNotHideUnsentOrPendingPartitions
+2026-10-05T14:54:56.2503627Z 236/274 Test #1515: FullSyncHandoffProgressTest.OutOfOrderAckDoesNotHideUnsentOrPendingPartitions ......................................................................................   Passed    0.01 sec
+2026-10-05T14:54:56.2504867Z         Start 1523: TxBlockLeases.ExpiredWitnessFindsOtherLiveWriter
+2026-10-05T14:54:56.2570033Z 237/274 Test #1523: TxBlockLeases.ExpiredWitnessFindsOtherLiveWriter ...................................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:56.2571395Z         Start 1527: StorageStateTest.PromotionBaseEqualityIncludesDurabilityFrontier
+2026-10-05T14:54:56.2636320Z 238/274 Test #1527: StorageStateTest.PromotionBaseEqualityIncludesDurabilityFrontier ...................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:56.2637941Z         Start 1535: StorageFormatTest.GroupedRootsAllowStringsAndCollections
+2026-10-05T14:54:56.2702288Z 239/274 Test #1535: StorageFormatTest.GroupedRootsAllowStringsAndCollections ...........................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:56.2704242Z         Start 1542: StorageFormatTest.EncodesMemoryReplicationFrames
+2026-10-05T14:54:56.2768710Z 240/274 Test #1542: StorageFormatTest.EncodesMemoryReplicationFrames ...................................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:56.2770109Z         Start 1550: StorageExpirationAuthorityTest.WorkersOwnSeparateCachedControlBlocks
+2026-10-05T14:54:56.2836985Z 241/274 Test #1550: StorageExpirationAuthorityTest.WorkersOwnSeparateCachedControlBlocks ...............................................................................................   Passed    0.01 sec
+2026-10-05T14:54:56.2838169Z         Start 1552: StorageExpirationAuthorityTest.LegacyPermanentGrantIsIdempotent
+2026-10-05T14:54:56.2905544Z 242/274 Test #1552: StorageExpirationAuthorityTest.LegacyPermanentGrantIsIdempotent ....................................................................................................   Passed    0.01 sec
+2026-10-05T14:54:56.2907441Z         Start 1562: WorkerPlacementTest.ControlTimersSurviveNonYieldingDataOnSharedCpu
+2026-10-05T14:54:56.5998307Z 243/274 Test #1562: WorkerPlacementTest.ControlTimersSurviveNonYieldingDataOnSharedCpu .................................................................................................   Passed    0.31 sec
+2026-10-05T14:54:56.5999300Z         Start 1576: meta_integration.ctl_client
+2026-10-05T14:55:02.6092260Z 244/274 Test #1576: meta_integration.ctl_client ........................................................................................................................................   Passed    6.01 sec
+2026-10-05T14:55:02.6094327Z         Start 1579: meta_integration.admin_slow_reader
+2026-10-05T14:55:10.9034041Z 245/274 Test #1579: meta_integration.admin_slow_reader .................................................................................................................................   Passed    8.29 sec
+2026-10-05T14:55:10.9035711Z         Start 1587: meta_integration.gate_transport
+2026-10-05T14:55:44.1461042Z 246/274 Test #1587: meta_integration.gate_transport ....................................................................................................................................   Passed   33.24 sec
+2026-10-05T14:55:44.1463069Z         Start 1589: meta_integration.gate_observation_lifecycle
+2026-10-05T14:55:47.6428550Z 247/274 Test #1589: meta_integration.gate_observation_lifecycle ........................................................................................................................   Passed    3.50 sec
+2026-10-05T14:55:47.6429778Z         Start 1596: meta_integration.gate_heartbeat_cadence
+2026-10-05T14:56:03.0532095Z 248/274 Test #1596: meta_integration.gate_heartbeat_cadence ............................................................................................................................   Passed   15.41 sec
+2026-10-05T14:56:03.0533033Z         Start 1603: meta_integration.gate_managed_wait
+2026-10-05T14:57:48.8157701Z 249/274 Test #1603: meta_integration.gate_managed_wait .................................................................................................................................   Passed  105.76 sec
+2026-10-05T14:57:48.8158702Z         Start 1604: meta_integration.gate_managed_single_blocking
+2026-10-05T14:59:16.1194035Z 250/274 Test #1604: meta_integration.gate_managed_single_blocking ......................................................................................................................   Passed   87.30 sec
+2026-10-05T14:59:16.1196214Z         Start 1616: meta_integration.gate_managed_flush_reclaim
+2026-10-05T14:59:52.4226198Z 251/274 Test #1616: meta_integration.gate_managed_flush_reclaim ........................................................................................................................   Passed   36.30 sec
+2026-10-05T14:59:52.4227383Z         Start 1625: meta_integration.recovery_cluster_coverage-gap
+2026-10-05T15:00:22.7633004Z 252/274 Test #1625: meta_integration.recovery_cluster_coverage-gap .....................................................................................................................   Passed   30.34 sec
+2026-10-05T15:00:22.7637171Z         Start 1637: meta_integration.gate_failover_candidate_abort
+2026-10-05T15:00:41.9807632Z 253/274 Test #1637: meta_integration.gate_failover_candidate_abort .....................................................................................................................   Passed   19.22 sec
+2026-10-05T15:00:41.9808745Z         Start 1639: meta_integration.gate_failover_source_degrade_reselect
+2026-10-05T15:01:46.8789687Z 254/274 Test #1639: meta_integration.gate_failover_source_degrade_reselect .............................................................................................................   Passed   64.90 sec
+2026-10-05T15:01:46.8791804Z         Start 1642: meta_integration.gate_automatic_failover_owner_pause
+2026-10-05T15:02:12.8121243Z 255/274 Test #1642: meta_integration.gate_automatic_failover_owner_pause ...............................................................................................................   Passed   25.93 sec
+2026-10-05T15:02:12.8122737Z         Start 1650: meta_integration.gate_population_recovery_clean_owner
+2026-10-05T15:02:48.4546364Z 256/274 Test #1650: meta_integration.gate_population_recovery_clean_owner ..............................................................................................................   Passed   35.64 sec
+2026-10-05T15:02:48.4547990Z         Start 1662: meta_integration.single_population_recovery_incomplete_full
+2026-10-05T15:03:19.3767243Z 257/274 Test #1662: meta_integration.single_population_recovery_incomplete_full ........................................................................................................   Passed   30.92 sec
+2026-10-05T15:03:19.3769629Z         Start 1664: meta_integration.gate_population_recovery_promoted_follower
+2026-10-05T15:03:55.2665108Z 258/274 Test #1664: meta_integration.gate_population_recovery_promoted_follower ........................................................................................................   Passed   35.89 sec
+2026-10-05T15:03:55.2667213Z         Start 1666: meta_integration.sentinel_tls_mapped
+2026-10-05T15:04:30.7044444Z 259/274 Test #1666: meta_integration.sentinel_tls_mapped ...............................................................................................................................   Passed   35.44 sec
+2026-10-05T15:04:30.7046843Z         Start 1669: meta_integration.sentinel_tls_handshake
+2026-10-05T15:04:34.1436812Z 260/274 Test #1669: meta_integration.sentinel_tls_handshake ............................................................................................................................   Passed    3.44 sec
+2026-10-05T15:04:34.1438129Z         Start 1677: cluster_soak_reference_model
+2026-10-05T15:04:35.1497936Z 261/274 Test #1677: cluster_soak_reference_model .......................................................................................................................................   Passed    1.01 sec
+2026-10-05T15:04:35.1498804Z         Start 1683: meta_connector
+2026-10-05T15:04:37.1717306Z 262/274 Test #1683: meta_connector .....................................................................................................................................................   Passed    2.02 sec
+2026-10-05T15:04:37.1718230Z         Start 1686: lavik_native_replicaof_e2e
+2026-10-05T15:04:41.9304622Z 263/274 Test #1686: lavik_native_replicaof_e2e .........................................................................................................................................   Passed    4.76 sec
+2026-10-05T15:04:41.9306305Z         Start 1688: lavik_redis_export_shake_standalone
+2026-10-05T15:04:54.9552953Z 264/274 Test #1688: lavik_redis_export_shake_standalone ................................................................................................................................   Passed   13.02 sec
+2026-10-05T15:04:54.9554019Z         Start 1692: lavik_redis_export_ha_cluster
+2026-10-05T15:07:52.4344349Z 265/274 Test #1692: lavik_redis_export_ha_cluster ......................................................................................................................................   Passed  177.48 sec
+2026-10-05T15:07:52.4346831Z         Start 1695: lavik_redis_sync_reader_single-single
+2026-10-05T15:08:14.1197708Z 266/274 Test #1695: lavik_redis_sync_reader_single-single ..............................................................................................................................   Passed   21.69 sec
+2026-10-05T15:08:14.1199258Z         Start 1701: lavik_redis_sync_reader_single-full-connection
+2026-10-05T15:08:28.5249604Z 267/274 Test #1701: lavik_redis_sync_reader_single-full-connection .....................................................................................................................   Passed   14.40 sec
+2026-10-05T15:08:28.5250484Z         Start 1706: lavik_redis_sync_reader_cluster-full-tool
+2026-10-05T15:08:46.8689622Z 268/274 Test #1706: lavik_redis_sync_reader_cluster-full-tool ..........................................................................................................................   Passed   18.34 sec
+2026-10-05T15:08:46.8690492Z         Start 1715: lavik_redis_export_disk_full_e2e
+2026-10-05T15:08:52.9287344Z 269/274 Test #1715: lavik_redis_export_disk_full_e2e ...................................................................................................................................   Passed    6.06 sec
+2026-10-05T15:08:52.9288871Z         Start 1719: lavik_replication_log_e2e
+2026-10-05T15:09:01.2901759Z 270/274 Test #1719: lavik_replication_log_e2e ..........................................................................................................................................   Passed    8.36 sec
+2026-10-05T15:09:01.2903924Z         Start 1723: lavik_flushdb_reclaim_e2e
+2026-10-05T15:09:29.9654101Z 271/274 Test #1723: lavik_flushdb_reclaim_e2e ..........................................................................................................................................   Passed   28.67 sec
+2026-10-05T15:09:29.9655281Z         Start 1728: lavik_tomb_raider_multiworker
+2026-10-05T15:09:31.6391187Z 272/274 Test #1728: lavik_tomb_raider_multiworker ......................................................................................................................................   Passed    1.67 sec
+2026-10-05T15:09:31.6394086Z         Start 1740: lavik_grouped_ordered_write_e2e
+2026-10-05T15:19:49.8993856Z 273/274 Test #1740: lavik_grouped_ordered_write_e2e ....................................................................................................................................   Passed  618.26 sec
+2026-10-05T15:19:49.8995678Z         Start 1744: bycorf_connect_timer_check
+2026-10-05T15:19:55.6089204Z 274/274 Test #1744: bycorf_connect_timer_check .........................................................................................................................................   Passed    5.71 sec
+2026-10-05T15:19:55.6099356Z
+2026-10-05T15:19:55.6099609Z 100% tests passed, 0 tests failed out of 274
+2026-10-05T15:19:55.6102287Z
+2026-10-05T15:19:55.6102554Z Label Time Summary:
+2026-10-05T15:19:55.6102839Z automatic-failover     =  25.93 sec*proc (1 test)
+2026-10-05T15:19:55.6103176Z cluster-integration    =   0.10 sec*proc (1 test)
+2026-10-05T15:19:55.6103506Z cluster-model          =   0.47 sec*proc (6 tests)
+2026-10-05T15:19:55.6103850Z cluster-soak           =   1.01 sec*proc (1 test)
+2026-10-05T15:19:55.6104165Z failover               = 212.50 sec*proc (6 tests)
+2026-10-05T15:19:55.6104477Z io_uring               =   5.71 sec*proc (1 test)
+2026-10-05T15:19:55.6104793Z large-codec            =   4.75 sec*proc (1 test)
+2026-10-05T15:19:55.6105106Z meta                   =  18.50 sec*proc (122 tests)
+2026-10-05T15:19:55.6105433Z meta-integration       = 631.97 sec*proc (20 tests)
+2026-10-05T15:19:55.6105754Z net                    =   5.71 sec*proc (1 test)
+2026-10-05T15:19:55.6106085Z population-recovery    = 102.45 sec*proc (3 tests)
+2026-10-05T15:19:55.6106761Z redis-import           =  54.43 sec*proc (3 tests)
+2026-10-05T15:19:55.6107300Z runtime                =   5.71 sec*proc (1 test)
+2026-10-05T15:19:55.6107625Z sentinel-client        =  38.88 sec*proc (2 tests)
+2026-10-05T15:19:55.6107831Z
+2026-10-05T15:19:55.6107932Z Total Test time (real) = 1533.06 sec
+2026-10-05T15:19:55.6158198Z PASS: ctest
+2026-10-05T15:19:55.6300248Z ##[group]Run actions/upload-artifact@v7
+2026-10-05T15:19:55.6300565Z with:
+2026-10-05T15:19:55.6300762Z   name: test-results-arm64-0
+2026-10-05T15:19:55.6301792Z   path: build_ci/test-results/
+build_ci/Testing/Temporary/
+build_ci/meta-integration/**/*.log
+build_ci/meta-integration/**/*.json
+/mnt/dev/lavik-*.log
+/mnt/dev/cluster_client_*/**/*.log
+/tmp/lavik-*/**/*.log
+/tmp/cluster_create_*/**/*.log
+/tmp/cluster_client_*/**/*.log
+/tmp/meta_*/**/*.log
+/tmp/lavik-*.log
+
+2026-10-05T15:19:55.6302862Z   if-no-files-found: ignore
+2026-10-05T15:19:55.6303088Z   retention-days: 7
+2026-10-05T15:19:55.6303317Z   compression-level: 6
+2026-10-05T15:19:55.6303527Z   overwrite: false
+2026-10-05T15:19:55.6303733Z   include-hidden-files: false
+2026-10-05T15:19:55.6303966Z   archive: true
+2026-10-05T15:19:55.6304149Z env:
+2026-10-05T15:19:55.6304440Z   PYTHONPATH: /home/runner/work/lavik/lavik/build_ci/test_tools/redis_py
+2026-10-05T15:19:55.6304800Z   GOTOOLCHAIN: local
+2026-10-05T15:19:55.6305036Z ##[endgroup]
+2026-10-05T15:19:55.8394561Z Multiple search paths detected. Calculating the least common ancestor of all paths
+2026-10-05T15:19:55.8396127Z The least common ancestor is /. This will be the root directory of the artifact
+2026-10-05T15:19:55.8396782Z With the provided path, there will be 7 files uploaded
+2026-10-05T15:19:55.8397497Z Artifact name is valid!
+2026-10-05T15:19:55.8397875Z Root directory input is valid!
+2026-10-05T15:19:56.0633967Z Uploading artifact: test-results-arm64-0.zip
+2026-10-05T15:19:56.0667662Z Beginning upload of artifact content to blob storage
+2026-10-05T15:19:56.3038951Z Uploaded bytes 132914
+2026-10-05T15:19:56.3449887Z Finished uploading artifact content to blob storage!
+2026-10-05T15:19:56.3451103Z SHA256 digest of uploaded artifact is c1f5e696e75be2dc1b117ef324cec8c5a33f5cfa51703f7fb27732e8d9c8f620
+2026-10-05T15:19:56.3451612Z Finalizing artifact upload
+2026-10-05T15:19:56.6109782Z Artifact test-results-arm64-0 successfully finalized. Artifact ID 11355031740
+2026-10-05T15:19:56.6110534Z Artifact test-results-arm64-0 has been successfully uploaded! Final size is 132914 bytes. Artifact ID is 11355031740
+2026-10-05T15:19:56.6112611Z Artifact download URL: https://github.com/eloqdata/lavik/actions/runs/37327265108/artifacts/11355031740
+2026-10-05T15:19:56.6273843Z Post job cleanup.
+2026-10-05T15:19:56.7245427Z [command]/opt/hostedtoolcache/go/1.26.8/arm64/bin/go env GOMODCACHE
+2026-10-05T15:19:56.7293394Z [command]/opt/hostedtoolcache/go/1.26.8/arm64/bin/go env GOCACHE
+2026-10-05T15:19:56.7334101Z /home/runner/go/pkg/mod
+2026-10-05T15:19:56.7344784Z /home/runner/.cache/go-build
+2026-10-05T15:19:56.7355129Z Cache hit occurred on the primary key setup-go-Linux-arm64-ubuntu24-arm64-go-1.26.8-52a31333fdbe81b448a90130b1fe6ac14c2f243aba4a731c327db2137c0da2d4, not saving cache.
+2026-10-05T15:19:56.7451184Z Post job cleanup.
+2026-10-05T15:19:56.8166811Z [command]/usr/bin/git version
+2026-10-05T15:19:56.8212999Z git version 2.55.0
+2026-10-05T15:19:56.8245621Z Temporarily overriding HOME='/home/runner/work/_temp/df5b4474-4c46-4f4e-b6f6-e80e1e1f69f6' before making global git config changes
+2026-10-05T15:19:56.8246388Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-05T15:19:56.8250366Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/lavik/lavik
+2026-10-05T15:19:56.8281441Z Removing SSH command configuration
+2026-10-05T15:19:56.8287785Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-05T15:19:56.8318921Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-05T15:19:56.8517778Z Removing HTTP extra header
+2026-10-05T15:19:56.8518367Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-05T15:19:56.8551407Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-05T15:19:56.8756236Z Removing includeIf entries pointing to credentials config files
+2026-10-05T15:19:56.8757258Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-05T15:19:56.8782988Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-05T15:19:56.9102502Z Cleaning up orphan processes
