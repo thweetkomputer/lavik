@@ -92,17 +92,17 @@ main 已前进至 `19496654`。List 分支已解决冲突，并把批量启动�
 
 候选 `343e951e` 再次在 9 MiB key 的 GET 等待回复头超过原 60 秒限制，此前 3 个外部 key 和 6 MiB key 的读取均通过。main `19496654` 从另一份相同镜像副本完成全部读取、覆盖和正常关闭，但同一 GET 也耗时 **50.008 秒**。[逐操作结果与来源](pr267-retained-image-replays.json) · [诊断摘要](pr267-retained-replay-summary.json) · [候选日志](pr267-retained-replay-candidate.log) · [main 日志](pr267-retained-replay-main.log)。
 
-候选超时后才附加调试器：三个 worker 的回溯进入 `_io_uring_get_cqe`，内核等待点为 `io_cqring_wait`；liburing 之后的回溯不完整，尚不能识别具体等待的协程。原始镜像前后 SHA-256 一致，保持只读；磁盘镜像和原始线程转储未入库。这一对固定顺序重放不能证明死锁、数据损坏或候选独有回归，也不能证明与 CI 的 SET 超时同源。下一步在干净压测结束后采集逐操作 CPU、存储和协程进展。
+候选超时后才附加调试器：三个 worker 的回溯进入 `_io_uring_get_cqe`，内核等待点为 `io_cqring_wait`；liburing 之后的回溯不完整，尚不能识别具体等待的协程。原始镜像前后 SHA-256 一致，保持只读；磁盘镜像和原始线程转储未入库。这一对固定顺序重放不能证明死锁、数据损坏或候选独有回归，也不能证明与 CI 的 SET 超时同源。后续逐操作 CPU、存储进展和 perf 结果见下文。
 
-[长 key perf 调度](profile-pr267-retained-image.py) 已排队，等待小回复的独立压测与 perf 退出后再取得主机锁。仅对 9 MiB key GET 采集 49 Hz task-clock/DWARF，同时每 0.5 秒记录进程 I/O、各线程 CPU 与等待点，并区分发送、回复头和完整响应耗时；调试器只在停止采样后的失败路径附加。采样会扰动延迟，不把这些耗时用于干净性能比较。
+[长 key perf 驱动](profile-pr267-retained-image.py) 仅对 9 MiB key GET 采集 49 Hz task-clock/DWARF，同时每 0.5 秒记录进程 I/O、各线程 CPU 与等待点，区分发送、回复头和完整响应耗时；调试器仅在采样结束后的失败路径附加。采样和解析均持有主机锁，结果不混入干净 QPS。
 
-## 长 key 重复校验假设（尚待采样验证）
+## 长 key 重复校验与根记录复用
 
 当前 main `19496654` 和候选 `343e951e` 的普通 grouped String GET 都逐个读取 8 KiB 分段。每页的 `LoadOrderedGroup` 调用 `FindVerifiedEntry`；索引未保存完整 key 时，后者通过 `LoadOutOfIndexKey` 读取完整原 key 再比较。因此，无重试且每次均走此分支时，9 MiB key、6 MiB value 的 768 个分段可能重复读取 **6.75 GiB** key 内容；6 MiB key、1 MiB value 则为 **0.75 GiB**。这一推导不包含首次校验、记录头及后台 I/O，不是实际设备计数。两者推导量相差 9 倍，main 重放耗时约 50.008/5.518 秒，但相关性不足以证明耗时来源，也不能解释原 CI 的 SET 超时。
 
-验证草案 [`28d7cca4`](https://github.com/thweetkomputer/lavik/commit/28d7cca498655e02f46407adb65335219b10ee6b) 从 main `19496654` 开始，为 `FindVerifiedEntry` 新增独立重载。每页刷新通过已有 `FindCandidateIf`，只有 block、offset、allocation epoch 全部匹配此前已校验的物理根，才能省去完整 key 读取；没有匹配候选时回到原异步校验。数据代次、逻辑版本、页面身份及 GC 检查保留，普通四参数查找实现保持不变。格式检查和两架构编译通过，11 个软件分片成功；[amd64 extent 恢复用例也通过](grouped-verified-root-extent-ci-proof.json)。[fork 独立 CI](https://github.com/thweetkomputer/lavik/actions/runs/37258994628) 第一次执行因 arm64 分片 3 的托管 runner 失去通信而失败：停在依赖安装，尚未下载测试二进制或运行测试；两个汇总失败来自这个分片。[原始失败与 GitHub 注释](grouped-root-ci-attempt1-infrastructure-failure.json) 已保留，同一源码仅重跑失败项，完整 CI 仍未通过。本机回归、候选 perf 和性能对照尚未执行，尚未提 PR。采样仍需验证原路径的实际重复读取量，不能据源代码推导宣称收益或已修复 CI 失败。ordered 远端页读取已经借用父 key，这里的重复校验不能误写成逐页跨 worker key 复制。
+验证草案 [`28d7cca4`](https://github.com/thweetkomputer/lavik/commit/28d7cca498655e02f46407adb65335219b10ee6b) 从 main `19496654` 开始，为 `FindVerifiedEntry` 新增独立重载。每页刷新通过已有 `FindCandidateIf`，只有 block、offset、allocation epoch 全部匹配此前已校验的物理根，才能省去间接 key 的完整读取；索引中的完整 key 仍比较全部字节，没有匹配候选时回到原异步校验。数据代次、逻辑版本、页面身份及 GC 检查保留。ordered 远端页读取本来就借用父 key，这里的重复校验不能误写成逐页跨 worker key 复制。
 
-[原型对照重放](replay-grouped-verified-root.py) 已排队，等待当前 Stream 采样、原失败镜像采样及解析、RDB 套件诊断退出，再取得同一主机锁。固定 main `19496654` 与原型 `28d7cca4` 的 CI 二进制，三轮 A/B、B/A、A/B，分别复制同一只读原始镜像；校验每次完整回复、覆盖及正常退出，保留原 60 秒 socket 限制，同时在操作两端记录进程 I/O。计数包括后台工作，不是命令独占 I/O；这是故障镜像路径的对照，不代表常规短 key QPS。下载和解压 CI 产物也受主机锁保护。
+[完整 CI 17 项通过](grouped-root-28d7cca4-full-ci.json)，包括两架构编译、12 个软件分片和格式检查。[首次 arm64 分片 3 的 runner 失联](grouped-root-ci-attempt1-infrastructure-failure.json) 停在依赖安装，尚未运行软件测试；同一源码重跑失败项后通过，原始失败记录保留。[amd64 extent 恢复用例](grouped-verified-root-extent-ci-proof.json) 也通过。下文的候选三轮镜像回放已完成；普通短 key 的 native 回归、配对 QPS 和候选 perf 尚未完成。
 
 ## 长 key 采样：超时期间仍持续读取
 
@@ -115,11 +115,9 @@ main `19496654` 和 #267 候选 `343e951e` 的同镜像独立副本采样均完�
 
 两者每个约 10 秒的观测区间都仍有大量读取进展；工作线程的多数等待点样本为 `io_cqring_wait`，两条活跃工作线程在整个采样区间合计约 5.7–5.8 秒 CPU。等待点计数不是等待时间占比，进程 I/O 包含后台活动，末端采样也不覆盖整个命令。候选窗口存在少量写入，更不能把全部 I/O 归为 GET。两者都未完成，因此不能以字节数之差比较效率或 QPS。
 
-这补充了重复 key 读取假设所需的实际 I/O 证据，但具体调用路径仍需已排队的 perf 解析与 `28d7cca4` 原型对照。此前无采样 main 能在约 50 秒完成，本次采样超时说明诊断扰动不可忽略；不能据此宣称死锁、候选独有回归或原 CI 的 SET 超时已解决。原始 perf/调用栈不入库。
+这补充了重复 key 读取假设所需的实际 I/O 证据；已完成的 perf 解析和候选镜像回放见下文。此前无采样 main 能在约 50 秒完成，本次采样超时说明诊断扰动不可忽略；不能据此宣称死锁、候选独有回归或原 CI 的 SET 超时已解决。原始 perf/调用栈不入库。
 
-## 长 key 原型完整 CI 通过；采样解析返回码修正
-
-`28d7cca4` 的失败项重跑已成功，[完整 CI 17 项现全部通过](grouped-root-28d7cca4-full-ci.json)，包括 amd64/arm64 的 12 个软件分片。首次 runner 失联记录继续保留；未修改源码或测试超时。候选在保留镜像上的无采样对照仍排队，尚无性能结论。
+## 采样解析返回码修正
 
 原后处理器要求 recorder 返回 0，但主动对 sudo/perf 进程组发 SIGINT 后 sudo 返回了 `-2`，因此后处理器在解码前退出。两个 recorder 日志均包含完整写出摘要，分别写出 271、265 个样本，文件约 2.35/2.29 MB。没有重新采样；[恢复解析脚本](analyze-retained-key-profiles-resume.py) 保留原返回码，要求主动 SIGINT 返回值、完整写出日志及后续 report/script 两种解码成功，才接纳数据。解析已在主机锁内完成；前述 `/proc` 计数不依赖 perf 解码。结果见下节。
 
@@ -136,6 +134,18 @@ main `19496654` 和 #267 候选 `343e951e` 的同镜像独立副本采样均完�
 
 [逐符号汇总与输入 SHA-256](pr267-retained-key-self-summary.json) · [main 完整 self 表](pr267-retained-main-self.txt) · [候选完整 self 表](pr267-retained-candidate-self.txt)。表中空白被压缩，全部符号行保留。四舍五入后的覆盖合计均为 100.11%，未重新归一化；丢样为 0 不代表调用栈完整。样本较少，含内核、轮询和后台工作，不能据此估计精确优化幅度。两次 GET 均超时，不能把采样耗时当作吞吐对照；这里也没有根记录复用 `28d7cca4` 的样本。
 
-随后启动的 `19496654` / `28d7cca4` 三轮无采样对照在 **main 第一轮**停止：3 个 5009 字节外部 key 的完整 GET 通过，6 MiB key 的 1 MiB value 也校验通过，但 9 MiB key GET 在原 60 秒 socket 限制处等待回复头超时，收到的 payload 为 0。候选尚未执行，原定三轮没有完成。[原始操作记录、失败阶段及二进制身份](grouped-verified-root-replays.json)。保留本次失败，不重跑基线来替换它，也不提高超时。
+随后启动的 `19496654` / `28d7cca4` 三轮无采样对照在 **main 第一轮**停止：3 个 5009 字节外部 key 的完整 GET 通过，6 MiB key 的 1 MiB value 也校验通过，但 9 MiB key GET 在原 60 秒 socket 限制处等待回复头超时，收到的 payload 为 0。该配对任务没有执行候选，原定三轮没有完成。[原始操作记录、失败阶段及二进制身份](grouped-verified-root-replays.json)。保留本次失败，不重跑基线来替换它，也不提高超时。
 
-[候选独立重放脚本](replay-grouped-verified-root-candidate.py) 已排队：对相同只读原始镜像的三份独立副本，固定 `28d7cca4` CI 二进制、2 workers、60 秒 socket/120 秒关闭限制，验证完整 payload、覆盖与正常退出，首个失败即停。原始镜像 SHA-256 为 `b4e0113cf9b7dcbe03175c5e5665be8589ebef9dbc9c2847adc3cd3010b956ae`。这是候选正确性/故障重现检查，**不是完成的三轮配对性能比较**；不能从被超时截断的基线算精确加速比。目前仍不能认定 #267 引入该故障、原型已修复它，或原 CI 的 SET 超时与该 GET 同源。
+## 根记录复用候选的三轮独立回放
+
+[候选独立重放](replay-grouped-verified-root-candidate.py) 已全部通过：固定 `28d7cca4` 的 CI 二进制，使用相同只读原始镜像的三份独立可写副本、2 workers、原 60 秒 socket/120 秒关闭限制，无 perf 采样。每轮 16 个操作成功且服务正常退出，15 次 GET 均逐字节验证完整 payload。原始镜像前后 SHA-256 均为 `b4e0113cf9b7dcbe03175c5e5665be8589ebef9dbc9c2847adc3cd3010b956ae`。
+
+| 9 MiB key → 6 MiB value GET | 第 1 轮 | 第 2 轮 | 第 3 轮 |
+|---|---:|---:|---:|
+| 完整响应耗时（秒） | 1.822642 | 1.832467 | 1.819850 |
+| 进程读取字节增量 | 18,989,056 | 18,989,056 | 18,989,056 |
+| 完整 payload 校验 | 通过 | 通过 | 通过 |
+
+[原始回放和二进制身份](grouped-verified-root-candidate-replays.json) · [逐操作耗时/I/O 汇总](grouped-verified-root-candidate-summary.json) · [可复现校验脚本](summarize-root-candidate-replays.py)。每轮还完成三个 5009 字节 key 的读取、覆盖后 STRLEN，以及 6 MiB/9 MiB key 的 SET 应答；没有覆盖后重启或读回两个大 key 的新值，不能据此宣称完整持久性验证。进程 I/O 包含后台工作，不能把它与先前采样超时的约 9 GB 直接作干净配对比值。
+
+这是三轮候选单侧检查，**不是完成的三轮配对性能比较**。保留 main 的原始 60 秒超时及此前约 50 秒成功记录，不从截断基线算精确加速比，不外推普通 QPS。目前仍不能认定 #267 引入该故障，或原 CI 的 SET 超时与该 GET 同源。普通短 key native 回归和配对性能对照仍需完成。
