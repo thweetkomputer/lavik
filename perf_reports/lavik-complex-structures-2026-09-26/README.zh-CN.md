@@ -4,9 +4,9 @@
 
 [新增配对结果与 perf 的复算核验：1,146 个输入文件](diagnostics/zset-score-views-20261005/published-report-reproduction-20261005.json)
 
-**当前 PR 状态：** [head、依赖、CI 与处理结论](diagnostics/grouped-expiry-recovery-20261004/pr-cleanup-current.md)。#266、#267、#272 与 #282 的 rebase 后版本均已全部 17 项通过；其余保留 PR 的新版 CI 待完成。原失败与固定历史版本的性能证据分别保留。
+**当前 PR 状态：** [head、依赖、当前版本 CI 与处理结论](diagnostics/grouped-expiry-recovery-20261004/pr-cleanup-current.md)。原失败与固定历史版本的性能证据分别保留，性能候选关闭不等于 CI 失败。
 
-**2026-10-05 PR 收敛：** #268 已合入 main `330738d9`；#266/#267/#270/#280/#282 已 rebase 到该 main，#271/#272 随 #266、#275 随 #270 更新。#269/#273/#276 因整体收益不足或控制项回退已关闭；#274 此前已关闭。暂停寻找新优化，仅完成保留候选的验证与 CI。[提交、依赖与检查记录](diagnostics/grouped-expiry-recovery-20261004/prs-rebased-after268.json)。历史测量及已关闭候选的曲线保留，不代表新 head 已通过验证。
+**2026-10-05 PR 收敛：** #268 已合入 main `330738d9`；#266/#267/#270/#280/#282 已 rebase 到该 main，#271/#272 随 #266、#275 随 #270 更新。#269/#271/#272/#273/#276 因整体收益不足或控制项回退已关闭；#274 此前已关闭。暂停寻找新优化，仅完成保留候选的验证与 CI。[提交、依赖与检查记录](diagnostics/grouped-expiry-recovery-20261004/prs-rebased-after268.json)。历史测量及已关闭候选的曲线保留，不代表新 head 已通过验证。
 
 [Stream 读取窗口 #275：24 点大对象读取三轮对照](diagnostics/stream-reply-20261004/stream-window-large-reads.md)已完成。100 MiB / 128 B / 8 keys，全量读取 c1/4/16 的配对 QPS 中位数提升 **+327.45% / +233.85% / +128.49%**；点读 c2560 为 **−1.07%**。全量读取 QPS 中位数为 2.18 / 6.41 / 16.28，超过对应的三库历史测量，但其他三库未重跑、持久化配置不同，不能据此宣称整体追平。[12 点大对象写入控制](diagnostics/stream-reply-20261004/stream-window-large-writes.md)也已完成：XADD c320/c5120 的配对 QPS 中位数为 **−4.39%/+2.15%**，轮次方向不一致。[24 点小对象控制](diagnostics/stream-reply-20261004/stream-window-small-controls.md)完成：XADD 两档并发三轮均下降（中位 **−3.80%/−1.65%**），全量读取 QPS 近乎不变、p99 三轮均变差（中位 **+40.44%**）。全部 60 点已完成，但不能称为通用提升；[全量](diagnostics/stream-reply-20261004/stream-window-full-perf.md)与[点查](diagnostics/stream-reply-20261004/stream-window-point-perf.md)独立 perf 已完成，新 CI 待完成，原 RDB 超时仍未解释，PR 保持草稿。
 
@@ -62,9 +62,9 @@ Redis/Valkey 关闭持久化；Kvrocks 使用无压缩 RAID0、关闭 WAL、80 G
 
 [ZSet 成员叶页复用：吞吐、交替复测、perf 与测试](diagnostics/zset-member-probe-20261004/README.md)
 
-后续 [PR #271](https://github.com/eloqdata/lavik/pull/271) 消除内联页的重复清单查找；与 #272 的固定版本原生验证已完成：单元检查分别通过 128/129 项，每个候选另通过 63 项进程测试，跳过 29 项故障注入相关用例。[72 点独立对照](diagnostics/grouped-lookup-controls-20261005/README.md)正在执行，尚无吞吐收益结论。
+[PR #271](https://github.com/eloqdata/lavik/pull/271) 在[完整 72 点对照](diagnostics/grouped-lookup-controls-20261005/grouped-lookup-complete.md)后关闭：小对象 c5120 读 QPS +5.48%，但小对象写 QPS 中位回退，大对象 c5120 写 p99 三轮均恶化（中位 +19.89%）。原始正向/反向结果和原生验证记录全部保留。
 
-[PR #272](https://github.com/eloqdata/lavik/pull/272) 复用解码摘要，减少重复字段检查和路由校验中的哈希计算；仍为草稿，待上述独立对照完成。
+[PR #272](https://github.com/eloqdata/lavik/pull/272) 虽然当前 CI 全绿，也因整体取舍不足关闭：三个读条件的 QPS +1.73%–4.33%，但大对象 c5120 读 QPS 三轮下降，写收益不稳定；完整对照保留所有条件。
 
 [PR #273](https://github.com/eloqdata/lavik/pull/273) 复用单成员写入已经解码的有序源页并转移其内存预算。[大对象 48 点三轮结果](diagnostics/zset-member-probe-20261004/zset-source-reuse-large.md)：ZINCRBY 四档并发 QPS 配对中位数 +2.08%/+1.46%/+1.46%/−0.36%；高并发写 p99 改善，但读控制项 c5120 p99 中位数变差 14.81%。[小对象 48 点结果](diagnostics/zset-member-probe-20261004/zset-source-reuse-small.md)也已完成：写 QPS 中位数 +1.04%–+2.88%，但低两档读 QPS −3.00%/−2.22%、p99 +4.46%/+8.21%。[独立写 perf](diagnostics/zset-member-probe-20261004/zset-source-reuse-perf.md)已完成，未显示数量级成本下降；未证明足够的整体收益，#273 已关闭。
 

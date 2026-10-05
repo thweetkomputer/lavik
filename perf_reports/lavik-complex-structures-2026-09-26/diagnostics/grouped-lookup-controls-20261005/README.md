@@ -2,6 +2,8 @@
 
 **当前 PR 与 CI：** 见[统一收敛状态](../grouped-expiry-recovery-20261004/pr-cleanup-current.md)。下述原生、CI 和性能数据仍归属各自标注的提交；固定历史版本的测量不能代替当前 head 验证。
 
+**处理：** #271/#272 已因完整对照的整体取舍不足关闭，分支保留。[远端关闭记录](grouped-lookup-pr-closures.json)。
+
 [PR #271](https://github.com/eloqdata/lavik/pull/271) 跳过内联页不需要的 extent 清单查找；[PR #272](https://github.com/eloqdata/lavik/pull/272) 复用已解码字段摘要。这两项分别基于 #266，不将收益相加，也没有合并为一个候选。
 
 | 角色 | 固定提交 | 完整 CI |
