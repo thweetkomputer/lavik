@@ -36,6 +36,8 @@ main 随后更新至 `19496654`；本页仍使用固定基线 `a565d603`。[优�
 
 [Stream 回复批处理 PR #270：配对复测、控制项与 perf](diagnostics/stream-reply-20261004/README.md)
 
+后续 singleton PR #274 的大对象三轮增量对照没有稳定收益：点读 QPS 中位数 −0.39%，XADD c320/c5120 为 −0.63%/−3.65%，写入尾延迟也有不利轮次；保持草稿。小对象和独立 perf 待完成，不能把源码少一次复制当成已测得的吞吐提升。
+
 [ZSet 成员叶页复用：吞吐、交替复测、perf 与测试](diagnostics/zset-member-probe-20261004/README.md)
 
 后续 [PR #271](https://github.com/eloqdata/lavik/pull/271) 消除内联页的重复清单查找，仍在验证，尚无吞吐收益结论。
