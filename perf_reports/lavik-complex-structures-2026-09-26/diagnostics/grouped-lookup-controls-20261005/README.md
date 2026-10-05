@@ -1,6 +1,6 @@
 # 内联页查找与解码摘要：独立对照
 
-**2026-10-05 当前 PR：** #271 为 `a27637f0`，[当前 CI](https://github.com/eloqdata/lavik/actions/runs/37312155267) 待完成；#272 为 `0d36b4a9`，[当前 CI](https://github.com/eloqdata/lavik/actions/runs/37308612324) 待完成。两者均基于已 rebase 到 main `330738d9` 的 #266，并复用相同的 Meta 初始化准入测试修复；原失败保留。下述原生、CI 和吞吐对照使用固定历史提交，不能当作新 head 验证。[失败及修复记录](../grouped-expiry-recovery-20261004/rebase-ci-failures-20261005.md)。
+**当前 PR 与 CI：** 见[统一收敛状态](../grouped-expiry-recovery-20261004/pr-cleanup-current.md)。下述原生、CI 和性能数据仍归属各自标注的提交；固定历史版本的测量不能代替当前 head 验证。
 
 [PR #271](https://github.com/eloqdata/lavik/pull/271) 跳过内联页不需要的 extent 清单查找；[PR #272](https://github.com/eloqdata/lavik/pull/272) 复用已解码字段摘要。这两项分别基于 #266，不将收益相加，也没有合并为一个候选。
 
