@@ -2,6 +2,8 @@
 
 [简体中文](README.zh-CN.md)
 
+[Borrowed member-page score reads](diagnostics/zset-score-views-20261005/README.md): avoids owning every field/value while retaining full validation. CI is running; 96 paired observations and independent ZSCORE perf are queued, with no measured gain yet.
+
 Hash route replacement completed three paired runs at 100 MiB per key / 500 keys: HSET c5120 median paired QPS +7.81%, p99 −8.19%; lower-concurrency gains are mixed and HGET regressions remain. [Full results](diagnostics/hash-route-replace-20261005/hash-route-large.md).
 
 Long-key diagnosis updated: main also hit the original 60-second GET timeout on an unsampled copy of the retained image. Earlier perf captures show CRC, copy and comparison hotspots; the root-reuse candidate still awaits independent replay. [Evidence and limitations](diagnostics/list-reply-reserve-20261004/README.md).

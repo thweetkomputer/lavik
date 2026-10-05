@@ -2,6 +2,8 @@
 
 [English](README.md)
 
+[ZSCORE/ZMSCORE 成员页借用视图](diagnostics/zset-score-views-20261005/README.md)：去掉整页字段/值复制，保留完整校验；CI 进行中，96 点配对及独立读 perf 已排队，尚无性能结论。
+
 Hash 单路由替换完成 100 MiB、500 keys 的三轮对照：HSET c5120 QPS 配对中位 +7.81%，p99 −8.19%；低连接收益混合，HGET 仍有回退。[完整结果](diagnostics/hash-route-replace-20261005/hash-route-large.md)。
 
 长 key 诊断已更新：main 在同镜像无采样重放也触发 60 秒 GET 超时；旧版本 perf 显示 CRC、复制和比较热点，根记录复用候选仍待独立重放。[证据与限制](diagnostics/list-reply-reserve-20261004/README.md)。
