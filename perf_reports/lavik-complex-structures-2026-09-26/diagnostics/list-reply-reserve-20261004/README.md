@@ -80,7 +80,7 @@ The clean 8-key sweep uses the same immutable `ff9e3655` binary. [All points and
 
 main 已前进至 `19496654`。List 分支已解决冲突，并把批量启动失败的测试故障点改成显式 admission 错误，保留所有已启动读取的 join；实际 C++ 分配异常遵循 main 的终止策略。[新提交及待完成的 CI](../main-a565d603-20261004/pr-main-integration.json)。本页吞吐、perf 与旧 CI 仍对应各自记录的冻结提交，不代表新提交已完成测量；64 页版本已有的尾延迟和写入退化结论仍然保留。
 
-## 当前 main 整合版本的 CI 失败
+## 历史 `343e951e` 的 CI 失败
 
 `343e951e` 的 amd64 分片 4 在 `lavik_extent_recovery_e2e` 失败：从 4 workers 恢复到 2 workers 后，覆盖 5009 字节外部 key 的 `SET` 等待回复超时；同分片其余 289 项通过。恢复扫描已完成，但日志不足以区分空间回收停滞与环境因素。保留失败，尚未修改超时或通过重跑排除它。[失败证据与后续复现范围](pr267-current-ci-failure.json)。这不改变历史版本的性能结果，也不代表当前 head 已验证通过。
 
@@ -100,7 +100,7 @@ main 已前进至 `19496654`。List 分支已解决冲突，并把批量启动�
 
 ## 长 key 重复校验与根记录复用
 
-当前 main `19496654` 和候选 `343e951e` 的普通 grouped String GET 都逐个读取 8 KiB 分段。每页的 `LoadOrderedGroup` 调用 `FindVerifiedEntry`；索引未保存完整 key 时，后者通过 `LoadOutOfIndexKey` 读取完整原 key 再比较。因此，无重试且每次均走此分支时，9 MiB key、6 MiB value 的 768 个分段可能重复读取 **6.75 GiB** key 内容；6 MiB key、1 MiB value 则为 **0.75 GiB**。这一推导不包含首次校验、记录头及后台 I/O，不是实际设备计数。两者推导量相差 9 倍，main 重放耗时约 50.008/5.518 秒，但相关性不足以证明耗时来源，也不能解释原 CI 的 SET 超时。
+当时的 main `19496654` 和候选 `343e951e` 的普通 grouped String GET 都逐个读取 8 KiB 分段。每页的 `LoadOrderedGroup` 调用 `FindVerifiedEntry`；索引未保存完整 key 时，后者通过 `LoadOutOfIndexKey` 读取完整原 key 再比较。因此，无重试且每次均走此分支时，9 MiB key、6 MiB value 的 768 个分段可能重复读取 **6.75 GiB** key 内容；6 MiB key、1 MiB value 则为 **0.75 GiB**。这一推导不包含首次校验、记录头及后台 I/O，不是实际设备计数。两者推导量相差 9 倍，main 重放耗时约 50.008/5.518 秒，但相关性不足以证明耗时来源，也不能解释原 CI 的 SET 超时。
 
 [草稿 PR #282](https://github.com/eloqdata/lavik/pull/282)，验证提交 [`28d7cca4`](https://github.com/thweetkomputer/lavik/commit/28d7cca498655e02f46407adb65335219b10ee6b) 从 main `19496654` 开始，为 `FindVerifiedEntry` 新增独立重载。每页刷新通过已有 `FindCandidateIf`，只有 block、offset、allocation epoch 全部匹配此前已校验的物理根，才能省去间接 key 的完整读取；索引中的完整 key 仍比较全部字节，没有匹配候选时回到原异步校验。数据代次、逻辑版本、页面身份及 GC 检查保留。ordered 远端页读取本来就借用父 key，这里的重复校验不能误写成逐页跨 worker key 复制。
 
@@ -162,11 +162,11 @@ main `19496654` 和 #267 候选 `343e951e` 的同镜像独立副本采样均完�
 
 ## 原 SET 超时：独立覆盖写入诊断已完成
 
-#267 保持草稿。#282 的长 key GET 回放通过不能解释原 CI 的 `SET key_bytes=5009` 超时；两者的失败阶段不同，原始失败记录继续保留。
+#267 已根据当前 head 的完整 CI 和已有重复配对测量转为非 draft。#282 的长 key GET 回放通过不能解释原 CI 的 `SET key_bytes=5009` 超时；两者的失败阶段不同，原始失败记录继续保留。
 
 [已冻结的诊断协议](pr267-overwrite-diagnostic-protocol.json) · [诊断脚本](diagnose-pr267-overwrites.py)。使用原 `19496654` / `343e951e` 的精确 amd64 CI 二进制，两轮 A/B、B/A，各自从只读 768 MiB 原始镜像复制独立文件。2 workers 下检查并覆盖三个 5009 B key，随后改为 3 workers 重启，逐字节读回三个 `small` 值。保留原 60 秒 socket 和 120 秒关闭限制；每次操作记录进程 I/O，启动/结束记录 INFO，失败后才附加调试器。所有复制、镜像校验和进程运行都受原主机锁串行约束。
 
-该诊断刻意跳过此前的多 MiB key 大 GET，以免读取超时遮住后续覆盖路径，因此改变了原 CI 的命令历史和后台运行时间；INFO/进程快照也有诊断扰动。它用于缩小覆盖写入问题的范围，不是原始完整测试复现、配对吞吐或修复证明。原始失败镜像与完整测试结果不变。任务当前等待主机锁，尚无结果。
+该诊断刻意跳过此前的多 MiB key 大 GET，以免读取超时遮住后续覆盖路径，因此改变了原 CI 的命令历史和后台运行时间；INFO/进程快照也有诊断扰动。它用于缩小覆盖写入问题的范围，不是原始完整测试复现、配对吞吐或修复证明。原始失败镜像与完整测试结果不变。该固定协议随后已完成，结果见下方“完成”的诊断记录。
 
 ## 根记录复用候选的独立 perf 验证
 
@@ -182,4 +182,4 @@ main `19496654` 和 #267 候选 `343e951e` 的同镜像独立副本采样均完�
 
 [原始结果与进程计数](pr267-overwrite-diagnostics.json) · [核验摘要](pr267-overwrite-diagnostic-summary.json) · [核验脚本](summarize-pr267-overwrites.py) · [日志与 INFO 快照清单](pr267-overwrite-evidence-index.json)。执行驱动 SHA 与原协议一致；原镜像每组前后校验保持不变。
 
-此诊断刻意跳过原先的大 value / 巨型 key GET 序列，改变了命令历史与后台时序；它只说明该保留镜像上的简化覆盖写入及重启读回可通过。未重现原 CI 的 `SET key_bytes=5009` 超时，不能据此确认根因、宣称 #282 修复该 SET 问题或确认 rebased #267 通过。原失败保留，#267 继续为草稿；不将这里的操作耗时计作性能比较。
+此诊断刻意跳过原先的大 value / 巨型 key GET 序列，改变了命令历史与后台时序；它只说明该保留镜像上的简化覆盖写入及重启读回可通过。未重现原 CI 的 `SET key_bytes=5009` 超时，不能据此确认根因、宣称 #282 修复该 SET 问题或确认 rebased #267 通过。原失败保留；#267 当前 head 的完整 CI 单独通过并已转正式评审，不将这里的诊断当作当前 head 验证或性能比较。
