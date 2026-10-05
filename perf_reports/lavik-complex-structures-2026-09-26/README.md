@@ -1,6 +1,6 @@
 # Complex structures: Redis, Valkey, Kvrocks and Lavik
 
-[#280: all 24 large-object ZSCORE observations](diagnostics/zset-score-views-20261005/zset-score-views-large-reads.md) are complete: median paired QPS changes at c80/320/2560/5120 are **+16.27%/+19.82%/+17.08%/+14.45%**, positive in every pair. At c5120, p99 worsens in two pairs (median **+2.40%**). Write and small-object controls continue; the PR stays draft.
+[#280: all 24 large-object ZSCORE observations](diagnostics/zset-score-views-20261005/zset-score-views-large-reads.md) are complete: median paired QPS changes at c80/320/2560/5120 are **+16.27%/+19.82%/+17.08%/+14.45%**, positive in every pair. At c5120, p99 worsens in two pairs (median **+2.40%**). [Large-write controls](diagnostics/zset-score-views-20261005/zset-score-views-large-writes.md) are also complete: median paired QPS changes are **−1.10%/+0.24%/−0.76%/−1.62%**, with mixed directions; c2560 p99 changes **+6.67%**. Small-object controls continue; the PR stays draft.
 
 **Rebase CI update:** #267 fixes a stale List fault-test message assertion in `0cc00887`; new CI is pending. #270 has an unresolved Sentinel HA recovery-budget failure. [Evidence and disposition](diagnostics/grouped-expiry-recovery-20261004/rebase-ci-failures-20261005.md).
 

@@ -8,11 +8,11 @@
 
 现有 HGET/HMGET 视图扫描器只检查请求字段的重复，不能直接替代原 ZSCORE 全页校验；因此复用 HashValueReader 并增加完整校验 visitor。原 Hash 编辑中的临时字段 key/hash 类型移至同文件共享，避免复制该类型实现。测试扩展已有 codec corruption/binary/empty fixture，覆盖命中后的无关重复字段、错误路由和 visitor 错误；现有 ZSet fixture 增加反序 256 成员跨页 ZMSCORE 检查，没有新增磁盘 fixture。
 
-[固定 head 的完整 fork CI](zset-score-views-9d1ffc85-full-ci.json) 已通过全部 17 项：两种架构编译、12 个软件分片、格式和汇总检查。[草稿 PR #280](https://github.com/eloqdata/lavik/pull/280) 的[独立上游 pull_request CI](pr280-upstream-full-ci.json)也已通过全部 17 项（[运行记录](https://github.com/eloqdata/lavik/actions/runs/37276852398)）；PR 创建时 main 已新增两个 Meta 优化提交，性能对照仍固定原父版本 `4610d607` 和候选 `9d1ffc85`，不重标为其他版本。[PR 身份](pr280-created.json) · [源码及脚本身份](prototype-status.json)。固定提交的原生回归已完成；96 点性能对照已开始，大对象读取 24 点已完成，整体收益仍待写入和小对象控制。不能把已有 ZINCRBY 采样称为 ZSCORE 读热点证明。
+[固定 head 的完整 fork CI](zset-score-views-9d1ffc85-full-ci.json) 已通过全部 17 项：两种架构编译、12 个软件分片、格式和汇总检查。[草稿 PR #280](https://github.com/eloqdata/lavik/pull/280) 的[独立上游 pull_request CI](pr280-upstream-full-ci.json)也已通过全部 17 项（[运行记录](https://github.com/eloqdata/lavik/actions/runs/37276852398)）；PR 创建时 main 已新增两个 Meta 优化提交，性能对照仍固定原父版本 `4610d607` 和候选 `9d1ffc85`，不重标为其他版本。[PR 身份](pr280-created.json) · [源码及脚本身份](prototype-status.json)。固定提交的原生回归已完成；96 点性能对照已开始，大对象读取 24 点已完成，大对象写入控制也已完成，整体收益仍待小对象控制。不能把已有 ZINCRBY 采样称为 ZSCORE 读热点证明。
 
 ## 已完成的大对象读取
 
-[24 点 ZSCORE 三轮对照](zset-score-views-large-reads.md)：c80/320/2560/5120 的配对 QPS 中位数分别 **+16.27% / +19.82% / +17.08% / +14.45%**，每档三轮均提升。前三档 p99 三轮均改善；c5120 p99 两轮变差，中位 **+2.40%**。写入及小对象对照、独立 perf 尚未完成，PR 保持草稿。该部分不是整体性能或追平对手的结论。
+[24 点 ZSCORE 三轮对照](zset-score-views-large-reads.md)：c80/320/2560/5120 的配对 QPS 中位数分别 **+16.27% / +19.82% / +17.08% / +14.45%**，每档三轮均提升。前三档 p99 三轮均改善；c5120 p99 两轮变差，中位 **+2.40%**。[大对象写入 24 点](zset-score-views-large-writes.md)也已完成：c80/320/2560/5120 的配对 QPS 中位 **−1.10%/+0.24%/−0.76%/−1.62%**，各档方向混合；c2560 p99 中位 **+6.67%**。小对象对照、独立 perf 尚未完成，PR 保持草稿。该部分不是整体性能或追平对手的结论。
 
 ## 原生验证结果与后续测量
 
