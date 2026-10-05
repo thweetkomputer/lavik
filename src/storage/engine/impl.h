@@ -2230,19 +2230,29 @@ class StorageEngine::Impl {
     std::optional<double> before_;
     std::optional<double> after_;
   };
+  // A single-member writer may hand its checked lookup leaf to index
+  // preparation. Ownership is command-local, and the original admission
+  // follows the decoded strings until the prepared after-image is released.
+  struct SortedSetMemberProbe {
+    MemoryReservation admission_;
+    GroupedHashObject::Handle source_;
+    HashGroupSnapshot snapshot_;
+  };
   // Full-image writers derive changes from complete ordered before/after
   // pages. Typed writers may supply exact changes after checking old members
   // against both graphs and generating the ordered plan from those changes.
   // Borrowed names must outlive this coroutine; the result owns all index
   // writes. Only touched prefix leaves are decoded and retained scratch is
-  // admitted. Unlocked callers yield between pages.
+  // admitted. A probe must belong to this exact immutable predecessor and
+  // the only changed leaf. Unlocked callers yield before preparing each leaf.
   Task<absl::StatusOr<SortedSetMemberMutation>> PrepareSortedSetMembers(
       WorkerStore& store, WorkerStore::PartitionStore& partition,
       std::uint8_t db_id, std::string_view key, const Digest& digest,
       GroupedHashObject::Handle previous,
       const OrderedCollectionMutationPlan& ordered, bool unlocked = false,
       std::optional<std::span<const SortedSetMemberChange>> checked_changes =
-          std::nullopt);
+          std::nullopt,
+      SortedSetMemberProbe* probe = nullptr);
   Task<absl::Status> UpdateGroupedExpirationLocked(
       WorkerStore& store, WorkerStore::PartitionStore& partition,
       std::uint8_t db_id, std::string_view key, const Digest& digest,
@@ -3498,7 +3508,19 @@ class StorageEngine::Impl {
   absl::Status ApplyRecoveredRecord(WorkerStore& store,
                                     WorkerStore::PartitionStore& partition,
                                     const RecoveryRecordView& record);
-  Task<absl::Status> RecoverGroupedObjects(WorkerStore& store);
+  struct RecoveryExpiredTombstone {
+    std::uint8_t db_id_ = 0;
+    Digest digest_{};
+    std::string key_;
+    bool shielding_ = false;
+    // An unshielded, expired root whose graph was already reclaimed has no
+    // recoverable side view. It still needs a new durable deletion if space
+    // permits, even after the dead winner leaves the recovery index.
+    bool detached_ = false;
+  };
+  Task<absl::Status> RecoverGroupedObjects(
+      WorkerStore& store, std::optional<std::uint64_t> expiration_now_ms,
+      std::vector<RecoveryExpiredTombstone>& expired_tombstones);
   Task<absl::StatusOr<GroupedHashObject::Handle>> RecoverOrderedObject(
       WorkerStore& store, const OrderedCollectionRoot& root,
       GroupedObjectVersion version, RecoveryAuxiliaryRecords::iterator first,
