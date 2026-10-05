@@ -100,4 +100,4 @@ main 已前进至 `19496654`。List 分支已解决冲突，并把批量启动�
 
 当前 main `19496654` 和候选 `343e951e` 的普通 grouped String GET 都逐个读取 8 KiB 分段。每页的 `LoadOrderedGroup` 调用 `FindVerifiedEntry`；索引未保存完整 key 时，后者通过 `LoadOutOfIndexKey` 读取完整原 key 再比较。因此，无重试且每次均走此分支时，9 MiB key、6 MiB value 的 768 个分段可能重复读取 **6.75 GiB** key 内容；6 MiB key、1 MiB value 则为 **0.75 GiB**。这一推导不包含首次校验、记录头及后台 I/O，不是实际设备计数。两者推导量相差 9 倍，main 重放耗时约 50.008/5.518 秒，但相关性不足以证明耗时来源，也不能解释原 CI 的 SET 超时。
 
-待排队采样确认后，考虑让每页刷新复用此前已核对 key 的物理根身份，仅在 block、offset、allocation epoch 全部一致时省去再次读取原 key。人口 epoch、逻辑版本、页面身份及 GC 移动检查仍需保留；根移动或身份不符必须回到完整校验。当前尚未修改实现。ordered 远端页读取已经借用父 key，不能把这里的重复校验误写成逐页跨 worker key 复制。
+验证草案 [`28d7cca4`](https://github.com/thweetkomputer/lavik/commit/28d7cca498655e02f46407adb65335219b10ee6b) 从 main `19496654` 开始，为 `FindVerifiedEntry` 新增独立重载。每页刷新通过已有 `FindCandidateIf`，只有 block、offset、allocation epoch 全部匹配此前已校验的物理根，才能省去完整 key 读取；没有匹配候选时回到原异步校验。数据代次、逻辑版本、页面身份及 GC 检查保留，普通四参数查找实现保持不变。格式检查通过，[fork 独立 CI](https://github.com/thweetkomputer/lavik/actions/runs/37258994628) 正在运行；本机回归、候选 perf 和性能对照尚未执行，尚未提 PR。采样仍需验证原路径的实际重复读取量，不能据源代码推导宣称收益或已修复 CI 失败。ordered 远端页读取已经借用父 key，这里的重复校验不能误写成逐页跨 worker key 复制。
