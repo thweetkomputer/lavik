@@ -30,7 +30,7 @@ Redis/Valkey 关闭持久化；Kvrocks 使用无压缩 RAID0、关闭 WAL、80 G
 
 未合并优化：[PR #265](https://github.com/eloqdata/lavik/pull/265) · [PR #266](https://github.com/eloqdata/lavik/pull/266) · [PR #267](https://github.com/eloqdata/lavik/pull/267) · [PR #269](https://github.com/eloqdata/lavik/pull/269) · [PR #270](https://github.com/eloqdata/lavik/pull/270) · [PR #276：Hash/Set 单路由替换（验证中）](diagnostics/hash-route-replace-20261005/README.md)
 
-main 随后更新至 `19496654`；本页仍使用固定基线 `a565d603`。[优化分支的新提交与验证状态](diagnostics/main-a565d603-20261004/pr-main-integration.json)，新提交尚未替换已测量二进制。
+main 已更新至 `4610d607`；本页仍使用固定基线 `a565d603`。[组合验证分支及状态](diagnostics/combined-20261005/README.md)。[优化分支的新提交与验证状态](diagnostics/main-a565d603-20261004/pr-main-integration.json)，新提交尚未替换已测量二进制。
 
 [Stream 尾部目录复用：吞吐、交替复测、perf 与测试](diagnostics/stream-suffix-20261004/README.md)
 
