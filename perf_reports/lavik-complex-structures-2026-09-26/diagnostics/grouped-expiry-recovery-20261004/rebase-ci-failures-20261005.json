@@ -1,0 +1,38 @@
+{
+  "pr267": {
+    "failed_head": "c7c37ff64c9d9d265fbe00201413616f725c660d",
+    "failed_run": 37297041183,
+    "failed_job": 111723341243,
+    "test": "GroupedListWriteE2e.RangeReadFailureJoinsStartedPages",
+    "cause": "Injected producer returns OOM grouped List read batch admission; assertion retained old allocation text after rebase.",
+    "fix_head": "0cc00887056107ce7bdd9eb9e4f0827f23a618b5",
+    "new_run": 37303614082,
+    "validation": "clang-format 23.1.1, pre-commit and diff checks passed; producer/assertion literals agree. New CI pending; no local tests during benchmark.",
+    "production_changed": false,
+    "original_log_sha256": "9751ba822437e44a8a1579da4f6880d98a8e939ca2f55a17610adc1be49c0971",
+    "original_log_local_path": "/mnt/dev/lavik-complex-iterations-20261004/pr267-rebase-failed-job.log"
+  },
+  "pr270": {
+    "head": "e9714eb323209e7b781e0bac7820ffd7d1e0ccc2",
+    "run": 37297041978,
+    "failed_job": 111730325644,
+    "test": "meta_integration.sentinel_ha_meta",
+    "failure": "30s minority partition / learned peers budget exceeded; python-2 recovered at18.552s, python-3 succeeded after deadline, go-2/go-3 reported EOF.",
+    "cause": "Unresolved. Budget begins before leader election, authority loss and old connection closure, then covers sequential client operations; current logs do not isolate which delay caused the miss.",
+    "main_same_shard_job": 111722423762,
+    "main_same_shard_conclusion": "success",
+    "artifact": 11342221684,
+    "artifact_sha256": "9bee8b2eea3140c776aa47e29ddcc2a9f6b43e4029a2bcf72df5499b04fc00b6",
+    "artifact_limit": "Uploaded nine-file archive contains CTest logs/results, but not retained sentinel-ha-meta process directory.",
+    "production_diff": [
+      "src/redis/stream_command.cpp"
+    ],
+    "test_diff": [
+      "tests/cluster/replication_manager_integration_test.cpp",
+      "tests/grouped/stream_e2e_test.cpp"
+    ],
+    "disposition": "Keep draft; no deadline increase, rerun or unsupported fix.",
+    "original_log_sha256": "ccc0c04f668d180a2c785029c9e8b764110219dae2b81c722bba6ef9ce10467f",
+    "original_log_local_path": "/mnt/dev/lavik-complex-iterations-20261004/pr270-rebase-failed-job.log"
+  }
+}

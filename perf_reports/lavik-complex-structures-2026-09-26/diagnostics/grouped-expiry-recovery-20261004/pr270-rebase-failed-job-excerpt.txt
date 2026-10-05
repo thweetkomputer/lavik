@@ -1,0 +1,8 @@
+2026-10-05T11:12:32.4091919Z         Start 1668: meta_integration.sentinel_ha_meta
+2026-10-05T11:13:54.2213384Z 261/274 Test #1668: meta_integration.sentinel_ha_meta ..................................................................................................................***Failed   81.81 sec
+2026-10-05T11:13:54.2223998Z [sentinel-ha-meta] minority partition / learned peers: python-2 recovered at 18.552s; errors=[]
+2026-10-05T11:13:54.2590498Z     recover(clients, "minority partition / learned peers", start)
+2026-10-05T11:13:54.2591706Z     raise H.Failure(f"{description}: 30s budget exceeded: {errors}")
+2026-10-05T11:13:54.2592644Z harness.Failure: minority partition / learned peers: 30s budget exceeded: {'go-2': ['RuntimeError: EOF'], 'python-3': ['Failure: python-3: successful command exceeded 30s recovery budget'], 'go-3': ['RuntimeError: EOF']}
+2026-10-05T11:23:52.7892694Z 99% tests passed, 1 tests failed out of 274
+2026-10-05T11:23:52.7901473Z 	1668 - meta_integration.sentinel_ha_meta (Failed)        meta-integration sentinel-client
