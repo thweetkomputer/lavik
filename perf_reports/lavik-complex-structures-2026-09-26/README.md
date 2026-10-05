@@ -36,7 +36,7 @@ Main has advanced to `4610d607`; this report retains pinned baseline `a565d603`.
 
 [Stream reply batching PR #270: paired checks, controls and perf](diagnostics/stream-reply-20261004/README.md)
 
-The subsequent singleton PR #274 has no consistent gain in three paired large-object rounds: median point-read QPS −0.39%, XADD c320/c5120 −0.63%/−3.65%, with adverse write-p99 rounds. It remains draft; small-population controls and separate perf are pending. Removing a source-level copy is not itself a measured throughput gain.
+The subsequent singleton PR #274 completed all 60 observations in three paired rounds without the intended gain and is being withdrawn: large/small point-read QPS medians −0.39%/−3.18%; small writes −3.36%/−3.31%, declining in all three pairs at both levels. Separate perf continues for diagnosis. Removing a source-level copy is not itself a measured throughput gain.
 
 [ZSet member-leaf reuse: throughput, paired runs, perf and tests](diagnostics/zset-member-probe-20261004/README.md)
 

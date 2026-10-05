@@ -1,0 +1,1204 @@
+{
+  "scope": "all",
+  "versions": {
+    "parent": {
+      "commit": "adec3a3414adf7b18dc304d336253258e228cb02",
+      "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-stream-followup-parent-adec3a34-20261005",
+      "sha256": "62891463498c88ff2137a1a28baea251d9c55fe503fbbe581da47f2ff1ba463f",
+      "source_repo": "/mnt/dev/lavik-complex-next-20261004",
+      "bycorf_commit": "62509c93d40c2480f5046b71454db6cf95801b04",
+      "build": "RelWithDebInfo, native, LTO, GCC 13, SPDK, BUILD_TESTING=OFF, LAVIK_ENABLE_TEST_FAULTS=OFF",
+      "build_directory": "/mnt/dev/lavik-complex-next-20261004/build-spdk",
+      "no_build_or_tests_during_measurements": true,
+      "pr": 270,
+      "ci_required_before_performance": true,
+      "initial_environment_failure": "/mnt/dev/lavik-complex-iterations-20261004/stream-followup-parent-stream-transfer-tests.json",
+      "failed_case_retry": "/mnt/dev/lavik-complex-iterations-20261004/stream-followup-parent-large-rdb-retry.json",
+      "full_fault_enabled_ci": "https://github.com/eloqdata/lavik/actions/runs/37248504314"
+    },
+    "singleton": {
+      "commit": "85bc7ad0d7932b27dd6784c023fcbfdbd2dd8b08",
+      "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-stream-followup-singleton-85bc7ad0-20261005",
+      "sha256": "6eb18de518698b5f7cd50baa7fdbc0b834001c1b2aae1af3c1272e16de1852af",
+      "source_repo": "/mnt/dev/lavik-complex-next-20261004",
+      "bycorf_commit": "62509c93d40c2480f5046b71454db6cf95801b04",
+      "build": "RelWithDebInfo, native, LTO, GCC 13, SPDK, BUILD_TESTING=OFF, LAVIK_ENABLE_TEST_FAULTS=OFF",
+      "build_directory": "/mnt/dev/lavik-complex-next-20261004/build-spdk",
+      "no_build_or_tests_during_measurements": true,
+      "pr": 274,
+      "ci_required_before_performance": true,
+      "full_fault_enabled_ci": "https://github.com/eloqdata/lavik/actions/runs/37243195035"
+    }
+  },
+  "observations": 60,
+  "method": "Three 30-second pairs parent/singleton, singleton/parent, parent/singleton. PR274singleton85 versus exactruntimeparentadec, independent of the unvalidated read-window candidate. Each read round restarts all versions on one fresh parent-seeded unchanged population; writes use an independent fresh seed for every version. Large 100MiB/128B/8keys: XRANGE_FULL c1/4/16, XRANGE c2560, XADD_MAXLEN c320/5120. Small 64KiB/1024B/64keys: XRANGE_FULL c80, XRANGE c5120, XADD_MAXLEN c2560/5120. All errors retained. Exact production binaries pass native tests and full fault-enabled CI. No concurrent builds, tests, or perf on this host.",
+  "limitations": "Three paired changes, not confidence intervals. Median paired ratio is not the ratio of marginal medians. Full reads have few commands and rounded QPS. Negative p99 change is better. Historical peers not rerun; this is incremental parent-versus-singleton evidence, not overall parity.",
+  "proofs": {
+    "parentadec3a34-stream-singleton-followup-104857600-128-read-repeat1-20261005": {
+      "source_commit": "adec3a3414adf7b18dc304d336253258e228cb02",
+      "sha256": "62891463498c88ff2137a1a28baea251d9c55fe503fbbe581da47f2ff1ba463f",
+      "seed_tag": "seed-parentadec3a34-stream-singleton-followup-104857600-128-read-repeat1-20261005",
+      "server_exit": 0,
+      "failures_total": 0,
+      "keys_checked": 8,
+      "before_cardinality_range": [
+        819200,
+        819200
+      ],
+      "after_cardinality_range": [
+        819200,
+        819200
+      ]
+    },
+    "singleton85bc7ad0-stream-singleton-followup-104857600-128-read-repeat1-20261005": {
+      "source_commit": "85bc7ad0d7932b27dd6784c023fcbfdbd2dd8b08",
+      "sha256": "6eb18de518698b5f7cd50baa7fdbc0b834001c1b2aae1af3c1272e16de1852af",
+      "seed_tag": "seed-parentadec3a34-stream-singleton-followup-104857600-128-read-repeat1-20261005",
+      "server_exit": 0,
+      "failures_total": 0,
+      "keys_checked": 8,
+      "before_cardinality_range": [
+        819200,
+        819200
+      ],
+      "after_cardinality_range": [
+        819200,
+        819200
+      ]
+    },
+    "singleton85bc7ad0-stream-singleton-followup-104857600-128-read-repeat2-20261005": {
+      "source_commit": "85bc7ad0d7932b27dd6784c023fcbfdbd2dd8b08",
+      "sha256": "6eb18de518698b5f7cd50baa7fdbc0b834001c1b2aae1af3c1272e16de1852af",
+      "seed_tag": "seed-parentadec3a34-stream-singleton-followup-104857600-128-read-repeat2-20261005",
+      "server_exit": 0,
+      "failures_total": 0,
+      "keys_checked": 8,
+      "before_cardinality_range": [
+        819200,
+        819200
+      ],
+      "after_cardinality_range": [
+        819200,
+        819200
+      ]
+    },
+    "parentadec3a34-stream-singleton-followup-104857600-128-read-repeat2-20261005": {
+      "source_commit": "adec3a3414adf7b18dc304d336253258e228cb02",
+      "sha256": "62891463498c88ff2137a1a28baea251d9c55fe503fbbe581da47f2ff1ba463f",
+      "seed_tag": "seed-parentadec3a34-stream-singleton-followup-104857600-128-read-repeat2-20261005",
+      "server_exit": 0,
+      "failures_total": 0,
+      "keys_checked": 8,
+      "before_cardinality_range": [
+        819200,
+        819200
+      ],
+      "after_cardinality_range": [
+        819200,
+        819200
+      ]
+    },
+    "parentadec3a34-stream-singleton-followup-104857600-128-read-repeat3-20261005": {
+      "source_commit": "adec3a3414adf7b18dc304d336253258e228cb02",
+      "sha256": "62891463498c88ff2137a1a28baea251d9c55fe503fbbe581da47f2ff1ba463f",
+      "seed_tag": "seed-parentadec3a34-stream-singleton-followup-104857600-128-read-repeat3-20261005",
+      "server_exit": 0,
+      "failures_total": 0,
+      "keys_checked": 8,
+      "before_cardinality_range": [
+        819200,
+        819200
+      ],
+      "after_cardinality_range": [
+        819200,
+        819200
+      ]
+    },
+    "singleton85bc7ad0-stream-singleton-followup-104857600-128-read-repeat3-20261005": {
+      "source_commit": "85bc7ad0d7932b27dd6784c023fcbfdbd2dd8b08",
+      "sha256": "6eb18de518698b5f7cd50baa7fdbc0b834001c1b2aae1af3c1272e16de1852af",
+      "seed_tag": "seed-parentadec3a34-stream-singleton-followup-104857600-128-read-repeat3-20261005",
+      "server_exit": 0,
+      "failures_total": 0,
+      "keys_checked": 8,
+      "before_cardinality_range": [
+        819200,
+        819200
+      ],
+      "after_cardinality_range": [
+        819200,
+        819200
+      ]
+    },
+    "parentadec3a34-stream-singleton-followup-104857600-128-write-repeat1-20261005": {
+      "source_commit": "adec3a3414adf7b18dc304d336253258e228cb02",
+      "sha256": "62891463498c88ff2137a1a28baea251d9c55fe503fbbe581da47f2ff1ba463f",
+      "seed_tag": null,
+      "server_exit": 0,
+      "failures_total": 0,
+      "keys_checked": 8,
+      "before_cardinality_range": [
+        819200,
+        819200
+      ],
+      "after_cardinality_range": [
+        819226,
+        819298
+      ]
+    },
+    "singleton85bc7ad0-stream-singleton-followup-104857600-128-write-repeat1-20261005": {
+      "source_commit": "85bc7ad0d7932b27dd6784c023fcbfdbd2dd8b08",
+      "sha256": "6eb18de518698b5f7cd50baa7fdbc0b834001c1b2aae1af3c1272e16de1852af",
+      "seed_tag": null,
+      "server_exit": 0,
+      "failures_total": 0,
+      "keys_checked": 8,
+      "before_cardinality_range": [
+        819200,
+        819200
+      ],
+      "after_cardinality_range": [
+        819207,
+        819277
+      ]
+    },
+    "singleton85bc7ad0-stream-singleton-followup-104857600-128-write-repeat2-20261005": {
+      "source_commit": "85bc7ad0d7932b27dd6784c023fcbfdbd2dd8b08",
+      "sha256": "6eb18de518698b5f7cd50baa7fdbc0b834001c1b2aae1af3c1272e16de1852af",
+      "seed_tag": null,
+      "server_exit": 0,
+      "failures_total": 0,
+      "keys_checked": 8,
+      "before_cardinality_range": [
+        819200,
+        819200
+      ],
+      "after_cardinality_range": [
+        819221,
+        819296
+      ]
+    },
+    "parentadec3a34-stream-singleton-followup-104857600-128-write-repeat2-20261005": {
+      "source_commit": "adec3a3414adf7b18dc304d336253258e228cb02",
+      "sha256": "62891463498c88ff2137a1a28baea251d9c55fe503fbbe581da47f2ff1ba463f",
+      "seed_tag": null,
+      "server_exit": 0,
+      "failures_total": 0,
+      "keys_checked": 8,
+      "before_cardinality_range": [
+        819200,
+        819200
+      ],
+      "after_cardinality_range": [
+        819202,
+        819293
+      ]
+    },
+    "parentadec3a34-stream-singleton-followup-104857600-128-write-repeat3-20261005": {
+      "source_commit": "adec3a3414adf7b18dc304d336253258e228cb02",
+      "sha256": "62891463498c88ff2137a1a28baea251d9c55fe503fbbe581da47f2ff1ba463f",
+      "seed_tag": null,
+      "server_exit": 0,
+      "failures_total": 0,
+      "keys_checked": 8,
+      "before_cardinality_range": [
+        819200,
+        819200
+      ],
+      "after_cardinality_range": [
+        819213,
+        819293
+      ]
+    },
+    "singleton85bc7ad0-stream-singleton-followup-104857600-128-write-repeat3-20261005": {
+      "source_commit": "85bc7ad0d7932b27dd6784c023fcbfdbd2dd8b08",
+      "sha256": "6eb18de518698b5f7cd50baa7fdbc0b834001c1b2aae1af3c1272e16de1852af",
+      "seed_tag": null,
+      "server_exit": 0,
+      "failures_total": 0,
+      "keys_checked": 8,
+      "before_cardinality_range": [
+        819200,
+        819200
+      ],
+      "after_cardinality_range": [
+        819202,
+        819293
+      ]
+    },
+    "parentadec3a34-stream-singleton-followup-65536-1024-read-repeat1-20261005": {
+      "source_commit": "adec3a3414adf7b18dc304d336253258e228cb02",
+      "sha256": "62891463498c88ff2137a1a28baea251d9c55fe503fbbe581da47f2ff1ba463f",
+      "seed_tag": "seed-parentadec3a34-stream-singleton-followup-65536-1024-read-repeat1-20261005",
+      "server_exit": 0,
+      "failures_total": 0,
+      "keys_checked": 64,
+      "before_cardinality_range": [
+        64,
+        64
+      ],
+      "after_cardinality_range": [
+        64,
+        64
+      ]
+    },
+    "singleton85bc7ad0-stream-singleton-followup-65536-1024-read-repeat1-20261005": {
+      "source_commit": "85bc7ad0d7932b27dd6784c023fcbfdbd2dd8b08",
+      "sha256": "6eb18de518698b5f7cd50baa7fdbc0b834001c1b2aae1af3c1272e16de1852af",
+      "seed_tag": "seed-parentadec3a34-stream-singleton-followup-65536-1024-read-repeat1-20261005",
+      "server_exit": 0,
+      "failures_total": 0,
+      "keys_checked": 64,
+      "before_cardinality_range": [
+        64,
+        64
+      ],
+      "after_cardinality_range": [
+        64,
+        64
+      ]
+    },
+    "singleton85bc7ad0-stream-singleton-followup-65536-1024-read-repeat2-20261005": {
+      "source_commit": "85bc7ad0d7932b27dd6784c023fcbfdbd2dd8b08",
+      "sha256": "6eb18de518698b5f7cd50baa7fdbc0b834001c1b2aae1af3c1272e16de1852af",
+      "seed_tag": "seed-parentadec3a34-stream-singleton-followup-65536-1024-read-repeat2-20261005",
+      "server_exit": 0,
+      "failures_total": 0,
+      "keys_checked": 64,
+      "before_cardinality_range": [
+        64,
+        64
+      ],
+      "after_cardinality_range": [
+        64,
+        64
+      ]
+    },
+    "parentadec3a34-stream-singleton-followup-65536-1024-read-repeat2-20261005": {
+      "source_commit": "adec3a3414adf7b18dc304d336253258e228cb02",
+      "sha256": "62891463498c88ff2137a1a28baea251d9c55fe503fbbe581da47f2ff1ba463f",
+      "seed_tag": "seed-parentadec3a34-stream-singleton-followup-65536-1024-read-repeat2-20261005",
+      "server_exit": 0,
+      "failures_total": 0,
+      "keys_checked": 64,
+      "before_cardinality_range": [
+        64,
+        64
+      ],
+      "after_cardinality_range": [
+        64,
+        64
+      ]
+    },
+    "parentadec3a34-stream-singleton-followup-65536-1024-read-repeat3-20261005": {
+      "source_commit": "adec3a3414adf7b18dc304d336253258e228cb02",
+      "sha256": "62891463498c88ff2137a1a28baea251d9c55fe503fbbe581da47f2ff1ba463f",
+      "seed_tag": "seed-parentadec3a34-stream-singleton-followup-65536-1024-read-repeat3-20261005",
+      "server_exit": 0,
+      "failures_total": 0,
+      "keys_checked": 64,
+      "before_cardinality_range": [
+        64,
+        64
+      ],
+      "after_cardinality_range": [
+        64,
+        64
+      ]
+    },
+    "singleton85bc7ad0-stream-singleton-followup-65536-1024-read-repeat3-20261005": {
+      "source_commit": "85bc7ad0d7932b27dd6784c023fcbfdbd2dd8b08",
+      "sha256": "6eb18de518698b5f7cd50baa7fdbc0b834001c1b2aae1af3c1272e16de1852af",
+      "seed_tag": "seed-parentadec3a34-stream-singleton-followup-65536-1024-read-repeat3-20261005",
+      "server_exit": 0,
+      "failures_total": 0,
+      "keys_checked": 64,
+      "before_cardinality_range": [
+        64,
+        64
+      ],
+      "after_cardinality_range": [
+        64,
+        64
+      ]
+    },
+    "parentadec3a34-stream-singleton-followup-65536-1024-write-repeat1-20261005": {
+      "source_commit": "adec3a3414adf7b18dc304d336253258e228cb02",
+      "sha256": "62891463498c88ff2137a1a28baea251d9c55fe503fbbe581da47f2ff1ba463f",
+      "seed_tag": null,
+      "server_exit": 0,
+      "failures_total": 0,
+      "keys_checked": 64,
+      "before_cardinality_range": [
+        64,
+        64
+      ],
+      "after_cardinality_range": [
+        66,
+        163
+      ]
+    },
+    "singleton85bc7ad0-stream-singleton-followup-65536-1024-write-repeat1-20261005": {
+      "source_commit": "85bc7ad0d7932b27dd6784c023fcbfdbd2dd8b08",
+      "sha256": "6eb18de518698b5f7cd50baa7fdbc0b834001c1b2aae1af3c1272e16de1852af",
+      "seed_tag": null,
+      "server_exit": 0,
+      "failures_total": 0,
+      "keys_checked": 64,
+      "before_cardinality_range": [
+        64,
+        64
+      ],
+      "after_cardinality_range": [
+        65,
+        162
+      ]
+    },
+    "singleton85bc7ad0-stream-singleton-followup-65536-1024-write-repeat2-20261005": {
+      "source_commit": "85bc7ad0d7932b27dd6784c023fcbfdbd2dd8b08",
+      "sha256": "6eb18de518698b5f7cd50baa7fdbc0b834001c1b2aae1af3c1272e16de1852af",
+      "seed_tag": null,
+      "server_exit": 0,
+      "failures_total": 0,
+      "keys_checked": 64,
+      "before_cardinality_range": [
+        64,
+        64
+      ],
+      "after_cardinality_range": [
+        64,
+        162
+      ]
+    },
+    "parentadec3a34-stream-singleton-followup-65536-1024-write-repeat2-20261005": {
+      "source_commit": "adec3a3414adf7b18dc304d336253258e228cb02",
+      "sha256": "62891463498c88ff2137a1a28baea251d9c55fe503fbbe581da47f2ff1ba463f",
+      "seed_tag": null,
+      "server_exit": 0,
+      "failures_total": 0,
+      "keys_checked": 64,
+      "before_cardinality_range": [
+        64,
+        64
+      ],
+      "after_cardinality_range": [
+        65,
+        163
+      ]
+    },
+    "parentadec3a34-stream-singleton-followup-65536-1024-write-repeat3-20261005": {
+      "source_commit": "adec3a3414adf7b18dc304d336253258e228cb02",
+      "sha256": "62891463498c88ff2137a1a28baea251d9c55fe503fbbe581da47f2ff1ba463f",
+      "seed_tag": null,
+      "server_exit": 0,
+      "failures_total": 0,
+      "keys_checked": 64,
+      "before_cardinality_range": [
+        64,
+        64
+      ],
+      "after_cardinality_range": [
+        64,
+        163
+      ]
+    },
+    "singleton85bc7ad0-stream-singleton-followup-65536-1024-write-repeat3-20261005": {
+      "source_commit": "85bc7ad0d7932b27dd6784c023fcbfdbd2dd8b08",
+      "sha256": "6eb18de518698b5f7cd50baa7fdbc0b834001c1b2aae1af3c1272e16de1852af",
+      "seed_tag": null,
+      "server_exit": 0,
+      "failures_total": 0,
+      "keys_checked": 64,
+      "before_cardinality_range": [
+        64,
+        64
+      ],
+      "after_cardinality_range": [
+        66,
+        162
+      ]
+    }
+  },
+  "summary": [
+    {
+      "logical_bytes": 65536,
+      "field_bytes": 1024,
+      "keys": 64,
+      "operation": "XADD_MAXLEN",
+      "connections": 2560,
+      "pairs": [
+        {
+          "round": 1,
+          "parent": {
+            "tag": "parentadec3a34-stream-singleton-followup-65536-1024-write-repeat1-20261005",
+            "qps": 65734.67,
+            "p99_ms": 278.527,
+            "requests": 1974765
+          },
+          "singleton": {
+            "tag": "singleton85bc7ad0-stream-singleton-followup-65536-1024-write-repeat1-20261005",
+            "qps": 65076.06,
+            "p99_ms": 278.527,
+            "requests": 1954579
+          },
+          "qps_change_percent": -1.0019218169042277,
+          "p99_change_percent": 0.0
+        },
+        {
+          "round": 2,
+          "parent": {
+            "tag": "parentadec3a34-stream-singleton-followup-65536-1024-write-repeat2-20261005",
+            "qps": 67510.45,
+            "p99_ms": 259.071,
+            "requests": 2029629
+          },
+          "singleton": {
+            "tag": "singleton85bc7ad0-stream-singleton-followup-65536-1024-write-repeat2-20261005",
+            "qps": 64423.93,
+            "p99_ms": 299.007,
+            "requests": 1934998
+          },
+          "qps_change_percent": -4.571914422137602,
+          "p99_change_percent": 15.415079263985533
+        },
+        {
+          "round": 3,
+          "parent": {
+            "tag": "parentadec3a34-stream-singleton-followup-65536-1024-write-repeat3-20261005",
+            "qps": 67277.82,
+            "p99_ms": 258.047,
+            "requests": 2020808
+          },
+          "singleton": {
+            "tag": "singleton85bc7ad0-stream-singleton-followup-65536-1024-write-repeat3-20261005",
+            "qps": 65019.71,
+            "p99_ms": 286.719,
+            "requests": 1952421
+          },
+          "qps_change_percent": -3.3563959117581477,
+          "p99_change_percent": 11.111154169589256
+        }
+      ],
+      "qps_paired_percent": {
+        "median": -3.3563959117581477,
+        "min": -4.571914422137602,
+        "max": -1.0019218169042277,
+        "positive_pairs": 0,
+        "negative_pairs": 3
+      },
+      "p99_paired_percent": {
+        "median": 11.111154169589256,
+        "min": 0.0,
+        "max": 15.415079263985533,
+        "positive_pairs": 2,
+        "negative_pairs": 0
+      },
+      "parent_median_qps": 67277.82,
+      "parent_median_p99_ms": 259.071,
+      "singleton_median_qps": 65019.71,
+      "singleton_median_p99_ms": 286.719
+    },
+    {
+      "logical_bytes": 65536,
+      "field_bytes": 1024,
+      "keys": 64,
+      "operation": "XADD_MAXLEN",
+      "connections": 5120,
+      "pairs": [
+        {
+          "round": 1,
+          "parent": {
+            "tag": "parentadec3a34-stream-singleton-followup-65536-1024-write-repeat1-20261005",
+            "qps": 57207.58,
+            "p99_ms": 421.887,
+            "requests": 1719572
+          },
+          "singleton": {
+            "tag": "singleton85bc7ad0-stream-singleton-followup-65536-1024-write-repeat1-20261005",
+            "qps": 55607.35,
+            "p99_ms": 423.935,
+            "requests": 1671006
+          },
+          "qps_change_percent": -2.797234212669031,
+          "p99_change_percent": 0.48543804383638367
+        },
+        {
+          "round": 2,
+          "parent": {
+            "tag": "parentadec3a34-stream-singleton-followup-65536-1024-write-repeat2-20261005",
+            "qps": 58539.94,
+            "p99_ms": 456.703,
+            "requests": 1759739
+          },
+          "singleton": {
+            "tag": "singleton85bc7ad0-stream-singleton-followup-65536-1024-write-repeat2-20261005",
+            "qps": 56603.09,
+            "p99_ms": 466.943,
+            "requests": 1701541
+          },
+          "qps_change_percent": -3.3085958065553256,
+          "p99_change_percent": 2.2421573758000246
+        },
+        {
+          "round": 3,
+          "parent": {
+            "tag": "parentadec3a34-stream-singleton-followup-65536-1024-write-repeat3-20261005",
+            "qps": 58088.45,
+            "p99_ms": 432.127,
+            "requests": 1745141
+          },
+          "singleton": {
+            "tag": "singleton85bc7ad0-stream-singleton-followup-65536-1024-write-repeat3-20261005",
+            "qps": 56079.97,
+            "p99_ms": 409.599,
+            "requests": 1685504
+          },
+          "qps_change_percent": -3.457623675618815,
+          "p99_change_percent": -5.213282206388403
+        }
+      ],
+      "qps_paired_percent": {
+        "median": -3.3085958065553256,
+        "min": -3.457623675618815,
+        "max": -2.797234212669031,
+        "positive_pairs": 0,
+        "negative_pairs": 3
+      },
+      "p99_paired_percent": {
+        "median": 0.48543804383638367,
+        "min": -5.213282206388403,
+        "max": 2.2421573758000246,
+        "positive_pairs": 2,
+        "negative_pairs": 1
+      },
+      "parent_median_qps": 58088.45,
+      "parent_median_p99_ms": 432.127,
+      "singleton_median_qps": 56079.97,
+      "singleton_median_p99_ms": 423.935
+    },
+    {
+      "logical_bytes": 65536,
+      "field_bytes": 1024,
+      "keys": 64,
+      "operation": "XRANGE",
+      "connections": 5120,
+      "pairs": [
+        {
+          "round": 1,
+          "parent": {
+            "tag": "parentadec3a34-stream-singleton-followup-65536-1024-read-repeat1-20261005",
+            "qps": 208644.49,
+            "p99_ms": 444.415,
+            "requests": 6285654
+          },
+          "singleton": {
+            "tag": "singleton85bc7ad0-stream-singleton-followup-65536-1024-read-repeat1-20261005",
+            "qps": 204866.5,
+            "p99_ms": 458.751,
+            "requests": 6179500
+          },
+          "qps_change_percent": -1.810730779422931,
+          "p99_change_percent": 3.2258137101582873
+        },
+        {
+          "round": 2,
+          "parent": {
+            "tag": "parentadec3a34-stream-singleton-followup-65536-1024-read-repeat2-20261005",
+            "qps": 211120.67,
+            "p99_ms": 495.615,
+            "requests": 6363808
+          },
+          "singleton": {
+            "tag": "singleton85bc7ad0-stream-singleton-followup-65536-1024-read-repeat2-20261005",
+            "qps": 204030.76,
+            "p99_ms": 460.799,
+            "requests": 6148679
+          },
+          "qps_change_percent": -3.3582263640978383,
+          "p99_change_percent": -7.024807562321566
+        },
+        {
+          "round": 3,
+          "parent": {
+            "tag": "parentadec3a34-stream-singleton-followup-65536-1024-read-repeat3-20261005",
+            "qps": 212059.46,
+            "p99_ms": 501.759,
+            "requests": 6392049
+          },
+          "singleton": {
+            "tag": "singleton85bc7ad0-stream-singleton-followup-65536-1024-read-repeat3-20261005",
+            "qps": 205325.17,
+            "p99_ms": 460.799,
+            "requests": 6186660
+          },
+          "qps_change_percent": -3.175661203702007,
+          "p99_change_percent": -8.163281575417692
+        }
+      ],
+      "qps_paired_percent": {
+        "median": -3.175661203702007,
+        "min": -3.3582263640978383,
+        "max": -1.810730779422931,
+        "positive_pairs": 0,
+        "negative_pairs": 3
+      },
+      "p99_paired_percent": {
+        "median": -7.024807562321566,
+        "min": -8.163281575417692,
+        "max": 3.2258137101582873,
+        "positive_pairs": 1,
+        "negative_pairs": 2
+      },
+      "parent_median_qps": 211120.67,
+      "parent_median_p99_ms": 495.615,
+      "singleton_median_qps": 204866.5,
+      "singleton_median_p99_ms": 460.799
+    },
+    {
+      "logical_bytes": 65536,
+      "field_bytes": 1024,
+      "keys": 64,
+      "operation": "XRANGE_FULL",
+      "connections": 80,
+      "pairs": [
+        {
+          "round": 1,
+          "parent": {
+            "tag": "parentadec3a34-stream-singleton-followup-65536-1024-read-repeat1-20261005",
+            "qps": 43885.63,
+            "p99_ms": 3.759,
+            "requests": 1316610
+          },
+          "singleton": {
+            "tag": "singleton85bc7ad0-stream-singleton-followup-65536-1024-read-repeat1-20261005",
+            "qps": 43893.21,
+            "p99_ms": 3.759,
+            "requests": 1316832
+          },
+          "qps_change_percent": 0.017272168589133052,
+          "p99_change_percent": 0.0
+        },
+        {
+          "round": 2,
+          "parent": {
+            "tag": "parentadec3a34-stream-singleton-followup-65536-1024-read-repeat2-20261005",
+            "qps": 43862.79,
+            "p99_ms": 3.791,
+            "requests": 1316455
+          },
+          "singleton": {
+            "tag": "singleton85bc7ad0-stream-singleton-followup-65536-1024-read-repeat2-20261005",
+            "qps": 43873.18,
+            "p99_ms": 3.807,
+            "requests": 1316432
+          },
+          "qps_change_percent": 0.02368750369048378,
+          "p99_change_percent": 0.42205222896334327
+        },
+        {
+          "round": 3,
+          "parent": {
+            "tag": "parentadec3a34-stream-singleton-followup-65536-1024-read-repeat3-20261005",
+            "qps": 43883.76,
+            "p99_ms": 3.823,
+            "requests": 1316615
+          },
+          "singleton": {
+            "tag": "singleton85bc7ad0-stream-singleton-followup-65536-1024-read-repeat3-20261005",
+            "qps": 43882.67,
+            "p99_ms": 3.807,
+            "requests": 1316539
+          },
+          "qps_change_percent": -0.002483834566602283,
+          "p99_change_percent": -0.41851948731362887
+        }
+      ],
+      "qps_paired_percent": {
+        "median": 0.017272168589133052,
+        "min": -0.002483834566602283,
+        "max": 0.02368750369048378,
+        "positive_pairs": 2,
+        "negative_pairs": 1
+      },
+      "p99_paired_percent": {
+        "median": 0.0,
+        "min": -0.41851948731362887,
+        "max": 0.42205222896334327,
+        "positive_pairs": 1,
+        "negative_pairs": 1
+      },
+      "parent_median_qps": 43883.76,
+      "parent_median_p99_ms": 3.791,
+      "singleton_median_qps": 43882.67,
+      "singleton_median_p99_ms": 3.807
+    },
+    {
+      "logical_bytes": 104857600,
+      "field_bytes": 128,
+      "keys": 8,
+      "operation": "XADD_MAXLEN",
+      "connections": 320,
+      "pairs": [
+        {
+          "round": 1,
+          "parent": {
+            "tag": "parentadec3a34-stream-singleton-followup-104857600-128-write-repeat1-20261005",
+            "qps": 14458.17,
+            "p99_ms": 98.815,
+            "requests": 434288
+          },
+          "singleton": {
+            "tag": "singleton85bc7ad0-stream-singleton-followup-104857600-128-write-repeat1-20261005",
+            "qps": 14367.61,
+            "p99_ms": 96.767,
+            "requests": 431525
+          },
+          "qps_change_percent": -0.6263586608816984,
+          "p99_change_percent": -2.072559834033294
+        },
+        {
+          "round": 2,
+          "parent": {
+            "tag": "parentadec3a34-stream-singleton-followup-104857600-128-write-repeat2-20261005",
+            "qps": 14213.17,
+            "p99_ms": 97.279,
+            "requests": 426858
+          },
+          "singleton": {
+            "tag": "singleton85bc7ad0-stream-singleton-followup-104857600-128-write-repeat2-20261005",
+            "qps": 14425.91,
+            "p99_ms": 95.231,
+            "requests": 433354
+          },
+          "qps_change_percent": 1.4967808025936558,
+          "p99_change_percent": -2.105284799391438
+        },
+        {
+          "round": 3,
+          "parent": {
+            "tag": "parentadec3a34-stream-singleton-followup-104857600-128-write-repeat3-20261005",
+            "qps": 14502.98,
+            "p99_ms": 90.623,
+            "requests": 435575
+          },
+          "singleton": {
+            "tag": "singleton85bc7ad0-stream-singleton-followup-104857600-128-write-repeat3-20261005",
+            "qps": 14015.75,
+            "p99_ms": 114.175,
+            "requests": 421063
+          },
+          "qps_change_percent": -3.359516457996903,
+          "p99_change_percent": 25.988987343168944
+        }
+      ],
+      "qps_paired_percent": {
+        "median": -0.6263586608816984,
+        "min": -3.359516457996903,
+        "max": 1.4967808025936558,
+        "positive_pairs": 1,
+        "negative_pairs": 2
+      },
+      "p99_paired_percent": {
+        "median": -2.072559834033294,
+        "min": -2.105284799391438,
+        "max": 25.988987343168944,
+        "positive_pairs": 1,
+        "negative_pairs": 2
+      },
+      "parent_median_qps": 14458.17,
+      "parent_median_p99_ms": 97.279,
+      "singleton_median_qps": 14367.61,
+      "singleton_median_p99_ms": 96.767
+    },
+    {
+      "logical_bytes": 104857600,
+      "field_bytes": 128,
+      "keys": 8,
+      "operation": "XADD_MAXLEN",
+      "connections": 5120,
+      "pairs": [
+        {
+          "round": 1,
+          "parent": {
+            "tag": "parentadec3a34-stream-singleton-followup-104857600-128-write-repeat1-20261005",
+            "qps": 14637.4,
+            "p99_ms": 1859.583,
+            "requests": 442768
+          },
+          "singleton": {
+            "tag": "singleton85bc7ad0-stream-singleton-followup-104857600-128-write-repeat1-20261005",
+            "qps": 14679.94,
+            "p99_ms": 1466.367,
+            "requests": 447600
+          },
+          "qps_change_percent": 0.29062538428956675,
+          "p99_change_percent": -21.145385820369412
+        },
+        {
+          "round": 2,
+          "parent": {
+            "tag": "parentadec3a34-stream-singleton-followup-104857600-128-write-repeat2-20261005",
+            "qps": 15664.67,
+            "p99_ms": 1269.759,
+            "requests": 478969
+          },
+          "singleton": {
+            "tag": "singleton85bc7ad0-stream-singleton-followup-104857600-128-write-repeat2-20261005",
+            "qps": 14687.85,
+            "p99_ms": 1023.999,
+            "requests": 445878
+          },
+          "qps_change_percent": -6.235816011444861,
+          "p99_change_percent": -19.354853952600447
+        },
+        {
+          "round": 3,
+          "parent": {
+            "tag": "parentadec3a34-stream-singleton-followup-104857600-128-write-repeat3-20261005",
+            "qps": 14838.84,
+            "p99_ms": 1044.479,
+            "requests": 450008
+          },
+          "singleton": {
+            "tag": "singleton85bc7ad0-stream-singleton-followup-104857600-128-write-repeat3-20261005",
+            "qps": 14296.57,
+            "p99_ms": 1531.903,
+            "requests": 438126
+          },
+          "qps_change_percent": -3.6543961657380275,
+          "p99_change_percent": 46.666711346039506
+        }
+      ],
+      "qps_paired_percent": {
+        "median": -3.6543961657380275,
+        "min": -6.235816011444861,
+        "max": 0.29062538428956675,
+        "positive_pairs": 1,
+        "negative_pairs": 2
+      },
+      "p99_paired_percent": {
+        "median": -19.354853952600447,
+        "min": -21.145385820369412,
+        "max": 46.666711346039506,
+        "positive_pairs": 1,
+        "negative_pairs": 2
+      },
+      "parent_median_qps": 14838.84,
+      "parent_median_p99_ms": 1269.759,
+      "singleton_median_qps": 14679.94,
+      "singleton_median_p99_ms": 1466.367
+    },
+    {
+      "logical_bytes": 104857600,
+      "field_bytes": 128,
+      "keys": 8,
+      "operation": "XRANGE",
+      "connections": 2560,
+      "pairs": [
+        {
+          "round": 1,
+          "parent": {
+            "tag": "parentadec3a34-stream-singleton-followup-104857600-128-read-repeat1-20261005",
+            "qps": 136094.63,
+            "p99_ms": 75.775,
+            "requests": 4098763
+          },
+          "singleton": {
+            "tag": "singleton85bc7ad0-stream-singleton-followup-104857600-128-read-repeat1-20261005",
+            "qps": 135137.56,
+            "p99_ms": 75.775,
+            "requests": 4070324
+          },
+          "qps_change_percent": -0.70323862153856,
+          "p99_change_percent": 0.0
+        },
+        {
+          "round": 2,
+          "parent": {
+            "tag": "parentadec3a34-stream-singleton-followup-104857600-128-read-repeat2-20261005",
+            "qps": 137028.89,
+            "p99_ms": 76.287,
+            "requests": 4127158
+          },
+          "singleton": {
+            "tag": "singleton85bc7ad0-stream-singleton-followup-104857600-128-read-repeat2-20261005",
+            "qps": 137759.51,
+            "p99_ms": 74.239,
+            "requests": 4146947
+          },
+          "qps_change_percent": 0.5331868338129153,
+          "p99_change_percent": -2.684598948706862
+        },
+        {
+          "round": 3,
+          "parent": {
+            "tag": "parentadec3a34-stream-singleton-followup-104857600-128-read-repeat3-20261005",
+            "qps": 137496.41,
+            "p99_ms": 75.263,
+            "requests": 4140787
+          },
+          "singleton": {
+            "tag": "singleton85bc7ad0-stream-singleton-followup-104857600-128-read-repeat3-20261005",
+            "qps": 136960.51,
+            "p99_ms": 74.751,
+            "requests": 4124335
+          },
+          "qps_change_percent": -0.389755630710642,
+          "p99_change_percent": -0.6802811474429626
+        }
+      ],
+      "qps_paired_percent": {
+        "median": -0.389755630710642,
+        "min": -0.70323862153856,
+        "max": 0.5331868338129153,
+        "positive_pairs": 1,
+        "negative_pairs": 2
+      },
+      "p99_paired_percent": {
+        "median": -0.6802811474429626,
+        "min": -2.684598948706862,
+        "max": 0.0,
+        "positive_pairs": 0,
+        "negative_pairs": 2
+      },
+      "parent_median_qps": 137028.89,
+      "parent_median_p99_ms": 75.775,
+      "singleton_median_qps": 136960.51,
+      "singleton_median_p99_ms": 74.751
+    },
+    {
+      "logical_bytes": 104857600,
+      "field_bytes": 128,
+      "keys": 8,
+      "operation": "XRANGE_FULL",
+      "connections": 1,
+      "pairs": [
+        {
+          "round": 1,
+          "parent": {
+            "tag": "parentadec3a34-stream-singleton-followup-104857600-128-read-repeat1-20261005",
+            "qps": 0.5,
+            "p99_ms": 2072.575,
+            "requests": 15
+          },
+          "singleton": {
+            "tag": "singleton85bc7ad0-stream-singleton-followup-104857600-128-read-repeat1-20261005",
+            "qps": 0.51,
+            "p99_ms": 2047.999,
+            "requests": 16
+          },
+          "qps_change_percent": 2.0000000000000018,
+          "p99_change_percent": -1.1857713231125389
+        },
+        {
+          "round": 2,
+          "parent": {
+            "tag": "parentadec3a34-stream-singleton-followup-104857600-128-read-repeat2-20261005",
+            "qps": 0.5,
+            "p99_ms": 2211.839,
+            "requests": 16
+          },
+          "singleton": {
+            "tag": "singleton85bc7ad0-stream-singleton-followup-104857600-128-read-repeat2-20261005",
+            "qps": 0.51,
+            "p99_ms": 2015.231,
+            "requests": 16
+          },
+          "qps_change_percent": 2.0000000000000018,
+          "p99_change_percent": -8.888892907666424
+        },
+        {
+          "round": 3,
+          "parent": {
+            "tag": "parentadec3a34-stream-singleton-followup-104857600-128-read-repeat3-20261005",
+            "qps": 0.51,
+            "p99_ms": 2056.191,
+            "requests": 16
+          },
+          "singleton": {
+            "tag": "singleton85bc7ad0-stream-singleton-followup-104857600-128-read-repeat3-20261005",
+            "qps": 0.51,
+            "p99_ms": 2039.807,
+            "requests": 16
+          },
+          "qps_change_percent": 0.0,
+          "p99_change_percent": -0.7968131365228115
+        }
+      ],
+      "qps_paired_percent": {
+        "median": 2.0000000000000018,
+        "min": 0.0,
+        "max": 2.0000000000000018,
+        "positive_pairs": 2,
+        "negative_pairs": 0
+      },
+      "p99_paired_percent": {
+        "median": -1.1857713231125389,
+        "min": -8.888892907666424,
+        "max": -0.7968131365228115,
+        "positive_pairs": 0,
+        "negative_pairs": 3
+      },
+      "parent_median_qps": 0.5,
+      "parent_median_p99_ms": 2072.575,
+      "singleton_median_qps": 0.51,
+      "singleton_median_p99_ms": 2039.807
+    },
+    {
+      "logical_bytes": 104857600,
+      "field_bytes": 128,
+      "keys": 8,
+      "operation": "XRANGE_FULL",
+      "connections": 4,
+      "pairs": [
+        {
+          "round": 1,
+          "parent": {
+            "tag": "parentadec3a34-stream-singleton-followup-104857600-128-read-repeat1-20261005",
+            "qps": 1.89,
+            "p99_ms": 2244.607,
+            "requests": 60
+          },
+          "singleton": {
+            "tag": "singleton85bc7ad0-stream-singleton-followup-104857600-128-read-repeat1-20261005",
+            "qps": 1.96,
+            "p99_ms": 2326.527,
+            "requests": 59
+          },
+          "qps_change_percent": 3.703703703703698,
+          "p99_change_percent": 3.6496366624536147
+        },
+        {
+          "round": 2,
+          "parent": {
+            "tag": "parentadec3a34-stream-singleton-followup-104857600-128-read-repeat2-20261005",
+            "qps": 1.97,
+            "p99_ms": 2293.759,
+            "requests": 60
+          },
+          "singleton": {
+            "tag": "singleton85bc7ad0-stream-singleton-followup-104857600-128-read-repeat2-20261005",
+            "qps": 1.89,
+            "p99_ms": 2293.759,
+            "requests": 60
+          },
+          "qps_change_percent": -4.060913705583758,
+          "p99_change_percent": 0.0
+        },
+        {
+          "round": 3,
+          "parent": {
+            "tag": "parentadec3a34-stream-singleton-followup-104857600-128-read-repeat3-20261005",
+            "qps": 2.0,
+            "p99_ms": 2310.143,
+            "requests": 60
+          },
+          "singleton": {
+            "tag": "singleton85bc7ad0-stream-singleton-followup-104857600-128-read-repeat3-20261005",
+            "qps": 1.99,
+            "p99_ms": 2326.527,
+            "requests": 60
+          },
+          "qps_change_percent": -0.5000000000000004,
+          "p99_change_percent": 0.7092201651585972
+        }
+      ],
+      "qps_paired_percent": {
+        "median": -0.5000000000000004,
+        "min": -4.060913705583758,
+        "max": 3.703703703703698,
+        "positive_pairs": 1,
+        "negative_pairs": 2
+      },
+      "p99_paired_percent": {
+        "median": 0.7092201651585972,
+        "min": 0.0,
+        "max": 3.6496366624536147,
+        "positive_pairs": 2,
+        "negative_pairs": 0
+      },
+      "parent_median_qps": 1.97,
+      "parent_median_p99_ms": 2293.759,
+      "singleton_median_qps": 1.96,
+      "singleton_median_p99_ms": 2326.527
+    },
+    {
+      "logical_bytes": 104857600,
+      "field_bytes": 128,
+      "keys": 8,
+      "operation": "XRANGE_FULL",
+      "connections": 16,
+      "pairs": [
+        {
+          "round": 1,
+          "parent": {
+            "tag": "parentadec3a34-stream-singleton-followup-104857600-128-read-repeat1-20261005",
+            "qps": 7.04,
+            "p99_ms": 2539.519,
+            "requests": 213
+          },
+          "singleton": {
+            "tag": "singleton85bc7ad0-stream-singleton-followup-104857600-128-read-repeat1-20261005",
+            "qps": 6.9,
+            "p99_ms": 2949.119,
+            "requests": 217
+          },
+          "qps_change_percent": -1.9886363636363535,
+          "p99_change_percent": 16.129038609279966
+        },
+        {
+          "round": 2,
+          "parent": {
+            "tag": "parentadec3a34-stream-singleton-followup-104857600-128-read-repeat2-20261005",
+            "qps": 7.02,
+            "p99_ms": 2490.367,
+            "requests": 220
+          },
+          "singleton": {
+            "tag": "singleton85bc7ad0-stream-singleton-followup-104857600-128-read-repeat2-20261005",
+            "qps": 7.14,
+            "p99_ms": 2539.519,
+            "requests": 216
+          },
+          "qps_change_percent": 1.7094017094017033,
+          "p99_change_percent": 1.973685003053749
+        },
+        {
+          "round": 3,
+          "parent": {
+            "tag": "parentadec3a34-stream-singleton-followup-104857600-128-read-repeat3-20261005",
+            "qps": 7.16,
+            "p99_ms": 2588.671,
+            "requests": 218
+          },
+          "singleton": {
+            "tag": "singleton85bc7ad0-stream-singleton-followup-104857600-128-read-repeat3-20261005",
+            "qps": 6.77,
+            "p99_ms": 2555.903,
+            "requests": 217
+          },
+          "qps_change_percent": -5.44692737430168,
+          "p99_change_percent": -1.2658232737957076
+        }
+      ],
+      "qps_paired_percent": {
+        "median": -1.9886363636363535,
+        "min": -5.44692737430168,
+        "max": 1.7094017094017033,
+        "positive_pairs": 1,
+        "negative_pairs": 2
+      },
+      "p99_paired_percent": {
+        "median": 1.973685003053749,
+        "min": -1.2658232737957076,
+        "max": 16.129038609279966,
+        "positive_pairs": 2,
+        "negative_pairs": 1
+      },
+      "parent_median_qps": 7.04,
+      "parent_median_p99_ms": 2539.519,
+      "singleton_median_qps": 6.9,
+      "singleton_median_p99_ms": 2555.903
+    }
+  ]
+}
