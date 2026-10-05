@@ -1,0 +1,28 @@
+{
+  "created_utc": "2026-10-05T10:25:38Z",
+  "status_at_capture": "live; waiting for benchmark host lock",
+  "pid": 849068,
+  "process_start_ticks": "30072836",
+  "exec_session": 32817,
+  "driver": "profile-grouped-verified-root-candidate.py",
+  "driver_sha256": "1890660cea12f191c240519ae82c3888754ce519249c668d5e1c0cbe4c697e27",
+  "source_head": "28d7cca498655e02f46407adb65335219b10ee6b",
+  "binary_sha256": "3b3dbc5482bf6586b0f06e00d92a6c5e589f58528b13105d01ea3b8a226e5090",
+  "original_image_sha256": "b4e0113cf9b7dcbe03175c5e5665be8589ebef9dbc9c2847adc3cd3010b956ae",
+  "rounds": 3,
+  "workers": 2,
+  "socket_seconds": 60,
+  "shutdown_seconds": 120,
+  "method": "Three independent writable copies of the same read-only recovery image; fixed candidate only. Preserve the previous16-operation sequence. Profile only GET with9MiB key and6MiB value; verify all payload bytes. 49Hz task-clock, all process threads, DWARF8192, plus exact process IO/stat boundaries and0.5s per-thread progress. Stop sampling before any failure-only debugger attachment. Decode self report and stacks under host lock after clean server exit. Failures remain and stop the driver. Original earlier failing main194/candidate267 perf is not rerun.",
+  "purpose": "Check whether repeated long-key verification CPU/IO has disappeared; identify residual costs.",
+  "limitations": [
+    "Diagnostic sampling adds overhead; no QPS or precise speedup claim.",
+    "Original baseline perf is noncontemporaneous and timed out; candidate-only success cannot establish paired latency improvement.",
+    "Short samples, background work and incomplete unwind may limit attribution.",
+    "Does not resolve original PR267 SET timeout or prove restart/readback after overwrites.",
+    "Independent ordinary-key native regression and72 paired controls are still required."
+  ],
+  "output": "grouped-verified-root-candidate-profiles.json",
+  "log": "grouped-root-candidate-profile-driver.log",
+  "host_serialization": "All image hashes/copies, server execution, perf recording and decoding hold host_execution_lock.acquire_host; no raw-device or SPDK preparation."
+}
