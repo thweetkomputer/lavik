@@ -1,0 +1,90 @@
+{
+  "observed_unix": 1791204930.8817446,
+  "report_commit": "073f621b96530b8940c3f2be647f340c7ebec008",
+  "tracked_hashed_files": 1146,
+  "index_files": [
+    "perf_reports/lavik-complex-structures-2026-09-26/diagnostics/zset-score-views-20261005/zset-score-views-complete-evidence-index.json",
+    "perf_reports/lavik-complex-structures-2026-09-26/diagnostics/zset-score-views-20261005/zset-score-views-perf-evidence-index.json",
+    "perf_reports/lavik-complex-structures-2026-09-26/diagnostics/zset-worker-distribution-20261005/zset-worker-count-evidence-index.json"
+  ],
+  "checks": [
+    {
+      "script": "perf_reports/lavik-complex-structures-2026-09-26/diagnostics/zset-score-views-20261005/summarize-zset-score-views.py",
+      "input_args": [
+        "--scope",
+        "all",
+        "--input",
+        "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/diagnostics/zset-score-views-20261005/zset-score-views-complete-observations.json",
+        "--output",
+        "/mnt/dev/lavik-complex-iterations-20261004/published-report-reproduction-20261005/score-summary.json",
+        "--report-root",
+        "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26"
+      ],
+      "compared_to": "perf_reports/lavik-complex-structures-2026-09-26/diagnostics/zset-score-views-20261005/zset-score-views-complete-summary.json",
+      "canonical_json_sha256": "5d084db7919e9c58e248aecd9574ab3ed8d5ca421782557ec0d2ec8401d1826d",
+      "values_identical": true,
+      "byte_identical": true
+    },
+    {
+      "script": "perf_reports/lavik-complex-structures-2026-09-26/diagnostics/zset-score-views-20261005/audit-zset-score-commands.py",
+      "input_args": [
+        "--input",
+        "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/diagnostics/zset-score-views-20261005/zset-score-views-complete-observations.json",
+        "--output",
+        "/mnt/dev/lavik-complex-iterations-20261004/published-report-reproduction-20261005/score-commands.json",
+        "--report-root",
+        "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26"
+      ],
+      "compared_to": "perf_reports/lavik-complex-structures-2026-09-26/diagnostics/zset-score-views-20261005/zset-score-views-complete-command-audit.json",
+      "canonical_json_sha256": "c89a5029b6b5e8c261f5a88c36cf41fcfdcd861df7855aefe5692c783385e7d5",
+      "values_identical": true,
+      "byte_identical": false
+    },
+    {
+      "script": "perf_reports/lavik-complex-structures-2026-09-26/diagnostics/zset-worker-distribution-20261005/summarize-zset-worker-count.py",
+      "input_args": [
+        "--input",
+        "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/diagnostics/zset-worker-distribution-20261005/zset-worker-count-complete-observations.json",
+        "--output",
+        "/mnt/dev/lavik-complex-iterations-20261004/published-report-reproduction-20261005/worker-summary.json",
+        "--report-root",
+        "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26"
+      ],
+      "compared_to": "perf_reports/lavik-complex-structures-2026-09-26/diagnostics/zset-worker-distribution-20261005/zset-worker-count-complete-summary.json",
+      "canonical_json_sha256": "267018701b3e959c96807bf0513934eea55fed1bd867c5a06a7272d1cad827c9",
+      "values_identical": true,
+      "byte_identical": true
+    },
+    {
+      "script": "perf_reports/lavik-complex-structures-2026-09-26/diagnostics/zset-worker-distribution-20261005/audit-zset-score-commands.py",
+      "input_args": [
+        "--input",
+        "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/diagnostics/zset-worker-distribution-20261005/zset-worker-count-complete-observations.json",
+        "--output",
+        "/mnt/dev/lavik-complex-iterations-20261004/published-report-reproduction-20261005/worker-commands.json",
+        "--report-root",
+        "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26"
+      ],
+      "compared_to": "perf_reports/lavik-complex-structures-2026-09-26/diagnostics/zset-worker-distribution-20261005/zset-worker-count-complete-command-audit.json",
+      "canonical_json_sha256": "232bc692b23de909f79f9acac93ef7062351a1d93f11f11d49b49492edd19275",
+      "values_identical": true,
+      "byte_identical": false
+    },
+    {
+      "script": "perf_reports/lavik-complex-structures-2026-09-26/diagnostics/zset-score-views-20261005/summarize-zset-score-self.py",
+      "input_args": [
+        "--input",
+        "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/diagnostics/zset-score-views-20261005/zset-score-views-profiles.json",
+        "--report-root",
+        "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26"
+      ],
+      "compared_to": "perf_reports/lavik-complex-structures-2026-09-26/diagnostics/zset-score-views-20261005/zset-score-views-self-comparison.json",
+      "canonical_json_sha256": "803be52d638cd250c5cbbab784cc1cf168f02c9e6084cd5318535cae4b3a0a95",
+      "values_identical": true,
+      "byte_identical": true
+    }
+  ],
+  "scope": "Published 96-point controls,24-point worker controls,and four perf aggregates reconstructed with identical parsed JSON values. All index inputs tracked and SHA-verified. No raw perf decoding, service runtime, new benchmark or CI rerun.",
+  "serialization_note": "Initial byte comparison exposed only JSON object key ordering from command-set iteration (INFO versus workload). Parsed values, counters, hashes and ratios are equal; canonical JSON hashes compare without treating object-member order as data.",
+  "selected_inputs_match_HEAD": true
+}
