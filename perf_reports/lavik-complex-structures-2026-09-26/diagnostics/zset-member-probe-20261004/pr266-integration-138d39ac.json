@@ -1,0 +1,42 @@
+{
+  "head": "138d39ac1850f5a660addf2d924fa57d0a745319",
+  "previous_head": "067c75891f819831620e277eac0592c360f8b585",
+  "main": "741dc3265d7c93ce9124e565015e6af5efcacc9c",
+  "recovery_dependency": "e4f4da7ce9b79d63ed19b2ef834bb3c570bbd24b",
+  "worktree": "/mnt/dev/lavik-zset-member-main-20261005",
+  "integration": "Merge main then current PR268; preserve original history and frozen benchmark parent",
+  "byte_identical_to_previous_head": [
+    "src/storage/engine/grouped/zset.cpp",
+    "src/storage/engine/grouped/zset_members.cpp",
+    "tests/grouped/zset_write_e2e_test.cpp"
+  ],
+  "byte_identical_to_recovery_dependency": [
+    "src/storage/engine/alloc.cpp",
+    "src/storage/engine/init.cpp",
+    "src/storage/engine/recovery.cpp",
+    "tests/grouped/recovery_e2e_test.cpp",
+    "tests/meta_integration/gate_sentinel.py",
+    "tests/meta_integration/gate_automatic_failover.py",
+    "docs/architecture/04-storage-and-recovery.md"
+  ],
+  "shared_header_difference_from_recovery": "Only SortedSetMemberProbe and its API contract retained from previous candidate",
+  "grouped_architecture_difference_from_recovery": "Only already-merged PR265 Stream suffix invariant retained from main",
+  "checks": {
+    "clang_format_23_1_1": "passed",
+    "ruff_check": "passed",
+    "ruff_format": "passed",
+    "python_syntax": "passed",
+    "diff_check": "passed",
+    "new_head_ci": "pending",
+    "new_native_builds_or_tests": false
+  },
+  "benchmarks": "Historical QPS/native evidence stays at original commits; queued controls retain parent067 and frozen binaries.",
+  "full_ci_run": {
+    "conclusion": "",
+    "databaseId": 37292566851,
+    "headSha": "138d39ac1850f5a660addf2d924fa57d0a745319",
+    "status": "queued"
+  },
+  "pushed": true,
+  "pr_body_updated": true
+}
