@@ -1,5 +1,7 @@
 # 复杂数据结构性能：Redis、Valkey、Kvrocks 与 Lavik
 
+[#280 的 24 点大对象 ZSCORE 三轮对照](diagnostics/zset-score-views-20261005/zset-score-views-large-reads.md)已完成：c80/320/2560/5120 配对 QPS 中位 **+16.27%/+19.82%/+17.08%/+14.45%**，每档三轮均提升；c5120 p99 两轮退化，中位 **+2.40%**。写入及小对象控制继续执行，PR 保持草稿。
+
 **Rebase CI 更新：** #267 的 List 故障测试断言文案已修复并推送 `0cc00887`，新 CI 待完成；#270 出现 Sentinel HA 恢复预算超时，原因未定。[失败证据与处理](diagnostics/grouped-expiry-recovery-20261004/rebase-ci-failures-20261005.md)。
 
 **2026-10-05 PR 收敛：** #268 已合入 main `330738d9`；#266/#267/#270/#280/#282 已 rebase 到该 main，#271/#272 随 #266、#275 随 #270 更新。#269/#273/#276 因整体收益不足或控制项回退已关闭；#274 此前已关闭。暂停寻找新优化，仅完成保留候选的验证与 CI。[提交、依赖与检查记录](diagnostics/grouped-expiry-recovery-20261004/prs-rebased-after268.json)。历史测量及已关闭候选的曲线保留，不代表新 head 已通过验证。

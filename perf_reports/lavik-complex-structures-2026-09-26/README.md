@@ -1,5 +1,7 @@
 # Complex structures: Redis, Valkey, Kvrocks and Lavik
 
+[#280: all 24 large-object ZSCORE observations](diagnostics/zset-score-views-20261005/zset-score-views-large-reads.md) are complete: median paired QPS changes at c80/320/2560/5120 are **+16.27%/+19.82%/+17.08%/+14.45%**, positive in every pair. At c5120, p99 worsens in two pairs (median **+2.40%**). Write and small-object controls continue; the PR stays draft.
+
 **Rebase CI update:** #267 fixes a stale List fault-test message assertion in `0cc00887`; new CI is pending. #270 has an unresolved Sentinel HA recovery-budget failure. [Evidence and disposition](diagnostics/grouped-expiry-recovery-20261004/rebase-ci-failures-20261005.md).
 
 **2026-10-05 PR consolidation:** #268 is merged as main `330738d9`. #266/#267/#270/#280/#282 are rebased onto it; #271/#272 follow rebased #266 and #275 follows rebased #270. #269/#273/#276 are closed for insufficient overall benefit or control regressions; #274 was already closed. New optimization exploration is suspended while retained candidates finish validation and CI. [Commits, dependencies and checks](diagnostics/grouped-expiry-recovery-20261004/prs-rebased-after268.json). Historical measurements and closed-candidate curves remain evidence, not validation of the rebased heads.
