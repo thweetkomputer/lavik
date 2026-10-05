@@ -1,0 +1,108 @@
+{
+  "state": "queued, not measured",
+  "pid": 826529,
+  "session": 72036,
+  "waiting_process_generations": {
+    "761017": "28069416",
+    "798316": "29039958",
+    "803021": "29248191"
+  },
+  "expected_observations": 150,
+  "conditions": [
+    {
+      "kind": "stream",
+      "size": 104857600,
+      "field": 128,
+      "keys": 8,
+      "read": [
+        2560
+      ],
+      "full": [
+        1,
+        4,
+        16
+      ],
+      "write": [
+        320,
+        5120
+      ]
+    },
+    {
+      "kind": "stream",
+      "size": 65536,
+      "field": 1024,
+      "keys": 64,
+      "read": [
+        5120
+      ],
+      "full": [
+        80
+      ],
+      "write": [
+        2560,
+        5120
+      ]
+    },
+    {
+      "kind": "stream",
+      "size": 104857600,
+      "field": 1024,
+      "keys": 8,
+      "read": [],
+      "full": [],
+      "write": [
+        80,
+        320,
+        5120
+      ]
+    },
+    {
+      "kind": "zset",
+      "size": 104857600,
+      "field": 1024,
+      "keys": 8,
+      "read": [
+        80,
+        320,
+        5120
+      ],
+      "full": [],
+      "write": [
+        80,
+        320,
+        5120
+      ]
+    },
+    {
+      "kind": "zset",
+      "size": 65536,
+      "field": 128,
+      "keys": 64,
+      "read": [
+        80,
+        320,
+        5120
+      ],
+      "full": [],
+      "write": [
+        80,
+        320,
+        5120
+      ]
+    }
+  ],
+  "versions": {
+    "main": "4610d6077e8e32d59639a5ee88dbe8cbd305aab2",
+    "combined": "78e29277618f4ef40ccefab0930cbab667a0a40e"
+  },
+  "scripts_sha256": {
+    "repeat-combined-controls.py": "a5c6752a231480e7e6588150c188baa278c3283c667dd1231baf88c5c70a5050",
+    "correct-combined-native-provenance.py": "72f3aa8103fb1500ddf7177933ad3a3481c9f1ff053b667016ddaec6e8ecc4b3",
+    "native_build_provenance.py": "0fcdb3d38aa1216b29a0e5c67ae69a3e6d771df5249388b46a05e49d0c9d45c9",
+    "host_execution_lock.py": "852b6db10b02eb8e2f540ec0a92be3737d3113591ecca938298d65250ce0f558",
+    "run-stream-reply-reads.py": "ff9b5b9e9642d075f766512df6f140af737c9e0e34abcfe255e1e4a3d8bcf1e1",
+    "run-zset-score-controls.py": "7d210c4a6b15f91d7167e6b8aacc304ad76f775890b2eb95407d65a8d9017b93",
+    "run-write-only.py": "349fe30768e57ccb23c44cff2bc85b23e069f18db417e62a6815910f63e6bdeb"
+  },
+  "gates": "Native all selected suites and pubsub exit0; corrected CMake-based dependency identity; equal compiler/native/production flags; eachhead17CIpass; exactbinarySHA andunchangeddriversonhostlock; noautomerge"
+}

@@ -1,0 +1,87 @@
+{
+  "main": {
+    "commit": "4610d6077e8e32d59639a5ee88dbe8cbd305aab2",
+    "binary_sha256": "44695167697904ad6a210dd50e6fcdf3634f494fb633eb1267c5e9b568eed552",
+    "driver_sha256": {
+      "lavik_grouped_ordered_write_e2e_test": "b7fa18a0d522c53369bdb8068ced0d4d0cb1ac94e5e11cec1d6dc3aba7460bc9",
+      "lavik_list_e2e_test": "501d67b28657b0f8641b78f68796ccc02740f3378f46cd6c7eae15f7920f86e4",
+      "lavik_pubsub_e2e_test": "5e804debc79fc514c2cc018c00cb7f508dcd4a418988fcb4585d6d4e9721265d"
+    },
+    "pubsub_exit": 0,
+    "suites": {
+      "unit-tests": {
+        "tests": 80,
+        "passed": 80,
+        "skipped": [],
+        "failures": 0,
+        "seconds": "0.183s"
+      },
+      "ordered-tests": {
+        "tests": 50,
+        "passed": 42,
+        "skipped": [
+          "GroupedStreamE2e.FailedAppendCannotLeakIntoFollowingAckInExec",
+          "GroupedSortedSetWriteE2e.TypedChangesDoNotRereadOrderedMemberDiff",
+          "GroupedSortedSetWriteE2e.PlannerSkipsUnchangedNeighborButChecksNewLinks",
+          "GroupedSortedSetWriteE2e.MemberScoresUsePrefixPagesWithoutOrderedReads",
+          "GroupedSortedSetWriteE2e.ScoreBoundsSkipUnrelatedPagesAfterRecovery",
+          "GroupedSortedSetWriteE2e.FailedMemberWriteCannotCommitOrderedHalf",
+          "GroupedSortedSetWriteE2e.FailedRangeRemovalPreservesExecPrefixAndRecovery",
+          "GroupedTransferE2e.FailedExecCopyKeepsOldGraphAndCommitsLaterCommand"
+        ],
+        "failures": 0,
+        "seconds": "373.361s"
+      },
+      "blocking-tests": {
+        "tests": 5,
+        "passed": 5,
+        "skipped": [],
+        "failures": 0,
+        "seconds": "2.431s"
+      }
+    }
+  },
+  "combined": {
+    "commit": "78e29277618f4ef40ccefab0930cbab667a0a40e",
+    "binary_sha256": "9776fcf956554438a9b0ee7de29417d240062a2398302ac38a2d2ef30a8c3338",
+    "driver_sha256": {
+      "lavik_grouped_ordered_write_e2e_test": "08d78e789c3314b0fc1314a9f7d3a8fcc24c8fd4c18eda594c58bb7b1f2ae520",
+      "lavik_list_e2e_test": "6b19e0e93cfa7a9356faa6eb787598d52ecfd0d2f048f76f47690f1ce680fcbb",
+      "lavik_pubsub_e2e_test": "5e804debc79fc514c2cc018c00cb7f508dcd4a418988fcb4585d6d4e9721265d"
+    },
+    "pubsub_exit": 0,
+    "suites": {
+      "unit-tests": {
+        "tests": 83,
+        "passed": 83,
+        "skipped": [],
+        "failures": 0,
+        "seconds": "0.195s"
+      },
+      "ordered-tests": {
+        "tests": 52,
+        "passed": 43,
+        "skipped": [
+          "GroupedStreamE2e.FailedAppendCannotLeakIntoFollowingAckInExec",
+          "GroupedSortedSetWriteE2e.TypedChangesDoNotRereadOrderedMemberDiff",
+          "GroupedSortedSetWriteE2e.PointWritesReuseMemberLeafAndKeepBatchFailureAtomic",
+          "GroupedSortedSetWriteE2e.PlannerSkipsUnchangedNeighborButChecksNewLinks",
+          "GroupedSortedSetWriteE2e.MemberScoresUsePrefixPagesWithoutOrderedReads",
+          "GroupedSortedSetWriteE2e.ScoreBoundsSkipUnrelatedPagesAfterRecovery",
+          "GroupedSortedSetWriteE2e.FailedMemberWriteCannotCommitOrderedHalf",
+          "GroupedSortedSetWriteE2e.FailedRangeRemovalPreservesExecPrefixAndRecovery",
+          "GroupedTransferE2e.FailedExecCopyKeepsOldGraphAndCommitsLaterCommand"
+        ],
+        "failures": 0,
+        "seconds": "382.269s"
+      },
+      "blocking-tests": {
+        "tests": 5,
+        "passed": 5,
+        "skipped": [],
+        "failures": 0,
+        "seconds": "2.455s"
+      }
+    }
+  }
+}
