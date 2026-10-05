@@ -1,0 +1,87 @@
+Note: Google Test filter = GroupedStreamE2e.*:GroupedTransferE2e.*:GroupedRdbStreamE2e.FourTypesMultiPageLargeItemsAndMultipleWorkers:GroupedRdbStreamE2e.RestoreStreamsFourTypesInsideAndOutsideExec:GroupedRdbStreamE2e.BackupStreamsFourTypesThenImportsAndRestarts
+[==========] Running 26 tests from 3 test suites.
+[----------] Global test environment set-up.
+[----------] 16 tests from GroupedStreamE2e
+[ RUN      ] GroupedStreamE2e.SmallStreamKeepsCompactStorage
+[       OK ] GroupedStreamE2e.SmallStreamKeepsCompactStorage (351 ms)
+[ RUN      ] GroupedStreamE2e.ConcurrentDurabilityWaitersRecheckPartialFlushes
+[       OK ] GroupedStreamE2e.ConcurrentDurabilityWaitersRecheckPartialFlushes (2265 ms)
+[ RUN      ] GroupedStreamE2e.PromotesAtSharedSizeBoundaryAndRecovers
+[       OK ] GroupedStreamE2e.PromotesAtSharedSizeBoundaryAndRecovers (869 ms)
+[ RUN      ] GroupedStreamE2e.AppendOnlyRewritesBoundedPagesAndRecovers
+[       OK ] GroupedStreamE2e.AppendOnlyRewritesBoundedPagesAndRecovers (6648 ms)
+[ RUN      ] GroupedStreamE2e.DeleteRoutesIdsAndPreservesPendingAndNodeBoundaries
+[       OK ] GroupedStreamE2e.DeleteRoutesIdsAndPreservesPendingAndNodeBoundaries (1724 ms)
+[ RUN      ] GroupedStreamE2e.EmptyStreamRetainsGroupsAndPendingAcrossRecovery
+[       OK ] GroupedStreamE2e.EmptyStreamRetainsGroupsAndPendingAcrossRecovery (1318 ms)
+[ RUN      ] GroupedStreamE2e.BinaryNamesLargeIdsAndApproximateNodes
+[       OK ] GroupedStreamE2e.BinaryNamesLargeIdsAndApproximateNodes (198 ms)
+[ RUN      ] GroupedStreamE2e.MultipleConsumersSparseAcksCopyAndRename
+[       OK ] GroupedStreamE2e.MultipleConsumersSparseAcksCopyAndRename (3343 ms)
+[ RUN      ] GroupedStreamE2e.FailedAppendCannotLeakIntoFollowingAckInExec
+/mnt/dev/lavik-complex-next-20261004/tests/grouped/stream_e2e_test.cpp:357: Skipped
+requires grouped auxiliary fault hook
+
+[  SKIPPED ] GroupedStreamE2e.FailedAppendCannotLeakIntoFollowingAckInExec (0 ms)
+[ RUN      ] GroupedStreamE2e.RewoundNoAckAndForceClaimPreserveUnloadedPending
+[       OK ] GroupedStreamE2e.RewoundNoAckAndForceClaimPreserveUnloadedPending (118 ms)
+[ RUN      ] GroupedStreamE2e.ExpirationDeletionAndFlushCannotResurrectOldGraphs
+[       OK ] GroupedStreamE2e.ExpirationDeletionAndFlushCannotResurrectOldGraphs (1565 ms)
+[ RUN      ] GroupedStreamE2e.AggregateAbove512MiBKeepsHotPathsAndRecoveryBounded
+[       OK ] GroupedStreamE2e.AggregateAbove512MiBKeepsHotPathsAndRecoveryBounded (54896 ms)
+[ RUN      ] GroupedStreamE2e.RangeRepliesPreserveMixedSizeBinaryRecords
+[       OK ] GroupedStreamE2e.RangeRepliesPreserveMixedSizeBinaryRecords (201 ms)
+[ RUN      ] GroupedStreamE2e.ReadWindowsRespectCountAndJoinFailedStarts
+/mnt/dev/lavik-complex-next-20261004/tests/grouped/stream_e2e_test.cpp:637: Skipped
+requires Stream read-window admission/start hooks
+
+[  SKIPPED ] GroupedStreamE2e.ReadWindowsRespectCountAndJoinFailedStarts (0 ms)
+[ RUN      ] GroupedStreamE2e.LargeRepliesKeepSnapshotsAndDeletedHistory
+[       OK ] GroupedStreamE2e.LargeRepliesKeepSnapshotsAndDeletedHistory (17783 ms)
+[ RUN      ] GroupedStreamE2e.LargeRdbRoundTripKeepsMessagesAndDeletedPendingBounded
+unknown file: Failure
+C++ exception with description "XREADGROUP: response timed out: Resource temporarily unavailable (errno=11)" thrown in the test body.
+
+[  FAILED  ] GroupedStreamE2e.LargeRdbRoundTripKeepsMessagesAndDeletedPendingBounded (99051 ms)
+[----------] 16 tests from GroupedStreamE2e (190336 ms total)
+
+[----------] 3 tests from GroupedRdbStreamE2e
+[ RUN      ] GroupedRdbStreamE2e.FourTypesMultiPageLargeItemsAndMultipleWorkers
+[       OK ] GroupedRdbStreamE2e.FourTypesMultiPageLargeItemsAndMultipleWorkers (5366 ms)
+[ RUN      ] GroupedRdbStreamE2e.RestoreStreamsFourTypesInsideAndOutsideExec
+[       OK ] GroupedRdbStreamE2e.RestoreStreamsFourTypesInsideAndOutsideExec (2870 ms)
+[ RUN      ] GroupedRdbStreamE2e.BackupStreamsFourTypesThenImportsAndRestarts
+[       OK ] GroupedRdbStreamE2e.BackupStreamsFourTypesThenImportsAndRestarts (6522 ms)
+[----------] 3 tests from GroupedRdbStreamE2e (14759 ms total)
+
+[----------] 7 tests from GroupedTransferE2e
+[ RUN      ] GroupedTransferE2e.FourTypesCopyRenameAcrossDatabasesAndWorkersRecover
+[       OK ] GroupedTransferE2e.FourTypesCopyRenameAcrossDatabasesAndWorkersRecover (13206 ms)
+[ RUN      ] GroupedTransferE2e.FailedExecCopyKeepsOldGraphAndCommitsLaterCommand
+/mnt/dev/lavik-complex-next-20261004/tests/grouped/transfer_e2e_test.cpp:120: Skipped
+requires group auxiliary failure injection
+
+[  SKIPPED ] GroupedTransferE2e.FailedExecCopyKeepsOldGraphAndCommitsLaterCommand (0 ms)
+[ RUN      ] GroupedTransferE2e.FullImageScratchOomPreservesValuesAndMetadataReads
+[       OK ] GroupedTransferE2e.FullImageScratchOomPreservesValuesAndMetadataReads (1468 ms)
+[ RUN      ] GroupedTransferE2e.ScanUsesOneLeafAndSurvivesDeletingEarlierFields
+[       OK ] GroupedTransferE2e.ScanUsesOneLeafAndSurvivesDeletingEarlierFields (5219 ms)
+[ RUN      ] GroupedTransferE2e.ListSearchRetainsOnePageAndInsertOnlyItsInterval
+[       OK ] GroupedTransferE2e.ListSearchRetainsOnePageAndInsertOnlyItsInterval (1643 ms)
+[ RUN      ] GroupedTransferE2e.RandomFieldsAndSetPopDoNotMaterializeTheCollection
+[       OK ] GroupedTransferE2e.RandomFieldsAndSetPopDoNotMaterializeTheCollection (3303 ms)
+[ RUN      ] GroupedTransferE2e.SetMultiKeyOomLeavesDestinationAndHoldsIntact
+[       OK ] GroupedTransferE2e.SetMultiKeyOomLeavesDestinationAndHoldsIntact (13427 ms)
+[----------] 7 tests from GroupedTransferE2e (38268 ms total)
+
+[----------] Global test environment tear-down
+[==========] 26 tests from 3 test suites ran. (243364 ms total)
+[  PASSED  ] 22 tests.
+[  SKIPPED ] 3 tests, listed below:
+[  SKIPPED ] GroupedStreamE2e.FailedAppendCannotLeakIntoFollowingAckInExec
+[  SKIPPED ] GroupedStreamE2e.ReadWindowsRespectCountAndJoinFailedStarts
+[  SKIPPED ] GroupedTransferE2e.FailedExecCopyKeepsOldGraphAndCommitsLaterCommand
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] GroupedStreamE2e.LargeRdbRoundTripKeepsMessagesAndDeletedPendingBounded
+
+ 1 FAILED TEST

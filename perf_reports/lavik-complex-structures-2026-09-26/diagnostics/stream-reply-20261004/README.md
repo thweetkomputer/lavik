@@ -158,3 +158,9 @@ candidate 附加线程中没有样本的 TID：579464；附加命令和记录日
 旧 CI 已取消，保留两架构原始失败证据；[修正版完整 CI](https://github.com/eloqdata/lavik/actions/runs/37251491010) 待完成。关闭故障注入的原生生产构建和检查正在执行。[修正后对照脚本](repeat-stream-followups-corrected.py) 与[独立 perf 调度](profile-stream-followups-corrected.py) 已重新排队：仍需等待精确版本的原生验证、完整 CI 及前序 ZSet/故障复现任务，尚无新的性能结果。
 
 调度更新：ZSet CI 失败后，移除了无关任务间的先后依赖。Stream 对照仍严格等待自己的精确版本原生验证和完整 CI；extent 复现独立排队。所有构建、测试、数据准备、压测和 perf 继续使用同一个主机执行锁，避免重叠。Stream 性能尚未开始。
+
+## 生产构建的大 RDB 用例仍有超时
+
+`5b9ebded` 关闭故障注入的原生验证出现一次 `XREADGROUP` 接收超时：26 个所选用例中 22 通过、3 个 fault-only 跳过、1 个失败。失败发生在大型 Stream RDB 往返用例；同一提交的故障构建此前 26 例全部通过。这不能解释生产构建的超时，也不能视为已完成生产验证。原测试包含导出前投递和导入后 pending 历史两次 XREADGROUP，异常未区分阶段，且清理删除了现场。
+
+[原始失败及诊断状态](stream-window-production-rdb-timeout.json) · [诊断补丁](stream-rdb-diagnostic.patch) · [固定父版本/候选二进制复现脚本](reproduce-stream-rdb-timeout.py)。诊断只增加阶段信息并保留失败现场，不改生产代码、命令顺序或超时。两轮交替对照在独立数据文件上运行，首个失败即停止；全部通过也不证明原超时已修复。吞吐和 perf 等待进程已因生产验证失败退出，尚未测量。

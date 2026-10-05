@@ -1,0 +1,65 @@
+diff --git a/tests/grouped/stream_e2e_test.cpp b/tests/grouped/stream_e2e_test.cpp
+index 45be1f8c..b49822be 100644
+--- a/tests/grouped/stream_e2e_test.cpp
++++ b/tests/grouped/stream_e2e_test.cpp
+@@ -753,21 +753,31 @@ TEST(GroupedStreamE2e, LargeRepliesKeepSnapshotsAndDeletedHistory) {
+ TEST(GroupedStreamE2e, LargeRdbRoundTripKeepsMessagesAndDeletedPendingBounded) {
+   PrivateDisk source(4ULL * 1024 * 1024 * 1024);
+   PrivateDisk target(4ULL * 1024 * 1024 * 1024);
++  source.PreserveOnFailure();
++  target.PreserveOnFailure();
+   const auto input = target.path() + ".input.rdb";
+   struct Cleanup {
+     std::string path;
+-    ~Cleanup() { ::unlink(path.c_str()); }
++    ~Cleanup() {
++      if (!::testing::Test::HasFailure() && std::uncaught_exceptions() == 0)
++        ::unlink(path.c_str());
++    }
+   } cleanup{input};
+   {
+     Server server(source, 2, {}, {}, false, 2, "256M");
++    server.PreserveOnFailure();
+     Client client(server.port());
+     PopulateStream(client, "s", 2050, 256 * 1024);
+     ASSERT_EQ(client.Command({"XGROUP", "CREATE", "s", "g", "0"}).text_, "OK");
+-    ASSERT_EQ(client
+-                  .Command({"XREADGROUP", "GROUP", "g", "c", "COUNT", "10",
+-                            "STREAMS", "s", ">"})
+-                  .kind_,
+-              '*');
++    // Distinguish delivery before export from deleted-entry history after
++    // import, and preserve the corresponding log/image on a request timeout.
++    Reply delivered;
++    ASSERT_NO_THROW(delivered =
++                        client.Command({"XREADGROUP", "GROUP", "g", "c",
++                                        "COUNT", "10", "STREAMS", "s", ">"}))
++        << "before RDB export; source=" << source.path() << "\n"
++        << server.Log();
++    ASSERT_EQ(delivered.kind_, '*');
+     ASSERT_EQ(client.Command({"XDEL", "s", "1-0"}).text_, "1");
+     ASSERT_EQ(client.Command({"BGSAVE"}).kind_, '+');
+     const auto deadline = std::chrono::steady_clock::now() + 180s;
+@@ -781,6 +791,7 @@ TEST(GroupedStreamE2e, LargeRdbRoundTripKeepsMessagesAndDeletedPendingBounded) {
+   }
+   {
+     Server server(target, 3, {}, {}, false, 2, "256M", input);
++    server.PreserveOnFailure();
+     const auto deadline = std::chrono::steady_clock::now() + 180s;
+     while (server.Log().find("loaded RDB file") == std::string::npos &&
+            server.Running() && std::chrono::steady_clock::now() < deadline)
+@@ -792,8 +803,12 @@ TEST(GroupedStreamE2e, LargeRdbRoundTripKeepsMessagesAndDeletedPendingBounded) {
+     auto pending = client.Command({"XPENDING", "s", "g"});
+     ASSERT_EQ(pending.kind_, '*') << pending.text_;
+     ASSERT_EQ(pending.items_[0].text_, "10");
+-    auto history = client.Command(
+-        {"XREADGROUP", "GROUP", "g", "c", "COUNT", "1", "STREAMS", "s", "0"});
++    Reply history;
++    ASSERT_NO_THROW(history =
++                        client.Command({"XREADGROUP", "GROUP", "g", "c",
++                                        "COUNT", "1", "STREAMS", "s", "0"}))
++        << "after RDB import; target=" << target.path() << "\n"
++        << server.Log();
+     ASSERT_EQ(history.kind_, '*') << history.text_;
+     ASSERT_EQ(history.items_[0].items_[1].items_[0].items_[0].text_, "1-0");
+     EXPECT_EQ(history.items_[0].items_[1].items_[0].items_[1].kind_, '*');

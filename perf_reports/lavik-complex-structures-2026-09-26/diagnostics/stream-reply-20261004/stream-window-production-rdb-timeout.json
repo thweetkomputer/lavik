@@ -1,0 +1,16 @@
+{
+  "commit": "5b9ebdedecc0cc7a3fea93fb73b1fbbb6b7186c6",
+  "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-stream-followup-window-5b9ebded-20261005",
+  "build": "nativeGCC13LTO SPDK, faultOFF production",
+  "selected_results": {
+    "defined": 26,
+    "passed": 22,
+    "skipped": 3,
+    "failed": 1
+  },
+  "failed_test": "GroupedStreamE2e.LargeRdbRoundTripKeepsMessagesAndDeletedPendingBounded",
+  "failure": "XREADGROUP: response timed out: Resource temporarily unavailable (errno=11)",
+  "limitations": "The fixture has XREADGROUP before export and after import, but the original exception names only the command and cleanup removed logs/images. Cannot identify the phase or root cause from this output. Fault-enabled same-source selected26cases passed previously; neither proves the cause of this production timeout.",
+  "next": "Diagnostic-only test commit763d9076 retains images/log/RDB on failure and adds before-export/after-import context; source patch included. Independent private-file parentadec vs candidate5b, two alternating pairs, fixed production binaries, original15s socket and180s import/export limits, stopfirstfailure. Allpass will not explain originaltimeout.",
+  "status": "All Stream performance waiters exited before measurements. Corrected production validation incomplete; no QPS claim."
+}
