@@ -62,7 +62,7 @@ Redis/Valkey 关闭持久化；Kvrocks 使用无压缩 RAID0、关闭 WAL、80 G
 
 [ZSet 成员叶页复用：吞吐、交替复测、perf 与测试](diagnostics/zset-member-probe-20261004/README.md)
 
-后续 [PR #271](https://github.com/eloqdata/lavik/pull/271) 消除内联页的重复清单查找；与 #272 的固定父版本原生验证和 [72 点独立对照](diagnostics/grouped-lookup-controls-20261005/README.md)已排队，尚无吞吐收益结论。
+后续 [PR #271](https://github.com/eloqdata/lavik/pull/271) 消除内联页的重复清单查找；与 #272 的固定版本原生验证已完成：单元检查分别通过 128/129 项，每个候选另通过 63 项进程测试，跳过 29 项故障注入相关用例。[72 点独立对照](diagnostics/grouped-lookup-controls-20261005/README.md)正在执行，尚无吞吐收益结论。
 
 [PR #272](https://github.com/eloqdata/lavik/pull/272) 复用解码摘要，减少重复字段检查和路由校验中的哈希计算；仍为草稿，待上述独立对照完成。
 
