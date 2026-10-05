@@ -1,6 +1,6 @@
 # 复杂数据结构性能：Redis、Valkey、Kvrocks 与 Lavik
 
-Hash/Set 单路由替换的[全部 144 点对照](diagnostics/hash-route-replace-20261005/hash-route-complete.md)已完成。大 Hash HSET c5120 的 QPS +7.81% 未推广到其他范围：小 Hash HSET 与两种 Set 写入中位均回退，#276 保持草稿。完整 QPS/p99、反向结果和历史 peer 差距均已公开；独立 perf 继续验证。
+Hash/Set 单路由替换的[全部 144 点对照](diagnostics/hash-route-replace-20261005/hash-route-complete.md)已完成。大 Hash HSET c5120 的 QPS +7.81% 未推广到其他范围：小 Hash HSET 与两种 Set 写入中位均回退，#276 保持草稿。完整 QPS/p99、反向结果和历史 peer 差距均已公开；[四组大对象 perf](diagnostics/hash-route-replace-20261005/hash-route-large-perf.md)已完成，小 Hash 采样仍排队，回退原因尚未确定。
 
 [English](README.md)
 
@@ -8,7 +8,7 @@ Hash/Set 单路由替换的[全部 144 点对照](diagnostics/hash-route-replace
 
 [ZSCORE/ZMSCORE 成员页借用视图](diagnostics/zset-score-views-20261005/README.md)：去掉整页字段/值复制，保留完整校验；fork 与上游 CI 各 17 项通过，[PR #280](https://github.com/eloqdata/lavik/pull/280) 保持草稿；96 点配对及独立读 perf 已排队，尚无性能结论。
 
-长 key 根记录复用已通过三轮独立镜像回放：9 MiB key GET 在 **1.823 / 1.832 / 1.820 秒**返回并校验完整 6 MiB value。原 60 秒基线超时仍保留；这是候选单侧检查，不能计算精确加速比或外推普通 QPS。短 key 对照仍需完成。[证据与限制](diagnostics/list-reply-reserve-20261004/README.md)。
+[草稿 PR #282](https://github.com/eloqdata/lavik/pull/282)：长 key 根记录复用已通过三轮独立镜像回放：9 MiB key GET 在 **1.823 / 1.832 / 1.820 秒**返回并校验完整 6 MiB value。原 60 秒基线超时仍保留；这是候选单侧检查，不能计算精确加速比或外推普通 QPS。短 key 对照仍需完成。[证据与限制](diagnostics/list-reply-reserve-20261004/README.md)。
 
 **2026-10-04：main `a565d603` 已完成 28/28 组复测，包含已合并的 #244, #246, #247, #249, #258, #259, #260, #262。**
 

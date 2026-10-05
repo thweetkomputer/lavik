@@ -100,7 +100,7 @@ main 已前进至 `19496654`。List 分支已解决冲突，并把批量启动�
 
 当前 main `19496654` 和候选 `343e951e` 的普通 grouped String GET 都逐个读取 8 KiB 分段。每页的 `LoadOrderedGroup` 调用 `FindVerifiedEntry`；索引未保存完整 key 时，后者通过 `LoadOutOfIndexKey` 读取完整原 key 再比较。因此，无重试且每次均走此分支时，9 MiB key、6 MiB value 的 768 个分段可能重复读取 **6.75 GiB** key 内容；6 MiB key、1 MiB value 则为 **0.75 GiB**。这一推导不包含首次校验、记录头及后台 I/O，不是实际设备计数。两者推导量相差 9 倍，main 重放耗时约 50.008/5.518 秒，但相关性不足以证明耗时来源，也不能解释原 CI 的 SET 超时。
 
-验证草案 [`28d7cca4`](https://github.com/thweetkomputer/lavik/commit/28d7cca498655e02f46407adb65335219b10ee6b) 从 main `19496654` 开始，为 `FindVerifiedEntry` 新增独立重载。每页刷新通过已有 `FindCandidateIf`，只有 block、offset、allocation epoch 全部匹配此前已校验的物理根，才能省去间接 key 的完整读取；索引中的完整 key 仍比较全部字节，没有匹配候选时回到原异步校验。数据代次、逻辑版本、页面身份及 GC 检查保留。ordered 远端页读取本来就借用父 key，这里的重复校验不能误写成逐页跨 worker key 复制。
+[草稿 PR #282](https://github.com/eloqdata/lavik/pull/282)，验证提交 [`28d7cca4`](https://github.com/thweetkomputer/lavik/commit/28d7cca498655e02f46407adb65335219b10ee6b) 从 main `19496654` 开始，为 `FindVerifiedEntry` 新增独立重载。每页刷新通过已有 `FindCandidateIf`，只有 block、offset、allocation epoch 全部匹配此前已校验的物理根，才能省去间接 key 的完整读取；索引中的完整 key 仍比较全部字节，没有匹配候选时回到原异步校验。数据代次、逻辑版本、页面身份及 GC 检查保留。ordered 远端页读取本来就借用父 key，这里的重复校验不能误写成逐页跨 worker key 复制。
 
 [完整 CI 17 项通过](grouped-root-28d7cca4-full-ci.json)，包括两架构编译、12 个软件分片和格式检查。[首次 arm64 分片 3 的 runner 失联](grouped-root-ci-attempt1-infrastructure-failure.json) 停在依赖安装，尚未运行软件测试；同一源码重跑失败项后通过，原始失败记录保留。[amd64 extent 恢复用例](grouped-verified-root-extent-ci-proof.json) 也通过。下文的候选三轮镜像回放已完成；普通短 key 的 native 回归、配对 QPS 和候选 perf 尚未完成。
 
