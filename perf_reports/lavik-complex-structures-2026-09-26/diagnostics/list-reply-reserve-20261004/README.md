@@ -157,3 +157,11 @@ main `19496654` 和 #267 候选 `343e951e` 的同镜像独立副本采样均完�
 [72 点普通短 key 对照](repeat-grouped-root-controls.py)等待原生验证通过后执行：Hash/Set 1 MiB / 128 B / 500 keys，List/ZSet 64 KiB / 128 B / 64 keys，Stream 64 KiB / 1024 B / 64 keys；五种类型均在 c320 测点读和写，List/Stream 另测 c80 全量读取。三轮 A/B、B/A、A/B，每点 30 秒、pipeline=1；读对共用新建父版本逻辑数据并分别重启，写对分别新建数据。物理后台变化仍可能存在。Hash/Set 的 500 keys 小于历史图中的 50,000 keys，不能用于更新历史 peer 排名。
 
 [固定协议、源码与调度身份](grouped-root-native-controls-protocol.json)。编译、测试和压测持有同一主机锁，排在现有组合对照后；这些任务已排队，尚未产生 native/QPS 结论，#282 保持草稿。
+
+## 原 SET 超时：独立覆盖写入诊断已排队
+
+#267 保持草稿。#282 的长 key GET 回放通过不能解释原 CI 的 `SET key_bytes=5009` 超时；两者的失败阶段不同，原始失败记录继续保留。
+
+[已冻结的诊断协议](pr267-overwrite-diagnostic-protocol.json) · [诊断脚本](diagnose-pr267-overwrites.py)。使用原 `19496654` / `343e951e` 的精确 amd64 CI 二进制，两轮 A/B、B/A，各自从只读 768 MiB 原始镜像复制独立文件。2 workers 下检查并覆盖三个 5009 B key，随后改为 3 workers 重启，逐字节读回三个 `small` 值。保留原 60 秒 socket 和 120 秒关闭限制；每次操作记录进程 I/O，启动/结束记录 INFO，失败后才附加调试器。所有复制、镜像校验和进程运行都受原主机锁串行约束。
+
+该诊断刻意跳过此前的多 MiB key 大 GET，以免读取超时遮住后续覆盖路径，因此改变了原 CI 的命令历史和后台运行时间；INFO/进程快照也有诊断扰动。它用于缩小覆盖写入问题的范围，不是原始完整测试复现、配对吞吐或修复证明。原始失败镜像与完整测试结果不变。任务当前等待主机锁，尚无结果。
