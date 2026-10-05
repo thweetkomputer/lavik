@@ -2,6 +2,8 @@
 
 [English](README.md)
 
+[ZINCRBY worker 分布分析](diagnostics/zset-worker-distribution-20261005/README.md)：现有 8 个 key 在 12 workers 下仅落到 4 个数据 owner；已核对 perf 线程分布，固定二进制的 8/12-worker 配置对照已排队，尚无调参收益结论。
+
 Hash 对照已完成全部 72 点：较小 Hash 的 HSET QPS 中位下降 0.91%–2.86%，p99 中位变差；大 Hash c5120 的收益未普遍复现，#276 保持草稿。[全部回退与逐轮结果](diagnostics/hash-route-replace-20261005/hash-route-hash-small.md)。
 
 [ZSCORE/ZMSCORE 成员页借用视图](diagnostics/zset-score-views-20261005/README.md)：去掉整页字段/值复制，保留完整校验；CI 进行中，96 点配对及独立读 perf 已排队，尚无性能结论。

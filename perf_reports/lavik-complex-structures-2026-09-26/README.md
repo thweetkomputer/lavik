@@ -2,6 +2,8 @@
 
 [简体中文](README.zh-CN.md)
 
+[ZINCRBY worker-distribution analysis](diagnostics/zset-worker-distribution-20261005/README.md): the fixed eight keys map to four data owners with 12 workers. Existing perf thread distribution is documented; fixed-binary 8/12-worker controls are queued, with no tuning gain claimed.
+
 All 72 Hash controls are complete: smaller-Hash HSET median paired QPS falls 0.91%–2.86% and p99 worsens. Large-Hash c5120 gains do not generalize; #276 remains draft. [All pairs and regressions](diagnostics/hash-route-replace-20261005/hash-route-hash-small.md).
 
 [Borrowed member-page score reads](diagnostics/zset-score-views-20261005/README.md): avoids owning every field/value while retaining full validation. CI is running; 96 paired observations and independent ZSCORE perf are queued, with no measured gain yet.
