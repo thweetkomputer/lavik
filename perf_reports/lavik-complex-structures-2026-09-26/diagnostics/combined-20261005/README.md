@@ -25,7 +25,7 @@
 
 [固定生产二进制/驱动 SHA 与逐例结果](combined-native-versions.json) · [验证汇总与所有跳过项](combined-native-validation.json) · [父版本构建配置](combined-main-CMakeCache.txt) · [组合构建配置](combined-combined-CMakeCache.txt)。
 
-原构建进程在依赖来源解析器修复前已启动，因此内存中的旧脚本仍从空 `source_repo/bycorf` 目录向上找到 Lavik 仓库，错记依赖提交。[更正脚本](correct-combined-native-provenance.py)根据各自保存的生产 CMake 配置解析实际依赖，保留原字段，并记录后续 checkout、reflog 和嵌套 dirty 状态。[原始清单哈希、更正证据及限制](combined-native-dependency-correction.json)。它不是独立的构建时源码快照，也不宣称递归依赖干净；二进制、驱动、测试结果和编译选项没有改变。
+原构建进程在依赖来源解析器修复前已启动，因此内存中的旧脚本仍从空 `source_repo/bycorf` 目录向上找到 Lavik 仓库，错记依赖提交。[更正脚本](correct-combined-native-provenance.py)根据各自保存的生产 CMake 配置解析实际依赖，保留原字段，并记录后续 checkout、reflog 和嵌套 dirty 状态。[原始清单哈希、更正证据及限制](combined-native-dependency-correction.json)。发布的 CMake 文本仅移除文件末尾多余空行，原始与发布 SHA 分别记录，配置值未改变。它不是独立的构建时源码快照，也不宣称递归依赖干净；二进制、驱动、测试结果和编译选项没有改变。
 
 构建将 `TMPDIR` 放在 `/mnt/dev`，避免先前 Hash 构建遇到的根分区临时空间不足；没有改变优化参数或测试范围。
 
