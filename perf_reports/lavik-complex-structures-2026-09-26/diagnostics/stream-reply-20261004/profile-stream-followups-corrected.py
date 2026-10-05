@@ -9,7 +9,7 @@ W = Path(__file__).parent
 R = Path('/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26')
 output = W / 'stream-followup-profiles.json'
 assert not output.exists(), 'inspect prior profile before restarting'
-proc = Path('/proc/682315/stat')
+proc = Path('/proc/695113/stat')
 identity = proc.read_text().split()[21] if proc.exists() else None
 print('WAIT_FOR_CLEAN_STREAM_ROUNDS', identity, time.time(), flush=True)
 while proc.exists() and identity is not None:
@@ -19,7 +19,7 @@ while proc.exists() and identity is not None:
     except FileNotFoundError:
         break
     time.sleep(15)
-assert 'ALL_STREAM_FOLLOWUP_REPEATS_COMPLETE' in (W / 'stream-followup-corrected-repeat-driver.log').read_text()
+assert 'ALL_STREAM_FOLLOWUP_REPEATS_COMPLETE' in (W / 'stream-followup-independent-repeat-driver.log').read_text()
 repeats = json.loads((W / 'stream-followup-repeats.json').read_text())
 assert len(repeats['rows']) == 90
 assert not any('error' in row for row in repeats['rows']), 'investigate clean benchmark errors before profiling'

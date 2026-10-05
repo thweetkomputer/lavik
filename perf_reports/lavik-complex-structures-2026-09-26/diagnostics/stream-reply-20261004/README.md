@@ -156,3 +156,5 @@ candidate 附加线程中没有样本的 TID：579464；附加命令和记录日
 `5b9ebded` 已推送到 #275：独占上界位于下一页开头时，不再 pin 或访问这个不含目标记录的边界页，避免反向读取先消耗一个空的 demand read。没有修改测试或延长超时。原 `ac62975f` 在本机带故障构建上复现同样的 XREVRANGE 断连；修正版 26 个所选 Stream/迁移/RDB 故障测试全部通过、无跳过，包括 COUNT 2 正反方向、窗口准入回退、子任务启动失败清理和大型 RDB 往返。[原版本失败与修正版完整结果](stream-window-boundary-validation.json)。
 
 旧 CI 已取消，保留两架构原始失败证据；[修正版完整 CI](https://github.com/eloqdata/lavik/actions/runs/37251491010) 待完成。关闭故障注入的原生生产构建和检查正在执行。[修正后对照脚本](repeat-stream-followups-corrected.py) 与[独立 perf 调度](profile-stream-followups-corrected.py) 已重新排队：仍需等待精确版本的原生验证、完整 CI 及前序 ZSet/故障复现任务，尚无新的性能结果。
+
+调度更新：ZSet CI 失败后，移除了无关任务间的先后依赖。Stream 对照仍严格等待自己的精确版本原生验证和完整 CI；extent 复现独立排队。所有构建、测试、数据准备、压测和 perf 继续使用同一个主机执行锁，避免重叠。Stream 性能尚未开始。

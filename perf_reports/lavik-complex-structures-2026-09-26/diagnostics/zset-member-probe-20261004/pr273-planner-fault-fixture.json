@@ -1,0 +1,20 @@
+{
+  "head": "d012a3013da99344a419bb692f834b17fd6dcad4",
+  "ci": "https://github.com/eloqdata/lavik/actions/runs/37243651484",
+  "terminal_conclusion": "failure",
+  "actual_failed_jobs": [
+    111566220025,
+    111566220058
+  ],
+  "aggregate_failures_are_not_independent": true,
+  "test": "GroupedSortedSetWriteE2e.PointWritesReuseMemberLeafAndKeepBatchFailureAtomic",
+  "observation": "Both architectures expected planner read failure but cross-page ZINCRBY returned success and changed score1.5 to10001.5. Later score/EXEC/recovery assertions consequently failed.",
+  "source_diagnosis": "ScopedEnvironment for planner fault was constructed after Server fork/exec. Parent setenv cannot alter the running child environment; member-leaf fault set before Server startup remains active.",
+  "local_fix": {
+    "commit": "92906489799d5d65c8315cc87371a14f6b2e384e",
+    "pushed": false,
+    "change": "Start separate server phases after setting all faults, preserving cross-page/batch failure, both graph scores, EXEC and recovery assertions. Tests-only source diff.",
+    "validation": "Format/diff pass; queued local original-failure reproduction plus corrected27fault-enabled cases, server SHA equality required. Not yet executed."
+  },
+  "performance": "Native20pass7skip proof remains atd012. Clean ZSet repeats stopped before seeding duefailedCI; dependentprofile andextentwaiters exited without heavywork. No performance result."
+}
