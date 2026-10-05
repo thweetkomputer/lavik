@@ -1,0 +1,3377 @@
+{
+  "scope": "hash-small",
+  "versions": {
+    "parent": {
+      "commit": "19496654cc43b21df11fb59be60e174dc4c89dbc",
+      "source_repo": "/mnt/dev/lavik-complex-next-20261004",
+      "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-hash-route-replace-parent-19496654-20261005",
+      "sha256": "44695167697904ad6a210dd50e6fcdf3634f494fb633eb1267c5e9b568eed552",
+      "driver": "/mnt/dev/lavik-benchmark-binaries/hash-route-replace-parent-driver-19496654-20261005",
+      "driver_sha256": "2dc92baa668150198b88966537dd9f074502a6a27e190eb71c7fcf771bf2233f",
+      "bycorf_commit": "62509c93d40c2480f5046b71454db6cf95801b04",
+      "build": "Existing GCC native SPDK build-spdk cache; production tests/faults OFF, separately built test drivers",
+      "candidate_ci": "https://github.com/eloqdata/lavik/actions/runs/37255329628",
+      "tests": {
+        "unit-tests": {
+          "tests": 80,
+          "failures": 0,
+          "disabled": 0,
+          "errors": 0,
+          "timestamp": "2026-10-05T04:44:18Z",
+          "time": "2.559s",
+          "name": "AllTests",
+          "testsuites": [
+            {
+              "name": "GroupedHashTest",
+              "tests": 37,
+              "failures": 0,
+              "disabled": 0,
+              "errors": 0,
+              "timestamp": "2026-10-05T04:44:18Z",
+              "time": "2.513s",
+              "testsuite": [
+                {
+                  "name": "PrefixBoundsIncludeZeroAndFullWidth",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 231,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:18Z",
+                  "time": "0s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "CompactPayloadHasAnExplicitLittleEndianHeader",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 243,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:18Z",
+                  "time": "0s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "CompactEncodingMatchesAppendReferenceAtUnalignedLengths",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 264,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:18Z",
+                  "time": "0s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "CompactReaderPreservesBinaryViewsAndCopiedPosition",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 306,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:18Z",
+                  "time": "0s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "CompactReaderRejectsMalformedUnselectedBytes",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 333,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:18Z",
+                  "time": "0s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "RootRoundTripsAndRejectsMalformedEnvelopes",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 376,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:18Z",
+                  "time": "0s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "RejectsInnerCountBeforeDecodingEntryStorage",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 401,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:18Z",
+                  "time": "0s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "ReplayCommandSequenceIsIndependentOfGroupRevision",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 418,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:18Z",
+                  "time": "0s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "DirectoryReplacementAndSplitPreserveSnapshotsAndCoverage",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 446,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:18Z",
+                  "time": "0s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "CompleteSnapshotsAreBinarySafeAndNotMutationLogs",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 512,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:18Z",
+                  "time": "0s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "PointLookupDistinguishesMissingEmptyAndBinaryValues",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 544,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:18Z",
+                  "time": "0s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "PointLookupRejectsCorruptionAfterMatch",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 571,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:18Z",
+                  "time": "0s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "PointLookupLeavesUnrelatedDuplicateValidationToFullDecode",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 621,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:18Z",
+                  "time": "0s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "MultiLookupMatchesRepeatedOperandsAndChecksUnselectedTail",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 633,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:18Z",
+                  "time": "0s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "EmptyLeafAndRetiredLeafAreDifferentStates",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 786,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:18Z",
+                  "time": "0s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "DuplicateFieldsAreRejectedBeforePublication",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 802,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:18Z",
+                  "time": "0s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "PromotionRoutesEveryFieldToOneBoundedGroup",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 816,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:18Z",
+                  "time": "0.009s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "LargeIndivisibleFieldDoesNotCauseRecursiveExplosion",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 850,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:18Z",
+                  "time": "0s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "MaximalIndividualValueLeavesRoomForGroupFraming",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 860,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:18Z",
+                  "time": "0s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "StreamingEncoderBorrowsTheLargeValueAndMatchesCodec",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 888,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:18Z",
+                  "time": "0.019s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "StreamingEncoderDistinguishesEmptySpansFromEnd",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 920,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:18Z",
+                  "time": "0s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "StreamingEncoderValidatesBeforeEmittingAnyBytes",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 950,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:18Z",
+                  "time": "0s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "LogicalEncodingSizeCanExceedStringAndRecordLimits",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 962,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:18Z",
+                  "time": "0s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "LargeLogicalValueRoundTripsBeyondRecordLimit",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 980,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:18Z",
+                  "time": "2.383s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "RejectsFieldsOutsideTheLeafBeingUpdated",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 1020,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:20Z",
+                  "time": "0s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "DurableRoutingDoesNotDependOnProcessLookupSeed",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 1028,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:20Z",
+                  "time": "0s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "RecoverySelectsEachGroupSequenceIndependently",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 1049,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:20Z",
+                  "time": "0s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "RecoveryFiltersUncommittedFutureAndOtherIncarnations",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 1073,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:20Z",
+                  "time": "0s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "SplitRecoveryIsOldOrNewAndNeverAPartialDirectory",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 1092,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:20Z",
+                  "time": "0s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "EmptyLeafRemainsRoutableAfterDeletingItsLastField",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 1128,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:20Z",
+                  "time": "0s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "RelocationUsesLsnOnlyWithinTheSameLogicalVersion",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 1146,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:20Z",
+                  "time": "0s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "RejectsCountsGapsOverlapsAndMalformedIdentities",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 1168,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:20Z",
+                  "time": "0s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "SingleFieldUpdateWritesOnlyItsGroup",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 1187,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:20Z",
+                  "time": "0s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "DuplicateMutationOperandsPreserveRedisCounts",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 1219,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:20Z",
+                  "time": "0s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "NoopAndSetIfAbsentDoNotRewriteGroups",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 1248,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:20Z",
+                  "time": "0s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "MutationSplitIncludesOldLeafRetirement",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 1270,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:20Z",
+                  "time": "0s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "RandomizedPartialWritesRecoverAgainstReferenceHash",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 1294,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:20Z",
+                  "time": "0.098s",
+                  "classname": "GroupedHashTest"
+                }
+              ]
+            },
+            {
+              "name": "GroupedObjectIndexTest",
+              "tests": 38,
+              "failures": 0,
+              "disabled": 0,
+              "errors": 0,
+              "timestamp": "2026-10-05T04:44:20Z",
+              "time": "0.043s",
+              "testsuite": [
+                {
+                  "name": "PhysicalGroupsUseRevisionNotSourceCommandSequence",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 113,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:20Z",
+                  "time": "0s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "CompressedPathsRetainAllHashPrefixLengthBits",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 292,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:20Z",
+                  "time": "0s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "PublishOomPreservesExistingKeyAndCanBeRetried",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 436,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:20Z",
+                  "time": "0s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "PartialConstructionFailureUnwindsGroupEntries",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 467,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:20Z",
+                  "time": "0.016s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "RealMaxmemoryFailureAfterPartialBuildCanBeRetried",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 509,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:20Z",
+                  "time": "0.011s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "DetachedMetadataStaysChargedUntilLastReaderReleasesIt",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 550,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:20Z",
+                  "time": "0s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "ExtentManifestBytesAreIncludedInRetainedAccounting",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 574,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:20Z",
+                  "time": "0s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "ManifestReaderRetainsItsOwnMemoryCharge",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 633,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:20Z",
+                  "time": "0s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "StoresOneCompactPhysicalIndexEntryPerGroup",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 661,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:20Z",
+                  "time": "0s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "NonGroupedRootBypassesSideTable",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 685,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:20Z",
+                  "time": "0s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "LookupRequiresPhysicalRootAndPopulationVersion",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 696,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:20Z",
+                  "time": "0s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "PublishAndRollbackAreCompareAndSwap",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 740,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:20Z",
+                  "time": "0s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "UndoPlaceholderRestoresWithoutAllocationAtMaxmemory",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 764,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:20Z",
+                  "time": "0s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "SettlingOlderUndoDoesNotEraseRepublishedView",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 786,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:20Z",
+                  "time": "0s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "StaleUndoClearCannotRemoveCurrentView",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 806,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:20Z",
+                  "time": "0s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "RecreatedKeyRejectsOldWriterDespiteMatchingSequence",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 824,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:20Z",
+                  "time": "0s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "DetachPreservesOldPopulationAndSharesArena",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 840,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:20Z",
+                  "time": "0s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "MetadataHandleOutlivesRemovalWithoutPretendingToPinDisk",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 866,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:20Z",
+                  "time": "0s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "RejectsIncompleteDuplicateAndStaleGroupLocations",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 883,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:20Z",
+                  "time": "0s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "ExternalGroupManifestIsSparseAndRequired",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 921,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:20Z",
+                  "time": "0s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "ArenaCapacityFailurePublishesNothing",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 948,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:20Z",
+                  "time": "0s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "RetainedMetadataIsReleasedWithLastHandle",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 964,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:20Z",
+                  "time": "0s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "MaxmemoryRejectsConstructionWithoutTerminating",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 981,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:20Z",
+                  "time": "0s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "RejectsConflictingAllocationsBeforeCompactingLocations",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 989,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:20Z",
+                  "time": "0s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "MultipleGroupsCanShareOnePackedRecordsBlock",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 1008,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:20Z",
+                  "time": "0s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "IncrementalUpdateSharesUntouchedPagesAndRoutingNodes",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 1025,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:20Z",
+                  "time": "0.003s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "SplitRetainsParentMarkerAcrossFurtherMutations",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 1074,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:20Z",
+                  "time": "0s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "RootRelocationSharesAllMetadataAndRefreshesGroupGc",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 1137,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:20Z",
+                  "time": "0s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "ReservedPublicationAndFinalizationAllocateNothing",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 1174,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:20Z",
+                  "time": "0s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "IncrementalMetadataOomLeavesPublishedObjectIntact",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 1203,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:20Z",
+                  "time": "0s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "DirectoryIncrementalValidationRejectsPartialSplits",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 1234,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:20Z",
+                  "time": "0s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "RetiredMarkerCanKeepAnExternalParentKey",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 1248,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:20Z",
+                  "time": "0s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "GroupRecoveryRequiresOuterAndCommandBatchDecisions",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 1290,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:20Z",
+                  "time": "0s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "RootPhysicalFinalizationKeepsPendingDecision",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 1313,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:20Z",
+                  "time": "0s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "FailedPublishedDecisionCannotBeRead",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 1333,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:20Z",
+                  "time": "0s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "CoordinateChangesPreserveSnapshotsAndTraversal",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 1358,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:20Z",
+                  "time": "0.008s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "ExternalReplacementFoldsPendingInlineCoordinates",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 1407,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:20Z",
+                  "time": "0s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "MetadataOnlyUpdateSharesHashRoutingNodesAndPhysicalPages",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 1458,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:20Z",
+                  "time": "0s",
+                  "classname": "GroupedObjectIndexTest"
+                }
+              ]
+            },
+            {
+              "name": "GroupedMetadataArrayTest",
+              "tests": 5,
+              "failures": 0,
+              "disabled": 0,
+              "errors": 0,
+              "timestamp": "2026-10-05T04:44:20Z",
+              "time": "0.003s",
+              "testsuite": [
+                {
+                  "name": "SparseUpdatesPreserveSnapshotsAcrossTreeLevels",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 147,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:20Z",
+                  "time": "0s",
+                  "classname": "GroupedMetadataArrayTest"
+                },
+                {
+                  "name": "PointUpdateChargesOnlyItsPathAndReleasesAllOwners",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 178,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:20Z",
+                  "time": "0.002s",
+                  "classname": "GroupedMetadataArrayTest"
+                },
+                {
+                  "name": "PartialDetachAdmissionFailureCanBeRetried",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 205,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:20Z",
+                  "time": "0s",
+                  "classname": "GroupedMetadataArrayTest"
+                },
+                {
+                  "name": "AppendsPreservePinnedTailsAcrossTreeGrowth",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 232,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:20Z",
+                  "time": "0s",
+                  "classname": "GroupedMetadataArrayTest"
+                },
+                {
+                  "name": "AppendAdmissionFailurePreservesViewAndAccounting",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 263,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:20Z",
+                  "time": "0s",
+                  "classname": "GroupedMetadataArrayTest"
+                }
+              ]
+            }
+          ]
+        },
+        "native-tests": {
+          "tests": 36,
+          "failures": 0,
+          "disabled": 0,
+          "errors": 0,
+          "timestamp": "2026-10-05T04:44:25Z",
+          "time": "17.348s",
+          "name": "AllTests",
+          "testsuites": [
+            {
+              "name": "GroupedHashWriteE2e",
+              "tests": 20,
+              "failures": 0,
+              "disabled": 0,
+              "errors": 0,
+              "timestamp": "2026-10-05T04:44:25Z",
+              "time": "15.001s",
+              "testsuite": [
+                {
+                  "name": "ConcurrentLocalAndExecWritesRecover",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 42,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:25Z",
+                  "time": "9.554s",
+                  "classname": "GroupedHashWriteE2e"
+                },
+                {
+                  "name": "DemotesBelowStrictGroupPayloadThresholdAfterRecovery",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 145,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:35Z",
+                  "time": "0.996s",
+                  "classname": "GroupedHashWriteE2e"
+                },
+                {
+                  "name": "BatchedFieldsPreserveOrderAcrossGrowthAndRecovery",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 195,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:36Z",
+                  "time": "0.607s",
+                  "classname": "GroupedHashWriteE2e"
+                },
+                {
+                  "name": "PromotionAndPointUpdateOnlyRewriteOneGroup",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 598,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:36Z",
+                  "time": "0.713s",
+                  "classname": "GroupedHashWriteE2e"
+                },
+                {
+                  "name": "MultiFieldReadsPreserveOrderAndDuplicatesAfterRecovery",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 648,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:37Z",
+                  "time": "0.478s",
+                  "classname": "GroupedHashWriteE2e"
+                },
+                {
+                  "name": "ConditionalIncrementDeleteAndNewIncarnation",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 710,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:37Z",
+                  "time": "0.338s",
+                  "classname": "GroupedHashWriteE2e"
+                },
+                {
+                  "name": "FailedAuxiliaryBatchCannotReappearAfterLaterExecWrite",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 736,
+                  "status": "RUN",
+                  "result": "SKIPPED",
+                  "timestamp": "2026-10-05T04:44:38Z",
+                  "time": "0s",
+                  "classname": "GroupedHashWriteE2e",
+                  "skipped": [
+                    {
+                      "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:739\nrequires Debug/fault auxiliary hook\n"
+                    }
+                  ]
+                },
+                {
+                  "name": "OversizedFieldSplitsIntoExtentBackedLeaf",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 776,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:38Z",
+                  "time": "0.571s",
+                  "classname": "GroupedHashWriteE2e"
+                },
+                {
+                  "name": "SetUsesSameGroupedLifecycleWithSetType",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 799,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:38Z",
+                  "time": "0.415s",
+                  "classname": "GroupedHashWriteE2e"
+                },
+                {
+                  "name": "BatchedMembersSurviveGrowthAndDuplicateLookup",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 830,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:39Z",
+                  "time": "0.506s",
+                  "classname": "GroupedHashWriteE2e"
+                },
+                {
+                  "name": "LocalSuccessorWaitsUntilCommitDecision",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 980,
+                  "status": "RUN",
+                  "result": "SKIPPED",
+                  "timestamp": "2026-10-05T04:44:39Z",
+                  "time": "0s",
+                  "classname": "GroupedHashWriteE2e",
+                  "skipped": [
+                    {
+                      "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:982\nrequires grouped dependency gate\n"
+                    }
+                  ]
+                },
+                {
+                  "name": "LocalSuccessorWakesOnCommitFailure",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 987,
+                  "status": "RUN",
+                  "result": "SKIPPED",
+                  "timestamp": "2026-10-05T04:44:39Z",
+                  "time": "0s",
+                  "classname": "GroupedHashWriteE2e",
+                  "skipped": [
+                    {
+                      "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:989\nrequires grouped dependency gate\n"
+                    }
+                  ]
+                },
+                {
+                  "name": "OrdinarySuccessorsStageBeforePredecessorDecision",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 1098,
+                  "status": "RUN",
+                  "result": "SKIPPED",
+                  "timestamp": "2026-10-05T04:44:39Z",
+                  "time": "0s",
+                  "classname": "GroupedHashWriteE2e",
+                  "skipped": [
+                    {
+                      "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1100\nrequires grouped dependency gate\n"
+                    }
+                  ]
+                },
+                {
+                  "name": "FailedPredecessorPreventsSuccessorCommitAndRecovery",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 1105,
+                  "status": "RUN",
+                  "result": "SKIPPED",
+                  "timestamp": "2026-10-05T04:44:39Z",
+                  "time": "0s",
+                  "classname": "GroupedHashWriteE2e",
+                  "skipped": [
+                    {
+                      "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1107\nrequires grouped dependency gate\n"
+                    }
+                  ]
+                },
+                {
+                  "name": "OrderedTypesPipelineAndRecoverOrAbortTogether",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 1112,
+                  "status": "RUN",
+                  "result": "SKIPPED",
+                  "timestamp": "2026-10-05T04:44:39Z",
+                  "time": "0s",
+                  "classname": "GroupedHashWriteE2e",
+                  "skipped": [
+                    {
+                      "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1114\nrequires grouped dependency gate\n"
+                    }
+                  ]
+                },
+                {
+                  "name": "MultiKeyMetadataDependenciesDoNotFailUnrelatedWrites",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 1193,
+                  "status": "RUN",
+                  "result": "SKIPPED",
+                  "timestamp": "2026-10-05T04:44:39Z",
+                  "time": "0s",
+                  "classname": "GroupedHashWriteE2e",
+                  "skipped": [
+                    {
+                      "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1196\nrequires grouped dependency gate\n"
+                    }
+                  ]
+                },
+                {
+                  "name": "FailedExecCommandDropsUnusedPredecessor",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 1252,
+                  "status": "RUN",
+                  "result": "SKIPPED",
+                  "timestamp": "2026-10-05T04:44:39Z",
+                  "time": "0s",
+                  "classname": "GroupedHashWriteE2e",
+                  "skipped": [
+                    {
+                      "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1254\nrequires grouped dependency and auxiliary-write faults\n"
+                    }
+                  ]
+                },
+                {
+                  "name": "ColdCompactWritesReleaseStateButKeepTheKeyLocked",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 1444,
+                  "status": "RUN",
+                  "result": "SKIPPED",
+                  "timestamp": "2026-10-05T04:44:39Z",
+                  "time": "0s",
+                  "classname": "GroupedHashWriteE2e",
+                  "skipped": [
+                    {
+                      "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1446\nrequires Debug/fault compact Hash write pause hook\n"
+                    }
+                  ]
+                },
+                {
+                  "name": "ColdCompactNoopWatchHmsetTtlAndPromotionKeepSemantics",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 1514,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:39Z",
+                  "time": "0.82s",
+                  "classname": "GroupedHashWriteE2e"
+                },
+                {
+                  "name": "PublicationHandoffOomFailsClosedAndRecoversOldGraph",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 1573,
+                  "status": "RUN",
+                  "result": "SKIPPED",
+                  "timestamp": "2026-10-05T04:44:40Z",
+                  "time": "0s",
+                  "classname": "GroupedHashWriteE2e",
+                  "skipped": [
+                    {
+                      "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1575\nrequires handoff rejection after grouped root staging\n"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "HashReplaceE2e",
+              "tests": 7,
+              "failures": 0,
+              "disabled": 0,
+              "errors": 0,
+              "timestamp": "2026-10-05T04:44:40Z",
+              "time": "1.862s",
+              "testsuite": [
+                {
+                  "name": "SemanticsTtlBinaryFieldsAndUnchangedStandardCommands",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 288,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:40Z",
+                  "time": "0.1s",
+                  "classname": "HashReplaceE2e"
+                },
+                {
+                  "name": "DifferentRequestSizesPreserveLastDuplicateAfterRecovery",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 324,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:40Z",
+                  "time": "0.392s",
+                  "classname": "HashReplaceE2e"
+                },
+                {
+                  "name": "PromotionUsesFinalDeduplicatedBytes",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 365,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:40Z",
+                  "time": "0.473s",
+                  "classname": "HashReplaceE2e"
+                },
+                {
+                  "name": "WatchExecAndLua",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 491,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:41Z",
+                  "time": "0.098s",
+                  "classname": "HashReplaceE2e"
+                },
+                {
+                  "name": "GroupedReplacementDemotionExtentsAndColdRecovery",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 523,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:41Z",
+                  "time": "0.797s",
+                  "classname": "HashReplaceE2e"
+                },
+                {
+                  "name": "AuxiliaryOomPreservesOldHashInsideExec",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 561,
+                  "status": "RUN",
+                  "result": "SKIPPED",
+                  "timestamp": "2026-10-05T04:44:42Z",
+                  "time": "0s",
+                  "classname": "HashReplaceE2e",
+                  "skipped": [
+                    {
+                      "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:563\nrequires Debug/fault server\n"
+                    }
+                  ]
+                },
+                {
+                  "name": "ColdReplacementDoesNotLoadOldPayload",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 1313,
+                  "status": "RUN",
+                  "result": "SKIPPED",
+                  "timestamp": "2026-10-05T04:44:42Z",
+                  "time": "0s",
+                  "classname": "HashReplaceE2e",
+                  "skipped": [
+                    {
+                      "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1315\nrequires payload read fault hook\n"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "HashReadOwnershipE2e",
+              "tests": 1,
+              "failures": 0,
+              "disabled": 0,
+              "errors": 0,
+              "timestamp": "2026-10-05T04:44:42Z",
+              "time": "0.483s",
+              "testsuite": [
+                {
+                  "name": "FullReadsPreserveCompactAndGroupedValues",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 404,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T04:44:42Z",
+                  "time": "0.483s",
+                  "classname": "HashReadOwnershipE2e"
+                }
+              ]
+            },
+            {
+              "name": "BatchWindows/GroupedHashWriteCrashE2e",
+              "tests": 8,
+              "failures": 0,
+              "disabled": 0,
+              "errors": 0,
+              "timestamp": "2026-10-05T04:44:42Z",
+              "time": "0s",
+              "testsuite": [
+                {
+                  "name": "UncommittedOuterNeverPublishesPartialHash/0",
+                  "value_param": "\"group-batch-before-root\"",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 1653,
+                  "status": "RUN",
+                  "result": "SKIPPED",
+                  "timestamp": "2026-10-05T04:44:42Z",
+                  "time": "0s",
+                  "classname": "BatchWindows/GroupedHashWriteCrashE2e",
+                  "skipped": [
+                    {
+                      "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1655\nrequires Debug/fault crash hook\n"
+                    }
+                  ]
+                },
+                {
+                  "name": "UncommittedOuterNeverPublishesPartialHash/1",
+                  "value_param": "\"group-root-staged-before-batch-decision\"",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 1653,
+                  "status": "RUN",
+                  "result": "SKIPPED",
+                  "timestamp": "2026-10-05T04:44:42Z",
+                  "time": "0s",
+                  "classname": "BatchWindows/GroupedHashWriteCrashE2e",
+                  "skipped": [
+                    {
+                      "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1655\nrequires Debug/fault crash hook\n"
+                    }
+                  ]
+                },
+                {
+                  "name": "UncommittedOuterNeverPublishesPartialHash/2",
+                  "value_param": "\"group-batch-durable-before-outer-decision\"",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 1653,
+                  "status": "RUN",
+                  "result": "SKIPPED",
+                  "timestamp": "2026-10-05T04:44:42Z",
+                  "time": "0s",
+                  "classname": "BatchWindows/GroupedHashWriteCrashE2e",
+                  "skipped": [
+                    {
+                      "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1655\nrequires Debug/fault crash hook\n"
+                    }
+                  ]
+                },
+                {
+                  "name": "UncommittedOuterNeverPublishesPartialHash/3",
+                  "value_param": "\"group-extents-durable-before-record\"",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 1653,
+                  "status": "RUN",
+                  "result": "SKIPPED",
+                  "timestamp": "2026-10-05T04:44:42Z",
+                  "time": "0s",
+                  "classname": "BatchWindows/GroupedHashWriteCrashE2e",
+                  "skipped": [
+                    {
+                      "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1655\nrequires Debug/fault crash hook\n"
+                    }
+                  ]
+                },
+                {
+                  "name": "ReplacementNeverRevivesPartialOrOldFields/0",
+                  "value_param": "\"group-batch-before-root\"",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 1691,
+                  "status": "RUN",
+                  "result": "SKIPPED",
+                  "timestamp": "2026-10-05T04:44:42Z",
+                  "time": "0s",
+                  "classname": "BatchWindows/GroupedHashWriteCrashE2e",
+                  "skipped": [
+                    {
+                      "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1693\nrequires Debug/fault crash hook\n"
+                    }
+                  ]
+                },
+                {
+                  "name": "ReplacementNeverRevivesPartialOrOldFields/1",
+                  "value_param": "\"group-root-staged-before-batch-decision\"",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 1691,
+                  "status": "RUN",
+                  "result": "SKIPPED",
+                  "timestamp": "2026-10-05T04:44:42Z",
+                  "time": "0s",
+                  "classname": "BatchWindows/GroupedHashWriteCrashE2e",
+                  "skipped": [
+                    {
+                      "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1693\nrequires Debug/fault crash hook\n"
+                    }
+                  ]
+                },
+                {
+                  "name": "ReplacementNeverRevivesPartialOrOldFields/2",
+                  "value_param": "\"group-batch-durable-before-outer-decision\"",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 1691,
+                  "status": "RUN",
+                  "result": "SKIPPED",
+                  "timestamp": "2026-10-05T04:44:42Z",
+                  "time": "0s",
+                  "classname": "BatchWindows/GroupedHashWriteCrashE2e",
+                  "skipped": [
+                    {
+                      "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1693\nrequires Debug/fault crash hook\n"
+                    }
+                  ]
+                },
+                {
+                  "name": "ReplacementNeverRevivesPartialOrOldFields/3",
+                  "value_param": "\"group-extents-durable-before-record\"",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 1691,
+                  "status": "RUN",
+                  "result": "SKIPPED",
+                  "timestamp": "2026-10-05T04:44:42Z",
+                  "time": "0s",
+                  "classname": "BatchWindows/GroupedHashWriteCrashE2e",
+                  "skipped": [
+                    {
+                      "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1693\nrequires Debug/fault crash hook\n"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "bycorf_commit_recorded": "19496654cc43b21df11fb59be60e174dc4c89dbc",
+      "bycorf_source_repo": "/mnt/dev/lavik-set-hash-20260929/bycorf",
+      "bycorf_source_status": " m third_party/spdk",
+      "bycorf_submodule_revisions": [
+        " 76bb24329e8bf5f39704eb10d21b9a80befa7c81 third_party/abseil (20250512.1)",
+        " 37a1a9b926b4678141931f2f22e7a877b5b565c2 third_party/dpdk (v21.02-17380-g37a1a9b926)",
+        " d41bf9220ec39277ff235379e9089d9e0fd6c2a5 third_party/liburing (liburing-2.15)",
+        " d519b163cbc0e2f28c35d9bc86d610da368b032c third_party/spdk (v26.05)",
+        " 37a1a9b926b4678141931f2f22e7a877b5b565c2 third_party/spdk/dpdk (v21.02-17380-g37a1a9b926)",
+        " 935a3802883249ba3b12e566833994af7991e808 third_party/spdk/intel-ipsec-mb (v0.50-2636-g935a3802)",
+        " c196241ae89b1aa4f62efeb849a937c011b3a926 third_party/spdk/isa-l (v2.31.0-207-gc196241)",
+        " 07d0b253843ace996aa5a44f538c9b83b085aba6 third_party/spdk/isa-l-crypto (v2.24.0-384-g07d0b25)",
+        " f922ada35b3ef47407687d19c63db1ea19c96550 third_party/spdk/libvfio-user (v0.1-728-gf922ada)",
+        " 6ad1007e6fa47ff6468eaba0b304d77334c34d4a third_party/spdk/ocf (v24.09)",
+        " be52a634c139647b14940ba8a3ff254d6b1ca8c4 third_party/spdk/xnvme (v0.7.5)"
+      ],
+      "bycorf_provenance_observed_at": "2026-10-05T06:06:12.387668+00:00",
+      "bycorf_provenance_correction": "native-dependency-provenance-correction.json"
+    },
+    "candidate": {
+      "commit": "27c65ff9c2ceaaacea4c93f42ffed01dce529b8f",
+      "source_repo": "/mnt/dev/lavik-complex-next-20261004",
+      "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-hash-route-replace-candidate-27c65ff9-20261005",
+      "sha256": "208e511f4161c5ef53cd933994bbbcc946246b5ddb091fe61ba177ba77a076ee",
+      "driver": "/mnt/dev/lavik-benchmark-binaries/hash-route-replace-candidate-driver-27c65ff9-20261005",
+      "driver_sha256": "84b0536e8061b54d945edda65129263e354503bcfe77d23c3d5fa4400b34c1a9",
+      "bycorf_commit": "62509c93d40c2480f5046b71454db6cf95801b04",
+      "build": "Existing GCC native SPDK build-spdk cache; production tests/faults OFF, separately built test drivers",
+      "candidate_ci": "https://github.com/eloqdata/lavik/actions/runs/37255329628",
+      "compiler_tmpdir": "/mnt/dev/lavik-complex-iterations-20261004/compiler-tmp-hash-route",
+      "native_build_retry": "Original candidate LTO failed ENOSPC under /tmp; only TMPDIR moved to /mnt/dev. Original logs retained; source and compiler flags unchanged.",
+      "tests": {
+        "unit-tests": {
+          "tests": 82,
+          "failures": 0,
+          "disabled": 0,
+          "errors": 0,
+          "timestamp": "2026-10-05T05:49:33Z",
+          "time": "2.251s",
+          "name": "AllTests",
+          "testsuites": [
+            {
+              "name": "GroupedHashTest",
+              "tests": 38,
+              "failures": 0,
+              "disabled": 0,
+              "errors": 0,
+              "timestamp": "2026-10-05T05:49:33Z",
+              "time": "2.206s",
+              "testsuite": [
+                {
+                  "name": "PrefixBoundsIncludeZeroAndFullWidth",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 231,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:33Z",
+                  "time": "0s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "CompactPayloadHasAnExplicitLittleEndianHeader",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 243,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:33Z",
+                  "time": "0s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "CompactEncodingMatchesAppendReferenceAtUnalignedLengths",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 264,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:33Z",
+                  "time": "0s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "CompactReaderPreservesBinaryViewsAndCopiedPosition",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 306,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:33Z",
+                  "time": "0s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "CompactReaderRejectsMalformedUnselectedBytes",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 333,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:33Z",
+                  "time": "0s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "RootRoundTripsAndRejectsMalformedEnvelopes",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 376,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:33Z",
+                  "time": "0s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "RejectsInnerCountBeforeDecodingEntryStorage",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 401,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:33Z",
+                  "time": "0s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "ReplayCommandSequenceIsIndependentOfGroupRevision",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 418,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:33Z",
+                  "time": "0s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "DirectoryReplacementAndSplitPreserveSnapshotsAndCoverage",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 446,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:33Z",
+                  "time": "0s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "SingleRouteUpdatesPreserveEveryPinnedPath",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 512,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:33Z",
+                  "time": "0s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "CompleteSnapshotsAreBinarySafeAndNotMutationLogs",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 573,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:33Z",
+                  "time": "0s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "PointLookupDistinguishesMissingEmptyAndBinaryValues",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 605,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:33Z",
+                  "time": "0s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "PointLookupRejectsCorruptionAfterMatch",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 632,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:33Z",
+                  "time": "0s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "PointLookupLeavesUnrelatedDuplicateValidationToFullDecode",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 682,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:33Z",
+                  "time": "0s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "MultiLookupMatchesRepeatedOperandsAndChecksUnselectedTail",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 694,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:33Z",
+                  "time": "0s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "EmptyLeafAndRetiredLeafAreDifferentStates",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 847,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:33Z",
+                  "time": "0s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "DuplicateFieldsAreRejectedBeforePublication",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 863,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:33Z",
+                  "time": "0s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "PromotionRoutesEveryFieldToOneBoundedGroup",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 877,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:33Z",
+                  "time": "0.009s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "LargeIndivisibleFieldDoesNotCauseRecursiveExplosion",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 911,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:33Z",
+                  "time": "0s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "MaximalIndividualValueLeavesRoomForGroupFraming",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 921,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:33Z",
+                  "time": "0s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "StreamingEncoderBorrowsTheLargeValueAndMatchesCodec",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 949,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:33Z",
+                  "time": "0.019s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "StreamingEncoderDistinguishesEmptySpansFromEnd",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 981,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:33Z",
+                  "time": "0s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "StreamingEncoderValidatesBeforeEmittingAnyBytes",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 1011,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:33Z",
+                  "time": "0s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "LogicalEncodingSizeCanExceedStringAndRecordLimits",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 1023,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:33Z",
+                  "time": "0s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "LargeLogicalValueRoundTripsBeyondRecordLimit",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 1041,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:33Z",
+                  "time": "2.087s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "RejectsFieldsOutsideTheLeafBeingUpdated",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 1081,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:35Z",
+                  "time": "0s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "DurableRoutingDoesNotDependOnProcessLookupSeed",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 1089,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:35Z",
+                  "time": "0s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "RecoverySelectsEachGroupSequenceIndependently",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 1110,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:35Z",
+                  "time": "0s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "RecoveryFiltersUncommittedFutureAndOtherIncarnations",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 1134,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:35Z",
+                  "time": "0s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "SplitRecoveryIsOldOrNewAndNeverAPartialDirectory",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 1153,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:35Z",
+                  "time": "0s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "EmptyLeafRemainsRoutableAfterDeletingItsLastField",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 1189,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:35Z",
+                  "time": "0s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "RelocationUsesLsnOnlyWithinTheSameLogicalVersion",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 1207,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:35Z",
+                  "time": "0s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "RejectsCountsGapsOverlapsAndMalformedIdentities",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 1229,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:35Z",
+                  "time": "0s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "SingleFieldUpdateWritesOnlyItsGroup",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 1248,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:35Z",
+                  "time": "0s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "DuplicateMutationOperandsPreserveRedisCounts",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 1280,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:35Z",
+                  "time": "0s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "NoopAndSetIfAbsentDoNotRewriteGroups",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 1309,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:35Z",
+                  "time": "0s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "MutationSplitIncludesOldLeafRetirement",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 1331,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:35Z",
+                  "time": "0s",
+                  "classname": "GroupedHashTest"
+                },
+                {
+                  "name": "RandomizedPartialWritesRecoverAgainstReferenceHash",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_test.cpp",
+                  "line": 1355,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:35Z",
+                  "time": "0.087s",
+                  "classname": "GroupedHashTest"
+                }
+              ]
+            },
+            {
+              "name": "GroupedObjectIndexTest",
+              "tests": 38,
+              "failures": 0,
+              "disabled": 0,
+              "errors": 0,
+              "timestamp": "2026-10-05T05:49:35Z",
+              "time": "0.041s",
+              "testsuite": [
+                {
+                  "name": "PhysicalGroupsUseRevisionNotSourceCommandSequence",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 113,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:35Z",
+                  "time": "0s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "CompressedPathsRetainAllHashPrefixLengthBits",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 292,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:35Z",
+                  "time": "0s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "PublishOomPreservesExistingKeyAndCanBeRetried",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 466,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:35Z",
+                  "time": "0s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "PartialConstructionFailureUnwindsGroupEntries",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 497,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:35Z",
+                  "time": "0.015s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "RealMaxmemoryFailureAfterPartialBuildCanBeRetried",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 539,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:35Z",
+                  "time": "0.011s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "DetachedMetadataStaysChargedUntilLastReaderReleasesIt",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 580,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:35Z",
+                  "time": "0s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "ExtentManifestBytesAreIncludedInRetainedAccounting",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 604,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:35Z",
+                  "time": "0s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "ManifestReaderRetainsItsOwnMemoryCharge",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 663,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:35Z",
+                  "time": "0s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "StoresOneCompactPhysicalIndexEntryPerGroup",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 691,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:35Z",
+                  "time": "0s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "NonGroupedRootBypassesSideTable",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 715,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:35Z",
+                  "time": "0s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "LookupRequiresPhysicalRootAndPopulationVersion",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 726,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:35Z",
+                  "time": "0s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "PublishAndRollbackAreCompareAndSwap",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 770,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:35Z",
+                  "time": "0s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "UndoPlaceholderRestoresWithoutAllocationAtMaxmemory",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 794,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:35Z",
+                  "time": "0s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "SettlingOlderUndoDoesNotEraseRepublishedView",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 816,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:35Z",
+                  "time": "0s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "StaleUndoClearCannotRemoveCurrentView",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 836,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:35Z",
+                  "time": "0s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "RecreatedKeyRejectsOldWriterDespiteMatchingSequence",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 854,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:35Z",
+                  "time": "0s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "DetachPreservesOldPopulationAndSharesArena",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 870,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:35Z",
+                  "time": "0s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "MetadataHandleOutlivesRemovalWithoutPretendingToPinDisk",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 896,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:35Z",
+                  "time": "0s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "RejectsIncompleteDuplicateAndStaleGroupLocations",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 913,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:35Z",
+                  "time": "0s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "ExternalGroupManifestIsSparseAndRequired",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 951,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:35Z",
+                  "time": "0s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "ArenaCapacityFailurePublishesNothing",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 978,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:35Z",
+                  "time": "0s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "RetainedMetadataIsReleasedWithLastHandle",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 994,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:35Z",
+                  "time": "0s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "MaxmemoryRejectsConstructionWithoutTerminating",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 1011,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:35Z",
+                  "time": "0s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "RejectsConflictingAllocationsBeforeCompactingLocations",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 1019,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:35Z",
+                  "time": "0s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "MultipleGroupsCanShareOnePackedRecordsBlock",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 1038,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:35Z",
+                  "time": "0s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "IncrementalUpdateSharesUntouchedPagesAndRoutingNodes",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 1055,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:35Z",
+                  "time": "0.003s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "SplitRetainsParentMarkerAcrossFurtherMutations",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 1104,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:35Z",
+                  "time": "0s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "RootRelocationSharesAllMetadataAndRefreshesGroupGc",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 1167,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:35Z",
+                  "time": "0s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "ReservedPublicationAndFinalizationAllocateNothing",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 1204,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:35Z",
+                  "time": "0s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "IncrementalMetadataOomLeavesPublishedObjectIntact",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 1233,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:35Z",
+                  "time": "0s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "DirectoryIncrementalValidationRejectsPartialSplits",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 1264,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:35Z",
+                  "time": "0s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "RetiredMarkerCanKeepAnExternalParentKey",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 1278,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:35Z",
+                  "time": "0s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "GroupRecoveryRequiresOuterAndCommandBatchDecisions",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 1320,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:35Z",
+                  "time": "0s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "RootPhysicalFinalizationKeepsPendingDecision",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 1343,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:35Z",
+                  "time": "0s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "FailedPublishedDecisionCannotBeRead",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 1363,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:35Z",
+                  "time": "0s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "CoordinateChangesPreserveSnapshotsAndTraversal",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 1388,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:35Z",
+                  "time": "0.008s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "ExternalReplacementFoldsPendingInlineCoordinates",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 1437,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:35Z",
+                  "time": "0s",
+                  "classname": "GroupedObjectIndexTest"
+                },
+                {
+                  "name": "MetadataOnlyUpdateSharesHashRoutingNodesAndPhysicalPages",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 1488,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:35Z",
+                  "time": "0s",
+                  "classname": "GroupedObjectIndexTest"
+                }
+              ]
+            },
+            {
+              "name": "GroupedMetadataArrayTest",
+              "tests": 5,
+              "failures": 0,
+              "disabled": 0,
+              "errors": 0,
+              "timestamp": "2026-10-05T05:49:35Z",
+              "time": "0.003s",
+              "testsuite": [
+                {
+                  "name": "SparseUpdatesPreserveSnapshotsAcrossTreeLevels",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 147,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:35Z",
+                  "time": "0s",
+                  "classname": "GroupedMetadataArrayTest"
+                },
+                {
+                  "name": "PointUpdateChargesOnlyItsPathAndReleasesAllOwners",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 178,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:35Z",
+                  "time": "0.003s",
+                  "classname": "GroupedMetadataArrayTest"
+                },
+                {
+                  "name": "PartialDetachAdmissionFailureCanBeRetried",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 205,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:35Z",
+                  "time": "0s",
+                  "classname": "GroupedMetadataArrayTest"
+                },
+                {
+                  "name": "AppendsPreservePinnedTailsAcrossTreeGrowth",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 232,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:35Z",
+                  "time": "0s",
+                  "classname": "GroupedMetadataArrayTest"
+                },
+                {
+                  "name": "AppendAdmissionFailurePreservesViewAndAccounting",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 263,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:35Z",
+                  "time": "0s",
+                  "classname": "GroupedMetadataArrayTest"
+                }
+              ]
+            },
+            {
+              "name": "HashGroupMapTest",
+              "tests": 1,
+              "failures": 0,
+              "disabled": 0,
+              "errors": 0,
+              "timestamp": "2026-10-05T05:49:35Z",
+              "time": "0s",
+              "testsuite": [
+                {
+                  "name": "ReplacementAdmissionFailurePreservesPinnedVersion",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/object_index_test.cpp",
+                  "line": 436,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:35Z",
+                  "time": "0s",
+                  "classname": "HashGroupMapTest"
+                }
+              ]
+            }
+          ]
+        },
+        "native-tests": {
+          "tests": 36,
+          "failures": 0,
+          "disabled": 0,
+          "errors": 0,
+          "timestamp": "2026-10-05T05:49:40Z",
+          "time": "17.219s",
+          "name": "AllTests",
+          "testsuites": [
+            {
+              "name": "GroupedHashWriteE2e",
+              "tests": 20,
+              "failures": 0,
+              "disabled": 0,
+              "errors": 0,
+              "timestamp": "2026-10-05T05:49:40Z",
+              "time": "14.899s",
+              "testsuite": [
+                {
+                  "name": "ConcurrentLocalAndExecWritesRecover",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 42,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:40Z",
+                  "time": "9.455s",
+                  "classname": "GroupedHashWriteE2e"
+                },
+                {
+                  "name": "DemotesBelowStrictGroupPayloadThresholdAfterRecovery",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 145,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:49Z",
+                  "time": "0.993s",
+                  "classname": "GroupedHashWriteE2e"
+                },
+                {
+                  "name": "BatchedFieldsPreserveOrderAcrossGrowthAndRecovery",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 195,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:50Z",
+                  "time": "0.627s",
+                  "classname": "GroupedHashWriteE2e"
+                },
+                {
+                  "name": "PromotionAndPointUpdateOnlyRewriteOneGroup",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 598,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:51Z",
+                  "time": "0.704s",
+                  "classname": "GroupedHashWriteE2e"
+                },
+                {
+                  "name": "MultiFieldReadsPreserveOrderAndDuplicatesAfterRecovery",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 648,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:52Z",
+                  "time": "0.479s",
+                  "classname": "GroupedHashWriteE2e"
+                },
+                {
+                  "name": "ConditionalIncrementDeleteAndNewIncarnation",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 710,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:52Z",
+                  "time": "0.327s",
+                  "classname": "GroupedHashWriteE2e"
+                },
+                {
+                  "name": "FailedAuxiliaryBatchCannotReappearAfterLaterExecWrite",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 736,
+                  "status": "RUN",
+                  "result": "SKIPPED",
+                  "timestamp": "2026-10-05T05:49:52Z",
+                  "time": "0s",
+                  "classname": "GroupedHashWriteE2e",
+                  "skipped": [
+                    {
+                      "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:739\nrequires Debug/fault auxiliary hook\n"
+                    }
+                  ]
+                },
+                {
+                  "name": "OversizedFieldSplitsIntoExtentBackedLeaf",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 776,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:52Z",
+                  "time": "0.57s",
+                  "classname": "GroupedHashWriteE2e"
+                },
+                {
+                  "name": "SetUsesSameGroupedLifecycleWithSetType",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 799,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:53Z",
+                  "time": "0.423s",
+                  "classname": "GroupedHashWriteE2e"
+                },
+                {
+                  "name": "BatchedMembersSurviveGrowthAndDuplicateLookup",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 830,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:53Z",
+                  "time": "0.516s",
+                  "classname": "GroupedHashWriteE2e"
+                },
+                {
+                  "name": "LocalSuccessorWaitsUntilCommitDecision",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 980,
+                  "status": "RUN",
+                  "result": "SKIPPED",
+                  "timestamp": "2026-10-05T05:49:54Z",
+                  "time": "0s",
+                  "classname": "GroupedHashWriteE2e",
+                  "skipped": [
+                    {
+                      "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:982\nrequires grouped dependency gate\n"
+                    }
+                  ]
+                },
+                {
+                  "name": "LocalSuccessorWakesOnCommitFailure",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 987,
+                  "status": "RUN",
+                  "result": "SKIPPED",
+                  "timestamp": "2026-10-05T05:49:54Z",
+                  "time": "0s",
+                  "classname": "GroupedHashWriteE2e",
+                  "skipped": [
+                    {
+                      "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:989\nrequires grouped dependency gate\n"
+                    }
+                  ]
+                },
+                {
+                  "name": "OrdinarySuccessorsStageBeforePredecessorDecision",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 1098,
+                  "status": "RUN",
+                  "result": "SKIPPED",
+                  "timestamp": "2026-10-05T05:49:54Z",
+                  "time": "0s",
+                  "classname": "GroupedHashWriteE2e",
+                  "skipped": [
+                    {
+                      "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1100\nrequires grouped dependency gate\n"
+                    }
+                  ]
+                },
+                {
+                  "name": "FailedPredecessorPreventsSuccessorCommitAndRecovery",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 1105,
+                  "status": "RUN",
+                  "result": "SKIPPED",
+                  "timestamp": "2026-10-05T05:49:54Z",
+                  "time": "0s",
+                  "classname": "GroupedHashWriteE2e",
+                  "skipped": [
+                    {
+                      "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1107\nrequires grouped dependency gate\n"
+                    }
+                  ]
+                },
+                {
+                  "name": "OrderedTypesPipelineAndRecoverOrAbortTogether",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 1112,
+                  "status": "RUN",
+                  "result": "SKIPPED",
+                  "timestamp": "2026-10-05T05:49:54Z",
+                  "time": "0s",
+                  "classname": "GroupedHashWriteE2e",
+                  "skipped": [
+                    {
+                      "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1114\nrequires grouped dependency gate\n"
+                    }
+                  ]
+                },
+                {
+                  "name": "MultiKeyMetadataDependenciesDoNotFailUnrelatedWrites",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 1193,
+                  "status": "RUN",
+                  "result": "SKIPPED",
+                  "timestamp": "2026-10-05T05:49:54Z",
+                  "time": "0s",
+                  "classname": "GroupedHashWriteE2e",
+                  "skipped": [
+                    {
+                      "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1196\nrequires grouped dependency gate\n"
+                    }
+                  ]
+                },
+                {
+                  "name": "FailedExecCommandDropsUnusedPredecessor",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 1252,
+                  "status": "RUN",
+                  "result": "SKIPPED",
+                  "timestamp": "2026-10-05T05:49:54Z",
+                  "time": "0s",
+                  "classname": "GroupedHashWriteE2e",
+                  "skipped": [
+                    {
+                      "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1254\nrequires grouped dependency and auxiliary-write faults\n"
+                    }
+                  ]
+                },
+                {
+                  "name": "ColdCompactWritesReleaseStateButKeepTheKeyLocked",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 1444,
+                  "status": "RUN",
+                  "result": "SKIPPED",
+                  "timestamp": "2026-10-05T05:49:54Z",
+                  "time": "0s",
+                  "classname": "GroupedHashWriteE2e",
+                  "skipped": [
+                    {
+                      "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1446\nrequires Debug/fault compact Hash write pause hook\n"
+                    }
+                  ]
+                },
+                {
+                  "name": "ColdCompactNoopWatchHmsetTtlAndPromotionKeepSemantics",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 1514,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:54Z",
+                  "time": "0.8s",
+                  "classname": "GroupedHashWriteE2e"
+                },
+                {
+                  "name": "PublicationHandoffOomFailsClosedAndRecoversOldGraph",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 1573,
+                  "status": "RUN",
+                  "result": "SKIPPED",
+                  "timestamp": "2026-10-05T05:49:55Z",
+                  "time": "0s",
+                  "classname": "GroupedHashWriteE2e",
+                  "skipped": [
+                    {
+                      "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1575\nrequires handoff rejection after grouped root staging\n"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "HashReplaceE2e",
+              "tests": 7,
+              "failures": 0,
+              "disabled": 0,
+              "errors": 0,
+              "timestamp": "2026-10-05T05:49:55Z",
+              "time": "1.838s",
+              "testsuite": [
+                {
+                  "name": "SemanticsTtlBinaryFieldsAndUnchangedStandardCommands",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 288,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:55Z",
+                  "time": "0.098s",
+                  "classname": "HashReplaceE2e"
+                },
+                {
+                  "name": "DifferentRequestSizesPreserveLastDuplicateAfterRecovery",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 324,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:55Z",
+                  "time": "0.394s",
+                  "classname": "HashReplaceE2e"
+                },
+                {
+                  "name": "PromotionUsesFinalDeduplicatedBytes",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 365,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:55Z",
+                  "time": "0.473s",
+                  "classname": "HashReplaceE2e"
+                },
+                {
+                  "name": "WatchExecAndLua",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 491,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:56Z",
+                  "time": "0.098s",
+                  "classname": "HashReplaceE2e"
+                },
+                {
+                  "name": "GroupedReplacementDemotionExtentsAndColdRecovery",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 523,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:56Z",
+                  "time": "0.773s",
+                  "classname": "HashReplaceE2e"
+                },
+                {
+                  "name": "AuxiliaryOomPreservesOldHashInsideExec",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 561,
+                  "status": "RUN",
+                  "result": "SKIPPED",
+                  "timestamp": "2026-10-05T05:49:57Z",
+                  "time": "0s",
+                  "classname": "HashReplaceE2e",
+                  "skipped": [
+                    {
+                      "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:563\nrequires Debug/fault server\n"
+                    }
+                  ]
+                },
+                {
+                  "name": "ColdReplacementDoesNotLoadOldPayload",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 1313,
+                  "status": "RUN",
+                  "result": "SKIPPED",
+                  "timestamp": "2026-10-05T05:49:57Z",
+                  "time": "0s",
+                  "classname": "HashReplaceE2e",
+                  "skipped": [
+                    {
+                      "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1315\nrequires payload read fault hook\n"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "HashReadOwnershipE2e",
+              "tests": 1,
+              "failures": 0,
+              "disabled": 0,
+              "errors": 0,
+              "timestamp": "2026-10-05T05:49:57Z",
+              "time": "0.481s",
+              "testsuite": [
+                {
+                  "name": "FullReadsPreserveCompactAndGroupedValues",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 404,
+                  "status": "RUN",
+                  "result": "COMPLETED",
+                  "timestamp": "2026-10-05T05:49:57Z",
+                  "time": "0.48s",
+                  "classname": "HashReadOwnershipE2e"
+                }
+              ]
+            },
+            {
+              "name": "BatchWindows/GroupedHashWriteCrashE2e",
+              "tests": 8,
+              "failures": 0,
+              "disabled": 0,
+              "errors": 0,
+              "timestamp": "2026-10-05T05:49:57Z",
+              "time": "0s",
+              "testsuite": [
+                {
+                  "name": "UncommittedOuterNeverPublishesPartialHash/0",
+                  "value_param": "\"group-batch-before-root\"",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 1653,
+                  "status": "RUN",
+                  "result": "SKIPPED",
+                  "timestamp": "2026-10-05T05:49:57Z",
+                  "time": "0s",
+                  "classname": "BatchWindows/GroupedHashWriteCrashE2e",
+                  "skipped": [
+                    {
+                      "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1655\nrequires Debug/fault crash hook\n"
+                    }
+                  ]
+                },
+                {
+                  "name": "UncommittedOuterNeverPublishesPartialHash/1",
+                  "value_param": "\"group-root-staged-before-batch-decision\"",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 1653,
+                  "status": "RUN",
+                  "result": "SKIPPED",
+                  "timestamp": "2026-10-05T05:49:57Z",
+                  "time": "0s",
+                  "classname": "BatchWindows/GroupedHashWriteCrashE2e",
+                  "skipped": [
+                    {
+                      "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1655\nrequires Debug/fault crash hook\n"
+                    }
+                  ]
+                },
+                {
+                  "name": "UncommittedOuterNeverPublishesPartialHash/2",
+                  "value_param": "\"group-batch-durable-before-outer-decision\"",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 1653,
+                  "status": "RUN",
+                  "result": "SKIPPED",
+                  "timestamp": "2026-10-05T05:49:57Z",
+                  "time": "0s",
+                  "classname": "BatchWindows/GroupedHashWriteCrashE2e",
+                  "skipped": [
+                    {
+                      "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1655\nrequires Debug/fault crash hook\n"
+                    }
+                  ]
+                },
+                {
+                  "name": "UncommittedOuterNeverPublishesPartialHash/3",
+                  "value_param": "\"group-extents-durable-before-record\"",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 1653,
+                  "status": "RUN",
+                  "result": "SKIPPED",
+                  "timestamp": "2026-10-05T05:49:57Z",
+                  "time": "0s",
+                  "classname": "BatchWindows/GroupedHashWriteCrashE2e",
+                  "skipped": [
+                    {
+                      "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1655\nrequires Debug/fault crash hook\n"
+                    }
+                  ]
+                },
+                {
+                  "name": "ReplacementNeverRevivesPartialOrOldFields/0",
+                  "value_param": "\"group-batch-before-root\"",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 1691,
+                  "status": "RUN",
+                  "result": "SKIPPED",
+                  "timestamp": "2026-10-05T05:49:57Z",
+                  "time": "0s",
+                  "classname": "BatchWindows/GroupedHashWriteCrashE2e",
+                  "skipped": [
+                    {
+                      "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1693\nrequires Debug/fault crash hook\n"
+                    }
+                  ]
+                },
+                {
+                  "name": "ReplacementNeverRevivesPartialOrOldFields/1",
+                  "value_param": "\"group-root-staged-before-batch-decision\"",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 1691,
+                  "status": "RUN",
+                  "result": "SKIPPED",
+                  "timestamp": "2026-10-05T05:49:57Z",
+                  "time": "0s",
+                  "classname": "BatchWindows/GroupedHashWriteCrashE2e",
+                  "skipped": [
+                    {
+                      "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1693\nrequires Debug/fault crash hook\n"
+                    }
+                  ]
+                },
+                {
+                  "name": "ReplacementNeverRevivesPartialOrOldFields/2",
+                  "value_param": "\"group-batch-durable-before-outer-decision\"",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 1691,
+                  "status": "RUN",
+                  "result": "SKIPPED",
+                  "timestamp": "2026-10-05T05:49:57Z",
+                  "time": "0s",
+                  "classname": "BatchWindows/GroupedHashWriteCrashE2e",
+                  "skipped": [
+                    {
+                      "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1693\nrequires Debug/fault crash hook\n"
+                    }
+                  ]
+                },
+                {
+                  "name": "ReplacementNeverRevivesPartialOrOldFields/3",
+                  "value_param": "\"group-extents-durable-before-record\"",
+                  "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp",
+                  "line": 1691,
+                  "status": "RUN",
+                  "result": "SKIPPED",
+                  "timestamp": "2026-10-05T05:49:57Z",
+                  "time": "0s",
+                  "classname": "BatchWindows/GroupedHashWriteCrashE2e",
+                  "skipped": [
+                    {
+                      "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1693\nrequires Debug/fault crash hook\n"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "bycorf_commit_recorded": "27c65ff9c2ceaaacea4c93f42ffed01dce529b8f",
+      "bycorf_source_repo": "/mnt/dev/lavik-set-hash-20260929/bycorf",
+      "bycorf_source_status": " m third_party/spdk",
+      "bycorf_submodule_revisions": [
+        " 76bb24329e8bf5f39704eb10d21b9a80befa7c81 third_party/abseil (20250512.1)",
+        " 37a1a9b926b4678141931f2f22e7a877b5b565c2 third_party/dpdk (v21.02-17380-g37a1a9b926)",
+        " d41bf9220ec39277ff235379e9089d9e0fd6c2a5 third_party/liburing (liburing-2.15)",
+        " d519b163cbc0e2f28c35d9bc86d610da368b032c third_party/spdk (v26.05)",
+        " 37a1a9b926b4678141931f2f22e7a877b5b565c2 third_party/spdk/dpdk (v21.02-17380-g37a1a9b926)",
+        " 935a3802883249ba3b12e566833994af7991e808 third_party/spdk/intel-ipsec-mb (v0.50-2636-g935a3802)",
+        " c196241ae89b1aa4f62efeb849a937c011b3a926 third_party/spdk/isa-l (v2.31.0-207-gc196241)",
+        " 07d0b253843ace996aa5a44f538c9b83b085aba6 third_party/spdk/isa-l-crypto (v2.24.0-384-g07d0b25)",
+        " f922ada35b3ef47407687d19c63db1ea19c96550 third_party/spdk/libvfio-user (v0.1-728-gf922ada)",
+        " 6ad1007e6fa47ff6468eaba0b304d77334c34d4a third_party/spdk/ocf (v24.09)",
+        " be52a634c139647b14940ba8a3ff254d6b1ca8c4 third_party/spdk/xnvme (v0.7.5)"
+      ],
+      "bycorf_provenance_observed_at": "2026-10-05T06:06:12.387668+00:00",
+      "bycorf_provenance_correction": "native-dependency-provenance-correction.json"
+    }
+  },
+  "observations": 36,
+  "expected_observations": 36,
+  "method": "Three independent fresh RESTORE population pairs A/B, B/A, A/B for Hash and Set. 100MiB/1024B/500keys and 1MiB/128B/50000keys match report population sizes. Each version restores the same checked RDB fixture then restarts; fresh routing seeds/graphs are independent, not shared disk snapshots. Read controls and writes at80/320/5120connections, pipeline1,30seconds. HGET/HSET and SISMEMBER/SADD_SREM. Set commands can be no-ops; QPS counts commands, not durable mutations. Full candidate CI plus native tests on both frozen production binaries precede runs. No concurrent builds/tests/perf. Stop after a failed condition, retaining all observations and error files. Historical peers not rerun.",
+  "proofs": {
+    "parent19496654-hash-route-hash-1048576-128-k50000-repeat1-20261005": {
+      "source_commit": "19496654cc43b21df11fb59be60e174dc4c89dbc",
+      "binary_sha256": "44695167697904ad6a210dd50e6fcdf3634f494fb633eb1267c5e9b568eed552",
+      "keys_checked": 50000,
+      "initial_cardinality": 8192,
+      "fixture_sha256": "ab43ab18c29e6fdb6fa171a772e42b5335da0440cfe55d26c4b70b0ded81f8cc",
+      "seed_tag": "seed-parent19496654-hash-route-hash-1048576-128-k50000-repeat1-20261005",
+      "server_exit": 0,
+      "failures_total": 0
+    },
+    "candidate27c65ff9-hash-route-hash-1048576-128-k50000-repeat1-20261005": {
+      "source_commit": "27c65ff9c2ceaaacea4c93f42ffed01dce529b8f",
+      "binary_sha256": "208e511f4161c5ef53cd933994bbbcc946246b5ddb091fe61ba177ba77a076ee",
+      "keys_checked": 50000,
+      "initial_cardinality": 8192,
+      "fixture_sha256": "ab43ab18c29e6fdb6fa171a772e42b5335da0440cfe55d26c4b70b0ded81f8cc",
+      "seed_tag": "seed-candidate27c65ff9-hash-route-hash-1048576-128-k50000-repeat1-20261005",
+      "server_exit": 0,
+      "failures_total": 0
+    },
+    "candidate27c65ff9-hash-route-hash-1048576-128-k50000-repeat2-20261005": {
+      "source_commit": "27c65ff9c2ceaaacea4c93f42ffed01dce529b8f",
+      "binary_sha256": "208e511f4161c5ef53cd933994bbbcc946246b5ddb091fe61ba177ba77a076ee",
+      "keys_checked": 50000,
+      "initial_cardinality": 8192,
+      "fixture_sha256": "ab43ab18c29e6fdb6fa171a772e42b5335da0440cfe55d26c4b70b0ded81f8cc",
+      "seed_tag": "seed-candidate27c65ff9-hash-route-hash-1048576-128-k50000-repeat2-20261005",
+      "server_exit": 0,
+      "failures_total": 0
+    },
+    "parent19496654-hash-route-hash-1048576-128-k50000-repeat2-20261005": {
+      "source_commit": "19496654cc43b21df11fb59be60e174dc4c89dbc",
+      "binary_sha256": "44695167697904ad6a210dd50e6fcdf3634f494fb633eb1267c5e9b568eed552",
+      "keys_checked": 50000,
+      "initial_cardinality": 8192,
+      "fixture_sha256": "ab43ab18c29e6fdb6fa171a772e42b5335da0440cfe55d26c4b70b0ded81f8cc",
+      "seed_tag": "seed-parent19496654-hash-route-hash-1048576-128-k50000-repeat2-20261005",
+      "server_exit": 0,
+      "failures_total": 0
+    },
+    "parent19496654-hash-route-hash-1048576-128-k50000-repeat3-20261005": {
+      "source_commit": "19496654cc43b21df11fb59be60e174dc4c89dbc",
+      "binary_sha256": "44695167697904ad6a210dd50e6fcdf3634f494fb633eb1267c5e9b568eed552",
+      "keys_checked": 50000,
+      "initial_cardinality": 8192,
+      "fixture_sha256": "ab43ab18c29e6fdb6fa171a772e42b5335da0440cfe55d26c4b70b0ded81f8cc",
+      "seed_tag": "seed-parent19496654-hash-route-hash-1048576-128-k50000-repeat3-20261005",
+      "server_exit": 0,
+      "failures_total": 0
+    },
+    "candidate27c65ff9-hash-route-hash-1048576-128-k50000-repeat3-20261005": {
+      "source_commit": "27c65ff9c2ceaaacea4c93f42ffed01dce529b8f",
+      "binary_sha256": "208e511f4161c5ef53cd933994bbbcc946246b5ddb091fe61ba177ba77a076ee",
+      "keys_checked": 50000,
+      "initial_cardinality": 8192,
+      "fixture_sha256": "ab43ab18c29e6fdb6fa171a772e42b5335da0440cfe55d26c4b70b0ded81f8cc",
+      "seed_tag": "seed-candidate27c65ff9-hash-route-hash-1048576-128-k50000-repeat3-20261005",
+      "server_exit": 0,
+      "failures_total": 0
+    }
+  },
+  "summary": [
+    {
+      "type": "hash",
+      "logical_bytes": 1048576,
+      "field_bytes": 128,
+      "keys": 50000,
+      "operation": "HGET",
+      "connections": 80,
+      "pairs": [
+        {
+          "round": 1,
+          "parent": {
+            "tag": "parent19496654-hash-route-hash-1048576-128-k50000-repeat1-20261005",
+            "qps": 352310.42,
+            "p99_ms": 0.359,
+            "requests": 10569720
+          },
+          "candidate": {
+            "tag": "candidate27c65ff9-hash-route-hash-1048576-128-k50000-repeat1-20261005",
+            "qps": 351744.22,
+            "p99_ms": 0.351,
+            "requests": 10552636
+          },
+          "qps_change_percent": -0.1607105461144176,
+          "p99_change_percent": -2.228412256267409
+        },
+        {
+          "round": 2,
+          "parent": {
+            "tag": "parent19496654-hash-route-hash-1048576-128-k50000-repeat2-20261005",
+            "qps": 351267.05,
+            "p99_ms": 0.359,
+            "requests": 10538302
+          },
+          "candidate": {
+            "tag": "candidate27c65ff9-hash-route-hash-1048576-128-k50000-repeat2-20261005",
+            "qps": 351389.58,
+            "p99_ms": 0.359,
+            "requests": 10542612
+          },
+          "qps_change_percent": 0.03488229254637876,
+          "p99_change_percent": 0.0
+        },
+        {
+          "round": 3,
+          "parent": {
+            "tag": "parent19496654-hash-route-hash-1048576-128-k50000-repeat3-20261005",
+            "qps": 347562.25,
+            "p99_ms": 0.359,
+            "requests": 10427290
+          },
+          "candidate": {
+            "tag": "candidate27c65ff9-hash-route-hash-1048576-128-k50000-repeat3-20261005",
+            "qps": 350352.49,
+            "p99_ms": 0.351,
+            "requests": 10511496
+          },
+          "qps_change_percent": 0.8028029511260248,
+          "p99_change_percent": -2.228412256267409
+        }
+      ],
+      "qps_paired_percent": {
+        "median": 0.03488229254637876,
+        "min": -0.1607105461144176,
+        "max": 0.8028029511260248,
+        "positive_pairs": 2,
+        "negative_pairs": 1
+      },
+      "p99_paired_percent": {
+        "median": -2.228412256267409,
+        "min": -2.228412256267409,
+        "max": 0.0,
+        "positive_pairs": 0,
+        "negative_pairs": 2
+      },
+      "parent_median_qps": 351267.05,
+      "parent_median_p99_ms": 0.359,
+      "candidate_median_qps": 351389.58,
+      "candidate_median_p99_ms": 0.351
+    },
+    {
+      "type": "hash",
+      "logical_bytes": 1048576,
+      "field_bytes": 128,
+      "keys": 50000,
+      "operation": "HGET",
+      "connections": 320,
+      "pairs": [
+        {
+          "round": 1,
+          "parent": {
+            "tag": "parent19496654-hash-route-hash-1048576-128-k50000-repeat1-20261005",
+            "qps": 556932.76,
+            "p99_ms": 0.999,
+            "requests": 16710328
+          },
+          "candidate": {
+            "tag": "candidate27c65ff9-hash-route-hash-1048576-128-k50000-repeat1-20261005",
+            "qps": 562015.23,
+            "p99_ms": 0.999,
+            "requests": 16863309
+          },
+          "qps_change_percent": 0.9125823375877529,
+          "p99_change_percent": 0.0
+        },
+        {
+          "round": 2,
+          "parent": {
+            "tag": "parent19496654-hash-route-hash-1048576-128-k50000-repeat2-20261005",
+            "qps": 562965.46,
+            "p99_ms": 0.991,
+            "requests": 16891938
+          },
+          "candidate": {
+            "tag": "candidate27c65ff9-hash-route-hash-1048576-128-k50000-repeat2-20261005",
+            "qps": 562404.17,
+            "p99_ms": 0.975,
+            "requests": 16877207
+          },
+          "qps_change_percent": -0.09970238671479503,
+          "p99_change_percent": -1.6145307769929396
+        },
+        {
+          "round": 3,
+          "parent": {
+            "tag": "parent19496654-hash-route-hash-1048576-128-k50000-repeat3-20261005",
+            "qps": 563825.58,
+            "p99_ms": 0.983,
+            "requests": 16916791
+          },
+          "candidate": {
+            "tag": "candidate27c65ff9-hash-route-hash-1048576-128-k50000-repeat3-20261005",
+            "qps": 564495.23,
+            "p99_ms": 0.991,
+            "requests": 16938937
+          },
+          "qps_change_percent": 0.11876899944838204,
+          "p99_change_percent": 0.8138351983723258
+        }
+      ],
+      "qps_paired_percent": {
+        "median": 0.11876899944838204,
+        "min": -0.09970238671479503,
+        "max": 0.9125823375877529,
+        "positive_pairs": 2,
+        "negative_pairs": 1
+      },
+      "p99_paired_percent": {
+        "median": 0.0,
+        "min": -1.6145307769929396,
+        "max": 0.8138351983723258,
+        "positive_pairs": 1,
+        "negative_pairs": 1
+      },
+      "parent_median_qps": 562965.46,
+      "parent_median_p99_ms": 0.991,
+      "candidate_median_qps": 562404.17,
+      "candidate_median_p99_ms": 0.991
+    },
+    {
+      "type": "hash",
+      "logical_bytes": 1048576,
+      "field_bytes": 128,
+      "keys": 50000,
+      "operation": "HGET",
+      "connections": 5120,
+      "pairs": [
+        {
+          "round": 1,
+          "parent": {
+            "tag": "parent19496654-hash-route-hash-1048576-128-k50000-repeat1-20261005",
+            "qps": 399369.96,
+            "p99_ms": 126.975,
+            "requests": 12008206
+          },
+          "candidate": {
+            "tag": "candidate27c65ff9-hash-route-hash-1048576-128-k50000-repeat1-20261005",
+            "qps": 383807.28,
+            "p99_ms": 99.839,
+            "requests": 11544956
+          },
+          "qps_change_percent": -3.896807862063534,
+          "p99_change_percent": -21.371136050403617
+        },
+        {
+          "round": 2,
+          "parent": {
+            "tag": "parent19496654-hash-route-hash-1048576-128-k50000-repeat2-20261005",
+            "qps": 396537.47,
+            "p99_ms": 114.687,
+            "requests": 11921958
+          },
+          "candidate": {
+            "tag": "candidate27c65ff9-hash-route-hash-1048576-128-k50000-repeat2-20261005",
+            "qps": 384604.56,
+            "p99_ms": 95.743,
+            "requests": 11563327
+          },
+          "qps_change_percent": -3.0092767778036156,
+          "p99_change_percent": -16.51800116839747
+        },
+        {
+          "round": 3,
+          "parent": {
+            "tag": "parent19496654-hash-route-hash-1048576-128-k50000-repeat3-20261005",
+            "qps": 393905.96,
+            "p99_ms": 114.687,
+            "requests": 11842735
+          },
+          "candidate": {
+            "tag": "candidate27c65ff9-hash-route-hash-1048576-128-k50000-repeat3-20261005",
+            "qps": 387169.91,
+            "p99_ms": 101.887,
+            "requests": 11641378
+          },
+          "qps_change_percent": -1.7100655191914504,
+          "p99_change_percent": -11.16081160026855
+        }
+      ],
+      "qps_paired_percent": {
+        "median": -3.0092767778036156,
+        "min": -3.896807862063534,
+        "max": -1.7100655191914504,
+        "positive_pairs": 0,
+        "negative_pairs": 3
+      },
+      "p99_paired_percent": {
+        "median": -16.51800116839747,
+        "min": -21.371136050403617,
+        "max": -11.16081160026855,
+        "positive_pairs": 0,
+        "negative_pairs": 3
+      },
+      "parent_median_qps": 396537.47,
+      "parent_median_p99_ms": 114.687,
+      "candidate_median_qps": 384604.56,
+      "candidate_median_p99_ms": 99.839
+    },
+    {
+      "type": "hash",
+      "logical_bytes": 1048576,
+      "field_bytes": 128,
+      "keys": 50000,
+      "operation": "HSET",
+      "connections": 80,
+      "pairs": [
+        {
+          "round": 1,
+          "parent": {
+            "tag": "parent19496654-hash-route-hash-1048576-128-k50000-repeat1-20261005",
+            "qps": 130315.07,
+            "p99_ms": 5.087,
+            "requests": 3909635
+          },
+          "candidate": {
+            "tag": "candidate27c65ff9-hash-route-hash-1048576-128-k50000-repeat1-20261005",
+            "qps": 132028.99,
+            "p99_ms": 5.055,
+            "requests": 3961239
+          },
+          "qps_change_percent": 1.3152124309183666,
+          "p99_change_percent": -0.6290544525260455
+        },
+        {
+          "round": 2,
+          "parent": {
+            "tag": "parent19496654-hash-route-hash-1048576-128-k50000-repeat2-20261005",
+            "qps": 132683.41,
+            "p99_ms": 4.927,
+            "requests": 3980616
+          },
+          "candidate": {
+            "tag": "candidate27c65ff9-hash-route-hash-1048576-128-k50000-repeat2-20261005",
+            "qps": 131477.53,
+            "p99_ms": 5.087,
+            "requests": 3944703
+          },
+          "qps_change_percent": -0.9088400727717216,
+          "p99_change_percent": 3.247412218388468
+        },
+        {
+          "round": 3,
+          "parent": {
+            "tag": "parent19496654-hash-route-hash-1048576-128-k50000-repeat3-20261005",
+            "qps": 132878.26,
+            "p99_ms": 4.799,
+            "requests": 3986862
+          },
+          "candidate": {
+            "tag": "candidate27c65ff9-hash-route-hash-1048576-128-k50000-repeat3-20261005",
+            "qps": 130356.06,
+            "p99_ms": 5.215,
+            "requests": 3911018
+          },
+          "qps_change_percent": -1.8981284071600713,
+          "p99_change_percent": 8.668472598458
+        }
+      ],
+      "qps_paired_percent": {
+        "median": -0.9088400727717216,
+        "min": -1.8981284071600713,
+        "max": 1.3152124309183666,
+        "positive_pairs": 1,
+        "negative_pairs": 2
+      },
+      "p99_paired_percent": {
+        "median": 3.247412218388468,
+        "min": -0.6290544525260455,
+        "max": 8.668472598458,
+        "positive_pairs": 2,
+        "negative_pairs": 1
+      },
+      "parent_median_qps": 132683.41,
+      "parent_median_p99_ms": 4.927,
+      "candidate_median_qps": 131477.53,
+      "candidate_median_p99_ms": 5.087
+    },
+    {
+      "type": "hash",
+      "logical_bytes": 1048576,
+      "field_bytes": 128,
+      "keys": 50000,
+      "operation": "HSET",
+      "connections": 320,
+      "pairs": [
+        {
+          "round": 1,
+          "parent": {
+            "tag": "parent19496654-hash-route-hash-1048576-128-k50000-repeat1-20261005",
+            "qps": 153371.91,
+            "p99_ms": 12.415,
+            "requests": 4602092
+          },
+          "candidate": {
+            "tag": "candidate27c65ff9-hash-route-hash-1048576-128-k50000-repeat1-20261005",
+            "qps": 155700.41,
+            "p99_ms": 11.775,
+            "requests": 4671726
+          },
+          "qps_change_percent": 1.5182049959474364,
+          "p99_change_percent": -5.155054369714051
+        },
+        {
+          "round": 2,
+          "parent": {
+            "tag": "parent19496654-hash-route-hash-1048576-128-k50000-repeat2-20261005",
+            "qps": 157139.28,
+            "p99_ms": 11.519,
+            "requests": 4715890
+          },
+          "candidate": {
+            "tag": "candidate27c65ff9-hash-route-hash-1048576-128-k50000-repeat2-20261005",
+            "qps": 152647.37,
+            "p99_ms": 12.863,
+            "requests": 4580189
+          },
+          "qps_change_percent": -2.8585532528849544,
+          "p99_change_percent": 11.667679486066485
+        },
+        {
+          "round": 3,
+          "parent": {
+            "tag": "parent19496654-hash-route-hash-1048576-128-k50000-repeat3-20261005",
+            "qps": 157237.36,
+            "p99_ms": 10.943,
+            "requests": 4718248
+          },
+          "candidate": {
+            "tag": "candidate27c65ff9-hash-route-hash-1048576-128-k50000-repeat3-20261005",
+            "qps": 152607.41,
+            "p99_ms": 12.479,
+            "requests": 4579992
+          },
+          "qps_change_percent": -2.9445610127262323,
+          "p99_change_percent": 14.036370282372278
+        }
+      ],
+      "qps_paired_percent": {
+        "median": -2.8585532528849544,
+        "min": -2.9445610127262323,
+        "max": 1.5182049959474364,
+        "positive_pairs": 1,
+        "negative_pairs": 2
+      },
+      "p99_paired_percent": {
+        "median": 11.667679486066485,
+        "min": -5.155054369714051,
+        "max": 14.036370282372278,
+        "positive_pairs": 2,
+        "negative_pairs": 1
+      },
+      "parent_median_qps": 157139.28,
+      "parent_median_p99_ms": 11.519,
+      "candidate_median_qps": 152647.37,
+      "candidate_median_p99_ms": 12.479
+    },
+    {
+      "type": "hash",
+      "logical_bytes": 1048576,
+      "field_bytes": 128,
+      "keys": 50000,
+      "operation": "HSET",
+      "connections": 5120,
+      "pairs": [
+        {
+          "round": 1,
+          "parent": {
+            "tag": "parent19496654-hash-route-hash-1048576-128-k50000-repeat1-20261005",
+            "qps": 135146.31,
+            "p99_ms": 147.455,
+            "requests": 4064547
+          },
+          "candidate": {
+            "tag": "candidate27c65ff9-hash-route-hash-1048576-128-k50000-repeat1-20261005",
+            "qps": 138499.07,
+            "p99_ms": 161.791,
+            "requests": 4169975
+          },
+          "qps_change_percent": 2.480837249644474,
+          "p99_change_percent": 9.722288155708503
+        },
+        {
+          "round": 2,
+          "parent": {
+            "tag": "parent19496654-hash-route-hash-1048576-128-k50000-repeat2-20261005",
+            "qps": 136327.57,
+            "p99_ms": 148.479,
+            "requests": 4104128
+          },
+          "candidate": {
+            "tag": "candidate27c65ff9-hash-route-hash-1048576-128-k50000-repeat2-20261005",
+            "qps": 133495.62,
+            "p99_ms": 154.623,
+            "requests": 4015856
+          },
+          "qps_change_percent": -2.077312754859495,
+          "p99_change_percent": 4.137958903279237
+        },
+        {
+          "round": 3,
+          "parent": {
+            "tag": "parent19496654-hash-route-hash-1048576-128-k50000-repeat3-20261005",
+            "qps": 137943.86,
+            "p99_ms": 153.599,
+            "requests": 4153376
+          },
+          "candidate": {
+            "tag": "candidate27c65ff9-hash-route-hash-1048576-128-k50000-repeat3-20261005",
+            "qps": 134199.8,
+            "p99_ms": 142.335,
+            "requests": 4035159
+          },
+          "qps_change_percent": -2.714191120938614,
+          "p99_change_percent": -7.333381076699707
+        }
+      ],
+      "qps_paired_percent": {
+        "median": -2.077312754859495,
+        "min": -2.714191120938614,
+        "max": 2.480837249644474,
+        "positive_pairs": 1,
+        "negative_pairs": 2
+      },
+      "p99_paired_percent": {
+        "median": 4.137958903279237,
+        "min": -7.333381076699707,
+        "max": 9.722288155708503,
+        "positive_pairs": 2,
+        "negative_pairs": 1
+      },
+      "parent_median_qps": 136327.57,
+      "parent_median_p99_ms": 148.479,
+      "candidate_median_qps": 134199.8,
+      "candidate_median_p99_ms": 154.623
+    }
+  ],
+  "limitations": "Three fresh-RESTORE AB/BA/AB population pairs, independent persisted hash seeds and physical layout. Median paired ratios are not ratios of marginal medians or confidence intervals. Negative p99 change is better. Set QPS includes no-ops. Dependency metadata corrected from CMake source evidence after validation; binary/driver identities unchanged. No new historical peer measurement.",
+  "status": "complete three-pair scope verified"
+}

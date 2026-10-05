@@ -34,3 +34,11 @@
 ## 100 MiB Hash 三轮对照已完成
 
 [完整 36 点配对结果](hash-route-large.md)：HSET c5120 配对 QPS 中位 +7.81%，三轮均提升，p99 中位 −8.19%；c80/c320 收益较弱且混合，HGET 仍有小幅回退。较小 Hash、Set 和独立 perf 继续运行；不据单个子集把 PR 标为可合并。
+
+
+## Hash 1 MiB/key / 128 B / 50000 keys 三轮对照已完成
+
+[全部 36 点与历史对照差距](hash-route-hash-small.md)，包含每轮 QPS/p99 变化和原始来源核验；独立 perf 与其余范围的状态单独记录。
+
+
+较小 Hash 的 HSET 三个连接数 QPS 中位均下降（−0.91%/−2.86%/−2.08%），p99 中位均变差；HGET c5120 三轮吞吐下降、尾延迟改善。[逐轮数据与解读](hash-route-hash-small.md)。因此目前只有部分大 Hash 条件获益，不能据此把 #276 视为普遍优化；Set 和独立 perf 继续验证。
