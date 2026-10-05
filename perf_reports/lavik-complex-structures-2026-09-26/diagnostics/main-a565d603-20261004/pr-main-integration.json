@@ -17,8 +17,8 @@
       "head": "343e951e3341593cc46b2cfae42f7d8f9b26304e",
       "base_branch": "main",
       "ci": "https://github.com/eloqdata/lavik/actions/runs/37241591043",
-      "status": "pending",
-      "note": "Main `19496654` is now integrated at `343e951e`; [CI on this updated head](https://github.com/eloqdata/lavik/actions/runs/37241591043) is pending. Formatting and conflict review pass. Historical throughput, perf and passing tests remain attributed to their original source commits and immutable binaries; they are not new measurements of this head. No local builds or tests overlap the ongoing clean Stream pairs. The read-batch fixture now returns an explicit admission error after one child starts, then joins all started reads. It no longer uses the removed allocation-throw hook or recovers from `std::bad_alloc`, preserving current main’s fatal allocation policy."
+      "status": "amd64 shard 4 failed; remaining CI pending",
+      "note": "Current343e951e CI37241591043 fails extent recovery: SET on5009-byte external key timesout after4-to2-worker restart. Cause unresolved; see ../list-reply-reserve-20261004/pr267-current-ci-failure.json. Historical performance and passing older-head CI do not certify this head."
     },
     {
       "pr": 269,
@@ -27,7 +27,7 @@
       "base_branch": "perf/list-range-read-window-20261004",
       "ci": "https://github.com/eloqdata/lavik/actions/runs/37241889281",
       "status": "pending",
-      "note": "Main `19496654` is now integrated at `f6a08783`; [CI on this updated head](https://github.com/eloqdata/lavik/actions/runs/37241889281) is pending. Formatting and conflict review pass. Historical throughput, perf and passing tests remain attributed to their original source commits and immutable binaries; they are not new measurements of this head. No local builds or tests overlap the ongoing clean Stream pairs. The read-batch fixture now returns an explicit admission error after one child starts, then joins all started reads. It no longer uses the removed allocation-throw hook or recovers from `std::bad_alloc`, preserving current main’s fatal allocation policy."
+      "note": "Main `19496654` is now integrated at `f6a08783`; [CI on this updated head](https://github.com/eloqdata/lavik/actions/runs/37241889281) is pending. Formatting and conflict review pass. Historical throughput, perf and passing tests remain attributed to their original source commits and immutable binaries; they are not new measurements of this head. No local builds or tests overlap the ongoing clean Stream pairs. The read-batch fixture now returns an explicit admission error after one child starts, then joins all started reads. It no longer uses the removed allocation-throw hook or recovers from `std::bad_alloc`, preserving current main\u2019s fatal allocation policy."
     },
     {
       "pr": 270,
@@ -36,7 +36,7 @@
       "base_branch": "fix/grouped-expiry-recovery-20261004",
       "ci": "https://github.com/eloqdata/lavik/actions/runs/37242737755",
       "status": "pending",
-      "note": "Main `19496654` is integrated at `cfe76ab2`. The merge preserves reply batching and adopts main’s fatal C++ allocation policy without restoring `std::bad_alloc` recovery. Formatting and conflict review pass; [CI for this head](https://github.com/eloqdata/lavik/actions/runs/37242737755) is pending. All native validation and throughput above remain attributed to immutable `1e87107e`, not this newly integrated head. No local build or test overlaps the ongoing clean paired measurements."
+      "note": "Main `19496654` is integrated at `cfe76ab2`. The merge preserves reply batching and adopts main\u2019s fatal C++ allocation policy without restoring `std::bad_alloc` recovery. Formatting and conflict review pass; [CI for this head](https://github.com/eloqdata/lavik/actions/runs/37242737755) is pending. All native validation and throughput above remain attributed to immutable `1e87107e`, not this newly integrated head. No local build or test overlaps the ongoing clean paired measurements."
     },
     {
       "pr": 271,
@@ -63,7 +63,7 @@
       "base_branch": "perf/zset-member-probe-20261004",
       "ci": "https://github.com/eloqdata/lavik/actions/runs/37243651484",
       "status": "pending after two fixture failures on previous head",
-      "note": "Main 19496654 remains integrated; current head is d012a301. [New CI](https://github.com/eloqdata/lavik/actions/runs/37243651484) is pending. The prior d5ca3a1b run exposed two fixture failures: native FULL-tail collection assertions raced initialization-to-Follow-Owner ingress replacement and received LOADING; Sentinel HA checked independent clients serially under one shared 30-second budget. The first fix waits for all source flows to CONTINUE and a fresh live-flow/known-seed readiness probe before one-shot collection assertions, retaining exactly one original FULL per source worker. The second reuses the reviewed concurrent-probe fix from #271 without extending the deadline. Formatting/diff checks pass. The Sentinel helper’s four unit tests passed at the original shared fix revision; no local integration run or native performance claim is made for this new head while Stream controls run."
+      "note": "Main 19496654 remains integrated; current head is d012a301. [New CI](https://github.com/eloqdata/lavik/actions/runs/37243651484) is pending. The prior d5ca3a1b run exposed two fixture failures: native FULL-tail collection assertions raced initialization-to-Follow-Owner ingress replacement and received LOADING; Sentinel HA checked independent clients serially under one shared 30-second budget. The first fix waits for all source flows to CONTINUE and a fresh live-flow/known-seed readiness probe before one-shot collection assertions, retaining exactly one original FULL per source worker. The second reuses the reviewed concurrent-probe fix from #271 without extending the deadline. Formatting/diff checks pass. The Sentinel helper\u2019s four unit tests passed at the original shared fix revision; no local integration run or native performance claim is made for this new head while Stream controls run."
     },
     {
       "pr": 274,
@@ -81,8 +81,8 @@
       "base_branch": "perf/stream-reply-batching-20261004",
       "base_commit": "cfe76ab2fa8ad19006636a759aa440005cfb37a2",
       "ci": "https://github.com/eloqdata/lavik/actions/runs/37244823795",
-      "status": "pending; no native validation or performance result",
-      "note": "Up to16requiredphysicalpages/512KiBwindow metadata+scratch, after first boundarypage. Directory counts boundCOUNT; sparseIDs/ordinarytransfers andsingle-requiredpage preserve demandpath. One admission beforeallocation/IO, all started tasks joined evenerror. Move decoded records intoonepre-sizedlogicalCollectionPage; cursor advancesphysicalwindowwidth, crossworkerretainedcharge followscombinedpage. Source hasnoresidentwindow state. Optionaladmissionfallback, oversizedpagesalone; separateboundaryprobe/indivisiblepagebudgets remain. No durability/format changes.",
+      "status": "queued; native/performance validation pending",
+      "note": "Up to16requiredphysicalpages/512KiBwindow metadata+scratch, after first boundarypage. Directory counts boundCOUNT; sparseIDs/ordinarytransfers andsingle-requiredpage preserve demandpath. One admission beforeallocation/IO, all started tasks joined evenerror. Move decoded records intoonepre-sizedlogicalCollectionPage; cursor advancesphysicalwindowwidth, crossworkerretainedcharge followscombinedpage. Source hasnoresidentwindow state. Optionaladmissionfallback, oversizedpagesalone; separateboundaryprobe/indivisiblepagebudgets remain. No durability/format changes. Superseded60b8 CI run37244442914 required force-cancel to retire a stuck aggregate job; terminalcancelled verified, currentac CI37244823795 now queued normally.",
       "tests": "Format/diffpassed; existingmixedbinaryfixtureextendsforward/reverseEXECsnapshotafterDEL. Newfaultfixturechecksadmissionfallback, errorafterchildstarted, COUNT2bothdirections, continuedserving andcleanrestart. Compilation/fullCI/nativevalidationpending; no localbuild/testduringcontrols.",
       "worktree": "/mnt/dev/lavik-stream-read-window-20261004"
     }
