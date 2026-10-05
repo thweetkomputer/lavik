@@ -1,0 +1,15 @@
+{
+  "head": "ac62975fdf1f9dda1783429d523969b737efc98f",
+  "ci": "https://github.com/eloqdata/lavik/actions/runs/37244823795",
+  "failed_jobs": [
+    111569740918,
+    111569740921
+  ],
+  "test": "GroupedStreamE2e.ReadWindowsRespectCountAndJoinFailedStarts",
+  "observed": "Both amd64 and arm64 shard0: XREVRANGE: connection closed before response completed; each grouped driver has 104 passes,1 skip,1 failure.",
+  "native_fault_disabled": "Selected Stream/transfer, five blocking/recovery and pubsub pass at ac62975f, but the fault-only test is skipped; this does not override CI failure.",
+  "hypothesis": "An exclusive upper bound at the beginning of the next page still includes that empty boundary in the pinned/read interval. Reverse COUNT2 then consumes its first demand read without a message and enables a two-page fault-injected window.",
+  "local_candidate": "5b9ebdedecc0cc7a3fea93fb73b1fbbb6b7186c6; excludes the empty upper-bound page. Format/diff passed; not pushed or validated yet.",
+  "validation": "Queued fault-enabled original-case reproduction then corrected selected Stream/transfer/RDB cases under the shared host lock. No timeout changes.",
+  "performance": "Stream follow-up clean measurement and profiling waiters stopped before any measurement; reschedule only after correction is validated, pushed, and exact native production builds/full CI pass."
+}

@@ -138,3 +138,9 @@ candidate 附加线程中没有样本的 TID：579464；附加命令和记录日
 窗口版本 `ac62975f` 正在原生编译验证，小回复版本 `85bc7ad0` 排在其后。[后续对照脚本](repeat-stream-followups-after-validation.py) 要求三个精确提交均完成原生验证和完整 CI，并等待已排队的 ZSet 对照、perf 及 extent 故障复现结束。随后串行运行 90 个观测：三轮平衡版本顺序；读取共用每轮新建的同一份父版本数据，写入每个版本独立新建数据；同时保留全量、单条读取、写入和 p99。两个优化独立对照父版本，尚无收益结论。
 
 [独立 perf 调度](profile-stream-followups-after-repeats.py) 在上述 90 个无错误观测完成之后，再分别采集三个版本的 100 MiB / 128 B 全量读取（c1）和单条读取（c2560）。每组独立新建数据；30 秒计数窗口、25 秒逐 worker 的 99 Hz task-clock/DWARF 采样。保留所有附加线程，包括零样本辅助线程；CPU 占比包含轮询和后台工作，不把采样 QPS 混入吞吐对照，也不将错开的窗口换算为 CPU/命令。[采样驱动](profile-stream-followup-allworkers.py)。
+
+## 窗口版本的 COUNT 故障检查未通过
+
+`ac62975f` 的原生生产版本已通过所选 Stream/迁移、5 个阻塞/恢复和 Pub/Sub 检查，但 fault-only 用例被跳过。完整 CI 的 amd64、arm64 shard 0 随后均在新增的 `ReadWindowsRespectCountAndJoinFailedStarts` 失败，报 `XREVRANGE: connection closed before response completed`，因此不能以原生普通路径通过代替故障路径验证。
+
+初步定位到独占上界位于下一页开头时，范围仍包含这个空边界页；反向 COUNT 2 可能先消耗一次不产出消息的单页读取，随后触发故障窗口。已准备排除该空边界页的本地修正，格式检查通过，尚未验证或推送。[失败证据与状态](stream-window-count-ci-failure.json) · [原版本复现及修正版验证脚本](validate-stream-window-boundary-fault.py)。上面的吞吐和 perf 等待进程已在任何测量开始前停止；修正完成、精确版本重新验证并通过完整 CI 后再安排。
