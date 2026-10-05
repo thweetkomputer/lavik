@@ -1,0 +1,32 @@
+2026-10-05T12:22:58.7180267Z 277/299 Test #1585: meta_integration.gate_membership_recovery .............................................................................................................................   Passed   44.18 sec
+2026-10-05T12:22:58.7181994Z         Start 1591: meta_integration.gate_data_control
+2026-10-05T12:23:05.3436824Z 278/299 Test #1591: meta_integration.gate_data_control ....................................................................................................................................***Failed    6.63 sec
+2026-10-05T12:23:05.3438326Z [gate-data-control] node 1 started (pid 6054, raft 35615, ctl /mnt/dev/meta_integration_data_control_l8zoe0_l/plaintext/node1/meta-admin.sock,127.0.0.1:42303, initial_manifest=True, attempt 1)
+2026-10-05T12:23:05.3439153Z [gate-data-control] node 1 is leader
+2026-10-05T12:23:05.3440004Z [gate-data-control] node 2 started (pid 6068, raft 60189, ctl /mnt/dev/meta_integration_data_control_l8zoe0_l/plaintext/node2/meta-admin.sock,127.0.0.1:59429, initial_manifest=False, attempt 1)
+2026-10-05T12:23:05.3440838Z [gate-data-control] node 2 joined (probe idx 14)
+2026-10-05T12:23:05.3441759Z [gate-data-control] node 3 started (pid 6082, raft 36373, ctl /mnt/dev/meta_integration_data_control_l8zoe0_l/plaintext/node3/meta-admin.sock,127.0.0.1:40279, initial_manifest=False, attempt 1)
+2026-10-05T12:23:05.3442895Z [gate-data-control] node 3 joined (probe idx 25)
+2026-10-05T12:23:05.3443267Z [gate-data-control] 3-node cluster converged
+2026-10-05T12:23:05.3443754Z [gate-data-control] Data node 11111111 started (pid 6096, seed 127.0.0.1:57497)
+2026-10-05T12:23:05.3444601Z [gate-data-control] plaintext: assigned authority challenge/denial verified
+2026-10-05T12:23:05.3445069Z [gate-data-control] node 1: SIGKILL
+2026-10-05T12:23:05.3445366Z [gate-data-control] node 3 is leader
+2026-10-05T12:23:05.3445951Z [gate-data-control] plaintext: blackholed old-leader reconnect, FDS and accepted session in 0.205s after election
+2026-10-05T12:23:05.3446659Z [gate-data-control] plaintext: session loss remains fail-closed and reconnects
+2026-10-05T12:23:05.3447231Z [gate-data-control] plaintext: Fence/FenceAck replacement ordering verified
+2026-10-05T12:23:05.3448195Z [gate-data-control] node 1 started (pid 6101, raft 35615, ctl /mnt/dev/meta_integration_data_control_l8zoe0_l/plaintext/node1/meta-admin.sock,127.0.0.1:42303, initial_manifest=False, attempt 1)
+2026-10-05T12:23:05.3449020Z [gate-data-control] Data node 11111111: clean exit 0
+2026-10-05T12:23:05.3449387Z [gate-data-control] node 1: clean exit 0
+2026-10-05T12:23:05.3449720Z [gate-data-control] node 2: clean exit 0
+2026-10-05T12:23:05.3450073Z [gate-data-control] node 3: clean exit 0
+2026-10-05T12:23:05.3450892Z [gate-data-control] node 1 started (pid 6127, raft 36767, ctl /mnt/dev/meta_integration_data_control_l8zoe0_l/mtls/meta/node1/meta-admin.sock,127.0.0.1:39225, initial_manifest=True, attempt 1)
+2026-10-05T12:23:05.3451866Z --- node 1 log tail (/mnt/dev/meta_integration_data_control_l8zoe0_l/mtls/meta/node1.log) ---
+2026-10-05T12:23:05.3452770Z [n1] 2026-10-05T12:23:05.015 [info] runtime cycle-counter=cntvct_el0 frequency-source=cntfrq_el0 frequency=1000000000 Hz (1000.000 MHz) ticks-per-us=1000.000
+2026-10-05T12:23:05.3454833Z [n1] 2026-10-05T12:23:05.034 [info] node 1 up: raft=127.0.0.1:36767 data-control=127.0.0.1:47455 ctl=/mnt/dev/meta_integration_data_control_l8zoe0_l/mtls/meta/node1/meta-admin.sock,127.0.0.1:39225 sentinel-tcp=disabled sentinel-tls=disabled data-dir=/mnt/dev/meta_integration_data_control_l8zoe0_l/mtls/meta/node1 backend=etcd/raft tls=true
+2026-10-05T12:23:05.3456212Z [n1] 2026-10-05T12:23:05.322 [info] [raft-cb] event=BecomeLeader term=2
+2026-10-05T12:23:05.3456984Z [n1] 2026-10-05T12:23:05.328 [warning] data-control leader membership reconciliation: Raft member descriptor differs from its committed identity binding
+2026-10-05T12:23:05.3457520Z 
+2026-10-05T12:23:05.3458103Z [gate-data-control] FAIL: commit cluster client mode: ERR clustercreate 1 preflight pre-commit-failed another cluster creation or Meta membership change is in progress
+2026-10-05T12:23:05.3458766Z 
+2026-10-05T12:23:05.3459062Z         Start 1604: meta_integration.gate_managed_composite

@@ -1,5 +1,7 @@
 # Rebase 后 CI 失败与处理
 
+**最新结果：** #266 `3acb7fd2` 的[本次 CI](https://github.com/eloqdata/lavik/actions/runs/37297041275) 已全部 17 项通过，覆盖两种架构构建、12 个软件分片、格式及两个汇总；[完整作业记录](pr266-rebased-full-ci.json)。#271 的 Meta 初始化失败已复用 #272 修复，新 CI 待完成。
+
 [机器可读记录](rebase-ci-failures-20261005.json)。这些是已结束分片的结果，不代表其他分片已经完成；原始失败保留，不以重跑覆盖。
 
 ## #267：List 部分启动故障测试的过期断言
@@ -70,3 +72,10 @@
 已准备测试诊断提交 `253ab6a9`：[完整补丁](pr280-expiry-diagnostics.patch)。它仅在 RESTORE 抛出异常时，利用现有 `RecordDiagnostics` 保留 zero-based 请求序号、key 数量/长度、命令调用的墙钟耗时和 live `/proc` 线程状态，并把原错误及日志写入失败结果。不会再次向可能停滞的 worker 发命令；原 RESTORE、TTL、15 秒 socket 接收超时和失败判定不变。当前 77.918 秒用例总时间不能直接当作接收等待时间，原 Client 的发送阶段也未单独计时。格式及 diff 检查通过，压测期间未编译或运行本机进程测试。
 
 该提交**尚未推送**：等待原运行 `37297696440` 最后一项 amd64 分片 3 完成，保存完整结果后才推送到现有 #280 分支并观察新 CI。[准备状态](pr280-pending-expiry-diagnostics.json) · [串行等待器身份](pr280-expiry-diagnostics-watcher.json)。这是证据采集，不是超时已修复的结论。
+
+
+## #271：复用已确认的 Meta 初始化准入修复
+
+`d471dd65` 的 [arm64 分片 1](https://github.com/eloqdata/lavik/actions/runs/37297692802/job/111731543652) 在 `gate_data_control` 的 mTLS 初始化失败，错误与 #272 完全相同：选主后，`clustercreate` 得到明确的 membership-gate pre-commit busy 拒绝。plaintext 场景已通过。[失败摘录](pr271-rebase-failed-job-excerpt.txt)。
+
+`a27637f0` 直接复用 #272 `0d36b4a9` 的修复，测试文件与已做六项隔离检查的版本逐字节一致。格式和 diff 检查通过；生产代码未改，原 native/perf 对照仍固定 `2e6e4f35`，不等同于当前 head 验证。推送前所有 12 个原测试分片已结束，仅汇总排队，[原运行状态](pr271-original-ci-before-fix.json)已保留。[新 CI](https://github.com/eloqdata/lavik/actions/runs/37312155267) 待完成；PR 继续草稿。

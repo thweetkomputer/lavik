@@ -68,5 +68,25 @@
     "cause": "Unresolved; no timeout adjustment or blind rerun. Keep draft.",
     "original_log_sha256": "30554ba4b9bf871ba410ce549252810b2dd4f38e9cba97e84db0176863671325",
     "original_log_local_path": "/mnt/dev/lavik-complex-iterations-20261004/pr280-rebase-failed-job.log"
+  },
+  "pr266": {
+    "head": "3acb7fd2d892caacde0725a8480ab4cb3c90415c",
+    "run": 37297041275,
+    "conclusion": "success",
+    "all_17_jobs_passed": true,
+    "limit": "Current-head software CI; no fresh native/QPS inference."
+  },
+  "pr271": {
+    "failed_head": "d471dd651004258d3b901a707027d94323f86547",
+    "failed_run": 37297692802,
+    "failed_job": 111731543652,
+    "test": "meta_integration.gate_data_control",
+    "failure": "Same mTLS clustercreate preflight pre-commit-failed membership-gate busy response as PR272",
+    "fix_head": "a27637f03dacedc90ab1f8f3beb90eaed17b3c92",
+    "new_run": 37312155267,
+    "fix": "Reuse byte-identical PR272 fixture fix; production source unchanged, exact busy response only, same request, bounded10s wait. Formatting/diff passed; existing six isolated helper checks apply to the identical file.",
+    "old_state_before_push": "All 12 test shards finished, only aggregate jobs queued; original failure saved.",
+    "original_log_sha256": "a9fe636c5c3e9cdc7b76f5247f44af5431229e40fc858cb067a3890328b4e45e",
+    "disposition": "Keep draft; new CI and frozen performance comparison pending."
   }
 }
