@@ -46,7 +46,7 @@ Follow-up [PR #271](https://github.com/eloqdata/lavik/pull/271) removes redundan
 
 [PR #272](https://github.com/eloqdata/lavik/pull/272) reuses decoded hashes in duplicate and route validation; it remains an unmeasured draft.
 
-[PR #273](https://github.com/eloqdata/lavik/pull/273) reuses an admitted ordered source page for point writes. Its 96-observation comparison is running; complete paired results are not yet summarized, and the PR remains a draft.
+[PR #273](https://github.com/eloqdata/lavik/pull/273) reuses an admitted ordered source page for point writes. [All 48 large-object observations](diagnostics/zset-member-probe-20261004/zset-source-reuse-large.md) show median paired ZINCRBY QPS changes of +2.08%/+1.46%/+1.46%/−0.36% at the four concurrency levels. High-load write p99 improves, but the c5120 read control has a +14.81% median p99 regression. Small-object controls and separate perf remain pending; the PR stays a draft.
 
 [List range reads: throughput, memory admission, paired runs and perf](diagnostics/list-read-window-20261004/README.md)
 

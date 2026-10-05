@@ -1,0 +1,721 @@
+{
+  "scope": "large",
+  "versions": {
+    "previous": {
+      "commit": "067c75891f819831620e277eac0592c360f8b585",
+      "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-zset-source-previous-067c7589-20261004",
+      "sha256": "656b990fa10c001194208082caecff584556fad572fd7dbcc74f061c3dd97ec3",
+      "source_repo": "/mnt/dev/lavik-complex-next-20261004",
+      "bycorf_commit": "62509c93d40c2480f5046b71454db6cf95801b04",
+      "build": "RelWithDebInfo, native, LTO, GCC 13, SPDK, BUILD_TESTING=OFF, LAVIK_ENABLE_TEST_FAULTS=OFF",
+      "build_directory": "/mnt/dev/lavik-complex-next-20261004/build-spdk",
+      "no_build_or_tests_during_measurements": true,
+      "ci_run_at_native_start": "https://github.com/eloqdata/lavik/actions/runs/37241392671",
+      "ci_required_before_performance": true,
+      "full_fault_enabled_ci": "https://github.com/eloqdata/lavik/actions/runs/37241392671"
+    },
+    "candidate": {
+      "commit": "d012a3013da99344a419bb692f834b17fd6dcad4",
+      "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-zset-source-candidate-d012a301-20261004",
+      "sha256": "3ec29010ac2164a253a0822232f9c4153ec283aed516e0d8c7377e4de20ea255",
+      "source_repo": "/mnt/dev/lavik-complex-next-20261004",
+      "bycorf_commit": "62509c93d40c2480f5046b71454db6cf95801b04",
+      "build": "RelWithDebInfo, native, LTO, GCC 13, SPDK, BUILD_TESTING=OFF, LAVIK_ENABLE_TEST_FAULTS=OFF",
+      "build_directory": "/mnt/dev/lavik-complex-next-20261004/build-spdk",
+      "no_build_or_tests_during_measurements": true,
+      "ci_run_at_native_start": "https://github.com/eloqdata/lavik/actions/runs/37243651484",
+      "ci_required_before_performance": true,
+      "test_validation_commit": "92906489799d5d65c8315cc87371a14f6b2e384e",
+      "runtime_equivalence": {
+        "changed_files": [
+          "tests/grouped/zset_write_e2e_test.cpp"
+        ],
+        "same_fault_enabled_server_sha256": "b4d04bd9f0ff669235e7389be4a3c37f6372f08e0e09778b6c1c6b3213c9322f",
+        "proof": "zset-planner-fault-validation.json",
+        "note": "Production binary remains the original d012a301 build; only the test driver changes at 92906489."
+      },
+      "full_fault_enabled_ci": "https://github.com/eloqdata/lavik/actions/runs/37253070161"
+    }
+  },
+  "observations": 48,
+  "expected_observations": 48,
+  "method": "Three independent fresh-seed pairs A/B, B/A, A/B per workload: 100MiB/1024B/8keys and 64KiB/128B/64keys; 30-second ZSCORE and ZINCRBY at 80/320/2560/5120 connections. Previous PR266 head 067c7589 versus PR273 d012a301, both include main194 allocation policy. Production binaries passed native tests; parent067 full CI and candidate929 full CI plus verified tests-only diff from binary commitd012 pass before measurements. The same fault-enabled server reproduces the original fixture failure and passes all corrected27cases. No concurrent builds/tests/perf. All errors retained.",
+  "proofs": {
+    "previous067c7589-zset-source-reuse-104857600-1024-repeat1-20261005": {
+      "source_commit": "067c75891f819831620e277eac0592c360f8b585",
+      "sha256": "656b990fa10c001194208082caecff584556fad572fd7dbcc74f061c3dd97ec3",
+      "keys_checked": 8,
+      "cardinality": 102400,
+      "server_exit": 0,
+      "failures_total": 0
+    },
+    "candidated012a301-zset-source-reuse-104857600-1024-repeat1-20261005": {
+      "source_commit": "d012a3013da99344a419bb692f834b17fd6dcad4",
+      "sha256": "3ec29010ac2164a253a0822232f9c4153ec283aed516e0d8c7377e4de20ea255",
+      "keys_checked": 8,
+      "cardinality": 102400,
+      "server_exit": 0,
+      "failures_total": 0
+    },
+    "candidated012a301-zset-source-reuse-104857600-1024-repeat2-20261005": {
+      "source_commit": "d012a3013da99344a419bb692f834b17fd6dcad4",
+      "sha256": "3ec29010ac2164a253a0822232f9c4153ec283aed516e0d8c7377e4de20ea255",
+      "keys_checked": 8,
+      "cardinality": 102400,
+      "server_exit": 0,
+      "failures_total": 0
+    },
+    "previous067c7589-zset-source-reuse-104857600-1024-repeat2-20261005": {
+      "source_commit": "067c75891f819831620e277eac0592c360f8b585",
+      "sha256": "656b990fa10c001194208082caecff584556fad572fd7dbcc74f061c3dd97ec3",
+      "keys_checked": 8,
+      "cardinality": 102400,
+      "server_exit": 0,
+      "failures_total": 0
+    },
+    "previous067c7589-zset-source-reuse-104857600-1024-repeat3-20261005": {
+      "source_commit": "067c75891f819831620e277eac0592c360f8b585",
+      "sha256": "656b990fa10c001194208082caecff584556fad572fd7dbcc74f061c3dd97ec3",
+      "keys_checked": 8,
+      "cardinality": 102400,
+      "server_exit": 0,
+      "failures_total": 0
+    },
+    "candidated012a301-zset-source-reuse-104857600-1024-repeat3-20261005": {
+      "source_commit": "d012a3013da99344a419bb692f834b17fd6dcad4",
+      "sha256": "3ec29010ac2164a253a0822232f9c4153ec283aed516e0d8c7377e4de20ea255",
+      "keys_checked": 8,
+      "cardinality": 102400,
+      "server_exit": 0,
+      "failures_total": 0
+    }
+  },
+  "summary": [
+    {
+      "logical_bytes": 104857600,
+      "field_bytes": 1024,
+      "keys": 8,
+      "operation": "ZINCRBY",
+      "connections": 80,
+      "pairs": [
+        {
+          "round": 1,
+          "previous": {
+            "tag": "previous067c7589-zset-source-reuse-104857600-1024-repeat1-20261005",
+            "qps": 38510.11,
+            "p99_ms": 12.607,
+            "requests": 1155516
+          },
+          "candidate": {
+            "tag": "candidated012a301-zset-source-reuse-104857600-1024-repeat1-20261005",
+            "qps": 40537.16,
+            "p99_ms": 12.159,
+            "requests": 1216192
+          },
+          "qps_change_percent": 5.263682705658335,
+          "p99_change_percent": -3.5535813436979313
+        },
+        {
+          "round": 2,
+          "previous": {
+            "tag": "previous067c7589-zset-source-reuse-104857600-1024-repeat2-20261005",
+            "qps": 39912.33,
+            "p99_ms": 12.479,
+            "requests": 1197436
+          },
+          "candidate": {
+            "tag": "candidated012a301-zset-source-reuse-104857600-1024-repeat2-20261005",
+            "qps": 40011.82,
+            "p99_ms": 12.095,
+            "requests": 1200401
+          },
+          "qps_change_percent": 0.24927134046044408,
+          "p99_change_percent": -3.077169645003597
+        },
+        {
+          "round": 3,
+          "previous": {
+            "tag": "previous067c7589-zset-source-reuse-104857600-1024-repeat3-20261005",
+            "qps": 38865.01,
+            "p99_ms": 12.543,
+            "requests": 1166080
+          },
+          "candidate": {
+            "tag": "candidated012a301-zset-source-reuse-104857600-1024-repeat3-20261005",
+            "qps": 39671.59,
+            "p99_ms": 12.223,
+            "requests": 1190380
+          },
+          "qps_change_percent": 2.075337173462688,
+          "p99_change_percent": -2.5512237901618273
+        }
+      ],
+      "qps_paired_percent": {
+        "median": 2.075337173462688,
+        "min": 0.24927134046044408,
+        "max": 5.263682705658335,
+        "positive_pairs": 3,
+        "negative_pairs": 0
+      },
+      "p99_paired_percent": {
+        "median": -3.077169645003597,
+        "min": -3.5535813436979313,
+        "max": -2.5512237901618273,
+        "positive_pairs": 0,
+        "negative_pairs": 3
+      },
+      "previous_median_qps": 38865.01,
+      "previous_median_p99_ms": 12.543,
+      "candidate_median_qps": 40011.82,
+      "candidate_median_p99_ms": 12.159
+    },
+    {
+      "logical_bytes": 104857600,
+      "field_bytes": 1024,
+      "keys": 8,
+      "operation": "ZINCRBY",
+      "connections": 320,
+      "pairs": [
+        {
+          "round": 1,
+          "previous": {
+            "tag": "previous067c7589-zset-source-reuse-104857600-1024-repeat1-20261005",
+            "qps": 41994.09,
+            "p99_ms": 31.615,
+            "requests": 1260255
+          },
+          "candidate": {
+            "tag": "candidated012a301-zset-source-reuse-104857600-1024-repeat1-20261005",
+            "qps": 43362.09,
+            "p99_ms": 30.463,
+            "requests": 1301388
+          },
+          "qps_change_percent": 3.2576012481756456,
+          "p99_change_percent": -3.6438399493911033
+        },
+        {
+          "round": 2,
+          "previous": {
+            "tag": "previous067c7589-zset-source-reuse-104857600-1024-repeat2-20261005",
+            "qps": 42830.73,
+            "p99_ms": 31.359,
+            "requests": 1285439
+          },
+          "candidate": {
+            "tag": "candidated012a301-zset-source-reuse-104857600-1024-repeat2-20261005",
+            "qps": 42729.76,
+            "p99_ms": 31.359,
+            "requests": 1282515
+          },
+          "qps_change_percent": -0.23574195443318846,
+          "p99_change_percent": 0.0
+        },
+        {
+          "round": 3,
+          "previous": {
+            "tag": "previous067c7589-zset-source-reuse-104857600-1024-repeat3-20261005",
+            "qps": 42030.4,
+            "p99_ms": 29.823,
+            "requests": 1261406
+          },
+          "candidate": {
+            "tag": "candidated012a301-zset-source-reuse-104857600-1024-repeat3-20261005",
+            "qps": 42643.92,
+            "p99_ms": 30.847,
+            "requests": 1279857
+          },
+          "qps_change_percent": 1.4597053561231865,
+          "p99_change_percent": 3.4335915233209224
+        }
+      ],
+      "qps_paired_percent": {
+        "median": 1.4597053561231865,
+        "min": -0.23574195443318846,
+        "max": 3.2576012481756456,
+        "positive_pairs": 2,
+        "negative_pairs": 1
+      },
+      "p99_paired_percent": {
+        "median": 0.0,
+        "min": -3.6438399493911033,
+        "max": 3.4335915233209224,
+        "positive_pairs": 1,
+        "negative_pairs": 1
+      },
+      "previous_median_qps": 42030.4,
+      "previous_median_p99_ms": 31.359,
+      "candidate_median_qps": 42729.76,
+      "candidate_median_p99_ms": 30.847
+    },
+    {
+      "logical_bytes": 104857600,
+      "field_bytes": 1024,
+      "keys": 8,
+      "operation": "ZINCRBY",
+      "connections": 2560,
+      "pairs": [
+        {
+          "round": 1,
+          "previous": {
+            "tag": "previous067c7589-zset-source-reuse-104857600-1024-repeat1-20261005",
+            "qps": 42474.6,
+            "p99_ms": 200.703,
+            "requests": 1276467
+          },
+          "candidate": {
+            "tag": "candidated012a301-zset-source-reuse-104857600-1024-repeat1-20261005",
+            "qps": 44424.42,
+            "p99_ms": 175.103,
+            "requests": 1335694
+          },
+          "qps_change_percent": 4.590555296577259,
+          "p99_change_percent": -12.75516559294081
+        },
+        {
+          "round": 2,
+          "previous": {
+            "tag": "previous067c7589-zset-source-reuse-104857600-1024-repeat2-20261005",
+            "qps": 43986.19,
+            "p99_ms": 208.895,
+            "requests": 1321713
+          },
+          "candidate": {
+            "tag": "candidated012a301-zset-source-reuse-104857600-1024-repeat2-20261005",
+            "qps": 43167.67,
+            "p99_ms": 207.871,
+            "requests": 1297247
+          },
+          "qps_change_percent": -1.8608567825492583,
+          "p99_change_percent": -0.49019842504607336
+        },
+        {
+          "round": 3,
+          "previous": {
+            "tag": "previous067c7589-zset-source-reuse-104857600-1024-repeat3-20261005",
+            "qps": 42968.12,
+            "p99_ms": 208.895,
+            "requests": 1291541
+          },
+          "candidate": {
+            "tag": "candidated012a301-zset-source-reuse-104857600-1024-repeat3-20261005",
+            "qps": 43594.1,
+            "p99_ms": 185.343,
+            "requests": 1310888
+          },
+          "qps_change_percent": 1.4568475418519578,
+          "p99_change_percent": -11.274563776059754
+        }
+      ],
+      "qps_paired_percent": {
+        "median": 1.4568475418519578,
+        "min": -1.8608567825492583,
+        "max": 4.590555296577259,
+        "positive_pairs": 2,
+        "negative_pairs": 1
+      },
+      "p99_paired_percent": {
+        "median": -11.274563776059754,
+        "min": -12.75516559294081,
+        "max": -0.49019842504607336,
+        "positive_pairs": 0,
+        "negative_pairs": 3
+      },
+      "previous_median_qps": 42968.12,
+      "previous_median_p99_ms": 208.895,
+      "candidate_median_qps": 43594.1,
+      "candidate_median_p99_ms": 185.343
+    },
+    {
+      "logical_bytes": 104857600,
+      "field_bytes": 1024,
+      "keys": 8,
+      "operation": "ZINCRBY",
+      "connections": 5120,
+      "pairs": [
+        {
+          "round": 1,
+          "previous": {
+            "tag": "previous067c7589-zset-source-reuse-104857600-1024-repeat1-20261005",
+            "qps": 44043.49,
+            "p99_ms": 360.447,
+            "requests": 1326454
+          },
+          "candidate": {
+            "tag": "candidated012a301-zset-source-reuse-104857600-1024-repeat1-20261005",
+            "qps": 45794.32,
+            "p99_ms": 321.535,
+            "requests": 1378280
+          },
+          "qps_change_percent": 3.975229937500413,
+          "p99_change_percent": -10.795484495640128
+        },
+        {
+          "round": 2,
+          "previous": {
+            "tag": "previous067c7589-zset-source-reuse-104857600-1024-repeat2-20261005",
+            "qps": 45026.64,
+            "p99_ms": 442.367,
+            "requests": 1355684
+          },
+          "candidate": {
+            "tag": "candidated012a301-zset-source-reuse-104857600-1024-repeat2-20261005",
+            "qps": 44356.72,
+            "p99_ms": 255.999,
+            "requests": 1334942
+          },
+          "qps_change_percent": -1.487830315564298,
+          "p99_change_percent": -42.12972486645704
+        },
+        {
+          "round": 3,
+          "previous": {
+            "tag": "previous067c7589-zset-source-reuse-104857600-1024-repeat3-20261005",
+            "qps": 44532.23,
+            "p99_ms": 434.175,
+            "requests": 1341263
+          },
+          "candidate": {
+            "tag": "candidated012a301-zset-source-reuse-104857600-1024-repeat3-20261005",
+            "qps": 44370.08,
+            "p99_ms": 280.575,
+            "requests": 1335587
+          },
+          "qps_change_percent": -0.3641183026315997,
+          "p99_change_percent": -35.37743997236138
+        }
+      ],
+      "qps_paired_percent": {
+        "median": -0.3641183026315997,
+        "min": -1.487830315564298,
+        "max": 3.975229937500413,
+        "positive_pairs": 1,
+        "negative_pairs": 2
+      },
+      "p99_paired_percent": {
+        "median": -35.37743997236138,
+        "min": -42.12972486645704,
+        "max": -10.795484495640128,
+        "positive_pairs": 0,
+        "negative_pairs": 3
+      },
+      "previous_median_qps": 44532.23,
+      "previous_median_p99_ms": 434.175,
+      "candidate_median_qps": 44370.08,
+      "candidate_median_p99_ms": 280.575
+    },
+    {
+      "logical_bytes": 104857600,
+      "field_bytes": 1024,
+      "keys": 8,
+      "operation": "ZSCORE",
+      "connections": 80,
+      "pairs": [
+        {
+          "round": 1,
+          "previous": {
+            "tag": "previous067c7589-zset-source-reuse-104857600-1024-repeat1-20261005",
+            "qps": 238485.02,
+            "p99_ms": 0.631,
+            "requests": 7154617
+          },
+          "candidate": {
+            "tag": "candidated012a301-zset-source-reuse-104857600-1024-repeat1-20261005",
+            "qps": 251723.32,
+            "p99_ms": 0.583,
+            "requests": 7552453
+          },
+          "qps_change_percent": 5.550998549091268,
+          "p99_change_percent": -7.60697305863709
+        },
+        {
+          "round": 2,
+          "previous": {
+            "tag": "previous067c7589-zset-source-reuse-104857600-1024-repeat2-20261005",
+            "qps": 251989.47,
+            "p99_ms": 0.607,
+            "requests": 7560277
+          },
+          "candidate": {
+            "tag": "candidated012a301-zset-source-reuse-104857600-1024-repeat2-20261005",
+            "qps": 241744.66,
+            "p99_ms": 0.623,
+            "requests": 7252446
+          },
+          "qps_change_percent": -4.065570676425489,
+          "p99_change_percent": 2.635914332784184
+        },
+        {
+          "round": 3,
+          "previous": {
+            "tag": "previous067c7589-zset-source-reuse-104857600-1024-repeat3-20261005",
+            "qps": 241799.79,
+            "p99_ms": 0.623,
+            "requests": 7254213
+          },
+          "candidate": {
+            "tag": "candidated012a301-zset-source-reuse-104857600-1024-repeat3-20261005",
+            "qps": 248402.28,
+            "p99_ms": 0.631,
+            "requests": 7452183
+          },
+          "qps_change_percent": 2.730560684109773,
+          "p99_change_percent": 1.284109149277679
+        }
+      ],
+      "qps_paired_percent": {
+        "median": 2.730560684109773,
+        "min": -4.065570676425489,
+        "max": 5.550998549091268,
+        "positive_pairs": 2,
+        "negative_pairs": 1
+      },
+      "p99_paired_percent": {
+        "median": 1.284109149277679,
+        "min": -7.60697305863709,
+        "max": 2.635914332784184,
+        "positive_pairs": 2,
+        "negative_pairs": 1
+      },
+      "previous_median_qps": 241799.79,
+      "previous_median_p99_ms": 0.623,
+      "candidate_median_qps": 248402.28,
+      "candidate_median_p99_ms": 0.623
+    },
+    {
+      "logical_bytes": 104857600,
+      "field_bytes": 1024,
+      "keys": 8,
+      "operation": "ZSCORE",
+      "connections": 320,
+      "pairs": [
+        {
+          "round": 1,
+          "previous": {
+            "tag": "previous067c7589-zset-source-reuse-104857600-1024-repeat1-20261005",
+            "qps": 254530.55,
+            "p99_ms": 4.095,
+            "requests": 7637339
+          },
+          "candidate": {
+            "tag": "candidated012a301-zset-source-reuse-104857600-1024-repeat1-20261005",
+            "qps": 267468.57,
+            "p99_ms": 3.711,
+            "requests": 8025720
+          },
+          "qps_change_percent": 5.08309120457251,
+          "p99_change_percent": -9.377289377289378
+        },
+        {
+          "round": 2,
+          "previous": {
+            "tag": "previous067c7589-zset-source-reuse-104857600-1024-repeat2-20261005",
+            "qps": 263191.26,
+            "p99_ms": 4.159,
+            "requests": 7898124
+          },
+          "candidate": {
+            "tag": "candidated012a301-zset-source-reuse-104857600-1024-repeat2-20261005",
+            "qps": 256962.4,
+            "p99_ms": 3.839,
+            "requests": 7711447
+          },
+          "qps_change_percent": -2.3666667350579984,
+          "p99_change_percent": -7.694157249338785
+        },
+        {
+          "round": 3,
+          "previous": {
+            "tag": "previous067c7589-zset-source-reuse-104857600-1024-repeat3-20261005",
+            "qps": 259553.3,
+            "p99_ms": 3.791,
+            "requests": 7789162
+          },
+          "candidate": {
+            "tag": "candidated012a301-zset-source-reuse-104857600-1024-repeat3-20261005",
+            "qps": 257608.77,
+            "p99_ms": 3.999,
+            "requests": 7729753
+          },
+          "qps_change_percent": -0.7491833083994703,
+          "p99_change_percent": 5.4866789765233515
+        }
+      ],
+      "qps_paired_percent": {
+        "median": -0.7491833083994703,
+        "min": -2.3666667350579984,
+        "max": 5.08309120457251,
+        "positive_pairs": 1,
+        "negative_pairs": 2
+      },
+      "p99_paired_percent": {
+        "median": -7.694157249338785,
+        "min": -9.377289377289378,
+        "max": 5.4866789765233515,
+        "positive_pairs": 1,
+        "negative_pairs": 2
+      },
+      "previous_median_qps": 259553.3,
+      "previous_median_p99_ms": 4.095,
+      "candidate_median_qps": 257608.77,
+      "candidate_median_p99_ms": 3.839
+    },
+    {
+      "logical_bytes": 104857600,
+      "field_bytes": 1024,
+      "keys": 8,
+      "operation": "ZSCORE",
+      "connections": 2560,
+      "pairs": [
+        {
+          "round": 1,
+          "previous": {
+            "tag": "previous067c7589-zset-source-reuse-104857600-1024-repeat1-20261005",
+            "qps": 176491.24,
+            "p99_ms": 59.135,
+            "requests": 5302772
+          },
+          "candidate": {
+            "tag": "candidated012a301-zset-source-reuse-104857600-1024-repeat1-20261005",
+            "qps": 183605.85,
+            "p99_ms": 56.575,
+            "requests": 5514355
+          },
+          "qps_change_percent": 4.031140582388115,
+          "p99_change_percent": -4.329077534455051
+        },
+        {
+          "round": 2,
+          "previous": {
+            "tag": "previous067c7589-zset-source-reuse-104857600-1024-repeat2-20261005",
+            "qps": 183281.76,
+            "p99_ms": 57.087,
+            "requests": 5508854
+          },
+          "candidate": {
+            "tag": "candidated012a301-zset-source-reuse-104857600-1024-repeat2-20261005",
+            "qps": 179220.1,
+            "p99_ms": 57.599,
+            "requests": 5385072
+          },
+          "qps_change_percent": -2.2160743109407077,
+          "p99_change_percent": 0.8968766969712716
+        },
+        {
+          "round": 3,
+          "previous": {
+            "tag": "previous067c7589-zset-source-reuse-104857600-1024-repeat3-20261005",
+            "qps": 181092.57,
+            "p99_ms": 57.343,
+            "requests": 5438464
+          },
+          "candidate": {
+            "tag": "candidated012a301-zset-source-reuse-104857600-1024-repeat3-20261005",
+            "qps": 181093.5,
+            "p99_ms": 57.599,
+            "requests": 5441116
+          },
+          "qps_change_percent": 0.0005135495067420948,
+          "p99_change_percent": 0.4464363566607732
+        }
+      ],
+      "qps_paired_percent": {
+        "median": 0.0005135495067420948,
+        "min": -2.2160743109407077,
+        "max": 4.031140582388115,
+        "positive_pairs": 2,
+        "negative_pairs": 1
+      },
+      "p99_paired_percent": {
+        "median": 0.4464363566607732,
+        "min": -4.329077534455051,
+        "max": 0.8968766969712716,
+        "positive_pairs": 2,
+        "negative_pairs": 1
+      },
+      "previous_median_qps": 181092.57,
+      "previous_median_p99_ms": 57.343,
+      "candidate_median_qps": 181093.5,
+      "candidate_median_p99_ms": 57.599
+    },
+    {
+      "logical_bytes": 104857600,
+      "field_bytes": 1024,
+      "keys": 8,
+      "operation": "ZSCORE",
+      "connections": 5120,
+      "pairs": [
+        {
+          "round": 1,
+          "previous": {
+            "tag": "previous067c7589-zset-source-reuse-104857600-1024-repeat1-20261005",
+            "qps": 165206.95,
+            "p99_ms": 120.831,
+            "requests": 4967446
+          },
+          "candidate": {
+            "tag": "candidated012a301-zset-source-reuse-104857600-1024-repeat1-20261005",
+            "qps": 175594.38,
+            "p99_ms": 109.055,
+            "requests": 5286746
+          },
+          "qps_change_percent": 6.287526039310087,
+          "p99_change_percent": -9.745843368009865
+        },
+        {
+          "round": 2,
+          "previous": {
+            "tag": "previous067c7589-zset-source-reuse-104857600-1024-repeat2-20261005",
+            "qps": 168044.61,
+            "p99_ms": 95.231,
+            "requests": 5060868
+          },
+          "candidate": {
+            "tag": "candidated012a301-zset-source-reuse-104857600-1024-repeat2-20261005",
+            "qps": 168884.69,
+            "p99_ms": 115.711,
+            "requests": 5080929
+          },
+          "qps_change_percent": 0.4999148737945269,
+          "p99_change_percent": 21.50560216736148
+        },
+        {
+          "round": 3,
+          "previous": {
+            "tag": "previous067c7589-zset-source-reuse-104857600-1024-repeat3-20261005",
+            "qps": 171101.68,
+            "p99_ms": 96.767,
+            "requests": 5147114
+          },
+          "candidate": {
+            "tag": "candidated012a301-zset-source-reuse-104857600-1024-repeat3-20261005",
+            "qps": 173476.42,
+            "p99_ms": 111.103,
+            "requests": 5214992
+          },
+          "qps_change_percent": 1.3879115622944305,
+          "p99_change_percent": 14.81496791261483
+        }
+      ],
+      "qps_paired_percent": {
+        "median": 1.3879115622944305,
+        "min": 0.4999148737945269,
+        "max": 6.287526039310087,
+        "positive_pairs": 3,
+        "negative_pairs": 0
+      },
+      "p99_paired_percent": {
+        "median": 14.81496791261483,
+        "min": -9.745843368009865,
+        "max": 21.50560216736148,
+        "positive_pairs": 2,
+        "negative_pairs": 1
+      },
+      "previous_median_qps": 168044.61,
+      "previous_median_p99_ms": 96.767,
+      "candidate_median_qps": 173476.42,
+      "candidate_median_p99_ms": 111.103
+    }
+  ],
+  "limitations": "Three independent fresh-population AB/BA/AB pairs, not confidence intervals. Median paired ratio differs from ratio of marginal medians. Negative p99 change is better. Candidate production source remains d012; 929 changes only the test driver. Historical peers not rerun; incremental performance is not overall parity.",
+  "status": "complete three-pair scope verified"
+}
