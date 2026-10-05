@@ -40,7 +40,7 @@ This round pins the main revision above. Merged optimizations are no longer sepa
 
 Unmerged optimizations: [PR #266](https://github.com/eloqdata/lavik/pull/266) · [PR #267](https://github.com/eloqdata/lavik/pull/267) · [PR #269](https://github.com/eloqdata/lavik/pull/269) · [PR #270](https://github.com/eloqdata/lavik/pull/270)
 
-Main has advanced to `4610d607`; this report retains pinned baseline `a565d603`. [Combined validation branch and status](diagnostics/combined-20261005/README.md). [Integrated PR heads and validation status](diagnostics/main-a565d603-20261004/pr-main-integration.json) remain separate from the measured binaries.
+Integration branches include newer main revisions; this report retains pinned baseline `a565d603`. [Combined validation branch and status](diagnostics/combined-20261005/README.md). [Integrated PR heads and validation status](diagnostics/main-a565d603-20261004/pr-main-integration.json) remain separate from the measured binaries.
 
 [Stream suffix directory reuse: throughput, paired runs, perf and tests](diagnostics/stream-suffix-20261004/README.md) — #265 merged on 2026-10-05; its measurements retain their original commits and are not a fresh main rerun.
 
