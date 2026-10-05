@@ -8,7 +8,7 @@ output=W/'combined-native-versions.json'
 assert not output.exists()
 expected={'main':'4610d6077e8e32d59639a5ee88dbe8cbd305aab2','combined':'78e29277618f4ef40ccefab0930cbab667a0a40e'}
 waiters=[]
-for pid in [720974,733834,738607,719158]:
+for pid in [760936,760972,738607,719158]:
     proc=Path('/proc')/str(pid)/'stat'
     waiters.append((pid,proc,proc.read_text().split()[21] if proc.exists() else None))
 for pid,proc,identity in waiters:
@@ -29,6 +29,9 @@ def sha(path):
     with Path(path).open('rb') as f:return hashlib.file_digest(f,'sha256').hexdigest()
 assert subprocess.check_output(['git','diff','HEAD','--'],cwd=S)==b''
 versions={}
+temporary=W/'compiler-tmp-combined';temporary.mkdir(exist_ok=True)
+assert shutil.disk_usage(temporary).free>10*1024**3
+build_environment=dict(os.environ,TMPDIR=str(temporary))
 ordered_filter=('GroupedSortedSetWriteE2e.*:GroupedOrderedWriteE2e.SortedSet*:'
  'GroupedOrderedWriteE2e.LargeSortedSetMemberUsesExtents:GroupedDemotionE2e.*:'
  'GroupedStreamE2e.*:GroupedTransferE2e.*:'
@@ -45,7 +48,7 @@ for label,head in expected.items():
     def run(name,argv,env=None,timeout=None):
         print('START',label,name,time.time(),flush=True)
         with (W/(prefix+'-'+name+'.txt')).open('w') as log:
-            child=subprocess.Popen(argv,cwd=S,env=env,stdout=log,stderr=subprocess.STDOUT,start_new_session=True)
+            child=subprocess.Popen(argv,cwd=S,env=build_environment if env is None else dict(env,TMPDIR=str(temporary)),stdout=log,stderr=subprocess.STDOUT,start_new_session=True)
             try:
                 code=child.wait(timeout=timeout)
                 if code:raise subprocess.CalledProcessError(code,argv)
@@ -72,7 +75,7 @@ for label,head in expected.items():
     assert subprocess.check_output(['git','diff','HEAD','--'],cwd=S)==b''
     binary=Path('/mnt/dev/lavik-benchmark-binaries')/('lavik-'+prefix+'-'+head[:8]+'-20261005')
     assert not binary.exists();shutil.copyfile(B/'lavik',binary);binary.chmod(0o755)
-    version={'commit':head,'source_repo':str(S),'binary':str(binary),'sha256':sha(binary),'drivers':drivers,'bycorf_commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=S/'bycorf',text=True).strip(),'build':'Existing GCC native SPDK build-spdk cache; production tests/faults OFF, separate test drivers','combined_ci':proof['url']}
+    version={'commit':head,'source_repo':str(S),'binary':str(binary),'sha256':sha(binary),'drivers':drivers,'bycorf_commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=S/'bycorf',text=True).strip(),'build':'Existing GCC native SPDK build-spdk cache; production tests/faults OFF, separate test drivers','combined_ci':proof['url'],'compiler_tmpdir':str(temporary)}
     (W/(prefix+'-CMakeCache.txt')).write_text(cache)
     (W/(prefix+'-build.json')).write_text(json.dumps(version,indent=2)+'\n')
     data=W/(prefix+'-test-data');data.mkdir();env=os.environ.copy();env['LAVIK_TEST_DATA_DIR']=str(data)

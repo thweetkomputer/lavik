@@ -13,3 +13,11 @@
 [干净对照](repeat-hash-route-replace.py) 已排队，等待长 key 与 Stream RDB 故障诊断退出，并确认原生验证全部完成后取得主机锁。调整排队时尚未开始测量，原等待日志已保留。Hash 和 Set 各覆盖 500 个 100 MiB key（1024 B 元素）及 50,000 个 1 MiB key（128 B 元素），沿用报告对应的数据规模。每个版本独立恢复同一校验过的 RDB 内容并重启，路由种子和物理图分别生成。三轮 A/B、B/A、A/B，各在 c80/320/5120 测 30 秒 HGET/HSET 或 SISMEMBER/SADD_SREM，共 144 个观测，保留 p99、错误、二进制来源和完整基数校验；首个失败条件结束后停止。Set 的添加/删除可能为无操作，统计命令 QPS，不等同于 durable mutation 数。
 
 [独立 perf](profile-hash-route-replace.py) 等上述全部观测成功后，分别为父版本/候选的 HSET 和 SADD/SREM 新建 500 key、100 MiB、1024 B 数据，在 c320 采集 30 秒命令/计数窗口及 25 秒、99 Hz 的逐 worker task-clock/DWARF。[采样驱动](profile-hash-route-allworkers.py) 保留零样本辅助线程。采样 QPS 不混入干净对照；错开的计数和 CPU 窗口不换算成 CPU/命令。原始 perf 与线程栈仅留本地，后续选择小型摘要发布。上述任务均未开始测量。
+
+## 原生构建遇到临时目录 ENOSPC
+
+父版本 `19496654` 已通过 80 个单元测试；生产二进制的 Hash/Set 驱动共 36 例，其中 16 通过、20 个 fault-only 跳过、0 失败。[单元结果](hash-route-replace-parent-unit-tests.json) · [集成结果](hash-route-replace-parent-native-tests.json) · [固定二进制与驱动来源](hash-route-replace-native-progress.json)。完整 fault-enabled CI 补充跳过路径。
+
+候选 `27c65ff9` 的 GCC/native LTO 链接报 `/tmp/...: No space left on device`，[错误摘录](candidate-native-enospc.log) 已保留，完整原始构建日志留在工作区。候选尚未运行单元/集成测试，吞吐与 perf 调度因验证未完成退出，未产生测量点。
+
+[候选续跑](resume-hash-route-replace-native.py) 仅将编译临时目录 `TMPDIR` 移至空间充足的 `/mnt/dev`，保留源码、编译选项和已通过的父版本验证，取得主机锁后完成候选链接与验证。[144 点对照](repeat-hash-route-replace-resume.py) 和[独立 perf](profile-hash-route-replace-resume.py) 已恢复等待新的验证进程。原失败未删除，也未以 CI 通过代替本机生产验证。

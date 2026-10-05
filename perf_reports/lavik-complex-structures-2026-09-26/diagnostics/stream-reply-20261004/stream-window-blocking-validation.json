@@ -1,0 +1,47 @@
+{
+  "version": {
+    "commit": "5b9ebdedecc0cc7a3fea93fb73b1fbbb6b7186c6",
+    "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-stream-followup-window-5b9ebded-20261005",
+    "sha256": "3af06ea2dc0e276f03cfb48d9d8c9df0e84979ba8e4275725bcf6456c728d13d",
+    "source_repo": "/mnt/dev/lavik-complex-next-20261004",
+    "bycorf_commit": "62509c93d40c2480f5046b71454db6cf95801b04",
+    "build": "RelWithDebInfo, native, LTO, GCC 13, SPDK, BUILD_TESTING=OFF, LAVIK_ENABLE_TEST_FAULTS=OFF",
+    "build_directory": "/mnt/dev/lavik-complex-next-20261004/build-spdk",
+    "no_build_or_tests_during_measurements": true,
+    "pr": 275,
+    "ci_required_before_performance": true
+  },
+  "driver_source": "19496654cc43b21df11fb59be60e174dc4c89dbc",
+  "driver_artifact": 11316029042,
+  "driver_ci": "https://github.com/eloqdata/lavik/actions/runs/37237724710",
+  "identical_test_sources": [
+    "tests/list_e2e_test.cpp",
+    "tests/pubsub_e2e_test.cpp",
+    "tests/support/test_data_path.h"
+  ],
+  "rows": [
+    {
+      "suite": "blocking",
+      "argv": [
+        "/mnt/dev/lavik-complex-iterations-20261004/stream-window-blocking-ci-drivers/build_ci/lavik_list_e2e_test",
+        "/mnt/dev/lavik-benchmark-binaries/lavik-stream-followup-window-5b9ebded-20261005",
+        "--gtest_filter=ListE2eTest.BlockingAndStreamedCommandsDoNotHoldFlushDbGate:ListE2eTest.StreamBlockingRegistryBroadcastsAndKeepsGroupFifo:ListE2eTest.DisconnectCancelsActiveBlockingWait:ListE2eTest.PipelineFlushesRepliesBeforeBlockingCommand:CollectionE2eTest.SortedSetGeoAndStreamCommandsRecover",
+        "--gtest_output=json:/mnt/dev/lavik-complex-iterations-20261004/stream-window-blocking-tests.json"
+      ],
+      "test_sha256": "7abb8584c4b731e49eca020451fbc7e203e02b870d3ed946eaba64196ab60d14",
+      "exit_code": 0,
+      "seconds": 2.59576721402118
+    },
+    {
+      "suite": "pubsub",
+      "argv": [
+        "/mnt/dev/lavik-complex-iterations-20261004/stream-window-blocking-ci-drivers/build_ci/lavik_pubsub_e2e_test",
+        "/mnt/dev/lavik-benchmark-binaries/lavik-stream-followup-window-5b9ebded-20261005"
+      ],
+      "test_sha256": "d54e5db94a545bfc0d3648d13a16558f3513c03c0639f152af629a6ba3cc90f6",
+      "exit_code": 0,
+      "seconds": 0.8161470749764703
+    }
+  ],
+  "method": "Unchanged main194 CI protocol test drivers run against the frozen native production window5b binary. Shared benchmark-host lock; original commands and internal timeouts. Test driver build differs from server build and is recorded separately. No performance claim."
+}
