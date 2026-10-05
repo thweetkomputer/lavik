@@ -1,0 +1,291 @@
+{
+  "source": "/mnt/dev/lavik-complex-iterations-20261004/pr267-retained-image-profiles.json",
+  "original_sha256": "b4e0113cf9b7dcbe03175c5e5665be8589ebef9dbc9c2847adc3cd3010b956ae",
+  "versions": {
+    "main": {
+      "source_head": "19496654cc43b21df11fb59be60e174dc4c89dbc",
+      "built_revision": "19496654cc43b21df11fb59be60e174dc4c89dbc",
+      "tree": "0d962b0f608d93f47f0d955e468828837d7b5935",
+      "ci_run": "https://github.com/eloqdata/lavik/actions/runs/37237724710",
+      "artifact_id": 11316029042,
+      "binary": "/mnt/dev/lavik-complex-iterations-20261004/pr267-extent-ci-repro/main/build_ci/lavik",
+      "test": "/mnt/dev/lavik-complex-iterations-20261004/pr267-extent-ci-repro/main/build_ci/lavik_extent_recovery_e2e_test",
+      "binary_sha256": "84708b47529efbf36b694622474e2ce5565cf44e732ea0b06e22ee9a3454b208",
+      "test_sha256": "4a68d975e9c1f849cf2199246531165609f480691a68a7fd1e41d1263637a7c6"
+    },
+    "candidate": {
+      "source_head": "343e951e3341593cc46b2cfae42f7d8f9b26304e",
+      "built_revision": "2d15726a961c919b2ca71f785b0b958bbabd57a6",
+      "tree": "693123acc8989edf33e790ceddf0f3ebe907d8ac",
+      "ci_run": "https://github.com/eloqdata/lavik/actions/runs/37241591043",
+      "artifact_id": 11317164871,
+      "binary": "/mnt/dev/lavik-complex-iterations-20261004/pr267-extent-ci-repro/candidate/build_ci/lavik",
+      "test": "/mnt/dev/lavik-complex-iterations-20261004/pr267-extent-ci-repro/candidate/build_ci/lavik_extent_recovery_e2e_test",
+      "binary_sha256": "7f84a76db72951edd6a9065373ae67d8669c3db80624d692922c48a2df7db77f",
+      "test_sha256": "4a68d975e9c1f849cf2199246531165609f480691a68a7fd1e41d1263637a7c6"
+    }
+  },
+  "clock_ticks_per_second": 100,
+  "limitations": "Diagnostic sampled intervals, not clean paired QPS or command-exclusive CPU/IO. Process counters include background work. First/last samples can omit boundary intervals, and missing samples are reported. Thread CPU covers only IDs present throughout. wchan counts are observations, not time fractions. Theoretical repeated key bytes exclude headers, first verification and retries; do not equate them to device traffic.",
+  "rows": [
+    {
+      "version": "main",
+      "whole_replay_success": false,
+      "get_completed": false,
+      "get_observation": {
+        "command": "GET",
+        "key_bytes": 9437184,
+        "stage": "reply header",
+        "received_payload_bytes": 0,
+        "started_monotonic": 279413.394553801,
+        "send_seconds": 0.024315193993970752
+      },
+      "error": "TimeoutError('timed out')",
+      "perf_exit": -2,
+      "samples": 120,
+      "excluded_samples": 0,
+      "sample_span_seconds": 59.589201710012276,
+      "first_sample_from_get_start_seconds": -8.244899800047278e-05,
+      "last_sample_before_get_finish_seconds": null,
+      "sampled_process_io_delta": {
+        "rchar": 0,
+        "wchar": 0,
+        "syscr": 0,
+        "syscw": 0,
+        "read_bytes": 9033633792,
+        "write_bytes": 0,
+        "cancelled_write_bytes": 0
+      },
+      "progress_intervals": [
+        {
+          "from_first_sample_seconds": 0.0,
+          "to_first_sample_seconds": 10.022222799016163,
+          "read_bytes": 1504002048,
+          "write_bytes": 0
+        },
+        {
+          "from_first_sample_seconds": 10.022222799016163,
+          "to_first_sample_seconds": 20.03545900899917,
+          "read_bytes": 1482297344,
+          "write_bytes": 0
+        },
+        {
+          "from_first_sample_seconds": 20.03545900899917,
+          "to_first_sample_seconds": 30.048987340996973,
+          "read_bytes": 1539760128,
+          "write_bytes": 0
+        },
+        {
+          "from_first_sample_seconds": 30.048987340996973,
+          "to_first_sample_seconds": 40.062358185998164,
+          "read_bytes": 1537654784,
+          "write_bytes": 0
+        },
+        {
+          "from_first_sample_seconds": 40.062358185998164,
+          "to_first_sample_seconds": 50.075916449015494,
+          "read_bytes": 1518768128,
+          "write_bytes": 0
+        },
+        {
+          "from_first_sample_seconds": 50.075916449015494,
+          "to_first_sample_seconds": 59.589201710012276,
+          "read_bytes": 1451151360,
+          "write_bytes": 0
+        }
+      ],
+      "threads": [
+        {
+          "tid": 739359,
+          "user_seconds": 0.0,
+          "system_seconds": 0.0,
+          "runtime_seconds": 0.0,
+          "runqueue_wait_seconds": 0.0,
+          "timeslices": 0,
+          "wchan_sample_counts": {
+            "poll_schedule_timeout.constprop.0": 120
+          }
+        },
+        {
+          "tid": 739360,
+          "user_seconds": 2.95,
+          "system_seconds": 0.31,
+          "runtime_seconds": 3.25565272,
+          "runqueue_wait_seconds": 0.000625513,
+          "timeslices": 8617,
+          "wchan_sample_counts": {
+            "io_cqring_wait": 118,
+            "0": 2
+          }
+        },
+        {
+          "tid": 739361,
+          "user_seconds": 2.12,
+          "system_seconds": 0.45,
+          "runtime_seconds": 2.572020634,
+          "runqueue_wait_seconds": 0.000581956,
+          "timeslices": 9983,
+          "wchan_sample_counts": {
+            "io_cqring_wait": 117,
+            "0": 3
+          }
+        },
+        {
+          "tid": 739362,
+          "user_seconds": 0.0,
+          "system_seconds": 0.0,
+          "runtime_seconds": 0.0,
+          "runqueue_wait_seconds": 0.0,
+          "timeslices": 0,
+          "wchan_sample_counts": {
+            "io_cqring_wait": 120
+          }
+        },
+        {
+          "tid": 739363,
+          "user_seconds": 0.0,
+          "system_seconds": 0.01,
+          "runtime_seconds": 0.000224512,
+          "runqueue_wait_seconds": 2.3314e-05,
+          "timeslices": 11,
+          "wchan_sample_counts": {
+            "io_wq_worker": 120
+          }
+        }
+      ],
+      "thread_ids_not_present_in_every_sample": [],
+      "theoretical_repeated_key_payload_bytes": 7247757312
+    },
+    {
+      "version": "candidate",
+      "whole_replay_success": false,
+      "get_completed": false,
+      "get_observation": {
+        "command": "GET",
+        "key_bytes": 9437184,
+        "stage": "reply header",
+        "received_payload_bytes": 0,
+        "started_monotonic": 279517.503663748,
+        "send_seconds": 0.017090712033677846
+      },
+      "error": "TimeoutError('timed out')",
+      "perf_exit": -2,
+      "samples": 120,
+      "excluded_samples": 0,
+      "sample_span_seconds": 59.59224967902992,
+      "first_sample_from_get_start_seconds": -7.302500307559967e-05,
+      "last_sample_before_get_finish_seconds": null,
+      "sampled_process_io_delta": {
+        "rchar": 0,
+        "wchar": 0,
+        "syscr": 0,
+        "syscw": 0,
+        "read_bytes": 8741662720,
+        "write_bytes": 4059136,
+        "cancelled_write_bytes": 0
+      },
+      "progress_intervals": [
+        {
+          "from_first_sample_seconds": 0.0,
+          "to_first_sample_seconds": 10.021153097040951,
+          "read_bytes": 1513467904,
+          "write_bytes": 0
+        },
+        {
+          "from_first_sample_seconds": 10.021153097040951,
+          "to_first_sample_seconds": 20.034886553999968,
+          "read_bytes": 1513889792,
+          "write_bytes": 0
+        },
+        {
+          "from_first_sample_seconds": 20.034886553999968,
+          "to_first_sample_seconds": 30.048654558020644,
+          "read_bytes": 1304358912,
+          "write_bytes": 0
+        },
+        {
+          "from_first_sample_seconds": 30.048654558020644,
+          "to_first_sample_seconds": 40.06345152301947,
+          "read_bytes": 1452236800,
+          "write_bytes": 2945024
+        },
+        {
+          "from_first_sample_seconds": 40.06345152301947,
+          "to_first_sample_seconds": 50.07818634802243,
+          "read_bytes": 1520873472,
+          "write_bytes": 573440
+        },
+        {
+          "from_first_sample_seconds": 50.07818634802243,
+          "to_first_sample_seconds": 59.59224967902992,
+          "read_bytes": 1436835840,
+          "write_bytes": 540672
+        }
+      ],
+      "threads": [
+        {
+          "tid": 739608,
+          "user_seconds": 0.0,
+          "system_seconds": 0.0,
+          "runtime_seconds": 0.0,
+          "runqueue_wait_seconds": 0.0,
+          "timeslices": 0,
+          "wchan_sample_counts": {
+            "poll_schedule_timeout.constprop.0": 120
+          }
+        },
+        {
+          "tid": 739609,
+          "user_seconds": 2.58,
+          "system_seconds": 0.27,
+          "runtime_seconds": 2.846607179,
+          "runqueue_wait_seconds": 0.00149269,
+          "timeslices": 9106,
+          "wchan_sample_counts": {
+            "io_cqring_wait": 116,
+            "0": 3,
+            "do_get_write_access": 1
+          }
+        },
+        {
+          "tid": 739610,
+          "user_seconds": 2.35,
+          "system_seconds": 0.51,
+          "runtime_seconds": 2.855556614,
+          "runqueue_wait_seconds": 0.000798623,
+          "timeslices": 10832,
+          "wchan_sample_counts": {
+            "io_cqring_wait": 113,
+            "0": 7
+          }
+        },
+        {
+          "tid": 739611,
+          "user_seconds": 0.0,
+          "system_seconds": 0.0,
+          "runtime_seconds": 0.0,
+          "runqueue_wait_seconds": 0.0,
+          "timeslices": 0,
+          "wchan_sample_counts": {
+            "io_cqring_wait": 120
+          }
+        },
+        {
+          "tid": 739612,
+          "user_seconds": 0.0,
+          "system_seconds": 0.02,
+          "runtime_seconds": 0.010648684,
+          "runqueue_wait_seconds": 8.6147e-05,
+          "timeslices": 381,
+          "wchan_sample_counts": {
+            "io_wq_worker": 120
+          }
+        }
+      ],
+      "thread_ids_not_present_in_every_sample": [
+        "739653"
+      ],
+      "theoretical_repeated_key_payload_bytes": 7247757312
+    }
+  ]
+}

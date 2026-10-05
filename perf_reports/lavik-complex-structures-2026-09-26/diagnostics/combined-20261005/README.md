@@ -8,6 +8,8 @@ main 已前进到 `4610d607`（Meta 观察事实捕获，#257）。现有图表�
 | #266 | `067c7589` | ZSet 成员叶页复用，包含冷恢复修复 | [测量及精确版本归属](../zset-member-probe-20261004/README.md) |
 | #270 | `adec3a34` | Stream 回复批处理，包含冷恢复修复 | [配对控制与 perf](../stream-reply-20261004/README.md) |
 
-三个合并均无冲突。已核对父提交可达性、源码树清洁状态、格式及 diff；已有架构修订一并合入并检查。[完整组合清单](combination.json) · [独立 CI](https://github.com/thweetkomputer/lavik/actions/runs/37260751356)。CI 尚在运行，本机原生验证及组合后的 QPS/p99/perf 尚未执行，不能把单项历史收益相乘或视为组合结果。
+三个合并均无冲突。已核对父提交可达性、源码树清洁状态、格式及 diff；已有架构修订一并合入并检查。[完整组合清单](combination.json) · [独立 CI](https://github.com/thweetkomputer/lavik/actions/runs/37260751356)。[完整 CI 已通过](combined-78e29277-full-ci.json)：两种架构编译、12 个软件分片、两个汇总检查和格式检查均成功。本机原生验证及组合后的 QPS/p99/perf 尚未执行，不能把单项历史收益相乘或视为组合结果。
 
 这是一阶段组合。List 范围读取仍需解决当前验证中的超时问题；ZSet 页复用、Hash/Set 单路由替换等增量候选等待各自配对测量。后续按实际正确性与性能证据更新组合，再用匹配负载与版本的完整命令测量检验 peer 差距。当前尚未达到全体复杂结构命令与另外三个系统相近的水平。
+
+[原生验证](validate-combined-native.py) 已排队，在 Hash 原生构建和当前故障诊断/重放退出后取得主机锁，分别构建并冻结 main `4610d607`、组合 `78e29277` 的 GCC/native/SPDK 二进制与测试驱动。生产构建关闭测试与故障注入，随后执行 grouped/Stream 单元测试、ZSet/Stream/迁移/RDB 用例、阻塞/恢复和 Pub/Sub 检查，保留跳过项和精确 SHA-256。完整 fault-enabled CI 补充故障路径覆盖；此调度尚未开始编译或性能测量。

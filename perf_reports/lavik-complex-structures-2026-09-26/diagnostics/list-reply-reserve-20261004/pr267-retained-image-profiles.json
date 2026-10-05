@@ -1,0 +1,281 @@
+{
+  "original_image": "/mnt/dev/lavik-complex-iterations-20261004/pr267-extent-ci-repro/candidate-round1/lavik-extent-recovery-696331.data",
+  "original_sha256": "b4e0113cf9b7dcbe03175c5e5665be8589ebef9dbc9c2847adc3cd3010b956ae",
+  "versions": {
+    "main": {
+      "source_head": "19496654cc43b21df11fb59be60e174dc4c89dbc",
+      "built_revision": "19496654cc43b21df11fb59be60e174dc4c89dbc",
+      "tree": "0d962b0f608d93f47f0d955e468828837d7b5935",
+      "ci_run": "https://github.com/eloqdata/lavik/actions/runs/37237724710",
+      "artifact_id": 11316029042,
+      "binary": "/mnt/dev/lavik-complex-iterations-20261004/pr267-extent-ci-repro/main/build_ci/lavik",
+      "test": "/mnt/dev/lavik-complex-iterations-20261004/pr267-extent-ci-repro/main/build_ci/lavik_extent_recovery_e2e_test",
+      "binary_sha256": "84708b47529efbf36b694622474e2ce5565cf44e732ea0b06e22ee9a3454b208",
+      "test_sha256": "4a68d975e9c1f849cf2199246531165609f480691a68a7fd1e41d1263637a7c6"
+    },
+    "candidate": {
+      "source_head": "343e951e3341593cc46b2cfae42f7d8f9b26304e",
+      "built_revision": "2d15726a961c919b2ca71f785b0b958bbabd57a6",
+      "tree": "693123acc8989edf33e790ceddf0f3ebe907d8ac",
+      "ci_run": "https://github.com/eloqdata/lavik/actions/runs/37241591043",
+      "artifact_id": 11317164871,
+      "binary": "/mnt/dev/lavik-complex-iterations-20261004/pr267-extent-ci-repro/candidate/build_ci/lavik",
+      "test": "/mnt/dev/lavik-complex-iterations-20261004/pr267-extent-ci-repro/candidate/build_ci/lavik_extent_recovery_e2e_test",
+      "binary_sha256": "7f84a76db72951edd6a9065373ae67d8669c3db80624d692922c48a2df7db77f",
+      "test_sha256": "4a68d975e9c1f849cf2199246531165609f480691a68a7fd1e41d1263637a7c6"
+    }
+  },
+  "rows": [
+    {
+      "version": "main",
+      "port": 45339,
+      "argv": [
+        "/mnt/dev/lavik-complex-iterations-20261004/pr267-extent-ci-repro/main/build_ci/lavik",
+        "--logtostderr",
+        "--port",
+        "45339",
+        "--threads",
+        "2",
+        "--no-pin-workers",
+        "--recv-buffers-per-worker",
+        "0",
+        "--data-file",
+        "/mnt/dev/lavik-complex-iterations-20261004/pr267-retained-image-profile/main/working.data"
+      ],
+      "operations": [
+        {
+          "command": "STRLEN",
+          "key_bytes": 5009,
+          "stage": "reply header",
+          "received_payload_bytes": 0,
+          "started_monotonic": 279395.588116542,
+          "send_seconds": 3.126595402136445e-05,
+          "header": ":9437184\r\n",
+          "header_seconds": 0.002734058944042772,
+          "seconds": 0.00273675296921283
+        },
+        {
+          "command": "GET",
+          "key_bytes": 5009,
+          "stage": "reply payload",
+          "received_payload_bytes": 9437184,
+          "started_monotonic": 279395.591158022,
+          "send_seconds": 2.497702371329069e-05,
+          "header": "$9437184\r\n",
+          "header_seconds": 3.9874941629823297,
+          "seconds": 3.9900181270204484
+        },
+        {
+          "command": "STRLEN",
+          "key_bytes": 5009,
+          "stage": "reply header",
+          "received_payload_bytes": 0,
+          "started_monotonic": 279399.581509949,
+          "send_seconds": 2.9615010134875774e-05,
+          "header": ":9437184\r\n",
+          "header_seconds": 0.0025953910080716014,
+          "seconds": 0.0025964329834096134
+        },
+        {
+          "command": "GET",
+          "key_bytes": 5009,
+          "stage": "reply payload",
+          "received_payload_bytes": 9437184,
+          "started_monotonic": 279399.584274694,
+          "send_seconds": 2.360600046813488e-05,
+          "header": "$9437184\r\n",
+          "header_seconds": 4.024600194010418,
+          "seconds": 4.028993170999456
+        },
+        {
+          "command": "STRLEN",
+          "key_bytes": 5009,
+          "stage": "reply header",
+          "received_payload_bytes": 0,
+          "started_monotonic": 279403.613613863,
+          "send_seconds": 3.3741001971066e-05,
+          "header": ":9437184\r\n",
+          "header_seconds": 0.0019753819797188044,
+          "seconds": 0.001976302999537438
+        },
+        {
+          "command": "GET",
+          "key_bytes": 5009,
+          "stage": "reply payload",
+          "received_payload_bytes": 9437184,
+          "started_monotonic": 279403.615768794,
+          "send_seconds": 2.4356995709240437e-05,
+          "header": "$9437184\r\n",
+          "header_seconds": 3.9646413949667476,
+          "seconds": 3.9691593389725313
+        },
+        {
+          "command": "GET",
+          "key_bytes": 6291456,
+          "stage": "reply payload",
+          "received_payload_bytes": 1048576,
+          "started_monotonic": 279407.58875504,
+          "send_seconds": 0.019081017991993576,
+          "header": "$1048576\r\n",
+          "header_seconds": 5.5031003640033305,
+          "seconds": 5.5035033479798585
+        }
+      ],
+      "success": false,
+      "image": "/mnt/dev/lavik-complex-iterations-20261004/pr267-retained-image-profile/main/working.data",
+      "perf_argv": [
+        "sudo",
+        "-n",
+        "perf",
+        "record",
+        "-e",
+        "task-clock",
+        "-F",
+        "49",
+        "--call-graph",
+        "dwarf,8192",
+        "-p",
+        "739359",
+        "-o",
+        "/mnt/dev/lavik-complex-iterations-20261004/pr267-retained-image-profile/main/long-key.perf"
+      ],
+      "error": "TimeoutError('timed out')",
+      "failed_phase": {
+        "command": "GET",
+        "key_bytes": 9437184,
+        "stage": "reply header",
+        "received_payload_bytes": 0,
+        "started_monotonic": 279413.394553801,
+        "send_seconds": 0.024315193993970752
+      },
+      "perf_exit": -2,
+      "gdb_exit": 0
+    },
+    {
+      "version": "candidate",
+      "port": 46263,
+      "argv": [
+        "/mnt/dev/lavik-complex-iterations-20261004/pr267-extent-ci-repro/candidate/build_ci/lavik",
+        "--logtostderr",
+        "--port",
+        "46263",
+        "--threads",
+        "2",
+        "--no-pin-workers",
+        "--recv-buffers-per-worker",
+        "0",
+        "--data-file",
+        "/mnt/dev/lavik-complex-iterations-20261004/pr267-retained-image-profile/candidate/working.data"
+      ],
+      "operations": [
+        {
+          "command": "STRLEN",
+          "key_bytes": 5009,
+          "stage": "reply header",
+          "received_payload_bytes": 0,
+          "started_monotonic": 279499.320259298,
+          "send_seconds": 2.774200402200222e-05,
+          "header": ":9437184\r\n",
+          "header_seconds": 0.00311958696693182,
+          "seconds": 0.003121910966001451
+        },
+        {
+          "command": "GET",
+          "key_bytes": 5009,
+          "stage": "reply payload",
+          "received_payload_bytes": 9437184,
+          "started_monotonic": 279499.323630262,
+          "send_seconds": 2.4877022951841354e-05,
+          "header": "$9437184\r\n",
+          "header_seconds": 4.046708324982319,
+          "seconds": 4.0514034740044735
+        },
+        {
+          "command": "STRLEN",
+          "key_bytes": 5009,
+          "stage": "reply header",
+          "received_payload_bytes": 0,
+          "started_monotonic": 279503.375345363,
+          "send_seconds": 3.0466006137430668e-05,
+          "header": ":9437184\r\n",
+          "header_seconds": 0.003321961034089327,
+          "seconds": 0.0033230219851247966
+        },
+        {
+          "command": "GET",
+          "key_bytes": 5009,
+          "stage": "reply payload",
+          "received_payload_bytes": 9437184,
+          "started_monotonic": 279503.378840423,
+          "send_seconds": 2.3945991415530443e-05,
+          "header": "$9437184\r\n",
+          "header_seconds": 4.124644738971256,
+          "seconds": 4.1268416329985484
+        },
+        {
+          "command": "STRLEN",
+          "key_bytes": 5009,
+          "stage": "reply header",
+          "received_payload_bytes": 0,
+          "started_monotonic": 279507.506023828,
+          "send_seconds": 3.084598574787378e-05,
+          "header": ":9437184\r\n",
+          "header_seconds": 0.002127029001712799,
+          "seconds": 0.002127809973899275
+        },
+        {
+          "command": "GET",
+          "key_bytes": 5009,
+          "stage": "reply payload",
+          "received_payload_bytes": 9437184,
+          "started_monotonic": 279507.508319961,
+          "send_seconds": 2.6008987333625555e-05,
+          "header": "$9437184\r\n",
+          "header_seconds": 4.161838219966739,
+          "seconds": 4.163911708979867
+        },
+        {
+          "command": "GET",
+          "key_bytes": 6291456,
+          "stage": "reply payload",
+          "received_payload_bytes": 1048576,
+          "started_monotonic": 279511.675459118,
+          "send_seconds": 0.014529975014738739,
+          "header": "$1048576\r\n",
+          "header_seconds": 5.5262067330186255,
+          "seconds": 5.526614664995577
+        }
+      ],
+      "success": false,
+      "image": "/mnt/dev/lavik-complex-iterations-20261004/pr267-retained-image-profile/candidate/working.data",
+      "perf_argv": [
+        "sudo",
+        "-n",
+        "perf",
+        "record",
+        "-e",
+        "task-clock",
+        "-F",
+        "49",
+        "--call-graph",
+        "dwarf,8192",
+        "-p",
+        "739608",
+        "-o",
+        "/mnt/dev/lavik-complex-iterations-20261004/pr267-retained-image-profile/candidate/long-key.perf"
+      ],
+      "error": "TimeoutError('timed out')",
+      "failed_phase": {
+        "command": "GET",
+        "key_bytes": 9437184,
+        "stage": "reply header",
+        "received_payload_bytes": 0,
+        "started_monotonic": 279517.503663748,
+        "send_seconds": 0.017090712033677846
+      },
+      "perf_exit": -2,
+      "gdb_exit": 0
+    }
+  ],
+  "method": "Diagnostic perf on independently writable copies of retained image, main then candidate. Original2workers,60s socket and120s stop. Only9MiBkey GET is sampled:49Hz task-clock/DWARF on all process threads; proc IO/task CPU/wchan/schedstat every0.5s. Record send/header/full response times. Stop recorder before any failure debugger attachment. Sampling overhead prevents direct latency/QPS comparison. Original image SHA remains unchanged; rawperf/stacks stay local."
+}

@@ -103,3 +103,16 @@ main 已前进至 `19496654`。List 分支已解决冲突，并把批量启动�
 验证草案 [`28d7cca4`](https://github.com/thweetkomputer/lavik/commit/28d7cca498655e02f46407adb65335219b10ee6b) 从 main `19496654` 开始，为 `FindVerifiedEntry` 新增独立重载。每页刷新通过已有 `FindCandidateIf`，只有 block、offset、allocation epoch 全部匹配此前已校验的物理根，才能省去完整 key 读取；没有匹配候选时回到原异步校验。数据代次、逻辑版本、页面身份及 GC 检查保留，普通四参数查找实现保持不变。格式检查和两架构编译通过，11 个软件分片成功；[amd64 extent 恢复用例也通过](grouped-verified-root-extent-ci-proof.json)。[fork 独立 CI](https://github.com/thweetkomputer/lavik/actions/runs/37258994628) 第一次执行因 arm64 分片 3 的托管 runner 失去通信而失败：停在依赖安装，尚未下载测试二进制或运行测试；两个汇总失败来自这个分片。[原始失败与 GitHub 注释](grouped-root-ci-attempt1-infrastructure-failure.json) 已保留，同一源码仅重跑失败项，完整 CI 仍未通过。本机回归、候选 perf 和性能对照尚未执行，尚未提 PR。采样仍需验证原路径的实际重复读取量，不能据源代码推导宣称收益或已修复 CI 失败。ordered 远端页读取已经借用父 key，这里的重复校验不能误写成逐页跨 worker key 复制。
 
 [原型对照重放](replay-grouped-verified-root.py) 已排队，等待当前 Stream 采样、原失败镜像采样及解析、RDB 套件诊断退出，再取得同一主机锁。固定 main `19496654` 与原型 `28d7cca4` 的 CI 二进制，三轮 A/B、B/A、A/B，分别复制同一只读原始镜像；校验每次完整回复、覆盖及正常退出，保留原 60 秒 socket 限制，同时在操作两端记录进程 I/O。计数包括后台工作，不是命令独占 I/O；这是故障镜像路径的对照，不代表常规短 key QPS。下载和解压 CI 产物也受主机锁保护。
+
+## 长 key 采样：超时期间仍持续读取
+
+main `19496654` 和 #267 候选 `343e951e` 的同镜像独立副本采样均完成，采样驱动正常退出；两者的 9 MiB key GET 都在原 60 秒限制处等待回复头超时。采样前的 3 个外部 key 与 6 MiB key GET 均成功，原始只读镜像 SHA-256 不变。[完整操作及采样来源](pr267-retained-image-profiles.json) · [CPU/I/O 进展汇总](pr267-retained-key-progress-summary.json) · [汇总脚本](summarize-retained-key-progress.py) · [main 原始进展样本](pr267-retained-main-operation-progress.json) · [候选原始进展样本](pr267-retained-candidate-operation-progress.json)。
+
+| 版本 | 有效样本 | 样本跨度 | 进程读取字节增量 | 进程写入字节增量 | 完成 GET |
+|---|---:|---:|---:|---:|---|
+| main `19496654` | 120 | 59.589 秒 | 9,033,633,792 | 0 | 否 |
+| #267 `343e951e` | 120 | 59.592 秒 | 8,741,662,720 | 4,059,136 | 否 |
+
+两者每个约 10 秒的观测区间都仍有大量读取进展；工作线程的多数等待点样本为 `io_cqring_wait`，两条活跃工作线程在整个采样区间合计约 5.7–5.8 秒 CPU。等待点计数不是等待时间占比，进程 I/O 包含后台活动，末端采样也不覆盖整个命令。候选窗口存在少量写入，更不能把全部 I/O 归为 GET。两者都未完成，因此不能以字节数之差比较效率或 QPS。
+
+这补充了重复 key 读取假设所需的实际 I/O 证据，但具体调用路径仍需已排队的 perf 解析与 `28d7cca4` 原型对照。此前无采样 main 能在约 50 秒完成，本次采样超时说明诊断扰动不可忽略；不能据此宣称死锁、候选独有回归或原 CI 的 SET 超时已解决。原始 perf/调用栈不入库。
