@@ -35,3 +35,22 @@
 正常启动阶段，main 的两个 Python 探测同样分别消耗约 13.0 和 11.6 秒；#270 对应约 11.6 和 11.5 秒。Go EOF 并非该失败独有，也不表示驱动进程退出：`GoClient.call` 对收到的命令错误抛 `RuntimeError`，进程退出使用另一条错误。main 在下一轮探测中成功重试，#270 的第二个 Python 探测已越过公共截止点。
 
 失败运行的首次 Python 恢复比 main 晚 5.067 秒，超过 main 最后一个客户端恢复后剩余的 4.432 秒预算。这个非同期对照与“串行探测加恢复前置步骤耗尽共同预算”的解释一致，但仍不能区分服务端恢复、Sentinel 发现、客户端重试各自贡献，不能证明偶发或排除回归。尚无逐次重试时间线；不改变 30 秒约束、不跳过用例，也不把 main 成功当成 #270 通过。
+
+
+### 已复用的 Sentinel 测试修复
+
+#270 `631e6104` 复用 #271 已有的独立客户端并发探测修复。各客户端仍从同一次故障开始计时，共用原有 30 秒截止点；保留值校验、超时成功拒绝及清理前等待所有探测结束。四项针对探测器的测试及格式检查通过。[新 CI](https://github.com/eloqdata/lavik/actions/runs/37308667273) 待完成；此修复消除测试串行探测对其他客户端预算的消耗，不宣称已证明服务端恢复正常。#275 同步 rebase 为 `38485460`，生产代码和 grouped 测试与其原 head 完全一致，[新 CI](https://github.com/eloqdata/lavik/actions/runs/37308704165) 待完成。
+
+## #272：选主完成后初始化仍占用成员变更入口
+
+`c6956c8b` 的 [amd64 分片 1](https://github.com/eloqdata/lavik/actions/runs/37297692702/job/111730337415) 在 `gate_data_control` 的 mTLS 初始化失败，plaintext 场景已通过。`wait_leader()` 只等 leader 标志；初始身份绑定协调器仍可持有 membership gate，`clustercreate` 因而在任何 proposal 前返回明确的忙碌错误。
+
+`0d36b4a9` 只在测试中对这一精确错误进行最多 10 秒的重试，复用同一请求；其他返回值与传输异常立即失败，不重试提交结果不确定的错误，不改生产代码或整项测试期限。[六项隔离检查](pr272-admission-fixture-checks.json) 覆盖立即成功、忙碌后成功、其他错误、不确定提交、忙碌耗尽预算、传输异常，执行的是实际 helper 的 AST，未启动服务进程。pre-commit 通过；[新 CI](https://github.com/eloqdata/lavik/actions/runs/37308612324) 待完成。
+
+[原分片记录](pr272-rebase-failed-job.json) · [失败摘录](pr272-rebase-failed-job-excerpt.txt)
+
+## #280：满盘过期恢复的 SetIndirect RESTORE 超时
+
+`a5c825e9` 的 [arm64 分片 0](https://github.com/eloqdata/lavik/actions/runs/37297696440/job/111727582470) 中，`AllTypes/GroupedFullDiskExpirationE2e.ReclaimsGraphAndRecovers/SetIndirect` 的 RESTORE 等待响应超时（errno=11）。该 ordered suite 为 102 通过、1 跳过、1 失败。原因尚未确定；已经包含 #268 并不能证明本次失败已解决或与当前 PR 无关。不提高超时、不盲目重跑，保持草稿。[失败摘录](pr280-rebase-failed-job-excerpt.txt)。
+
+[当前各 PR 的 head、依赖与 CI 快照](pr-cleanup-current-state.json)。快照不是后续 CI 成功承诺；原历史失败和原测量二进制身份保留。

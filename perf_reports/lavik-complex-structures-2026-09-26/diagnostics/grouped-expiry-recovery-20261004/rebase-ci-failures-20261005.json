@@ -33,8 +33,40 @@
       "tests/cluster/replication_manager_integration_test.cpp",
       "tests/grouped/stream_e2e_test.cpp"
     ],
-    "disposition": "Keep draft; no deadline increase, rerun or unsupported fix.",
+    "disposition": "Keep draft; original failure retained, no claim that server-side recovery is validated.",
     "original_log_sha256": "ccc0c04f668d180a2c785029c9e8b764110219dae2b81c722bba6ef9ce10467f",
-    "original_log_local_path": "/mnt/dev/lavik-complex-iterations-20261004/pr270-rebase-failed-job.log"
+    "original_log_local_path": "/mnt/dev/lavik-complex-iterations-20261004/pr270-rebase-failed-job.log",
+    "fix_head": "631e610421eca8b86e9ccda447b0d42d34cabdb1",
+    "new_run": 37308667273,
+    "fix": "Reuse #271 concurrent independent recovery probes with unchanged shared 30s fault deadline. Four helper tests and pre-commit passed; full CI pending.",
+    "dependent_pr275_head": "38485460ac7817886f067223590f4b1e749a302c"
+  },
+  "pr272": {
+    "failed_head": "c6956c8b70fe19f3fc142430a1fac4e39dd4973e",
+    "failed_run": 37297692702,
+    "failed_job": 111730337415,
+    "test": "meta_integration.gate_data_control",
+    "failure": "mTLS bootstrap clustercreate preflight pre-commit-failed: another cluster creation or Meta membership change is in progress",
+    "fix_head": "0d36b4a9160ff14b1a789623ca19816edd6375f4",
+    "new_run": 37308612324,
+    "fix": "Bounded retry of the exact pre-commit gate-busy response, same request; other replies and transport failures remain immediate errors.",
+    "validation": "Six isolated checks of actual helper AST passed; pre-commit passed. Process integration CI pending, no local runtime gate during benchmarking.",
+    "original_log_sha256": "7a5fb9de6ec53f21ad12a6f578a5970fae65544e0ea3c6fe05da1c67ebe348e6",
+    "original_log_local_path": "/mnt/dev/lavik-complex-iterations-20261004/pr272-rebase-failed-job.log"
+  },
+  "pr280": {
+    "head": "a5c825e91f9b9b3859f7e4620211bc2a14a17828",
+    "run": 37297696440,
+    "failed_job": 111727582470,
+    "test": "AllTypes/GroupedFullDiskExpirationE2e.ReclaimsGraphAndRecovers/SetIndirect",
+    "failure": "RESTORE response timed out: Resource temporarily unavailable (errno=11)",
+    "ordered_suite": {
+      "passed": 102,
+      "skipped": 1,
+      "failed": 1
+    },
+    "cause": "Unresolved; no timeout adjustment or blind rerun. Keep draft.",
+    "original_log_sha256": "30554ba4b9bf871ba410ce549252810b2dd4f38e9cba97e84db0176863671325",
+    "original_log_local_path": "/mnt/dev/lavik-complex-iterations-20261004/pr280-rebase-failed-job.log"
   }
 }

@@ -2,7 +2,7 @@
 
 [#280: all 24 large-object ZSCORE observations](diagnostics/zset-score-views-20261005/zset-score-views-large-reads.md) are complete: median paired QPS changes at c80/320/2560/5120 are **+16.27%/+19.82%/+17.08%/+14.45%**, positive in every pair. At c5120, p99 worsens in two pairs (median **+2.40%**). [Large-write controls](diagnostics/zset-score-views-20261005/zset-score-views-large-writes.md) are also complete: median paired QPS changes are **−1.10%/+0.24%/−0.76%/−1.62%**, with mixed directions; c2560 p99 changes **+6.67%**. Small-object controls continue; the PR stays draft.
 
-**Rebase CI update:** #267 fixes a stale List fault-test message assertion in `0cc00887`; new CI is pending. #270 has an unresolved Sentinel HA recovery-budget failure. [Evidence and disposition](diagnostics/grouped-expiry-recovery-20261004/rebase-ci-failures-20261005.md).
+**Rebase CI update:** #267 fixes the List assertion, #270 reuses concurrent Sentinel probes, and #272 waits for bootstrap admission; #275 follows the updated #270. Replacement CI is pending. #280 has an unresolved SetIndirect RESTORE timeout and remains draft. [Evidence and disposition](diagnostics/grouped-expiry-recovery-20261004/rebase-ci-failures-20261005.md).
 
 **2026-10-05 PR consolidation:** #268 is merged as main `330738d9`. #266/#267/#270/#280/#282 are rebased onto it; #271/#272 follow rebased #266 and #275 follows rebased #270. #269/#273/#276 are closed for insufficient overall benefit or control regressions; #274 was already closed. New optimization exploration is suspended while retained candidates finish validation and CI. [Commits, dependencies and checks](diagnostics/grouped-expiry-recovery-20261004/prs-rebased-after268.json). Historical measurements and closed-candidate curves remain evidence, not validation of the rebased heads.
 
@@ -14,7 +14,7 @@ All [144 Hash/Set route-replacement observations](diagnostics/hash-route-replace
 
 [ZINCRBY worker-distribution analysis](diagnostics/zset-worker-distribution-20261005/README.md): the fixed eight keys map to four data owners with 12 workers. Existing perf thread distribution is documented; fixed-binary 8/12-worker controls are queued, with no tuning gain claimed.
 
-[Borrowed member-page score reads](diagnostics/zset-score-views-20261005/README.md): avoids owning every field/value while retaining full validation. All 17 jobs pass in both fork and upstream CI; [PR #280](https://github.com/eloqdata/lavik/pull/280) remains draft; 96 paired observations and independent ZSCORE perf are queued, with no measured gain yet.
+[Borrowed member-page score reads](diagnostics/zset-score-views-20261005/README.md): avoids owning every field/value while retaining full validation. Historical frozen-head fork and upstream CI passed 17 jobs each; the rebased head has the unresolved RESTORE failure above. [PR #280](https://github.com/eloqdata/lavik/pull/280) remains draft; large-object paired results are linked above, with small-object controls and independent perf still in progress.
 
 [Draft PR #282](https://github.com/eloqdata/lavik/pull/282): long-key root reuse now passes three independent retained-image replays: the 9 MiB-key GET returns and verifies its full 6 MiB value in **1.823 / 1.832 / 1.820 s**. The failed 60-second baseline is retained; these are candidate-only checks, not paired QPS or an exact speedup. Both fork and upstream CI pass all 17 jobs at `28d7cca4`; ordinary short-key native regression and 72 paired controls remain pending. [Evidence and limitations](diagnostics/list-reply-reserve-20261004/README.md).
 

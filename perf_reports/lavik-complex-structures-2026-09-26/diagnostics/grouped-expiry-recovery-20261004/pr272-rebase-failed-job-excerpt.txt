@@ -1,0 +1,35 @@
+2026-10-05T11:48:15.2373185Z         Start 1591: meta_integration.gate_data_control
+2026-10-05T11:48:21.3887790Z 249/275 Test #1591: meta_integration.gate_data_control .................................................................................................................................***Failed    6.15 sec
+2026-10-05T11:48:21.3889430Z [gate-data-control] node 1 started (pid 5846, raft 35489, ctl /mnt/dev/meta_integration_data_control_e7ztzvp8/plaintext/node1/meta-admin.sock,127.0.0.1:38383, initial_manifest=True, attempt 1)
+2026-10-05T11:48:21.3890564Z [gate-data-control] node 1 is leader
+2026-10-05T11:48:21.3891420Z [gate-data-control] node 2 started (pid 5861, raft 56399, ctl /mnt/dev/meta_integration_data_control_e7ztzvp8/plaintext/node2/meta-admin.sock,127.0.0.1:50851, initial_manifest=False, attempt 1)
+2026-10-05T11:48:21.3892490Z [gate-data-control] node 2 joined (probe idx 14)
+2026-10-05T11:48:21.3893334Z [gate-data-control] node 3 started (pid 5875, raft 54277, ctl /mnt/dev/meta_integration_data_control_e7ztzvp8/plaintext/node3/meta-admin.sock,127.0.0.1:43541, initial_manifest=False, attempt 1)
+2026-10-05T11:48:21.3894128Z [gate-data-control] node 3 joined (probe idx 25)
+2026-10-05T11:48:21.3894476Z [gate-data-control] 3-node cluster converged
+2026-10-05T11:48:21.3894895Z [gate-data-control] Data node 11111111 started (pid 5889, seed 127.0.0.1:58919)
+2026-10-05T11:48:21.3895423Z [gate-data-control] plaintext: assigned authority challenge/denial verified
+2026-10-05T11:48:21.3895848Z [gate-data-control] node 1: SIGKILL
+2026-10-05T11:48:21.3896138Z [gate-data-control] node 3 is leader
+2026-10-05T11:48:21.3896692Z [gate-data-control] plaintext: blackholed old-leader reconnect, FDS and accepted session in 0.052s after election
+2026-10-05T11:48:21.3897382Z [gate-data-control] plaintext: session loss remains fail-closed and reconnects
+2026-10-05T11:48:21.3897932Z [gate-data-control] plaintext: Fence/FenceAck replacement ordering verified
+2026-10-05T11:48:21.3898864Z [gate-data-control] node 1 started (pid 5893, raft 35489, ctl /mnt/dev/meta_integration_data_control_e7ztzvp8/plaintext/node1/meta-admin.sock,127.0.0.1:38383, initial_manifest=False, attempt 1)
+2026-10-05T11:48:21.3899964Z [gate-data-control] Data node 11111111: clean exit 0
+2026-10-05T11:48:21.3900302Z [gate-data-control] node 1: clean exit 0
+2026-10-05T11:48:21.3900602Z [gate-data-control] node 2: clean exit 0
+2026-10-05T11:48:21.3900893Z [gate-data-control] node 3: clean exit 0
+2026-10-05T11:48:21.3901680Z [gate-data-control] node 1 started (pid 5919, raft 38051, ctl /mnt/dev/meta_integration_data_control_e7ztzvp8/mtls/meta/node1/meta-admin.sock,127.0.0.1:58249, initial_manifest=True, attempt 1)
+2026-10-05T11:48:21.3902650Z --- node 1 log tail (/mnt/dev/meta_integration_data_control_e7ztzvp8/mtls/meta/node1.log) ---
+2026-10-05T11:48:21.3903572Z [n1] 2026-10-05T11:48:20.960 [info] runtime cycle-counter=rdtsc frequency-source=absl::NominalCPUFrequency frequency=2445441898 Hz (2445.442 MHz) ticks-per-us=2445.442
+2026-10-05T11:48:21.3905260Z [n1] 2026-10-05T11:48:20.979 [info] node 1 up: raft=127.0.0.1:38051 data-control=127.0.0.1:45521 ctl=/mnt/dev/meta_integration_data_control_e7ztzvp8/mtls/meta/node1/meta-admin.sock,127.0.0.1:58249 sentinel-tcp=disabled sentinel-tls=disabled data-dir=/mnt/dev/meta_integration_data_control_e7ztzvp8/mtls/meta/node1 backend=etcd/raft tls=true
+2026-10-05T11:48:21.3906588Z [n1] 2026-10-05T11:48:21.365 [info] [raft-cb] event=BecomeLeader term=2
+2026-10-05T11:48:21.3907348Z [n1] 2026-10-05T11:48:21.372 [warning] data-control leader membership reconciliation: Raft member descriptor differs from its committed identity binding
+2026-10-05T11:48:21.3908055Z 
+2026-10-05T11:48:21.3908636Z [gate-data-control] FAIL: commit cluster client mode: ERR clustercreate 1 preflight pre-commit-failed another cluster creation or Meta membership change is in progress
+2026-10-05T11:48:21.3909546Z 
+2026-10-05T11:48:21.3909818Z         Start 1604: meta_integration.gate_managed_composite
+2026-10-05T11:50:29.9315593Z 250/275 Test #1604: meta_integration.gate_managed_composite ............................................................................................................................   Passed  128.54 sec
+2026-10-05T11:50:29.9317883Z         Start 1608: meta_integration.gate_managed_composite_catalog_faults
+2026-10-05T11:51:59.7638605Z 251/275 Test #1608: meta_integration.gate_managed_composite_catalog_faults .............................................................................................................   Passed   89.83 sec
+2026-10-05T11:51:59.7640921Z         Start 1610: meta_integration.gate_managed_composite_partial_faults
