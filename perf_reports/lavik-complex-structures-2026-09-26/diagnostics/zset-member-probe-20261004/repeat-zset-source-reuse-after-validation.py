@@ -49,6 +49,9 @@ for label, pr, branch in [('previous', 266, 'perf/zset-member-probe-20261004'),
             break
         print('WAIT_FOR_FULL_CI', label, run, time.time(), flush=True)
         time.sleep(60)
+from host_execution_lock import acquire_host
+_execution_lock = acquire_host('clean-zset-pairs')
+
 rows = []
 method = ('Three independent fresh-seed pairs A/B, B/A, A/B per workload: '
           '100MiB/1024B/8keys and 64KiB/128B/64keys; 30-second ZSCORE and '

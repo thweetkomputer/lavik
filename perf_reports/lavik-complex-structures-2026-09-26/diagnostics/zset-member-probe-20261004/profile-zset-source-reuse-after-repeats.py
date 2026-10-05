@@ -9,7 +9,7 @@ W = Path(__file__).parent
 R = Path('/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26')
 output = W / 'zset-source-reuse-profiles.json'
 assert not output.exists(), 'inspect prior profile before restarting'
-proc = Path('/proc/597736/stat')
+proc = Path('/proc/632437/stat')
 identity = proc.read_text().split()[21] if proc.exists() else None
 print('WAIT_FOR_CLEAN_ZSET_PAIRS', identity, time.time(), flush=True)
 while proc.exists() and identity is not None:
@@ -23,6 +23,9 @@ assert 'ALL_ZSET_SOURCE_REUSE_REPEATS_COMPLETE' in (W / 'zset-source-reuse-repea
 repeats = json.loads((W / 'zset-source-reuse-repeats.json').read_text())
 assert len(repeats['rows']) == 96
 assert not any('error' in row for row in repeats['rows']), 'investigate clean benchmark errors before profiling'
+from host_execution_lock import acquire_host
+_execution_lock = acquire_host('zset-perf')
+
 profiles = {}
 for label in ['previous', 'candidate']:
     v = repeats[label]
