@@ -6,7 +6,7 @@ W=Path(__file__).parent
 R=Path('/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26')
 output=W/'hash-route-replace-profiles.json'
 assert not output.exists()
-proc=Path('/proc/722108/stat');identity=proc.read_text().split()[21] if proc.exists() else None
+proc=Path('/proc/727899/stat');identity=proc.read_text().split()[21] if proc.exists() else None
 print('WAIT_FOR_HASH_ROUTE_PAIRS',identity,time.time(),flush=True)
 while identity is not None and proc.exists():
     try:

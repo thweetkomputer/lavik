@@ -7,7 +7,8 @@ published baseline/member-leaf figures below remain measurements of `a565d603`
 and `a1b24b60`, not of that updated head.
 
 PR #273's planner-fixture repair `92906489` [passes full CI](pr273-92906489-full-ci.json).
-Its 96-observation comparison is waiting for the benchmark host. It measures
+Its 96-observation comparison waits for the queued long-key and Stream RDB
+correctness diagnostics before acquiring the benchmark host. It measures
 the frozen production binary built at `d012a301`; `92906489` changes only the
 test fixture and is recorded separately as test validation. No source-page
 reuse throughput result is available yet. Historical pending-status paragraphs
@@ -126,4 +127,4 @@ Local tests-only commit `92906489` starts separate server phases after setting a
 
 The [96-observation runner](repeat-zset-after-planner-fault-fix.py) is queued again. It keeps candidate production binary commit `d012a301` and its original SHA-256, separately recording test-validation commit `92906489`, the verified tests-only diff, and matching fault-enabled server hashes. It waits for full CI before measurement; the native 20-pass/7-skip checks remain attributed to the unchanged frozen production binary. [Separate perf](profile-zset-after-planner-fix.py) follows only after all clean observations complete without errors. Both use the shared host lock; there are no new QPS results yet.
 
-修正 planner 故障夹具后的 `92906489` 已[通过全部 CI](pr273-92906489-full-ci.json)，包括两架构的 12 个软件测试分片。96 点 ZSet 对照继续等待正在运行的 Stream 独立对照释放主机锁。测量仍使用原生验证通过的不可变生产二进制 `d012a301`，同时记录仅改测试的 `92906489` 验证提交；二者生产源码及对应故障构建服务端哈希相同的证据见前文，不把测试提交冒充为重新编译的性能二进制。
+修正 planner 故障夹具后的 `92906489` 已[通过全部 CI](pr273-92906489-full-ci.json)，包括两架构的 12 个软件测试分片。96 点 ZSet 对照已调整排队依赖：先完成当前 Stream 对照、独立 perf，以及已排队的长 key 和 Stream RDB 故障诊断，再竞争统一主机锁。调整时尚无 ZSet 测量结果或子任务，原等待日志保留；数据规模、版本、连接数和测量窗口不变。测量仍使用原生验证通过的不可变生产二进制 `d012a301`，同时记录仅改测试的 `92906489` 验证提交；二者生产源码及对应故障构建服务端哈希相同的证据见前文，不把测试提交冒充为重新编译的性能二进制。

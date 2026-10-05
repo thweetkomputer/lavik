@@ -6,6 +6,20 @@ W=Path(__file__).parent
 R=Path('/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26')
 output=W/'hash-route-replace-repeats.json'
 assert not output.exists()
+# Finish the already queued correctness diagnostics before long throughput
+# sweeps acquire the host. Capture both process generations before waiting.
+priority_processes=[]
+for pid in (718823,719158):
+    process=Path('/proc')/str(pid)/'stat'
+    generation=process.read_text().split()[21] if process.exists() else None
+    priority_processes.append((process,generation))
+for process,generation in priority_processes:
+    print('WAIT_FOR_PRIORITY_DIAGNOSTIC',str(process),generation,time.time(),flush=True)
+    while generation is not None and process.exists():
+        try:
+            if process.read_text().split()[21]!=generation:break
+        except FileNotFoundError:break
+        time.sleep(15)
 proc=Path('/proc/720974/stat');identity=proc.read_text().split()[21] if proc.exists() else None
 print('WAIT_FOR_NATIVE_VALIDATION',identity,time.time(),flush=True)
 while identity is not None and proc.exists():

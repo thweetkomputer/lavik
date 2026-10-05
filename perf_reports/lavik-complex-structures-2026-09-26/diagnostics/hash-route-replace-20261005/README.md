@@ -10,6 +10,6 @@
 
 ## 对照与 perf 调度
 
-[干净对照](repeat-hash-route-replace.py) 已排队，等待原生验证全部完成后取得主机锁。Hash 和 Set 各覆盖 500 个 100 MiB key（1024 B 元素）及 50,000 个 1 MiB key（128 B 元素），沿用报告对应的数据规模。每个版本独立恢复同一校验过的 RDB 内容并重启，路由种子和物理图分别生成。三轮 A/B、B/A、A/B，各在 c80/320/5120 测 30 秒 HGET/HSET 或 SISMEMBER/SADD_SREM，共 144 个观测，保留 p99、错误、二进制来源和完整基数校验；首个失败条件结束后停止。Set 的添加/删除可能为无操作，统计命令 QPS，不等同于 durable mutation 数。
+[干净对照](repeat-hash-route-replace.py) 已排队，等待长 key 与 Stream RDB 故障诊断退出，并确认原生验证全部完成后取得主机锁。调整排队时尚未开始测量，原等待日志已保留。Hash 和 Set 各覆盖 500 个 100 MiB key（1024 B 元素）及 50,000 个 1 MiB key（128 B 元素），沿用报告对应的数据规模。每个版本独立恢复同一校验过的 RDB 内容并重启，路由种子和物理图分别生成。三轮 A/B、B/A、A/B，各在 c80/320/5120 测 30 秒 HGET/HSET 或 SISMEMBER/SADD_SREM，共 144 个观测，保留 p99、错误、二进制来源和完整基数校验；首个失败条件结束后停止。Set 的添加/删除可能为无操作，统计命令 QPS，不等同于 durable mutation 数。
 
 [独立 perf](profile-hash-route-replace.py) 等上述全部观测成功后，分别为父版本/候选的 HSET 和 SADD/SREM 新建 500 key、100 MiB、1024 B 数据，在 c320 采集 30 秒命令/计数窗口及 25 秒、99 Hz 的逐 worker task-clock/DWARF。[采样驱动](profile-hash-route-allworkers.py) 保留零样本辅助线程。采样 QPS 不混入干净对照；错开的计数和 CPU 窗口不换算成 CPU/命令。原始 perf 与线程栈仅留本地，后续选择小型摘要发布。上述任务均未开始测量。

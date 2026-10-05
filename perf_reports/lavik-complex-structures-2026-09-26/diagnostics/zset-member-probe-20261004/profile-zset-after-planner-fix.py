@@ -9,7 +9,7 @@ W = Path(__file__).parent
 R = Path('/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26')
 output = W / 'zset-source-reuse-profiles.json'
 assert not output.exists(), 'inspect prior profile before restarting'
-proc = Path('/proc/709679/stat')
+proc = Path('/proc/727893/stat')
 identity = proc.read_text().split()[21] if proc.exists() else None
 print('WAIT_FOR_CLEAN_ZSET_PAIRS', identity, time.time(), flush=True)
 while proc.exists() and identity is not None:
