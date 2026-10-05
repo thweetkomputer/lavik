@@ -11,6 +11,6 @@
 
 候选完整 CI 17/17 通过；父版本 CI 仍为失败，唯一实际失败是外部 Redis cluster bus 端口占用导致源 Redis 启动退出。[前置检查修正及原始失败](../grouped-expiry-recovery-20261004/grouped-root-reviewed-ci-preflight.md)保留。这一导入场景没有因原生回归通过而变成已验证，也不将历史 #267 的独立 SET 超时解释为已修复。
 
-既定 72 点普通短 key 对照已在原生验证结束后取得同一主机锁，开始第一轮 Hash 数据准备。当前没有完整配对 QPS/p99 结论；#282 保持 draft。这里验证的是固定历史提交，当前 rebased head `2c94e9da` 的完整 CI 单独记录，不把冻结性能或原生结果转记为当前 head。
+既定 72 点普通短 key 对照已在原生验证结束后取得同一主机锁并全部完成，[完整配对 QPS/p99](grouped-root-controls-complete.md)单独给出；普通点读回退和写入波动保留，#282 继续保持 draft。这里验证的是固定历史提交，当前 rebased head `2c94e9da` 的完整 CI 单独记录，不把冻结性能或原生结果转记为当前 head。
 
 [完整版本、逐例结果与二进制/驱动身份](grouped-root-native-versions.json) · [通过/跳过清单、配置及输入哈希](grouped-root-native-complete-validation.json) · [执行日志](grouped-root-native-reviewed-ci-driver.log) · [父构建配置](grouped-root-parent-CMakeCache.txt) · [候选构建配置](grouped-root-candidate-CMakeCache.txt)。原始日志和配置文本的尾部空白保持不变。

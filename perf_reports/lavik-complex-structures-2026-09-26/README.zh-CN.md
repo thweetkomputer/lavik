@@ -20,7 +20,7 @@ Hash/Set 单路由替换的[全部 144 点对照](diagnostics/hash-route-replace
 
 [ZSCORE/ZMSCORE 成员页借用视图](diagnostics/zset-score-views-20261005/README.md)：去掉整页字段/值复制，保留完整校验；历史 `9d1ffc85` 的 fork 与上游 CI 各 17 项通过，前一 rebase 版本 CI 出现上述 RESTORE 超时，当前诊断版 CI 全部 17 项通过，[PR #280](https://github.com/eloqdata/lavik/pull/280) 已合并；全部 96 点对照见上文，独立读 perf 也已完成。
 
-[草稿 PR #282](https://github.com/eloqdata/lavik/pull/282)：长 key 根记录复用已通过三轮独立镜像回放：9 MiB key GET 在 **1.823 / 1.832 / 1.820 秒**返回并校验完整 6 MiB value。原 60 秒基线超时仍保留；这是候选单侧检查，不能计算精确加速比或外推普通 QPS。`28d7cca4` 的 fork 与上游 CI 各 17 项通过；普通短 key 原生回归已完成，两边各 68 例通过、28 例故障注入用例跳过；72 点配对对照已开始，尚无完整收益结论。[证据与限制](diagnostics/list-reply-reserve-20261004/README.md)。
+[草稿 PR #282](https://github.com/eloqdata/lavik/pull/282)：长 key 根记录复用已通过三轮独立镜像回放：9 MiB key GET 在 **1.823 / 1.832 / 1.820 秒**返回并校验完整 6 MiB value。原 60 秒基线超时仍保留；这是候选单侧检查，不能计算精确加速比或外推普通 QPS。`28d7cca4` 的 fork 与上游 CI 各 17 项通过；普通短 key 原生回归与 72 点对照已完成：HGET/SISMEMBER/ZSCORE QPS 三轮均下降，中位 **−0.45%/−0.27%/−1.13%**；Set 写入中位 **−3.08%**、轮次方向混合。保留长 key 收益，也保留普通路径代价，继续 draft。[证据与限制](diagnostics/list-reply-reserve-20261004/README.md)。
 
 **2026-10-04：main `a565d603` 已完成 28/28 组复测，包含已合并的 #244, #246, #247, #249, #258, #259, #260, #262。**
 

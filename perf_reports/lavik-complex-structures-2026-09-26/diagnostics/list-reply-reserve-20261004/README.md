@@ -106,7 +106,7 @@ main 已前进至 `19496654`。List 分支已解决冲突，并把批量启动�
 
 [草稿 PR #282](https://github.com/eloqdata/lavik/pull/282)，验证提交 [`28d7cca4`](https://github.com/thweetkomputer/lavik/commit/28d7cca498655e02f46407adb65335219b10ee6b) 从 main `19496654` 开始，为 `FindVerifiedEntry` 新增独立重载。每页刷新通过已有 `FindCandidateIf`，只有 block、offset、allocation epoch 全部匹配此前已校验的物理根，才能省去间接 key 的完整读取；索引中的完整 key 仍比较全部字节，没有匹配候选时回到原异步校验。数据代次、逻辑版本、页面身份及 GC 检查保留。ordered 远端页读取本来就借用父 key，这里的重复校验不能误写成逐页跨 worker key 复制。
 
-同一 head `28d7cca4` 的 [fork CI](grouped-root-28d7cca4-full-ci.json) 与[上游 PR CI](pr282-upstream-full-ci.json) 均已完整通过各 17 项，包括两架构编译、12 个软件分片和格式检查（[上游运行](https://github.com/eloqdata/lavik/actions/runs/37287121881)）。[首次 arm64 分片 3 的 runner 失联](grouped-root-ci-attempt1-infrastructure-failure.json) 停在依赖安装，尚未运行软件测试；同一源码重跑失败项后通过，原始失败记录保留。[amd64 extent 恢复用例](grouped-verified-root-extent-ci-proof.json) 也通过。下文的候选三轮镜像回放已完成；普通短 key 的 native 回归已完成，72 点配对 QPS 对照已开始、尚未完成；长 key 候选 perf 已完成，见下文。
+同一 head `28d7cca4` 的 [fork CI](grouped-root-28d7cca4-full-ci.json) 与[上游 PR CI](pr282-upstream-full-ci.json) 均已完整通过各 17 项，包括两架构编译、12 个软件分片和格式检查（[上游运行](https://github.com/eloqdata/lavik/actions/runs/37287121881)）。[首次 arm64 分片 3 的 runner 失联](grouped-root-ci-attempt1-infrastructure-failure.json) 停在依赖安装，尚未运行软件测试；同一源码重跑失败项后通过，原始失败记录保留。[amd64 extent 恢复用例](grouped-verified-root-extent-ci-proof.json) 也通过。下文的候选三轮镜像回放已完成；普通短 key 的 native 回归和全部 72 点配对对照均已完成，收益与回退见下文；长 key 候选 perf 已完成，见下文。
 
 ## 长 key 采样：超时期间仍持续读取
 
@@ -152,15 +152,15 @@ main `19496654` 和 #267 候选 `343e951e` 的同镜像独立副本采样均完�
 
 [原始回放和二进制身份](grouped-verified-root-candidate-replays.json) · [逐操作耗时/I/O 汇总](grouped-verified-root-candidate-summary.json) · [可复现校验脚本](summarize-root-candidate-replays.py)。每轮还完成三个 5009 字节 key 的读取、覆盖后 STRLEN，以及 6 MiB/9 MiB key 的 SET 应答；没有覆盖后重启或读回两个大 key 的新值，不能据此宣称完整持久性验证。进程 I/O 包含后台工作，不能把它与先前采样超时的约 9 GB 直接作干净配对比值。
 
-这是三轮候选单侧检查，**不是完成的三轮配对性能比较**。保留 main 的原始 60 秒超时及此前约 50 秒成功记录，不从截断基线算精确加速比，不外推普通 QPS。目前仍不能认定 #267 引入该故障，或原 CI 的 SET 超时与该 GET 同源。普通短 key native 回归已完成，配对性能对照仍需完成。
+这是三轮候选单侧检查，**不是完成的三轮配对性能比较**。保留 main 的原始 60 秒超时及此前约 50 秒成功记录，不从截断基线算精确加速比，不外推普通 QPS。目前仍不能认定 #267 引入该故障，或原 CI 的 SET 超时与该 GET 同源。普通短 key native 回归与配对性能对照均已完成，普通路径的性能代价见下文。
 
-## 普通短 key 原生验证已完成，72 点性能对照已开始
+## 普通短 key 原生验证与 72 点性能对照已完成
 
 [当前原生验证驱动](../grouped-expiry-recovery-20261004/validate-grouped-root-native-reviewed-ci.py)固定父版本 `19496654` 与根复用 `28d7cca4` 的生产配置、依赖和二进制 SHA，使用相同测试驱动检查 Hash/Set、String/List、ZSet、Stream、RDB/跨 worker 和阻塞读路径。候选已通过 128 个相关单元测试，两边集成回归均为 68 通过、28 跳过、零失败；[完整结果及输入哈希](grouped-root-native-complete.md)。原生生产关闭故障注入，候选完整 fault-enabled CI 与父版本已通过的 CI 用例补充覆盖；父版本 CI 整体失败的限制见下文。复用已有测试，没有新增重复磁盘 fixture。
 
-[当前 72 点普通短 key 对照驱动](../grouped-expiry-recovery-20261004/repeat-grouped-root-controls-reviewed-ci.py)已在原生验证通过后开始执行：Hash/Set 1 MiB / 128 B / 500 keys，List/ZSet 64 KiB / 128 B / 64 keys，Stream 64 KiB / 1024 B / 64 keys；五种类型均在 c320 测点读和写，List/Stream 另测 c80 全量读取。三轮 A/B、B/A、A/B，每点 30 秒、pipeline=1；读对共用新建父版本逻辑数据并分别重启，写对分别新建数据。物理后台变化仍可能存在。Hash/Set 的 500 keys 小于历史图中的 50,000 keys，不能用于更新历史 peer 排名。
+[当前 72 点普通短 key 对照驱动](../grouped-expiry-recovery-20261004/repeat-grouped-root-controls-reviewed-ci.py)已在原生验证通过后完成：Hash/Set 1 MiB / 128 B / 500 keys，List/ZSet 64 KiB / 128 B / 64 keys，Stream 64 KiB / 1024 B / 64 keys；五种类型均在 c320 测点读和写，List/Stream 另测 c80 全量读取。三轮 A/B、B/A、A/B，每点 30 秒、pipeline=1；读对共用新建父版本逻辑数据并分别重启，写对分别新建数据。物理后台变化仍可能存在。Hash/Set 的 500 keys 小于历史图中的 50,000 keys，不能用于更新历史 peer 排名。
 
-[原始固定协议](grouped-root-native-controls-protocol.json)保留；其中“两边 CI 全绿”的前提已在[前置检查修正记录](../grouped-expiry-recovery-20261004/grouped-root-reviewed-ci-preflight.md)中纠正。父版本 CI 的唯一实际失败是外部源 Redis 的 cluster bus 端口占用，整体仍标为失败，不将这一导入场景当作已验证。原任务在编译前停止后，修正后的原生验证已接续组合对照取得主机锁并完成两边回归；72 点对照随后开始。原生测试结论已给出，但尚无完整配对 QPS/p99 结论，#282 保持草稿。
+[原始固定协议](grouped-root-native-controls-protocol.json)保留；其中“两边 CI 全绿”的前提已在[前置检查修正记录](../grouped-expiry-recovery-20261004/grouped-root-reviewed-ci-preflight.md)中纠正。父版本 CI 的唯一实际失败是外部源 Redis 的 cluster bus 端口占用，整体仍标为失败，不将这一导入场景当作已验证。原任务在编译前停止后，修正后的原生验证已接续组合对照取得主机锁并完成两边回归；72 点对照随后完成。完整配对 QPS/p99 结果见下文；普通点读回退和写入波动保留，#282 继续保持草稿。
 
 ## 原 SET 超时：独立覆盖写入诊断已完成
 
@@ -185,3 +185,25 @@ main `19496654` 和 #267 候选 `343e951e` 的同镜像独立副本采样均完�
 [原始结果与进程计数](pr267-overwrite-diagnostics.json) · [核验摘要](pr267-overwrite-diagnostic-summary.json) · [核验脚本](summarize-pr267-overwrites.py) · [日志与 INFO 快照清单](pr267-overwrite-evidence-index.json)。执行驱动 SHA 与原协议一致；原镜像每组前后校验保持不变。
 
 此诊断刻意跳过原先的大 value / 巨型 key GET 序列，改变了命令历史与后台时序；它只说明该保留镜像上的简化覆盖写入及重启读回可通过。未重现原 CI 的 `SET key_bytes=5009` 超时，不能据此确认根因、宣称 #282 修复该 SET 问题或确认 rebased #267 通过。原失败保留；#267 当前 head 的完整 CI 单独通过并已转正式评审，不将这里的诊断当作当前 head 验证或性能比较。
+
+## #282：全部 72 点普通 key 对照与处理结论
+
+[完整绝对值、逐轮变化和原始记录](grouped-root-controls-complete.md)已完成：12 个条件、两版本、三轮 A/B、B/A、A/B；数据基数、源码/二进制身份、命令计数、正常退出和原生回归均核验。变化均为三轮配对百分比的中位数，不是两个版本中位数之比。
+
+| 命令 / 并发 | 配对 QPS 变化 | 配对 p99 变化 | 三轮取舍 |
+|---|---:|---:|---|
+| HGET / 320 | −0.45% | −0.82% | QPS 三轮均下降；p99 方向混合 |
+| SISMEMBER / 320 | −0.27% | −0.83% | QPS 三轮均下降；p99 方向混合 |
+| ZSCORE / 320 | −1.13% | +3.57% | QPS 三轮均下降；p99 两轮变差 |
+| SADD/SREM / 320 | −3.08% | 0.00% | QPS 三轮为 −3.08%、+3.43%、−9.89%，不能称为稳定收益 |
+| ZINCRBY / 320 | −1.64% | 0.00% | QPS 三轮为 +2.37%、−1.64%、−5.09% |
+| LSET / 320 | +0.67% | 0.00% | QPS 三轮均提升；p99 一轮相同、一轮改善、一轮变差 |
+| XADD_MAXLEN / 320 | +0.22% | −3.21% | QPS 方向混合；p99 三轮均改善 |
+
+HSET、LINDEX、LRANGE、XRANGE 与全量 XRANGE 的完整结果同样保留在 12 行总表和 36 行逐轮表中。普通路径大多接近基线，但不可称为零回退或普遍提升；三轮方向一致也不等于统计置信区间。Set 写入第三轮 QPS 与第二轮 ZINCRBY p99 的不利结果没有剔除。
+
+#282 有明确的长 key 候选回放收益，因此保留候选；但普通点读的持续下降与写入波动尚未解释，暂不建议合并，继续 draft。长 key 的原始基线超时仍保留，不从截断数据推导精确倍数；普通 key 对照不能解释历史 #267 的独立 SET 超时，也不建立与其他系统整体追平。
+
+[冻结与 rebased 补丁对应关系](pr282-frozen-rebased-correspondence.json)：`28d7cca4` 与 `2c94e9da` 的 range-diff 相等；三个读路径文件字节一致，`impl.h` 的差异与两边父版本的差异相同，来自 main 已合入的恢复声明和磁盘空间错误类型。性能结果仍绑定旧父版本与候选，不转记为当前 main 或 rebased head 的吞吐。
+
+[全部观测](grouped-root-controls-complete-observations.json) · [矩阵核验与配对值](grouped-root-controls-complete-summary.json) · [命令计数核验](grouped-root-controls-complete-command-audit.json) · [校验器](summarize-grouped-root-controls.py) · [表格生成器](render-grouped-root-controls.py) · [执行日志](grouped-root-controls-reviewed-ci-driver.log) · [发布输入 SHA256 索引](grouped-root-controls-complete-evidence-index.json)。原始客户端对齐空白、INFO 尾部空行均按原字节保留。

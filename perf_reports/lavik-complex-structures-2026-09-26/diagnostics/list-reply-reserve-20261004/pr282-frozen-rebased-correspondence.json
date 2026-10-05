@@ -1,0 +1,41 @@
+{
+  "observed_unix": 1791221311.5889368,
+  "frozen_parent": "19496654cc43b21df11fb59be60e174dc4c89dbc",
+  "frozen_candidate": "28d7cca498655e02f46407adb65335219b10ee6b",
+  "rebased_base": "330738d9a483abc3cb43247d47ef2c594d890f3b",
+  "rebased_candidate": "2c94e9dabecb8c77636f29a24f1325e00263fc5d",
+  "range_diff": "1:  28d7cca4 = 1:  2c94e9da Reuse verified physical root identity when refreshing grouped reads\n",
+  "affected_files": [
+    {
+      "path": "src/storage/engine/grouped/ordered_io.cpp",
+      "old_sha256": "77a0763f3ab85cb21815926a3805685c7818f35e727efb92e5c5c335a8f2b01b",
+      "rebased_sha256": "77a0763f3ab85cb21815926a3805685c7818f35e727efb92e5c5c335a8f2b01b",
+      "identical": true
+    },
+    {
+      "path": "src/storage/engine/grouped/read.cpp",
+      "old_sha256": "282d6c090eb15fe88c930c8c2d49b75b01127ead5920f5ebd148da12fc40050c",
+      "rebased_sha256": "282d6c090eb15fe88c930c8c2d49b75b01127ead5920f5ebd148da12fc40050c",
+      "identical": true
+    },
+    {
+      "path": "src/storage/engine/impl.h",
+      "old_sha256": "947795aa058a9815026cf80794a23c1f40d80fef5323e2528f47ebf169b6fad5",
+      "rebased_sha256": "e590e34cd432370e2dc8c91aee8c6611d9a500193ee00a50d91822d4017ccbd2",
+      "identical": false
+    },
+    {
+      "path": "src/storage/engine/read.cpp",
+      "old_sha256": "3798ab52fef8008074af0513f6dc2477057b85a25068b7cbacc1292a7f3ea888",
+      "rebased_sha256": "3798ab52fef8008074af0513f6dc2477057b85a25068b7cbacc1292a7f3ea888",
+      "identical": true
+    }
+  ],
+  "scope": "Patch correspondence only; frozen benchmark results remain tied to the old parent/candidate and binaries, not current main or rebased-head throughput.",
+  "impl_header_delta": {
+    "matches_base_delta": true,
+    "stable_patch_id": "b27893a7e8ade22a6b0ded358f2f66ee22ac2865",
+    "description": "Inherited main recovery-expiration declarations and disk-space error type; root-reuse patch itself is unchanged.",
+    "diff": "diff --git a/src/storage/engine/impl.h b/src/storage/engine/impl.h\nindex f0a3c4da..5714cf82 100644\n--- a/src/storage/engine/impl.h\n+++ b/src/storage/engine/impl.h\n@@ -3498,7 +3498,19 @@ class StorageEngine::Impl {\n   absl::Status ApplyRecoveredRecord(WorkerStore& store,\n                                     WorkerStore::PartitionStore& partition,\n                                     const RecoveryRecordView& record);\n-  Task<absl::Status> RecoverGroupedObjects(WorkerStore& store);\n+  struct RecoveryExpiredTombstone {\n+    Digest digest_{};\n+    std::string key_;\n+    std::uint8_t db_id_ = 0;\n+    bool shielding_ = false;\n+    // An unshielded, expired root whose graph was already reclaimed has no\n+    // recoverable side view. It still needs a new durable deletion if space\n+    // permits, even after the dead winner leaves the recovery index.\n+    bool detached_ = false;\n+  };\n+  Task<absl::Status> RecoverGroupedObjects(\n+      WorkerStore& store, std::optional<std::uint64_t> expiration_now_ms,\n+      std::vector<RecoveryExpiredTombstone>& expired_tombstones);\n   Task<absl::StatusOr<GroupedHashObject::Handle>> RecoverOrderedObject(\n       WorkerStore& store, const OrderedCollectionRoot& root,\n       GroupedObjectVersion version, RecoveryAuxiliaryRecords::iterator first,\n@@ -3812,6 +3824,11 @@ class StorageEngine::Impl {\n       WorkerStore::PartitionStore& partition, RecordLocation location,\n       ExtentManifest extents);\n \n+  // Distinguish exhausted foreground disk capacity from index/memory\n+  // admission failures without depending on a human-readable error message.\n+  static constexpr absl::string_view kDiskSpaceExhaustionTypeUrl =\n+      \"type.googleapis.com/lavik.storage.DiskSpaceExhaustion\";\n+\n   Task<absl::StatusOr<ReservedBlock>> AcquireWriteBlock(WorkerStore& store,\n                                                         bool for_defrag,\n                                                         bool unlock_writer);\n"
+  }
+}
