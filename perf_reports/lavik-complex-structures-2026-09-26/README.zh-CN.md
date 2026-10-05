@@ -1,5 +1,7 @@
 # 复杂数据结构性能：Redis、Valkey、Kvrocks 与 Lavik
 
+**固定组合 150 点已完成：** [#265/#266/#270 的固定历史组合](diagnostics/combined-20261005/README.md#完整组合结果与取舍)对照显示：Stream 全量读取配对 QPS 中位提升 **+94.00%～+189.27%**，ZSet 写入 **+6.18%～+12.65%**；大 Stream 1024 B 写入 c5120 的 p99 **+50.00%**、小 ZSet 点读 c5120 的 QPS **−2.01%**且 p99 **+4.62%**，这些回退三轮一致。完整正反结果和原始记录已公开；该组合不含 #275/#280/#282，不代表当前 main 或整体追平。
+
 [#280 全部 96 点对照](diagnostics/zset-score-views-20261005/zset-score-views-complete.md)已完成并通过结果及命令计数核验。大/小对象 ZSCORE 各档三轮 QPS 均提升，配对中位分别为 **+14.45%–19.82% / +12.61%–31.98%**；小对象各档 p99 三轮均改善，大对象 c5120 p99 两轮回退（中位 +2.40%）。写入收益不稳定，大对象写 QPS 中位为 **−1.10%/+0.24%/−0.76%/−1.62%**。#280 有明确读收益；当前 `253ab6a9` 的 CI 全部 17 项通过，已合并。前一版本的 RESTORE 超时仍未解释。[四组独立 perf](diagnostics/zset-score-views-20261005/zset-score-views-perf.md)也已完成：小对象哈希、分配和复制的 CPU 自身占比降低，两版本每次 ZSCORE 均为一次存储读取。
 
 [新增配对结果与 perf 的复算核验：1,146 个输入文件](diagnostics/zset-score-views-20261005/published-report-reproduction-20261005.json)

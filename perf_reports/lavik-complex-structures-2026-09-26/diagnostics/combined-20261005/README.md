@@ -8,7 +8,7 @@
 | #266 | `067c7589` | ZSet 成员叶页复用，包含冷恢复修复 | [测量及精确版本归属](../zset-member-probe-20261004/README.md) |
 | #270 | `adec3a34` | Stream 回复批处理，包含冷恢复修复 | [配对控制与 perf](../stream-reply-20261004/README.md) |
 
-三个合并均无冲突。已核对父提交可达性、源码树清洁状态、格式及 diff；已有架构修订一并合入并检查。[完整组合清单](combination.json) · [独立 CI](https://github.com/thweetkomputer/lavik/actions/runs/37260751356)。[完整 CI 已通过](combined-78e29277-full-ci.json)：两种架构编译、12 个软件分片、两个汇总检查和格式检查均成功。本机原生验证现已通过；组合对照已经开始，完整 QPS/p99 结论尚待完成，不能把单项历史收益相乘或视为组合结果。
+三个合并均无冲突。已核对父提交可达性、源码树清洁状态、格式及 diff；已有架构修订一并合入并检查。[完整组合清单](combination.json) · [独立 CI](https://github.com/thweetkomputer/lavik/actions/runs/37260751356)。[完整 CI 已通过](combined-78e29277-full-ci.json)：两种架构编译、12 个软件分片、两个汇总检查和格式检查均成功。本机原生验证现已通过；150 点组合对照已全部完成并核验，结果见下文，不能把单项历史收益相乘或视为组合结果。
 
 这是一阶段固定组合，只含上表 #265/#266/#270 的历史提交。当前任务只完成既有 PR 的收敛与已排队验证，不新增优化或组合版本。部分增量候选已因完整对照的取舍不足关闭，见[当前 PR 状态](../grouped-expiry-recovery-20261004/pr-cleanup-current.md)。这里的固定源码不随 PR rebase 或关闭而改变，也没有纳入 #275/#280/#282。当前尚未达到全体复杂结构命令与另外三个系统相近的水平。
 
@@ -29,9 +29,9 @@
 
 构建将 `TMPDIR` 放在 `/mnt/dev`，避免先前 Hash 构建遇到的根分区临时空间不足；没有改变优化参数或测试范围。
 
-## 组合后的 150 点对照正在执行
+## 组合后的 150 点对照已完成
 
-[初始协议](combined-controls-protocol.json)与[rebase 后保持固定版本的实际执行脚本](../grouped-expiry-recovery-20261004/repeat-combined-controls-pinned-after-rebase.py)已记录。任务已经等待原生验证和 grouped lookup 对照退出，核对两边原生测试、完整 CI、更正后的依赖清单、匹配编译选项及二进制 SHA，并取得主机锁开始执行。排队时与取得锁时的驱动 SHA 一致。此前未启动的小 Hash 补充 perf 已随无效候选关闭而取消，不再列为待执行工作。
+[初始协议](combined-controls-protocol.json)与[rebase 后保持固定版本的实际执行脚本](../grouped-expiry-recovery-20261004/repeat-combined-controls-pinned-after-rebase.py)已记录。任务在原生验证和 grouped lookup 对照退出后，核对两边原生测试、完整 CI、更正后的依赖清单、匹配编译选项及二进制 SHA，取得主机锁并完成执行。排队时与取得锁时的驱动 SHA 一致。此前未启动的小 Hash 补充 perf 已随无效候选关闭而取消，不再列为待执行工作。
 
 | 数据 | 读命令及连接数 | 写命令及连接数 |
 |---|---|---|
@@ -43,12 +43,25 @@
 
 共 25 个命令/条件/连接数组合，三轮 A/B、B/A、A/B，每点 30 秒、pipeline=1，两版本共 150 个观测。每轮读取让两个版本重启访问同一份新建的父版本逻辑数据，中间不写入；后台物理变化仍可能发生，不称作不可变磁盘镜像。写入为每个版本分别新建数据。全部 key 的基数、原始错误、退出码和精确来源保留，首个失败停止并保留结果。
 
-这是 #265/#266/#270 的一阶段组合验证，既不是全命令套件复测，也不代表已经达到 peer 水平。历史 peer 未重跑，不相乘单项收益；此处没有组合 QPS 或新 perf 结论。脚本保留本机绝对路径、统一锁和 scratch 设备白名单，移机需要适配目录与设备。
+这是 #265/#266/#270 的一阶段组合验证，既不是全命令套件复测，也不代表已经达到 peer 水平。历史 peer 未重跑，不相乘单项收益；这里提供完整组合 QPS/p99 对照，没有新增组合 perf 采样。脚本保留本机绝对路径、统一锁和 scratch 设备白名单，移机需要适配目录与设备。
 
 ## 结果核验
 
 [矩阵校验器](summarize-combined-controls.py)独立固定 25 个条件与两个源码版本，逐点比对原始 result、构建选项、二进制身份、全部 key 基数、读取 seed、正常退出及 A/B、B/A、A/B 顺序。只有完整 150 点才计算三轮配对变化；`--validate-only` 仅验证已完成数据，不给出不完整矩阵的收益结论。
 
-[命令计数审计](audit-complex-control-commands.py)核对实际命令参数、客户端请求总数与 INFO 命令调用增量，要求无失败/拒绝、窗口内除目标命令及 INFO 外无其他命令。首批实际完成的 Stream 点读/全量读取已经通过两项校验；该计数审计也在既有 72 点 ZSet 结果上复核，逐点计数与原审计一致。完整组合结果与证据索引待全部观测完成后发布，当前不输出组合收益结论。
+[命令计数审计](audit-complex-control-commands.py)核对实际命令参数、客户端请求总数与 INFO 命令调用增量，要求无失败/拒绝、窗口内除目标命令及 INFO 外无其他命令。首批实际完成的 Stream 点读/全量读取已经通过两项校验；该计数审计也在既有 72 点 ZSet 结果上复核，逐点计数与原审计一致。全部 150 点已经通过矩阵与实际命令计数校验；完整结果与证据索引如下。
 
 通用命令审计已另外通过既有 144 点 Hash/Set 和 30 点 List 原始观测，覆盖 HGET、HSET、SISMEMBER、SADD/SREM、LINDEX、LRANGE、LSET。客户端计数等于对应 Redis 命令调用之和，未发现命令错误或窗口内混入其他工作负载；SADD/SREM 按两个命令的调用总数计数。[审计输入哈希与执行记录](complex-command-auditor-hash-set-list-verification.json) · [Hash/Set 144 点计数](complex-command-auditor-check-hash-route-replace-repeats.json) · [List 30 点计数](complex-command-auditor-check-list64-repeats.json)。此次补发了原本仅保存在本机的 60 份 List INFO 快照。这只验证既有审计工具对各命令的适用性，没有新增基准实验，也不构成 #282 的性能或原生正确性结果。
+
+## 完整组合结果与取舍
+
+[25 个条件的绝对 QPS/p99、三轮配对变化和逐轮原始记录](combined-controls-complete.md)已发布。下列变化均为三个配对百分比的中位数，而非两个版本中位数之比。
+
+- Stream 100 MiB / 128 B 全量读取 c1/4/16 的 QPS 为 **+112.50% / +129.76% / +189.27%**，p99 为 **−51.91% / −63.28% / −73.44%**；三轮方向一致。64 KiB / 1024 B 全量读取 c80 为 **+94.00% QPS、−27.92% p99**，三轮一致。
+- Stream 100 MiB / 1024 B 写入 c80/320/5120 的 QPS 为 **+40.87% / +48.69% / +48.47%**，三轮均提升；但 c5120 的 p99 **+50.00%**，三轮均变差。128 B 条件的写入 QPS 为 **+9.41% / +13.84%**；c5120 的 p99 中位 **+22.22%**，两轮变差。
+- ZSet 写入大对象三档 QPS 为 **+8.03% / +6.65% / +6.18%**，小对象为 **+9.83% / +12.65% / +10.05%**，六个条件的三轮 QPS 均提升。各条件配对 p99 中位数均改善，但大对象 c5120 有一轮变差，未隐藏此轮。
+- 点读未获得同样一致收益：小 ZSet c5120 的 QPS **−2.01%**、p99 **+4.62%**，三轮均变差。大 Stream 点读 QPS 中位 **−0.35%**、方向混合，p99 **+1.36%**、三轮变差。其余点读与小 Stream 写入的完整波动均列于表中。
+
+这些结果支持部分全量读取和写入的组合收益，同时保留高并发尾延迟及点读回退；不能宣称所有命令提升或整体追平三个系统。完整 150 点使用固定旧基线，不将结果转记为后来合并的 main，也不覆盖后续 #280 或草稿 #275/#282。
+
+[完整观测清单](combined-controls-complete-observations.json) · [矩阵核验及配对汇总](combined-controls-complete-summary.json) · [实际命令计数核验](combined-controls-complete-command-audit.json) · [确定性表格生成器](render-combined-controls.py) · [发布输入 SHA256 索引](combined-controls-complete-evidence-index.json)。原始客户端文本与 INFO 快照保留其原有对齐空白和尾部空行，没有为了格式检查改写测量输入。
