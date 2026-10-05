@@ -12,7 +12,7 @@
 
 ## 状态与前置验证
 
-[原生验证](validate-grouped-lookup-native-pinned-after-rebase.py)已完成；[72 点对照](repeat-grouped-lookup-pinned-after-rebase.py)已取得主机锁并开始，尚无吞吐收益结论。Inline/Decoded 分别通过 128/129 项单元检查；每个候选另通过 42 项有序结构、5 项阻塞命令、16 项 Hash 进程测试。各有 29 项依赖故障注入的进程测试因生产构建关闭 hooks 而跳过，逐项原因公开。父版本复用先前的 20 项通过、7 项跳过，未声称与候选覆盖完全相同。[精确二进制、构建选项、driver 哈希及逐项结果](grouped-lookup-native-summary.json)。历史固定 head 的 fault-enabled CI 均完整通过；当前 rebased head 仍需单独检查。
+[原生验证](validate-grouped-lookup-native-pinned-after-rebase.py)已完成；[72 点对照](repeat-grouped-lookup-pinned-after-rebase.py)已取得主机锁并开始，[大对象 36 点对照](grouped-lookup-large.md)已完成，小对象范围仍在执行。Inline/Decoded 分别通过 128/129 项单元检查；每个候选另通过 42 项有序结构、5 项阻塞命令、16 项 Hash 进程测试。各有 29 项依赖故障注入的进程测试因生产构建关闭 hooks 而跳过，逐项原因公开。父版本复用先前的 20 项通过、7 项跳过，未声称与候选覆盖完全相同。[精确二进制、构建选项、driver 哈希及逐项结果](grouped-lookup-native-summary.json)。历史固定 head 的 fault-enabled CI 均完整通过；当前 rebased head 仍需单独检查。
 
 吞吐任务已等待原生验证与既有 worker 数实验退出，重新核对所有版本的原生测试、完整 CI、依赖版本、SHA-256 及构建选项（包含 `LAVIK_MARCH=native`），再取得统一主机锁。构建、预置、测试、干净压测及 perf 不并行。脚本在排队时冻结驱动文件 SHA，取得主机锁后再次检查，避免等待期间更换驱动而未记录。
 
@@ -27,4 +27,6 @@
 [排队记录、固定提交及脚本哈希](queued-protocol.json)。这些脚本保留本机绝对路径和 scratch 设备 allowlist；它们用于复现协议，移机执行需映射工作目录、生产二进制、主机锁和已授权 scratch 设备。原生验证会切换专用构建工作树，不能指向含用户改动的目录。尚未采集新的候选 perf；当前任务只安排干净对照，后续采样与吞吐结果分开发布。
 
 
-[结果校验器](summarize-grouped-lookup.py)要求完整三轮矩阵才输出配对结论，逐点对照原始 result、来源 SHA、基数、退出码和共享读取 seed，同时检查实际执行顺序符合三个轮换。`--validate-only` 只核验已有观测，不输出不完整范围的性能结论。该脚本已在首批真实完成观测上执行通过；完整矩阵尚未结束，不输出收益结论。命令计数审计另用既有 `audit-zset-score-commands.py`；不会将源码少一次查找直接视为测得收益。
+[结果校验器](summarize-grouped-lookup.py)要求完整三轮矩阵才输出配对结论，逐点对照原始 result、来源 SHA、基数、退出码和共享读取 seed，同时检查实际执行顺序符合三个轮换。`--validate-only` 只核验已有观测，不输出不完整范围的性能结论。该脚本已在首批真实完成观测上执行通过；完整大对象矩阵已通过，小对象矩阵尚未结束。命令计数审计另用既有 `audit-zset-score-commands.py`；不会将源码少一次查找直接视为测得收益。
+
+[完整大对象对照](grouped-lookup-large.md)：c320 读 QPS 三轮均提升，但 decoded c5120 读 QPS 三轮回退，inline c5120 写 p99 三轮变差；待小对象结果齐全后决定去留。
