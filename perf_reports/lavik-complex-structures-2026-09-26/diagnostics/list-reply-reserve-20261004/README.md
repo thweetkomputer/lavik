@@ -149,3 +149,11 @@ main `19496654` 和 #267 候选 `343e951e` 的同镜像独立副本采样均完�
 [原始回放和二进制身份](grouped-verified-root-candidate-replays.json) · [逐操作耗时/I/O 汇总](grouped-verified-root-candidate-summary.json) · [可复现校验脚本](summarize-root-candidate-replays.py)。每轮还完成三个 5009 字节 key 的读取、覆盖后 STRLEN，以及 6 MiB/9 MiB key 的 SET 应答；没有覆盖后重启或读回两个大 key 的新值，不能据此宣称完整持久性验证。进程 I/O 包含后台工作，不能把它与先前采样超时的约 9 GB 直接作干净配对比值。
 
 这是三轮候选单侧检查，**不是完成的三轮配对性能比较**。保留 main 的原始 60 秒超时及此前约 50 秒成功记录，不从截断基线算精确加速比，不外推普通 QPS。目前仍不能认定 #267 引入该故障，或原 CI 的 SET 超时与该 GET 同源。普通短 key native 回归和配对性能对照仍需完成。
+
+## 普通短 key 回归与性能对照已排队
+
+[原生验证](validate-grouped-root-native.py)将固定父版本 `19496654` 与根复用 `28d7cca4` 的生产配置、依赖和二进制 SHA，使用相同测试驱动检查 Hash/Set、String/List、ZSet、Stream、RDB/跨 worker 和阻塞读路径。候选先通过相关单元测试；原生生产关闭故障注入，完整 fault-enabled CI 补充对应覆盖。复用已有测试，没有新增重复磁盘 fixture。
+
+[72 点普通短 key 对照](repeat-grouped-root-controls.py)等待原生验证通过后执行：Hash/Set 1 MiB / 128 B / 500 keys，List/ZSet 64 KiB / 128 B / 64 keys，Stream 64 KiB / 1024 B / 64 keys；五种类型均在 c320 测点读和写，List/Stream 另测 c80 全量读取。三轮 A/B、B/A、A/B，每点 30 秒、pipeline=1；读对共用新建父版本逻辑数据并分别重启，写对分别新建数据。物理后台变化仍可能存在。Hash/Set 的 500 keys 小于历史图中的 50,000 keys，不能用于更新历史 peer 排名。
+
+[固定协议、源码与调度身份](grouped-root-native-controls-protocol.json)。编译、测试和压测持有同一主机锁，排在现有组合对照后；这些任务已排队，尚未产生 native/QPS 结论，#282 保持草稿。

@@ -1,0 +1,103 @@
+{
+  "state": "queued, no native or QPS results yet",
+  "pr": "https://github.com/eloqdata/lavik/pull/282",
+  "candidate": "28d7cca498655e02f46407adb65335219b10ee6b",
+  "parent": "19496654cc43b21df11fb59be60e174dc4c89dbc",
+  "processes": {
+    "validate-grouped-root-native.py": {
+      "pid": 837210,
+      "generation": "29601758"
+    },
+    "repeat-grouped-root-controls.py": {
+      "pid": 837357,
+      "generation": "29612201"
+    }
+  },
+  "native_session": 71138,
+  "controls_session": 11821,
+  "expected_observations": 72,
+  "conditions": [
+    {
+      "kind": "hash",
+      "size": 1048576,
+      "field": 128,
+      "keys": 500,
+      "read": [
+        320
+      ],
+      "full": [],
+      "write": [
+        320
+      ]
+    },
+    {
+      "kind": "set",
+      "size": 1048576,
+      "field": 128,
+      "keys": 500,
+      "read": [
+        320
+      ],
+      "full": [],
+      "write": [
+        320
+      ]
+    },
+    {
+      "kind": "list",
+      "size": 65536,
+      "field": 128,
+      "keys": 64,
+      "read": [
+        320
+      ],
+      "full": [
+        80
+      ],
+      "write": [
+        320
+      ]
+    },
+    {
+      "kind": "zset",
+      "size": 65536,
+      "field": 128,
+      "keys": 64,
+      "read": [
+        320
+      ],
+      "full": [],
+      "write": [
+        320
+      ]
+    },
+    {
+      "kind": "stream",
+      "size": 65536,
+      "field": 1024,
+      "keys": 64,
+      "read": [
+        320
+      ],
+      "full": [
+        80
+      ],
+      "write": [
+        320
+      ]
+    }
+  ],
+  "script_sha256": {
+    "validate-grouped-root-native.py": "e8db8e71a6922fadf0426017d3df5e7f16f7e1aefa59193b39cc2c02d7f514f0",
+    "repeat-grouped-root-controls.py": "9f6558f73bb5fc2c285ca373f23ffb03955d2edf3282622aec5f9fd7462b4ae7",
+    "run-grouped-root-controls.py": "c2f5e553cb8ebe12f5cd9863ff94a71d72d3087e9c40aa2f1c154d6aa58c2eec"
+  },
+  "gates": "Native waits for generation29415269 of combined-controlsPID826529 then hostlock. Parent reuses frozen main194 native binary with savedCMake; build candidate28 separately with productiontests/faultsOFF, nine matching compiler/native options, actualCMakeBycorf625 provenance. Candidateunit plus same frozen Hash/ordered/blocking drivers against both binaries, exact17CIbothheads. Controls wait nativePASS thenhostlock and unchangedscript/exactbinarySHA checks.",
+  "method": "3AB/BA/AB,30seconds,pipeline1. Sharedfreshparentreadpopulation with restart and no intervening writes; freshindependentwritepopulation. Allkeys/cardinality/commanderrors/serverexit validated. Samehost no concurrentbuild/test/perf. Hash/Set500keys differ historical50000keygrid: regressioncontrols, notpeerparity.",
+  "native_driver": "validate-grouped-root-native.py",
+  "native_log": "grouped-root-native-driver.log",
+  "native_output": "grouped-root-native-versions.json",
+  "control_driver": "repeat-grouped-root-controls.py",
+  "control_log": "grouped-root-controls-repeat-driver.log",
+  "control_output": "grouped-root-controls-repeats.json"
+}
