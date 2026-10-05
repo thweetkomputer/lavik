@@ -12,7 +12,7 @@ All [144 Hash/Set route-replacement observations](diagnostics/hash-route-replace
 
 [简体中文](README.zh-CN.md)
 
-[ZINCRBY worker-distribution analysis](diagnostics/zset-worker-distribution-20261005/README.md): the fixed eight keys map to four data owners with 12 workers. Existing perf thread distribution is documented; fixed-binary 8/12-worker controls are queued, with no tuning gain claimed.
+[Worker distribution and complete configuration comparison](diagnostics/zset-worker-distribution-20261005/zset-worker-count-complete.md): on the same binary and eight keys, 8 versus 12 workers improves median paired ZSCORE QPS by 19.16%/31.70% and ZINCRBY by 39.88%/40.75%; write p99 worsens in every pair (medians +21.54%/+24.90%). This configuration diagnostic does not replace standard baselines or combine with #280 gains.
 
 [Borrowed member-page score reads](diagnostics/zset-score-views-20261005/README.md): avoids owning every field/value while retaining full validation. Historical frozen-head fork and upstream CI passed 17 jobs each; the rebased head has the unresolved RESTORE failure above. [PR #280](https://github.com/eloqdata/lavik/pull/280) remains draft; large-object paired results are linked above, all 96 paired controls are now complete; independent perf is also complete.
 

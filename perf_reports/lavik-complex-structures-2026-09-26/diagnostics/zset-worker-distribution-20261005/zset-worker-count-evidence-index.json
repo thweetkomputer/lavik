@@ -1,0 +1,973 @@
+{
+  "scope": "All 24 worker-count controls; historical CSV checked against authenticated0a0431d2 snapshot",
+  "files": [
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/diagnostics/zset-worker-distribution-20261005/README.md",
+      "sha256": "872c18d47c16581dd88806b761cb4f59cb0b929a8cba1e2f494181d834efa60b"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/diagnostics/zset-worker-distribution-20261005/analyze-zset-worker-distribution.py",
+      "sha256": "bc9df4be7f2ecbea98cbd2b8f6fac2d18958bcea708b0109254a77b32f8d3481"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/diagnostics/zset-worker-distribution-20261005/audit-zset-score-commands.py",
+      "sha256": "be0b1fe13953ecd94314ef981d74339e307fa227abd771131ee0edc2e0d9c884"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/diagnostics/zset-worker-distribution-20261005/repeat-zset-worker-count.py",
+      "sha256": "dedfbe2203addaf9abebf11ce9fc4e61f989bb20f523ea8ded603b24ff31f9b6"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/diagnostics/zset-worker-distribution-20261005/run-zset-worker-controls.py",
+      "sha256": "dac3df017b22958a99c3107e327d13f93810be767fa16815df24a2d0304863f5"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/diagnostics/zset-worker-distribution-20261005/summarize-zset-worker-count.py",
+      "sha256": "c7ab89b886f82d04f24a2f8cb17bc8b359b8d3e42838f0ddd384db00633117c4"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/diagnostics/zset-worker-distribution-20261005/zset-worker-count-complete-command-audit.json",
+      "sha256": "c711a60971d19758c9af0cb822b5be840247965e6fa63b484daa6e8e98ebd1d4"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/diagnostics/zset-worker-distribution-20261005/zset-worker-count-complete-observations.json",
+      "sha256": "69406dddcfb029d9f52617956e5524366a6b25ed8b9b62a34b8c63b9b08ec6a3"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/diagnostics/zset-worker-distribution-20261005/zset-worker-count-complete-summary.json",
+      "sha256": "be97892bf793ae4ca5463190f51dc15431d777f7d4ad1eb0fabdae765844c0eb"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/diagnostics/zset-worker-distribution-20261005/zset-worker-count-complete.md",
+      "sha256": "712b37b6c87a912addc42cf775bf0e4cbe9ec5b141c8d29bea4219bb61de66bc"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/diagnostics/zset-worker-distribution-20261005/zset-worker-count-historical-context.json",
+      "sha256": "aa6dba918dabf5bcc87055c56874f280d7aa32eb0b125fda436b09a2d8d5930a"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/diagnostics/zset-worker-distribution-20261005/zset-worker-count-repeat-driver.log",
+      "sha256": "d4d587b789d6c8b1d1127d26149ba5294a4058b774c25c8cf59675678de5c78a"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/diagnostics/zset-worker-distribution-20261005/zset-worker-distribution.json",
+      "sha256": "9a1b9e88779d53439c6c4f9162ee813874a0ffcb3c3e17b550afc0d83b00398f"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat1-20261005/complete.json",
+      "sha256": "69ff157457321a8c1dd919ff062c8cab3928ba3207084a58ef28be96a1f0c274"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat1-20261005/provenance-point-zset-80-320.json",
+      "sha256": "5d88b29a587417716c93bc5d29010e95ab46c309a31ba0376c983082fb2272d7"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat1-20261005/server-command.json",
+      "sha256": "6f9dbe870b850668c69e9204eb06a474bbde85bdb3b2712f1ec1b65bfc28ff5c"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat1-20261005/server-exit.json",
+      "sha256": "3c428e5243c0204d43e459c60941a1f70059b39087ec6e0a385bb6780caa0c8a"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat1-20261005/version.json",
+      "sha256": "410c1afc8a7cb6b35ed9cbe8ae725d41af9e7810af61e6981c3e4794aa099f6d"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat1-20261005/worker-experiment.json",
+      "sha256": "3ff5be83ced95444bad25f3d19446bbc1a4b9bc3408372a77e3e8ff2c131e006"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat1-20261005/zset-104857600-1024-zincrby-c320.command.json",
+      "sha256": "93ecee487e14b7a00121e6c6fdd88f6790474d8d2536afda462d84c98df2b2b8"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat1-20261005/zset-104857600-1024-zincrby-c320.cpu-after.json",
+      "sha256": "1c6103336696a35022c64eea32ca176463e9832f6ebad932ce1b40c1d4c4c157"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat1-20261005/zset-104857600-1024-zincrby-c320.cpu-before.json",
+      "sha256": "299d866880b6ab17e58831446856fd4ad686d4f584350d7ab3c686ca4f2514c2"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat1-20261005/zset-104857600-1024-zincrby-c320.info-after.txt",
+      "sha256": "e93b4e51fb39f307927bcf6107b4c5ba8e037151c6a8818874838194ada91034"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat1-20261005/zset-104857600-1024-zincrby-c320.info-before.txt",
+      "sha256": "9435919155b412957858f9085e2be8d02a6b085faeff35c98e3af970bf6cae4c"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat1-20261005/zset-104857600-1024-zincrby-c320.json",
+      "sha256": "d07ba4aa55da2345a981b3711ec68cc4cbd0c9c82cef890969a12bf117e8701e"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat1-20261005/zset-104857600-1024-zincrby-c320.result.json",
+      "sha256": "674455956eb87ebcce9cd743359fdc0dc61436009ebff5777283b37c8798878d"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat1-20261005/zset-104857600-1024-zincrby-c80.command.json",
+      "sha256": "b755caa6d41960a47c0643b4433bce42c150ceda6a5605ec4fa747f9610ba360"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat1-20261005/zset-104857600-1024-zincrby-c80.cpu-after.json",
+      "sha256": "ef17ccdd2c6d1c204c01ccc8be88a127048b249b144d8e4b48b7617fe4e60f7e"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat1-20261005/zset-104857600-1024-zincrby-c80.cpu-before.json",
+      "sha256": "38c00891f4e0a95b2264b80d89e44e2475ec77c7cff7ef4c542e685238084ad2"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat1-20261005/zset-104857600-1024-zincrby-c80.info-after.txt",
+      "sha256": "e15cf60e743dac8af359690e72bd59bc20cda3306ea15940a58292794e471cba"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat1-20261005/zset-104857600-1024-zincrby-c80.info-before.txt",
+      "sha256": "ae33d67740bc7a7a136f6a2fb6fa49f5fb5133e7da6cb8b3982435986879fedd"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat1-20261005/zset-104857600-1024-zincrby-c80.json",
+      "sha256": "7789ef2eefdb09be72c503f92cf0ab4d6ef7dd796ebd0f6be2f98ddf62d0bf2a"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat1-20261005/zset-104857600-1024-zincrby-c80.result.json",
+      "sha256": "a719bb6c8fb97b601967331e045efbab904843f78c28b2f759b853e6d918b72d"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat1-20261005/zset-104857600-1024-zscore-c320.command.json",
+      "sha256": "8ee6a0961940407513babde1d057aeebcab5eaef5b2abb809c5c6792ee38330f"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat1-20261005/zset-104857600-1024-zscore-c320.cpu-after.json",
+      "sha256": "fb56247b7e80ab4a17cb90eb459b9898748de9f955ecf38123ac0ea6769bf159"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat1-20261005/zset-104857600-1024-zscore-c320.cpu-before.json",
+      "sha256": "538c0b5f4cfba9472777a57df0a38d9ece7090034ace3ce652ae043e41b072a1"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat1-20261005/zset-104857600-1024-zscore-c320.info-after.txt",
+      "sha256": "22f5c632d9cecd1e6b3ef41d2e684b8f509fbdd3a5b0205286cb8f3f7705fe9a"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat1-20261005/zset-104857600-1024-zscore-c320.info-before.txt",
+      "sha256": "1ad61ddbe0af492da9342f9d7415493031eeb0644ffacddf95dd9eee0a4779cb"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat1-20261005/zset-104857600-1024-zscore-c320.json",
+      "sha256": "b6163238c48ea5d077fbdc84eb3287c3cbaaeacb4440d014c89da3f0a66d6045"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat1-20261005/zset-104857600-1024-zscore-c320.result.json",
+      "sha256": "d9876cf3266926bd881926f0fffe8e4c730936e9c5e6668a6153553d9fb06cf1"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat1-20261005/zset-104857600-1024-zscore-c80.command.json",
+      "sha256": "a85e3ded0736e3cb39a16126f7bc23208cfe60600f4ef394282c3657dd660ca3"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat1-20261005/zset-104857600-1024-zscore-c80.cpu-after.json",
+      "sha256": "0c9e088602a8214320351387983d42b15d2e6a5658535738bfae9fd60adfeb00"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat1-20261005/zset-104857600-1024-zscore-c80.cpu-before.json",
+      "sha256": "015145b51279510357c46e90552646abf2fd52904de9563db514f36312392816"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat1-20261005/zset-104857600-1024-zscore-c80.info-after.txt",
+      "sha256": "80302d4be02ad2225dc4fd76f04afe59d69708657549822327065070d88cbf67"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat1-20261005/zset-104857600-1024-zscore-c80.info-before.txt",
+      "sha256": "b158e678aed844dfd3d00f46e6479efa63221a94da7c713b019920f2ab3e5f0e"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat1-20261005/zset-104857600-1024-zscore-c80.json",
+      "sha256": "543a0b2085c734f8b202f57fa94be4783981d8d96c9e68e5bee409d8f9bda5eb"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat1-20261005/zset-104857600-1024-zscore-c80.result.json",
+      "sha256": "c62030dae285e50fd1d3a5203a7320480bdb4e7fc29870e5127e83229982697f"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat1-20261005/zset-104857600-1024.after.json",
+      "sha256": "50deb80df267366223f12cd8f45ed7ebf033ce46cc06c535a380b77e35378af1"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat1-20261005/zset-104857600-1024.complete.json",
+      "sha256": "2035bbd32ce752d0e1fdd020b188014fe645283dfed490e7e258fb033bb454d3"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat1-20261005/zset-104857600-1024.fill.json",
+      "sha256": "e4c9ffc887924e5d3a0ea4c315c61cf0453cf1c0a22e0e504107f06633581f29"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat1-20261005/zset-104857600-1024.validated.json",
+      "sha256": "50deb80df267366223f12cd8f45ed7ebf033ce46cc06c535a380b77e35378af1"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat2-20261005/complete.json",
+      "sha256": "233684d0e2f556b10eaa5813dfc93029a25a0a285e8c2ba0e557545903ffaaff"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat2-20261005/provenance-point-zset-80-320.json",
+      "sha256": "5d88b29a587417716c93bc5d29010e95ab46c309a31ba0376c983082fb2272d7"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat2-20261005/server-command.json",
+      "sha256": "b69f62fd3d9446bf61361722c4f0376c334006ab9fe24cb3e8da5ef66af1a57b"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat2-20261005/server-exit.json",
+      "sha256": "3c428e5243c0204d43e459c60941a1f70059b39087ec6e0a385bb6780caa0c8a"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat2-20261005/version.json",
+      "sha256": "b04ce09eac1a9e9b114f8c7ae0c62be26e688c1875475e9fc43b1127b6a29ef0"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat2-20261005/worker-experiment.json",
+      "sha256": "3ff5be83ced95444bad25f3d19446bbc1a4b9bc3408372a77e3e8ff2c131e006"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat2-20261005/zset-104857600-1024-zincrby-c320.command.json",
+      "sha256": "96d29d1a34cbccc5f5cd3c6ce742285b7f6e1212dac34c7493ac2ef9fafe4df5"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat2-20261005/zset-104857600-1024-zincrby-c320.cpu-after.json",
+      "sha256": "e5a3504f679d52ab3dfe84931ebceb2ce879d3dd69f0c44a355dfcfab7018386"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat2-20261005/zset-104857600-1024-zincrby-c320.cpu-before.json",
+      "sha256": "196266be3c81e13ec6c1d8087a26dd382a6e0f186f01732d579e6110f143829d"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat2-20261005/zset-104857600-1024-zincrby-c320.info-after.txt",
+      "sha256": "f8bc068227a1bb0dc418f0d5dbc15ee6c8bbf5febfb94fab832b9061bee85415"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat2-20261005/zset-104857600-1024-zincrby-c320.info-before.txt",
+      "sha256": "4cafa80e6147eb0b5bbd93aa719b4c1b7a4a2c0408d43a86e66a2b4a2a56bd01"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat2-20261005/zset-104857600-1024-zincrby-c320.json",
+      "sha256": "87d3b243db29c337b7e06b6bd20440a8125b51056d4f9f2dcec6ca1d1e4d7752"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat2-20261005/zset-104857600-1024-zincrby-c320.result.json",
+      "sha256": "697a3b41a1f57f373981686949d76914d624693d8616cbc9d4edc3fcb28aedfe"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat2-20261005/zset-104857600-1024-zincrby-c80.command.json",
+      "sha256": "e22266f10f3393a80655e9e1bfa1a764f5e6f13b5cfde2dadc92c689494cca06"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat2-20261005/zset-104857600-1024-zincrby-c80.cpu-after.json",
+      "sha256": "474cae2216dcdec9c8dce682510b4d01dadd78c6fad31ff4b36143f301024951"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat2-20261005/zset-104857600-1024-zincrby-c80.cpu-before.json",
+      "sha256": "628070fdd0b47588e6e11bf83a329d1a200c7bd34ec3b6d2b9604832d3440240"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat2-20261005/zset-104857600-1024-zincrby-c80.info-after.txt",
+      "sha256": "cfe8c3b414b3c0934dfbed0d1d511f640a5707f42079e82476634f40efaabe40"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat2-20261005/zset-104857600-1024-zincrby-c80.info-before.txt",
+      "sha256": "0a85def69620943cd8ab439d0342b2685dc93e46e5c29ed4c9e8a79cbfd815a6"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat2-20261005/zset-104857600-1024-zincrby-c80.json",
+      "sha256": "0c34ec7dca3d7f5cd68d8d249ceb7375ef9ffa17f7ca83c0562627c66f4b058a"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat2-20261005/zset-104857600-1024-zincrby-c80.result.json",
+      "sha256": "288daf7a91f4b1e1dfd8d49f71f121ddb24a4071e7bbb88ad67ffcd475a04033"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat2-20261005/zset-104857600-1024-zscore-c320.command.json",
+      "sha256": "8e8478b333f221be24aba84556ce20d8f8aa88842ec86e4a04966488c7a78128"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat2-20261005/zset-104857600-1024-zscore-c320.cpu-after.json",
+      "sha256": "23fde76175f093cf17f25d5d07b8af6f6c9810e3a9080f8bbb75c56e5386a1f2"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat2-20261005/zset-104857600-1024-zscore-c320.cpu-before.json",
+      "sha256": "28e8b0e2b520aa4ca324c8dc74a3479bc6c052e8b1cd6749cec7e8b791082588"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat2-20261005/zset-104857600-1024-zscore-c320.info-after.txt",
+      "sha256": "9f7c39dd1549d5299ab3d8adbaf57c4b9d95ae3e9058dd0f10d739019bed2899"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat2-20261005/zset-104857600-1024-zscore-c320.info-before.txt",
+      "sha256": "ea7b6d370132807d68fbbfb4dfe8c85ace3fc44a5c91d54c8108364902172627"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat2-20261005/zset-104857600-1024-zscore-c320.json",
+      "sha256": "b8d50a05d1e6dadd9afb675a4049bec4a52b5777bdd11f65dbe0aae36239adc9"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat2-20261005/zset-104857600-1024-zscore-c320.result.json",
+      "sha256": "7e2418164b9dcc9112ebfbc083f3bdde95d1e17dfb3c221b22dddc30fbd9c512"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat2-20261005/zset-104857600-1024-zscore-c80.command.json",
+      "sha256": "0364d272ad427efb4d935ba0cf66fc84fd1104bbb85cb0dbe12a5d432a5f25cf"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat2-20261005/zset-104857600-1024-zscore-c80.cpu-after.json",
+      "sha256": "c5f2903db98f27613a4cc6d81c4163c483e54f1401d6a40b2199a6445fd058fb"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat2-20261005/zset-104857600-1024-zscore-c80.cpu-before.json",
+      "sha256": "9371cdb086f7de3c5302af9ce969789a1809bda224e367b1eab7e7d243d30493"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat2-20261005/zset-104857600-1024-zscore-c80.info-after.txt",
+      "sha256": "562d199ca5ae5d31b27effc16bdb859cf26534db3b1a63be3b4ed171271d7fd9"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat2-20261005/zset-104857600-1024-zscore-c80.info-before.txt",
+      "sha256": "f96bd3830010ebd37413c56a71c83746d829dce2f1d7ba1b84d809cc701186e2"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat2-20261005/zset-104857600-1024-zscore-c80.json",
+      "sha256": "8ce6692b9904f8f31b02bd24b1db64b09ec3a945e6594f23dd698e2ddc1c42c2"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat2-20261005/zset-104857600-1024-zscore-c80.result.json",
+      "sha256": "82ae5d148ba42ea9203aee313ef4949847b065e9f1bd082ee3bbd30026db7b96"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat2-20261005/zset-104857600-1024.after.json",
+      "sha256": "50deb80df267366223f12cd8f45ed7ebf033ce46cc06c535a380b77e35378af1"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat2-20261005/zset-104857600-1024.complete.json",
+      "sha256": "cefddcd284b5f53088ad644dd12158556180864e46eb60894995e88d16e1d08f"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat2-20261005/zset-104857600-1024.fill.json",
+      "sha256": "db2e1a516a0cf403bbbf3a447cc0dd8a4b73a551c977a26f6d744002fcdd4821"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat2-20261005/zset-104857600-1024.validated.json",
+      "sha256": "50deb80df267366223f12cd8f45ed7ebf033ce46cc06c535a380b77e35378af1"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat3-20261005/complete.json",
+      "sha256": "69d1b6f1a16b85056ae23923ddf554a9dc2e94f147a65b610e417c1d6edf6a3b"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat3-20261005/provenance-point-zset-80-320.json",
+      "sha256": "5d88b29a587417716c93bc5d29010e95ab46c309a31ba0376c983082fb2272d7"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat3-20261005/server-command.json",
+      "sha256": "826a8204eea52b6989cfe402d1091b9435b67d3452557f1a85413fa7c26f2599"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat3-20261005/server-exit.json",
+      "sha256": "3c428e5243c0204d43e459c60941a1f70059b39087ec6e0a385bb6780caa0c8a"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat3-20261005/version.json",
+      "sha256": "9457e4a58ea1541ea928a86dffb08ed7a3971dc58ebb6a1a3fdc62db51841ead"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat3-20261005/worker-experiment.json",
+      "sha256": "3ff5be83ced95444bad25f3d19446bbc1a4b9bc3408372a77e3e8ff2c131e006"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat3-20261005/zset-104857600-1024-zincrby-c320.command.json",
+      "sha256": "4be7a26b346c99dacdb13d4ced3a050f2772b8427e62e2376aaa3acb4590931e"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat3-20261005/zset-104857600-1024-zincrby-c320.cpu-after.json",
+      "sha256": "6aea252cd69cef89516a2f34ab2353196b537102e613f1beecb8603867488ab3"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat3-20261005/zset-104857600-1024-zincrby-c320.cpu-before.json",
+      "sha256": "e5ccddc3f6642450e76fefea60374ce6927bac90cdd92bb82e60182a0475eb23"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat3-20261005/zset-104857600-1024-zincrby-c320.info-after.txt",
+      "sha256": "f8e268da0363877c9687b2e49a9c2e19bc992d161fdba276f233e7ba3918442e"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat3-20261005/zset-104857600-1024-zincrby-c320.info-before.txt",
+      "sha256": "5be84d01a5c3d114a341414043466a4773affa161a65a3a2ad3ee3b15ca04514"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat3-20261005/zset-104857600-1024-zincrby-c320.json",
+      "sha256": "83f5fa093b0860feff7b94a2d14df1c5adf0b391983380367db6bdb93ced03ad"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat3-20261005/zset-104857600-1024-zincrby-c320.result.json",
+      "sha256": "2f20b42f338b34dd66ddd13d589b10765d649e6a2e80eb4f32027d47f40555d6"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat3-20261005/zset-104857600-1024-zincrby-c80.command.json",
+      "sha256": "17926f42ff30d5027e68a173ae8fa005e69fdfd47d31719d899de9f30d471ac9"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat3-20261005/zset-104857600-1024-zincrby-c80.cpu-after.json",
+      "sha256": "544e224849898e748f7aa832a7dfb7d7aa16c3f6d6663d4d5e7c1a61b7811d40"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat3-20261005/zset-104857600-1024-zincrby-c80.cpu-before.json",
+      "sha256": "9bef1c5d94aed5b341d773b53f9ae3287a94bbc03c9c8e67dbce345124064e3f"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat3-20261005/zset-104857600-1024-zincrby-c80.info-after.txt",
+      "sha256": "66e7e885e6248659d617d7852102acaa1fda3ca78539a3afb7b3a927c3836dbc"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat3-20261005/zset-104857600-1024-zincrby-c80.info-before.txt",
+      "sha256": "50b480485cd3524be820664e043d49a8eef83c8db0fc0e1b5f73da879ad2a688"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat3-20261005/zset-104857600-1024-zincrby-c80.json",
+      "sha256": "0524d58c49a9232d0cfd9cae1ebce8c36122769f0f2a3ab61f3c3856f664e4b4"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat3-20261005/zset-104857600-1024-zincrby-c80.result.json",
+      "sha256": "fd92b7d8dfc323d514b250a852a2315abacf652a4715d2042c5f0c14c0e58fbc"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat3-20261005/zset-104857600-1024-zscore-c320.command.json",
+      "sha256": "a7dc8ce4ce45609c29c20998723a1dd05978027df9230d0699eadff01ec1564e"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat3-20261005/zset-104857600-1024-zscore-c320.cpu-after.json",
+      "sha256": "5aa23f99960782be061bbc965350efb0e62f9b35d093001bfd912b89889cd709"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat3-20261005/zset-104857600-1024-zscore-c320.cpu-before.json",
+      "sha256": "de2aa9c2b5cc3e2aed65d93bc57998467e8e5137fa305a48d36dc0a9f90fef78"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat3-20261005/zset-104857600-1024-zscore-c320.info-after.txt",
+      "sha256": "6e631a47e995a34f0f656f43b3d7bfb0a587dd401d6b12e493087acc50b02250"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat3-20261005/zset-104857600-1024-zscore-c320.info-before.txt",
+      "sha256": "2f95af3c3fd4f70ceda1d53c5ab5a5fe1363e44403bc2bc6f4f15e6d4d744cbd"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat3-20261005/zset-104857600-1024-zscore-c320.json",
+      "sha256": "50332d4f0037a2a5bbb1b1caff11c8dc47bb2a07ec388a9623dbb33cac2035d8"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat3-20261005/zset-104857600-1024-zscore-c320.result.json",
+      "sha256": "6471487fdb02e1ea1897914c1769d33103b61563ca67ec4c25b51ab43a7ee3d5"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat3-20261005/zset-104857600-1024-zscore-c80.command.json",
+      "sha256": "1bef680ede9c3e4b32a1c9ee476402132a3f72514cd534f94ecde5b39c072438"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat3-20261005/zset-104857600-1024-zscore-c80.cpu-after.json",
+      "sha256": "10a2939881c7dd9b477aa38a9f5c61bf419c664849e6c70844ac8b3fdb79f26c"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat3-20261005/zset-104857600-1024-zscore-c80.cpu-before.json",
+      "sha256": "28aade70c064b49d293c6048cbac05d61fb34ecbba8d1adbbb4e2e0b1d112083"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat3-20261005/zset-104857600-1024-zscore-c80.info-after.txt",
+      "sha256": "f7218234af00c5748f0d54d27037218661a5d8f3e689b29080f8da56edf95536"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat3-20261005/zset-104857600-1024-zscore-c80.info-before.txt",
+      "sha256": "f69d2fb2097243ec7a71f142504e6a417475eb3720b2da3b118465245d8f00f6"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat3-20261005/zset-104857600-1024-zscore-c80.json",
+      "sha256": "be5d38db247f73b0d5e9b3dad2695b75f190b41f8dc92b68c2107c060594e711"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat3-20261005/zset-104857600-1024-zscore-c80.result.json",
+      "sha256": "70e8c6d5b39c565d3f3adf391307063b0f6f2fc5e0c3da9854f78e2a684eb76d"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat3-20261005/zset-104857600-1024.after.json",
+      "sha256": "50deb80df267366223f12cd8f45ed7ebf033ce46cc06c535a380b77e35378af1"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat3-20261005/zset-104857600-1024.complete.json",
+      "sha256": "f4699eca96946a896e58ab8d15324cce7af20a3a54dce40a6553f6371210a2df"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat3-20261005/zset-104857600-1024.fill.json",
+      "sha256": "1defeda228a41293d91c4d7269a4602b6b085e2c5c3b1261cc73fc6c068423ae"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat3-20261005/zset-104857600-1024.validated.json",
+      "sha256": "50deb80df267366223f12cd8f45ed7ebf033ce46cc06c535a380b77e35378af1"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat1-20261005/complete.json",
+      "sha256": "87be7403674c68acb6ee0d96506124c342f443635a2b9b655ecdcf7ae289b13f"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat1-20261005/provenance-point-zset-80-320.json",
+      "sha256": "5d88b29a587417716c93bc5d29010e95ab46c309a31ba0376c983082fb2272d7"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat1-20261005/server-command.json",
+      "sha256": "be38bdabd8b0debf80329e0e82624b801f487c1240f55818d0502af831f1e179"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat1-20261005/server-exit.json",
+      "sha256": "3c428e5243c0204d43e459c60941a1f70059b39087ec6e0a385bb6780caa0c8a"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat1-20261005/version.json",
+      "sha256": "3e24420198a02ca5fb5edee20c0eb2185a5c2a54dd56f29791701ae25a0f892d"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat1-20261005/worker-experiment.json",
+      "sha256": "7a696b566a9c97e6357bab6301c36dfffd17004dd334208745ac8e78eb385ac5"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat1-20261005/zset-104857600-1024-zincrby-c320.command.json",
+      "sha256": "5bd145dfdc66ea2084c739a9d242821f1efe43ee9e2223cc14d7aa185ae77465"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat1-20261005/zset-104857600-1024-zincrby-c320.cpu-after.json",
+      "sha256": "5fa330f6979a0fb0c2827dd6474a588d0d27492609c2124d5d27218996656988"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat1-20261005/zset-104857600-1024-zincrby-c320.cpu-before.json",
+      "sha256": "4a22639918ba6cb6653e65ee824d96287c9e858e66927c96614f94a91f5f010f"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat1-20261005/zset-104857600-1024-zincrby-c320.info-after.txt",
+      "sha256": "d825e3b42ef6c3aed90767bb8d87c6c2b101e6d8bb028a80b84c767beeb91204"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat1-20261005/zset-104857600-1024-zincrby-c320.info-before.txt",
+      "sha256": "976744cf0546b008463eadf8ca21ef87464baf39a1e772af6c36566c038427ec"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat1-20261005/zset-104857600-1024-zincrby-c320.json",
+      "sha256": "f3913728e7e88134d0899374a8f52967f5fd651b4033f73979d99ea559b5cf92"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat1-20261005/zset-104857600-1024-zincrby-c320.result.json",
+      "sha256": "19ad306179d8c9e823a7110b30be889520be25c36a481aedd9167795558e1ec5"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat1-20261005/zset-104857600-1024-zincrby-c80.command.json",
+      "sha256": "be85d21d42c21a7ae7e09138c826cf89a6f2928d891967f84e54de980ba57cf4"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat1-20261005/zset-104857600-1024-zincrby-c80.cpu-after.json",
+      "sha256": "389b309e9947207cbad3608c250a1ffe16e3358251af10751d347a64b0d015b4"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat1-20261005/zset-104857600-1024-zincrby-c80.cpu-before.json",
+      "sha256": "d2cd23fe5e720c48ae11ea6dde860933d51729c341c4deaf72c66cccb9a2c824"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat1-20261005/zset-104857600-1024-zincrby-c80.info-after.txt",
+      "sha256": "4fe05e63abd44ad8ba22d3fb8c34dae90a90944c3912f90ef32216ed48ee452d"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat1-20261005/zset-104857600-1024-zincrby-c80.info-before.txt",
+      "sha256": "077e4c42a7b7fc564987dd5562b0d30859d7584b0ca20e655e74ebb0d9ae2aa1"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat1-20261005/zset-104857600-1024-zincrby-c80.json",
+      "sha256": "4c77586f90946652cedb4a9ce2d2a66b411631063b18ab8e4de27016c44478a1"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat1-20261005/zset-104857600-1024-zincrby-c80.result.json",
+      "sha256": "e99e090f452617b37342a66f905c2acda701751150be43203760e166736c8343"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat1-20261005/zset-104857600-1024-zscore-c320.command.json",
+      "sha256": "698f8165817d3b85ea06577d5ea79a6e8ff0569d54e0b3fc1782fb3d679e8270"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat1-20261005/zset-104857600-1024-zscore-c320.cpu-after.json",
+      "sha256": "0f0053ac2f5b489bbb4aaf91f21f5ce4a5f3de52bfa50eb96287d0ec9a35a746"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat1-20261005/zset-104857600-1024-zscore-c320.cpu-before.json",
+      "sha256": "2b495e82ebfa56edb2e135346332fd9f8f12e3fe7b29d79a3d3f9f5f1fe8e0c6"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat1-20261005/zset-104857600-1024-zscore-c320.info-after.txt",
+      "sha256": "21c29d06e9fbc0f7d7af5888ee3e3ae1090922803df9e8778eab22810d151dbb"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat1-20261005/zset-104857600-1024-zscore-c320.info-before.txt",
+      "sha256": "6e3514ef9ab9d08f1df6601c413097e47efdc555e0fa99573dd3609a2807a276"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat1-20261005/zset-104857600-1024-zscore-c320.json",
+      "sha256": "f875019cd366f7d6262954eb8c8157af7f777bd0841afe3f52e8b449caefa417"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat1-20261005/zset-104857600-1024-zscore-c320.result.json",
+      "sha256": "a374106101ac62570e2eb57ea28ef22e3a5e039b124742cb0de56614aa576547"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat1-20261005/zset-104857600-1024-zscore-c80.command.json",
+      "sha256": "7e929fd77332816101d3c5d906d0d6f9e8650fc25c7d36facaadac0a517da1cc"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat1-20261005/zset-104857600-1024-zscore-c80.cpu-after.json",
+      "sha256": "d432e93278dd4605497ff2b27fe40e5e82fa9275f3ab447d793bb63e2f0c7cb5"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat1-20261005/zset-104857600-1024-zscore-c80.cpu-before.json",
+      "sha256": "1a7ac5cdcd6dbe7785af49da53d7fc3d6b6be3a6e7824d5fbdfff8b71b872552"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat1-20261005/zset-104857600-1024-zscore-c80.info-after.txt",
+      "sha256": "5f8c90b31eaea37fd5ee241e2c2c19c7c6bf3a87c6c2059223f5e7c29c973453"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat1-20261005/zset-104857600-1024-zscore-c80.info-before.txt",
+      "sha256": "832a1dc945a23bd89f48b7817ae2bcd189e9eb763ffeaa9475a1e5def3b9499a"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat1-20261005/zset-104857600-1024-zscore-c80.json",
+      "sha256": "c4694ced3a2f4a5bf29597d2fb2669e2f81e760da22bc53d3559468f37a567b8"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat1-20261005/zset-104857600-1024-zscore-c80.result.json",
+      "sha256": "0952a1bcf83d13c0b3b83cb3fb6129c8e5485bce04419496973ece5cefac642d"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat1-20261005/zset-104857600-1024.after.json",
+      "sha256": "50deb80df267366223f12cd8f45ed7ebf033ce46cc06c535a380b77e35378af1"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat1-20261005/zset-104857600-1024.complete.json",
+      "sha256": "59a602399030601e85f04e56ce171681c3a1224bed178dfe25b87c345049eb91"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat1-20261005/zset-104857600-1024.fill.json",
+      "sha256": "d7a80e0f81e17dca165a0426569cd872702986e7834af303211cad99851856d6"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat1-20261005/zset-104857600-1024.validated.json",
+      "sha256": "50deb80df267366223f12cd8f45ed7ebf033ce46cc06c535a380b77e35378af1"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat2-20261005/complete.json",
+      "sha256": "988fe096890c1a9caf916e5e8ba6116d4eca58f5dfe797966716f1ed0b409f27"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat2-20261005/provenance-point-zset-80-320.json",
+      "sha256": "5d88b29a587417716c93bc5d29010e95ab46c309a31ba0376c983082fb2272d7"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat2-20261005/server-command.json",
+      "sha256": "d19d1edaeb6003dde82f81feba873b5e13bfd71087e4a4f140241ab159eef001"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat2-20261005/server-exit.json",
+      "sha256": "3c428e5243c0204d43e459c60941a1f70059b39087ec6e0a385bb6780caa0c8a"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat2-20261005/version.json",
+      "sha256": "2ff3549ba0692103fe8777f259155e8ad4882ddffbf6df983b531775a5868413"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat2-20261005/worker-experiment.json",
+      "sha256": "7a696b566a9c97e6357bab6301c36dfffd17004dd334208745ac8e78eb385ac5"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat2-20261005/zset-104857600-1024-zincrby-c320.command.json",
+      "sha256": "d06399dda829a6eb296a4f11d449fab67f38afab62256417eec044d0685f0d93"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat2-20261005/zset-104857600-1024-zincrby-c320.cpu-after.json",
+      "sha256": "ff5823e23e02c1eca0ef18577956039f3b5419f8a6b7280961879c08b0cc1f9c"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat2-20261005/zset-104857600-1024-zincrby-c320.cpu-before.json",
+      "sha256": "9cd59b89bdb417080ca30c44af0465d5dd32a0718a27c8aec294ec3a54e00d70"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat2-20261005/zset-104857600-1024-zincrby-c320.info-after.txt",
+      "sha256": "ac1b0a93d2c2d68d3c2430f52032fac3edf9eb65764548ac9bb6d82a4fbc6b35"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat2-20261005/zset-104857600-1024-zincrby-c320.info-before.txt",
+      "sha256": "a27cefebc0ae1281f4c17901cdc577d1040a96bcddcdb30b335e1ad00e0f0d21"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat2-20261005/zset-104857600-1024-zincrby-c320.json",
+      "sha256": "7af7ccc2f5b75dc1a9f83e7fa868308024fd5d44397df3e586054db8f4bb0fa8"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat2-20261005/zset-104857600-1024-zincrby-c320.result.json",
+      "sha256": "786213785ae1706d5a64413a6b59771c8bb92dceb2f36e96ecc71c2be71f0bdd"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat2-20261005/zset-104857600-1024-zincrby-c80.command.json",
+      "sha256": "4718a6113602106b6248fc191547ad91d13338eaec9f2e936b88c848b5460f78"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat2-20261005/zset-104857600-1024-zincrby-c80.cpu-after.json",
+      "sha256": "27d0452620d2b626553961b7d8c6c87ad5a15b6df587c2b387c048d1db0c5678"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat2-20261005/zset-104857600-1024-zincrby-c80.cpu-before.json",
+      "sha256": "7312866b8509cc6ef9985d6155835f68b053df7fa2b2d176463371c1f8c1e789"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat2-20261005/zset-104857600-1024-zincrby-c80.info-after.txt",
+      "sha256": "69e7a4c3556ff88a140531710571c3d4f335de793aaa4b59b669e9336888ac9a"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat2-20261005/zset-104857600-1024-zincrby-c80.info-before.txt",
+      "sha256": "f4b88c9736558ad907286299c6a8aded2ae4dcb411b8c0f6728b85f1eca58231"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat2-20261005/zset-104857600-1024-zincrby-c80.json",
+      "sha256": "4855e5a6ab9db974fe224c6760c384d278f40dff7669de94ed4d743052637d3f"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat2-20261005/zset-104857600-1024-zincrby-c80.result.json",
+      "sha256": "25a3032509543852d1b43e33e29ed1567f574e8294f80280c70ad9c6cda9c0ac"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat2-20261005/zset-104857600-1024-zscore-c320.command.json",
+      "sha256": "2d7aad5f0d4906feedddc4b80c6d44a0bbf2fc9e9f6fc9c9f78e8ba0101ab57a"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat2-20261005/zset-104857600-1024-zscore-c320.cpu-after.json",
+      "sha256": "3a9251fa5fe720b19a5b1fe51c8e7dcd720594110658bfbc184878c58c56aa0f"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat2-20261005/zset-104857600-1024-zscore-c320.cpu-before.json",
+      "sha256": "2dd5ff651bcde520e31b7f83672fc0b7499e39e9dccc2d38609c06e12e8fa3fc"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat2-20261005/zset-104857600-1024-zscore-c320.info-after.txt",
+      "sha256": "e3ad6e1fdf905b7e70a71bca806bbd505ba5d512772d1edef50294818df705c8"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat2-20261005/zset-104857600-1024-zscore-c320.info-before.txt",
+      "sha256": "fb240f345c31d4dbbf7638caf4ca313bdbcafe8717faa6c186bf0f54ad2485d1"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat2-20261005/zset-104857600-1024-zscore-c320.json",
+      "sha256": "d363496d18ef837240ab398c8318e052668db165ca673a054238538b6a658a7e"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat2-20261005/zset-104857600-1024-zscore-c320.result.json",
+      "sha256": "81e92d437863e42babe73187248ece0e105097c2b845c0478c0017e368f1c7fd"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat2-20261005/zset-104857600-1024-zscore-c80.command.json",
+      "sha256": "ba0ba9e600401ec0dc32297b1c4f6e14e81331c4314c79b73a5c4e2ceba0c1c7"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat2-20261005/zset-104857600-1024-zscore-c80.cpu-after.json",
+      "sha256": "ec4bdd391596679baf8841600ab46cb31a5853c61c659e2053fae17af630c73d"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat2-20261005/zset-104857600-1024-zscore-c80.cpu-before.json",
+      "sha256": "d8a9aa342e2cae9e5107803884e6e8d0cbb16dd6462b816bc8a8dde5114f552b"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat2-20261005/zset-104857600-1024-zscore-c80.info-after.txt",
+      "sha256": "dabc99fcedcf95400f79f55f637014f37fcfefc3fbfcc2c23fb3939b6ff259e6"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat2-20261005/zset-104857600-1024-zscore-c80.info-before.txt",
+      "sha256": "e77bd5490fc3dc075110a32f6cee74fe5750300812db28e30952743f7cc72ca4"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat2-20261005/zset-104857600-1024-zscore-c80.json",
+      "sha256": "e721cf99f176bf305f4fdfa35d9597f6aba282ff7b08c4825a1a4616db6010dd"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat2-20261005/zset-104857600-1024-zscore-c80.result.json",
+      "sha256": "e9aedef1644ad5676343479dbc10d20d8d5e4d9ceecbbd9b5ade9a6ad5ac4cca"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat2-20261005/zset-104857600-1024.after.json",
+      "sha256": "50deb80df267366223f12cd8f45ed7ebf033ce46cc06c535a380b77e35378af1"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat2-20261005/zset-104857600-1024.complete.json",
+      "sha256": "c1991bc9fd7d7ed836ac2e7c626e756b78af0df7ff965b8d2ddfc52d42ada813"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat2-20261005/zset-104857600-1024.fill.json",
+      "sha256": "83001dc7c2522949b2cbf873096e036cc69ec15c0269678dd42c951c380c570a"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat2-20261005/zset-104857600-1024.validated.json",
+      "sha256": "50deb80df267366223f12cd8f45ed7ebf033ce46cc06c535a380b77e35378af1"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat3-20261005/complete.json",
+      "sha256": "4761bcf6d7eb3c1421076db0b36ce1e4b80b26cfb8cc5add3e1e58d2009d5359"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat3-20261005/provenance-point-zset-80-320.json",
+      "sha256": "5d88b29a587417716c93bc5d29010e95ab46c309a31ba0376c983082fb2272d7"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat3-20261005/server-command.json",
+      "sha256": "0a1144ba5b1510c8ca8da808310c097bce5ca119938be1f9698e48db3ff51e06"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat3-20261005/server-exit.json",
+      "sha256": "3c428e5243c0204d43e459c60941a1f70059b39087ec6e0a385bb6780caa0c8a"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat3-20261005/version.json",
+      "sha256": "271c9695501c3868b65bbb0bf27b482f3c2b9bfd95d14a2fde0e4626198680d4"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat3-20261005/worker-experiment.json",
+      "sha256": "7a696b566a9c97e6357bab6301c36dfffd17004dd334208745ac8e78eb385ac5"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat3-20261005/zset-104857600-1024-zincrby-c320.command.json",
+      "sha256": "5432b09f8d790e4271789175a2dcdd781fe764abe7cbcd952124bbffe1ff7a6b"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat3-20261005/zset-104857600-1024-zincrby-c320.cpu-after.json",
+      "sha256": "5fac655e6eea7fc875d4366f1fd309b29312cd8383e588a8388e62a6b19e4c2e"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat3-20261005/zset-104857600-1024-zincrby-c320.cpu-before.json",
+      "sha256": "20fd27a29998089383077725034248f016d648c0b6a4a841d4a409b5f96334c5"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat3-20261005/zset-104857600-1024-zincrby-c320.info-after.txt",
+      "sha256": "b0eb94e4fdb20f05578e0d85b48910eb09598b7b3557a5d534e4cf15413a8247"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat3-20261005/zset-104857600-1024-zincrby-c320.info-before.txt",
+      "sha256": "097f511fa9d7597f6bd3150b45edf8edf43b805985eae628c35feb5fd3c748a2"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat3-20261005/zset-104857600-1024-zincrby-c320.json",
+      "sha256": "af1399c68114edd6a8c9813e35234c2ba04112be04290d40f2fdc4d45b1febb8"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat3-20261005/zset-104857600-1024-zincrby-c320.result.json",
+      "sha256": "5516ebd4f1232188ec650155896559fbf7539786ad3f6cb3ff0b7ea720a27eaf"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat3-20261005/zset-104857600-1024-zincrby-c80.command.json",
+      "sha256": "d4d62c9e73260de801500d4ecd685c05b72aa7f13d6760cef3b72a43498ff401"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat3-20261005/zset-104857600-1024-zincrby-c80.cpu-after.json",
+      "sha256": "feb4c2dd9f98628572e75796187921e71d3f0d5dca7e289542e6f545c3c60d2e"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat3-20261005/zset-104857600-1024-zincrby-c80.cpu-before.json",
+      "sha256": "0afcc579890398a38dbcecdcbe420f5c92dd4f8fddc6a582a4d11af2e153d9f1"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat3-20261005/zset-104857600-1024-zincrby-c80.info-after.txt",
+      "sha256": "2337fc7862569c40bf431f76b92f3aa9b3baa350bf4b1cd08341d1bff8456faa"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat3-20261005/zset-104857600-1024-zincrby-c80.info-before.txt",
+      "sha256": "661333836f6319e9153d29de019f5aad059ae5107709c7877dc56a1f844033b8"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat3-20261005/zset-104857600-1024-zincrby-c80.json",
+      "sha256": "395681c13a8f8f623f33b39ab8b5414744c286d771011471e5ed4c9b9476ca78"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat3-20261005/zset-104857600-1024-zincrby-c80.result.json",
+      "sha256": "fa9990d3ff1d0c1c4ede5985f20a91e0e8f040d99b5776fed5a5a2d39d9b28d8"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat3-20261005/zset-104857600-1024-zscore-c320.command.json",
+      "sha256": "2073194d1e22da14aa4f0feedc8db646964a01e61a9556aee845ee254860232c"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat3-20261005/zset-104857600-1024-zscore-c320.cpu-after.json",
+      "sha256": "de59063992ccf261fd2faabdbad776c6a5827a5ffd286dd416114c7e88f59b91"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat3-20261005/zset-104857600-1024-zscore-c320.cpu-before.json",
+      "sha256": "91a12810b7709a0226faf3da467ff6e65a874f9c195755a725ebdde7a986ed57"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat3-20261005/zset-104857600-1024-zscore-c320.info-after.txt",
+      "sha256": "e2336e7153d3cfa528e6254b072fb450d9b75be1a6d5e7188a3dd4a6a67820b4"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat3-20261005/zset-104857600-1024-zscore-c320.info-before.txt",
+      "sha256": "5284fb487a24f875b79add1a28e7254a4bd9ed8d3c43ceb7d38423b014d0c713"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat3-20261005/zset-104857600-1024-zscore-c320.json",
+      "sha256": "fe064effc2cde1f2e90e1a962b0ce39d467f8b588120e2058417301725ea87bb"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat3-20261005/zset-104857600-1024-zscore-c320.result.json",
+      "sha256": "c67d0afe58984ecd66160b7a69f5e8df406945ed224a8ddb54b748a996883c67"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat3-20261005/zset-104857600-1024-zscore-c80.command.json",
+      "sha256": "88a36e73a9dfd507e9471818cdb72aeffe8c2e6c10e1da4437283c1ae8eba1a3"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat3-20261005/zset-104857600-1024-zscore-c80.cpu-after.json",
+      "sha256": "86fb58ae05aad157d925f16c4f042aa9b4f9821935dbfa9c0a8a7faf64d84b40"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat3-20261005/zset-104857600-1024-zscore-c80.cpu-before.json",
+      "sha256": "972abe9bfe15d7090e8d3bb5832c44fba891048a65ca20a28715b8f903dcb8e9"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat3-20261005/zset-104857600-1024-zscore-c80.info-after.txt",
+      "sha256": "5baacf73238dd4df1e175bc99d9f95b5e88da9a377ebfa093573312524afc15a"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat3-20261005/zset-104857600-1024-zscore-c80.info-before.txt",
+      "sha256": "e645b0833fc8a58a6eabc4fa6b9d203b70156270d3ef344734eadc83a3ecbeb7"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat3-20261005/zset-104857600-1024-zscore-c80.json",
+      "sha256": "fc2869ae1c22627010c24d4d608097db290ffeacc434b11fa0d503c4609cf8b5"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat3-20261005/zset-104857600-1024-zscore-c80.result.json",
+      "sha256": "623e6c3199c934931e9a9dde4549e897e6c3476f891b05dfbdf01b72c64ae8bf"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat3-20261005/zset-104857600-1024.after.json",
+      "sha256": "50deb80df267366223f12cd8f45ed7ebf033ce46cc06c535a380b77e35378af1"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat3-20261005/zset-104857600-1024.complete.json",
+      "sha256": "4d0a1b401bcf873187e23617ffc5f5a38228e4607295eff771bb29fd58999fd4"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat3-20261005/zset-104857600-1024.fill.json",
+      "sha256": "e17031567e722971c1874808c5fd62c4bc7ae357f78edb709f1b94bca4e1a577"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat3-20261005/zset-104857600-1024.validated.json",
+      "sha256": "50deb80df267366223f12cd8f45ed7ebf033ce46cc06c535a380b77e35378af1"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/zset-104857600-1024-k8-current.csv",
+      "sha256": "9c9dcfc87101ddd33b73d2e81a37d80a4b511f6538830f1478ad9307d76fcc66"
+    }
+  ]
+}

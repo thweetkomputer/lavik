@@ -1,0 +1,88 @@
+{
+  "source_commit": "0a0431d2",
+  "csv": "perf_reports/lavik-complex-structures-2026-09-26/zset-104857600-1024-k8-current.csv",
+  "csv_sha256": "9c9dcfc87101ddd33b73d2e81a37d80a4b511f6538830f1478ad9307d76fcc66",
+  "rows": [
+    {
+      "operation": "ZSCORE",
+      "connections": 80,
+      "workers8_median_qps": 295814.69,
+      "historical_peers": {
+        "Redis": {
+          "qps": 433552.71,
+          "p99_ms": 0.351
+        },
+        "Valkey": {
+          "qps": 526710.81,
+          "p99_ms": 0.279
+        },
+        "Kvrocks (80 GiB cache)": {
+          "qps": 442749.98,
+          "p99_ms": 0.367
+        }
+      },
+      "workers8_to_fastest": 0.5616263884920075
+    },
+    {
+      "operation": "ZSCORE",
+      "connections": 320,
+      "workers8_median_qps": 347634.25,
+      "historical_peers": {
+        "Redis": {
+          "qps": 698339.15,
+          "p99_ms": 0.983
+        },
+        "Valkey": {
+          "qps": 676390.34,
+          "p99_ms": 0.999
+        },
+        "Kvrocks (80 GiB cache)": {
+          "qps": 642167.41,
+          "p99_ms": 1.015
+        }
+      },
+      "workers8_to_fastest": 0.4978014622264841
+    },
+    {
+      "operation": "ZINCRBY",
+      "connections": 80,
+      "workers8_median_qps": 54174.43,
+      "historical_peers": {
+        "Redis": {
+          "qps": 370274.07,
+          "p99_ms": 0.439
+        },
+        "Valkey": {
+          "qps": 459641.2,
+          "p99_ms": 0.359
+        },
+        "Kvrocks (80 GiB cache)": {
+          "qps": 173805.31,
+          "p99_ms": 1.199
+        }
+      },
+      "workers8_to_fastest": 0.11786243269750406
+    },
+    {
+      "operation": "ZINCRBY",
+      "connections": 320,
+      "workers8_median_qps": 58192.6,
+      "historical_peers": {
+        "Redis": {
+          "qps": 586674.96,
+          "p99_ms": 1.095
+        },
+        "Valkey": {
+          "qps": 556930.12,
+          "p99_ms": 1.023
+        },
+        "Kvrocks (80 GiB cache)": {
+          "qps": 195857.43,
+          "p99_ms": 3.167
+        }
+      },
+      "workers8_to_fastest": 0.09919052962478576
+    }
+  ],
+  "limits": "Historical peers not rerun; durability/cache settings differ; this is a worker configuration experiment, not the standard 12-worker curve or an implementation improvement."
+}

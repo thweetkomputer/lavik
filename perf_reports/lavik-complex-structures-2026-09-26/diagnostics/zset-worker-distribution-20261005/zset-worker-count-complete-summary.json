@@ -1,0 +1,3724 @@
+{
+  "input_sha256": "69406dddcfb029d9f52617956e5524366a6b25ed8b9b62a34b8c63b9b08ec6a3",
+  "version": {
+    "commit": "067c75891f819831620e277eac0592c360f8b585",
+    "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-zset-source-previous-067c7589-20261004",
+    "sha256": "656b990fa10c001194208082caecff584556fad572fd7dbcc74f061c3dd97ec3",
+    "source_repo": "/mnt/dev/lavik-complex-next-20261004",
+    "bycorf_commit": "62509c93d40c2480f5046b71454db6cf95801b04",
+    "build": "RelWithDebInfo, native, LTO, GCC 13, SPDK, BUILD_TESTING=OFF, LAVIK_ENABLE_TEST_FAULTS=OFF",
+    "build_directory": "/mnt/dev/lavik-complex-next-20261004/build-spdk",
+    "no_build_or_tests_during_measurements": true,
+    "ci_run_at_native_start": "https://github.com/eloqdata/lavik/actions/runs/37241392671",
+    "ci_required_before_performance": true
+  },
+  "method": "Worker-count configuration experiment on one frozen nativeparent067binary. Three12/8,8/12,12/8 pairs; independent fresh populations each time. Same complex_1..8 keys,100MiB/key,1024B/member; ZSCORE andZINCRBY atc80/320,30s,pipeline1. All server flags except --threads remain unchanged; per-worker pools and CPU placement naturally follow worker count. No concurrent builds/tests/perf. Lightweight per-thread/proc CPU snapshots bracket measure() including client startup/result collection and background CPU; they are not command-exclusive CPU. This diagnoses workload distribution and configuration, not an implementation speedup; original12worker/peer curves remain unchanged.",
+  "observations": 24,
+  "expected_observations": 24,
+  "proofs": {
+    "parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat1-20261005": {
+      "workers": 12,
+      "source": {
+        "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-zset-source-previous-067c7589-20261004",
+        "sha256": "656b990fa10c001194208082caecff584556fad572fd7dbcc74f061c3dd97ec3",
+        "source_commit": "067c75891f819831620e277eac0592c360f8b585",
+        "fields": [
+          1024
+        ],
+        "sizes": [
+          104857600
+        ],
+        "keys": 8,
+        "types": [
+          "zset"
+        ],
+        "levels": [
+          80,
+          320
+        ],
+        "full_levels": [
+          1,
+          4,
+          16
+        ],
+        "seconds": 30,
+        "backlog_mb": null,
+        "client_threads": 16,
+        "seed_pipeline": 1,
+        "fill_workers": 8,
+        "seed_command_bytes": 16384,
+        "mode": "point",
+        "reused_seed_from": null,
+        "seed_dump_path": null,
+        "seed_dump_sha256": null,
+        "continue_on_error": true
+      },
+      "experiment": {
+        "workers": 12,
+        "driver_sha256": "dac3df017b22958a99c3107e327d13f93810be767fa16815df24a2d0304863f5",
+        "note": "Only --threads changes from the standard server command; fixed8keys. This is configuration diagnosis, not a source-code speedup or replacement for the12worker comparison."
+      },
+      "keys_checked": 8,
+      "clean_exit": true
+    },
+    "parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat1-20261005": {
+      "workers": 8,
+      "source": {
+        "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-zset-source-previous-067c7589-20261004",
+        "sha256": "656b990fa10c001194208082caecff584556fad572fd7dbcc74f061c3dd97ec3",
+        "source_commit": "067c75891f819831620e277eac0592c360f8b585",
+        "fields": [
+          1024
+        ],
+        "sizes": [
+          104857600
+        ],
+        "keys": 8,
+        "types": [
+          "zset"
+        ],
+        "levels": [
+          80,
+          320
+        ],
+        "full_levels": [
+          1,
+          4,
+          16
+        ],
+        "seconds": 30,
+        "backlog_mb": null,
+        "client_threads": 16,
+        "seed_pipeline": 1,
+        "fill_workers": 8,
+        "seed_command_bytes": 16384,
+        "mode": "point",
+        "reused_seed_from": null,
+        "seed_dump_path": null,
+        "seed_dump_sha256": null,
+        "continue_on_error": true
+      },
+      "experiment": {
+        "workers": 8,
+        "driver_sha256": "dac3df017b22958a99c3107e327d13f93810be767fa16815df24a2d0304863f5",
+        "note": "Only --threads changes from the standard server command; fixed8keys. This is configuration diagnosis, not a source-code speedup or replacement for the12worker comparison."
+      },
+      "keys_checked": 8,
+      "clean_exit": true
+    },
+    "parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat2-20261005": {
+      "workers": 8,
+      "source": {
+        "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-zset-source-previous-067c7589-20261004",
+        "sha256": "656b990fa10c001194208082caecff584556fad572fd7dbcc74f061c3dd97ec3",
+        "source_commit": "067c75891f819831620e277eac0592c360f8b585",
+        "fields": [
+          1024
+        ],
+        "sizes": [
+          104857600
+        ],
+        "keys": 8,
+        "types": [
+          "zset"
+        ],
+        "levels": [
+          80,
+          320
+        ],
+        "full_levels": [
+          1,
+          4,
+          16
+        ],
+        "seconds": 30,
+        "backlog_mb": null,
+        "client_threads": 16,
+        "seed_pipeline": 1,
+        "fill_workers": 8,
+        "seed_command_bytes": 16384,
+        "mode": "point",
+        "reused_seed_from": null,
+        "seed_dump_path": null,
+        "seed_dump_sha256": null,
+        "continue_on_error": true
+      },
+      "experiment": {
+        "workers": 8,
+        "driver_sha256": "dac3df017b22958a99c3107e327d13f93810be767fa16815df24a2d0304863f5",
+        "note": "Only --threads changes from the standard server command; fixed8keys. This is configuration diagnosis, not a source-code speedup or replacement for the12worker comparison."
+      },
+      "keys_checked": 8,
+      "clean_exit": true
+    },
+    "parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat2-20261005": {
+      "workers": 12,
+      "source": {
+        "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-zset-source-previous-067c7589-20261004",
+        "sha256": "656b990fa10c001194208082caecff584556fad572fd7dbcc74f061c3dd97ec3",
+        "source_commit": "067c75891f819831620e277eac0592c360f8b585",
+        "fields": [
+          1024
+        ],
+        "sizes": [
+          104857600
+        ],
+        "keys": 8,
+        "types": [
+          "zset"
+        ],
+        "levels": [
+          80,
+          320
+        ],
+        "full_levels": [
+          1,
+          4,
+          16
+        ],
+        "seconds": 30,
+        "backlog_mb": null,
+        "client_threads": 16,
+        "seed_pipeline": 1,
+        "fill_workers": 8,
+        "seed_command_bytes": 16384,
+        "mode": "point",
+        "reused_seed_from": null,
+        "seed_dump_path": null,
+        "seed_dump_sha256": null,
+        "continue_on_error": true
+      },
+      "experiment": {
+        "workers": 12,
+        "driver_sha256": "dac3df017b22958a99c3107e327d13f93810be767fa16815df24a2d0304863f5",
+        "note": "Only --threads changes from the standard server command; fixed8keys. This is configuration diagnosis, not a source-code speedup or replacement for the12worker comparison."
+      },
+      "keys_checked": 8,
+      "clean_exit": true
+    },
+    "parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat3-20261005": {
+      "workers": 12,
+      "source": {
+        "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-zset-source-previous-067c7589-20261004",
+        "sha256": "656b990fa10c001194208082caecff584556fad572fd7dbcc74f061c3dd97ec3",
+        "source_commit": "067c75891f819831620e277eac0592c360f8b585",
+        "fields": [
+          1024
+        ],
+        "sizes": [
+          104857600
+        ],
+        "keys": 8,
+        "types": [
+          "zset"
+        ],
+        "levels": [
+          80,
+          320
+        ],
+        "full_levels": [
+          1,
+          4,
+          16
+        ],
+        "seconds": 30,
+        "backlog_mb": null,
+        "client_threads": 16,
+        "seed_pipeline": 1,
+        "fill_workers": 8,
+        "seed_command_bytes": 16384,
+        "mode": "point",
+        "reused_seed_from": null,
+        "seed_dump_path": null,
+        "seed_dump_sha256": null,
+        "continue_on_error": true
+      },
+      "experiment": {
+        "workers": 12,
+        "driver_sha256": "dac3df017b22958a99c3107e327d13f93810be767fa16815df24a2d0304863f5",
+        "note": "Only --threads changes from the standard server command; fixed8keys. This is configuration diagnosis, not a source-code speedup or replacement for the12worker comparison."
+      },
+      "keys_checked": 8,
+      "clean_exit": true
+    },
+    "parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat3-20261005": {
+      "workers": 8,
+      "source": {
+        "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-zset-source-previous-067c7589-20261004",
+        "sha256": "656b990fa10c001194208082caecff584556fad572fd7dbcc74f061c3dd97ec3",
+        "source_commit": "067c75891f819831620e277eac0592c360f8b585",
+        "fields": [
+          1024
+        ],
+        "sizes": [
+          104857600
+        ],
+        "keys": 8,
+        "types": [
+          "zset"
+        ],
+        "levels": [
+          80,
+          320
+        ],
+        "full_levels": [
+          1,
+          4,
+          16
+        ],
+        "seconds": 30,
+        "backlog_mb": null,
+        "client_threads": 16,
+        "seed_pipeline": 1,
+        "fill_workers": 8,
+        "seed_command_bytes": 16384,
+        "mode": "point",
+        "reused_seed_from": null,
+        "seed_dump_path": null,
+        "seed_dump_sha256": null,
+        "continue_on_error": true
+      },
+      "experiment": {
+        "workers": 8,
+        "driver_sha256": "dac3df017b22958a99c3107e327d13f93810be767fa16815df24a2d0304863f5",
+        "note": "Only --threads changes from the standard server command; fixed8keys. This is configuration diagnosis, not a source-code speedup or replacement for the12worker comparison."
+      },
+      "keys_checked": 8,
+      "clean_exit": true
+    }
+  },
+  "cpu_windows": [
+    {
+      "identity": [
+        1,
+        12,
+        "ZSCORE",
+        80
+      ],
+      "tag": "parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat1-20261005",
+      "elapsed_seconds": 31.805744470038917,
+      "process_cpu_seconds": 298.7,
+      "threads": [
+        {
+          "tid": 914968,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        },
+        {
+          "tid": 914969,
+          "comm": "dpdk-intr",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        },
+        {
+          "tid": 914977,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1304,
+          "system_ticks": 859,
+          "cpu_seconds": 21.63,
+          "one_core_percent": 68.00658296294718
+        },
+        {
+          "tid": 914978,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2033,
+          "system_ticks": 962,
+          "cpu_seconds": 29.95,
+          "one_core_percent": 94.16537955341045
+        },
+        {
+          "tid": 914979,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1305,
+          "system_ticks": 988,
+          "cpu_seconds": 22.93,
+          "one_core_percent": 72.09389493020706
+        },
+        {
+          "tid": 914980,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1470,
+          "system_ticks": 743,
+          "cpu_seconds": 22.13,
+          "one_core_percent": 69.5786260272779
+        },
+        {
+          "tid": 914981,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1345,
+          "system_ticks": 907,
+          "cpu_seconds": 22.52,
+          "one_core_percent": 70.80481961745586
+        },
+        {
+          "tid": 914982,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1324,
+          "system_ticks": 936,
+          "cpu_seconds": 22.6,
+          "one_core_percent": 71.05634650774878
+        },
+        {
+          "tid": 914983,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2125,
+          "system_ticks": 871,
+          "cpu_seconds": 29.96,
+          "one_core_percent": 94.19682041469706
+        },
+        {
+          "tid": 914984,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1261,
+          "system_ticks": 1004,
+          "cpu_seconds": 22.65,
+          "one_core_percent": 71.21355081418186
+        },
+        {
+          "tid": 914985,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2024,
+          "system_ticks": 970,
+          "cpu_seconds": 29.94,
+          "one_core_percent": 94.13393869212383
+        },
+        {
+          "tid": 914986,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1330,
+          "system_ticks": 936,
+          "cpu_seconds": 22.66,
+          "one_core_percent": 71.24499167546847
+        },
+        {
+          "tid": 914987,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1185,
+          "system_ticks": 994,
+          "cpu_seconds": 21.79,
+          "one_core_percent": 68.50963674353301
+        },
+        {
+          "tid": 914988,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2099,
+          "system_ticks": 895,
+          "cpu_seconds": 29.94,
+          "one_core_percent": 94.13393869212383
+        },
+        {
+          "tid": 914989,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        }
+      ]
+    },
+    {
+      "identity": [
+        1,
+        12,
+        "ZSCORE",
+        320
+      ],
+      "tag": "parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat1-20261005",
+      "elapsed_seconds": 31.660161900974344,
+      "process_cpu_seconds": 293.89,
+      "threads": [
+        {
+          "tid": 914968,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        },
+        {
+          "tid": 914969,
+          "comm": "dpdk-intr",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        },
+        {
+          "tid": 914977,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1171,
+          "system_ticks": 1084,
+          "cpu_seconds": 22.55,
+          "one_core_percent": 71.22515693549255
+        },
+        {
+          "tid": 914978,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2124,
+          "system_ticks": 865,
+          "cpu_seconds": 29.89,
+          "one_core_percent": 94.40886655440676
+        },
+        {
+          "tid": 914979,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1218,
+          "system_ticks": 958,
+          "cpu_seconds": 21.76,
+          "one_core_percent": 68.72990753509171
+        },
+        {
+          "tid": 914980,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1212,
+          "system_ticks": 948,
+          "cpu_seconds": 21.6,
+          "one_core_percent": 68.22454056792192
+        },
+        {
+          "tid": 914981,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1233,
+          "system_ticks": 932,
+          "cpu_seconds": 21.65,
+          "one_core_percent": 68.38246774516247
+        },
+        {
+          "tid": 914982,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1218,
+          "system_ticks": 920,
+          "cpu_seconds": 21.38,
+          "one_core_percent": 67.52966098806345
+        },
+        {
+          "tid": 914983,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2148,
+          "system_ticks": 843,
+          "cpu_seconds": 29.91,
+          "one_core_percent": 94.47203742530299
+        },
+        {
+          "tid": 914984,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1205,
+          "system_ticks": 983,
+          "cpu_seconds": 21.88,
+          "one_core_percent": 69.10893276046905
+        },
+        {
+          "tid": 914985,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2126,
+          "system_ticks": 864,
+          "cpu_seconds": 29.9,
+          "one_core_percent": 94.44045198985488
+        },
+        {
+          "tid": 914986,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1151,
+          "system_ticks": 1025,
+          "cpu_seconds": 21.76,
+          "one_core_percent": 68.72990753509171
+        },
+        {
+          "tid": 914987,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1132,
+          "system_ticks": 1039,
+          "cpu_seconds": 21.71,
+          "one_core_percent": 68.57198035785115
+        },
+        {
+          "tid": 914988,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2144,
+          "system_ticks": 846,
+          "cpu_seconds": 29.9,
+          "one_core_percent": 94.44045198985488
+        },
+        {
+          "tid": 914989,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        }
+      ]
+    },
+    {
+      "identity": [
+        1,
+        12,
+        "ZINCRBY",
+        320
+      ],
+      "tag": "parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat1-20261005",
+      "elapsed_seconds": 31.653304966981523,
+      "process_cpu_seconds": 168.17,
+      "threads": [
+        {
+          "tid": 914968,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        },
+        {
+          "tid": 914969,
+          "comm": "dpdk-intr",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        },
+        {
+          "tid": 914977,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 503,
+          "system_ticks": 277,
+          "cpu_seconds": 7.8,
+          "one_core_percent": 24.641976590237277
+        },
+        {
+          "tid": 914978,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2422,
+          "system_ticks": 385,
+          "cpu_seconds": 28.07,
+          "one_core_percent": 88.6795234471744
+        },
+        {
+          "tid": 914979,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 465,
+          "system_ticks": 182,
+          "cpu_seconds": 6.47,
+          "one_core_percent": 20.440203658825023
+        },
+        {
+          "tid": 914980,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 460,
+          "system_ticks": 182,
+          "cpu_seconds": 6.42,
+          "one_core_percent": 20.282242270426067
+        },
+        {
+          "tid": 914981,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 454,
+          "system_ticks": 168,
+          "cpu_seconds": 6.22,
+          "one_core_percent": 19.65039671683024
+        },
+        {
+          "tid": 914982,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 458,
+          "system_ticks": 166,
+          "cpu_seconds": 6.24,
+          "one_core_percent": 19.71358127218982
+        },
+        {
+          "tid": 914983,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2412,
+          "system_ticks": 373,
+          "cpu_seconds": 27.85,
+          "one_core_percent": 87.984493338219
+        },
+        {
+          "tid": 914984,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 477,
+          "system_ticks": 284,
+          "cpu_seconds": 7.61,
+          "one_core_percent": 24.041723314321242
+        },
+        {
+          "tid": 914985,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2421,
+          "system_ticks": 363,
+          "cpu_seconds": 27.84,
+          "one_core_percent": 87.9529010605392
+        },
+        {
+          "tid": 914986,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 481,
+          "system_ticks": 297,
+          "cpu_seconds": 7.78,
+          "one_core_percent": 24.578792034877694
+        },
+        {
+          "tid": 914987,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 489,
+          "system_ticks": 299,
+          "cpu_seconds": 7.88,
+          "one_core_percent": 24.89471481167561
+        },
+        {
+          "tid": 914988,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2413,
+          "system_ticks": 386,
+          "cpu_seconds": 27.99,
+          "one_core_percent": 88.42678522573607
+        },
+        {
+          "tid": 914989,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        }
+      ]
+    },
+    {
+      "identity": [
+        1,
+        12,
+        "ZINCRBY",
+        80
+      ],
+      "tag": "parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat1-20261005",
+      "elapsed_seconds": 31.70083671202883,
+      "process_cpu_seconds": 162.65,
+      "threads": [
+        {
+          "tid": 914968,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        },
+        {
+          "tid": 914969,
+          "comm": "dpdk-intr",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        },
+        {
+          "tid": 914977,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 493,
+          "system_ticks": 274,
+          "cpu_seconds": 7.67,
+          "one_core_percent": 24.194944977870666
+        },
+        {
+          "tid": 914978,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2374,
+          "system_ticks": 363,
+          "cpu_seconds": 27.37,
+          "one_core_percent": 86.33841512963757
+        },
+        {
+          "tid": 914979,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 458,
+          "system_ticks": 171,
+          "cpu_seconds": 6.29,
+          "one_core_percent": 19.841747576376335
+        },
+        {
+          "tid": 914980,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 454,
+          "system_ticks": 170,
+          "cpu_seconds": 6.24,
+          "one_core_percent": 19.684023032843932
+        },
+        {
+          "tid": 914981,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 452,
+          "system_ticks": 174,
+          "cpu_seconds": 6.26,
+          "one_core_percent": 19.747112850256894
+        },
+        {
+          "tid": 914982,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 461,
+          "system_ticks": 165,
+          "cpu_seconds": 6.26,
+          "one_core_percent": 19.747112850256894
+        },
+        {
+          "tid": 914983,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2348,
+          "system_ticks": 349,
+          "cpu_seconds": 26.97,
+          "one_core_percent": 85.07661878137834
+        },
+        {
+          "tid": 914984,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 428,
+          "system_ticks": 248,
+          "cpu_seconds": 6.76,
+          "one_core_percent": 21.324358285580924
+        },
+        {
+          "tid": 914985,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2364,
+          "system_ticks": 325,
+          "cpu_seconds": 26.89,
+          "one_core_percent": 84.8242595117265
+        },
+        {
+          "tid": 914986,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 422,
+          "system_ticks": 260,
+          "cpu_seconds": 6.82,
+          "one_core_percent": 21.51362773781981
+        },
+        {
+          "tid": 914987,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 481,
+          "system_ticks": 278,
+          "cpu_seconds": 7.59,
+          "one_core_percent": 23.94258570821882
+        },
+        {
+          "tid": 914988,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2380,
+          "system_ticks": 373,
+          "cpu_seconds": 27.53,
+          "one_core_percent": 86.84313366894125
+        },
+        {
+          "tid": 914989,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        }
+      ]
+    },
+    {
+      "identity": [
+        1,
+        8,
+        "ZSCORE",
+        80
+      ],
+      "tag": "parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat1-20261005",
+      "elapsed_seconds": 31.803077715972904,
+      "process_cpu_seconds": 239.28,
+      "threads": [
+        {
+          "tid": 915867,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        },
+        {
+          "tid": 915868,
+          "comm": "dpdk-intr",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        },
+        {
+          "tid": 915871,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1668,
+          "system_ticks": 1323,
+          "cpu_seconds": 29.91,
+          "one_core_percent": 94.04750152523094
+        },
+        {
+          "tid": 915872,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1619,
+          "system_ticks": 1371,
+          "cpu_seconds": 29.9,
+          "one_core_percent": 94.01605802756286
+        },
+        {
+          "tid": 915873,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1640,
+          "system_ticks": 1351,
+          "cpu_seconds": 29.91,
+          "one_core_percent": 94.04750152523094
+        },
+        {
+          "tid": 915874,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1754,
+          "system_ticks": 1236,
+          "cpu_seconds": 29.9,
+          "one_core_percent": 94.01605802756286
+        },
+        {
+          "tid": 915875,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1664,
+          "system_ticks": 1325,
+          "cpu_seconds": 29.89,
+          "one_core_percent": 93.98461452989478
+        },
+        {
+          "tid": 915876,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1641,
+          "system_ticks": 1353,
+          "cpu_seconds": 29.94,
+          "one_core_percent": 94.14183201823519
+        },
+        {
+          "tid": 915877,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1651,
+          "system_ticks": 1340,
+          "cpu_seconds": 29.91,
+          "one_core_percent": 94.04750152523094
+        },
+        {
+          "tid": 915878,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1637,
+          "system_ticks": 1355,
+          "cpu_seconds": 29.92,
+          "one_core_percent": 94.07894502289902
+        },
+        {
+          "tid": 915879,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        }
+      ]
+    },
+    {
+      "identity": [
+        1,
+        8,
+        "ZSCORE",
+        320
+      ],
+      "tag": "parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat1-20261005",
+      "elapsed_seconds": 31.804535734001547,
+      "process_cpu_seconds": 239.3,
+      "threads": [
+        {
+          "tid": 915867,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        },
+        {
+          "tid": 915868,
+          "comm": "dpdk-intr",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        },
+        {
+          "tid": 915871,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1653,
+          "system_ticks": 1338,
+          "cpu_seconds": 29.91,
+          "one_core_percent": 94.0431900976434
+        },
+        {
+          "tid": 915872,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1632,
+          "system_ticks": 1360,
+          "cpu_seconds": 29.92,
+          "one_core_percent": 94.07463215384455
+        },
+        {
+          "tid": 915873,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1644,
+          "system_ticks": 1347,
+          "cpu_seconds": 29.91,
+          "one_core_percent": 94.0431900976434
+        },
+        {
+          "tid": 915874,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1651,
+          "system_ticks": 1340,
+          "cpu_seconds": 29.91,
+          "one_core_percent": 94.0431900976434
+        },
+        {
+          "tid": 915875,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1645,
+          "system_ticks": 1346,
+          "cpu_seconds": 29.91,
+          "one_core_percent": 94.0431900976434
+        },
+        {
+          "tid": 915876,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1635,
+          "system_ticks": 1356,
+          "cpu_seconds": 29.91,
+          "one_core_percent": 94.0431900976434
+        },
+        {
+          "tid": 915877,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1639,
+          "system_ticks": 1353,
+          "cpu_seconds": 29.92,
+          "one_core_percent": 94.07463215384455
+        },
+        {
+          "tid": 915878,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1640,
+          "system_ticks": 1351,
+          "cpu_seconds": 29.91,
+          "one_core_percent": 94.0431900976434
+        },
+        {
+          "tid": 915879,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        }
+      ]
+    },
+    {
+      "identity": [
+        1,
+        8,
+        "ZINCRBY",
+        320
+      ],
+      "tag": "parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat1-20261005",
+      "elapsed_seconds": 31.801410653046332,
+      "process_cpu_seconds": 219.41,
+      "threads": [
+        {
+          "tid": 915867,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        },
+        {
+          "tid": 915868,
+          "comm": "dpdk-intr",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        },
+        {
+          "tid": 915871,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2256,
+          "system_ticks": 491,
+          "cpu_seconds": 27.47,
+          "one_core_percent": 86.37981597639784
+        },
+        {
+          "tid": 915872,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2244,
+          "system_ticks": 543,
+          "cpu_seconds": 27.87,
+          "one_core_percent": 87.63762181515136
+        },
+        {
+          "tid": 915873,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2170,
+          "system_ticks": 568,
+          "cpu_seconds": 27.38,
+          "one_core_percent": 86.0968096626783
+        },
+        {
+          "tid": 915874,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2117,
+          "system_ticks": 557,
+          "cpu_seconds": 26.74,
+          "one_core_percent": 84.08432032067267
+        },
+        {
+          "tid": 915875,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2147,
+          "system_ticks": 523,
+          "cpu_seconds": 26.7,
+          "one_core_percent": 83.95853973679732
+        },
+        {
+          "tid": 915876,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2192,
+          "system_ticks": 571,
+          "cpu_seconds": 27.63,
+          "one_core_percent": 86.88293831189925
+        },
+        {
+          "tid": 915877,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2252,
+          "system_ticks": 519,
+          "cpu_seconds": 27.71,
+          "one_core_percent": 87.13449947964995
+        },
+        {
+          "tid": 915878,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2244,
+          "system_ticks": 547,
+          "cpu_seconds": 27.91,
+          "one_core_percent": 87.7634023990267
+        },
+        {
+          "tid": 915879,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        }
+      ]
+    },
+    {
+      "identity": [
+        1,
+        8,
+        "ZINCRBY",
+        80
+      ],
+      "tag": "parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat1-20261005",
+      "elapsed_seconds": 31.550294223008677,
+      "process_cpu_seconds": 207.35,
+      "threads": [
+        {
+          "tid": 915867,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        },
+        {
+          "tid": 915868,
+          "comm": "dpdk-intr",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        },
+        {
+          "tid": 915871,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2145,
+          "system_ticks": 467,
+          "cpu_seconds": 26.12,
+          "one_core_percent": 82.78845140198874
+        },
+        {
+          "tid": 915872,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2146,
+          "system_ticks": 490,
+          "cpu_seconds": 26.36,
+          "one_core_percent": 83.54914161395189
+        },
+        {
+          "tid": 915873,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2071,
+          "system_ticks": 515,
+          "cpu_seconds": 25.86,
+          "one_core_percent": 81.96437033902868
+        },
+        {
+          "tid": 915874,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2052,
+          "system_ticks": 483,
+          "cpu_seconds": 25.35,
+          "one_core_percent": 80.347903638607
+        },
+        {
+          "tid": 915875,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2040,
+          "system_ticks": 511,
+          "cpu_seconds": 25.51,
+          "one_core_percent": 80.85503044658242
+        },
+        {
+          "tid": 915876,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2100,
+          "system_ticks": 485,
+          "cpu_seconds": 25.85,
+          "one_core_percent": 81.9326749135302
+        },
+        {
+          "tid": 915877,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2141,
+          "system_ticks": 467,
+          "cpu_seconds": 26.08,
+          "one_core_percent": 82.66166969999489
+        },
+        {
+          "tid": 915878,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2131,
+          "system_ticks": 491,
+          "cpu_seconds": 26.22,
+          "one_core_percent": 83.10540565697339
+        },
+        {
+          "tid": 915879,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        }
+      ]
+    },
+    {
+      "identity": [
+        2,
+        8,
+        "ZSCORE",
+        80
+      ],
+      "tag": "parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat2-20261005",
+      "elapsed_seconds": 31.802609672013205,
+      "process_cpu_seconds": 239.24,
+      "threads": [
+        {
+          "tid": 917000,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        },
+        {
+          "tid": 917001,
+          "comm": "dpdk-intr",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        },
+        {
+          "tid": 917024,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1645,
+          "system_ticks": 1346,
+          "cpu_seconds": 29.91,
+          "one_core_percent": 94.0488856369585
+        },
+        {
+          "tid": 917025,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1676,
+          "system_ticks": 1316,
+          "cpu_seconds": 29.92,
+          "one_core_percent": 94.08032959738543
+        },
+        {
+          "tid": 917026,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1638,
+          "system_ticks": 1351,
+          "cpu_seconds": 29.89,
+          "one_core_percent": 93.98599771610463
+        },
+        {
+          "tid": 917027,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1666,
+          "system_ticks": 1324,
+          "cpu_seconds": 29.9,
+          "one_core_percent": 94.01744167653156
+        },
+        {
+          "tid": 917028,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1655,
+          "system_ticks": 1335,
+          "cpu_seconds": 29.9,
+          "one_core_percent": 94.01744167653156
+        },
+        {
+          "tid": 917029,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1639,
+          "system_ticks": 1351,
+          "cpu_seconds": 29.9,
+          "one_core_percent": 94.01744167653156
+        },
+        {
+          "tid": 917030,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1659,
+          "system_ticks": 1333,
+          "cpu_seconds": 29.92,
+          "one_core_percent": 94.08032959738543
+        },
+        {
+          "tid": 917031,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1664,
+          "system_ticks": 1326,
+          "cpu_seconds": 29.9,
+          "one_core_percent": 94.01744167653156
+        },
+        {
+          "tid": 917032,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        }
+      ]
+    },
+    {
+      "identity": [
+        2,
+        8,
+        "ZSCORE",
+        320
+      ],
+      "tag": "parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat2-20261005",
+      "elapsed_seconds": 31.6568726740079,
+      "process_cpu_seconds": 239.26,
+      "threads": [
+        {
+          "tid": 917000,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        },
+        {
+          "tid": 917001,
+          "comm": "dpdk-intr",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        },
+        {
+          "tid": 917024,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1642,
+          "system_ticks": 1349,
+          "cpu_seconds": 29.91,
+          "one_core_percent": 94.4818533024515
+        },
+        {
+          "tid": 917025,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1655,
+          "system_ticks": 1336,
+          "cpu_seconds": 29.91,
+          "one_core_percent": 94.4818533024515
+        },
+        {
+          "tid": 917026,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1661,
+          "system_ticks": 1330,
+          "cpu_seconds": 29.91,
+          "one_core_percent": 94.4818533024515
+        },
+        {
+          "tid": 917027,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1639,
+          "system_ticks": 1352,
+          "cpu_seconds": 29.91,
+          "one_core_percent": 94.4818533024515
+        },
+        {
+          "tid": 917028,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1652,
+          "system_ticks": 1339,
+          "cpu_seconds": 29.91,
+          "one_core_percent": 94.4818533024515
+        },
+        {
+          "tid": 917029,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1674,
+          "system_ticks": 1316,
+          "cpu_seconds": 29.9,
+          "one_core_percent": 94.45026458519892
+        },
+        {
+          "tid": 917030,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1657,
+          "system_ticks": 1334,
+          "cpu_seconds": 29.91,
+          "one_core_percent": 94.4818533024515
+        },
+        {
+          "tid": 917031,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1653,
+          "system_ticks": 1337,
+          "cpu_seconds": 29.9,
+          "one_core_percent": 94.45026458519892
+        },
+        {
+          "tid": 917032,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        }
+      ]
+    },
+    {
+      "identity": [
+        2,
+        8,
+        "ZINCRBY",
+        320
+      ],
+      "tag": "parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat2-20261005",
+      "elapsed_seconds": 31.65061082399916,
+      "process_cpu_seconds": 219.29,
+      "threads": [
+        {
+          "tid": 917000,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        },
+        {
+          "tid": 917001,
+          "comm": "dpdk-intr",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        },
+        {
+          "tid": 917024,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2241,
+          "system_ticks": 544,
+          "cpu_seconds": 27.85,
+          "one_core_percent": 87.99198269779572
+        },
+        {
+          "tid": 917025,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2252,
+          "system_ticks": 548,
+          "cpu_seconds": 28.0,
+          "one_core_percent": 88.46590720065637
+        },
+        {
+          "tid": 917026,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2197,
+          "system_ticks": 516,
+          "cpu_seconds": 27.13,
+          "one_core_percent": 85.71714508406455
+        },
+        {
+          "tid": 917027,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2109,
+          "system_ticks": 561,
+          "cpu_seconds": 26.7,
+          "one_core_percent": 84.35856150919733
+        },
+        {
+          "tid": 917028,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2116,
+          "system_ticks": 559,
+          "cpu_seconds": 26.75,
+          "one_core_percent": 84.51653634348422
+        },
+        {
+          "tid": 917029,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2210,
+          "system_ticks": 526,
+          "cpu_seconds": 27.36,
+          "one_core_percent": 86.44382932178424
+        },
+        {
+          "tid": 917030,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2251,
+          "system_ticks": 515,
+          "cpu_seconds": 27.66,
+          "one_core_percent": 87.39167832750556
+        },
+        {
+          "tid": 917031,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2245,
+          "system_ticks": 539,
+          "cpu_seconds": 27.84,
+          "one_core_percent": 87.96038773093835
+        },
+        {
+          "tid": 917032,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        }
+      ]
+    },
+    {
+      "identity": [
+        2,
+        8,
+        "ZINCRBY",
+        80
+      ],
+      "tag": "parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat2-20261005",
+      "elapsed_seconds": 31.700792900985107,
+      "process_cpu_seconds": 207.12,
+      "threads": [
+        {
+          "tid": 917000,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        },
+        {
+          "tid": 917001,
+          "comm": "dpdk-intr",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        },
+        {
+          "tid": 917024,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2130,
+          "system_ticks": 505,
+          "cpu_seconds": 26.35,
+          "one_core_percent": 83.12094931600645
+        },
+        {
+          "tid": 917025,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2129,
+          "system_ticks": 522,
+          "cpu_seconds": 26.51,
+          "one_core_percent": 83.62566855283988
+        },
+        {
+          "tid": 917026,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2092,
+          "system_ticks": 460,
+          "cpu_seconds": 25.52,
+          "one_core_percent": 80.502718274933
+        },
+        {
+          "tid": 917027,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2071,
+          "system_ticks": 448,
+          "cpu_seconds": 25.19,
+          "one_core_percent": 79.46173484896404
+        },
+        {
+          "tid": 917028,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2037,
+          "system_ticks": 514,
+          "cpu_seconds": 25.51,
+          "one_core_percent": 80.4711733226309
+        },
+        {
+          "tid": 917029,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2087,
+          "system_ticks": 504,
+          "cpu_seconds": 25.91,
+          "one_core_percent": 81.7329714147145
+        },
+        {
+          "tid": 917030,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2155,
+          "system_ticks": 445,
+          "cpu_seconds": 26.0,
+          "one_core_percent": 82.0168759854333
+        },
+        {
+          "tid": 917031,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2164,
+          "system_ticks": 449,
+          "cpu_seconds": 26.13,
+          "one_core_percent": 82.42696036536047
+        },
+        {
+          "tid": 917032,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        }
+      ]
+    },
+    {
+      "identity": [
+        2,
+        12,
+        "ZSCORE",
+        80
+      ],
+      "tag": "parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat2-20261005",
+      "elapsed_seconds": 31.80569484399166,
+      "process_cpu_seconds": 297.2,
+      "threads": [
+        {
+          "tid": 917944,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        },
+        {
+          "tid": 917945,
+          "comm": "dpdk-intr",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        },
+        {
+          "tid": 917950,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1249,
+          "system_ticks": 868,
+          "cpu_seconds": 21.17,
+          "one_core_percent": 66.56040719701231
+        },
+        {
+          "tid": 917951,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2057,
+          "system_ticks": 938,
+          "cpu_seconds": 29.95,
+          "one_core_percent": 94.16552647853183
+        },
+        {
+          "tid": 917952,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1312,
+          "system_ticks": 936,
+          "cpu_seconds": 22.48,
+          "one_core_percent": 70.67916645199985
+        },
+        {
+          "tid": 917953,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1334,
+          "system_ticks": 884,
+          "cpu_seconds": 22.18,
+          "one_core_percent": 69.73593914169736
+        },
+        {
+          "tid": 917954,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1345,
+          "system_ticks": 894,
+          "cpu_seconds": 22.39,
+          "one_core_percent": 70.39619825890911
+        },
+        {
+          "tid": 917955,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1407,
+          "system_ticks": 788,
+          "cpu_seconds": 21.95,
+          "one_core_percent": 69.0127982037988
+        },
+        {
+          "tid": 917956,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2216,
+          "system_ticks": 779,
+          "cpu_seconds": 29.95,
+          "one_core_percent": 94.16552647853183
+        },
+        {
+          "tid": 917957,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1305,
+          "system_ticks": 984,
+          "cpu_seconds": 22.89,
+          "one_core_percent": 71.96824377607992
+        },
+        {
+          "tid": 917958,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2090,
+          "system_ticks": 904,
+          "cpu_seconds": 29.94,
+          "one_core_percent": 94.13408556818841
+        },
+        {
+          "tid": 917959,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1238,
+          "system_ticks": 1080,
+          "cpu_seconds": 23.18,
+          "one_core_percent": 72.880030176039
+        },
+        {
+          "tid": 917960,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1182,
+          "system_ticks": 935,
+          "cpu_seconds": 21.17,
+          "one_core_percent": 66.56040719701231
+        },
+        {
+          "tid": 917961,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2067,
+          "system_ticks": 928,
+          "cpu_seconds": 29.95,
+          "one_core_percent": 94.16552647853183
+        },
+        {
+          "tid": 917962,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        }
+      ]
+    },
+    {
+      "identity": [
+        2,
+        12,
+        "ZSCORE",
+        320
+      ],
+      "tag": "parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat2-20261005",
+      "elapsed_seconds": 31.808999560016673,
+      "process_cpu_seconds": 290.04,
+      "threads": [
+        {
+          "tid": 917944,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        },
+        {
+          "tid": 917945,
+          "comm": "dpdk-intr",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        },
+        {
+          "tid": 917950,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1182,
+          "system_ticks": 1030,
+          "cpu_seconds": 22.12,
+          "one_core_percent": 69.54006823843788
+        },
+        {
+          "tid": 917951,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2142,
+          "system_ticks": 850,
+          "cpu_seconds": 29.92,
+          "one_core_percent": 94.06143045633189
+        },
+        {
+          "tid": 917952,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1196,
+          "system_ticks": 947,
+          "cpu_seconds": 21.43,
+          "one_core_percent": 67.37087081147034
+        },
+        {
+          "tid": 917953,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1183,
+          "system_ticks": 941,
+          "cpu_seconds": 21.24,
+          "one_core_percent": 66.77355557795754
+        },
+        {
+          "tid": 917954,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1191,
+          "system_ticks": 924,
+          "cpu_seconds": 21.15,
+          "one_core_percent": 66.49061678313568
+        },
+        {
+          "tid": 917955,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1204,
+          "system_ticks": 893,
+          "cpu_seconds": 20.97,
+          "one_core_percent": 65.92473919349197
+        },
+        {
+          "tid": 917956,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2138,
+          "system_ticks": 850,
+          "cpu_seconds": 29.88,
+          "one_core_percent": 93.93567988085552
+        },
+        {
+          "tid": 917957,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1181,
+          "system_ticks": 967,
+          "cpu_seconds": 21.48,
+          "one_core_percent": 67.52805903081581
+        },
+        {
+          "tid": 917958,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2150,
+          "system_ticks": 841,
+          "cpu_seconds": 29.91,
+          "one_core_percent": 94.0299928124628
+        },
+        {
+          "tid": 917959,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1140,
+          "system_ticks": 968,
+          "cpu_seconds": 21.08,
+          "one_core_percent": 66.27055327605201
+        },
+        {
+          "tid": 917960,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1124,
+          "system_ticks": 972,
+          "cpu_seconds": 20.96,
+          "one_core_percent": 65.89330154962288
+        },
+        {
+          "tid": 917961,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2119,
+          "system_ticks": 871,
+          "cpu_seconds": 29.9,
+          "one_core_percent": 93.9985551685937
+        },
+        {
+          "tid": 917962,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        }
+      ]
+    },
+    {
+      "identity": [
+        2,
+        12,
+        "ZINCRBY",
+        320
+      ],
+      "tag": "parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat2-20261005",
+      "elapsed_seconds": 31.80369706999045,
+      "process_cpu_seconds": 166.67,
+      "threads": [
+        {
+          "tid": 917944,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        },
+        {
+          "tid": 917945,
+          "comm": "dpdk-intr",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        },
+        {
+          "tid": 917950,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 489,
+          "system_ticks": 280,
+          "cpu_seconds": 7.69,
+          "one_core_percent": 24.1795788177601
+        },
+        {
+          "tid": 917951,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2394,
+          "system_ticks": 404,
+          "cpu_seconds": 27.98,
+          "one_core_percent": 87.97719314966548
+        },
+        {
+          "tid": 917952,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 456,
+          "system_ticks": 176,
+          "cpu_seconds": 6.32,
+          "one_core_percent": 19.871903527730016
+        },
+        {
+          "tid": 917953,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 444,
+          "system_ticks": 182,
+          "cpu_seconds": 6.26,
+          "one_core_percent": 19.683246215757897
+        },
+        {
+          "tid": 917954,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 441,
+          "system_ticks": 163,
+          "cpu_seconds": 6.04,
+          "one_core_percent": 18.991502738526787
+        },
+        {
+          "tid": 917955,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 441,
+          "system_ticks": 166,
+          "cpu_seconds": 6.07,
+          "one_core_percent": 19.085831394512848
+        },
+        {
+          "tid": 917956,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2406,
+          "system_ticks": 363,
+          "cpu_seconds": 27.69,
+          "one_core_percent": 87.06534947513357
+        },
+        {
+          "tid": 917957,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 473,
+          "system_ticks": 276,
+          "cpu_seconds": 7.49,
+          "one_core_percent": 23.550721111186366
+        },
+        {
+          "tid": 917958,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2397,
+          "system_ticks": 378,
+          "cpu_seconds": 27.75,
+          "one_core_percent": 87.2540067871057
+        },
+        {
+          "tid": 917959,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 487,
+          "system_ticks": 275,
+          "cpu_seconds": 7.62,
+          "one_core_percent": 23.959478620459294
+        },
+        {
+          "tid": 917960,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 482,
+          "system_ticks": 286,
+          "cpu_seconds": 7.68,
+          "one_core_percent": 24.148135932431412
+        },
+        {
+          "tid": 917961,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2426,
+          "system_ticks": 382,
+          "cpu_seconds": 28.08,
+          "one_core_percent": 88.29162200295235
+        },
+        {
+          "tid": 917962,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        }
+      ]
+    },
+    {
+      "identity": [
+        2,
+        12,
+        "ZINCRBY",
+        80
+      ],
+      "tag": "parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat2-20261005",
+      "elapsed_seconds": 31.549590562004596,
+      "process_cpu_seconds": 162.08,
+      "threads": [
+        {
+          "tid": 917944,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        },
+        {
+          "tid": 917945,
+          "comm": "dpdk-intr",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        },
+        {
+          "tid": 917950,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 470,
+          "system_ticks": 282,
+          "cpu_seconds": 7.52,
+          "one_core_percent": 23.835491573879224
+        },
+        {
+          "tid": 917951,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2367,
+          "system_ticks": 369,
+          "cpu_seconds": 27.36,
+          "one_core_percent": 86.72061827943291
+        },
+        {
+          "tid": 917952,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 446,
+          "system_ticks": 178,
+          "cpu_seconds": 6.24,
+          "one_core_percent": 19.778386625133823
+        },
+        {
+          "tid": 917953,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 444,
+          "system_ticks": 171,
+          "cpu_seconds": 6.15,
+          "one_core_percent": 19.493121433425163
+        },
+        {
+          "tid": 917954,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 442,
+          "system_ticks": 164,
+          "cpu_seconds": 6.06,
+          "one_core_percent": 19.207856241716502
+        },
+        {
+          "tid": 917955,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 448,
+          "system_ticks": 163,
+          "cpu_seconds": 6.11,
+          "one_core_percent": 19.36633690377687
+        },
+        {
+          "tid": 917956,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2359,
+          "system_ticks": 384,
+          "cpu_seconds": 27.43,
+          "one_core_percent": 86.94249120631743
+        },
+        {
+          "tid": 917957,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 423,
+          "system_ticks": 262,
+          "cpu_seconds": 6.85,
+          "one_core_percent": 21.711850702270304
+        },
+        {
+          "tid": 917958,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2367,
+          "system_ticks": 334,
+          "cpu_seconds": 27.01,
+          "one_core_percent": 85.61125364501035
+        },
+        {
+          "tid": 917959,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 417,
+          "system_ticks": 254,
+          "cpu_seconds": 6.71,
+          "one_core_percent": 21.268104848501274
+        },
+        {
+          "tid": 917960,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 471,
+          "system_ticks": 272,
+          "cpu_seconds": 7.43,
+          "one_core_percent": 23.55022638217056
+        },
+        {
+          "tid": 917961,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2386,
+          "system_ticks": 335,
+          "cpu_seconds": 27.21,
+          "one_core_percent": 86.24517629325182
+        },
+        {
+          "tid": 917962,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        }
+      ]
+    },
+    {
+      "identity": [
+        3,
+        12,
+        "ZSCORE",
+        80
+      ],
+      "tag": "parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat3-20261005",
+      "elapsed_seconds": 31.80437260697363,
+      "process_cpu_seconds": 293.99,
+      "threads": [
+        {
+          "tid": 918770,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        },
+        {
+          "tid": 918771,
+          "comm": "dpdk-intr",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        },
+        {
+          "tid": 918821,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1200,
+          "system_ticks": 905,
+          "cpu_seconds": 21.05,
+          "one_core_percent": 66.1858677739942
+        },
+        {
+          "tid": 918822,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2146,
+          "system_ticks": 850,
+          "cpu_seconds": 29.96,
+          "one_core_percent": 94.2008835396136
+        },
+        {
+          "tid": 918823,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1351,
+          "system_ticks": 830,
+          "cpu_seconds": 21.81,
+          "one_core_percent": 68.57547630170136
+        },
+        {
+          "tid": 918824,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1315,
+          "system_ticks": 893,
+          "cpu_seconds": 22.08,
+          "one_core_percent": 69.42441617338679
+        },
+        {
+          "tid": 918825,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1381,
+          "system_ticks": 788,
+          "cpu_seconds": 21.69,
+          "one_core_percent": 68.19816969206339
+        },
+        {
+          "tid": 918826,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1332,
+          "system_ticks": 854,
+          "cpu_seconds": 21.86,
+          "one_core_percent": 68.73268738905051
+        },
+        {
+          "tid": 918827,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2079,
+          "system_ticks": 916,
+          "cpu_seconds": 29.95,
+          "one_core_percent": 94.16944132214377
+        },
+        {
+          "tid": 918828,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1386,
+          "system_ticks": 802,
+          "cpu_seconds": 21.88,
+          "one_core_percent": 68.79557182399017
+        },
+        {
+          "tid": 918829,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2027,
+          "system_ticks": 967,
+          "cpu_seconds": 29.94,
+          "one_core_percent": 94.13799910467394
+        },
+        {
+          "tid": 918830,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1223,
+          "system_ticks": 1044,
+          "cpu_seconds": 22.67,
+          "one_core_percent": 71.27950700410682
+        },
+        {
+          "tid": 918831,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1190,
+          "system_ticks": 926,
+          "cpu_seconds": 21.16,
+          "one_core_percent": 66.53173216616234
+        },
+        {
+          "tid": 918832,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2075,
+          "system_ticks": 919,
+          "cpu_seconds": 29.94,
+          "one_core_percent": 94.13799910467394
+        },
+        {
+          "tid": 918833,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        }
+      ]
+    },
+    {
+      "identity": [
+        3,
+        12,
+        "ZSCORE",
+        320
+      ],
+      "tag": "parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat3-20261005",
+      "elapsed_seconds": 31.656708971015178,
+      "process_cpu_seconds": 287.73,
+      "threads": [
+        {
+          "tid": 918770,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        },
+        {
+          "tid": 918771,
+          "comm": "dpdk-intr",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        },
+        {
+          "tid": 918821,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1168,
+          "system_ticks": 1016,
+          "cpu_seconds": 21.84,
+          "one_core_percent": 68.9901152390688
+        },
+        {
+          "tid": 918822,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2149,
+          "system_ticks": 843,
+          "cpu_seconds": 29.92,
+          "one_core_percent": 94.51393076707593
+        },
+        {
+          "tid": 918823,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1212,
+          "system_ticks": 872,
+          "cpu_seconds": 20.84,
+          "one_core_percent": 65.83122717867187
+        },
+        {
+          "tid": 918824,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1180,
+          "system_ticks": 915,
+          "cpu_seconds": 20.95,
+          "one_core_percent": 66.17870486531554
+        },
+        {
+          "tid": 918825,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1173,
+          "system_ticks": 924,
+          "cpu_seconds": 20.97,
+          "one_core_percent": 66.24188262652348
+        },
+        {
+          "tid": 918826,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1200,
+          "system_ticks": 848,
+          "cpu_seconds": 20.48,
+          "one_core_percent": 64.69402747692898
+        },
+        {
+          "tid": 918827,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2135,
+          "system_ticks": 854,
+          "cpu_seconds": 29.89,
+          "one_core_percent": 94.41916412526402
+        },
+        {
+          "tid": 918828,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1111,
+          "system_ticks": 1032,
+          "cpu_seconds": 21.43,
+          "one_core_percent": 67.69497113430606
+        },
+        {
+          "tid": 918829,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2136,
+          "system_ticks": 854,
+          "cpu_seconds": 29.9,
+          "one_core_percent": 94.450753005868
+        },
+        {
+          "tid": 918830,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1107,
+          "system_ticks": 971,
+          "cpu_seconds": 20.78,
+          "one_core_percent": 65.64169389504805
+        },
+        {
+          "tid": 918831,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1119,
+          "system_ticks": 964,
+          "cpu_seconds": 20.83,
+          "one_core_percent": 65.7996382980679
+        },
+        {
+          "tid": 918832,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2145,
+          "system_ticks": 845,
+          "cpu_seconds": 29.9,
+          "one_core_percent": 94.450753005868
+        },
+        {
+          "tid": 918833,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        }
+      ]
+    },
+    {
+      "identity": [
+        3,
+        12,
+        "ZINCRBY",
+        320
+      ],
+      "tag": "parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat3-20261005",
+      "elapsed_seconds": 31.651451659970917,
+      "process_cpu_seconds": 166.56,
+      "threads": [
+        {
+          "tid": 918770,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        },
+        {
+          "tid": 918771,
+          "comm": "dpdk-intr",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        },
+        {
+          "tid": 918821,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 489,
+          "system_ticks": 284,
+          "cpu_seconds": 7.73,
+          "one_core_percent": 24.422260574468396
+        },
+        {
+          "tid": 918822,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2416,
+          "system_ticks": 374,
+          "cpu_seconds": 27.9,
+          "one_core_percent": 88.14761578624427
+        },
+        {
+          "tid": 918823,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 456,
+          "system_ticks": 168,
+          "cpu_seconds": 6.24,
+          "one_core_percent": 19.714735573697645
+        },
+        {
+          "tid": 918824,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 450,
+          "system_ticks": 174,
+          "cpu_seconds": 6.24,
+          "one_core_percent": 19.714735573697645
+        },
+        {
+          "tid": 918825,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 439,
+          "system_ticks": 164,
+          "cpu_seconds": 6.03,
+          "one_core_percent": 19.051258895736666
+        },
+        {
+          "tid": 918826,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 440,
+          "system_ticks": 168,
+          "cpu_seconds": 6.08,
+          "one_core_percent": 19.209229533346424
+        },
+        {
+          "tid": 918827,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2422,
+          "system_ticks": 341,
+          "cpu_seconds": 27.63,
+          "one_core_percent": 87.2945743431516
+        },
+        {
+          "tid": 918828,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 467,
+          "system_ticks": 285,
+          "cpu_seconds": 7.52,
+          "one_core_percent": 23.758783896507417
+        },
+        {
+          "tid": 918829,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2386,
+          "system_ticks": 418,
+          "cpu_seconds": 28.04,
+          "one_core_percent": 88.5899335715516
+        },
+        {
+          "tid": 918830,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 485,
+          "system_ticks": 278,
+          "cpu_seconds": 7.63,
+          "one_core_percent": 24.106319299248884
+        },
+        {
+          "tid": 918831,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 477,
+          "system_ticks": 285,
+          "cpu_seconds": 7.62,
+          "one_core_percent": 24.074725171726932
+        },
+        {
+          "tid": 918832,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2420,
+          "system_ticks": 370,
+          "cpu_seconds": 27.9,
+          "one_core_percent": 88.14761578624427
+        },
+        {
+          "tid": 918833,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        }
+      ]
+    },
+    {
+      "identity": [
+        3,
+        12,
+        "ZINCRBY",
+        80
+      ],
+      "tag": "parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat3-20261005",
+      "elapsed_seconds": 31.70281247800449,
+      "process_cpu_seconds": 160.26,
+      "threads": [
+        {
+          "tid": 918770,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        },
+        {
+          "tid": 918771,
+          "comm": "dpdk-intr",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        },
+        {
+          "tid": 918821,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 465,
+          "system_ticks": 288,
+          "cpu_seconds": 7.53,
+          "one_core_percent": 23.751835914319393
+        },
+        {
+          "tid": 918822,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2372,
+          "system_ticks": 379,
+          "cpu_seconds": 27.51,
+          "one_core_percent": 86.7746355913581
+        },
+        {
+          "tid": 918823,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 452,
+          "system_ticks": 167,
+          "cpu_seconds": 6.19,
+          "one_core_percent": 19.525081581625106
+        },
+        {
+          "tid": 918824,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 441,
+          "system_ticks": 165,
+          "cpu_seconds": 6.06,
+          "one_core_percent": 19.115023325468197
+        },
+        {
+          "tid": 918825,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 445,
+          "system_ticks": 164,
+          "cpu_seconds": 6.09,
+          "one_core_percent": 19.209652153812097
+        },
+        {
+          "tid": 918826,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 445,
+          "system_ticks": 167,
+          "cpu_seconds": 6.12,
+          "one_core_percent": 19.304280982156
+        },
+        {
+          "tid": 918827,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2326,
+          "system_ticks": 307,
+          "cpu_seconds": 26.33,
+          "one_core_percent": 83.05256834316462
+        },
+        {
+          "tid": 918828,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 429,
+          "system_ticks": 223,
+          "cpu_seconds": 6.52,
+          "one_core_percent": 20.565998693408027
+        },
+        {
+          "tid": 918829,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2320,
+          "system_ticks": 337,
+          "cpu_seconds": 26.57,
+          "one_core_percent": 83.80959896991584
+        },
+        {
+          "tid": 918830,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 420,
+          "system_ticks": 230,
+          "cpu_seconds": 6.5,
+          "one_core_percent": 20.502912807845426
+        },
+        {
+          "tid": 918831,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 468,
+          "system_ticks": 284,
+          "cpu_seconds": 7.52,
+          "one_core_percent": 23.720292971538093
+        },
+        {
+          "tid": 918832,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2361,
+          "system_ticks": 371,
+          "cpu_seconds": 27.32,
+          "one_core_percent": 86.17531967851339
+        },
+        {
+          "tid": 918833,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        }
+      ]
+    },
+    {
+      "identity": [
+        3,
+        8,
+        "ZSCORE",
+        80
+      ],
+      "tag": "parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat3-20261005",
+      "elapsed_seconds": 31.858704456011765,
+      "process_cpu_seconds": 239.33,
+      "threads": [
+        {
+          "tid": 919830,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        },
+        {
+          "tid": 919838,
+          "comm": "dpdk-intr",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        },
+        {
+          "tid": 919894,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1712,
+          "system_ticks": 1281,
+          "cpu_seconds": 29.93,
+          "one_core_percent": 93.94606752237907
+        },
+        {
+          "tid": 919895,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1678,
+          "system_ticks": 1314,
+          "cpu_seconds": 29.92,
+          "one_core_percent": 93.91467892648117
+        },
+        {
+          "tid": 919896,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1593,
+          "system_ticks": 1398,
+          "cpu_seconds": 29.91,
+          "one_core_percent": 93.88329033058329
+        },
+        {
+          "tid": 919897,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1679,
+          "system_ticks": 1314,
+          "cpu_seconds": 29.93,
+          "one_core_percent": 93.94606752237907
+        },
+        {
+          "tid": 919898,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1568,
+          "system_ticks": 1422,
+          "cpu_seconds": 29.9,
+          "one_core_percent": 93.8519017346854
+        },
+        {
+          "tid": 919899,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1667,
+          "system_ticks": 1324,
+          "cpu_seconds": 29.91,
+          "one_core_percent": 93.88329033058329
+        },
+        {
+          "tid": 919900,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1606,
+          "system_ticks": 1386,
+          "cpu_seconds": 29.92,
+          "one_core_percent": 93.91467892648117
+        },
+        {
+          "tid": 919901,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1746,
+          "system_ticks": 1245,
+          "cpu_seconds": 29.91,
+          "one_core_percent": 93.88329033058329
+        },
+        {
+          "tid": 919902,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        }
+      ]
+    },
+    {
+      "identity": [
+        3,
+        8,
+        "ZSCORE",
+        320
+      ],
+      "tag": "parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat3-20261005",
+      "elapsed_seconds": 31.80705613596365,
+      "process_cpu_seconds": 239.31,
+      "threads": [
+        {
+          "tid": 919830,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        },
+        {
+          "tid": 919838,
+          "comm": "dpdk-intr",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        },
+        {
+          "tid": 919894,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1623,
+          "system_ticks": 1369,
+          "cpu_seconds": 29.92,
+          "one_core_percent": 94.06717764794966
+        },
+        {
+          "tid": 919895,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1628,
+          "system_ticks": 1363,
+          "cpu_seconds": 29.91,
+          "one_core_percent": 94.03573808322776
+        },
+        {
+          "tid": 919896,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1585,
+          "system_ticks": 1407,
+          "cpu_seconds": 29.92,
+          "one_core_percent": 94.06717764794966
+        },
+        {
+          "tid": 919897,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1604,
+          "system_ticks": 1387,
+          "cpu_seconds": 29.91,
+          "one_core_percent": 94.03573808322776
+        },
+        {
+          "tid": 919898,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1611,
+          "system_ticks": 1381,
+          "cpu_seconds": 29.92,
+          "one_core_percent": 94.06717764794966
+        },
+        {
+          "tid": 919899,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1582,
+          "system_ticks": 1409,
+          "cpu_seconds": 29.91,
+          "one_core_percent": 94.03573808322776
+        },
+        {
+          "tid": 919900,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1622,
+          "system_ticks": 1368,
+          "cpu_seconds": 29.9,
+          "one_core_percent": 94.00429851850585
+        },
+        {
+          "tid": 919901,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 1598,
+          "system_ticks": 1394,
+          "cpu_seconds": 29.92,
+          "one_core_percent": 94.06717764794966
+        },
+        {
+          "tid": 919902,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        }
+      ]
+    },
+    {
+      "identity": [
+        3,
+        8,
+        "ZINCRBY",
+        320
+      ],
+      "tag": "parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat3-20261005",
+      "elapsed_seconds": 31.800625787000172,
+      "process_cpu_seconds": 218.43,
+      "threads": [
+        {
+          "tid": 919830,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        },
+        {
+          "tid": 919838,
+          "comm": "dpdk-intr",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        },
+        {
+          "tid": 919894,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2219,
+          "system_ticks": 585,
+          "cpu_seconds": 28.04,
+          "one_core_percent": 88.1743654600109
+        },
+        {
+          "tid": 919895,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2273,
+          "system_ticks": 490,
+          "cpu_seconds": 27.63,
+          "one_core_percent": 86.88508265549576
+        },
+        {
+          "tid": 919896,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2169,
+          "system_ticks": 551,
+          "cpu_seconds": 27.2,
+          "one_core_percent": 85.53290800685794
+        },
+        {
+          "tid": 919897,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2091,
+          "system_ticks": 543,
+          "cpu_seconds": 26.34,
+          "one_core_percent": 82.82855870958228
+        },
+        {
+          "tid": 919898,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2111,
+          "system_ticks": 527,
+          "cpu_seconds": 26.38,
+          "one_core_percent": 82.95434239782766
+        },
+        {
+          "tid": 919899,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2208,
+          "system_ticks": 524,
+          "cpu_seconds": 27.32,
+          "one_core_percent": 85.91025907159407
+        },
+        {
+          "tid": 919900,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2239,
+          "system_ticks": 546,
+          "cpu_seconds": 27.85,
+          "one_core_percent": 87.57689294084535
+        },
+        {
+          "tid": 919901,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2235,
+          "system_ticks": 532,
+          "cpu_seconds": 27.67,
+          "one_core_percent": 87.01086634374114
+        },
+        {
+          "tid": 919902,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        }
+      ]
+    },
+    {
+      "identity": [
+        3,
+        8,
+        "ZINCRBY",
+        80
+      ],
+      "tag": "parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat3-20261005",
+      "elapsed_seconds": 31.596469715004787,
+      "process_cpu_seconds": 206.44,
+      "threads": [
+        {
+          "tid": 919830,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        },
+        {
+          "tid": 919838,
+          "comm": "dpdk-intr",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        },
+        {
+          "tid": 919894,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2142,
+          "system_ticks": 460,
+          "cpu_seconds": 26.02,
+          "one_core_percent": 82.35097222789865
+        },
+        {
+          "tid": 919895,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2123,
+          "system_ticks": 489,
+          "cpu_seconds": 26.12,
+          "one_core_percent": 82.66746328181064
+        },
+        {
+          "tid": 919896,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2056,
+          "system_ticks": 529,
+          "cpu_seconds": 25.85,
+          "one_core_percent": 81.81293743624828
+        },
+        {
+          "tid": 919897,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2038,
+          "system_ticks": 481,
+          "cpu_seconds": 25.19,
+          "one_core_percent": 79.72409648042917
+        },
+        {
+          "tid": 919898,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2065,
+          "system_ticks": 456,
+          "cpu_seconds": 25.21,
+          "one_core_percent": 79.78739469121157
+        },
+        {
+          "tid": 919899,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2044,
+          "system_ticks": 556,
+          "cpu_seconds": 26.0,
+          "one_core_percent": 82.28767401711626
+        },
+        {
+          "tid": 919900,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2098,
+          "system_ticks": 506,
+          "cpu_seconds": 26.04,
+          "one_core_percent": 82.41427043868104
+        },
+        {
+          "tid": 919901,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 2114,
+          "system_ticks": 487,
+          "cpu_seconds": 26.01,
+          "one_core_percent": 82.31932312250746
+        },
+        {
+          "tid": 919902,
+          "comm": "lavik-zset-sour",
+          "user_ticks": 0,
+          "system_ticks": 0,
+          "cpu_seconds": 0.0,
+          "one_core_percent": 0.0
+        }
+      ]
+    }
+  ],
+  "summary": [
+    {
+      "operation": "ZSCORE",
+      "connections": 80,
+      "pairs": [
+        {
+          "round": 1,
+          "workers12": {
+            "workers": 12,
+            "round": 1,
+            "tag": "parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat1-20261005",
+            "product": "lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat1-20261005",
+            "type": "zset",
+            "logical_bytes": 104857600,
+            "field_bytes": 1024,
+            "entries_per_key": 102400,
+            "keys": 8,
+            "operation": "ZSCORE",
+            "connections": 80,
+            "qps": 254987.04,
+            "p50_ms": 0.303,
+            "p99_ms": 0.599,
+            "p999_ms": 0.727,
+            "requests": 7650222,
+            "elapsed_seconds": 31.3778268279857,
+            "seconds": 30
+          },
+          "workers8": {
+            "workers": 8,
+            "round": 1,
+            "tag": "parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat1-20261005",
+            "product": "lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat1-20261005",
+            "type": "zset",
+            "logical_bytes": 104857600,
+            "field_bytes": 1024,
+            "entries_per_key": 102400,
+            "keys": 8,
+            "operation": "ZSCORE",
+            "connections": 80,
+            "qps": 294988.48,
+            "p50_ms": 0.263,
+            "p99_ms": 0.495,
+            "p999_ms": 0.607,
+            "requests": 8850520,
+            "elapsed_seconds": 31.52786641800776,
+            "seconds": 30
+          },
+          "qps_change_percent": 15.687636516742165,
+          "p99_change_percent": -17.36227045075125
+        },
+        {
+          "round": 2,
+          "workers12": {
+            "workers": 12,
+            "round": 2,
+            "tag": "parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat2-20261005",
+            "product": "lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat2-20261005",
+            "type": "zset",
+            "logical_bytes": 104857600,
+            "field_bytes": 1024,
+            "entries_per_key": 102400,
+            "keys": 8,
+            "operation": "ZSCORE",
+            "connections": 80,
+            "qps": 248249.59,
+            "p50_ms": 0.311,
+            "p99_ms": 0.623,
+            "p999_ms": 0.743,
+            "requests": 7448177,
+            "elapsed_seconds": 31.528542109997943,
+            "seconds": 30
+          },
+          "workers8": {
+            "workers": 8,
+            "round": 2,
+            "tag": "parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat2-20261005",
+            "product": "lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat2-20261005",
+            "type": "zset",
+            "logical_bytes": 104857600,
+            "field_bytes": 1024,
+            "entries_per_key": 102400,
+            "keys": 8,
+            "operation": "ZSCORE",
+            "connections": 80,
+            "qps": 295814.69,
+            "p50_ms": 0.263,
+            "p99_ms": 0.487,
+            "p999_ms": 0.607,
+            "requests": 8874793,
+            "elapsed_seconds": 31.377214868029114,
+            "seconds": 30
+          },
+          "qps_change_percent": 19.160192772121,
+          "p99_change_percent": -21.82985553772071
+        },
+        {
+          "round": 3,
+          "workers12": {
+            "workers": 12,
+            "round": 3,
+            "tag": "parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat3-20261005",
+            "product": "lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat3-20261005",
+            "type": "zset",
+            "logical_bytes": 104857600,
+            "field_bytes": 1024,
+            "entries_per_key": 102400,
+            "keys": 8,
+            "operation": "ZSCORE",
+            "connections": 80,
+            "qps": 241022.12,
+            "p50_ms": 0.319,
+            "p99_ms": 0.655,
+            "p999_ms": 0.823,
+            "requests": 7231367,
+            "elapsed_seconds": 31.376874195993878,
+            "seconds": 30
+          },
+          "workers8": {
+            "workers": 8,
+            "round": 3,
+            "tag": "parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat3-20261005",
+            "product": "lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat3-20261005",
+            "type": "zset",
+            "logical_bytes": 104857600,
+            "field_bytes": 1024,
+            "entries_per_key": 102400,
+            "keys": 8,
+            "operation": "ZSCORE",
+            "connections": 80,
+            "qps": 323365.31,
+            "p50_ms": 0.239,
+            "p99_ms": 0.463,
+            "p999_ms": 0.567,
+            "requests": 9701215,
+            "elapsed_seconds": 31.583266752015334,
+            "seconds": 30
+          },
+          "qps_change_percent": 34.16416302370919,
+          "p99_change_percent": -29.312977099236637
+        }
+      ],
+      "qps_paired_percent": {
+        "median": 19.160192772121,
+        "min": 15.687636516742165,
+        "max": 34.16416302370919,
+        "positive_pairs": 3,
+        "negative_pairs": 0
+      },
+      "p99_paired_percent": {
+        "median": -21.82985553772071,
+        "min": -29.312977099236637,
+        "max": -17.36227045075125,
+        "positive_pairs": 0,
+        "negative_pairs": 3
+      }
+    },
+    {
+      "operation": "ZSCORE",
+      "connections": 320,
+      "pairs": [
+        {
+          "round": 1,
+          "workers12": {
+            "workers": 12,
+            "round": 1,
+            "tag": "parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat1-20261005",
+            "product": "lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat1-20261005",
+            "type": "zset",
+            "logical_bytes": 104857600,
+            "field_bytes": 1024,
+            "entries_per_key": 102400,
+            "keys": 8,
+            "operation": "ZSCORE",
+            "connections": 320,
+            "qps": 273046.09,
+            "p50_ms": 0.751,
+            "p99_ms": 3.839,
+            "p999_ms": 4.447,
+            "requests": 8192564,
+            "elapsed_seconds": 31.38299289799761,
+            "seconds": 30
+          },
+          "workers8": {
+            "workers": 8,
+            "round": 1,
+            "tag": "parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat1-20261005",
+            "product": "lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat1-20261005",
+            "type": "zset",
+            "logical_bytes": 104857600,
+            "field_bytes": 1024,
+            "entries_per_key": 102400,
+            "keys": 8,
+            "operation": "ZSCORE",
+            "connections": 320,
+            "qps": 344591.87,
+            "p50_ms": 0.927,
+            "p99_ms": 1.439,
+            "p999_ms": 2.399,
+            "requests": 10339588,
+            "elapsed_seconds": 31.378750181000214,
+            "seconds": 30
+          },
+          "qps_change_percent": 26.202821655494123,
+          "p99_change_percent": -62.516280281323255
+        },
+        {
+          "round": 2,
+          "workers12": {
+            "workers": 12,
+            "round": 2,
+            "tag": "parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat2-20261005",
+            "product": "lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat2-20261005",
+            "type": "zset",
+            "logical_bytes": 104857600,
+            "field_bytes": 1024,
+            "entries_per_key": 102400,
+            "keys": 8,
+            "operation": "ZSCORE",
+            "connections": 320,
+            "qps": 263951.62,
+            "p50_ms": 0.855,
+            "p99_ms": 3.855,
+            "p999_ms": 4.479,
+            "requests": 7920883,
+            "elapsed_seconds": 31.381750655011274,
+            "seconds": 30
+          },
+          "workers8": {
+            "workers": 8,
+            "round": 2,
+            "tag": "parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat2-20261005",
+            "product": "lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat2-20261005",
+            "type": "zset",
+            "logical_bytes": 104857600,
+            "field_bytes": 1024,
+            "entries_per_key": 102400,
+            "keys": 8,
+            "operation": "ZSCORE",
+            "connections": 320,
+            "qps": 347634.25,
+            "p50_ms": 0.919,
+            "p99_ms": 1.439,
+            "p999_ms": 2.687,
+            "requests": 10432213,
+            "elapsed_seconds": 31.38093534397194,
+            "seconds": 30
+          },
+          "qps_change_percent": 31.7037758661985,
+          "p99_change_percent": -62.67185473411154
+        },
+        {
+          "round": 3,
+          "workers12": {
+            "workers": 12,
+            "round": 3,
+            "tag": "parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat3-20261005",
+            "product": "lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat3-20261005",
+            "type": "zset",
+            "logical_bytes": 104857600,
+            "field_bytes": 1024,
+            "entries_per_key": 102400,
+            "keys": 8,
+            "operation": "ZSCORE",
+            "connections": 320,
+            "qps": 258013.02,
+            "p50_ms": 0.887,
+            "p99_ms": 3.887,
+            "p999_ms": 4.863,
+            "requests": 7741912,
+            "elapsed_seconds": 31.37940548401093,
+            "seconds": 30
+          },
+          "workers8": {
+            "workers": 8,
+            "round": 3,
+            "tag": "parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat3-20261005",
+            "product": "lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat3-20261005",
+            "type": "zset",
+            "logical_bytes": 104857600,
+            "field_bytes": 1024,
+            "entries_per_key": 102400,
+            "keys": 8,
+            "operation": "ZSCORE",
+            "connections": 320,
+            "qps": 369043.7,
+            "p50_ms": 0.863,
+            "p99_ms": 1.367,
+            "p999_ms": 2.207,
+            "requests": 11073325,
+            "elapsed_seconds": 31.381538553978316,
+            "seconds": 30
+          },
+          "qps_change_percent": 43.03297562270308,
+          "p99_change_percent": -64.83148958065345
+        }
+      ],
+      "qps_paired_percent": {
+        "median": 31.7037758661985,
+        "min": 26.202821655494123,
+        "max": 43.03297562270308,
+        "positive_pairs": 3,
+        "negative_pairs": 0
+      },
+      "p99_paired_percent": {
+        "median": -62.67185473411154,
+        "min": -64.83148958065345,
+        "max": -62.516280281323255,
+        "positive_pairs": 0,
+        "negative_pairs": 3
+      }
+    },
+    {
+      "operation": "ZINCRBY",
+      "connections": 80,
+      "pairs": [
+        {
+          "round": 1,
+          "workers12": {
+            "workers": 12,
+            "round": 1,
+            "tag": "parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat1-20261005",
+            "product": "lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat1-20261005",
+            "type": "zset",
+            "logical_bytes": 104857600,
+            "field_bytes": 1024,
+            "entries_per_key": 102400,
+            "keys": 8,
+            "operation": "ZINCRBY",
+            "connections": 80,
+            "qps": 39749.62,
+            "p50_ms": 0.943,
+            "p99_ms": 12.479,
+            "p999_ms": 15.487,
+            "requests": 1192652,
+            "elapsed_seconds": 31.2735033230274,
+            "seconds": 30
+          },
+          "workers8": {
+            "workers": 8,
+            "round": 1,
+            "tag": "parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat1-20261005",
+            "product": "lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat1-20261005",
+            "type": "zset",
+            "logical_bytes": 104857600,
+            "field_bytes": 1024,
+            "entries_per_key": 102400,
+            "keys": 8,
+            "operation": "ZINCRBY",
+            "connections": 80,
+            "qps": 54072.33,
+            "p50_ms": 0.487,
+            "p99_ms": 15.167,
+            "p999_ms": 21.759,
+            "requests": 1622291,
+            "elapsed_seconds": 31.275206080987118,
+            "seconds": 30
+          },
+          "qps_change_percent": 36.0323193026751,
+          "p99_change_percent": 21.540187515025245
+        },
+        {
+          "round": 2,
+          "workers12": {
+            "workers": 12,
+            "round": 2,
+            "tag": "parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat2-20261005",
+            "product": "lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat2-20261005",
+            "type": "zset",
+            "logical_bytes": 104857600,
+            "field_bytes": 1024,
+            "entries_per_key": 102400,
+            "keys": 8,
+            "operation": "ZINCRBY",
+            "connections": 80,
+            "qps": 38730.08,
+            "p50_ms": 1.007,
+            "p99_ms": 12.607,
+            "p999_ms": 15.423,
+            "requests": 1162072,
+            "elapsed_seconds": 31.27262013294967,
+            "seconds": 30
+          },
+          "workers8": {
+            "workers": 8,
+            "round": 2,
+            "tag": "parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat2-20261005",
+            "product": "lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat2-20261005",
+            "type": "zset",
+            "logical_bytes": 104857600,
+            "field_bytes": 1024,
+            "entries_per_key": 102400,
+            "keys": 8,
+            "operation": "ZINCRBY",
+            "connections": 80,
+            "qps": 54174.43,
+            "p50_ms": 0.479,
+            "p99_ms": 15.231,
+            "p999_ms": 21.631,
+            "requests": 1625540,
+            "elapsed_seconds": 31.275263705989346,
+            "seconds": 30
+          },
+          "qps_change_percent": 39.87688638908051,
+          "p99_change_percent": 20.813833584516537
+        },
+        {
+          "round": 3,
+          "workers12": {
+            "workers": 12,
+            "round": 3,
+            "tag": "parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat3-20261005",
+            "product": "lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat3-20261005",
+            "type": "zset",
+            "logical_bytes": 104857600,
+            "field_bytes": 1024,
+            "entries_per_key": 102400,
+            "keys": 8,
+            "operation": "ZINCRBY",
+            "connections": 80,
+            "qps": 38421.81,
+            "p50_ms": 0.903,
+            "p99_ms": 12.671,
+            "p999_ms": 15.295,
+            "requests": 1152761,
+            "elapsed_seconds": 31.2748029770446,
+            "seconds": 30
+          },
+          "workers8": {
+            "workers": 8,
+            "round": 3,
+            "tag": "parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat3-20261005",
+            "product": "lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat3-20261005",
+            "type": "zset",
+            "logical_bytes": 104857600,
+            "field_bytes": 1024,
+            "entries_per_key": 102400,
+            "keys": 8,
+            "operation": "ZINCRBY",
+            "connections": 80,
+            "qps": 54554.61,
+            "p50_ms": 0.479,
+            "p99_ms": 15.487,
+            "p999_ms": 22.271,
+            "requests": 1636832,
+            "elapsed_seconds": 31.321199033991434,
+            "seconds": 30
+          },
+          "qps_change_percent": 41.98865175794686,
+          "p99_change_percent": 22.223976008207735
+        }
+      ],
+      "qps_paired_percent": {
+        "median": 39.87688638908051,
+        "min": 36.0323193026751,
+        "max": 41.98865175794686,
+        "positive_pairs": 3,
+        "negative_pairs": 0
+      },
+      "p99_paired_percent": {
+        "median": 21.540187515025245,
+        "min": 20.813833584516537,
+        "max": 22.223976008207735,
+        "positive_pairs": 3,
+        "negative_pairs": 0
+      }
+    },
+    {
+      "operation": "ZINCRBY",
+      "connections": 320,
+      "pairs": [
+        {
+          "round": 1,
+          "workers12": {
+            "workers": 12,
+            "round": 1,
+            "tag": "parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat1-20261005",
+            "product": "lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat1-20261005",
+            "type": "zset",
+            "logical_bytes": 104857600,
+            "field_bytes": 1024,
+            "entries_per_key": 102400,
+            "keys": 8,
+            "operation": "ZINCRBY",
+            "connections": 320,
+            "qps": 42435.37,
+            "p50_ms": 4.415,
+            "p99_ms": 31.359,
+            "p999_ms": 37.119,
+            "requests": 1273594,
+            "elapsed_seconds": 31.375238367007114,
+            "seconds": 30
+          },
+          "workers8": {
+            "workers": 8,
+            "round": 1,
+            "tag": "parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat1-20261005",
+            "product": "lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat1-20261005",
+            "type": "zset",
+            "logical_bytes": 104857600,
+            "field_bytes": 1024,
+            "entries_per_key": 102400,
+            "keys": 8,
+            "operation": "ZINCRBY",
+            "connections": 320,
+            "qps": 58192.6,
+            "p50_ms": 0.951,
+            "p99_ms": 39.167,
+            "p999_ms": 50.687,
+            "requests": 1746430,
+            "elapsed_seconds": 31.375116560957395,
+            "seconds": 30
+          },
+          "qps_change_percent": 37.13230260511455,
+          "p99_change_percent": 24.89875314901624
+        },
+        {
+          "round": 2,
+          "workers12": {
+            "workers": 12,
+            "round": 2,
+            "tag": "parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat2-20261005",
+            "product": "lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat2-20261005",
+            "type": "zset",
+            "logical_bytes": 104857600,
+            "field_bytes": 1024,
+            "entries_per_key": 102400,
+            "keys": 8,
+            "operation": "ZINCRBY",
+            "connections": 320,
+            "qps": 41321.91,
+            "p50_ms": 4.479,
+            "p99_ms": 31.999,
+            "p999_ms": 37.119,
+            "requests": 1240203,
+            "elapsed_seconds": 31.375507485994603,
+            "seconds": 30
+          },
+          "workers8": {
+            "workers": 8,
+            "round": 2,
+            "tag": "parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat2-20261005",
+            "product": "lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat2-20261005",
+            "type": "zset",
+            "logical_bytes": 104857600,
+            "field_bytes": 1024,
+            "entries_per_key": 102400,
+            "keys": 8,
+            "operation": "ZINCRBY",
+            "connections": 320,
+            "qps": 58158.62,
+            "p50_ms": 0.991,
+            "p99_ms": 39.679,
+            "p999_ms": 51.199,
+            "requests": 1745466,
+            "elapsed_seconds": 31.37448564002989,
+            "seconds": 30
+          },
+          "qps_change_percent": 40.74523660692353,
+          "p99_change_percent": 24.000750023438243
+        },
+        {
+          "round": 3,
+          "workers12": {
+            "workers": 12,
+            "round": 3,
+            "tag": "parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat3-20261005",
+            "product": "lavik-parent067c7589-zset-worker-count-w12-104857600-1024-k8-repeat3-20261005",
+            "type": "zset",
+            "logical_bytes": 104857600,
+            "field_bytes": 1024,
+            "entries_per_key": 102400,
+            "keys": 8,
+            "operation": "ZINCRBY",
+            "connections": 320,
+            "qps": 41204.77,
+            "p50_ms": 4.735,
+            "p99_ms": 30.847,
+            "p999_ms": 37.119,
+            "requests": 1236592,
+            "elapsed_seconds": 31.37342025898397,
+            "seconds": 30
+          },
+          "workers8": {
+            "workers": 8,
+            "round": 3,
+            "tag": "parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat3-20261005",
+            "product": "lavik-parent067c7589-zset-worker-count-w8-104857600-1024-k8-repeat3-20261005",
+            "type": "zset",
+            "logical_bytes": 104857600,
+            "field_bytes": 1024,
+            "entries_per_key": 102400,
+            "keys": 8,
+            "operation": "ZINCRBY",
+            "connections": 320,
+            "qps": 59105.02,
+            "p50_ms": 0.863,
+            "p99_ms": 40.959,
+            "p999_ms": 53.503,
+            "requests": 1773979,
+            "elapsed_seconds": 31.37405934202252,
+            "seconds": 30
+          },
+          "qps_change_percent": 43.44217914576396,
+          "p99_change_percent": 32.78114565435861
+        }
+      ],
+      "qps_paired_percent": {
+        "median": 40.74523660692353,
+        "min": 37.13230260511455,
+        "max": 43.44217914576396,
+        "positive_pairs": 3,
+        "negative_pairs": 0
+      },
+      "p99_paired_percent": {
+        "median": 24.89875314901624,
+        "min": 24.000750023438243,
+        "max": 32.78114565435861,
+        "positive_pairs": 3,
+        "negative_pairs": 0
+      }
+    }
+  ],
+  "limits": "Configuration comparison on one frozen binary; different worker counts also change per-worker pools, placement and owner mapping. CPU snapshots include client startup/result collection, network, kernel, polling and background work. No TID-to-owner binding or command-exclusive CPU claim. Original 12-worker peer curves remain unchanged.",
+  "status": "All 24 observations and three pairs per cell validated."
+}

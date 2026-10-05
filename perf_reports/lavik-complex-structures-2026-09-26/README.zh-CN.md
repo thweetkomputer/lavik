@@ -12,7 +12,7 @@ Hash/Set 单路由替换的[全部 144 点对照](diagnostics/hash-route-replace
 
 [English](README.md)
 
-[ZINCRBY worker 分布分析](diagnostics/zset-worker-distribution-20261005/README.md)：现有 8 个 key 在 12 workers 下仅落到 4 个数据 owner；已核对 perf 线程分布，固定二进制的 8/12-worker 配置对照已排队，尚无调参收益结论。
+[ZINCRBY worker 分布与完整配置对照](diagnostics/zset-worker-distribution-20261005/zset-worker-count-complete.md)：固定八个 key 和同一二进制，8 workers 相比 12 workers 的 ZSCORE QPS 中位提升 19.16%/31.70%，ZINCRBY 提升 39.88%/40.75%；但写 p99 三轮均退化，中位 +21.54%/+24.90%。配置诊断单列，不替代原始基线，不与 #280 收益相乘。
 
 [ZSCORE/ZMSCORE 成员页借用视图](diagnostics/zset-score-views-20261005/README.md)：去掉整页字段/值复制，保留完整校验；历史 `9d1ffc85` 的 fork 与上游 CI 各 17 项通过，新 head CI 出现上述 RESTORE 超时，[PR #280](https://github.com/eloqdata/lavik/pull/280) 保持草稿；全部 96 点对照见上文，独立读 perf 也已完成。
 
