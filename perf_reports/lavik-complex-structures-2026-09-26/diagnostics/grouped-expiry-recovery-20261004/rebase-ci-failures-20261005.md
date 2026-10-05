@@ -54,3 +54,10 @@
 `a5c825e9` 的 [arm64 分片 0](https://github.com/eloqdata/lavik/actions/runs/37297696440/job/111727582470) 中，`AllTypes/GroupedFullDiskExpirationE2e.ReclaimsGraphAndRecovers/SetIndirect` 的 RESTORE 等待响应超时（errno=11）。该 ordered suite 为 102 通过、1 跳过、1 失败。原因尚未确定；已经包含 #268 并不能证明本次失败已解决或与当前 PR 无关。不提高超时、不盲目重跑，保持草稿。[失败摘录](pr280-rebase-failed-job-excerpt.txt)。
 
 [当前各 PR 的 head、依赖与 CI 快照](pr-cleanup-current-state.json)。快照不是后续 CI 成功承诺；原历史失败和原测量二进制身份保留。
+
+
+### #280 保留日志与同 main 对照
+
+失败 artifact 包含[服务端启动日志](pr280-retained-server.log)，但没有保留的 136 MiB 磁盘镜像。日志到存储恢复完成、worker 初始化结束，没有后续命令阶段记录或崩溃报告；无法确定三次 RESTORE 中哪一次卡住。main `330738d9` 的同一 arm64 分片通过，SetIndirect 用例耗时 12.836 秒；当前失败用例为 77.918 秒，包含清理时间，不能全部当作 RESTORE 执行时间。对应源码的 fixture 与 main 一致，Hash 编辑辅助 key 结构只是从函数内移至匿名命名空间，未发现可直接解释此超时的行为改变。这些证据仍不足以判定偶发或排除回归，不据此改变生产代码、放宽超时或重跑。
+
+[artifact 身份、哈希及限制](pr280-expiry-main-comparison.json) · [main 成功摘录](main330-arm64-0-expiry-excerpt.txt)

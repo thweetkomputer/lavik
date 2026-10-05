@@ -33,7 +33,7 @@ ZSCORE gains QPS in all three pairs at every tested size and concurrency. Small-
 
 Writes do not show a general improvement or prove neutrality. Large-object ZINCRBY QPS medians are −1.10%/+0.24%/−0.76%/−1.62%; large c2560 p99 worsens +6.67%. Small-object write QPS medians are +1.66%/−0.22%/+2.27%/+2.87%; only c5120 gains QPS in every pair. Small c320 p99 worsens in two pairs (median +0.72%).
 
-#280 remains draft. The rebased head `a5c825e9` has an unresolved SetIndirect RESTORE timeout in arm64 CI; the historical binary comparison does not validate that head. [Failure evidence](../grouped-expiry-recovery-20261004/rebase-ci-failures-20261005.md). Independent ZSCORE perf follows these completed controls.
+#280 remains draft. The rebased head `a5c825e9` has an unresolved SetIndirect RESTORE timeout in arm64 CI; the historical binary comparison does not validate that head. [Failure evidence](../grouped-expiry-recovery-20261004/rebase-ci-failures-20261005.md). [All four independent ZSCORE perf captures](zset-score-views-perf.md) are complete.
 
 [Historical large-read peer comparison](zset-score-views-large-reads.md): candidate reaches 25.52%–55.88% of the fastest peer at corresponding concurrencies. Peers were not rerun and durability/cache configurations differ; no overall parity claim.
 
