@@ -10,6 +10,8 @@
 
 [分片记录](pr267-rebase-failed-job.json) · [失败摘录](pr267-rebase-failed-job-excerpt.txt)
 
+旧运行在新提交后已无测试执行，仅两个 `always()` 汇总作业排队，修复版仍 pending。保存[原状态](pr267-superseded-ci-before-cancel.json)后发出普通取消，仍未结束；随后使用 GitHub 官方的[强制取消接口](https://docs.github.com/en/rest/actions/workflow-runs#force-cancel-a-workflow-run)终止旧汇总。[请求与条件](pr267-superseded-ci-force-cancel.json) · [最终状态](pr267-superseded-ci-final.json)：旧运行整体 cancelled，但原 arm64 分片的 assertion failure 保留；修复版已转为 queued，不能视为通过。
+
 ## #270：Sentinel HA 恢复预算超时，原因未定
 
 `e9714eb3` 的 [arm64 分片 5](https://github.com/eloqdata/lavik/actions/runs/37297041978/job/111730325644) 唯一失败用例是 `meta_integration.sentinel_ha_meta`。minority partition / learned peers 阶段的 30 秒预算超出：python-2 在 18.552 秒恢复，python-3 的成功操作超过预算，go-2/go-3 报 EOF。该预算包含选主、旧 leader 失去权限、旧连接关闭和顺序执行的客户端操作，现有日志未定位具体耗时来源。
