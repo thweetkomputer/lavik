@@ -1,0 +1,698 @@
+{
+  "versions": {
+    "parent": {
+      "commit": "adec3a3414adf7b18dc304d336253258e228cb02",
+      "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-stream-followup-parent-adec3a34-20261005",
+      "sha256": "62891463498c88ff2137a1a28baea251d9c55fe503fbbe581da47f2ff1ba463f",
+      "source_repo": "/mnt/dev/lavik-complex-next-20261004",
+      "bycorf_commit": "62509c93d40c2480f5046b71454db6cf95801b04",
+      "build": "RelWithDebInfo, native, LTO, GCC 13, SPDK, BUILD_TESTING=OFF, LAVIK_ENABLE_TEST_FAULTS=OFF",
+      "build_directory": "/mnt/dev/lavik-complex-next-20261004/build-spdk",
+      "no_build_or_tests_during_measurements": true,
+      "pr": 270,
+      "ci_required_before_performance": true,
+      "initial_environment_failure": "/mnt/dev/lavik-complex-iterations-20261004/stream-followup-parent-stream-transfer-tests.json",
+      "failed_case_retry": "/mnt/dev/lavik-complex-iterations-20261004/stream-followup-parent-large-rdb-retry.json"
+    },
+    "window": {
+      "commit": "5b9ebdedecc0cc7a3fea93fb73b1fbbb6b7186c6",
+      "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-stream-followup-window-5b9ebded-20261005",
+      "sha256": "3af06ea2dc0e276f03cfb48d9d8c9df0e84979ba8e4275725bcf6456c728d13d",
+      "source_repo": "/mnt/dev/lavik-complex-next-20261004",
+      "bycorf_commit": "62509c93d40c2480f5046b71454db6cf95801b04",
+      "build": "RelWithDebInfo, native, LTO, GCC 13, SPDK, BUILD_TESTING=OFF, LAVIK_ENABLE_TEST_FAULTS=OFF",
+      "build_directory": "/mnt/dev/lavik-complex-next-20261004/build-spdk",
+      "no_build_or_tests_during_measurements": true,
+      "pr": 275,
+      "ci_required_before_performance": true
+    }
+  },
+  "driver": "/mnt/dev/lavik-benchmark-binaries/lavik-stream-rdb-diagnostic-driver-763d9076-20261005",
+  "driver_commit": "763d9076c76e5f0985a72c26d62959882043a9f2",
+  "driver_sha256": "c69c0270c122ff573eea04f45cfe0ece8151108f4a7c1d9bb50f9fc4a0084b4f",
+  "method": "Original selected Stream/transfer/RDB suite order, unchanged frozen production executables and deadlines; only diagnostic phase context/artifact retention. Window then parent on independent file devices, serialized with all benchmark-host work. Subsequent passes do not explain original failure. No throughput claim.",
+  "rows": [
+    {
+      "version": "window",
+      "argv": [
+        "/mnt/dev/lavik-benchmark-binaries/lavik-stream-rdb-diagnostic-driver-763d9076-20261005",
+        "/mnt/dev/lavik-benchmark-binaries/lavik-stream-followup-window-5b9ebded-20261005",
+        "--gtest_filter=GroupedStreamE2e.*:GroupedTransferE2e.*:GroupedRdbStreamE2e.FourTypesMultiPageLargeItemsAndMultipleWorkers:GroupedRdbStreamE2e.RestoreStreamsFourTypesInsideAndOutsideExec:GroupedRdbStreamE2e.BackupStreamsFourTypesThenImportsAndRestarts",
+        "--gtest_output=json:/mnt/dev/lavik-complex-iterations-20261004/stream-window-suite-order-window.json"
+      ],
+      "returncode": 0,
+      "seconds": 221.2466808850295,
+      "tests": {
+        "tests": 26,
+        "failures": 0,
+        "disabled": 0,
+        "errors": 0,
+        "timestamp": "2026-10-05T04:32:11Z",
+        "time": "221.234s",
+        "name": "AllTests",
+        "testsuites": [
+          {
+            "name": "GroupedStreamE2e",
+            "tests": 16,
+            "failures": 0,
+            "disabled": 0,
+            "errors": 0,
+            "timestamp": "2026-10-05T04:32:11Z",
+            "time": "179.328s",
+            "testsuite": [
+              {
+                "name": "SmallStreamKeepsCompactStorage",
+                "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/stream_e2e_test.cpp",
+                "line": 37,
+                "status": "RUN",
+                "result": "COMPLETED",
+                "timestamp": "2026-10-05T04:32:11Z",
+                "time": "0.334s",
+                "classname": "GroupedStreamE2e"
+              },
+              {
+                "name": "ConcurrentDurabilityWaitersRecheckPartialFlushes",
+                "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/stream_e2e_test.cpp",
+                "line": 50,
+                "status": "RUN",
+                "result": "COMPLETED",
+                "timestamp": "2026-10-05T04:32:11Z",
+                "time": "2.072s",
+                "classname": "GroupedStreamE2e"
+              },
+              {
+                "name": "PromotesAtSharedSizeBoundaryAndRecovers",
+                "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/stream_e2e_test.cpp",
+                "line": 101,
+                "status": "RUN",
+                "result": "COMPLETED",
+                "timestamp": "2026-10-05T04:32:13Z",
+                "time": "0.744s",
+                "classname": "GroupedStreamE2e"
+              },
+              {
+                "name": "AppendOnlyRewritesBoundedPagesAndRecovers",
+                "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/stream_e2e_test.cpp",
+                "line": 150,
+                "status": "RUN",
+                "result": "COMPLETED",
+                "timestamp": "2026-10-05T04:32:14Z",
+                "time": "6.127s",
+                "classname": "GroupedStreamE2e"
+              },
+              {
+                "name": "DeleteRoutesIdsAndPreservesPendingAndNodeBoundaries",
+                "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/stream_e2e_test.cpp",
+                "line": 194,
+                "status": "RUN",
+                "result": "COMPLETED",
+                "timestamp": "2026-10-05T04:32:20Z",
+                "time": "1.622s",
+                "classname": "GroupedStreamE2e"
+              },
+              {
+                "name": "EmptyStreamRetainsGroupsAndPendingAcrossRecovery",
+                "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/stream_e2e_test.cpp",
+                "line": 245,
+                "status": "RUN",
+                "result": "COMPLETED",
+                "timestamp": "2026-10-05T04:32:22Z",
+                "time": "1.218s",
+                "classname": "GroupedStreamE2e"
+              },
+              {
+                "name": "BinaryNamesLargeIdsAndApproximateNodes",
+                "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/stream_e2e_test.cpp",
+                "line": 278,
+                "status": "RUN",
+                "result": "COMPLETED",
+                "timestamp": "2026-10-05T04:32:23Z",
+                "time": "0.182s",
+                "classname": "GroupedStreamE2e"
+              },
+              {
+                "name": "MultipleConsumersSparseAcksCopyAndRename",
+                "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/stream_e2e_test.cpp",
+                "line": 310,
+                "status": "RUN",
+                "result": "COMPLETED",
+                "timestamp": "2026-10-05T04:32:23Z",
+                "time": "3.243s",
+                "classname": "GroupedStreamE2e"
+              },
+              {
+                "name": "FailedAppendCannotLeakIntoFollowingAckInExec",
+                "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/stream_e2e_test.cpp",
+                "line": 355,
+                "status": "RUN",
+                "result": "SKIPPED",
+                "timestamp": "2026-10-05T04:32:27Z",
+                "time": "0s",
+                "classname": "GroupedStreamE2e",
+                "skipped": [
+                  {
+                    "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/stream_e2e_test.cpp:357\nrequires grouped auxiliary fault hook\n"
+                  }
+                ]
+              },
+              {
+                "name": "RewoundNoAckAndForceClaimPreserveUnloadedPending",
+                "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/stream_e2e_test.cpp",
+                "line": 397,
+                "status": "RUN",
+                "result": "COMPLETED",
+                "timestamp": "2026-10-05T04:32:27Z",
+                "time": "0.12s",
+                "classname": "GroupedStreamE2e"
+              },
+              {
+                "name": "ExpirationDeletionAndFlushCannotResurrectOldGraphs",
+                "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/stream_e2e_test.cpp",
+                "line": 430,
+                "status": "RUN",
+                "result": "COMPLETED",
+                "timestamp": "2026-10-05T04:32:27Z",
+                "time": "1.588s",
+                "classname": "GroupedStreamE2e"
+              },
+              {
+                "name": "AggregateAbove512MiBKeepsHotPathsAndRecoveryBounded",
+                "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/stream_e2e_test.cpp",
+                "line": 464,
+                "status": "RUN",
+                "result": "COMPLETED",
+                "timestamp": "2026-10-05T04:32:28Z",
+                "time": "47.132s",
+                "classname": "GroupedStreamE2e"
+              },
+              {
+                "name": "RangeRepliesPreserveMixedSizeBinaryRecords",
+                "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/stream_e2e_test.cpp",
+                "line": 556,
+                "status": "RUN",
+                "result": "COMPLETED",
+                "timestamp": "2026-10-05T04:33:15Z",
+                "time": "0.199s",
+                "classname": "GroupedStreamE2e"
+              },
+              {
+                "name": "ReadWindowsRespectCountAndJoinFailedStarts",
+                "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/stream_e2e_test.cpp",
+                "line": 635,
+                "status": "RUN",
+                "result": "SKIPPED",
+                "timestamp": "2026-10-05T04:33:16Z",
+                "time": "0s",
+                "classname": "GroupedStreamE2e",
+                "skipped": [
+                  {
+                    "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/stream_e2e_test.cpp:637\nrequires Stream read-window admission/start hooks\n"
+                  }
+                ]
+              },
+              {
+                "name": "LargeRepliesKeepSnapshotsAndDeletedHistory",
+                "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/stream_e2e_test.cpp",
+                "line": 688,
+                "status": "RUN",
+                "result": "COMPLETED",
+                "timestamp": "2026-10-05T04:33:16Z",
+                "time": "15.595s",
+                "classname": "GroupedStreamE2e"
+              },
+              {
+                "name": "LargeRdbRoundTripKeepsMessagesAndDeletedPendingBounded",
+                "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/stream_e2e_test.cpp",
+                "line": 753,
+                "status": "RUN",
+                "result": "COMPLETED",
+                "timestamp": "2026-10-05T04:33:31Z",
+                "time": "99.145s",
+                "classname": "GroupedStreamE2e"
+              }
+            ]
+          },
+          {
+            "name": "GroupedRdbStreamE2e",
+            "tests": 3,
+            "failures": 0,
+            "disabled": 0,
+            "errors": 0,
+            "timestamp": "2026-10-05T04:35:10Z",
+            "time": "10.727s",
+            "testsuite": [
+              {
+                "name": "FourTypesMultiPageLargeItemsAndMultipleWorkers",
+                "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/rdb_stream_e2e_test.cpp",
+                "line": 32,
+                "status": "RUN",
+                "result": "COMPLETED",
+                "timestamp": "2026-10-05T04:35:10Z",
+                "time": "3.651s",
+                "classname": "GroupedRdbStreamE2e"
+              },
+              {
+                "name": "RestoreStreamsFourTypesInsideAndOutsideExec",
+                "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/rdb_stream_e2e_test.cpp",
+                "line": 335,
+                "status": "RUN",
+                "result": "COMPLETED",
+                "timestamp": "2026-10-05T04:35:14Z",
+                "time": "2.057s",
+                "classname": "GroupedRdbStreamE2e"
+              },
+              {
+                "name": "BackupStreamsFourTypesThenImportsAndRestarts",
+                "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/rdb_stream_e2e_test.cpp",
+                "line": 612,
+                "status": "RUN",
+                "result": "COMPLETED",
+                "timestamp": "2026-10-05T04:35:16Z",
+                "time": "5.018s",
+                "classname": "GroupedRdbStreamE2e"
+              }
+            ]
+          },
+          {
+            "name": "GroupedTransferE2e",
+            "tests": 7,
+            "failures": 0,
+            "disabled": 0,
+            "errors": 0,
+            "timestamp": "2026-10-05T04:35:21Z",
+            "time": "31.178s",
+            "testsuite": [
+              {
+                "name": "FourTypesCopyRenameAcrossDatabasesAndWorkersRecover",
+                "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/transfer_e2e_test.cpp",
+                "line": 70,
+                "status": "RUN",
+                "result": "COMPLETED",
+                "timestamp": "2026-10-05T04:35:21Z",
+                "time": "9.893s",
+                "classname": "GroupedTransferE2e"
+              },
+              {
+                "name": "FailedExecCopyKeepsOldGraphAndCommitsLaterCommand",
+                "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/transfer_e2e_test.cpp",
+                "line": 118,
+                "status": "RUN",
+                "result": "SKIPPED",
+                "timestamp": "2026-10-05T04:35:31Z",
+                "time": "0s",
+                "classname": "GroupedTransferE2e",
+                "skipped": [
+                  {
+                    "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/transfer_e2e_test.cpp:120\nrequires group auxiliary failure injection\n"
+                  }
+                ]
+              },
+              {
+                "name": "FullImageScratchOomPreservesValuesAndMetadataReads",
+                "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/transfer_e2e_test.cpp",
+                "line": 166,
+                "status": "RUN",
+                "result": "COMPLETED",
+                "timestamp": "2026-10-05T04:35:31Z",
+                "time": "1.279s",
+                "classname": "GroupedTransferE2e"
+              },
+              {
+                "name": "ScanUsesOneLeafAndSurvivesDeletingEarlierFields",
+                "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/transfer_e2e_test.cpp",
+                "line": 200,
+                "status": "RUN",
+                "result": "COMPLETED",
+                "timestamp": "2026-10-05T04:35:32Z",
+                "time": "4.705s",
+                "classname": "GroupedTransferE2e"
+              },
+              {
+                "name": "ListSearchRetainsOnePageAndInsertOnlyItsInterval",
+                "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/transfer_e2e_test.cpp",
+                "line": 254,
+                "status": "RUN",
+                "result": "COMPLETED",
+                "timestamp": "2026-10-05T04:35:37Z",
+                "time": "1.399s",
+                "classname": "GroupedTransferE2e"
+              },
+              {
+                "name": "RandomFieldsAndSetPopDoNotMaterializeTheCollection",
+                "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/transfer_e2e_test.cpp",
+                "line": 310,
+                "status": "RUN",
+                "result": "COMPLETED",
+                "timestamp": "2026-10-05T04:35:38Z",
+                "time": "2.485s",
+                "classname": "GroupedTransferE2e"
+              },
+              {
+                "name": "SetMultiKeyOomLeavesDestinationAndHoldsIntact",
+                "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/transfer_e2e_test.cpp",
+                "line": 387,
+                "status": "RUN",
+                "result": "COMPLETED",
+                "timestamp": "2026-10-05T04:35:41Z",
+                "time": "11.415s",
+                "classname": "GroupedTransferE2e"
+              }
+            ]
+          }
+        ]
+      },
+      "data": "/mnt/dev/lavik-complex-iterations-20261004/stream-window-suite-order-window-data"
+    },
+    {
+      "version": "parent",
+      "argv": [
+        "/mnt/dev/lavik-benchmark-binaries/lavik-stream-rdb-diagnostic-driver-763d9076-20261005",
+        "/mnt/dev/lavik-benchmark-binaries/lavik-stream-followup-parent-adec3a34-20261005",
+        "--gtest_filter=GroupedStreamE2e.*:GroupedTransferE2e.*:GroupedRdbStreamE2e.FourTypesMultiPageLargeItemsAndMultipleWorkers:GroupedRdbStreamE2e.RestoreStreamsFourTypesInsideAndOutsideExec:GroupedRdbStreamE2e.BackupStreamsFourTypesThenImportsAndRestarts",
+        "--gtest_output=json:/mnt/dev/lavik-complex-iterations-20261004/stream-window-suite-order-parent.json"
+      ],
+      "returncode": 0,
+      "seconds": 221.84756516799098,
+      "tests": {
+        "tests": 26,
+        "failures": 0,
+        "disabled": 0,
+        "errors": 0,
+        "timestamp": "2026-10-05T04:35:53Z",
+        "time": "221.796s",
+        "name": "AllTests",
+        "testsuites": [
+          {
+            "name": "GroupedStreamE2e",
+            "tests": 16,
+            "failures": 0,
+            "disabled": 0,
+            "errors": 0,
+            "timestamp": "2026-10-05T04:35:53Z",
+            "time": "178.69s",
+            "testsuite": [
+              {
+                "name": "SmallStreamKeepsCompactStorage",
+                "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/stream_e2e_test.cpp",
+                "line": 37,
+                "status": "RUN",
+                "result": "COMPLETED",
+                "timestamp": "2026-10-05T04:35:53Z",
+                "time": "0.344s",
+                "classname": "GroupedStreamE2e"
+              },
+              {
+                "name": "ConcurrentDurabilityWaitersRecheckPartialFlushes",
+                "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/stream_e2e_test.cpp",
+                "line": 50,
+                "status": "RUN",
+                "result": "COMPLETED",
+                "timestamp": "2026-10-05T04:35:53Z",
+                "time": "2.174s",
+                "classname": "GroupedStreamE2e"
+              },
+              {
+                "name": "PromotesAtSharedSizeBoundaryAndRecovers",
+                "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/stream_e2e_test.cpp",
+                "line": 101,
+                "status": "RUN",
+                "result": "COMPLETED",
+                "timestamp": "2026-10-05T04:35:55Z",
+                "time": "0.752s",
+                "classname": "GroupedStreamE2e"
+              },
+              {
+                "name": "AppendOnlyRewritesBoundedPagesAndRecovers",
+                "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/stream_e2e_test.cpp",
+                "line": 150,
+                "status": "RUN",
+                "result": "COMPLETED",
+                "timestamp": "2026-10-05T04:35:56Z",
+                "time": "6.114s",
+                "classname": "GroupedStreamE2e"
+              },
+              {
+                "name": "DeleteRoutesIdsAndPreservesPendingAndNodeBoundaries",
+                "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/stream_e2e_test.cpp",
+                "line": 194,
+                "status": "RUN",
+                "result": "COMPLETED",
+                "timestamp": "2026-10-05T04:36:02Z",
+                "time": "1.617s",
+                "classname": "GroupedStreamE2e"
+              },
+              {
+                "name": "EmptyStreamRetainsGroupsAndPendingAcrossRecovery",
+                "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/stream_e2e_test.cpp",
+                "line": 245,
+                "status": "RUN",
+                "result": "COMPLETED",
+                "timestamp": "2026-10-05T04:36:04Z",
+                "time": "1.317s",
+                "classname": "GroupedStreamE2e"
+              },
+              {
+                "name": "BinaryNamesLargeIdsAndApproximateNodes",
+                "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/stream_e2e_test.cpp",
+                "line": 278,
+                "status": "RUN",
+                "result": "COMPLETED",
+                "timestamp": "2026-10-05T04:36:05Z",
+                "time": "0.188s",
+                "classname": "GroupedStreamE2e"
+              },
+              {
+                "name": "MultipleConsumersSparseAcksCopyAndRename",
+                "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/stream_e2e_test.cpp",
+                "line": 310,
+                "status": "RUN",
+                "result": "COMPLETED",
+                "timestamp": "2026-10-05T04:36:05Z",
+                "time": "3.249s",
+                "classname": "GroupedStreamE2e"
+              },
+              {
+                "name": "FailedAppendCannotLeakIntoFollowingAckInExec",
+                "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/stream_e2e_test.cpp",
+                "line": 355,
+                "status": "RUN",
+                "result": "SKIPPED",
+                "timestamp": "2026-10-05T04:36:09Z",
+                "time": "0s",
+                "classname": "GroupedStreamE2e",
+                "skipped": [
+                  {
+                    "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/stream_e2e_test.cpp:357\nrequires grouped auxiliary fault hook\n"
+                  }
+                ]
+              },
+              {
+                "name": "RewoundNoAckAndForceClaimPreserveUnloadedPending",
+                "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/stream_e2e_test.cpp",
+                "line": 397,
+                "status": "RUN",
+                "result": "COMPLETED",
+                "timestamp": "2026-10-05T04:36:09Z",
+                "time": "0.118s",
+                "classname": "GroupedStreamE2e"
+              },
+              {
+                "name": "ExpirationDeletionAndFlushCannotResurrectOldGraphs",
+                "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/stream_e2e_test.cpp",
+                "line": 430,
+                "status": "RUN",
+                "result": "COMPLETED",
+                "timestamp": "2026-10-05T04:36:09Z",
+                "time": "1.57s",
+                "classname": "GroupedStreamE2e"
+              },
+              {
+                "name": "AggregateAbove512MiBKeepsHotPathsAndRecoveryBounded",
+                "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/stream_e2e_test.cpp",
+                "line": 464,
+                "status": "RUN",
+                "result": "COMPLETED",
+                "timestamp": "2026-10-05T04:36:10Z",
+                "time": "47.368s",
+                "classname": "GroupedStreamE2e"
+              },
+              {
+                "name": "RangeRepliesPreserveMixedSizeBinaryRecords",
+                "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/stream_e2e_test.cpp",
+                "line": 556,
+                "status": "RUN",
+                "result": "COMPLETED",
+                "timestamp": "2026-10-05T04:36:58Z",
+                "time": "0.199s",
+                "classname": "GroupedStreamE2e"
+              },
+              {
+                "name": "ReadWindowsRespectCountAndJoinFailedStarts",
+                "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/stream_e2e_test.cpp",
+                "line": 635,
+                "status": "RUN",
+                "result": "SKIPPED",
+                "timestamp": "2026-10-05T04:36:58Z",
+                "time": "0s",
+                "classname": "GroupedStreamE2e",
+                "skipped": [
+                  {
+                    "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/stream_e2e_test.cpp:637\nrequires Stream read-window admission/start hooks\n"
+                  }
+                ]
+              },
+              {
+                "name": "LargeRepliesKeepSnapshotsAndDeletedHistory",
+                "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/stream_e2e_test.cpp",
+                "line": 688,
+                "status": "RUN",
+                "result": "COMPLETED",
+                "timestamp": "2026-10-05T04:36:58Z",
+                "time": "15.462s",
+                "classname": "GroupedStreamE2e"
+              },
+              {
+                "name": "LargeRdbRoundTripKeepsMessagesAndDeletedPendingBounded",
+                "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/stream_e2e_test.cpp",
+                "line": 753,
+                "status": "RUN",
+                "result": "COMPLETED",
+                "timestamp": "2026-10-05T04:37:13Z",
+                "time": "98.209s",
+                "classname": "GroupedStreamE2e"
+              }
+            ]
+          },
+          {
+            "name": "GroupedRdbStreamE2e",
+            "tests": 3,
+            "failures": 0,
+            "disabled": 0,
+            "errors": 0,
+            "timestamp": "2026-10-05T04:38:51Z",
+            "time": "11.116s",
+            "testsuite": [
+              {
+                "name": "FourTypesMultiPageLargeItemsAndMultipleWorkers",
+                "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/rdb_stream_e2e_test.cpp",
+                "line": 32,
+                "status": "RUN",
+                "result": "COMPLETED",
+                "timestamp": "2026-10-05T04:38:51Z",
+                "time": "3.714s",
+                "classname": "GroupedRdbStreamE2e"
+              },
+              {
+                "name": "RestoreStreamsFourTypesInsideAndOutsideExec",
+                "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/rdb_stream_e2e_test.cpp",
+                "line": 335,
+                "status": "RUN",
+                "result": "COMPLETED",
+                "timestamp": "2026-10-05T04:38:55Z",
+                "time": "2.297s",
+                "classname": "GroupedRdbStreamE2e"
+              },
+              {
+                "name": "BackupStreamsFourTypesThenImportsAndRestarts",
+                "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/rdb_stream_e2e_test.cpp",
+                "line": 612,
+                "status": "RUN",
+                "result": "COMPLETED",
+                "timestamp": "2026-10-05T04:38:58Z",
+                "time": "5.104s",
+                "classname": "GroupedRdbStreamE2e"
+              }
+            ]
+          },
+          {
+            "name": "GroupedTransferE2e",
+            "tests": 7,
+            "failures": 0,
+            "disabled": 0,
+            "errors": 0,
+            "timestamp": "2026-10-05T04:39:03Z",
+            "time": "31.989s",
+            "testsuite": [
+              {
+                "name": "FourTypesCopyRenameAcrossDatabasesAndWorkersRecover",
+                "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/transfer_e2e_test.cpp",
+                "line": 70,
+                "status": "RUN",
+                "result": "COMPLETED",
+                "timestamp": "2026-10-05T04:39:03Z",
+                "time": "10.053s",
+                "classname": "GroupedTransferE2e"
+              },
+              {
+                "name": "FailedExecCopyKeepsOldGraphAndCommitsLaterCommand",
+                "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/transfer_e2e_test.cpp",
+                "line": 118,
+                "status": "RUN",
+                "result": "SKIPPED",
+                "timestamp": "2026-10-05T04:39:13Z",
+                "time": "0s",
+                "classname": "GroupedTransferE2e",
+                "skipped": [
+                  {
+                    "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/transfer_e2e_test.cpp:120\nrequires group auxiliary failure injection\n"
+                  }
+                ]
+              },
+              {
+                "name": "FullImageScratchOomPreservesValuesAndMetadataReads",
+                "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/transfer_e2e_test.cpp",
+                "line": 166,
+                "status": "RUN",
+                "result": "COMPLETED",
+                "timestamp": "2026-10-05T04:39:13Z",
+                "time": "1.296s",
+                "classname": "GroupedTransferE2e"
+              },
+              {
+                "name": "ScanUsesOneLeafAndSurvivesDeletingEarlierFields",
+                "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/transfer_e2e_test.cpp",
+                "line": 200,
+                "status": "RUN",
+                "result": "COMPLETED",
+                "timestamp": "2026-10-05T04:39:14Z",
+                "time": "4.754s",
+                "classname": "GroupedTransferE2e"
+              },
+              {
+                "name": "ListSearchRetainsOnePageAndInsertOnlyItsInterval",
+                "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/transfer_e2e_test.cpp",
+                "line": 254,
+                "status": "RUN",
+                "result": "COMPLETED",
+                "timestamp": "2026-10-05T04:39:19Z",
+                "time": "1.421s",
+                "classname": "GroupedTransferE2e"
+              },
+              {
+                "name": "RandomFieldsAndSetPopDoNotMaterializeTheCollection",
+                "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/transfer_e2e_test.cpp",
+                "line": 310,
+                "status": "RUN",
+                "result": "COMPLETED",
+                "timestamp": "2026-10-05T04:39:20Z",
+                "time": "2.828s",
+                "classname": "GroupedTransferE2e"
+              },
+              {
+                "name": "SetMultiKeyOomLeavesDestinationAndHoldsIntact",
+                "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/transfer_e2e_test.cpp",
+                "line": 387,
+                "status": "RUN",
+                "result": "COMPLETED",
+                "timestamp": "2026-10-05T04:39:23Z",
+                "time": "11.635s",
+                "classname": "GroupedTransferE2e"
+              }
+            ]
+          }
+        ]
+      },
+      "data": "/mnt/dev/lavik-complex-iterations-20261004/stream-window-suite-order-parent-data"
+    }
+  ]
+}

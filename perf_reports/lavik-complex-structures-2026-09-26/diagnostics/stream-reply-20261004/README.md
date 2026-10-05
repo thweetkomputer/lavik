@@ -244,3 +244,11 @@ candidate 附加线程中没有样本的 TID：579464；附加命令和记录日
 [保持原套件顺序的诊断](diagnose-stream-window-suite-order.py) 也已排队：用相同不可变生产二进制及只增加阶段信息的测试驱动，先窗口、再父版本执行原 Stream/迁移/RDB 所选套件。这样检查单例隔离复测没有覆盖的前序用例影响；首个失败即保留现场并停止，不改超时。它等待正在执行的干净对照及独立 perf，未开始测试。
 
 汇总脚本另支持完整 `large-writes` 和 `small-controls` 范围，均要求三个完整配对才生成结果。每个观测逐字段核对原始 `result.json`；各范围核对所有 key 的初始基数，读后必须不变，追加测试的最终长度必须介于目标值和目标值加 100 之间。已用更严格的核对重新验证上述 24 个大对象读观测，QPS/p99 汇总完全不变；未完成的写入范围会拒绝生成结论。
+
+## 窗口版本按原套件顺序复测完成
+
+原生生产窗口 `5b9ebded` 与父版本 `adec3a34` 使用固定二进制及诊断驱动 `763d9076`，依次执行原 Stream/迁移/RDB 套件，各 26 例中 23 通过、3 个 fault-only 跳过、0 失败，耗时分别 221.25 和 221.85 秒。[完整来源和结果](stream-window-suite-order-diagnostics.json) · [窗口逐例结果](stream-window-suite-order-window.json) · [父版本逐例结果](stream-window-suite-order-parent.json)。这些套件耗时不是 QPS 对照。
+
+这次覆盖了单例隔离重跑没有覆盖的前序用例影响，但仍未重现原 `XREADGROUP` 超时，不能宣称已定位或修复根因。诊断只补充阶段信息和失败现场保留，没有修改生产代码、命令或 socket 限制。完整 fault-enabled CI 已通过；原生复测的跳过项不计为通过。
+
+[剩余阻塞/恢复和 Pub/Sub 检查](validate-stream-window-blocking.py) 已排队。为避免不必要的编译，它提取已保留的 main `19496654` CI 测试驱动，校验测试源文件与窗口版本相同，记录驱动和生产服务端各自的来源/SHA-256，再对固定 `5b9ebded` 执行原来的五个阻塞/恢复用例及 Pub/Sub 驱动。产物提取和执行均取得统一主机锁，未开始测试；窗口吞吐/perf 对照仍未开始。
