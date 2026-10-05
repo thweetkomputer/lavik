@@ -50,3 +50,5 @@
 [矩阵校验器](summarize-combined-controls.py)独立固定 25 个条件与两个源码版本，逐点比对原始 result、构建选项、二进制身份、全部 key 基数、读取 seed、正常退出及 A/B、B/A、A/B 顺序。只有完整 150 点才计算三轮配对变化；`--validate-only` 仅验证已完成数据，不给出不完整矩阵的收益结论。
 
 [命令计数审计](audit-complex-control-commands.py)核对实际命令参数、客户端请求总数与 INFO 命令调用增量，要求无失败/拒绝、窗口内除目标命令及 INFO 外无其他命令。首批实际完成的 Stream 点读/全量读取已经通过两项校验；该计数审计也在既有 72 点 ZSet 结果上复核，逐点计数与原审计一致。完整组合结果与证据索引待全部观测完成后发布，当前不输出组合收益结论。
+
+通用命令审计已另外通过既有 144 点 Hash/Set 和 30 点 List 原始观测，覆盖 HGET、HSET、SISMEMBER、SADD/SREM、LINDEX、LRANGE、LSET。客户端计数等于对应 Redis 命令调用之和，未发现命令错误或窗口内混入其他工作负载；SADD/SREM 按两个命令的调用总数计数。[审计输入哈希与执行记录](complex-command-auditor-hash-set-list-verification.json) · [Hash/Set 144 点计数](complex-command-auditor-check-hash-route-replace-repeats.json) · [List 30 点计数](complex-command-auditor-check-list64-repeats.json)。此次补发了原本仅保存在本机的 60 份 List INFO 快照。这只验证既有审计工具对各命令的适用性，没有新增基准实验，也不构成 #282 的性能或原生正确性结果。
