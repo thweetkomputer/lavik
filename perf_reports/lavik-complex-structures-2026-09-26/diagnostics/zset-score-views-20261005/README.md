@@ -8,11 +8,23 @@
 
 现有 HGET/HMGET 视图扫描器只检查请求字段的重复，不能直接替代原 ZSCORE 全页校验；因此复用 HashValueReader 并增加完整校验 visitor。原 Hash 编辑中的临时字段 key/hash 类型移至同文件共享，避免复制该类型实现。测试扩展已有 codec corruption/binary/empty fixture，覆盖命中后的无关重复字段、错误路由和 visitor 错误；现有 ZSet fixture 增加反序 256 成员跨页 ZMSCORE 检查，没有新增磁盘 fixture。
 
-[固定 head 的完整 fork CI](zset-score-views-9d1ffc85-full-ci.json) 已通过全部 17 项：两种架构编译、12 个软件分片、格式和汇总检查。[草稿 PR #280](https://github.com/eloqdata/lavik/pull/280) 的[独立上游 pull_request CI](pr280-upstream-full-ci.json)也已通过全部 17 项（[运行记录](https://github.com/eloqdata/lavik/actions/runs/37276852398)）；PR 创建时 main 已新增两个 Meta 优化提交，性能对照仍固定原父版本 `4610d607` 和候选 `9d1ffc85`，不重标为其他版本。[PR 身份](pr280-created.json) · [源码及脚本身份](prototype-status.json)。原生回归和性能尚未完成，不能把已有 ZINCRBY 采样称为 ZSCORE 读热点证明。
+[固定 head 的完整 fork CI](zset-score-views-9d1ffc85-full-ci.json) 已通过全部 17 项：两种架构编译、12 个软件分片、格式和汇总检查。[草稿 PR #280](https://github.com/eloqdata/lavik/pull/280) 的[独立上游 pull_request CI](pr280-upstream-full-ci.json)也已通过全部 17 项（[运行记录](https://github.com/eloqdata/lavik/actions/runs/37276852398)）；PR 创建时 main 已新增两个 Meta 优化提交，性能对照仍固定原父版本 `4610d607` 和候选 `9d1ffc85`，不重标为其他版本。[PR 身份](pr280-created.json) · [源码及脚本身份](prototype-status.json)。固定提交的原生回归已完成；96 点性能对照已开始，尚无完整收益结论。不能把已有 ZINCRBY 采样称为 ZSCORE 读热点证明。
 
-## 已排队的验证与测量
+## 原生验证结果与后续测量
 
-[原生验证](validate-zset-score-views-native.py) 等待当前 Hash/Set、合并版本验证、长 key 重放及 Stream 对照/采样结束，再取得主机锁。两个固定提交分别构建测试驱动，运行相关 Hash/Sorted Set、demotion、transfer 和 RDB 用例，冻结 tests/faults OFF 的生产二进制并记录 SHA-256。构建使用 `/mnt/dev` TMPDIR 和实际 CMake 选定的 Bycorf 源目录。
+[原生验证摘要](zset-score-views-native-summary.json) · [二进制、依赖及完整测试清单](zset-score-views-versions.json) · [验证驱动日志](zset-score-views-native-driver.log)
+
+| 固定版本 | 单元测试通过 | 原生测试通过 | 原生测试跳过 | 失败 |
+|---|---:|---:|---:|---:|
+| parent `4610d607` | 87 | 29 | 7 | 0 |
+| candidate `9d1ffc85` | 88 | 29 | 7 | 0 |
+
+原生范围涵盖 Sorted Set 点读写、反序多成员分数回复、超过 512 MiB 的聚合恢复、demotion、跨 worker transfer 和三项 RDB 用例。七项跳过均要求生产构建关闭的故障注入；不能把跳过算作通过。故障注入的历史完整 CI 见上方独立记录。每个版本分别构建其测试驱动，候选新增 visitor 单元覆盖，端到端使用扩展后的既有 fixture。
+
+生产二进制父/候选 SHA-256 分别为 `44695167697904ad6a210dd50e6fcdf3634f494fb633eb1267c5e9b568eed552` / `36de21675ae4c15ac391cb73579080b5d6fbee65cb2a6e5358d5daa4e8ce5675`。实际 CMake 依赖为 `62509c93`，嵌套 SPDK 工作区修改状态仍记录；不宣称递归依赖干净。所有结果属于上述冻结提交，不替代 rebase 后 `a5c825e9` 的 CI，也不是 QPS 收益证据。
+
+
+[原生验证](validate-zset-score-views-native.py) 已在前置任务结束后取得主机锁并完成。两个固定提交分别构建测试驱动，运行相关 Hash/Sorted Set、demotion、transfer 和 RDB 用例，冻结 tests/faults OFF 的生产二进制并记录 SHA-256。构建使用 `/mnt/dev` TMPDIR 和实际 CMake 选定的 Bycorf 源目录。
 
 [96 点配对测试](repeat-zset-score-views.py) 要求两个固定提交完整 CI 及原生验证通过。100 MiB/key、1024 B/member、8 keys 和 64 KiB/key、128 B/member、64 keys 各三轮 A/B、B/A、A/B；每点 30 秒、pipeline=1，连接数 80/320/2560/5120。每轮 ZSCORE 先由 parent 新建数据，再让两个版本依次重启读取同一逻辑数据，期间不写入。这减少独立 seed/布局差异，但后台物理变化仍可能发生，不能称为不可变设备镜像。ZINCRBY 控制则每个版本独立重新预置，全部 key 的基数、错误和退出码均检查。
 

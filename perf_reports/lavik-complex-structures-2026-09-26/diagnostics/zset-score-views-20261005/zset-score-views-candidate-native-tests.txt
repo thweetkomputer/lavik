@@ -1,0 +1,122 @@
+Note: Google Test filter = GroupedSortedSetWriteE2e.*:GroupedOrderedWriteE2e.SortedSet*:GroupedOrderedWriteE2e.LargeSortedSetMemberUsesExtents:GroupedDemotionE2e.*:GroupedTransferE2e.*:GroupedRdbStreamE2e.FourTypesMultiPageLargeItemsAndMultipleWorkers:GroupedRdbStreamE2e.RestoreStreamsFourTypesInsideAndOutsideExec:GroupedRdbStreamE2e.BackupStreamsFourTypesThenImportsAndRestarts
+[==========] Running 36 tests from 5 test suites.
+[----------] Global test environment set-up.
+[----------] 1 test from GroupedDemotionE2e
+[ RUN      ] GroupedDemotionE2e.StringListSetSortedSetGeoAndStreamRecoverCompact
+[       OK ] GroupedDemotionE2e.StringListSetSortedSetGeoAndStreamRecoverCompact (712 ms)
+[----------] 1 test from GroupedDemotionE2e (712 ms total)
+
+[----------] 4 tests from GroupedOrderedWriteE2e
+[ RUN      ] GroupedOrderedWriteE2e.SortedSetPointUpdateOnlyRewritesNearbyPages
+[       OK ] GroupedOrderedWriteE2e.SortedSetPointUpdateOnlyRewritesNearbyPages (706 ms)
+[ RUN      ] GroupedOrderedWriteE2e.SortedSetCrossEndMovesDoNotRewriteMiddlePages
+[       OK ] GroupedOrderedWriteE2e.SortedSetCrossEndMovesDoNotRewriteMiddlePages (1025 ms)
+[ RUN      ] GroupedOrderedWriteE2e.SortedSetRemovalPopAndStoreCommandSurface
+[       OK ] GroupedOrderedWriteE2e.SortedSetRemovalPopAndStoreCommandSurface (325 ms)
+[ RUN      ] GroupedOrderedWriteE2e.LargeSortedSetMemberUsesExtents
+[       OK ] GroupedOrderedWriteE2e.LargeSortedSetMemberUsesExtents (1019 ms)
+[----------] 4 tests from GroupedOrderedWriteE2e (3077 ms total)
+
+[----------] 3 tests from GroupedRdbStreamE2e
+[ RUN      ] GroupedRdbStreamE2e.FourTypesMultiPageLargeItemsAndMultipleWorkers
+[       OK ] GroupedRdbStreamE2e.FourTypesMultiPageLargeItemsAndMultipleWorkers (3569 ms)
+[ RUN      ] GroupedRdbStreamE2e.RestoreStreamsFourTypesInsideAndOutsideExec
+[       OK ] GroupedRdbStreamE2e.RestoreStreamsFourTypesInsideAndOutsideExec (1855 ms)
+[ RUN      ] GroupedRdbStreamE2e.BackupStreamsFourTypesThenImportsAndRestarts
+[       OK ] GroupedRdbStreamE2e.BackupStreamsFourTypesThenImportsAndRestarts (5304 ms)
+[----------] 3 tests from GroupedRdbStreamE2e (10730 ms total)
+
+[----------] 21 tests from GroupedSortedSetWriteE2e
+[ RUN      ] GroupedSortedSetWriteE2e.TypedChangesDoNotRereadOrderedMemberDiff
+/mnt/dev/lavik-complex-next-20261004/tests/grouped/zset_write_e2e_test.cpp:65: Skipped
+requires member-diff read failure injection
+
+[  SKIPPED ] GroupedSortedSetWriteE2e.TypedChangesDoNotRereadOrderedMemberDiff (0 ms)
+[ RUN      ] GroupedSortedSetWriteE2e.AdjacentScoreMovesReusePagesAcrossRecovery
+[       OK ] GroupedSortedSetWriteE2e.AdjacentScoreMovesReusePagesAcrossRecovery (1038 ms)
+[ RUN      ] GroupedSortedSetWriteE2e.PlannerSkipsUnchangedNeighborButChecksNewLinks
+/mnt/dev/lavik-complex-next-20261004/tests/grouped/zset_write_e2e_test.cpp:191: Skipped
+requires plan-page read failure injection
+
+[  SKIPPED ] GroupedSortedSetWriteE2e.PlannerSkipsUnchangedNeighborButChecksNewLinks (0 ms)
+[ RUN      ] GroupedSortedSetWriteE2e.BatchedMemberIndexChangesMatchOrderedPages
+[       OK ] GroupedSortedSetWriteE2e.BatchedMemberIndexChangesMatchOrderedPages (484 ms)
+[ RUN      ] GroupedSortedSetWriteE2e.MemberScoresUsePrefixPagesWithoutOrderedReads
+/mnt/dev/lavik-complex-next-20261004/tests/grouped/zset_write_e2e_test.cpp:334: Skipped
+requires ordered-read failure injection
+
+[  SKIPPED ] GroupedSortedSetWriteE2e.MemberScoresUsePrefixPagesWithoutOrderedReads (0 ms)
+[ RUN      ] GroupedSortedSetWriteE2e.ScoreBoundsSkipUnrelatedPagesAfterRecovery
+/mnt/dev/lavik-complex-next-20261004/tests/grouped/zset_write_e2e_test.cpp:372: Skipped
+requires selected ordered-page failure injection
+
+[  SKIPPED ] GroupedSortedSetWriteE2e.ScoreBoundsSkipUnrelatedPagesAfterRecovery (0 ms)
+[ RUN      ] GroupedSortedSetWriteE2e.ScoreBoundsHandleLongTieRunsAndMixedBatchMoves
+[       OK ] GroupedSortedSetWriteE2e.ScoreBoundsHandleLongTieRunsAndMixedBatchMoves (1780 ms)
+[ RUN      ] GroupedSortedSetWriteE2e.ScoreBoundsRecoverAfterMultiExtentParentKey
+[       OK ] GroupedSortedSetWriteE2e.ScoreBoundsRecoverAfterMultiExtentParentKey (4827 ms)
+[ RUN      ] GroupedSortedSetWriteE2e.FailedMemberWriteCannotCommitOrderedHalf
+/mnt/dev/lavik-complex-next-20261004/tests/grouped/zset_write_e2e_test.cpp:547: Skipped
+requires auxiliary-write failure injection
+
+[  SKIPPED ] GroupedSortedSetWriteE2e.FailedMemberWriteCannotCommitOrderedHalf (0 ms)
+[ RUN      ] GroupedSortedSetWriteE2e.PointFlagsDuplicatesScoresAndAtomicNan
+[       OK ] GroupedSortedSetWriteE2e.PointFlagsDuplicatesScoresAndAtomicNan (420 ms)
+[ RUN      ] GroupedSortedSetWriteE2e.PointScoreMovesRewriteOnlyEndpointPages
+[       OK ] GroupedSortedSetWriteE2e.PointScoreMovesRewriteOnlyEndpointPages (1644 ms)
+[ RUN      ] GroupedSortedSetWriteE2e.BoundedRangeAliasesRanksBoundsAndMixedScoreLex
+[       OK ] GroupedSortedSetWriteE2e.BoundedRangeAliasesRanksBoundsAndMixedScoreLex (254 ms)
+[ RUN      ] GroupedSortedSetWriteE2e.PageScanRepliesOwnBinaryMembersAcrossRecovery
+[       OK ] GroupedSortedSetWriteE2e.PageScanRepliesOwnBinaryMembersAcrossRecovery (1890 ms)
+[ RUN      ] GroupedSortedSetWriteE2e.ScanCursorsAndAllPopEntryPointsRecover
+[       OK ] GroupedSortedSetWriteE2e.ScanCursorsAndAllPopEntryPointsRecover (2405 ms)
+[ RUN      ] GroupedSortedSetWriteE2e.FullImageAndRandomReplyOomAreAtomic
+[       OK ] GroupedSortedSetWriteE2e.FullImageAndRandomReplyOomAreAtomic (3358 ms)
+[ RUN      ] GroupedSortedSetWriteE2e.RangeRemovalFitsSelectedPagesAndRecovers
+[       OK ] GroupedSortedSetWriteE2e.RangeRemovalFitsSelectedPagesAndRecovers (6006 ms)
+[ RUN      ] GroupedSortedSetWriteE2e.FailedRangeRemovalPreservesExecPrefixAndRecovery
+/mnt/dev/lavik-complex-next-20261004/tests/grouped/zset_write_e2e_test.cpp:994: Skipped
+requires auxiliary-write failure injection
+
+[  SKIPPED ] GroupedSortedSetWriteE2e.FailedRangeRemovalPreservesExecPrefixAndRecovery (0 ms)
+[ RUN      ] GroupedSortedSetWriteE2e.RandomAndRangeRemovalPreserveSemantics
+[       OK ] GroupedSortedSetWriteE2e.RandomAndRangeRemovalPreserveSemantics (91 ms)
+[ RUN      ] GroupedSortedSetWriteE2e.GeoPointReadsPreserveRepliesAndExecVisibility
+[       OK ] GroupedSortedSetWriteE2e.GeoPointReadsPreserveRepliesAndExecVisibility (463 ms)
+[ RUN      ] GroupedSortedSetWriteE2e.MultiKeyAggregateOomPreservesStoreAndExecPrefix
+[       OK ] GroupedSortedSetWriteE2e.MultiKeyAggregateOomPreservesStoreAndExecPrefix (2601 ms)
+[ RUN      ] GroupedSortedSetWriteE2e.AggregateAbove512MiBRemainsBoundedAndRecovers
+[       OK ] GroupedSortedSetWriteE2e.AggregateAbove512MiBRemainsBoundedAndRecovers (104007 ms)
+[----------] 21 tests from GroupedSortedSetWriteE2e (131275 ms total)
+
+[----------] 7 tests from GroupedTransferE2e
+[ RUN      ] GroupedTransferE2e.FourTypesCopyRenameAcrossDatabasesAndWorkersRecover
+[       OK ] GroupedTransferE2e.FourTypesCopyRenameAcrossDatabasesAndWorkersRecover (9959 ms)
+[ RUN      ] GroupedTransferE2e.FailedExecCopyKeepsOldGraphAndCommitsLaterCommand
+/mnt/dev/lavik-complex-next-20261004/tests/grouped/transfer_e2e_test.cpp:120: Skipped
+requires group auxiliary failure injection
+
+[  SKIPPED ] GroupedTransferE2e.FailedExecCopyKeepsOldGraphAndCommitsLaterCommand (0 ms)
+[ RUN      ] GroupedTransferE2e.FullImageScratchOomPreservesValuesAndMetadataReads
+[       OK ] GroupedTransferE2e.FullImageScratchOomPreservesValuesAndMetadataReads (1224 ms)
+[ RUN      ] GroupedTransferE2e.ScanUsesOneLeafAndSurvivesDeletingEarlierFields
+[       OK ] GroupedTransferE2e.ScanUsesOneLeafAndSurvivesDeletingEarlierFields (4743 ms)
+[ RUN      ] GroupedTransferE2e.ListSearchRetainsOnePageAndInsertOnlyItsInterval
+[       OK ] GroupedTransferE2e.ListSearchRetainsOnePageAndInsertOnlyItsInterval (1302 ms)
+[ RUN      ] GroupedTransferE2e.RandomFieldsAndSetPopDoNotMaterializeTheCollection
+[       OK ] GroupedTransferE2e.RandomFieldsAndSetPopDoNotMaterializeTheCollection (2453 ms)
+[ RUN      ] GroupedTransferE2e.SetMultiKeyOomLeavesDestinationAndHoldsIntact
+[       OK ] GroupedTransferE2e.SetMultiKeyOomLeavesDestinationAndHoldsIntact (10339 ms)
+[----------] 7 tests from GroupedTransferE2e (30022 ms total)
+
+[----------] Global test environment tear-down
+[==========] 36 tests from 5 test suites ran. (175818 ms total)
+[  PASSED  ] 29 tests.
+[  SKIPPED ] 7 tests, listed below:
+[  SKIPPED ] GroupedSortedSetWriteE2e.TypedChangesDoNotRereadOrderedMemberDiff
+[  SKIPPED ] GroupedSortedSetWriteE2e.PlannerSkipsUnchangedNeighborButChecksNewLinks
+[  SKIPPED ] GroupedSortedSetWriteE2e.MemberScoresUsePrefixPagesWithoutOrderedReads
+[  SKIPPED ] GroupedSortedSetWriteE2e.ScoreBoundsSkipUnrelatedPagesAfterRecovery
+[  SKIPPED ] GroupedSortedSetWriteE2e.FailedMemberWriteCannotCommitOrderedHalf
+[  SKIPPED ] GroupedSortedSetWriteE2e.FailedRangeRemovalPreservesExecPrefixAndRecovery
+[  SKIPPED ] GroupedTransferE2e.FailedExecCopyKeepsOldGraphAndCommitsLaterCommand

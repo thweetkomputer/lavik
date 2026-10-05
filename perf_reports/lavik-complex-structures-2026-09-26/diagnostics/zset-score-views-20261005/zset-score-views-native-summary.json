@@ -1,0 +1,139 @@
+{
+  "scope": "Frozen parent 4610d607 and candidate 9d1ffc85; not validation of rebased head a5c825e9. Native correctness only, no throughput result.",
+  "versions": {
+    "parent": {
+      "commit": "4610d6077e8e32d59639a5ee88dbe8cbd305aab2",
+      "binary_sha256": "44695167697904ad6a210dd50e6fcdf3634f494fb633eb1267c5e9b568eed552",
+      "driver_sha256": "b7fa18a0d522c53369bdb8068ced0d4d0cb1ac94e5e11cec1d6dc3aba7460bc9",
+      "tests": {
+        "unit-tests": {
+          "passed": 87,
+          "skipped": [],
+          "failures": 0
+        },
+        "native-tests": {
+          "passed": 29,
+          "skipped": [
+            "GroupedSortedSetWriteE2e.TypedChangesDoNotRereadOrderedMemberDiff",
+            "GroupedSortedSetWriteE2e.PlannerSkipsUnchangedNeighborButChecksNewLinks",
+            "GroupedSortedSetWriteE2e.MemberScoresUsePrefixPagesWithoutOrderedReads",
+            "GroupedSortedSetWriteE2e.ScoreBoundsSkipUnrelatedPagesAfterRecovery",
+            "GroupedSortedSetWriteE2e.FailedMemberWriteCannotCommitOrderedHalf",
+            "GroupedSortedSetWriteE2e.FailedRangeRemovalPreservesExecPrefixAndRecovery",
+            "GroupedTransferE2e.FailedExecCopyKeepsOldGraphAndCommitsLaterCommand"
+          ],
+          "failures": 0
+        }
+      },
+      "production_flags": [
+        "BUILD_TESTING:BOOL=OFF",
+        "LAVIK_ENABLE_TEST_FAULTS:BOOL=OFF",
+        "CMAKE_BUILD_TYPE:STRING=RelWithDebInfo",
+        "LAVIK_ENABLE_OPT:BOOL=ON",
+        "LAVIK_MARCH:STRING=native",
+        "LAVIK_KERNEL_BYPASS:BOOL=ON",
+        "BYCORF_KERNEL_BYPASS:BOOL=ON",
+        "LAVIK_ENABLE_TRACE:BOOL=OFF",
+        "LAVIK_ENABLE_CROSS_CORE_HOP_COUNT:BOOL=OFF"
+      ]
+    },
+    "candidate": {
+      "commit": "9d1ffc8572f558cc139b1801488d014c2099dbfd",
+      "binary_sha256": "36de21675ae4c15ac391cb73579080b5d6fbee65cb2a6e5358d5daa4e8ce5675",
+      "driver_sha256": "1f7e53a5f9274c4043b790c92d765f24b896071f1eb6a7b4e72fde0538185725",
+      "tests": {
+        "unit-tests": {
+          "passed": 88,
+          "skipped": [],
+          "failures": 0
+        },
+        "native-tests": {
+          "passed": 29,
+          "skipped": [
+            "GroupedSortedSetWriteE2e.TypedChangesDoNotRereadOrderedMemberDiff",
+            "GroupedSortedSetWriteE2e.PlannerSkipsUnchangedNeighborButChecksNewLinks",
+            "GroupedSortedSetWriteE2e.MemberScoresUsePrefixPagesWithoutOrderedReads",
+            "GroupedSortedSetWriteE2e.ScoreBoundsSkipUnrelatedPagesAfterRecovery",
+            "GroupedSortedSetWriteE2e.FailedMemberWriteCannotCommitOrderedHalf",
+            "GroupedSortedSetWriteE2e.FailedRangeRemovalPreservesExecPrefixAndRecovery",
+            "GroupedTransferE2e.FailedExecCopyKeepsOldGraphAndCommitsLaterCommand"
+          ],
+          "failures": 0
+        }
+      },
+      "production_flags": [
+        "BUILD_TESTING:BOOL=OFF",
+        "LAVIK_ENABLE_TEST_FAULTS:BOOL=OFF",
+        "CMAKE_BUILD_TYPE:STRING=RelWithDebInfo",
+        "LAVIK_ENABLE_OPT:BOOL=ON",
+        "LAVIK_MARCH:STRING=native",
+        "LAVIK_KERNEL_BYPASS:BOOL=ON",
+        "BYCORF_KERNEL_BYPASS:BOOL=ON",
+        "LAVIK_ENABLE_TRACE:BOOL=OFF",
+        "LAVIK_ENABLE_CROSS_CORE_HOP_COUNT:BOOL=OFF"
+      ]
+    }
+  },
+  "inputs": [
+    {
+      "file": "zset-score-views-parent-build.json",
+      "sha256": "fdcc32fccb7b62ed4d3d94b071c50854d715fd1347ab3bb41dcf6540d90fb866"
+    },
+    {
+      "file": "zset-score-views-parent-CMakeCache.txt",
+      "sha256": "89504b485af6d518bc14a202a7f0466781a67ecbc2622e8841c5bab5878712af",
+      "raw_sha256": "9d9ef7fe5a069c9b3c0794f44557a141dfe9338c06021d8c832f1678bd66eb36",
+      "publication_transform": "Remove trailing empty lines only; original cache preserved in experiment workspace."
+    },
+    {
+      "file": "zset-score-views-parent-unit-tests.json",
+      "sha256": "ed70061d60434479d7afb6f43a4a61f5928c699a9efd7ad77f29fbb4db3c494a"
+    },
+    {
+      "file": "zset-score-views-parent-unit-tests.txt",
+      "sha256": "552c6a2d4f6a9dedcd558466fd10aa7e591d64de27f76077612f3de8c6ebfafb"
+    },
+    {
+      "file": "zset-score-views-parent-native-tests.json",
+      "sha256": "575b784f3197bad4a6719f226b7499982fc13f2a68f8dc427729957e7014b116"
+    },
+    {
+      "file": "zset-score-views-parent-native-tests.txt",
+      "sha256": "7f01816f16864c999e8575ce21eeb264a195814c020c2f395d853e079e6e9bad"
+    },
+    {
+      "file": "zset-score-views-candidate-build.json",
+      "sha256": "f1550774ca26ad30f1ba51034c3dba425309b8c6d6079708db47b689659652ee"
+    },
+    {
+      "file": "zset-score-views-candidate-CMakeCache.txt",
+      "sha256": "89504b485af6d518bc14a202a7f0466781a67ecbc2622e8841c5bab5878712af",
+      "raw_sha256": "9d9ef7fe5a069c9b3c0794f44557a141dfe9338c06021d8c832f1678bd66eb36",
+      "publication_transform": "Remove trailing empty lines only; original cache preserved in experiment workspace."
+    },
+    {
+      "file": "zset-score-views-candidate-unit-tests.json",
+      "sha256": "dce986fab0eab7e4b10a53eb7cdee9221a0bb7525050f705a3b1c66ff159445c"
+    },
+    {
+      "file": "zset-score-views-candidate-unit-tests.txt",
+      "sha256": "1bf7d94b917e7ef83c719d79b372b7575710bc94a091bfa3a0e5e4e3b576a93a"
+    },
+    {
+      "file": "zset-score-views-candidate-native-tests.json",
+      "sha256": "0166844ff7b4d944ff681a36a23c30d9e0cbc3e39de3d0eeb5cdcdd94e5f2061"
+    },
+    {
+      "file": "zset-score-views-candidate-native-tests.txt",
+      "sha256": "924462043f33c2957e71756a4df94a67615a6b152e2bbf94754a39c5b69c94bf"
+    },
+    {
+      "file": "zset-score-views-versions.json",
+      "sha256": "3e9bc9302aa5603fae9c6ea34a79c3c04b61db9edd754dde2fd550e8c052923e"
+    },
+    {
+      "file": "zset-score-views-native-driver.log",
+      "sha256": "53f84801224f7df7a0fe799d06b96e15d6bd6fa20a49690c496f05a7ebd3fe6a"
+    }
+  ]
+}
