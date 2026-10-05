@@ -71,7 +71,7 @@
 
 已准备测试诊断提交 `253ab6a9`：[完整补丁](pr280-expiry-diagnostics.patch)。它仅在 RESTORE 抛出异常时，利用现有 `RecordDiagnostics` 保留 zero-based 请求序号、key 数量/长度、命令调用的墙钟耗时和 live `/proc` 线程状态，并把原错误及日志写入失败结果。不会再次向可能停滞的 worker 发命令；原 RESTORE、TTL、15 秒 socket 接收超时和失败判定不变。当前 77.918 秒用例总时间不能直接当作接收等待时间，原 Client 的发送阶段也未单独计时。格式及 diff 检查通过，压测期间未编译或运行本机进程测试。
 
-该提交**尚未推送**：等待原运行 `37297696440` 最后一项 amd64 分片 3 完成，保存完整结果后才推送到现有 #280 分支并观察新 CI。[准备状态](pr280-pending-expiry-diagnostics.json) · [串行等待器身份](pr280-expiry-diagnostics-watcher.json)。这是证据采集，不是超时已修复的结论。
+原运行 `37297696440` 已完整结束，整体 failure；[全部 17 项终态](pr280-original-complete-ci.json)保留，12 个测试分片均已执行完毕。随后才将诊断提交 `253ab6a9` 推送至现有 #280 分支，[新 CI](https://github.com/eloqdata/lavik/actions/runs/37312803218) 已排队。[推送证明](pr280-expiry-diagnostics-pushed.json) · [当前状态](pr280-pending-expiry-diagnostics.json) · [串行等待器身份](pr280-expiry-diagnostics-watcher.json)。这是证据采集，不是超时已修复的结论。
 
 
 ## #271：复用已确认的 Meta 初始化准入修复
