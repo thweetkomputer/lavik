@@ -16,8 +16,10 @@ changes are +2.79%/+1.04%/+2.19%/+2.88%. High-load write p99 improves, but the
 large c5120 read-control p99 has a +14.81% median regression. Small read QPS at
 c80/c320 has −3.00%/−2.22% median changes and p99 +4.46%/+8.21%, worse in two
 of three pairs. All observations passed raw-data, cardinality, provenance and
-server-exit checks. The PR stays a draft while separate perf and read-control
-cause investigation remain outstanding.
+server-exit checks. [Separate ZINCRBY perf](zset-source-reuse-perf.md) is complete; it shows similar
+copy/allocator self shares and about 19 KB read / 22 KB written per command.
+It does not diagnose ZSCORE latency. The PR stays a draft while the read-control
+cause remains unresolved.
 
 The candidate reaches only 5.91–8.71% (large) and 9.07–16.06% (small) of the
 matching fastest historical peer's ZINCRBY throughput. Settings and sampling

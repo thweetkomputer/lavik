@@ -1,0 +1,78 @@
+{
+  "profiles": {
+    "previous": {
+      "version": {
+        "commit": "067c75891f819831620e277eac0592c360f8b585",
+        "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-zset-source-previous-067c7589-20261004",
+        "sha256": "656b990fa10c001194208082caecff584556fad572fd7dbcc74f061c3dd97ec3",
+        "source_repo": "/mnt/dev/lavik-complex-next-20261004",
+        "bycorf_commit": "62509c93d40c2480f5046b71454db6cf95801b04",
+        "build": "RelWithDebInfo, native, LTO, GCC 13, SPDK, BUILD_TESTING=OFF, LAVIK_ENABLE_TEST_FAULTS=OFF",
+        "build_directory": "/mnt/dev/lavik-complex-next-20261004/build-spdk",
+        "no_build_or_tests_during_measurements": true,
+        "ci_run_at_native_start": "https://github.com/eloqdata/lavik/actions/runs/37241392671",
+        "ci_required_before_performance": true,
+        "full_fault_enabled_ci": "https://github.com/eloqdata/lavik/actions/runs/37241392671"
+      },
+      "tag": "diagnostic-previous067c7589-zset-source-reuse-104857600-1024-20261005",
+      "directory": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-diagnostic-previous067c7589-zset-source-reuse-104857600-1024-20261005/diagnostic-c80",
+      "attached_tids": [
+        "782776",
+        "782777",
+        "782778",
+        "782779",
+        "782780",
+        "782781",
+        "782782",
+        "782783",
+        "782784",
+        "782785",
+        "782786",
+        "782787",
+        "782788"
+      ]
+    },
+    "candidate": {
+      "version": {
+        "commit": "d012a3013da99344a419bb692f834b17fd6dcad4",
+        "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-zset-source-candidate-d012a301-20261004",
+        "sha256": "3ec29010ac2164a253a0822232f9c4153ec283aed516e0d8c7377e4de20ea255",
+        "source_repo": "/mnt/dev/lavik-complex-next-20261004",
+        "bycorf_commit": "62509c93d40c2480f5046b71454db6cf95801b04",
+        "build": "RelWithDebInfo, native, LTO, GCC 13, SPDK, BUILD_TESTING=OFF, LAVIK_ENABLE_TEST_FAULTS=OFF",
+        "build_directory": "/mnt/dev/lavik-complex-next-20261004/build-spdk",
+        "no_build_or_tests_during_measurements": true,
+        "ci_run_at_native_start": "https://github.com/eloqdata/lavik/actions/runs/37243651484",
+        "ci_required_before_performance": true,
+        "test_validation_commit": "92906489799d5d65c8315cc87371a14f6b2e384e",
+        "runtime_equivalence": {
+          "changed_files": [
+            "tests/grouped/zset_write_e2e_test.cpp"
+          ],
+          "same_fault_enabled_server_sha256": "b4d04bd9f0ff669235e7389be4a3c37f6372f08e0e09778b6c1c6b3213c9322f",
+          "proof": "zset-planner-fault-validation.json",
+          "note": "Production binary remains the original d012a301 build; only the test driver changes at 92906489."
+        },
+        "full_fault_enabled_ci": "https://github.com/eloqdata/lavik/actions/runs/37253070161"
+      },
+      "tag": "diagnostic-candidated012a301-zset-source-reuse-104857600-1024-20261005",
+      "directory": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-diagnostic-candidated012a301-zset-source-reuse-104857600-1024-20261005/diagnostic-c80",
+      "attached_tids": [
+        "783426",
+        "783427",
+        "783428",
+        "783429",
+        "783430",
+        "783431",
+        "783432",
+        "783433",
+        "783434",
+        "783435",
+        "783436",
+        "783437",
+        "783438"
+      ]
+    }
+  },
+  "method": "Separate fresh populations, ZINCRBY c80, 30-second counter window and 25-second 99Hz task-clock/DWARF recording on each serving thread. Not a clean QPS point. CPU shares include polling/background/kernel work; IO counters are server-wide. No concurrent benchmark/build/tests."
+}
