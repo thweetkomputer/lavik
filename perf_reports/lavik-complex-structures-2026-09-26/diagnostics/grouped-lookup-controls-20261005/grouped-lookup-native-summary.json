@@ -1,0 +1,790 @@
+{
+  "scope": "Frozen parent067,inline2e6,decoded8b native correctness. Current PR heads a276/0d36 have separate pending CI. No throughput result yet.",
+  "versions": {
+    "parent": {
+      "commit": "067c75891f819831620e277eac0592c360f8b585",
+      "binary_sha256": "656b990fa10c001194208082caecff584556fad572fd7dbcc74f061c3dd97ec3",
+      "bycorf_commit": "62509c93d40c2480f5046b71454db6cf95801b04",
+      "tests": {
+        "native-tests": {
+          "passed": 20,
+          "skipped": [
+            {
+              "test": "GroupedSortedSetWriteE2e.TypedChangesDoNotRereadOrderedMemberDiff",
+              "reasons": [
+                {
+                  "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/zset_write_e2e_test.cpp:65\nrequires member-diff read failure injection\n"
+                }
+              ]
+            },
+            {
+              "test": "GroupedSortedSetWriteE2e.PointWritesReuseMemberLeafAndKeepBatchFailureAtomic",
+              "reasons": [
+                {
+                  "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/zset_write_e2e_test.cpp:128\nrequires member-index leaf read failure injection\n"
+                }
+              ]
+            },
+            {
+              "test": "GroupedSortedSetWriteE2e.PlannerSkipsUnchangedNeighborButChecksNewLinks",
+              "reasons": [
+                {
+                  "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/zset_write_e2e_test.cpp:251\nrequires plan-page read failure injection\n"
+                }
+              ]
+            },
+            {
+              "test": "GroupedSortedSetWriteE2e.MemberScoresUsePrefixPagesWithoutOrderedReads",
+              "reasons": [
+                {
+                  "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/zset_write_e2e_test.cpp:394\nrequires ordered-read failure injection\n"
+                }
+              ]
+            },
+            {
+              "test": "GroupedSortedSetWriteE2e.ScoreBoundsSkipUnrelatedPagesAfterRecovery",
+              "reasons": [
+                {
+                  "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/zset_write_e2e_test.cpp:432\nrequires selected ordered-page failure injection\n"
+                }
+              ]
+            },
+            {
+              "test": "GroupedSortedSetWriteE2e.FailedMemberWriteCannotCommitOrderedHalf",
+              "reasons": [
+                {
+                  "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/zset_write_e2e_test.cpp:607\nrequires auxiliary-write failure injection\n"
+                }
+              ]
+            },
+            {
+              "test": "GroupedSortedSetWriteE2e.FailedRangeRemovalPreservesExecPrefixAndRecovery",
+              "reasons": [
+                {
+                  "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/zset_write_e2e_test.cpp:1045\nrequires auxiliary-write failure injection\n"
+                }
+              ]
+            }
+          ],
+          "failures": 0
+        }
+      },
+      "drivers": {},
+      "bycorf_source_status": null,
+      "coverage": "Previously frozen focused parent tests",
+      "production_flags": {
+        "BUILD_TESTING": "OFF",
+        "LAVIK_ENABLE_TEST_FAULTS": "OFF",
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+        "LAVIK_ENABLE_OPT": "ON",
+        "LAVIK_MARCH": "native",
+        "LAVIK_KERNEL_BYPASS": "ON",
+        "BYCORF_KERNEL_BYPASS": "ON",
+        "LAVIK_ENABLE_TRACE": "OFF",
+        "LAVIK_ENABLE_CROSS_CORE_HOP_COUNT": "OFF"
+      },
+      "historical_ci": "https://github.com/eloqdata/lavik/actions/runs/37241392671"
+    },
+    "inline": {
+      "commit": "2e6e4f3559d284e6fe5d0dddc7eb1de5929761ae",
+      "binary_sha256": "a1d60b0dadd26ce1e69c61cabfa1f76dc7fe46b4318f3d9ace753a9ca8ae8894",
+      "bycorf_commit": "62509c93d40c2480f5046b71454db6cf95801b04",
+      "tests": {
+        "unit-tests": {
+          "passed": 128,
+          "skipped": [],
+          "failures": 0
+        },
+        "ordered-tests": {
+          "passed": 42,
+          "skipped": [
+            {
+              "test": "GroupedStreamE2e.FailedAppendCannotLeakIntoFollowingAckInExec",
+              "reasons": [
+                {
+                  "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/stream_e2e_test.cpp:357\nrequires grouped auxiliary fault hook\n"
+                }
+              ]
+            },
+            {
+              "test": "GroupedSortedSetWriteE2e.TypedChangesDoNotRereadOrderedMemberDiff",
+              "reasons": [
+                {
+                  "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/zset_write_e2e_test.cpp:65\nrequires member-diff read failure injection\n"
+                }
+              ]
+            },
+            {
+              "test": "GroupedSortedSetWriteE2e.PointWritesReuseMemberLeafAndKeepBatchFailureAtomic",
+              "reasons": [
+                {
+                  "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/zset_write_e2e_test.cpp:128\nrequires member-index leaf read failure injection\n"
+                }
+              ]
+            },
+            {
+              "test": "GroupedSortedSetWriteE2e.PlannerSkipsUnchangedNeighborButChecksNewLinks",
+              "reasons": [
+                {
+                  "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/zset_write_e2e_test.cpp:251\nrequires plan-page read failure injection\n"
+                }
+              ]
+            },
+            {
+              "test": "GroupedSortedSetWriteE2e.MemberScoresUsePrefixPagesWithoutOrderedReads",
+              "reasons": [
+                {
+                  "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/zset_write_e2e_test.cpp:394\nrequires ordered-read failure injection\n"
+                }
+              ]
+            },
+            {
+              "test": "GroupedSortedSetWriteE2e.ScoreBoundsSkipUnrelatedPagesAfterRecovery",
+              "reasons": [
+                {
+                  "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/zset_write_e2e_test.cpp:432\nrequires selected ordered-page failure injection\n"
+                }
+              ]
+            },
+            {
+              "test": "GroupedSortedSetWriteE2e.FailedMemberWriteCannotCommitOrderedHalf",
+              "reasons": [
+                {
+                  "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/zset_write_e2e_test.cpp:607\nrequires auxiliary-write failure injection\n"
+                }
+              ]
+            },
+            {
+              "test": "GroupedSortedSetWriteE2e.FailedRangeRemovalPreservesExecPrefixAndRecovery",
+              "reasons": [
+                {
+                  "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/zset_write_e2e_test.cpp:1045\nrequires auxiliary-write failure injection\n"
+                }
+              ]
+            },
+            {
+              "test": "GroupedTransferE2e.FailedExecCopyKeepsOldGraphAndCommitsLaterCommand",
+              "reasons": [
+                {
+                  "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/transfer_e2e_test.cpp:120\nrequires group auxiliary failure injection\n"
+                }
+              ]
+            }
+          ],
+          "failures": 0
+        },
+        "blocking-tests": {
+          "passed": 5,
+          "skipped": [],
+          "failures": 0
+        },
+        "hash-tests": {
+          "passed": 16,
+          "skipped": [
+            {
+              "test": "GroupedHashWriteE2e.FailedAuxiliaryBatchCannotReappearAfterLaterExecWrite",
+              "reasons": [
+                {
+                  "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:739\nrequires Debug/fault auxiliary hook\n"
+                }
+              ]
+            },
+            {
+              "test": "GroupedHashWriteE2e.LocalSuccessorWaitsUntilCommitDecision",
+              "reasons": [
+                {
+                  "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:982\nrequires grouped dependency gate\n"
+                }
+              ]
+            },
+            {
+              "test": "GroupedHashWriteE2e.LocalSuccessorWakesOnCommitFailure",
+              "reasons": [
+                {
+                  "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:989\nrequires grouped dependency gate\n"
+                }
+              ]
+            },
+            {
+              "test": "GroupedHashWriteE2e.OrdinarySuccessorsStageBeforePredecessorDecision",
+              "reasons": [
+                {
+                  "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1100\nrequires grouped dependency gate\n"
+                }
+              ]
+            },
+            {
+              "test": "GroupedHashWriteE2e.FailedPredecessorPreventsSuccessorCommitAndRecovery",
+              "reasons": [
+                {
+                  "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1107\nrequires grouped dependency gate\n"
+                }
+              ]
+            },
+            {
+              "test": "GroupedHashWriteE2e.OrderedTypesPipelineAndRecoverOrAbortTogether",
+              "reasons": [
+                {
+                  "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1114\nrequires grouped dependency gate\n"
+                }
+              ]
+            },
+            {
+              "test": "GroupedHashWriteE2e.MultiKeyMetadataDependenciesDoNotFailUnrelatedWrites",
+              "reasons": [
+                {
+                  "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1196\nrequires grouped dependency gate\n"
+                }
+              ]
+            },
+            {
+              "test": "GroupedHashWriteE2e.FailedExecCommandDropsUnusedPredecessor",
+              "reasons": [
+                {
+                  "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1254\nrequires grouped dependency and auxiliary-write faults\n"
+                }
+              ]
+            },
+            {
+              "test": "GroupedHashWriteE2e.ColdCompactWritesReleaseStateButKeepTheKeyLocked",
+              "reasons": [
+                {
+                  "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1446\nrequires Debug/fault compact Hash write pause hook\n"
+                }
+              ]
+            },
+            {
+              "test": "GroupedHashWriteE2e.PublicationHandoffOomFailsClosedAndRecoversOldGraph",
+              "reasons": [
+                {
+                  "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1575\nrequires handoff rejection after grouped root staging\n"
+                }
+              ]
+            },
+            {
+              "test": "HashReplaceE2e.AuxiliaryOomPreservesOldHashInsideExec",
+              "reasons": [
+                {
+                  "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:563\nrequires Debug/fault server\n"
+                }
+              ]
+            },
+            {
+              "test": "HashReplaceE2e.ColdReplacementDoesNotLoadOldPayload",
+              "reasons": [
+                {
+                  "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1315\nrequires payload read fault hook\n"
+                }
+              ]
+            },
+            {
+              "test": "BatchWindows/GroupedHashWriteCrashE2e.UncommittedOuterNeverPublishesPartialHash/0",
+              "reasons": [
+                {
+                  "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1655\nrequires Debug/fault crash hook\n"
+                }
+              ]
+            },
+            {
+              "test": "BatchWindows/GroupedHashWriteCrashE2e.UncommittedOuterNeverPublishesPartialHash/1",
+              "reasons": [
+                {
+                  "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1655\nrequires Debug/fault crash hook\n"
+                }
+              ]
+            },
+            {
+              "test": "BatchWindows/GroupedHashWriteCrashE2e.UncommittedOuterNeverPublishesPartialHash/2",
+              "reasons": [
+                {
+                  "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1655\nrequires Debug/fault crash hook\n"
+                }
+              ]
+            },
+            {
+              "test": "BatchWindows/GroupedHashWriteCrashE2e.UncommittedOuterNeverPublishesPartialHash/3",
+              "reasons": [
+                {
+                  "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1655\nrequires Debug/fault crash hook\n"
+                }
+              ]
+            },
+            {
+              "test": "BatchWindows/GroupedHashWriteCrashE2e.ReplacementNeverRevivesPartialOrOldFields/0",
+              "reasons": [
+                {
+                  "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1693\nrequires Debug/fault crash hook\n"
+                }
+              ]
+            },
+            {
+              "test": "BatchWindows/GroupedHashWriteCrashE2e.ReplacementNeverRevivesPartialOrOldFields/1",
+              "reasons": [
+                {
+                  "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1693\nrequires Debug/fault crash hook\n"
+                }
+              ]
+            },
+            {
+              "test": "BatchWindows/GroupedHashWriteCrashE2e.ReplacementNeverRevivesPartialOrOldFields/2",
+              "reasons": [
+                {
+                  "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1693\nrequires Debug/fault crash hook\n"
+                }
+              ]
+            },
+            {
+              "test": "BatchWindows/GroupedHashWriteCrashE2e.ReplacementNeverRevivesPartialOrOldFields/3",
+              "reasons": [
+                {
+                  "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1693\nrequires Debug/fault crash hook\n"
+                }
+              ]
+            }
+          ],
+          "failures": 0
+        }
+      },
+      "drivers": {
+        "lavik_grouped_ordered_write_e2e_test": {
+          "path": "/mnt/dev/lavik-benchmark-binaries/grouped-lookup-inline-lavik_grouped_ordered_write_e2e_test-2e6e4f35-20261005",
+          "sha256": "c8fae3d20b55d98f6748e93e10a0d342cad78884fd2c6ce54fc8288028440929"
+        },
+        "lavik_list_e2e_test": {
+          "path": "/mnt/dev/lavik-benchmark-binaries/grouped-lookup-inline-lavik_list_e2e_test-2e6e4f35-20261005",
+          "sha256": "501d67b28657b0f8641b78f68796ccc02740f3378f46cd6c7eae15f7920f86e4"
+        },
+        "lavik_grouped_hash_write_e2e_test": {
+          "path": "/mnt/dev/lavik-benchmark-binaries/grouped-lookup-inline-lavik_grouped_hash_write_e2e_test-2e6e4f35-20261005",
+          "sha256": "2dc92baa668150198b88966537dd9f074502a6a27e190eb71c7fcf771bf2233f"
+        }
+      },
+      "bycorf_source_status": " m third_party/spdk",
+      "coverage": "This completed native run",
+      "production_flags": {
+        "BUILD_TESTING": "OFF",
+        "LAVIK_ENABLE_TEST_FAULTS": "OFF",
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+        "LAVIK_ENABLE_OPT": "ON",
+        "LAVIK_MARCH": "native",
+        "LAVIK_KERNEL_BYPASS": "ON",
+        "BYCORF_KERNEL_BYPASS": "ON",
+        "LAVIK_ENABLE_TRACE": "OFF",
+        "LAVIK_ENABLE_CROSS_CORE_HOP_COUNT": "OFF"
+      },
+      "historical_ci": "https://github.com/eloqdata/lavik/actions/runs/37241742696"
+    },
+    "decoded": {
+      "commit": "8babe581213f2cd781f13665a45fdbf1012cf449",
+      "binary_sha256": "727ad87f1bedf15fc1fe2f51eb9cf90d09b3d968893b063b676f973f30738180",
+      "bycorf_commit": "62509c93d40c2480f5046b71454db6cf95801b04",
+      "tests": {
+        "unit-tests": {
+          "passed": 129,
+          "skipped": [],
+          "failures": 0
+        },
+        "ordered-tests": {
+          "passed": 42,
+          "skipped": [
+            {
+              "test": "GroupedStreamE2e.FailedAppendCannotLeakIntoFollowingAckInExec",
+              "reasons": [
+                {
+                  "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/stream_e2e_test.cpp:357\nrequires grouped auxiliary fault hook\n"
+                }
+              ]
+            },
+            {
+              "test": "GroupedSortedSetWriteE2e.TypedChangesDoNotRereadOrderedMemberDiff",
+              "reasons": [
+                {
+                  "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/zset_write_e2e_test.cpp:65\nrequires member-diff read failure injection\n"
+                }
+              ]
+            },
+            {
+              "test": "GroupedSortedSetWriteE2e.PointWritesReuseMemberLeafAndKeepBatchFailureAtomic",
+              "reasons": [
+                {
+                  "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/zset_write_e2e_test.cpp:128\nrequires member-index leaf read failure injection\n"
+                }
+              ]
+            },
+            {
+              "test": "GroupedSortedSetWriteE2e.PlannerSkipsUnchangedNeighborButChecksNewLinks",
+              "reasons": [
+                {
+                  "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/zset_write_e2e_test.cpp:251\nrequires plan-page read failure injection\n"
+                }
+              ]
+            },
+            {
+              "test": "GroupedSortedSetWriteE2e.MemberScoresUsePrefixPagesWithoutOrderedReads",
+              "reasons": [
+                {
+                  "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/zset_write_e2e_test.cpp:394\nrequires ordered-read failure injection\n"
+                }
+              ]
+            },
+            {
+              "test": "GroupedSortedSetWriteE2e.ScoreBoundsSkipUnrelatedPagesAfterRecovery",
+              "reasons": [
+                {
+                  "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/zset_write_e2e_test.cpp:432\nrequires selected ordered-page failure injection\n"
+                }
+              ]
+            },
+            {
+              "test": "GroupedSortedSetWriteE2e.FailedMemberWriteCannotCommitOrderedHalf",
+              "reasons": [
+                {
+                  "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/zset_write_e2e_test.cpp:607\nrequires auxiliary-write failure injection\n"
+                }
+              ]
+            },
+            {
+              "test": "GroupedSortedSetWriteE2e.FailedRangeRemovalPreservesExecPrefixAndRecovery",
+              "reasons": [
+                {
+                  "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/zset_write_e2e_test.cpp:1045\nrequires auxiliary-write failure injection\n"
+                }
+              ]
+            },
+            {
+              "test": "GroupedTransferE2e.FailedExecCopyKeepsOldGraphAndCommitsLaterCommand",
+              "reasons": [
+                {
+                  "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/transfer_e2e_test.cpp:120\nrequires group auxiliary failure injection\n"
+                }
+              ]
+            }
+          ],
+          "failures": 0
+        },
+        "blocking-tests": {
+          "passed": 5,
+          "skipped": [],
+          "failures": 0
+        },
+        "hash-tests": {
+          "passed": 16,
+          "skipped": [
+            {
+              "test": "GroupedHashWriteE2e.FailedAuxiliaryBatchCannotReappearAfterLaterExecWrite",
+              "reasons": [
+                {
+                  "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:739\nrequires Debug/fault auxiliary hook\n"
+                }
+              ]
+            },
+            {
+              "test": "GroupedHashWriteE2e.LocalSuccessorWaitsUntilCommitDecision",
+              "reasons": [
+                {
+                  "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:982\nrequires grouped dependency gate\n"
+                }
+              ]
+            },
+            {
+              "test": "GroupedHashWriteE2e.LocalSuccessorWakesOnCommitFailure",
+              "reasons": [
+                {
+                  "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:989\nrequires grouped dependency gate\n"
+                }
+              ]
+            },
+            {
+              "test": "GroupedHashWriteE2e.OrdinarySuccessorsStageBeforePredecessorDecision",
+              "reasons": [
+                {
+                  "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1100\nrequires grouped dependency gate\n"
+                }
+              ]
+            },
+            {
+              "test": "GroupedHashWriteE2e.FailedPredecessorPreventsSuccessorCommitAndRecovery",
+              "reasons": [
+                {
+                  "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1107\nrequires grouped dependency gate\n"
+                }
+              ]
+            },
+            {
+              "test": "GroupedHashWriteE2e.OrderedTypesPipelineAndRecoverOrAbortTogether",
+              "reasons": [
+                {
+                  "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1114\nrequires grouped dependency gate\n"
+                }
+              ]
+            },
+            {
+              "test": "GroupedHashWriteE2e.MultiKeyMetadataDependenciesDoNotFailUnrelatedWrites",
+              "reasons": [
+                {
+                  "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1196\nrequires grouped dependency gate\n"
+                }
+              ]
+            },
+            {
+              "test": "GroupedHashWriteE2e.FailedExecCommandDropsUnusedPredecessor",
+              "reasons": [
+                {
+                  "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1254\nrequires grouped dependency and auxiliary-write faults\n"
+                }
+              ]
+            },
+            {
+              "test": "GroupedHashWriteE2e.ColdCompactWritesReleaseStateButKeepTheKeyLocked",
+              "reasons": [
+                {
+                  "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1446\nrequires Debug/fault compact Hash write pause hook\n"
+                }
+              ]
+            },
+            {
+              "test": "GroupedHashWriteE2e.PublicationHandoffOomFailsClosedAndRecoversOldGraph",
+              "reasons": [
+                {
+                  "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1575\nrequires handoff rejection after grouped root staging\n"
+                }
+              ]
+            },
+            {
+              "test": "HashReplaceE2e.AuxiliaryOomPreservesOldHashInsideExec",
+              "reasons": [
+                {
+                  "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:563\nrequires Debug/fault server\n"
+                }
+              ]
+            },
+            {
+              "test": "HashReplaceE2e.ColdReplacementDoesNotLoadOldPayload",
+              "reasons": [
+                {
+                  "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1315\nrequires payload read fault hook\n"
+                }
+              ]
+            },
+            {
+              "test": "BatchWindows/GroupedHashWriteCrashE2e.UncommittedOuterNeverPublishesPartialHash/0",
+              "reasons": [
+                {
+                  "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1655\nrequires Debug/fault crash hook\n"
+                }
+              ]
+            },
+            {
+              "test": "BatchWindows/GroupedHashWriteCrashE2e.UncommittedOuterNeverPublishesPartialHash/1",
+              "reasons": [
+                {
+                  "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1655\nrequires Debug/fault crash hook\n"
+                }
+              ]
+            },
+            {
+              "test": "BatchWindows/GroupedHashWriteCrashE2e.UncommittedOuterNeverPublishesPartialHash/2",
+              "reasons": [
+                {
+                  "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1655\nrequires Debug/fault crash hook\n"
+                }
+              ]
+            },
+            {
+              "test": "BatchWindows/GroupedHashWriteCrashE2e.UncommittedOuterNeverPublishesPartialHash/3",
+              "reasons": [
+                {
+                  "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1655\nrequires Debug/fault crash hook\n"
+                }
+              ]
+            },
+            {
+              "test": "BatchWindows/GroupedHashWriteCrashE2e.ReplacementNeverRevivesPartialOrOldFields/0",
+              "reasons": [
+                {
+                  "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1693\nrequires Debug/fault crash hook\n"
+                }
+              ]
+            },
+            {
+              "test": "BatchWindows/GroupedHashWriteCrashE2e.ReplacementNeverRevivesPartialOrOldFields/1",
+              "reasons": [
+                {
+                  "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1693\nrequires Debug/fault crash hook\n"
+                }
+              ]
+            },
+            {
+              "test": "BatchWindows/GroupedHashWriteCrashE2e.ReplacementNeverRevivesPartialOrOldFields/2",
+              "reasons": [
+                {
+                  "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1693\nrequires Debug/fault crash hook\n"
+                }
+              ]
+            },
+            {
+              "test": "BatchWindows/GroupedHashWriteCrashE2e.ReplacementNeverRevivesPartialOrOldFields/3",
+              "reasons": [
+                {
+                  "message": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1693\nrequires Debug/fault crash hook\n"
+                }
+              ]
+            }
+          ],
+          "failures": 0
+        }
+      },
+      "drivers": {
+        "lavik_grouped_ordered_write_e2e_test": {
+          "path": "/mnt/dev/lavik-benchmark-binaries/grouped-lookup-decoded-lavik_grouped_ordered_write_e2e_test-8babe581-20261005",
+          "sha256": "ea6f8ef0167840e1251d5e29839c7db5299f972fe69895159c13c3756a2e42be"
+        },
+        "lavik_list_e2e_test": {
+          "path": "/mnt/dev/lavik-benchmark-binaries/grouped-lookup-decoded-lavik_list_e2e_test-8babe581-20261005",
+          "sha256": "eb0131d3b68bb2c9f4022bf853d5da0d4042409e1531d9a07a22507053e90619"
+        },
+        "lavik_grouped_hash_write_e2e_test": {
+          "path": "/mnt/dev/lavik-benchmark-binaries/grouped-lookup-decoded-lavik_grouped_hash_write_e2e_test-8babe581-20261005",
+          "sha256": "6a9ba5877181f33f5a167e476f4cdf19f44fb94cc7b9b6ece4bdf627d3089dd2"
+        }
+      },
+      "bycorf_source_status": " m third_party/spdk",
+      "coverage": "This completed native run",
+      "production_flags": {
+        "BUILD_TESTING": "OFF",
+        "LAVIK_ENABLE_TEST_FAULTS": "OFF",
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+        "LAVIK_ENABLE_OPT": "ON",
+        "LAVIK_MARCH": "native",
+        "LAVIK_KERNEL_BYPASS": "ON",
+        "BYCORF_KERNEL_BYPASS": "ON",
+        "LAVIK_ENABLE_TRACE": "OFF",
+        "LAVIK_ENABLE_CROSS_CORE_HOP_COUNT": "OFF"
+      },
+      "historical_ci": "https://github.com/eloqdata/lavik/actions/runs/37241670139"
+    }
+  },
+  "coverage_limit": "Parent reuses20pass7skip from its earlier focused native run; it was not rerun with both candidates larger suites. Candidate fault-dependent cases are skipped in production builds; exact historical fault-enabled CI is separate evidence. Full-disk expiration is outside these selected native suites.",
+  "inputs": [
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/diagnostics/grouped-lookup-controls-20261005/grouped-lookup-decoded-CMakeCache.txt",
+      "sha256": "9d9ef7fe5a069c9b3c0794f44557a141dfe9338c06021d8c832f1678bd66eb36"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/diagnostics/grouped-lookup-controls-20261005/grouped-lookup-decoded-blocking-tests.json",
+      "sha256": "f81037c14a5c5515119adc41546319199e698b75f162cfefe46a87750b81f9d8"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/diagnostics/grouped-lookup-controls-20261005/grouped-lookup-decoded-blocking-tests.txt",
+      "sha256": "01a689b49c4ad2dabe29f3d352c9797d53d90cf1aa6cd1acf90197fe47faf370"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/diagnostics/grouped-lookup-controls-20261005/grouped-lookup-decoded-build.json",
+      "sha256": "390995ee7c0f3f57a82cdc34bbda2a3989cf3e2f04c9ced16977af2c054f290a"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/diagnostics/grouped-lookup-controls-20261005/grouped-lookup-decoded-full-ci.json",
+      "sha256": "6412563597e784dda1e77f9ead9c630513b64fa235b01c4cfdf93ffb35283c29"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/diagnostics/grouped-lookup-controls-20261005/grouped-lookup-decoded-hash-tests.json",
+      "sha256": "487493f8cd384c1d4949e946b9eb2c0e9cbb9a9ba2e39cc4c990524df19e9287"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/diagnostics/grouped-lookup-controls-20261005/grouped-lookup-decoded-hash-tests.txt",
+      "sha256": "49d2730a8ec0e0bdca7b1156c981080b535add1dfa02ca90bdf45da0a8a3f98f"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/diagnostics/grouped-lookup-controls-20261005/grouped-lookup-decoded-ordered-tests.json",
+      "sha256": "a2560ccefe7afe3087ef27d6a16de516ef1720e774834922780101efa5084685"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/diagnostics/grouped-lookup-controls-20261005/grouped-lookup-decoded-ordered-tests.txt",
+      "sha256": "0d531b49bb3e791fc7888268d3d2f89734368d4f917f833372237a121035a01f"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/diagnostics/grouped-lookup-controls-20261005/grouped-lookup-decoded-unit-tests.json",
+      "sha256": "1c22616d0faddd3e79c8e1e981923c347b2cb2f556a563d73af2317b3aed4872"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/diagnostics/grouped-lookup-controls-20261005/grouped-lookup-decoded-unit-tests.txt",
+      "sha256": "d4c5e3f4456ec017703cb469eeeac150cb6819ffb5e347d2c70708b0d00f68e2"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/diagnostics/grouped-lookup-controls-20261005/grouped-lookup-inline-CMakeCache.txt",
+      "sha256": "9d9ef7fe5a069c9b3c0794f44557a141dfe9338c06021d8c832f1678bd66eb36"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/diagnostics/grouped-lookup-controls-20261005/grouped-lookup-inline-blocking-tests.json",
+      "sha256": "89315366cd7ec13f2be305610d48ec6bf012a8551d195c5df1f5c1a73b4600ad"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/diagnostics/grouped-lookup-controls-20261005/grouped-lookup-inline-blocking-tests.txt",
+      "sha256": "3e84ec23281197ee43454151ae3871ad98f76dab5d5b0931b40c19204f00afa5"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/diagnostics/grouped-lookup-controls-20261005/grouped-lookup-inline-build.json",
+      "sha256": "45399d4e9520855ca938abc44979f814fa2b5ee96e3fe8a73ffa72f59035575a"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/diagnostics/grouped-lookup-controls-20261005/grouped-lookup-inline-full-ci.json",
+      "sha256": "5bcb5998143196d6042bb59790d5098561e03b310b3c6318ef44d5c244e141d6"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/diagnostics/grouped-lookup-controls-20261005/grouped-lookup-inline-hash-tests.json",
+      "sha256": "3476d1f7057fa176e9b5c3d3f534caa1be8ca3215946c3647296665b1a59dd59"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/diagnostics/grouped-lookup-controls-20261005/grouped-lookup-inline-hash-tests.txt",
+      "sha256": "1a8c6e514efec31dc80bd24b8d0c59c7631af84cb078183a3874aa3165d94cfb"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/diagnostics/grouped-lookup-controls-20261005/grouped-lookup-inline-ordered-tests.json",
+      "sha256": "d3e9031095bb801f97fb8d28d0451ecc73f9e31af538f7734bd7b9e1720accfd"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/diagnostics/grouped-lookup-controls-20261005/grouped-lookup-inline-ordered-tests.txt",
+      "sha256": "444054be8123056cb7aaa15c2efdf48a63d6b8bcaaee4965b092884abd224eb1"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/diagnostics/grouped-lookup-controls-20261005/grouped-lookup-inline-unit-tests.json",
+      "sha256": "980bb53e3d43003ec1c4c3a6e1f8a1a4d74259ae15e87625d05754ddf3119d80"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/diagnostics/grouped-lookup-controls-20261005/grouped-lookup-inline-unit-tests.txt",
+      "sha256": "92c95ac4319e124f7184413c21a373ebbd3b618abf053608e364ffbfac262f00"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/diagnostics/grouped-lookup-controls-20261005/grouped-lookup-native-driver.log",
+      "sha256": "bbbfc03ee1c1422745512515f7bdfcb0f0f1a9770f30df81e2c9c05731710353"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/diagnostics/grouped-lookup-controls-20261005/grouped-lookup-native-versions.json",
+      "sha256": "47665cf439e6a15d64c8de30d1cc9ca5258f2f401f6e372382ae2ded87b5d88a"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/diagnostics/grouped-lookup-controls-20261005/grouped-lookup-parent-CMakeCache.txt",
+      "sha256": "89504b485af6d518bc14a202a7f0466781a67ecbc2622e8841c5bab5878712af"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/diagnostics/grouped-lookup-controls-20261005/grouped-lookup-parent-full-ci.json",
+      "sha256": "ba3d8733e7871f41733d7000ebfacb0327500b36957f53eae0b8fc86c5e58da9"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/diagnostics/grouped-lookup-controls-20261005/grouped-lookup-parent-native-tests.json",
+      "sha256": "136652ee4355cc9c0f9da15fb1de2ecb69c27dd304d084187580dbcef7b85176"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/diagnostics/grouped-lookup-controls-20261005/repeat-grouped-lookup-pinned-after-rebase.py",
+      "sha256": "64bd30879d68d246a4434445aff7eb7edae3d4e70d1619079eb03144da26adc6"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/diagnostics/grouped-lookup-controls-20261005/summarize-grouped-lookup.py",
+      "sha256": "81665fb0541896093a1b4be33db914aa82f985711eaa236ee9630c9efce28d68"
+    },
+    {
+      "path": "perf_reports/lavik-complex-structures-2026-09-26/diagnostics/grouped-lookup-controls-20261005/validate-grouped-lookup-native-pinned-after-rebase.py",
+      "sha256": "5de10cc854b2b7cde6e010c190d01e1ec48d51915e80d0327c97e99d428a721c"
+    }
+  ]
+}
