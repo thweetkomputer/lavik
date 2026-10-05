@@ -1,0 +1,18 @@
+{
+  "heads": [
+    "19496654cc43b21df11fb59be60e174dc4c89dbc",
+    "27c65ff9c2ceaaacea4c93f42ffed01dce529b8f"
+  ],
+  "identical_counter_source_git_blobs": {
+    "src/metrics.cpp": "879a49792ecb55eebdc924df6f4df9576afecadc",
+    "src/redis/command.cpp": "e7eefeba4f1ac6c47ad1b0c0323a6584eebaab26",
+    "src/storage/engine/write.cpp": "986a458cc308130290305581c03b197d03a85c10",
+    "src/tx/tx_shard.cpp": "c380b16dac464ff4242b23747f8f490213189bcb",
+    "include/lavik/tx/tx_shard.h": "70638c1673e458db091f5a17f8d8b8f8e54834eb"
+  },
+  "claims": {
+    "src/metrics.cpp": "INFO dataset-change total is per-worker dataset_changes_total minus dataset_changes_saved",
+    "src/storage/engine/write.cpp": "EnqueueTxCommit increments backpressure counter when worker-local queue reaches high watermark; DrainTxCommitQueue counts batches and their transaction count; commit records account shard dataset changes. Counts are not durations.",
+    "src/redis/command.cpp": "INFO omits commandstat entries when cumulative calls are zero."
+  }
+}

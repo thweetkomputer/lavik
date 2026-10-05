@@ -19,6 +19,8 @@ SADD/SREM 的三个连接数均为两轮 QPS 下降、一轮上升，配对中�
 
 SISMEMBER 的配对 QPS 中位也均为负，c80 三轮均小幅下降，其余连接数方向混合。每个实例独立生成路由 seed 和物理布局，Set 写入可能为无操作；这些观测不直接等于代码路径的因果成本。小 Set 与独立 perf 尚未完成。目前已完成的 Hash/大 Set 结果不支持把 #276 当作通用吞吐优化，PR 保持草稿。
 
+[已保存 INFO 的后续核对](hash-route-set-large-counters.md)：变更计数/命令数接近 50%，提交批量与高水位事件有明显轮次差异；不能仅用背压解释所有回退。
+
 ## 与历史 peer 的差距
 
 严格匹配命令、数据量、元素大小、key 数和连接数，peer 未在本轮重跑，历史单点与此次三轮 30 秒的采样方法不同。Redis/Valkey 关闭持久化；Kvrocks 关闭 WAL 且使用 80 GiB cache；Lavik 保持 SPDK 持久化、无字段/页内容缓存。[来源 CSV 哈希和历史值](hash-route-set-large-historical-context.json)用于定位剩余差距，不代表同等持久性排名或整体达到目标。
