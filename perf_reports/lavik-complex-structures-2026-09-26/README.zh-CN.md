@@ -1,6 +1,6 @@
 # 复杂数据结构性能：Redis、Valkey、Kvrocks 与 Lavik
 
-[#280 的 24 点大对象 ZSCORE 三轮对照](diagnostics/zset-score-views-20261005/zset-score-views-large-reads.md)已完成：c80/320/2560/5120 配对 QPS 中位 **+16.27%/+19.82%/+17.08%/+14.45%**，每档三轮均提升；c5120 p99 两轮退化，中位 **+2.40%**。[大对象写入控制](diagnostics/zset-score-views-20261005/zset-score-views-large-writes.md)也已完成：四档配对 QPS 中位 **−1.10%/+0.24%/−0.76%/−1.62%**，方向混合；c2560 p99 中位 **+6.67%**。小对象控制继续执行，PR 保持草稿。
+[#280 全部 96 点对照](diagnostics/zset-score-views-20261005/zset-score-views-complete.md)已完成并通过结果及命令计数核验。大/小对象 ZSCORE 各档三轮 QPS 均提升，配对中位分别为 **+14.45%–19.82% / +12.61%–31.98%**；小对象各档 p99 三轮均改善，大对象 c5120 p99 两轮回退（中位 +2.40%）。写入收益不稳定，大对象写 QPS 中位为 **−1.10%/+0.24%/−0.76%/−1.62%**。#280 有明确读收益，但当前 CI 的 RESTORE 超时未解决，保持草稿；独立 perf 继续执行。
 
 **Rebase CI 更新：** #267 的 List 断言、#270 的 Sentinel 并发探测、#272 的初始化准入等待已修复并推送，#275 已同步 rebase；新 CI 待完成。#280 出现 SetIndirect RESTORE 超时，原因未定，保持草稿。[失败证据与处理](diagnostics/grouped-expiry-recovery-20261004/rebase-ci-failures-20261005.md)。
 
@@ -14,7 +14,7 @@ Hash/Set 单路由替换的[全部 144 点对照](diagnostics/hash-route-replace
 
 [ZINCRBY worker 分布分析](diagnostics/zset-worker-distribution-20261005/README.md)：现有 8 个 key 在 12 workers 下仅落到 4 个数据 owner；已核对 perf 线程分布，固定二进制的 8/12-worker 配置对照已排队，尚无调参收益结论。
 
-[ZSCORE/ZMSCORE 成员页借用视图](diagnostics/zset-score-views-20261005/README.md)：去掉整页字段/值复制，保留完整校验；历史 `9d1ffc85` 的 fork 与上游 CI 各 17 项通过，新 head CI 出现上述 RESTORE 超时，[PR #280](https://github.com/eloqdata/lavik/pull/280) 保持草稿；大对象对照结果见上文，小对象控制及独立读 perf 仍在执行。
+[ZSCORE/ZMSCORE 成员页借用视图](diagnostics/zset-score-views-20261005/README.md)：去掉整页字段/值复制，保留完整校验；历史 `9d1ffc85` 的 fork 与上游 CI 各 17 项通过，新 head CI 出现上述 RESTORE 超时，[PR #280](https://github.com/eloqdata/lavik/pull/280) 保持草稿；全部 96 点对照见上文，独立读 perf 仍在执行。
 
 [草稿 PR #282](https://github.com/eloqdata/lavik/pull/282)：长 key 根记录复用已通过三轮独立镜像回放：9 MiB key GET 在 **1.823 / 1.832 / 1.820 秒**返回并校验完整 6 MiB value。原 60 秒基线超时仍保留；这是候选单侧检查，不能计算精确加速比或外推普通 QPS。`28d7cca4` 的 fork 与上游 CI 各 17 项通过；普通短 key 原生回归和 72 点配对对照仍需完成。[证据与限制](diagnostics/list-reply-reserve-20261004/README.md)。
 
