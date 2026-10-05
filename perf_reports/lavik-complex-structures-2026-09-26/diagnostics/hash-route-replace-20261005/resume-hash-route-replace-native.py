@@ -2,6 +2,7 @@
 from pathlib import Path
 import hashlib,json,os,shutil,signal,subprocess,time
 from host_execution_lock import acquire_host
+from native_build_provenance import native_dependency_provenance
 W=Path(__file__).parent
 S=Path('/mnt/dev/lavik-complex-next-20261004');B=S/'build-spdk'
 output=W/'hash-route-replace-versions.json'
@@ -67,7 +68,7 @@ for label,head in expected.items():
     assert subprocess.check_output(['git','diff','HEAD','--'],cwd=S)==b''
     binary=Path('/mnt/dev/lavik-benchmark-binaries')/('lavik-'+prefix+'-'+head[:8]+'-20261005')
     assert not binary.exists();shutil.copyfile(B/'lavik',binary);binary.chmod(0o755)
-    version={'commit':head,'source_repo':str(S),'binary':str(binary),'sha256':sha(binary),'driver':str(driver),'driver_sha256':sha(driver),'bycorf_commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=S/'bycorf',text=True).strip(),'build':'Existing GCC native SPDK build-spdk cache; production tests/faults OFF, separately built test drivers','candidate_ci':proof['url'],'compiler_tmpdir':str(temporary),'native_build_retry':'Original candidate LTO failed ENOSPC under /tmp; only TMPDIR moved to /mnt/dev. Original logs retained; source and compiler flags unchanged.'}
+    version={'commit':head,'source_repo':str(S),'binary':str(binary),'sha256':sha(binary),'driver':str(driver),'driver_sha256':sha(driver),**native_dependency_provenance(B),'build':'Existing GCC native SPDK build-spdk cache; production tests/faults OFF, separately built test drivers','candidate_ci':proof['url'],'compiler_tmpdir':str(temporary),'native_build_retry':'Original candidate LTO failed ENOSPC under /tmp; only TMPDIR moved to /mnt/dev. Original logs retained; source and compiler flags unchanged.'}
     (W/(prefix+'-CMakeCache.txt')).write_text(cache)
     (W/(prefix+'-build.json')).write_text(json.dumps(version,indent=2)+'\n')
     data=W/(prefix+'-test-data');data.mkdir();env=os.environ.copy();env['LAVIK_TEST_DATA_DIR']=str(data)

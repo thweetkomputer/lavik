@@ -23,3 +23,9 @@
 候选的首次 GCC/native LTO 链接因 `/tmp` 空间不足失败，[原错误摘录](candidate-native-enospc.log)保留。[续跑](resume-hash-route-replace-native.py)仅将 `TMPDIR` 移至 `/mnt/dev`，保留源码、编译选项和已通过的父版本，随后完成候选链接、单测与原生验证。没有删除失败记录，也没有把 CI 通过当成本机生产验证。
 
 [144 点对照](repeat-hash-route-replace-resume.py)已取得主机锁开始运行；[独立 perf](profile-hash-route-replace-resume.py)等待全部对照通过。PR #276 保持草稿，当前不宣称 QPS 收益。
+
+## 依赖版本记录更正
+
+原脚本在空的 `source_repo/bycorf` 目录执行 `git rev-parse HEAD`，Git 向上查找，错误地把 Lavik 提交号记成了 `bycorf_commit`。归档 CMake 配置实际选择 `/mnt/dev/lavik-set-hash-20260929/bycorf`；该 checkout 当前为 `62509c93`，HEAD reflog 显示最后一次切换发生在 10 月 3 日，早于本次构建。更正后的清单保留原字段为 `bycorf_commit_recorded`，附当前观察时间和嵌套依赖状态；这属于构建后来源核对，不是独立的构建时源码快照，也不宣称递归依赖全部干净。实际二进制、测试驱动 SHA 与所有测试结果没有改变。
+
+[错误字段、配置哈希、源码路径和核对证据](native-dependency-provenance-correction.json)。[来源解析器](native_build_provenance.py)现从 CMake 读取实际依赖目录，并要求它是独立 Git 根目录，避免空子模块目录再次回落到父仓库。原始工作区测量清单保留；后续对照产物若带旧字段，以此更正为准。
