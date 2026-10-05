@@ -29,3 +29,8 @@
 原脚本在空的 `source_repo/bycorf` 目录执行 `git rev-parse HEAD`，Git 向上查找，错误地把 Lavik 提交号记成了 `bycorf_commit`。归档 CMake 配置实际选择 `/mnt/dev/lavik-set-hash-20260929/bycorf`；该 checkout 当前为 `62509c93`，HEAD reflog 显示最后一次切换发生在 10 月 3 日，早于本次构建。更正后的清单保留原字段为 `bycorf_commit_recorded`，附当前观察时间和嵌套依赖状态；这属于构建后来源核对，不是独立的构建时源码快照，也不宣称递归依赖全部干净。实际二进制、测试驱动 SHA 与所有测试结果没有改变。
 
 [错误字段、配置哈希、源码路径和核对证据](native-dependency-provenance-correction.json)。[来源解析器](native_build_provenance.py)现从 CMake 读取实际依赖目录，并要求它是独立 Git 根目录，避免空子模块目录再次回落到父仓库。原始工作区测量清单保留；后续对照产物若带旧字段，以此更正为准。
+
+
+## 100 MiB Hash 三轮对照已完成
+
+[完整 36 点配对结果](hash-route-large.md)：HSET c5120 配对 QPS 中位 +7.81%，三轮均提升，p99 中位 −8.19%；c80/c320 收益较弱且混合，HGET 仍有小幅回退。较小 Hash、Set 和独立 perf 继续运行；不据单个子集把 PR 标为可合并。

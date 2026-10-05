@@ -2,6 +2,8 @@
 
 [简体中文](README.zh-CN.md)
 
+Hash route replacement completed three paired runs at 100 MiB per key / 500 keys: HSET c5120 median paired QPS +7.81%, p99 −8.19%; lower-concurrency gains are mixed and HGET regressions remain. [Full results](diagnostics/hash-route-replace-20261005/hash-route-large.md).
+
 Long-key diagnosis updated: main also hit the original 60-second GET timeout on an unsampled copy of the retained image. Earlier perf captures show CRC, copy and comparison hotspots; the root-reuse candidate still awaits independent replay. [Evidence and limitations](diagnostics/list-reply-reserve-20261004/README.md).
 
 **2026-10-04: main `a565d603`, including merged #244, #246, #247, #249, #258, #259, #260, #262; 28/28 conditions refreshed.**
