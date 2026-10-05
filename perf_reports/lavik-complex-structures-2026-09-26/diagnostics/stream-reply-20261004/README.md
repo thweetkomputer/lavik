@@ -164,3 +164,9 @@ candidate 附加线程中没有样本的 TID：579464；附加命令和记录日
 `5b9ebded` 关闭故障注入的原生验证出现一次 `XREADGROUP` 接收超时：26 个所选用例中 22 通过、3 个 fault-only 跳过、1 个失败。失败发生在大型 Stream RDB 往返用例；同一提交的故障构建此前 26 例全部通过。这不能解释生产构建的超时，也不能视为已完成生产验证。原测试包含导出前投递和导入后 pending 历史两次 XREADGROUP，异常未区分阶段，且清理删除了现场。
 
 [原始失败及诊断状态](stream-window-production-rdb-timeout.json) · [诊断补丁](stream-rdb-diagnostic.patch) · [固定父版本/候选二进制复现脚本](reproduce-stream-rdb-timeout.py)。诊断只增加阶段信息并保留失败现场，不改生产代码、命令顺序或超时。两轮交替对照在独立数据文件上运行，首个失败即停止；全部通过也不证明原超时已修复。吞吐和 perf 等待进程已因生产验证失败退出，尚未测量。
+
+## 父版本完整 CI 通过；小回复独立对照已排队
+
+`adec3a34` 的[完整 CI 已通过](pr270-adec3a34-full-ci.json)，包括两架构编译、12 个软件分片和汇总检查。它与小回复版本 `85bc7ad0` 均已完成各自原生验证及完整 CI，因此不再等待窗口版本的独立 RDB 诊断。
+
+[60 个观测的独立对照](repeat-stream-singleton-independent.py) 已排在当前诊断任务之后，三轮 A/B、B/A、A/B：100 MiB / 128 B / 8 keys 的全量读取 c1/4/16、单条读取 c2560、写入 c320/5120；64 KiB / 1024 B / 64 keys 的全量读取 c80、单条读取 c5120、写入 c2560/5120。读取共享每轮父版本新建的数据，写入各自独立新建数据；每点 30 秒，保留全部 p99 和错误。[独立 perf](profile-stream-singleton-independent.py) 在全部观测成功后运行。两者继续使用主机执行锁，尚未开始采样或产生新 QPS。窗口版本 `5b9ebded` 不在这次对照中，其生产超时仍待定位。
