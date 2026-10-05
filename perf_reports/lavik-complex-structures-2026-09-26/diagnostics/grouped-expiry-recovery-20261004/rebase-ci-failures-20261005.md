@@ -19,3 +19,19 @@
 同一 main `330738d9` 的[对应分片](https://github.com/eloqdata/lavik/actions/runs/37296400454/job/111722423762)通过。#270 唯一生产改动文件为 `src/redis/stream_command.cpp`，Sentinel/Meta 与该 gate 文件未改；这些事实不足以把失败认定为偶发或证明与 PR 无关。失败 artifact 只有九个 CTest 文件，未包含 gate 日志提到的保留进程目录，限制了后续定位。PR 继续草稿，保留失败；没有放宽预算或直接重跑。
 
 [分片记录](pr270-rebase-failed-job.json) · [失败摘录](pr270-rebase-failed-job-excerpt.txt)
+
+
+### Sentinel 成功 main 对照的进一步线索
+
+从 main `330738d9` 的成功分片 artifact 取出 `LastTest.log`，其中保留了成功用例输出：[身份与对照](pr270-sentinel-main-comparison.json) · [main 恢复时刻摘录](main330-sentinel-arm64-5-recovery-excerpt.txt)。
+
+| minority partition / learned peers | main 成功运行 | #270 失败运行 |
+|---|---:|---:|
+| python-2 恢复 | 13.485 秒 | 18.552 秒 |
+| python-3 恢复 | 25.510 秒 | 成功操作超过 30 秒 |
+| go-2 恢复 | 25.564 秒，重试过 EOF | EOF，截止前未恢复 |
+| go-3 恢复 | 25.568 秒，重试过 EOF | EOF，截止前未恢复 |
+
+正常启动阶段，main 的两个 Python 探测同样分别消耗约 13.0 和 11.6 秒；#270 对应约 11.6 和 11.5 秒。Go EOF 并非该失败独有，也不表示驱动进程退出：`GoClient.call` 对收到的命令错误抛 `RuntimeError`，进程退出使用另一条错误。main 在下一轮探测中成功重试，#270 的第二个 Python 探测已越过公共截止点。
+
+失败运行的首次 Python 恢复比 main 晚 5.067 秒，超过 main 最后一个客户端恢复后剩余的 4.432 秒预算。这个非同期对照与“串行探测加恢复前置步骤耗尽共同预算”的解释一致，但仍不能区分服务端恢复、Sentinel 发现、客户端重试各自贡献，不能证明偶发或排除回归。尚无逐次重试时间线；不改变 30 秒约束、不跳过用例，也不把 main 成功当成 #270 通过。

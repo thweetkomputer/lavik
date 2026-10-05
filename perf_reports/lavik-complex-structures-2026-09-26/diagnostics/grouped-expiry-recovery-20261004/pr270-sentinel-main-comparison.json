@@ -1,0 +1,145 @@
+{
+  "main_head": "330738d9a483abc3cb43247d47ef2c594d890f3b",
+  "run": 37296400454,
+  "job": {
+    "id": 111722423762,
+    "run_id": 37296400454,
+    "workflow_name": "CI",
+    "head_branch": "main",
+    "run_url": "https://api.github.com/repos/eloqdata/lavik/actions/runs/37296400454",
+    "run_attempt": 1,
+    "node_id": "CR_kwDOSDhkac8AAAAaAyzl0g",
+    "head_sha": "330738d9a483abc3cb43247d47ef2c594d890f3b",
+    "url": "https://api.github.com/repos/eloqdata/lavik/actions/jobs/111722423762",
+    "html_url": "https://github.com/eloqdata/lavik/actions/runs/37296400454/job/111722423762",
+    "status": "completed",
+    "conclusion": "success",
+    "created_at": "2026-10-05T10:35:57Z",
+    "started_at": "2026-10-05T10:53:01Z",
+    "completed_at": "2026-10-05T11:19:55Z",
+    "name": "Test shard (arm64, 5)",
+    "steps": [
+      {
+        "name": "Set up job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 1,
+        "started_at": "2026-10-05T10:53:02Z",
+        "completed_at": "2026-10-05T10:53:03Z"
+      },
+      {
+        "name": "Run actions/checkout@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 2,
+        "started_at": "2026-10-05T10:53:03Z",
+        "completed_at": "2026-10-05T10:53:05Z"
+      },
+      {
+        "name": "Run actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 3,
+        "started_at": "2026-10-05T10:53:05Z",
+        "completed_at": "2026-10-05T10:53:08Z"
+      },
+      {
+        "name": "Install test dependencies",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 4,
+        "started_at": "2026-10-05T10:53:08Z",
+        "completed_at": "2026-10-05T10:53:30Z"
+      },
+      {
+        "name": "Download test runtime",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 5,
+        "started_at": "2026-10-05T10:53:30Z",
+        "completed_at": "2026-10-05T10:53:48Z"
+      },
+      {
+        "name": "Restore and verify test runtime",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 6,
+        "started_at": "2026-10-05T10:53:48Z",
+        "completed_at": "2026-10-05T10:53:54Z"
+      },
+      {
+        "name": "Prepare test host",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 7,
+        "started_at": "2026-10-05T10:53:54Z",
+        "completed_at": "2026-10-05T10:53:54Z"
+      },
+      {
+        "name": "Run software test shard",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 8,
+        "started_at": "2026-10-05T10:53:54Z",
+        "completed_at": "2026-10-05T11:19:51Z"
+      },
+      {
+        "name": "Upload test results",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 9,
+        "started_at": "2026-10-05T11:19:51Z",
+        "completed_at": "2026-10-05T11:19:53Z"
+      },
+      {
+        "name": "Post Run actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 17,
+        "started_at": "2026-10-05T11:19:53Z",
+        "completed_at": "2026-10-05T11:19:53Z"
+      },
+      {
+        "name": "Post Run actions/checkout@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 18,
+        "started_at": "2026-10-05T11:19:53Z",
+        "completed_at": "2026-10-05T11:19:53Z"
+      },
+      {
+        "name": "Complete job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 19,
+        "started_at": "2026-10-05T11:19:53Z",
+        "completed_at": "2026-10-05T11:19:53Z"
+      }
+    ],
+    "check_run_url": "https://api.github.com/repos/eloqdata/lavik/check-runs/111722423762",
+    "labels": [
+      "ubuntu-24.04-arm"
+    ],
+    "runner_id": 1000025145,
+    "runner_name": "GitHub Actions 1000025145",
+    "runner_group_id": 0,
+    "runner_group_name": "GitHub Actions"
+  },
+  "artifact_id": 11340889337,
+  "artifact_sha256": "0d04dcfbbce8064b2cacde3378233e50cef0149f5c4c6b90dbb387698e3dff92",
+  "last_test_log_sha256": "4c9c74748c9a19a8fa4629c8be6f9f4beb497b7fea9a5ec55d6a5777a23035ff",
+  "case": "meta_integration.sentinel_ha_meta",
+  "main_recovery_seconds": {
+    "python-2": 13.485,
+    "python-3": 25.51,
+    "go-2": 25.564,
+    "go-3": 25.568
+  },
+  "pr270_recovery_seconds": {
+    "python-2": 18.552,
+    "python-3": ">30; exact completion time not logged",
+    "go-2": "EOF, not recovered before deadline",
+    "go-3": "EOF, not recovered before deadline"
+  },
+  "limits": "Noncontemporaneous CI runner observations, not a controlled benchmark or proof of root cause. Both runs have Go command EOFs. GoClient.call reports driver exit differently. Global30s budget includes leader election and sequential probes; no per-operation timeline for failed Python retries."
+}
