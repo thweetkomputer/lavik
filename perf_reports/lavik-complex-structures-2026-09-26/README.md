@@ -10,7 +10,7 @@ All [144 Hash/Set route-replacement observations](diagnostics/hash-route-replace
 
 [Borrowed member-page score reads](diagnostics/zset-score-views-20261005/README.md): avoids owning every field/value while retaining full validation. All 17 jobs pass in both fork and upstream CI; [PR #280](https://github.com/eloqdata/lavik/pull/280) remains draft; 96 paired observations and independent ZSCORE perf are queued, with no measured gain yet.
 
-[Draft PR #282](https://github.com/eloqdata/lavik/pull/282): long-key root reuse now passes three independent retained-image replays: the 9 MiB-key GET returns and verifies its full 6 MiB value in **1.823 / 1.832 / 1.820 s**. The failed 60-second baseline is retained; these are candidate-only checks, not paired QPS or an exact speedup. Ordinary short-key controls remain pending. [Evidence and limitations](diagnostics/list-reply-reserve-20261004/README.md).
+[Draft PR #282](https://github.com/eloqdata/lavik/pull/282): long-key root reuse now passes three independent retained-image replays: the 9 MiB-key GET returns and verifies its full 6 MiB value in **1.823 / 1.832 / 1.820 s**. The failed 60-second baseline is retained; these are candidate-only checks, not paired QPS or an exact speedup. Both fork and upstream CI pass all 17 jobs at `28d7cca4`; ordinary short-key native regression and 72 paired controls remain pending. [Evidence and limitations](diagnostics/list-reply-reserve-20261004/README.md).
 
 **2026-10-04: main `a565d603`, including merged #244, #246, #247, #249, #258, #259, #260, #262; 28/28 conditions refreshed.**
 

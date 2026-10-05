@@ -102,7 +102,7 @@ main 已前进至 `19496654`。List 分支已解决冲突，并把批量启动�
 
 [草稿 PR #282](https://github.com/eloqdata/lavik/pull/282)，验证提交 [`28d7cca4`](https://github.com/thweetkomputer/lavik/commit/28d7cca498655e02f46407adb65335219b10ee6b) 从 main `19496654` 开始，为 `FindVerifiedEntry` 新增独立重载。每页刷新通过已有 `FindCandidateIf`，只有 block、offset、allocation epoch 全部匹配此前已校验的物理根，才能省去间接 key 的完整读取；索引中的完整 key 仍比较全部字节，没有匹配候选时回到原异步校验。数据代次、逻辑版本、页面身份及 GC 检查保留。ordered 远端页读取本来就借用父 key，这里的重复校验不能误写成逐页跨 worker key 复制。
 
-[完整 CI 17 项通过](grouped-root-28d7cca4-full-ci.json)，包括两架构编译、12 个软件分片和格式检查。[首次 arm64 分片 3 的 runner 失联](grouped-root-ci-attempt1-infrastructure-failure.json) 停在依赖安装，尚未运行软件测试；同一源码重跑失败项后通过，原始失败记录保留。[amd64 extent 恢复用例](grouped-verified-root-extent-ci-proof.json) 也通过。下文的候选三轮镜像回放已完成；普通短 key 的 native 回归、配对 QPS 和候选 perf 尚未完成。
+同一 head `28d7cca4` 的 [fork CI](grouped-root-28d7cca4-full-ci.json) 与[上游 PR CI](pr282-upstream-full-ci.json) 均已完整通过各 17 项，包括两架构编译、12 个软件分片和格式检查（[上游运行](https://github.com/eloqdata/lavik/actions/runs/37287121881)）。[首次 arm64 分片 3 的 runner 失联](grouped-root-ci-attempt1-infrastructure-failure.json) 停在依赖安装，尚未运行软件测试；同一源码重跑失败项后通过，原始失败记录保留。[amd64 extent 恢复用例](grouped-verified-root-extent-ci-proof.json) 也通过。下文的候选三轮镜像回放已完成；普通短 key 的 native 回归、配对 QPS 和候选 perf 尚未完成。
 
 ## 长 key 采样：超时期间仍持续读取
 
