@@ -1,0 +1,91 @@
+{
+  "source_commit": "0a0431d2",
+  "csv": "zset-104857600-1024-k8-current.csv",
+  "historical_csv_sha256": "9c9dcfc87101ddd33b73d2e81a37d80a4b511f6538830f1478ad9307d76fcc66",
+  "current_csv_sha256": "9c9dcfc87101ddd33b73d2e81a37d80a4b511f6538830f1478ad9307d76fcc66",
+  "all_peer_rows_unchanged": true,
+  "source_summary_sha256": "ba012663b6caaa031ad6ff53534851bf6b65f27a2f018e44d8e9eba37654a54f",
+  "rows": [
+    {
+      "connections": 80,
+      "candidate_median_qps": 294324.06,
+      "historical_peers": {
+        "Redis": {
+          "qps": 433552.71,
+          "p99_ms": 0.351
+        },
+        "Valkey": {
+          "qps": 526710.81,
+          "p99_ms": 0.279
+        },
+        "Kvrocks (80 GiB cache)": {
+          "qps": 442749.98,
+          "p99_ms": 0.367
+        }
+      },
+      "fastest_peer": "Valkey",
+      "candidate_to_fastest": 0.5587963155721067
+    },
+    {
+      "connections": 320,
+      "candidate_median_qps": 328637.34,
+      "historical_peers": {
+        "Redis": {
+          "qps": 698339.15,
+          "p99_ms": 0.983
+        },
+        "Valkey": {
+          "qps": 676390.34,
+          "p99_ms": 0.999
+        },
+        "Kvrocks (80 GiB cache)": {
+          "qps": 642167.41,
+          "p99_ms": 1.015
+        }
+      },
+      "fastest_peer": "Redis",
+      "candidate_to_fastest": 0.4705984763993255
+    },
+    {
+      "connections": 2560,
+      "candidate_median_qps": 220060.42,
+      "historical_peers": {
+        "Redis": {
+          "qps": 862412.88,
+          "p99_ms": 7.359
+        },
+        "Valkey": {
+          "qps": 694524.6,
+          "p99_ms": 7.071
+        },
+        "Kvrocks (80 GiB cache)": {
+          "qps": 624439.79,
+          "p99_ms": 6.879
+        }
+      },
+      "fastest_peer": "Redis",
+      "candidate_to_fastest": 0.25516829015818965
+    },
+    {
+      "connections": 5120,
+      "candidate_median_qps": 205232.2,
+      "historical_peers": {
+        "Redis": {
+          "qps": 692906.77,
+          "p99_ms": 24.831
+        },
+        "Valkey": {
+          "qps": 551247.48,
+          "p99_ms": 34.559
+        },
+        "Kvrocks (80 GiB cache)": {
+          "qps": 534859.09,
+          "p99_ms": 34.047
+        }
+      },
+      "fastest_peer": "Redis",
+      "candidate_to_fastest": 0.2961902075224348
+    }
+  ],
+  "limits": "Historical peers not rerun; Redis/Valkey persistence disabled, Kvrocks WAL disabled and 80GiB block cache, Lavik durable SPDK with no payload cache. Comparison gives historical gap context, not contemporaneous equivalent-durability parity."
+}
