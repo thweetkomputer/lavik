@@ -1,0 +1,9 @@
+{
+  "result": "Candidate times out before the 9 MiB key GET reply header; main completes the same replay and clean shutdown.",
+  "main_large_get_seconds": 50.007936563983094,
+  "timeout_seconds": 60,
+  "original_image_sha256": "b4e0113cf9b7dcbe03175c5e5665be8589ebef9dbc9c2847adc3cd3010b956ae",
+  "thread_capture": "Only after the candidate timeout. Three worker backtraces enter _io_uring_get_cqe; kernel wait channels show io_cqring_wait. Unwind beyond liburing is incomplete and does not identify an awaited coroutine. Raw thread dumps remain local.",
+  "interpretation": "Main also has high latency. One ordered replay pair cannot establish deadlock, corruption, regression or the same cause as CI SET timeout. No production change or timeout extension.",
+  "next": "Collect per-operation CPU, storage and coroutine progress on independent image copies after clean benchmarks finish."
+}

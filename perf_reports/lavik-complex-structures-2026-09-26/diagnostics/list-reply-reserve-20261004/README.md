@@ -86,4 +86,10 @@ main 已前进至 `19496654`。List 分支已解决冲突，并把批量启动�
 
 原 amd64 CI 二进制和测试驱动在独立文件设备上对照：main `19496654` 第一轮通过（137.54 秒）；候选 `343e951e` 第一轮失败（118.59 秒），随即停止。两份测试驱动 SHA-256 相同，候选 CI 的合成 merge tree 已核对与请求的源码树一致。[完整来源与结果](pr267-extent-native-ci-reproductions.json) · [候选失败日志](pr267-native-candidate-extent-failure.log)。这些耗时不是性能比较。
 
-本机失败是 `GET key_bytes=9437184` 超时，原 CI 是 `SET key_bytes=5009` 超时；都出现在四个 worker 写入、两个 worker 恢复后的阶段，但不能据此认定同一根因。768 MiB 原始数据镜像已保留为只读文件，未加入 Git。[诊断状态](pr267-native-extent-failure-summary.json) · [镜像副本重放脚本](replay-pr267-retained-image.py)。下一步在独立可写副本上分别运行候选和 main，记录具体响应阶段，并仅在原超时发生后采集线程回溯；不改 socket 或关闭超时。
+本机失败是 `GET key_bytes=9437184` 超时，原 CI 是 `SET key_bytes=5009` 超时；都出现在四个 worker 写入、两个 worker 恢复后的阶段，但不能据此认定同一根因。768 MiB 原始数据镜像已保留为只读文件，未加入 Git。[诊断状态](pr267-native-extent-failure-summary.json) · [镜像副本重放脚本](replay-pr267-retained-image.py)。后续镜像重放结果见下节；socket 和关闭超时保持不变。
+
+## 同一故障镜像的独立副本重放
+
+候选 `343e951e` 再次在 9 MiB key 的 GET 等待回复头超过原 60 秒限制，此前 3 个外部 key 和 6 MiB key 的读取均通过。main `19496654` 从另一份相同镜像副本完成全部读取、覆盖和正常关闭，但同一 GET 也耗时 **50.008 秒**。[逐操作结果与来源](pr267-retained-image-replays.json) · [诊断摘要](pr267-retained-replay-summary.json) · [候选日志](pr267-retained-replay-candidate.log) · [main 日志](pr267-retained-replay-main.log)。
+
+候选超时后才附加调试器：三个 worker 的回溯进入 `_io_uring_get_cqe`，内核等待点为 `io_cqring_wait`；liburing 之后的回溯不完整，尚不能识别具体等待的协程。原始镜像前后 SHA-256 一致，保持只读；磁盘镜像和原始线程转储未入库。这一对固定顺序重放不能证明死锁、数据损坏或候选独有回归，也不能证明与 CI 的 SET 超时同源。下一步在干净压测结束后采集逐操作 CPU、存储和协程进展。
