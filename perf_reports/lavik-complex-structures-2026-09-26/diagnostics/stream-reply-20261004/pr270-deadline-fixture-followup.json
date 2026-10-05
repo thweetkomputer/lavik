@@ -1,0 +1,14 @@
+{
+  "pr": 270,
+  "failed_head": "cfe76ab2fa8ad19006636a759aa440005cfb37a2",
+  "failed_run": "https://github.com/eloqdata/lavik/actions/runs/37242737755",
+  "failed_job": "https://github.com/eloqdata/lavik/actions/runs/37242737755/job/111558224172",
+  "test": "ReplicationManagerIntegrationTest.CandidateRecoveryDeadlineFreezesActualCompleteApplied",
+  "failure": "expected complete cut2,1; actual1,1; reasondeadline",
+  "evidence": "300ms shared deadline is set before candidate preparation/discovery. CIlog worker initialized00:27:05.338, population invalidated05.628, activated05.630, deadline completion05.651. Source/architecture allow freezing actual complete progress when deadline expires before first donor applies.",
+  "fix_commit": "adec3a3414adf7b18dc304d336253258e228cb02",
+  "fix": "For the two stalled-payload fixtures, derive the expected first-flow cursor from actual stored recovery-a (absent or exact value); require recovery-b absent because its donor never sends a payload. Continue matching reported cut, promotion frozen cut, deadline completion reason, and unchanged deadline/action on replacement. Preserve300ms budget and5souterwait. Full-donor cases retain fixed expected progress. No production code or architecture behavior changes.",
+  "validation": "format/diff pass; localtest notrun while nativeZset validationowns host. NewCI37248504314 pending. Fix not yet validated as passing.",
+  "new_ci": "https://github.com/eloqdata/lavik/actions/runs/37248504314",
+  "performance": "All published Stream observations stillimmutablea565vs1e; no measurements ofadec or later274/275."
+}
