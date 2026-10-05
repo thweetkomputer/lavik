@@ -6,7 +6,7 @@
 
 新增测试保留 32 次非单调替换的所有旧版本，核对 revision、字段数、物理 token 和字节总量，并检查区间变更、缺失路由、溢出及 OOM 失败后的原子性、重试和内存计数恢复。格式检查和 `git diff --check` 通过；[远端 CI](https://github.com/eloqdata/lavik/actions/runs/37255329628) 已全部通过：amd64/arm64 构建、12 个软件测试分片、格式及汇总共 17 个 job（[精确提交记录](pr276-27c65ff9-full-ci.json)）。本地原生验证也已完成，见下文。
 
-原生验证在统一主机锁下完成，覆盖 Hash/元数据单元测试及 Hash/Set 集成驱动，并冻结了两个生产二进制和 SHA-256；候选的构建恢复过程见下文。生产构建关闭测试及故障注入，故障覆盖由完整 CI 补充。原生验证已通过；144 点干净对照正在运行，尚无完整 QPS/p99 或新 perf 结论，PR 保持草稿。架构、磁盘格式、durability 和快照所有权没有改变。
+原生验证在统一主机锁下完成，覆盖 Hash/元数据单元测试及 Hash/Set 集成驱动，并冻结了两个生产二进制和 SHA-256；候选的构建恢复过程见下文。生产构建关闭测试及故障注入，故障覆盖由完整 CI 补充。原生验证已通过，Hash 的 72 点三轮对照已完成：大 Hash 的 HSET c5120 提升，但较小 Hash 的 HSET 在三个连接数均回退，具体 QPS/p99 见下方完整结果。Set 的 72 点对照仍在运行，独立 perf 等全部对照完成后采集；PR 保持草稿。架构、磁盘格式、durability 和快照所有权没有改变。
 
 ## 对照与 perf 调度
 
@@ -22,7 +22,7 @@
 
 候选的首次 GCC/native LTO 链接因 `/tmp` 空间不足失败，[原错误摘录](candidate-native-enospc.log)保留。[续跑](resume-hash-route-replace-native.py)仅将 `TMPDIR` 移至 `/mnt/dev`，保留源码、编译选项和已通过的父版本，随后完成候选链接、单测与原生验证。没有删除失败记录，也没有把 CI 通过当成本机生产验证。
 
-[144 点对照](repeat-hash-route-replace-resume.py)已取得主机锁开始运行；[独立 perf](profile-hash-route-replace-resume.py)等待全部对照通过。PR #276 保持草稿，当前不宣称 QPS 收益。
+生产二进制的测试通过情况只说明上述覆盖通过；是否保留这项优化由下方配对性能结果决定。
 
 ## 依赖版本记录更正
 
@@ -33,7 +33,7 @@
 
 ## 100 MiB Hash 三轮对照已完成
 
-[完整 36 点配对结果](hash-route-large.md)：HSET c5120 配对 QPS 中位 +7.81%，三轮均提升，p99 中位 −8.19%；c80/c320 收益较弱且混合，HGET 仍有小幅回退。较小 Hash、Set 和独立 perf 继续运行；不据单个子集把 PR 标为可合并。
+[完整 36 点配对结果](hash-route-large.md)：HSET c5120 配对 QPS 中位 +7.81%，三轮均提升，p99 中位 −8.19%；c80/c320 收益较弱且混合，HGET 仍有小幅回退。较小 Hash 的完整结果见下一节；Set 和独立 perf 尚未完成，不据单个获益子集把 PR 标为可合并。
 
 
 ## Hash 1 MiB/key / 128 B / 50000 keys 三轮对照已完成
