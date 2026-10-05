@@ -1,5 +1,7 @@
 # Complex structures: Redis, Valkey, Kvrocks and Lavik
 
+[Stream read-window #275: all 24 large-read observations](diagnostics/stream-reply-20261004/stream-window-large-reads.md) are complete. For 100 MiB / 128 B / 8 keys, median paired full-read QPS changes at c1/4/16 are **+327.45% / +233.85% / +128.49%**; point reads at c2560 change **−1.07%**. Full-read QPS medians are 2.18 / 6.41 / 16.28, above the corresponding historical peer measurements. Peers were not rerun and durability differs; this does not establish overall parity. Write and small-object controls continue; the original production RDB timeout remains unexplained and the PR stays draft.
+
 All [144 Hash/Set route-replacement observations](diagnostics/hash-route-replace-20261005/hash-route-complete.md) are complete. Large-Hash HSET c5120 gains +7.81% QPS, but smaller-Hash HSET and both Set write scopes have negative paired medians. #276 remains draft; all QPS/p99 tradeoffs and historical peer gaps are retained. [Four large-object perf captures](diagnostics/hash-route-replace-20261005/hash-route-large-perf.md) are complete; small-Hash sampling remains pending and the regressions are not yet explained.
 
 [简体中文](README.zh-CN.md)
@@ -36,11 +38,11 @@ This round pins the main revision above. Merged optimizations are no longer sepa
 
 [Hash/Set write profiles](diagnostics/hashset-write-20261004/README.md) · [Ordered metadata optimization and tests](diagnostics/ordered-metadata-20261004/README.md)
 
-Unmerged optimizations: [PR #265](https://github.com/eloqdata/lavik/pull/265) · [PR #266](https://github.com/eloqdata/lavik/pull/266) · [PR #267](https://github.com/eloqdata/lavik/pull/267) · [PR #269](https://github.com/eloqdata/lavik/pull/269) · [PR #270](https://github.com/eloqdata/lavik/pull/270)
+Unmerged optimizations: [PR #266](https://github.com/eloqdata/lavik/pull/266) · [PR #267](https://github.com/eloqdata/lavik/pull/267) · [PR #269](https://github.com/eloqdata/lavik/pull/269) · [PR #270](https://github.com/eloqdata/lavik/pull/270)
 
 Main has advanced to `4610d607`; this report retains pinned baseline `a565d603`. [Combined validation branch and status](diagnostics/combined-20261005/README.md). [Integrated PR heads and validation status](diagnostics/main-a565d603-20261004/pr-main-integration.json) remain separate from the measured binaries.
 
-[Stream suffix directory reuse: throughput, paired runs, perf and tests](diagnostics/stream-suffix-20261004/README.md)
+[Stream suffix directory reuse: throughput, paired runs, perf and tests](diagnostics/stream-suffix-20261004/README.md) — #265 merged on 2026-10-05; its measurements retain their original commits and are not a fresh main rerun.
 
 [Stream reply batching PR #270: paired checks, controls and perf](diagnostics/stream-reply-20261004/README.md)
 

@@ -1,5 +1,7 @@
 # 复杂数据结构性能：Redis、Valkey、Kvrocks 与 Lavik
 
+[Stream 读取窗口 #275：24 点大对象读取三轮对照](diagnostics/stream-reply-20261004/stream-window-large-reads.md)已完成。100 MiB / 128 B / 8 keys，全量读取 c1/4/16 的配对 QPS 中位数提升 **+327.45% / +233.85% / +128.49%**；点读 c2560 为 **−1.07%**。全量读取 QPS 中位数为 2.18 / 6.41 / 16.28，超过对应的三库历史测量，但其他三库未重跑、持久化配置不同，不能据此宣称整体追平。写入和小对象控制继续执行；原生产 RDB 超时仍未解释，PR 保持草稿。
+
 Hash/Set 单路由替换的[全部 144 点对照](diagnostics/hash-route-replace-20261005/hash-route-complete.md)已完成。大 Hash HSET c5120 的 QPS +7.81% 未推广到其他范围：小 Hash HSET 与两种 Set 写入中位均回退，#276 保持草稿。完整 QPS/p99、反向结果和历史 peer 差距均已公开；[四组大对象 perf](diagnostics/hash-route-replace-20261005/hash-route-large-perf.md)已完成，小 Hash 采样仍排队，回退原因尚未确定。
 
 [English](README.md)
@@ -36,7 +38,9 @@ Redis/Valkey 关闭持久化；Kvrocks 使用无压缩 RAID0、关闭 WAL、80 G
 
 [Hash/Set 写入 perf 分析](diagnostics/hashset-write-20261004/README.md) · [有序目录优化与测试](diagnostics/ordered-metadata-20261004/README.md)
 
-未合并优化：[PR #265](https://github.com/eloqdata/lavik/pull/265) · [PR #266](https://github.com/eloqdata/lavik/pull/266) · [PR #267](https://github.com/eloqdata/lavik/pull/267) · [PR #269](https://github.com/eloqdata/lavik/pull/269) · [PR #270](https://github.com/eloqdata/lavik/pull/270) · [PR #276：Hash/Set 单路由替换（验证中）](diagnostics/hash-route-replace-20261005/README.md)
+ #265 已于 2026-10-05 合并；其测量仍归属原始提交，不代表新 main 已重跑。
+
+未合并优化：[PR #266](https://github.com/eloqdata/lavik/pull/266) · [PR #267](https://github.com/eloqdata/lavik/pull/267) · [PR #269](https://github.com/eloqdata/lavik/pull/269) · [PR #270](https://github.com/eloqdata/lavik/pull/270) · [PR #276：Hash/Set 单路由替换（验证中）](diagnostics/hash-route-replace-20261005/README.md)
 
 main 已更新至 `4610d607`；本页仍使用固定基线 `a565d603`。[组合验证分支及状态](diagnostics/combined-20261005/README.md)。[优化分支的新提交与验证状态](diagnostics/main-a565d603-20261004/pr-main-integration.json)，新提交尚未替换已测量二进制。
 

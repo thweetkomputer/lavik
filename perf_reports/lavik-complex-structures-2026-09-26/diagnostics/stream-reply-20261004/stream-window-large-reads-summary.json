@@ -1,0 +1,472 @@
+{
+  "input_sha256": "7c62c93d2ec68075248d0b2ebf8c2975d361b49b091a9744709d82f607b67810",
+  "seed_proofs": {
+    "seed-parentadec3a34-stream-window-followup-104857600-128-read-repeat1-20261005": {
+      "source_commit": "adec3a3414adf7b18dc304d336253258e228cb02",
+      "sha256": "62891463498c88ff2137a1a28baea251d9c55fe503fbbe581da47f2ff1ba463f",
+      "keys_checked": 8,
+      "server_exit": 0,
+      "failures_total": 0
+    },
+    "seed-parentadec3a34-stream-window-followup-104857600-128-read-repeat2-20261005": {
+      "source_commit": "adec3a3414adf7b18dc304d336253258e228cb02",
+      "sha256": "62891463498c88ff2137a1a28baea251d9c55fe503fbbe581da47f2ff1ba463f",
+      "keys_checked": 8,
+      "server_exit": 0,
+      "failures_total": 0
+    },
+    "seed-parentadec3a34-stream-window-followup-104857600-128-read-repeat3-20261005": {
+      "source_commit": "adec3a3414adf7b18dc304d336253258e228cb02",
+      "sha256": "62891463498c88ff2137a1a28baea251d9c55fe503fbbe581da47f2ff1ba463f",
+      "keys_checked": 8,
+      "server_exit": 0,
+      "failures_total": 0
+    }
+  },
+  "scope": "large-reads",
+  "versions": {
+    "parent": {
+      "commit": "adec3a3414adf7b18dc304d336253258e228cb02",
+      "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-stream-followup-parent-adec3a34-20261005",
+      "sha256": "62891463498c88ff2137a1a28baea251d9c55fe503fbbe581da47f2ff1ba463f",
+      "source_repo": "/mnt/dev/lavik-complex-next-20261004",
+      "bycorf_commit": "62509c93d40c2480f5046b71454db6cf95801b04",
+      "build": "RelWithDebInfo, native, LTO, GCC 13, SPDK, BUILD_TESTING=OFF, LAVIK_ENABLE_TEST_FAULTS=OFF",
+      "build_directory": "/mnt/dev/lavik-complex-next-20261004/build-spdk",
+      "no_build_or_tests_during_measurements": true,
+      "pr": 270,
+      "ci_required_before_performance": true,
+      "initial_environment_failure": "/mnt/dev/lavik-complex-iterations-20261004/stream-followup-parent-stream-transfer-tests.json",
+      "failed_case_retry": "/mnt/dev/lavik-complex-iterations-20261004/stream-followup-parent-large-rdb-retry.json",
+      "full_fault_enabled_ci": "https://github.com/eloqdata/lavik/actions/runs/37248504314"
+    },
+    "window": {
+      "commit": "5b9ebdedecc0cc7a3fea93fb73b1fbbb6b7186c6",
+      "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-stream-followup-window-5b9ebded-20261005",
+      "sha256": "3af06ea2dc0e276f03cfb48d9d8c9df0e84979ba8e4275725bcf6456c728d13d",
+      "source_repo": "/mnt/dev/lavik-complex-next-20261004",
+      "bycorf_commit": "62509c93d40c2480f5046b71454db6cf95801b04",
+      "build": "RelWithDebInfo, native, LTO, GCC 13, SPDK, BUILD_TESTING=OFF, LAVIK_ENABLE_TEST_FAULTS=OFF",
+      "build_directory": "/mnt/dev/lavik-complex-next-20261004/build-spdk",
+      "no_build_or_tests_during_measurements": true,
+      "pr": 275,
+      "ci_required_before_performance": true,
+      "full_fault_enabled_ci": "https://github.com/eloqdata/lavik/actions/runs/37251491010"
+    }
+  },
+  "observations": 24,
+  "method": "Three 30-second pairs parent/window, window/parent, parent/window. PR275window5b versus exactruntimeparentadec. Original production timeout was not reproduced in the same-order suite and remains unexplained; all required current native suites and full CI precede measurement. Each read round restarts all versions on one fresh parent-seeded unchanged population; writes use an independent fresh seed for every version. Large 100MiB/128B/8keys: XRANGE_FULL c1/4/16, XRANGE c2560, XADD_MAXLEN c320/5120. Small 64KiB/1024B/64keys: XRANGE_FULL c80, XRANGE c5120, XADD_MAXLEN c2560/5120. All errors retained. Exact production binaries pass native tests and full fault-enabled CI. No concurrent builds, tests, or perf on this host.",
+  "limitations": "Three paired changes, not confidence intervals. Median paired ratio is not the ratio of marginal medians. Full reads have few commands and rounded QPS. Negative p99 change is better. Historical peers not rerun; this is incremental parent-versus-window evidence, not overall parity.",
+  "proofs": {
+    "parentadec3a34-stream-window-followup-104857600-128-read-repeat1-20261005": {
+      "source_commit": "adec3a3414adf7b18dc304d336253258e228cb02",
+      "sha256": "62891463498c88ff2137a1a28baea251d9c55fe503fbbe581da47f2ff1ba463f",
+      "seed_tag": "seed-parentadec3a34-stream-window-followup-104857600-128-read-repeat1-20261005",
+      "server_exit": 0,
+      "failures_total": 0,
+      "keys_checked": 8,
+      "before_cardinality_range": [
+        819200,
+        819200
+      ],
+      "after_cardinality_range": [
+        819200,
+        819200
+      ]
+    },
+    "window5b9ebded-stream-window-followup-104857600-128-read-repeat1-20261005": {
+      "source_commit": "5b9ebdedecc0cc7a3fea93fb73b1fbbb6b7186c6",
+      "sha256": "3af06ea2dc0e276f03cfb48d9d8c9df0e84979ba8e4275725bcf6456c728d13d",
+      "seed_tag": "seed-parentadec3a34-stream-window-followup-104857600-128-read-repeat1-20261005",
+      "server_exit": 0,
+      "failures_total": 0,
+      "keys_checked": 8,
+      "before_cardinality_range": [
+        819200,
+        819200
+      ],
+      "after_cardinality_range": [
+        819200,
+        819200
+      ]
+    },
+    "window5b9ebded-stream-window-followup-104857600-128-read-repeat2-20261005": {
+      "source_commit": "5b9ebdedecc0cc7a3fea93fb73b1fbbb6b7186c6",
+      "sha256": "3af06ea2dc0e276f03cfb48d9d8c9df0e84979ba8e4275725bcf6456c728d13d",
+      "seed_tag": "seed-parentadec3a34-stream-window-followup-104857600-128-read-repeat2-20261005",
+      "server_exit": 0,
+      "failures_total": 0,
+      "keys_checked": 8,
+      "before_cardinality_range": [
+        819200,
+        819200
+      ],
+      "after_cardinality_range": [
+        819200,
+        819200
+      ]
+    },
+    "parentadec3a34-stream-window-followup-104857600-128-read-repeat2-20261005": {
+      "source_commit": "adec3a3414adf7b18dc304d336253258e228cb02",
+      "sha256": "62891463498c88ff2137a1a28baea251d9c55fe503fbbe581da47f2ff1ba463f",
+      "seed_tag": "seed-parentadec3a34-stream-window-followup-104857600-128-read-repeat2-20261005",
+      "server_exit": 0,
+      "failures_total": 0,
+      "keys_checked": 8,
+      "before_cardinality_range": [
+        819200,
+        819200
+      ],
+      "after_cardinality_range": [
+        819200,
+        819200
+      ]
+    },
+    "parentadec3a34-stream-window-followup-104857600-128-read-repeat3-20261005": {
+      "source_commit": "adec3a3414adf7b18dc304d336253258e228cb02",
+      "sha256": "62891463498c88ff2137a1a28baea251d9c55fe503fbbe581da47f2ff1ba463f",
+      "seed_tag": "seed-parentadec3a34-stream-window-followup-104857600-128-read-repeat3-20261005",
+      "server_exit": 0,
+      "failures_total": 0,
+      "keys_checked": 8,
+      "before_cardinality_range": [
+        819200,
+        819200
+      ],
+      "after_cardinality_range": [
+        819200,
+        819200
+      ]
+    },
+    "window5b9ebded-stream-window-followup-104857600-128-read-repeat3-20261005": {
+      "source_commit": "5b9ebdedecc0cc7a3fea93fb73b1fbbb6b7186c6",
+      "sha256": "3af06ea2dc0e276f03cfb48d9d8c9df0e84979ba8e4275725bcf6456c728d13d",
+      "seed_tag": "seed-parentadec3a34-stream-window-followup-104857600-128-read-repeat3-20261005",
+      "server_exit": 0,
+      "failures_total": 0,
+      "keys_checked": 8,
+      "before_cardinality_range": [
+        819200,
+        819200
+      ],
+      "after_cardinality_range": [
+        819200,
+        819200
+      ]
+    }
+  },
+  "summary": [
+    {
+      "logical_bytes": 104857600,
+      "field_bytes": 128,
+      "keys": 8,
+      "operation": "XRANGE",
+      "connections": 2560,
+      "pairs": [
+        {
+          "round": 1,
+          "parent": {
+            "tag": "parentadec3a34-stream-window-followup-104857600-128-read-repeat1-20261005",
+            "qps": 137223.5,
+            "p99_ms": 74.751,
+            "requests": 4132900
+          },
+          "window": {
+            "tag": "window5b9ebded-stream-window-followup-104857600-128-read-repeat1-20261005",
+            "qps": 135759.24,
+            "p99_ms": 75.775,
+            "requests": 4089711
+          },
+          "qps_change_percent": -1.0670621285712834,
+          "p99_change_percent": 1.3698813393800746
+        },
+        {
+          "round": 2,
+          "parent": {
+            "tag": "parentadec3a34-stream-window-followup-104857600-128-read-repeat2-20261005",
+            "qps": 136430.22,
+            "p99_ms": 75.263,
+            "requests": 4108434
+          },
+          "window": {
+            "tag": "window5b9ebded-stream-window-followup-104857600-128-read-repeat2-20261005",
+            "qps": 133517.52,
+            "p99_ms": 76.799,
+            "requests": 4021079
+          },
+          "qps_change_percent": -2.1349375526917846,
+          "p99_change_percent": 2.04084344232891
+        },
+        {
+          "round": 3,
+          "parent": {
+            "tag": "parentadec3a34-stream-window-followup-104857600-128-read-repeat3-20261005",
+            "qps": 136735.94,
+            "p99_ms": 74.751,
+            "requests": 4117555
+          },
+          "window": {
+            "tag": "window5b9ebded-stream-window-followup-104857600-128-read-repeat3-20261005",
+            "qps": 137202.29,
+            "p99_ms": 74.239,
+            "requests": 4132873
+          },
+          "qps_change_percent": 0.34105883208175314,
+          "p99_change_percent": -0.6849406696900373
+        }
+      ],
+      "qps_paired_percent": {
+        "median": -1.0670621285712834,
+        "min": -2.1349375526917846,
+        "max": 0.34105883208175314,
+        "positive_pairs": 1,
+        "negative_pairs": 2
+      },
+      "p99_paired_percent": {
+        "median": 1.3698813393800746,
+        "min": -0.6849406696900373,
+        "max": 2.04084344232891,
+        "positive_pairs": 2,
+        "negative_pairs": 1
+      },
+      "parent_median_qps": 136735.94,
+      "parent_median_p99_ms": 74.751,
+      "window_median_qps": 135759.24,
+      "window_median_p99_ms": 75.775
+    },
+    {
+      "logical_bytes": 104857600,
+      "field_bytes": 128,
+      "keys": 8,
+      "operation": "XRANGE_FULL",
+      "connections": 1,
+      "pairs": [
+        {
+          "round": 1,
+          "parent": {
+            "tag": "parentadec3a34-stream-window-followup-104857600-128-read-repeat1-20261005",
+            "qps": 0.5,
+            "p99_ms": 2056.191,
+            "requests": 16
+          },
+          "window": {
+            "tag": "window5b9ebded-stream-window-followup-104857600-128-read-repeat1-20261005",
+            "qps": 2.19,
+            "p99_ms": 464.895,
+            "requests": 66
+          },
+          "qps_change_percent": 338.0,
+          "p99_change_percent": -77.39047588477919
+        },
+        {
+          "round": 2,
+          "parent": {
+            "tag": "parentadec3a34-stream-window-followup-104857600-128-read-repeat2-20261005",
+            "qps": 0.51,
+            "p99_ms": 2031.615,
+            "requests": 16
+          },
+          "window": {
+            "tag": "window5b9ebded-stream-window-followup-104857600-128-read-repeat2-20261005",
+            "qps": 2.18,
+            "p99_ms": 483.327,
+            "requests": 66
+          },
+          "qps_change_percent": 327.45098039215685,
+          "p99_change_percent": -76.20971493122467
+        },
+        {
+          "round": 3,
+          "parent": {
+            "tag": "parentadec3a34-stream-window-followup-104857600-128-read-repeat3-20261005",
+            "qps": 0.51,
+            "p99_ms": 2056.191,
+            "requests": 16
+          },
+          "window": {
+            "tag": "window5b9ebded-stream-window-followup-104857600-128-read-repeat3-20261005",
+            "qps": 1.92,
+            "p99_ms": 1269.759,
+            "requests": 58
+          },
+          "qps_change_percent": 276.4705882352941,
+          "p99_change_percent": -38.2470305530955
+        }
+      ],
+      "qps_paired_percent": {
+        "median": 327.45098039215685,
+        "min": 276.4705882352941,
+        "max": 338.0,
+        "positive_pairs": 3,
+        "negative_pairs": 0
+      },
+      "p99_paired_percent": {
+        "median": -76.20971493122467,
+        "min": -77.39047588477919,
+        "max": -38.2470305530955,
+        "positive_pairs": 0,
+        "negative_pairs": 3
+      },
+      "parent_median_qps": 0.51,
+      "parent_median_p99_ms": 2056.191,
+      "window_median_qps": 2.18,
+      "window_median_p99_ms": 483.327
+    },
+    {
+      "logical_bytes": 104857600,
+      "field_bytes": 128,
+      "keys": 8,
+      "operation": "XRANGE_FULL",
+      "connections": 4,
+      "pairs": [
+        {
+          "round": 1,
+          "parent": {
+            "tag": "parentadec3a34-stream-window-followup-104857600-128-read-repeat1-20261005",
+            "qps": 1.92,
+            "p99_ms": 2244.607,
+            "requests": 61
+          },
+          "window": {
+            "tag": "window5b9ebded-stream-window-followup-104857600-128-read-repeat1-20261005",
+            "qps": 6.41,
+            "p99_ms": 851.967,
+            "requests": 194
+          },
+          "qps_change_percent": 233.85416666666669,
+          "p99_change_percent": -62.043823261711296
+        },
+        {
+          "round": 2,
+          "parent": {
+            "tag": "parentadec3a34-stream-window-followup-104857600-128-read-repeat2-20261005",
+            "qps": 1.98,
+            "p99_ms": 2293.759,
+            "requests": 60
+          },
+          "window": {
+            "tag": "window5b9ebded-stream-window-followup-104857600-128-read-repeat2-20261005",
+            "qps": 6.47,
+            "p99_ms": 839.679,
+            "requests": 197
+          },
+          "qps_change_percent": 226.76767676767676,
+          "p99_change_percent": -63.39288477996163
+        },
+        {
+          "round": 3,
+          "parent": {
+            "tag": "parentadec3a34-stream-window-followup-104857600-128-read-repeat3-20261005",
+            "qps": 1.9,
+            "p99_ms": 2342.911,
+            "requests": 58
+          },
+          "window": {
+            "tag": "window5b9ebded-stream-window-followup-104857600-128-read-repeat3-20261005",
+            "qps": 6.39,
+            "p99_ms": 876.543,
+            "requests": 195
+          },
+          "qps_change_percent": 236.31578947368422,
+          "p99_change_percent": -62.587439300938016
+        }
+      ],
+      "qps_paired_percent": {
+        "median": 233.85416666666669,
+        "min": 226.76767676767676,
+        "max": 236.31578947368422,
+        "positive_pairs": 3,
+        "negative_pairs": 0
+      },
+      "p99_paired_percent": {
+        "median": -62.587439300938016,
+        "min": -63.39288477996163,
+        "max": -62.043823261711296,
+        "positive_pairs": 0,
+        "negative_pairs": 3
+      },
+      "parent_median_qps": 1.92,
+      "parent_median_p99_ms": 2293.759,
+      "window_median_qps": 6.41,
+      "window_median_p99_ms": 851.967
+    },
+    {
+      "logical_bytes": 104857600,
+      "field_bytes": 128,
+      "keys": 8,
+      "operation": "XRANGE_FULL",
+      "connections": 16,
+      "pairs": [
+        {
+          "round": 1,
+          "parent": {
+            "tag": "parentadec3a34-stream-window-followup-104857600-128-read-repeat1-20261005",
+            "qps": 7.18,
+            "p99_ms": 2490.367,
+            "requests": 220
+          },
+          "window": {
+            "tag": "window5b9ebded-stream-window-followup-104857600-128-read-repeat1-20261005",
+            "qps": 16.07,
+            "p99_ms": 1564.671,
+            "requests": 496
+          },
+          "qps_change_percent": 123.81615598885793,
+          "p99_change_percent": -37.171067557512615
+        },
+        {
+          "round": 2,
+          "parent": {
+            "tag": "parentadec3a34-stream-window-followup-104857600-128-read-repeat2-20261005",
+            "qps": 7.11,
+            "p99_ms": 2506.751,
+            "requests": 216
+          },
+          "window": {
+            "tag": "window5b9ebded-stream-window-followup-104857600-128-read-repeat2-20261005",
+            "qps": 16.28,
+            "p99_ms": 1572.863,
+            "requests": 499
+          },
+          "qps_change_percent": 128.97327707454292,
+          "p99_change_percent": -37.254916822612216
+        },
+        {
+          "round": 3,
+          "parent": {
+            "tag": "parentadec3a34-stream-window-followup-104857600-128-read-repeat3-20261005",
+            "qps": 7.16,
+            "p99_ms": 2539.519,
+            "requests": 217
+          },
+          "window": {
+            "tag": "window5b9ebded-stream-window-followup-104857600-128-read-repeat3-20261005",
+            "qps": 16.36,
+            "p99_ms": 1531.903,
+            "requests": 497
+          },
+          "qps_change_percent": 128.49162011173183,
+          "p99_change_percent": -39.677434978828664
+        }
+      ],
+      "qps_paired_percent": {
+        "median": 128.49162011173183,
+        "min": 123.81615598885793,
+        "max": 128.97327707454292,
+        "positive_pairs": 3,
+        "negative_pairs": 0
+      },
+      "p99_paired_percent": {
+        "median": -37.254916822612216,
+        "min": -39.677434978828664,
+        "max": -37.171067557512615,
+        "positive_pairs": 0,
+        "negative_pairs": 3
+      },
+      "parent_median_qps": 7.16,
+      "parent_median_p99_ms": 2506.751,
+      "window_median_qps": 16.28,
+      "window_median_p99_ms": 1564.671
+    }
+  ]
+}
