@@ -1,0 +1,41 @@
+{
+  "version": {
+    "commit": "adec3a3414adf7b18dc304d336253258e228cb02",
+    "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-stream-followup-parent-adec3a34-20261005",
+    "sha256": "62891463498c88ff2137a1a28baea251d9c55fe503fbbe581da47f2ff1ba463f",
+    "source_repo": "/mnt/dev/lavik-complex-next-20261004",
+    "bycorf_commit": "62509c93d40c2480f5046b71454db6cf95801b04",
+    "build": "RelWithDebInfo, native, LTO, GCC 13, SPDK, BUILD_TESTING=OFF, LAVIK_ENABLE_TEST_FAULTS=OFF",
+    "build_directory": "/mnt/dev/lavik-complex-next-20261004/build-spdk",
+    "no_build_or_tests_during_measurements": true,
+    "pr": 270,
+    "ci_required_before_performance": true,
+    "initial_environment_failure": "/mnt/dev/lavik-complex-iterations-20261004/stream-followup-parent-stream-transfer-tests.json",
+    "failed_case_retry": "/mnt/dev/lavik-complex-iterations-20261004/stream-followup-parent-large-rdb-retry.json"
+  },
+  "initial": {
+    "tests": 25,
+    "failed": 1,
+    "passed": 22,
+    "skipped": 2
+  },
+  "initial_failure": "RDB scratch file: No space left on device; root partition had approximately 2.2GiB free, /mnt/dev approximately 176GiB. Original failure evidence preserved.",
+  "retry": {
+    "tests": 1,
+    "failures": 0,
+    "same_frozen_binary_and_driver": true,
+    "change": "Only LAVIK_TEST_DATA_DIR moved to /mnt/dev; no code or timeout changes. Only failed test rerun."
+  },
+  "remaining_native_checks": "Five blocking/recovery cases and pubsub driver passed. Window/singleton native validation running; their performance is unmeasured. Full fault-enabled CI remains required before performance.",
+  "files": [
+    "stream-followup-parent-stream-transfer-tests.json",
+    "stream-followup-parent-stream-transfer-tests.txt",
+    "stream-followup-parent-large-rdb-retry.json",
+    "stream-followup-parent-large-rdb-retry.txt",
+    "stream-followup-parent-blocking-tests.json",
+    "stream-followup-parent-pubsub-tests.txt",
+    "stream-followup-parent-CMakeCache.txt",
+    "resume-stream-followups-native.py",
+    "repeat-stream-followups-after-validation.py"
+  ]
+}
