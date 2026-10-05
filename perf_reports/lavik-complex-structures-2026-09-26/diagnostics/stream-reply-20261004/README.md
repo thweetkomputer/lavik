@@ -5,10 +5,10 @@
 | 分支 | 当前源码 | 正确性状态 | 性能证据 |
 |---|---|---|---|
 | #270 回复批处理 | `adec3a34` | [完整 CI 通过](pr270-adec3a34-full-ci.json)，原生验证完成，首次 ENOSPC 及同二进制重试单独保留 | 下方已发表主对照仍属于 `a565d603` / `1e87107e`；不能转记到新 head |
-| #274 单条回复转移 | `85bc7ad0` | [完整 CI 通过](pr274-85bc7ad0-full-ci.json)，原生验证通过 | 60 点三轮对照完成：大/小对象点读 −0.39%/−3.18%；小对象两档写入三轮全降。未达预期，撤回 #274；独立 perf 用于继续诊断 |
-| #275 读取窗口 | `5b9ebded` | [完整 CI 通过](pr275-5b9ebded-full-ci.json)，26 个故障路径用例通过；生产套件一次 RDB 超时未解释，后续四次隔离复测通过 | 尚未测量；保持原套件顺序的诊断已排队 |
+| #274 单条回复转移 | `85bc7ad0` | [完整 CI 通过](pr274-85bc7ad0-full-ci.json)，原生验证通过 | 60 点三轮对照完成：大/小对象点读 −0.39%/−3.18%；小对象两档写入三轮全降。未达预期，#274 已关闭；四组独立 perf 已完成 |
+| #275 读取窗口 | `5b9ebded` | [完整 CI 通过](pr275-5b9ebded-full-ci.json)，26 个故障路径用例通过，原顺序生产套件及补充阻塞/PubSub 验证完成；原一次 RDB 超时仍未解释 | 60 点三轮对照正在执行，尚无完整范围结论；独立 perf 等待全部对照通过 |
 
-以下历史测量和诊断按各自提交、二进制 SHA-256 与发生顺序保留。历史段落中的“等待”“已排队”描述当时状态；当前结论以本表及链接证据为准。
+以下测量保留各自提交、二进制 SHA-256 和独立数据来源；后续方案的结果不能转记为此前版本的收益。所有失败记录仍保留，当前状态以本表和对应证据为准。
 
 [Draft PR #270](https://github.com/eloqdata/lavik/pull/270)，生产二进制 `1e87107e`，对照固定 main `a565d603`。回复片段合并至约 64 KiB，直接序列化已固定页面的字段并转移构建缓冲区。候选还包含独立验证的冷恢复修复；本次前台 Stream 修改限于回复路径。
 
@@ -36,7 +36,7 @@
 | 320 | 14,458.17 | 14,367.61 | -0.63% | -3.36% ～ +1.50% | -2.07% | -2.11% ～ +25.99% |
 | 5120 | 14,838.84 | 14,679.94 | -3.65% | -6.24% ～ +0.29% | -19.35% | -21.15% ～ +46.67% |
 
-两档 QPS 都是两轮下降、一轮上升；第三轮 p99 分别恶化 25.99% 和 46.67%，不能用 p99 中位数改善宣称稳定收益。此次改动针对回复路径，这些独立重建 population 的写入控制结果不能单独证明下降的具体机制。结合大对象点读没有稳定回升，完整控制组未显示收益，决定撤回 PR #274；小对象结果见下一节，独立 perf 正在执行。三组配对范围不是置信区间，配对比率中位数不等于边际中位数的比率；这些增量对照不代表与历史 peers 达到相同性能。
+两档 QPS 都是两轮下降、一轮上升；第三轮 p99 分别恶化 25.99% 和 46.67%，不能用 p99 中位数改善宣称稳定收益。此次改动针对回复路径，这些独立重建 population 的写入控制结果不能单独证明下降的具体机制。结合大对象点读没有稳定回升，完整控制组未显示收益，决定撤回 PR #274；小对象结果见下一节，四组独立 perf 已完成，见后文。三组配对范围不是置信区间，配对比率中位数不等于边际中位数的比率；这些增量对照不代表与历史 peers 达到相同性能。
 
 ## #274 完整控制组结论：撤回候选
 
@@ -107,7 +107,7 @@ CPU 比例按线程 task-clock 事件数加权，含轮询、后台与内核工�
 | XRANGE_FULL | 16 | +179.10% | +176.52% 至 +197.49% | -74.67% |
 | XRANGE | 2560 | -2.62% | -3.03% 至 -2.46% | +0.00% |
 
-大数据读取、小数据读写及大数据写入使用不同的数据集和控制条件，不能混合计算配对变化；全部结果分别列于本页。单条回复消除额外缓冲区的 [Draft PR #274](https://github.com/eloqdata/lavik/pull/274) 尚无性能结果。所有本节数据仍属于 `1e87107e`，并非 PR #270 合入新 main 后的提交或 #274。
+大数据读取、小数据读写及大数据写入使用不同的数据集和控制条件，不能混合计算配对变化；全部结果分别列于本页。单条回复后续方案 [PR #274](https://github.com/eloqdata/lavik/pull/274) 的独立对照已完成，未达预期，PR 已关闭。所有本节数据仍属于 `1e87107e`，并非 PR #270 合入新 main 后的提交或 #274。
 
 ## 初测退化与后续复测
 
@@ -183,80 +183,28 @@ main 附加线程中没有样本的 TID：521472；附加命令和记录日志�
 
 candidate 附加线程中没有样本的 TID：579464；附加命令和记录日志保留在对应 profile 目录。
 
-## 单条回复后续优化
+## 后续方案与当前测量
 
-[Draft PR #274](https://github.com/eloqdata/lavik/pull/274) 直接转移完整的小型最终消息，省去单条回复的额外分配、复制和块内存准入，并移除不再需要的块大小状态。保留原有消息/compact 状态内存计费直到生产者销毁，EOF 不提前释放计费。扩展同一个混合二进制 fixture 检查单条正反范围、96 KiB 消息和已删除 pending 消息；尚未本地构建、测试或测量，不将上面的 #270 结果归给它。[提交与 CI 状态](stream-single-reply-followup.json)。
+#274 `85bc7ad0` 通过转移完整的小型最终消息省去一次回复分配和复制，内存计费保留到生产者销毁。已有二进制 fixture 覆盖单条正反范围、96 KiB 消息和已删除 pending 消息；原生与完整 CI 通过，但上方全部 60 点对照没有显示稳定收益，PR 已关闭，不纳入组合候选。[源码记录](stream-single-reply-followup.json) · [完整 CI](pr274-85bc7ad0-full-ci.json)。四组独立 perf 的结果也已列于上方。
 
-## 范围页窗口后续优化
+[草稿 PR #275](https://github.com/eloqdata/lavik/pull/275) `5b9ebded` 独立于 #274，父版本为 #270 的 `adec3a34`。首个边界页之后，将连续范围中 COUNT 所需的最多 16 个物理页组成读取窗口，窗口元数据及 scratch 准入不超过 512 KiB。并行读取后合成逻辑页，减少跨 worker 调用、数组分配和逐页准入。可选窗口准入失败时退回单页；超大单页保留原有预算，稀疏 ID 历史和普通迁移不预读邻页。全部已启动子任务在错误返回前结束，合并输出保留内存计费；没有 payload cache。[源码与初始方案](stream-read-window-followup.json)。
 
-[Draft PR #275](https://github.com/eloqdata/lavik/pull/275) 基于 #270 的 main 整合版本，独立于 #274。首个边界页之后，将连续范围中 COUNT 所需的最多 16 个物理页组成有界读取窗口，窗口元数据及 scratch 准入不超过 512 KiB；并行读取完成后合成一个逻辑页返回，减少跨 worker 调用、输出数组分配和逐页准入。可选窗口准入失败时退回单页，超大单页保留原有预算，稀疏 ID 历史和普通迁移不预读邻页。所有已启动读取在错误返回前都要结束，合并输出保留自己的内存计费；这不是 payload cache。
+当前父/窗口版本均已通过完整 CI 和规定的原生验证，[60 点对照](repeat-stream-window-validated.py)已取得主机锁执行，尚未完成三轮，不发布收益结论。固定 `adec3a34`/`5b9ebded`，按 A/B、B/A、A/B 每点测 30 秒：100 MiB / 128 B / 8 keys 覆盖全量 c1/4/16、点查 c2560、XADD c320/5120；64 KiB / 1024 B / 64 keys 覆盖全量 c80、点查 c5120、XADD c2560/5120。读对共用每轮父版本新建的逻辑数据，分别重启且不夹写入；物理后台变化仍可能存在。写对各自独立新建数据。
 
-扩展已有二进制消息 fixture 检查删除后的正反向 EXEC 快照，并增加 COUNT、准入回退和部分启动失败后的清理/恢复检查。源码与格式检查已完成，编译、完整 CI、原生正确性和性能均待验证，不能把已有 #270 的结果视为该窗口的收益。[提交及验证状态](stream-read-window-followup.json)。
+[窗口版本汇总脚本](summarize-stream-window.py)仅在一个范围的三轮配对全部齐全后生成结果，逐字段核对原始测量、二进制来源、全部 key 基数、命令错误和正常退出。读取还核对共同 seed 的父版本身份及生成前后基数，写入核对近似裁剪边界。已用当前不完整的 8/24 个大对象读观测确认它拒绝生成完整结论；尚无完整范围的汇总输出。
 
-## 当前分支的截止时间测试修正
+[候选独立 perf](profile-stream-window-validated.py)等待全部 60 点通过后，重新采集窗口版本的全量 c1/点查 c2560；父版本复用上方同一冻结 `adec3a34` 的两组采样，配置相同但采集时间不同。30 秒计数窗口、25 秒/99 Hz task-clock/DWARF，不把采样 QPS 混入干净对照，也不换算 CPU/命令。所有编译、测试、准备数据、压测和采样继续串行。
 
-`cfe76ab2` 的 CI 在候选恢复截止时间测试失败：300 毫秒预算内，候选初始化耗掉大部分时间，报告冻结了 `{1,1}`，测试却固定要求 `{2,1}`。架构允许截止前未完成第一条记录，但报告是否匹配实际数据仍须验证。`adec3a34` 保留原预算，改为核对实际存储的完整记录、未收到 payload 的记录不可见、报告及 promotion 的冻结进度一致，并保留替换 action 不延长截止时间的检查。完整 donor 场景仍断言固定进度。生产代码没有变化；格式检查通过，新 CI 尚待验证。[证据和精确提交](pr270-deadline-fixture-followup.json)。
+## 后续版本验证与保留的失败
 
-## 后续版本的原生验证与对照安排
+父版本 `adec3a34` 的[完整 CI](pr270-adec3a34-full-ci.json)已通过。原生产验证初次 25 例中 22 通过、2 个 fault-only 跳过、1 个大型 RDB 导入因根分区 ENOSPC 失败；仅将数据目录移到 `/mnt/dev`，同一二进制和测试驱动重跑该例后通过，之后五个阻塞/恢复及 Pub/Sub 检查也通过。[完整原生证据](stream-followup-parent-native-validation.json)。
 
-父版本 `adec3a34` 的原生生产二进制已完成 Stream/迁移验证：初次 25 例中 22 通过、2 个 fault-only 跳过、1 个大型 RDB 导入因根分区空间不足失败。保持同一二进制和测试驱动，只把测试数据目录移到 `/mnt/dev`，单独重跑该失败用例后通过；原始失败日志保留，未改代码或超时。随后 5 个阻塞/恢复用例和 Pub/Sub 驱动也通过。[完整证据](stream-followup-parent-native-validation.json)。这不是该提交的性能测量，完整 fault-enabled CI 仍待完成。
+早期 `cfe76ab2` 的恢复截止时间 fixture 固定要求进度 `{2,1}`，但 300 毫秒预算可能在候选初始化后只冻结 `{1,1}`。`adec3a34` 保留原预算，核对实际完整记录、未收到 payload 的记录不可见、报告与 promotion 冻结进度一致，仍检查替换 action 不延长截止时间；完整 donor 场景保留固定进度断言。生产代码未改。[原失败和 fixture 修正](pr270-deadline-fixture-followup.json)。
 
-窗口版本 `ac62975f` 正在原生编译验证，小回复版本 `85bc7ad0` 排在其后。[后续对照脚本](repeat-stream-followups-after-validation.py) 要求三个精确提交均完成原生验证和完整 CI，并等待已排队的 ZSet 对照、perf 及 extent 故障复现结束。随后串行运行 90 个观测：三轮平衡版本顺序；读取共用每轮新建的同一份父版本数据，写入每个版本独立新建数据；同时保留全量、单条读取、写入和 p99。两个优化独立对照父版本，尚无收益结论。
+初始窗口 `ac62975f` 的普通生产测试通过，但两架构 fault-enabled CI 的 `ReadWindowsRespectCountAndJoinFailedStarts` 均出现 XREVRANGE 断连。独占上界位于下一页开头时，一个不含目标消息的边界页消耗了反向 COUNT 的 demand read，随后触发故障窗口。`5b9ebded` 排除该空页，没有修改测试或超时。原版本在本机故障构建重现，修正版所选 26 个故障测试全部通过，无跳过，覆盖 COUNT 正反方向、准入回退、部分启动失败清理和 RDB 往返。[原始 CI 失败](stream-window-count-ci-failure.json) · [本机复现及修正版结果](stream-window-boundary-validation.json)。旧的三版本 90 点[吞吐](repeat-stream-followups-after-validation.py)/[perf](profile-stream-followups-after-repeats.py)任务在测量前停止，未产出数据；当前使用两个独立的 60 点对照。
 
-[独立 perf 调度](profile-stream-followups-after-repeats.py) 在上述 90 个无错误观测完成之后，再分别采集三个版本的 100 MiB / 128 B 全量读取（c1）和单条读取（c2560）。每组独立新建数据；30 秒计数窗口、25 秒逐 worker 的 99 Hz task-clock/DWARF 采样。保留所有附加线程，包括零样本辅助线程；CPU 占比包含轮询和后台工作，不把采样 QPS 混入吞吐对照，也不将错开的窗口换算为 CPU/命令。[采样驱动](profile-stream-followup-allworkers.py)。
+修正版 `5b9ebded` 的首次原生生产套件仍有一次大型 RDB 往返 XREADGROUP 接收超时：26 例中 22 通过、3 个 fault-only 跳过、1 个失败。原日志没有区分导出前投递和导入后 pending 读取两个阶段，清理也删除了现场。[原失败记录](stream-window-production-rdb-timeout.json)完整保留；这次超时的根因仍未查明。
 
-## 窗口版本的 COUNT 故障检查未通过
+[诊断补丁](stream-rdb-diagnostic.patch)只增加阶段信息和失败现场保留，不改生产代码、命令顺序或超时。相同固定二进制的父/窗口、窗口/父四次隔离 RDB 对照全部通过，[来源与结果](stream-rdb-timeout-reproductions.json)。随后保持原套件顺序，窗口与父版本各 26 例中 23 通过、3 个 fault-only 跳过、零失败：[完整记录](stream-window-suite-order-diagnostics.json) · [窗口逐例](stream-window-suite-order-window.json) · [父版本逐例](stream-window-suite-order-parent.json)。这些通过没有重现原超时，不能当作根因修复，测试耗时也不是 QPS。
 
-`ac62975f` 的原生生产版本已通过所选 Stream/迁移、5 个阻塞/恢复和 Pub/Sub 检查，但 fault-only 用例被跳过。完整 CI 的 amd64、arm64 shard 0 随后均在新增的 `ReadWindowsRespectCountAndJoinFailedStarts` 失败，报 `XREVRANGE: connection closed before response completed`，因此不能以原生普通路径通过代替故障路径验证。
-
-初步定位到独占上界位于下一页开头时，范围仍包含这个空边界页；反向 COUNT 2 可能先消耗一次不产出消息的单页读取，随后触发故障窗口。已准备排除该空边界页的本地修正，格式检查通过，尚未验证或推送。[失败证据与状态](stream-window-count-ci-failure.json) · [原版本复现及修正版验证脚本](validate-stream-window-boundary-fault.py)。上面的吞吐和 perf 等待进程已在任何测量开始前停止；修正完成、精确版本重新验证并通过完整 CI 后再安排。
-
-## 原生生产验证完成（不替代故障 CI）
-
-固定二进制的原生检查现已完成：[提交、SHA-256、逐例结果及编译配置](stream-followup-native-validation.json)。`85bc7ad0` 小回复版本通过 23 个 Stream/迁移用例，跳过 2 个 fault-only 用例；`ac62975f` 窗口版本通过 23 个用例，跳过 3 个 fault-only 用例。两者另各通过 5 个阻塞/恢复用例和 Pub/Sub 驱动。父版本的 ENOSPC 初次失败及单例重试仍单独保留。窗口版本的完整 CI 故障尚待修正，不能由这些普通路径结果宣称修复；性能测试继续暂停。
-
-小回复版本 `85bc7ad0` 的[完整 CI 已通过](pr274-85bc7ad0-full-ci.json)：两种架构编译、全部 12 个软件测试分片、两个汇总检查和格式检查均成功。原生生产验证也已完成；吞吐和 perf 尚未测量，不能据此宣称收益。
-
-## 空上界页修正已验证
-
-`5b9ebded` 已推送到 #275：独占上界位于下一页开头时，不再 pin 或访问这个不含目标记录的边界页，避免反向读取先消耗一个空的 demand read。没有修改测试或延长超时。原 `ac62975f` 在本机带故障构建上复现同样的 XREVRANGE 断连；修正版 26 个所选 Stream/迁移/RDB 故障测试全部通过、无跳过，包括 COUNT 2 正反方向、窗口准入回退、子任务启动失败清理和大型 RDB 往返。[原版本失败与修正版完整结果](stream-window-boundary-validation.json)。
-
-旧 CI 已取消，保留两架构原始失败证据；[修正版完整 CI](https://github.com/eloqdata/lavik/actions/runs/37251491010) 待完成。关闭故障注入的原生生产构建和检查正在执行。[修正后对照脚本](repeat-stream-followups-corrected.py) 与[独立 perf 调度](profile-stream-followups-corrected.py) 已重新排队：仍需等待精确版本的原生验证、完整 CI 及前序 ZSet/故障复现任务，尚无新的性能结果。
-
-调度更新：ZSet CI 失败后，移除了无关任务间的先后依赖。Stream 对照仍严格等待自己的精确版本原生验证和完整 CI；extent 复现独立排队。所有构建、测试、数据准备、压测和 perf 继续使用同一个主机执行锁，避免重叠。Stream 性能尚未开始。
-
-## 生产构建的大 RDB 用例仍有超时
-
-`5b9ebded` 关闭故障注入的原生验证出现一次 `XREADGROUP` 接收超时：26 个所选用例中 22 通过、3 个 fault-only 跳过、1 个失败。失败发生在大型 Stream RDB 往返用例；同一提交的故障构建此前 26 例全部通过。这不能解释生产构建的超时，也不能视为已完成生产验证。原测试包含导出前投递和导入后 pending 历史两次 XREADGROUP，异常未区分阶段，且清理删除了现场。
-
-[原始失败及诊断状态](stream-window-production-rdb-timeout.json) · [诊断补丁](stream-rdb-diagnostic.patch) · [固定父版本/候选二进制复现脚本](reproduce-stream-rdb-timeout.py)。诊断只增加阶段信息并保留失败现场，不改生产代码、命令顺序或超时。两轮交替对照在独立数据文件上运行，首个失败即停止；全部通过也不证明原超时已修复。吞吐和 perf 等待进程已因生产验证失败退出，尚未测量。
-
-## 父版本完整 CI 通过；小回复独立对照已排队
-
-`adec3a34` 的[完整 CI 已通过](pr270-adec3a34-full-ci.json)，包括两架构编译、12 个软件分片和汇总检查。它与小回复版本 `85bc7ad0` 均已完成各自原生验证及完整 CI，因此不再等待窗口版本的独立 RDB 诊断。
-
-[60 个观测的独立对照](repeat-stream-singleton-independent.py) 已排在当前诊断任务之后，三轮 A/B、B/A、A/B：100 MiB / 128 B / 8 keys 的全量读取 c1/4/16、单条读取 c2560、写入 c320/5120；64 KiB / 1024 B / 64 keys 的全量读取 c80、单条读取 c5120、写入 c2560/5120。读取共享每轮父版本新建的数据，写入各自独立新建数据；每点 30 秒，保留全部 p99 和错误。[独立 perf](profile-stream-singleton-independent.py) 在全部观测成功后运行。两者继续使用主机执行锁，尚未开始采样或产生新 QPS。窗口版本 `5b9ebded` 不在这次对照中，其生产超时仍待定位。
-
-大型 RDB 的固定二进制诊断已完成：父版本/窗口、窗口/父版本两轮共 4 次均通过，原始 socket 和导入导出超时保持不变。[完整结果、二进制及诊断驱动来源](stream-rdb-timeout-reproductions.json)。未重现原生产套件中的 XREADGROUP 超时，因而没有失败阶段或新现场可分析；这不证明原超时已解决，窗口性能验证仍待推进。
-
-窗口修正 `5b9ebded` 的[完整 CI 现已通过](pr275-5b9ebded-full-ci.json)：两架构编译、12 个软件测试分片、两个汇总检查及格式检查全部成功。这与四次隔离 RDB 通过共同补充验证，但未解释原生产套件超时。小回复的 60 点独立对照已取得主机锁并开始准备首轮数据；窗口版本仍未测量。
-
-[保持原套件顺序的诊断](diagnose-stream-window-suite-order.py) 也已排队：用相同不可变生产二进制及只增加阶段信息的测试驱动，先窗口、再父版本执行原 Stream/迁移/RDB 所选套件。这样检查单例隔离复测没有覆盖的前序用例影响；首个失败即保留现场并停止，不改超时。它等待正在执行的干净对照及独立 perf，未开始测试。
-
-汇总脚本另支持完整 `large-writes` 和 `small-controls` 范围，均要求三个完整配对才生成结果。每个观测逐字段核对原始 `result.json`；各范围核对所有 key 的初始基数，读后必须不变，追加测试的最终长度必须介于目标值和目标值加 100 之间。已用更严格的核对重新验证上述 24 个大对象读观测，QPS/p99 汇总完全不变；未完成的写入范围会拒绝生成结论。
-
-## 窗口版本按原套件顺序复测完成
-
-原生生产窗口 `5b9ebded` 与父版本 `adec3a34` 使用固定二进制及诊断驱动 `763d9076`，依次执行原 Stream/迁移/RDB 套件，各 26 例中 23 通过、3 个 fault-only 跳过、0 失败，耗时分别 221.25 和 221.85 秒。[完整来源和结果](stream-window-suite-order-diagnostics.json) · [窗口逐例结果](stream-window-suite-order-window.json) · [父版本逐例结果](stream-window-suite-order-parent.json)。这些套件耗时不是 QPS 对照。
-
-这次覆盖了单例隔离重跑没有覆盖的前序用例影响，但仍未重现原 `XREADGROUP` 超时，不能宣称已定位或修复根因。诊断只补充阶段信息和失败现场保留，没有修改生产代码、命令或 socket 限制。完整 fault-enabled CI 已通过；原生复测的跳过项不计为通过。
-
-[剩余阻塞/恢复和 Pub/Sub 检查](validate-stream-window-blocking.py) 已排队。为避免不必要的编译，它提取已保留的 main `19496654` CI 测试驱动，校验测试源文件与窗口版本相同，记录驱动和生产服务端各自的来源/SHA-256，再对固定 `5b9ebded` 执行原来的五个阻塞/恢复用例及 Pub/Sub 驱动。产物提取和执行均取得统一主机锁，未开始测试；窗口吞吐/perf 对照仍未开始。
-
-## 窗口版本补充验证通过；独立测量已排队
-
-固定生产窗口 `5b9ebded` 的五个阻塞/恢复测试全部通过、无跳过，Pub/Sub 驱动也正常退出。[驱动及服务端的独立来源](stream-window-blocking-validation.json) · [五个用例结果](stream-window-blocking-tests.json)。结合前面的原顺序套件与完整 CI，可以继续该版本的性能对照；原先孤立的 XREADGROUP 超时仍未被解释，不把后续通过表述为根因修复。
-
-[60 点对照](repeat-stream-window-validated.py) 已排队：在剩余验证和已安排的组合构建退出后取得主机锁，固定 `adec3a34`/`5b9ebded`，按 A/B、B/A、A/B 各运行 30 秒；100 MiB/128 B/8 keys 覆盖全量 c1/4/16、点查 c2560、XADD c320/5120，64 KiB/1024 B/64 keys 覆盖全量 c80、点查 c5120、XADD c2560/5120。读对照每轮使用同一份父版本新建数据并重启，写入各自独立新建数据；全部基数、二进制、错误和退出检查保留。未开始测量。
-
-[候选独立 perf](profile-stream-window-validated.py) 等全部 60 点无错误完成后，对窗口版本重新采集两组新建大对象的全量 c1/点查 c2560。父版本复用上述同一冻结 `adec3a34` 的两组独立采样，设置相同但采集时间不同；这种复用减少重复数据准备，不能作为同时进行的配对 QPS 结果。所有重任务继续串行。
+窗口版本的[完整 CI 17 项通过](pr275-5b9ebded-full-ci.json)。[补充阻塞/恢复和 Pub/Sub 验证](validate-stream-window-blocking.py)复用已保留的 main `19496654` CI 测试驱动，并校验相关测试源码与窗口版本相同，避免重复编译；五个用例全部通过、无跳过，Pub/Sub 正常退出。[服务端/驱动的独立来源](stream-window-blocking-validation.json) · [逐例结果](stream-window-blocking-tests.json)。原始 ENOSPC、COUNT 故障和未解释的生产超时均继续保留，不用新结果覆盖旧失败。
