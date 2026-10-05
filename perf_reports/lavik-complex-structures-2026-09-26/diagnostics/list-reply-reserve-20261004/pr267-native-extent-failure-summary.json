@@ -1,0 +1,9 @@
+{
+  "ci_failure": "SET key_bytes=5009 timeout after4to2worker recovery",
+  "local_failure": "GET key_bytes=9437184 timeout in the same recovery phase; not proof of the same root cause",
+  "runs": "main194 firstpass137.536s;candidate343firstfail118.590s;stoponfirstfailure, nofurtherpairs",
+  "source_provenance": "Exact amd64 CI server/test artifacts; synthetic candidate merge tree equals343 source tree; test-driver SHA identical for both versions. Fullbinary/sourcehashes in pr267-extent-native-ci-reproductions.json.",
+  "retained_image": "768MiB candidate image retained locally read-only; not committed. Subsequent diagnosis uses independent writable copies only.",
+  "next": "Candidate then main recovery reads/overwrites against copies of the same failed image; original60s socket/120s shutdown; capture live thread backtraces only afterfailure. Currently queued under sharedhostlock.",
+  "root_cause": "unresolved"
+}

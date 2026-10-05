@@ -81,3 +81,9 @@ main 已前进至 `19496654`。List 分支已解决冲突，并把批量启动�
 ## 当前 main 整合版本的 CI 失败
 
 `343e951e` 的 amd64 分片 4 在 `lavik_extent_recovery_e2e` 失败：从 4 workers 恢复到 2 workers 后，覆盖 5009 字节外部 key 的 `SET` 等待回复超时；同分片其余 289 项通过。恢复扫描已完成，但日志不足以区分空间回收停滞与环境因素。保留失败，尚未修改超时或通过重跑排除它。[失败证据与后续复现范围](pr267-current-ci-failure.json)。这不改变历史版本的性能结果，也不代表当前 head 已验证通过。
+
+## 精确 CI 二进制的 extent 复现
+
+原 amd64 CI 二进制和测试驱动在独立文件设备上对照：main `19496654` 第一轮通过（137.54 秒）；候选 `343e951e` 第一轮失败（118.59 秒），随即停止。两份测试驱动 SHA-256 相同，候选 CI 的合成 merge tree 已核对与请求的源码树一致。[完整来源与结果](pr267-extent-native-ci-reproductions.json) · [候选失败日志](pr267-native-candidate-extent-failure.log)。这些耗时不是性能比较。
+
+本机失败是 `GET key_bytes=9437184` 超时，原 CI 是 `SET key_bytes=5009` 超时；都出现在四个 worker 写入、两个 worker 恢复后的阶段，但不能据此认定同一根因。768 MiB 原始数据镜像已保留为只读文件，未加入 Git。[诊断状态](pr267-native-extent-failure-summary.json) · [镜像副本重放脚本](replay-pr267-retained-image.py)。下一步在独立可写副本上分别运行候选和 main，记录具体响应阶段，并仅在原超时发生后采集线程回溯；不改 socket 或关闭超时。
