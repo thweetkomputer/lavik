@@ -111,6 +111,9 @@ absl::Status ValidateEntrySpan(OrderedCollectionKind kind,
   absl::flat_hash_set<std::string_view> members;
   if (kind == OrderedCollectionKind::kSortedSet)
     members.reserve(entries.size());
+  // Entries remain immutable during validation, so the previous checked key
+  // can borrow its record rather than parsing the same framing twice.
+  std::string_view previous_stream_key;
   for (std::size_t i = 0; i < entries.size(); ++i) {
     const auto& entry = entries[i];
     if (entry.value_.size() > kMaxStringBytes || std::isnan(entry.score_) ||
@@ -121,12 +124,10 @@ absl::Status ValidateEntrySpan(OrderedCollectionKind kind,
     if (kind == OrderedCollectionKind::kStream) {
       auto key = StreamRecordKey(entry.value_);
       if (!key.ok()) return key.status();
-      if (i != 0) {
-        auto previous = StreamRecordKey(entries[i - 1].value_);
-        if (!previous.ok() || *previous >= *key)
-          return absl::InvalidArgumentError(
-              "Stream page repeats/unorders a record key");
-      }
+      if (i != 0 && previous_stream_key >= *key)
+        return absl::InvalidArgumentError(
+            "Stream page repeats/unorders a record key");
+      previous_stream_key = *key;
     }
     if (kind == OrderedCollectionKind::kSortedSet &&
         (!members.insert(entry.value_).second ||
