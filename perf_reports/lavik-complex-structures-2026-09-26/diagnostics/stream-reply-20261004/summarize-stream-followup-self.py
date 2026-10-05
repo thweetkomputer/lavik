@@ -4,7 +4,15 @@ from pathlib import Path
 import json
 import re
 W=Path(__file__).parent
-profiles=json.loads((W/'stream-singleton-followup-profiles.json').read_text())
+# Reuse the same calculation for existing Stream candidates. Defaults preserve
+# the already published singleton result; prefixes keep candidate outputs apart.
+import argparse
+parser=argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--input',type=Path,default=W/'stream-singleton-followup-profiles.json')
+parser.add_argument('--prefix',default='stream-singleton')
+args=parser.parse_args()
+assert re.fullmatch(r'[a-z0-9-]+',args.prefix)
+profiles=json.loads(args.input.read_text())
 outputs={}
 for label,profile in profiles['profiles'].items():
     directory=Path(profile['directory'])
@@ -56,6 +64,6 @@ for label,profile in profiles['profiles'].items():
     result['read_bytes_per_xrange']=delta[selected[2]]/delta[selected[0]]
     result['counter_limits']='Server-wide metric window, including background work and commands overlapping scrape boundaries. Independent fresh populations can differ in physical page layout. Not an exact per-request trace or evidence that reply-only changes reduce storage IO.'
     outputs[label]=result
-    (W/f'stream-singleton-{label}-self-summary.json').write_text(json.dumps(result,indent=2)+'\n')
+    (W/f'{args.prefix}-{label}-self-summary.json').write_text(json.dumps(result,indent=2)+'\n')
     print(label,'coverage',result['reported_coverage_percent'],'top',[(v['symbol'],round(v['percent'],3)) for v in result['self_symbols'][:12]])
-(W/'stream-singleton-self-comparison.json').write_text(json.dumps(outputs,indent=2)+'\n')
+(W/f'{args.prefix}-self-comparison.json').write_text(json.dumps(outputs,indent=2)+'\n')

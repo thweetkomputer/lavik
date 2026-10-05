@@ -1,0 +1,75 @@
+{
+  "profiles": {
+    "parent-full": {
+      "version": {
+        "commit": "adec3a3414adf7b18dc304d336253258e228cb02",
+        "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-stream-followup-parent-adec3a34-20261005",
+        "sha256": "62891463498c88ff2137a1a28baea251d9c55fe503fbbe581da47f2ff1ba463f",
+        "source_repo": "/mnt/dev/lavik-complex-next-20261004",
+        "bycorf_commit": "62509c93d40c2480f5046b71454db6cf95801b04",
+        "build": "RelWithDebInfo, native, LTO, GCC 13, SPDK, BUILD_TESTING=OFF, LAVIK_ENABLE_TEST_FAULTS=OFF",
+        "build_directory": "/mnt/dev/lavik-complex-next-20261004/build-spdk",
+        "no_build_or_tests_during_measurements": true,
+        "pr": 270,
+        "ci_required_before_performance": true,
+        "initial_environment_failure": "/mnt/dev/lavik-complex-iterations-20261004/stream-followup-parent-stream-transfer-tests.json",
+        "failed_case_retry": "/mnt/dev/lavik-complex-iterations-20261004/stream-followup-parent-large-rdb-retry.json",
+        "full_fault_enabled_ci": "https://github.com/eloqdata/lavik/actions/runs/37248504314"
+      },
+      "tag": "diagnostic-parentadec3a34-stream-singleton-followup-full-104857600-128-20261005",
+      "directory": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-diagnostic-parentadec3a34-stream-singleton-followup-full-104857600-128-20261005/diagnostic-c1",
+      "attached_tids": [
+        "734805",
+        "734806",
+        "734807",
+        "734808",
+        "734809",
+        "734810",
+        "734811",
+        "734812",
+        "734813",
+        "734814",
+        "734815",
+        "734816",
+        "734817"
+      ],
+      "verified_scope": "All8keys retain819200entries; source/binary hashes match recorded version; no command errors and clean exit."
+    },
+    "window-full": {
+      "version": {
+        "commit": "5b9ebdedecc0cc7a3fea93fb73b1fbbb6b7186c6",
+        "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-stream-followup-window-5b9ebded-20261005",
+        "sha256": "3af06ea2dc0e276f03cfb48d9d8c9df0e84979ba8e4275725bcf6456c728d13d",
+        "source_repo": "/mnt/dev/lavik-complex-next-20261004",
+        "bycorf_commit": "62509c93d40c2480f5046b71454db6cf95801b04",
+        "build": "RelWithDebInfo, native, LTO, GCC 13, SPDK, BUILD_TESTING=OFF, LAVIK_ENABLE_TEST_FAULTS=OFF",
+        "build_directory": "/mnt/dev/lavik-complex-next-20261004/build-spdk",
+        "no_build_or_tests_during_measurements": true,
+        "pr": 275,
+        "ci_required_before_performance": true,
+        "full_fault_enabled_ci": "https://github.com/eloqdata/lavik/actions/runs/37251491010"
+      },
+      "tag": "diagnostic-window5b9ebded-stream-window-followup-full-104857600-128-20261005",
+      "directory": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-diagnostic-window5b9ebded-stream-window-followup-full-104857600-128-20261005/diagnostic-c1",
+      "attached_tids": [
+        "857032",
+        "857033",
+        "857034",
+        "857035",
+        "857036",
+        "857037",
+        "857038",
+        "857039",
+        "857040",
+        "857041",
+        "857042",
+        "857043",
+        "857044"
+      ],
+      "verified_scope": "All8keys retain819200entries; source/binary hashes match recorded version; no command errors and clean exit."
+    }
+  },
+  "method": "Reuse the two completed exact-parent adec profiles from the singleton investigation; parent/candidate captures are not contemporaneous. New window5b profiles use the identical settings on independent fresh populations. Stream XRANGE_FULL c1 or point XRANGE c2560, 30-second counter window and 25-second 99Hz task-clock/DWARF recording on each serving thread. Not a clean QPS point. CPU shares include polling/background/kernel work; IO counters are server-wide. No concurrent benchmark/build/tests.",
+  "scope": "full XRANGE c1 only; point capture remains separate",
+  "live_profile_manifest_sha256_at_capture": "6672adada7e7c92c8da8c1e3087a0acb907f7746b6a43691056d1e70cd7756a7"
+}
