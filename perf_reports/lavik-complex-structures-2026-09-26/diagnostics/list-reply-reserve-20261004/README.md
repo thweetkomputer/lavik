@@ -106,7 +106,7 @@ main 已前进至 `19496654`。List 分支已解决冲突，并把批量启动�
 
 [草稿 PR #282](https://github.com/eloqdata/lavik/pull/282)，验证提交 [`28d7cca4`](https://github.com/thweetkomputer/lavik/commit/28d7cca498655e02f46407adb65335219b10ee6b) 从 main `19496654` 开始，为 `FindVerifiedEntry` 新增独立重载。每页刷新通过已有 `FindCandidateIf`，只有 block、offset、allocation epoch 全部匹配此前已校验的物理根，才能省去间接 key 的完整读取；索引中的完整 key 仍比较全部字节，没有匹配候选时回到原异步校验。数据代次、逻辑版本、页面身份及 GC 检查保留。ordered 远端页读取本来就借用父 key，这里的重复校验不能误写成逐页跨 worker key 复制。
 
-同一 head `28d7cca4` 的 [fork CI](grouped-root-28d7cca4-full-ci.json) 与[上游 PR CI](pr282-upstream-full-ci.json) 均已完整通过各 17 项，包括两架构编译、12 个软件分片和格式检查（[上游运行](https://github.com/eloqdata/lavik/actions/runs/37287121881)）。[首次 arm64 分片 3 的 runner 失联](grouped-root-ci-attempt1-infrastructure-failure.json) 停在依赖安装，尚未运行软件测试；同一源码重跑失败项后通过，原始失败记录保留。[amd64 extent 恢复用例](grouped-verified-root-extent-ci-proof.json) 也通过。下文的候选三轮镜像回放已完成；普通短 key 的 native 回归与配对 QPS 尚未完成；长 key 候选 perf 已完成，见下文。
+同一 head `28d7cca4` 的 [fork CI](grouped-root-28d7cca4-full-ci.json) 与[上游 PR CI](pr282-upstream-full-ci.json) 均已完整通过各 17 项，包括两架构编译、12 个软件分片和格式检查（[上游运行](https://github.com/eloqdata/lavik/actions/runs/37287121881)）。[首次 arm64 分片 3 的 runner 失联](grouped-root-ci-attempt1-infrastructure-failure.json) 停在依赖安装，尚未运行软件测试；同一源码重跑失败项后通过，原始失败记录保留。[amd64 extent 恢复用例](grouped-verified-root-extent-ci-proof.json) 也通过。下文的候选三轮镜像回放已完成；普通短 key 的 native 回归已完成，72 点配对 QPS 对照已开始、尚未完成；长 key 候选 perf 已完成，见下文。
 
 ## 长 key 采样：超时期间仍持续读取
 
@@ -152,15 +152,15 @@ main `19496654` 和 #267 候选 `343e951e` 的同镜像独立副本采样均完�
 
 [原始回放和二进制身份](grouped-verified-root-candidate-replays.json) · [逐操作耗时/I/O 汇总](grouped-verified-root-candidate-summary.json) · [可复现校验脚本](summarize-root-candidate-replays.py)。每轮还完成三个 5009 字节 key 的读取、覆盖后 STRLEN，以及 6 MiB/9 MiB key 的 SET 应答；没有覆盖后重启或读回两个大 key 的新值，不能据此宣称完整持久性验证。进程 I/O 包含后台工作，不能把它与先前采样超时的约 9 GB 直接作干净配对比值。
 
-这是三轮候选单侧检查，**不是完成的三轮配对性能比较**。保留 main 的原始 60 秒超时及此前约 50 秒成功记录，不从截断基线算精确加速比，不外推普通 QPS。目前仍不能认定 #267 引入该故障，或原 CI 的 SET 超时与该 GET 同源。普通短 key native 回归和配对性能对照仍需完成。
+这是三轮候选单侧检查，**不是完成的三轮配对性能比较**。保留 main 的原始 60 秒超时及此前约 50 秒成功记录，不从截断基线算精确加速比，不外推普通 QPS。目前仍不能认定 #267 引入该故障，或原 CI 的 SET 超时与该 GET 同源。普通短 key native 回归已完成，配对性能对照仍需完成。
 
-## 普通短 key 原生验证已启动，性能对照等待验证
+## 普通短 key 原生验证已完成，72 点性能对照已开始
 
-[当前原生验证驱动](../grouped-expiry-recovery-20261004/validate-grouped-root-native-reviewed-ci.py)固定父版本 `19496654` 与根复用 `28d7cca4` 的生产配置、依赖和二进制 SHA，使用相同测试驱动检查 Hash/Set、String/List、ZSet、Stream、RDB/跨 worker 和阻塞读路径。候选先通过相关单元测试；原生生产关闭故障注入，候选完整 fault-enabled CI 与父版本已通过的 CI 用例补充覆盖；父版本 CI 整体失败的限制见下文。复用已有测试，没有新增重复磁盘 fixture。
+[当前原生验证驱动](../grouped-expiry-recovery-20261004/validate-grouped-root-native-reviewed-ci.py)固定父版本 `19496654` 与根复用 `28d7cca4` 的生产配置、依赖和二进制 SHA，使用相同测试驱动检查 Hash/Set、String/List、ZSet、Stream、RDB/跨 worker 和阻塞读路径。候选已通过 128 个相关单元测试，两边集成回归均为 68 通过、28 跳过、零失败；[完整结果及输入哈希](grouped-root-native-complete.md)。原生生产关闭故障注入，候选完整 fault-enabled CI 与父版本已通过的 CI 用例补充覆盖；父版本 CI 整体失败的限制见下文。复用已有测试，没有新增重复磁盘 fixture。
 
-[当前 72 点普通短 key 对照驱动](../grouped-expiry-recovery-20261004/repeat-grouped-root-controls-reviewed-ci.py)等待原生验证通过后执行：Hash/Set 1 MiB / 128 B / 500 keys，List/ZSet 64 KiB / 128 B / 64 keys，Stream 64 KiB / 1024 B / 64 keys；五种类型均在 c320 测点读和写，List/Stream 另测 c80 全量读取。三轮 A/B、B/A、A/B，每点 30 秒、pipeline=1；读对共用新建父版本逻辑数据并分别重启，写对分别新建数据。物理后台变化仍可能存在。Hash/Set 的 500 keys 小于历史图中的 50,000 keys，不能用于更新历史 peer 排名。
+[当前 72 点普通短 key 对照驱动](../grouped-expiry-recovery-20261004/repeat-grouped-root-controls-reviewed-ci.py)已在原生验证通过后开始执行：Hash/Set 1 MiB / 128 B / 500 keys，List/ZSet 64 KiB / 128 B / 64 keys，Stream 64 KiB / 1024 B / 64 keys；五种类型均在 c320 测点读和写，List/Stream 另测 c80 全量读取。三轮 A/B、B/A、A/B，每点 30 秒、pipeline=1；读对共用新建父版本逻辑数据并分别重启，写对分别新建数据。物理后台变化仍可能存在。Hash/Set 的 500 keys 小于历史图中的 50,000 keys，不能用于更新历史 peer 排名。
 
-[原始固定协议](grouped-root-native-controls-protocol.json)保留；其中“两边 CI 全绿”的前提已在[前置检查修正记录](../grouped-expiry-recovery-20261004/grouped-root-reviewed-ci-preflight.md)中纠正。父版本 CI 的唯一实际失败是外部源 Redis 的 cluster bus 端口占用，整体仍标为失败，不将这一导入场景当作已验证。原任务在编译前停止后，修正后的原生验证已接续组合对照取得主机锁并开始构建；72 点等待两边原生测试全部通过。尚未产生 native/QPS 结论，#282 保持草稿。
+[原始固定协议](grouped-root-native-controls-protocol.json)保留；其中“两边 CI 全绿”的前提已在[前置检查修正记录](../grouped-expiry-recovery-20261004/grouped-root-reviewed-ci-preflight.md)中纠正。父版本 CI 的唯一实际失败是外部源 Redis 的 cluster bus 端口占用，整体仍标为失败，不将这一导入场景当作已验证。原任务在编译前停止后，修正后的原生验证已接续组合对照取得主机锁并完成两边回归；72 点对照随后开始。原生测试结论已给出，但尚无完整配对 QPS/p99 结论，#282 保持草稿。
 
 ## 原 SET 超时：独立覆盖写入诊断已完成
 
