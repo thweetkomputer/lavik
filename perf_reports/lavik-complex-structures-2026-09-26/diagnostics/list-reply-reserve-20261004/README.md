@@ -104,7 +104,7 @@ main 已前进至 `19496654`。List 分支已解决冲突，并把批量启动�
 
 [草稿 PR #282](https://github.com/eloqdata/lavik/pull/282)，验证提交 [`28d7cca4`](https://github.com/thweetkomputer/lavik/commit/28d7cca498655e02f46407adb65335219b10ee6b) 从 main `19496654` 开始，为 `FindVerifiedEntry` 新增独立重载。每页刷新通过已有 `FindCandidateIf`，只有 block、offset、allocation epoch 全部匹配此前已校验的物理根，才能省去间接 key 的完整读取；索引中的完整 key 仍比较全部字节，没有匹配候选时回到原异步校验。数据代次、逻辑版本、页面身份及 GC 检查保留。ordered 远端页读取本来就借用父 key，这里的重复校验不能误写成逐页跨 worker key 复制。
 
-同一 head `28d7cca4` 的 [fork CI](grouped-root-28d7cca4-full-ci.json) 与[上游 PR CI](pr282-upstream-full-ci.json) 均已完整通过各 17 项，包括两架构编译、12 个软件分片和格式检查（[上游运行](https://github.com/eloqdata/lavik/actions/runs/37287121881)）。[首次 arm64 分片 3 的 runner 失联](grouped-root-ci-attempt1-infrastructure-failure.json) 停在依赖安装，尚未运行软件测试；同一源码重跑失败项后通过，原始失败记录保留。[amd64 extent 恢复用例](grouped-verified-root-extent-ci-proof.json) 也通过。下文的候选三轮镜像回放已完成；普通短 key 的 native 回归、配对 QPS 和候选 perf 尚未完成。
+同一 head `28d7cca4` 的 [fork CI](grouped-root-28d7cca4-full-ci.json) 与[上游 PR CI](pr282-upstream-full-ci.json) 均已完整通过各 17 项，包括两架构编译、12 个软件分片和格式检查（[上游运行](https://github.com/eloqdata/lavik/actions/runs/37287121881)）。[首次 arm64 分片 3 的 runner 失联](grouped-root-ci-attempt1-infrastructure-failure.json) 停在依赖安装，尚未运行软件测试；同一源码重跑失败项后通过，原始失败记录保留。[amd64 extent 恢复用例](grouped-verified-root-extent-ci-proof.json) 也通过。下文的候选三轮镜像回放已完成；普通短 key 的 native 回归与配对 QPS 尚未完成；长 key 候选 perf 已完成，见下文。
 
 ## 长 key 采样：超时期间仍持续读取
 
@@ -134,7 +134,7 @@ main `19496654` 和 #267 候选 `343e951e` 的同镜像独立副本采样均完�
 | memmove | 16.24% | 12.83% |
 | memcmp | 12.55% | 15.47% |
 
-[逐符号汇总与输入 SHA-256](pr267-retained-key-self-summary.json) · [main 完整 self 表](pr267-retained-main-self.txt) · [候选完整 self 表](pr267-retained-candidate-self.txt)。表中空白被压缩，全部符号行保留。四舍五入后的覆盖合计均为 100.11%，未重新归一化；丢样为 0 不代表调用栈完整。样本较少，含内核、轮询和后台工作，不能据此估计精确优化幅度。两次 GET 均超时，不能把采样耗时当作吞吐对照；这里也没有根记录复用 `28d7cca4` 的样本。
+[逐符号汇总与输入 SHA-256](pr267-retained-key-self-summary.json) · [main 完整 self 表](pr267-retained-main-self.txt) · [候选完整 self 表](pr267-retained-candidate-self.txt)。表中空白被压缩，全部符号行保留。四舍五入后的覆盖合计均为 100.11%，未重新归一化；丢样为 0 不代表调用栈完整。样本较少，含内核、轮询和后台工作，不能据此估计精确优化幅度。两次 GET 均超时，不能把采样耗时当作吞吐对照；这组旧采样没有根记录复用 `28d7cca4` 的样本；后者的独立诊断见[后续报告](grouped-root-candidate-perf.md)。
 
 随后启动的 `19496654` / `28d7cca4` 三轮无采样对照在 **main 第一轮**停止：3 个 5009 字节外部 key 的完整 GET 通过，6 MiB key 的 1 MiB value 也校验通过，但 9 MiB key GET 在原 60 秒 socket 限制处等待回复头超时，收到的 payload 为 0。该配对任务没有执行候选，原定三轮没有完成。[原始操作记录、失败阶段及二进制身份](grouped-verified-root-replays.json)。保留本次失败，不重跑基线来替换它，也不提高超时。
 
@@ -172,7 +172,7 @@ main `19496654` 和 #267 候选 `343e951e` 的同镜像独立副本采样均完�
 
 [固定协议与进程身份](grouped-root-candidate-profile-protocol.json) · [采样驱动](profile-grouped-verified-root-candidate.py)
 
-`28d7cca4` 的三次候选诊断采样已排队，等待同一压测主机锁；尚无采样结果。每次使用保留的只读恢复镜像的新副本、固定 CI 二进制、2 workers 和原 60 秒 socket / 120 秒关闭限制，保留此前 16 个命令的顺序。只对 9 MiB key 的完整 GET 采集全进程线程的 49 Hz task-clock / 8192 字节 DWARF，同时记录命令前后进程 I/O、CPU 计数和每 0.5 秒的线程进度。全部 GET payload 逐字节验证；服务退出后仍持锁解码 perf，失败保留并停止。
+`28d7cca4` 的三次候选诊断采样已完成并通过核验，完整结果见[候选 perf 报告](grouped-root-candidate-perf.md)。每次使用保留的只读恢复镜像的新副本、固定 CI 二进制、2 workers 和原 60 秒 socket / 120 秒关闭限制，保留此前 16 个命令的顺序。只对 9 MiB key 的完整 GET 采集全进程线程的 49 Hz task-clock / 8192 字节 DWARF，同时记录命令前后进程 I/O、CPU 计数和每 0.5 秒的线程进度。全部 GET payload 逐字节验证；服务退出后仍持锁解码 perf，失败保留并停止。
 
 此检查用于确认重复长 key 校验的 CPU/I/O 是否消失及定位残余成本。早先 main / #267 的超时采样不重跑，不能与本次候选构成同期配对；短请求的样本量、后台工作和调用栈完整性均限制归因。采样耗时不进入 QPS 表，也不替代普通短 key 的 native 与 72 点对照，不证明原 #267 的 SET 超时已修复。
 

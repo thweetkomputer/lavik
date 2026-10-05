@@ -1,0 +1,24 @@
+# To display the perf.data header info, please use --header/--header-only options.
+#
+#
+# Total Lost Samples: 0
+#
+# Samples: 22  of event 'task-clock'
+# Event count (approx.): 448979586
+#
+# Overhead       Samples        Period  Symbol                                                                                                                                                                                                   IPC   [IPC Coverage]
+# ........  ............  ............  .......................................................................................................................................................................................................  ....................
+#
+    50.00%            11     224489793  [.] __memcmp_evex_movbe                                                                                                                                                                                  -      -
+    13.64%             3      61224489  [.] lavik::storage::(anonymous namespace)::RedisCrc16(std::basic_string_view<char, std::char_traits<char> >)                                                                                             -      -
+     9.09%             2      40816326  [.] bycorf::Worker::BusyPoll()                                                                                                                                                                           -      -
+     9.09%             2      40816326  [.] unsigned long std::__rotl<unsigned long>(unsigned long, int)                                                                                                                                         -      -
+     4.55%             1      20408163  [.] _ZN4absl12lts_2025051217internal_statusor12StatusOrDataIN5lavik7storage13StorageEngine4Impl11LoadedValueEEC2INS0_6StatusETnNSt9enable_ifIXsr3std16is_constructibleISA_OT_EE5valueEiE4typeELi0EEESD_  -      -
+     4.55%             1      20408163  [.] bycorf::CrossCore::TakeActiveSenders(unsigned int, unsigned int)                                                                                                                                     -      -
+     4.55%             1      20408163  [.] lavik::storage::(anonymous namespace)::SipHash12(std::basic_string_view<char, std::char_traits<char> >, std::array<unsigned char, 16ul> const&)                                                      -      -
+     4.55%             1      20408163  [.] lavik::storage::(anonymous namespace)::SipRound(unsigned long*, unsigned long*, unsigned long*, unsigned long*)                                                                                      -      -
+
+
+#
+# (Cannot load tips.txt file, please install perf!)
+#

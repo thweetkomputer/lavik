@@ -1,0 +1,29 @@
+# To display the perf.data header info, please use --header/--header-only options.
+#
+#
+# Total Lost Samples: 0
+#
+# Samples: 23  of event 'task-clock'
+# Event count (approx.): 469387749
+#
+# Overhead       Samples        Period  Symbol                                                                                                                                      IPC   [IPC Coverage]
+# ........  ............  ............  ..........................................................................................................................................  ....................
+#
+    39.13%             9     183673467  [.] __memcmp_evex_movbe                                                                                                                     -      -
+     8.70%             2      40816326  [.] lavik::storage::(anonymous namespace)::RedisCrc16(std::basic_string_view<char, std::char_traits<char> >)                                -      -
+     8.70%             2      40816326  [.] unsigned long std::__rotl<unsigned long>(unsigned long, int)                                                                            -      -
+     4.35%             1      20408163  [.] bycorf::(anonymous namespace)::CycleNow()                                                                                               -      -
+     4.35%             1      20408163  [.] bycorf::CrossCore::active_sender_word_count() const                                                                                     -      -
+     4.35%             1      20408163  [.] bycorf::IoUringBackend::ReapCompletions()                                                                                               -      -
+     4.35%             1      20408163  [k] do_syscall_64                                                                                                                           -      -
+     4.35%             1      20408163  [k] finish_task_switch.isra.0                                                                                                               -      -
+     4.35%             1      20408163  [k] kernel_init_pages                                                                                                                       -      -
+     4.35%             1      20408163  [.] lavik::storage::(anonymous namespace)::LoadLittleEndian(unsigned char const*)                                                           -      -
+     4.35%             1      20408163  [.] lavik::storage::(anonymous namespace)::SipRound(unsigned long*, unsigned long*, unsigned long*, unsigned long*)                         -      -
+     4.35%             1      20408163  [.] std::array<unsigned short, 256ul>::operator[](unsigned long) const                                                                      -      -
+     4.35%             1      20408163  [.] void std::atomic_store_explicit<unsigned int>(std::atomic<unsigned int>*, std::__type_identity<unsigned int>::type, std::memory_order)  -      -
+
+
+#
+# (Cannot load tips.txt file, please install perf!)
+#
