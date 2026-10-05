@@ -1,5 +1,7 @@
 # 复杂数据结构性能：Redis、Valkey、Kvrocks 与 Lavik
 
+大 Set 的 36 点三轮对照已完成：SADD/SREM QPS 配对中位在 c80/c320/c5120 下降 **6.95%/6.55%/10.62%**；c320/c5120 的 p99 三轮改善。#276 仍不具备通用吞吐收益，[完整结果及取舍](diagnostics/hash-route-replace-20261005/hash-route-set-large.md)已公开；小 Set 与独立 perf 继续验证。
+
 [English](README.md)
 
 [ZINCRBY worker 分布分析](diagnostics/zset-worker-distribution-20261005/README.md)：现有 8 个 key 在 12 workers 下仅落到 4 个数据 owner；已核对 perf 线程分布，固定二进制的 8/12-worker 配置对照已排队，尚无调参收益结论。

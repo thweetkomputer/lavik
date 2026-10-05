@@ -1,5 +1,7 @@
 # Complex structures: Redis, Valkey, Kvrocks and Lavik
 
+All 36 large-Set observations are complete: median paired SADD/SREM QPS changes at c80/c320/c5120 are **−6.95%/−6.55%/−10.62%**, with two losses in each three-pair group. At c320/c5120, p99 improves in every pair. #276 still has no demonstrated general throughput win; [all results and tradeoffs](diagnostics/hash-route-replace-20261005/hash-route-set-large.md) are published. Smaller-Set controls and independent perf remain pending.
+
 [简体中文](README.zh-CN.md)
 
 [ZINCRBY worker-distribution analysis](diagnostics/zset-worker-distribution-20261005/README.md): the fixed eight keys map to four data owners with 12 workers. Existing perf thread distribution is documented; fixed-binary 8/12-worker controls are queued, with no tuning gain claimed.
