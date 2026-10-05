@@ -61,3 +61,12 @@
 失败 artifact 包含[服务端启动日志](pr280-retained-server.log)，但没有保留的 136 MiB 磁盘镜像。日志到存储恢复完成、worker 初始化结束，没有后续命令阶段记录或崩溃报告；无法确定三次 RESTORE 中哪一次卡住。main `330738d9` 的同一 arm64 分片通过，SetIndirect 用例耗时 12.836 秒；当前失败用例为 77.918 秒，包含清理时间，不能全部当作 RESTORE 执行时间。对应源码的 fixture 与 main 一致，Hash 编辑辅助 key 结构只是从函数内移至匿名命名空间，未发现可直接解释此超时的行为改变。这些证据仍不足以判定偶发或排除回归，不据此改变生产代码、放宽超时或重跑。
 
 [artifact 身份、哈希及限制](pr280-expiry-main-comparison.json) · [main 成功摘录](main330-arm64-0-expiry-excerpt.txt)
+
+
+### #280 后续诊断与覆盖缺口
+
+核对原生结果 JSON：父版本和候选的 29 项通过覆盖 demotion、ordered write、RDB、Sorted Set 和 transfer 五个 suite，不包含 `GroupedFullDiskExpirationE2e`。因此不能用它们解释 SetIndirect 超时。
+
+已准备测试诊断提交 `253ab6a9`：[完整补丁](pr280-expiry-diagnostics.patch)。它仅在 RESTORE 抛出异常时，利用现有 `RecordDiagnostics` 保留 zero-based 请求序号、key 数量/长度、命令调用的墙钟耗时和 live `/proc` 线程状态，并把原错误及日志写入失败结果。不会再次向可能停滞的 worker 发命令；原 RESTORE、TTL、15 秒 socket 接收超时和失败判定不变。当前 77.918 秒用例总时间不能直接当作接收等待时间，原 Client 的发送阶段也未单独计时。格式及 diff 检查通过，压测期间未编译或运行本机进程测试。
+
+该提交**尚未推送**：等待原运行 `37297696440` 最后一项 amd64 分片 3 完成，保存完整结果后才推送到现有 #280 分支并观察新 CI。[准备状态](pr280-pending-expiry-diagnostics.json) · [串行等待器身份](pr280-expiry-diagnostics-watcher.json)。这是证据采集，不是超时已修复的结论。
