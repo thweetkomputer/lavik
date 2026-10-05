@@ -1,14 +1,14 @@
 # 复杂数据结构性能：Redis、Valkey、Kvrocks 与 Lavik
 
-[#280 全部 96 点对照](diagnostics/zset-score-views-20261005/zset-score-views-complete.md)已完成并通过结果及命令计数核验。大/小对象 ZSCORE 各档三轮 QPS 均提升，配对中位分别为 **+14.45%–19.82% / +12.61%–31.98%**；小对象各档 p99 三轮均改善，大对象 c5120 p99 两轮回退（中位 +2.40%）。写入收益不稳定，大对象写 QPS 中位为 **−1.10%/+0.24%/−0.76%/−1.62%**。#280 有明确读收益；当前 `253ab6a9` 的 CI 全部 17 项通过，已转为非 draft。前一版本的 RESTORE 超时仍未解释。[四组独立 perf](diagnostics/zset-score-views-20261005/zset-score-views-perf.md)也已完成：小对象哈希、分配和复制的 CPU 自身占比降低，两版本每次 ZSCORE 均为一次存储读取。
+[#280 全部 96 点对照](diagnostics/zset-score-views-20261005/zset-score-views-complete.md)已完成并通过结果及命令计数核验。大/小对象 ZSCORE 各档三轮 QPS 均提升，配对中位分别为 **+14.45%–19.82% / +12.61%–31.98%**；小对象各档 p99 三轮均改善，大对象 c5120 p99 两轮回退（中位 +2.40%）。写入收益不稳定，大对象写 QPS 中位为 **−1.10%/+0.24%/−0.76%/−1.62%**。#280 有明确读收益；当前 `253ab6a9` 的 CI 全部 17 项通过，已合并。前一版本的 RESTORE 超时仍未解释。[四组独立 perf](diagnostics/zset-score-views-20261005/zset-score-views-perf.md)也已完成：小对象哈希、分配和复制的 CPU 自身占比降低，两版本每次 ZSCORE 均为一次存储读取。
 
 [新增配对结果与 perf 的复算核验：1,146 个输入文件](diagnostics/zset-score-views-20261005/published-report-reproduction-20261005.json)
 
 **当前 PR 状态：** [head、依赖、当前版本 CI 与处理结论](diagnostics/grouped-expiry-recovery-20261004/pr-cleanup-current.md)。原失败与固定历史版本的性能证据分别保留，性能候选关闭不等于 CI 失败。
 
-**2026-10-05 PR 收敛：** #268 已合入 main `330738d9`；#266/#267/#270/#280/#282 已 rebase 到该 main，#271/#272 随 #266、#275 随 #270 更新。#269/#271/#272/#273/#276 因整体收益不足或控制项回退已关闭；#274 此前已关闭。暂停寻找新优化，仅完成保留候选的验证与 CI。[提交、依赖与检查记录](diagnostics/grouped-expiry-recovery-20261004/prs-rebased-after268.json)。历史测量及已关闭候选的曲线保留，不代表新 head 已通过验证。
+**2026-10-05 PR 收敛：** #268 已合入 main `330738d9`；#266/#267/#270/#280/#282 已 rebase 到该 main，#271/#272 随 #266 更新；#266/#267/#270/#280 随后已合并，#275 已直接 rebase 到 main `838a290f`。#269/#271/#272/#273/#276 因整体收益不足或控制项回退已关闭；#274 此前已关闭。暂停寻找新优化，仅完成保留候选的验证与 CI。[提交、依赖与检查记录](diagnostics/grouped-expiry-recovery-20261004/prs-rebased-after268.json)。历史测量及已关闭候选的曲线保留，不代表新 head 已通过验证。
 
-[Stream 读取窗口 #275：24 点大对象读取三轮对照](diagnostics/stream-reply-20261004/stream-window-large-reads.md)已完成。100 MiB / 128 B / 8 keys，全量读取 c1/4/16 的配对 QPS 中位数提升 **+327.45% / +233.85% / +128.49%**；点读 c2560 为 **−1.07%**。全量读取 QPS 中位数为 2.18 / 6.41 / 16.28，超过对应的三库历史测量，但其他三库未重跑、持久化配置不同，不能据此宣称整体追平。[12 点大对象写入控制](diagnostics/stream-reply-20261004/stream-window-large-writes.md)也已完成：XADD c320/c5120 的配对 QPS 中位数为 **−4.39%/+2.15%**，轮次方向不一致。[24 点小对象控制](diagnostics/stream-reply-20261004/stream-window-small-controls.md)完成：XADD 两档并发三轮均下降（中位 **−3.80%/−1.65%**），全量读取 QPS 近乎不变、p99 三轮均变差（中位 **+40.44%**）。全部 60 点已完成，但不能称为通用提升；[全量](diagnostics/stream-reply-20261004/stream-window-full-perf.md)与[点查](diagnostics/stream-reply-20261004/stream-window-point-perf.md)独立 perf 已完成，新 CI 全部 17 项通过，原 RDB 超时仍未解释，PR 保持草稿。
+[Stream 读取窗口 #275：24 点大对象读取三轮对照](diagnostics/stream-reply-20261004/stream-window-large-reads.md)已完成。100 MiB / 128 B / 8 keys，全量读取 c1/4/16 的配对 QPS 中位数提升 **+327.45% / +233.85% / +128.49%**；点读 c2560 为 **−1.07%**。全量读取 QPS 中位数为 2.18 / 6.41 / 16.28，超过对应的三库历史测量，但其他三库未重跑、持久化配置不同，不能据此宣称整体追平。[12 点大对象写入控制](diagnostics/stream-reply-20261004/stream-window-large-writes.md)也已完成：XADD c320/c5120 的配对 QPS 中位数为 **−4.39%/+2.15%**，轮次方向不一致。[24 点小对象控制](diagnostics/stream-reply-20261004/stream-window-small-controls.md)完成：XADD 两档并发三轮均下降（中位 **−3.80%/−1.65%**），全量读取 QPS 近乎不变、p99 三轮均变差（中位 **+40.44%**）。全部 60 点已完成，但不能称为通用提升；[全量](diagnostics/stream-reply-20261004/stream-window-full-perf.md)与[点查](diagnostics/stream-reply-20261004/stream-window-point-perf.md)独立 perf 已完成，已 rebase 到 main 的新 head `0b1fb8bc` CI 运行中（旧 `38485460` 为 17/17 通过），原 RDB 超时仍未解释，PR 保持草稿。
 
 Hash/Set 单路由替换的[全部 144 点对照](diagnostics/hash-route-replace-20261005/hash-route-complete.md)已完成。大 Hash HSET c5120 的 QPS +7.81% 未推广到其他范围：小 Hash HSET 与两种 Set 写入中位均回退，#276 已关闭。完整 QPS/p99、反向结果和历史 peer 差距均已公开；[四组大对象 perf](diagnostics/hash-route-replace-20261005/hash-route-large-perf.md)已完成，小 Hash 补充采样已取消，回退原因尚未确定。
 
@@ -16,7 +16,7 @@ Hash/Set 单路由替换的[全部 144 点对照](diagnostics/hash-route-replace
 
 [ZINCRBY worker 分布与完整配置对照](diagnostics/zset-worker-distribution-20261005/zset-worker-count-complete.md)：固定八个 key 和同一二进制，8 workers 相比 12 workers 的 ZSCORE QPS 中位提升 19.16%/31.70%，ZINCRBY 提升 39.88%/40.75%；但写 p99 三轮均退化，中位 +21.54%/+24.90%。配置诊断单列，不替代原始基线，不与 #280 收益相乘。
 
-[ZSCORE/ZMSCORE 成员页借用视图](diagnostics/zset-score-views-20261005/README.md)：去掉整页字段/值复制，保留完整校验；历史 `9d1ffc85` 的 fork 与上游 CI 各 17 项通过，前一 rebase 版本 CI 出现上述 RESTORE 超时，当前诊断版 CI 全部 17 项通过，[PR #280](https://github.com/eloqdata/lavik/pull/280) 已转为非 draft；全部 96 点对照见上文，独立读 perf 也已完成。
+[ZSCORE/ZMSCORE 成员页借用视图](diagnostics/zset-score-views-20261005/README.md)：去掉整页字段/值复制，保留完整校验；历史 `9d1ffc85` 的 fork 与上游 CI 各 17 项通过，前一 rebase 版本 CI 出现上述 RESTORE 超时，当前诊断版 CI 全部 17 项通过，[PR #280](https://github.com/eloqdata/lavik/pull/280) 已合并；全部 96 点对照见上文，独立读 perf 也已完成。
 
 [草稿 PR #282](https://github.com/eloqdata/lavik/pull/282)：长 key 根记录复用已通过三轮独立镜像回放：9 MiB key GET 在 **1.823 / 1.832 / 1.820 秒**返回并校验完整 6 MiB value。原 60 秒基线超时仍保留；这是候选单侧检查，不能计算精确加速比或外推普通 QPS。`28d7cca4` 的 fork 与上游 CI 各 17 项通过；普通短 key 原生回归和 72 点配对对照仍需完成。[证据与限制](diagnostics/list-reply-reserve-20261004/README.md)。
 

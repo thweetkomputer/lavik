@@ -1,5 +1,7 @@
 # ZSCORE / ZMSCORE 成员页借用视图
 
+当前合并状态：#266/#267/#270/#280 已合并；[#275/#282 的草稿原因及当前验证](../grouped-expiry-recovery-20261004/pr-cleanup-current.md)。以下实验继续引用固定测量版本。
+
 **当前 PR 与 CI：** 见[统一收敛状态](../grouped-expiry-recovery-20261004/pr-cleanup-current.md)。下述原生、CI 和性能数据仍归属各自标注的提交；固定历史版本的测量不能代替当前 head 验证。
 
 候选 [`9d1ffc85`](https://github.com/thweetkomputer/lavik/commit/9d1ffc8572f558cc139b1801488d014c2099dbfd) 从 main `4610d607` 开始。原 indexed score lookup 会完整解码所选 Hash 成员页，复制每个字段和值，并重建进程级 digest，最后只保留请求成员的 double 分数。候选同步遍历已加载页的借用视图，只保留所需分数；路由验证计算的持久化 seed digest 同时用于临时查重表。

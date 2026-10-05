@@ -1,0 +1,43 @@
+{
+  "started_unix": 1791211322.6266754,
+  "old_head": "38485460ac7817886f067223590f4b1e749a302c",
+  "old_parent": "631e610421eca8b86e9ccda447b0d42d34cabdb1",
+  "new_base": "838a290f049ed4a11723f5ef93eb5d6d666e8d1a",
+  "backup_ref": "backup/pr275-before-main-after270-20261005",
+  "original_pr": "pr275-after270-merge-status.json",
+  "verified_unix": 1791211433.3810053,
+  "new_head": "0b1fb8bc4320c920096eceba83114c2766777a93",
+  "files": {
+    "docs/architecture/12-streams.md": {
+      "same_bytes": true,
+      "old_sha256": "7bb775e5df9542b5723cd3cc71b0e1346c6e6db8960e2df6e4362cf36b4ab1f1",
+      "new_sha256": "7bb775e5df9542b5723cd3cc71b0e1346c6e6db8960e2df6e4362cf36b4ab1f1"
+    },
+    "include/lavik/storage/detail/grouped/scratch.h": {
+      "same_bytes": true,
+      "old_sha256": "52ef74c60ced95747bf013cedcfe82596fc1c83b45d1b1c29f48e5391b63949c",
+      "new_sha256": "52ef74c60ced95747bf013cedcfe82596fc1c83b45d1b1c29f48e5391b63949c"
+    },
+    "src/storage/engine/transfer_api.cpp": {
+      "same_bytes": true,
+      "old_sha256": "eb3cf382a807c6e5c89dc926f6264cb20e1c86f77b9d6f2e9e3b6282b7c424e6",
+      "new_sha256": "eb3cf382a807c6e5c89dc926f6264cb20e1c86f77b9d6f2e9e3b6282b7c424e6"
+    },
+    "tests/grouped/stream_e2e_test.cpp": {
+      "same_bytes": true,
+      "old_sha256": "e203c1f10b4a6a5fec2a5b760801be5a5703b4a97d1b82601446c4381db64978",
+      "new_sha256": "e203c1f10b4a6a5fec2a5b760801be5a5703b4a97d1b82601446c4381db64978"
+    }
+  },
+  "range_diff": "1:  72305c58 = 1:  a7c36ebf perf: read pinned Stream ranges through bounded owned page windows\n2:  39d19e84 = 2:  5ce1db6d Assert read-window metadata and delivery invariants\n3:  66dbf3cb = 3:  a0861350 Return each Stream read window as one admitted logical page\n4:  38485460 = 4:  0b1fb8bc Avoid visiting an empty Stream upper-bound page\n",
+  "no_local_build_or_runtime": "Benchmarks hold hostlock; remote CI will validate new integration",
+  "pushed_unix": 1791211512.2164602,
+  "pre_push_pr": {
+    "baseRefName": "main",
+    "headRefName": "perf/stream-range-read-window-20261004",
+    "headRefOid": "38485460ac7817886f067223590f4b1e749a302c",
+    "isDraft": true,
+    "state": "OPEN"
+  },
+  "format_check": "pre-commit clang-format23.1.1 PASS; noothermaintainedlanguagefiles"
+}

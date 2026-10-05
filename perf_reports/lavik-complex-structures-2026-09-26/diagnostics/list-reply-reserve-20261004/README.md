@@ -1,5 +1,7 @@
 # List reply capacity: incremental measurements
 
+当前合并状态：#266/#267/#270/#280 已合并；[#275/#282 的草稿原因及当前验证](../grouped-expiry-recovery-20261004/pr-cleanup-current.md)。以下实验继续引用固定测量版本。
+
 **当前 PR 与 CI：** 见[统一收敛状态](../grouped-expiry-recovery-20261004/pr-cleanup-current.md)。下述原生、CI 和性能数据仍归属各自标注的提交；固定历史版本的测量不能代替当前 head 验证。
 
 This is the second measured stage of [PR #267](https://github.com/eloqdata/lavik/pull/267). The previous production revision is `13041873` (bounded page reads); this candidate is `ff9e36550d3c899011cb07e037f4521273e667ae` (adds reply preallocation). Later branch heads also include the independently submitted recovery repair in [PR #268](https://github.com/eloqdata/lavik/pull/268); these performance measurements remain pinned to `ff9e3655` and predate that repair. [First-stage results](../list-read-window-20261004/README.md) · [binary/build proof](list-reply-versions.json).

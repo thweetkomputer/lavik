@@ -4,15 +4,15 @@
 
 | 分支 | 当前源码 | 正确性状态 | 性能证据 |
 |---|---|---|---|
-| #270 回复批处理 | `631e6104` | 已 rebase 到 main `330738d9`；[当前 CI](https://github.com/eloqdata/lavik/actions/runs/37308667273) 全部 17 项通过 | 历史主对照固定 `a565d603` / `1e87107e`，窗口对照固定 `adec3a34` / `5b9ebded` |
+| #270 回复批处理（已合并） | `631e6104` | [当前 CI](https://github.com/eloqdata/lavik/actions/runs/37308667273) 全部 17 项通过 | 历史主对照固定 `a565d603` / `1e87107e`，窗口对照固定 `adec3a34` / `5b9ebded` |
 | #274 单条回复转移 | `85bc7ad0` | [完整 CI 通过](pr274-85bc7ad0-full-ci.json)，原生验证通过 | 60 点三轮对照完成：大/小对象点读 −0.39%/−3.18%；小对象两档写入三轮全降。未达预期，#274 已关闭；四组独立 perf 已完成 |
-| #275 读取窗口 | `38485460`（测量固定 `5b9ebded`） | [当前 CI](https://github.com/eloqdata/lavik/actions/runs/37308704165) 全部 17 项通过。历史 `5b9ebded` 的故障路径与原生验证单独保留，原一次 RDB 超时仍未解释 | 全部 60 点对照与独立 perf 完成：大对象全量读取 QPS +128.49%～+327.45%；点读和写收益不稳定；两档小对象 XADD 三轮均下降，全量读 p99 三轮均变差。保持草稿 |
+| #275 读取窗口 | `0b1fb8bc`（测量固定 `5b9ebded`） | 已直接 rebase 到 main `838a290f`；[新 CI](https://github.com/eloqdata/lavik/actions/runs/37327265108) 运行中，旧 `38485460` CI 为 17/17 通过。历史 `5b9ebded` 的故障路径与原生验证单独保留，原一次 RDB 超时仍未解释 | 全部 60 点对照与独立 perf 完成：大对象全量读取 QPS +128.49%～+327.45%；点读和写收益不稳定；两档小对象 XADD 三轮均下降，全量读 p99 三轮均变差。保持草稿 |
 
 [初次 rebase 核对](../grouped-expiry-recovery-20261004/prs-rebased-after268.json)及[当前 head、后续测试修复与 CI](../grouped-expiry-recovery-20261004/pr-cleanup-current.md)。恢复修复来自 main；历史原生与性能数据不转记为当前 head 的证据。
 
 以下测量保留各自提交、二进制 SHA-256 和独立数据来源；后续方案的结果不能转记为此前版本的收益。所有失败记录仍保留，当前状态以本表和对应证据为准。
 
-[Draft PR #270](https://github.com/eloqdata/lavik/pull/270)，生产二进制 `1e87107e`，对照固定 main `a565d603`。回复片段合并至约 64 KiB，直接序列化已固定页面的字段并转移构建缓冲区。候选还包含独立验证的冷恢复修复；本次前台 Stream 修改限于回复路径。
+[已合并 PR #270](https://github.com/eloqdata/lavik/pull/270)，生产二进制 `1e87107e`，对照固定 main `a565d603`。回复片段合并至约 64 KiB，直接序列化已固定页面的字段并转移构建缓冲区。候选还包含独立验证的冷恢复修复；本次前台 Stream 修改限于回复路径。
 
 这些是单轮独立并发扫描，不是配对稳定性结论。全部 XRANGE、XADD MAXLEN 控制点及错误均在链接数据中；三轮大数据读取、小数据读写和大数据写入复测均已完成，结果分别列于下方。历史 Redis/Valkey 关闭持久化，Kvrocks 关闭 WAL 且配置 80 GiB 缓存，Lavik 使用持久化 SPDK 且没有 payload cache。不能由单点收益宣称整体达到 peers 的水平。
 
