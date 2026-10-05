@@ -95,3 +95,9 @@ main 已前进至 `19496654`。List 分支已解决冲突，并把批量启动�
 候选超时后才附加调试器：三个 worker 的回溯进入 `_io_uring_get_cqe`，内核等待点为 `io_cqring_wait`；liburing 之后的回溯不完整，尚不能识别具体等待的协程。原始镜像前后 SHA-256 一致，保持只读；磁盘镜像和原始线程转储未入库。这一对固定顺序重放不能证明死锁、数据损坏或候选独有回归，也不能证明与 CI 的 SET 超时同源。下一步在干净压测结束后采集逐操作 CPU、存储和协程进展。
 
 [长 key perf 调度](profile-pr267-retained-image.py) 已排队，等待小回复的独立压测与 perf 退出后再取得主机锁。仅对 9 MiB key GET 采集 49 Hz task-clock/DWARF，同时每 0.5 秒记录进程 I/O、各线程 CPU 与等待点，并区分发送、回复头和完整响应耗时；调试器只在停止采样后的失败路径附加。采样会扰动延迟，不把这些耗时用于干净性能比较。
+
+## 长 key 重复校验假设（尚待采样验证）
+
+当前 main `19496654` 和候选 `343e951e` 的普通 grouped String GET 都逐个读取 8 KiB 分段。每页的 `LoadOrderedGroup` 调用 `FindVerifiedEntry`；索引未保存完整 key 时，后者通过 `LoadOutOfIndexKey` 读取完整原 key 再比较。因此，无重试且每次均走此分支时，9 MiB key、6 MiB value 的 768 个分段可能重复读取 **6.75 GiB** key 内容；6 MiB key、1 MiB value 则为 **0.75 GiB**。这一推导不包含首次校验、记录头及后台 I/O，不是实际设备计数。两者推导量相差 9 倍，main 重放耗时约 50.008/5.518 秒，但相关性不足以证明耗时来源，也不能解释原 CI 的 SET 超时。
+
+待排队采样确认后，考虑让每页刷新复用此前已核对 key 的物理根身份，仅在 block、offset、allocation epoch 全部一致时省去再次读取原 key。人口 epoch、逻辑版本、页面身份及 GC 移动检查仍需保留；根移动或身份不符必须回到完整校验。当前尚未修改实现。ordered 远端页读取已经借用父 key，不能把这里的重复校验误写成逐页跨 worker key 复制。
