@@ -4,4 +4,4 @@
 
 [原型 `7869a6fb`](https://github.com/thweetkomputer/lavik/commit/7869a6fbe978018fd0519cf2ee94626e8de2afce) 基于 main `4610d607`，在同步校验期间保留上一条已检查 key 的借用视图，将上述次数降为 N。span 中的记录在整个调用内保持不变，视图不跨调用或挂起点；每个当前 key 仍完整校验，重复/逆序、score、大小检查及错误结果保留。仅改本地算法，没有持久格式或架构变更。
 
-格式与差异检查通过，[完整 CI](https://github.com/thweetkomputer/lavik/actions/runs/37263238928) 的 17 个检查全部通过，包括 amd64/arm64 构建、格式、12 个软件测试分片及两项汇总检查；已有 StreamRecords 与 GroupedCollectionTest 测试包含在内。[固定提交与逐项结果](stream-key-7869a6fb-full-ci.json)。尚未本机编译或测量候选，未提 PR。调用次数下降不能换算成 QPS 收益；待现有诊断和对照完成后再决定是否保留。
+格式与差异检查通过，[完整 CI](https://github.com/thweetkomputer/lavik/actions/runs/37263238928) 的 17 个检查全部通过，包括 amd64/arm64 构建、格式、12 个软件测试分片及两项汇总检查；已有 StreamRecords 与 GroupedCollectionTest 测试包含在内。[固定提交与逐项结果](stream-key-7869a6fb-full-ci.json)。未本机编译或测量候选，未提 PR。调用次数下降不能换算成 QPS 收益。按“先别找新的优化”的当前范围，该原型搁置，未排队新的编译或性能实验；保留源码和 CI 证据作为历史记录。

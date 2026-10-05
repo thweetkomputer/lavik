@@ -8,7 +8,7 @@
 
 **当前 PR 状态：** [head、依赖、当前版本 CI 与处理结论](diagnostics/grouped-expiry-recovery-20261004/pr-cleanup-current.md)。原失败与固定历史版本的性能证据分别保留，性能候选关闭不等于 CI 失败。
 
-**2026-10-05 PR 收敛：** #268 已合入 main `330738d9`；#266/#267/#270/#280/#282 已 rebase 到该 main，#271/#272 随 #266 更新；#266/#267/#270/#280 随后已合并，#275 已直接 rebase 到 main `838a290f`。#269/#271/#272/#273/#276 因整体收益不足或控制项回退已关闭；#274 此前已关闭。暂停寻找新优化，仅完成保留候选的验证与 CI。[提交、依赖与检查记录](diagnostics/grouped-expiry-recovery-20261004/prs-rebased-after268.json)。历史测量及已关闭候选的曲线保留，不代表新 head 已通过验证。
+**2026-10-05 PR 收敛：** #268 已合入 main `330738d9`；#266/#267/#270/#280/#282 已 rebase 到该 main，#271/#272 随 #266 更新；#266/#267/#270/#280 随后已合并，#275 已直接 rebase 到 main `838a290f`。#269/#271/#272/#273/#276 因整体收益不足或控制项回退已关闭；#274 此前已关闭。继续暂停寻找新优化。已排队的验证与 CI 均已结束；#275/#282 仍保留下述性能取舍和失败限制。[提交、依赖与检查记录](diagnostics/grouped-expiry-recovery-20261004/prs-rebased-after268.json)。历史测量及已关闭候选的曲线保留，不代表新 head 已通过验证。
 
 [Stream 读取窗口 #275：24 点大对象读取三轮对照](diagnostics/stream-reply-20261004/stream-window-large-reads.md)已完成。100 MiB / 128 B / 8 keys，全量读取 c1/4/16 的配对 QPS 中位数提升 **+327.45% / +233.85% / +128.49%**；点读 c2560 为 **−1.07%**。全量读取 QPS 中位数为 2.18 / 6.41 / 16.28，超过对应的三库历史测量，但其他三库未重跑、持久化配置不同，不能据此宣称整体追平。[12 点大对象写入控制](diagnostics/stream-reply-20261004/stream-window-large-writes.md)也已完成：XADD c320/c5120 的配对 QPS 中位数为 **−4.39%/+2.15%**，轮次方向不一致。[24 点小对象控制](diagnostics/stream-reply-20261004/stream-window-small-controls.md)完成：XADD 两档并发三轮均下降（中位 **−3.80%/−1.65%**），全量读取 QPS 近乎不变、p99 三轮均变差（中位 **+40.44%**）。全部 60 点已完成，但不能称为通用提升；[全量](diagnostics/stream-reply-20261004/stream-window-full-perf.md)与[点查](diagnostics/stream-reply-20261004/stream-window-point-perf.md)独立 perf 已完成，已 rebase 到 main 的前版 `dbd72cb1` 出现独立的 arm64 ListIndirect RESTORE 超时，共享夹具修复版 `c7c3aa28` CI 已 17/17 通过，前版 `0b1fb8bc` 在 bootstrap admission 用例失败（旧 `38485460` 为 17/17 通过），原 RDB 超时仍未解释，PR 保持草稿。
 
@@ -50,7 +50,7 @@ Redis/Valkey 关闭持久化；Kvrocks 使用无压缩 RAID0、关闭 WAL、80 G
 
 #265 已于 2026-10-05 合并；其测量仍归属原始提交，不代表新 main 已重跑。
 
-未合并优化：[PR #266](https://github.com/eloqdata/lavik/pull/266) · [PR #267](https://github.com/eloqdata/lavik/pull/267) · [PR #270](https://github.com/eloqdata/lavik/pull/270)
+已合并优化（保留历史测量版本）：[PR #266](https://github.com/eloqdata/lavik/pull/266) · [PR #267](https://github.com/eloqdata/lavik/pull/267) · [PR #270](https://github.com/eloqdata/lavik/pull/270)
 
 集成分支已包含更新的 main 提交；本页仍使用固定基线 `a565d603`。[组合验证分支及状态](diagnostics/combined-20261005/README.md)。[优化分支的新提交与验证状态](diagnostics/main-a565d603-20261004/pr-main-integration.json)，新提交尚未替换已测量二进制。
 
@@ -60,7 +60,7 @@ Redis/Valkey 关闭持久化；Kvrocks 使用无压缩 RAID0、关闭 WAL、80 G
 
 后续 singleton PR #274 的 60 点三轮对照已完成，未显示预期收益，已关闭：大/小对象点读 QPS 中位数 −0.39%/−3.18%；小对象两档写入为 −3.36%/−3.31%，三轮全降。四组独立 perf 已完成，完整来源及 CPU/I/O 摘要见上方诊断；不能把源码少一次复制当成已测得的吞吐提升。
 
-[Stream 页内 key 校验复用原型](diagnostics/stream-key-validation-20261005/README.md) 已通过全部 17 个 CI 检查，仍待本机验证和性能对照，尚无 QPS 收益结论。
+[Stream 页内 key 校验复用原型](diagnostics/stream-key-validation-20261005/README.md) 已通过全部 17 个 CI 检查，但按当前 PR 收敛范围搁置。没有完成原生性能对照，也未提 PR；不宣称 QPS 收益，没有新增排队实验。
 
 [ZSet 成员叶页复用：吞吐、交替复测、perf 与测试](diagnostics/zset-member-probe-20261004/README.md)
 
