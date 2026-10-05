@@ -6,7 +6,7 @@
 |---|---|---|---|
 | #270 回复批处理（已合并） | `631e6104` | [当前 CI](https://github.com/eloqdata/lavik/actions/runs/37308667273) 全部 17 项通过 | 历史主对照固定 `a565d603` / `1e87107e`，窗口对照固定 `adec3a34` / `5b9ebded` |
 | #274 单条回复转移 | `85bc7ad0` | [完整 CI 通过](pr274-85bc7ad0-full-ci.json)，原生验证通过 | 60 点三轮对照完成：大/小对象点读 −0.39%/−3.18%；小对象两档写入三轮全降。未达预期，#274 已关闭；四组独立 perf 已完成 |
-| #275 读取窗口 | `c7c3aa28`（测量固定 `5b9ebded`） | 已直接 rebase 到 main `838a290f`；[共享夹具修复版 CI](https://github.com/eloqdata/lavik/actions/runs/37339320997) 待完成；前版出现 [ListIndirect RESTORE 超时](../grouped-expiry-recovery-20261004/pr275-list-restore-timeout.md)；[前版 bootstrap 失败详情](../grouped-expiry-recovery-20261004/pr275-bootstrap-ci-failure.md)，旧 `38485460` CI 为 17/17 通过。历史 `5b9ebded` 的故障路径与原生验证单独保留，原一次 RDB 超时仍未解释 | 全部 60 点对照与独立 perf 完成：大对象全量读取 QPS +128.49%～+327.45%；点读和写收益不稳定；两档小对象 XADD 三轮均下降，全量读 p99 三轮均变差。保持草稿 |
+| #275 读取窗口 | `c7c3aa28`（测量固定 `5b9ebded`） | 已直接 rebase 到 main `838a290f`；[共享夹具修复版 CI](https://github.com/eloqdata/lavik/actions/runs/37339320997) 已 17/17 通过；前版出现 [ListIndirect RESTORE 超时](../grouped-expiry-recovery-20261004/pr275-list-restore-timeout.md)；[前版 bootstrap 失败详情](../grouped-expiry-recovery-20261004/pr275-bootstrap-ci-failure.md)，旧 `38485460` CI 为 17/17 通过。历史 `5b9ebded` 的故障路径与原生验证单独保留，原一次 RDB 超时仍未解释 | 全部 60 点对照与独立 perf 完成：大对象全量读取 QPS +128.49%～+327.45%；点读和写收益不稳定；两档小对象 XADD 三轮均下降，全量读 p99 三轮均变差。保持草稿 |
 
 [初次 rebase 核对](../grouped-expiry-recovery-20261004/prs-rebased-after268.json)及[当前 head、后续测试修复与 CI](../grouped-expiry-recovery-20261004/pr-cleanup-current.md)。恢复修复来自 main；历史原生与性能数据不转记为当前 head 的证据。
 

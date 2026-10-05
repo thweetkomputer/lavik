@@ -4,8 +4,12 @@
 
 提交 `c7c3aa28` 将原 bootstrap 的有限重试移到 `gate_cluster_create.py`，由 bootstrap 和 Data-control 两个夹具共用，避免复制实现。保持同一请求身份、10 秒 admission 预算、剩余预算约束调用超时及拒绝超时成功；其他拒绝和通信异常立即失败。总体测试超时、生产实现、冻结性能二进制均不改变。
 
-9 个轻量回归用例及 Ruff check/format、diff 检查通过，新增用例直接走 Data-control 的请求构造路径，验证 busy 后不会生成新 operation identity。[新提交完整 CI](https://github.com/eloqdata/lavik/actions/runs/37339320997) 待完成；本地没有在性能测试期间启动编译或真实进程重现。
+9 个轻量回归用例及 Ruff check/format、diff 检查通过，新增用例直接走 Data-control 的请求构造路径，验证 busy 后不会生成新 operation identity。[新提交完整 CI](https://github.com/eloqdata/lavik/actions/runs/37339320997) 已 17/17 通过；本地没有在性能测试期间启动编译或真实进程重现。
 
 同轮 [ListIndirect RESTORE 超时](pr275-list-restore-timeout.md) 是独立未解决问题，不能由这个夹具修复解释。PR 保持草稿。
 
 [完整失败 CI](pr275-bootstrap-fix-full-ci.json) · [Data-control 失败日志](pr275-bootstrap-fix-arm64-shard1.log) · [bootstrap 通过日志](pr275-bootstrap-fix-amd64-shard2-passed.log) · [提交、验证及原始/发布日志哈希](pr275-shared-admission-fix.json)。发布日志仅去除行尾空白，没有删除行。
+
+当前提交的 arm64 第 1 分片全部 300 个 CTest 通过，Data-control 用例耗时 7.96 秒；arm64 第 0 分片全部 274 个 CTest 通过，有序结构套件耗时 582.32 秒。成功的汇总日志未列出单个 GTest 耗时。后续通过没有解释前一次 List RESTORE 超时，也不消除已测得的小对象性能回退。
+
+[完整 CI 记录](pr275-shared-admission-full-ci.json) · [Data-control 通过日志](pr275-shared-admission-arm64-shard1-passed.log) · [有序结构套件通过日志](pr275-shared-admission-arm64-shard0-passed.log) · [第 1 分片哈希](pr275-shared-admission-arm64-shard1-passed.json) · [第 0 分片哈希](pr275-shared-admission-arm64-shard0-passed.json)。
