@@ -13,7 +13,7 @@
 | [#272](https://github.com/eloqdata/lavik/pull/272) | `0d36b4a9` | #266 | [17/17 通过](https://github.com/eloqdata/lavik/actions/runs/37308612324) | 已关闭：CI 全绿；完整 72 点有局部读收益，但大对象高并发读 QPS 三轮下降，写收益不稳定。 |
 | [#275](https://github.com/eloqdata/lavik/pull/275) | `c7c3aa28` | main `838a290f` | [17/17 通过](https://github.com/eloqdata/lavik/actions/runs/37339320997)；[前版两项失败与共享夹具修复](pr275-shared-admission-fix.md) | 草稿：大 Stream 全量读取 +128%–327%；小对象控制项回退，List RESTORE 与历史 RDB 超时未解释。 |
 | [#280](https://github.com/eloqdata/lavik/pull/280) | `253ab6a9` | main | [17/17 通过](https://github.com/eloqdata/lavik/actions/runs/37312803218) | 已合并（`838a290f`）。当前 CI 全绿、无冲突与未解决评审线程；96 点及独立 perf 完成，读取有重复收益。历史 RESTORE 超时仍单独保留。 |
-| [#282](https://github.com/eloqdata/lavik/pull/282) | `2c94e9da` | main | [17/17 通过](https://github.com/eloqdata/lavik/actions/runs/37297697141) | 草稿：长 key 候选回放通过；普通短 key 原生回归及 72 点对照待完成，尚无配对 QPS 结论。 |
+| [#282](https://github.com/eloqdata/lavik/pull/282) | `2c94e9da` | main | [17/17 通过](https://github.com/eloqdata/lavik/actions/runs/37297697141) | 草稿：长 key 候选回放通过；普通短 key 原生构建已开始、72 点对照等待验证；[父版本 CI 限制](grouped-root-reviewed-ci-preflight.md)保留，尚无配对 QPS 结论。 |
 
 CI 与原生性能实验是不同证据：上表只使用与当前远端 head 完全匹配的 CI。历史基准及队列中的实验继续使用其冻结提交和二进制，不能转记成 rebase 后版本的性能。通过 CI 也不代表已排除报告中尚未复现的历史超时。
 
