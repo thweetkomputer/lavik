@@ -1,5 +1,18 @@
 # Sorted Set member-leaf reuse — October 4
 
+## Current version status — October 5
+
+PR #266 is at `067c7589` with full CI and native production tests passing. The
+published baseline/member-leaf figures below remain measurements of `a565d603`
+and `a1b24b60`, not of that updated head.
+
+PR #273's planner-fixture repair `92906489` [passes full CI](pr273-92906489-full-ci.json).
+Its 96-observation comparison is waiting for the benchmark host. It measures
+the frozen production binary built at `d012a301`; `92906489` changes only the
+test fixture and is recorded separately as test validation. No source-page
+reuse throughput result is available yet. Historical pending-status paragraphs
+below describe earlier stages, not the current queue.
+
 [PR #266](https://github.com/eloqdata/lavik/pull/266).
 
 Baseline: `a565d603`; candidate: `a1b24b60`. [Exact binaries and hashes](zset-probe-versions.json) · [CMake configuration](zset-probe-CMakeCache.txt). One-distinct-member writes transfer the checked lookup leaf and its admission into index preparation, avoiding a second load/decode/hash/copy. The data lives only within the command; durable formats and resident payload caching remain unchanged. The existing preparation yield is preserved, with payload and memory credit transferred together before suspension.

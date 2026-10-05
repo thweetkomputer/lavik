@@ -1,0 +1,400 @@
+{
+  "scope": "large-reads",
+  "versions": {
+    "parent": {
+      "commit": "adec3a3414adf7b18dc304d336253258e228cb02",
+      "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-stream-followup-parent-adec3a34-20261005",
+      "sha256": "62891463498c88ff2137a1a28baea251d9c55fe503fbbe581da47f2ff1ba463f",
+      "source_repo": "/mnt/dev/lavik-complex-next-20261004",
+      "bycorf_commit": "62509c93d40c2480f5046b71454db6cf95801b04",
+      "build": "RelWithDebInfo, native, LTO, GCC 13, SPDK, BUILD_TESTING=OFF, LAVIK_ENABLE_TEST_FAULTS=OFF",
+      "build_directory": "/mnt/dev/lavik-complex-next-20261004/build-spdk",
+      "no_build_or_tests_during_measurements": true,
+      "pr": 270,
+      "ci_required_before_performance": true,
+      "initial_environment_failure": "/mnt/dev/lavik-complex-iterations-20261004/stream-followup-parent-stream-transfer-tests.json",
+      "failed_case_retry": "/mnt/dev/lavik-complex-iterations-20261004/stream-followup-parent-large-rdb-retry.json",
+      "full_fault_enabled_ci": "https://github.com/eloqdata/lavik/actions/runs/37248504314"
+    },
+    "singleton": {
+      "commit": "85bc7ad0d7932b27dd6784c023fcbfdbd2dd8b08",
+      "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-stream-followup-singleton-85bc7ad0-20261005",
+      "sha256": "6eb18de518698b5f7cd50baa7fdbc0b834001c1b2aae1af3c1272e16de1852af",
+      "source_repo": "/mnt/dev/lavik-complex-next-20261004",
+      "bycorf_commit": "62509c93d40c2480f5046b71454db6cf95801b04",
+      "build": "RelWithDebInfo, native, LTO, GCC 13, SPDK, BUILD_TESTING=OFF, LAVIK_ENABLE_TEST_FAULTS=OFF",
+      "build_directory": "/mnt/dev/lavik-complex-next-20261004/build-spdk",
+      "no_build_or_tests_during_measurements": true,
+      "pr": 274,
+      "ci_required_before_performance": true,
+      "full_fault_enabled_ci": "https://github.com/eloqdata/lavik/actions/runs/37243195035"
+    }
+  },
+  "observations": 24,
+  "method": "Three 30-second pairs parent/singleton, singleton/parent, parent/singleton. PR274singleton85 versus exactruntimeparentadec, independent of the unvalidated read-window candidate. Each read round restarts all versions on one fresh parent-seeded unchanged population; writes use an independent fresh seed for every version. Large 100MiB/128B/8keys: XRANGE_FULL c1/4/16, XRANGE c2560, XADD_MAXLEN c320/5120. Small 64KiB/1024B/64keys: XRANGE_FULL c80, XRANGE c5120, XADD_MAXLEN c2560/5120. All errors retained. Exact production binaries pass native tests and full fault-enabled CI. No concurrent builds, tests, or perf on this host.",
+  "limitations": "Three paired changes, not confidence intervals. Median paired ratio is not the ratio of marginal medians. Full reads have few commands and rounded QPS. Negative p99 change is better. Historical peers not rerun; this is incremental parent-versus-singleton evidence, not overall parity.",
+  "proofs": {
+    "parentadec3a34-stream-singleton-followup-104857600-128-read-repeat1-20261005": {
+      "source_commit": "adec3a3414adf7b18dc304d336253258e228cb02",
+      "sha256": "62891463498c88ff2137a1a28baea251d9c55fe503fbbe581da47f2ff1ba463f",
+      "seed_tag": "seed-parentadec3a34-stream-singleton-followup-104857600-128-read-repeat1-20261005",
+      "server_exit": 0,
+      "failures_total": 0,
+      "keys_checked": 8
+    },
+    "singleton85bc7ad0-stream-singleton-followup-104857600-128-read-repeat1-20261005": {
+      "source_commit": "85bc7ad0d7932b27dd6784c023fcbfdbd2dd8b08",
+      "sha256": "6eb18de518698b5f7cd50baa7fdbc0b834001c1b2aae1af3c1272e16de1852af",
+      "seed_tag": "seed-parentadec3a34-stream-singleton-followup-104857600-128-read-repeat1-20261005",
+      "server_exit": 0,
+      "failures_total": 0,
+      "keys_checked": 8
+    },
+    "singleton85bc7ad0-stream-singleton-followup-104857600-128-read-repeat2-20261005": {
+      "source_commit": "85bc7ad0d7932b27dd6784c023fcbfdbd2dd8b08",
+      "sha256": "6eb18de518698b5f7cd50baa7fdbc0b834001c1b2aae1af3c1272e16de1852af",
+      "seed_tag": "seed-parentadec3a34-stream-singleton-followup-104857600-128-read-repeat2-20261005",
+      "server_exit": 0,
+      "failures_total": 0,
+      "keys_checked": 8
+    },
+    "parentadec3a34-stream-singleton-followup-104857600-128-read-repeat2-20261005": {
+      "source_commit": "adec3a3414adf7b18dc304d336253258e228cb02",
+      "sha256": "62891463498c88ff2137a1a28baea251d9c55fe503fbbe581da47f2ff1ba463f",
+      "seed_tag": "seed-parentadec3a34-stream-singleton-followup-104857600-128-read-repeat2-20261005",
+      "server_exit": 0,
+      "failures_total": 0,
+      "keys_checked": 8
+    },
+    "parentadec3a34-stream-singleton-followup-104857600-128-read-repeat3-20261005": {
+      "source_commit": "adec3a3414adf7b18dc304d336253258e228cb02",
+      "sha256": "62891463498c88ff2137a1a28baea251d9c55fe503fbbe581da47f2ff1ba463f",
+      "seed_tag": "seed-parentadec3a34-stream-singleton-followup-104857600-128-read-repeat3-20261005",
+      "server_exit": 0,
+      "failures_total": 0,
+      "keys_checked": 8
+    },
+    "singleton85bc7ad0-stream-singleton-followup-104857600-128-read-repeat3-20261005": {
+      "source_commit": "85bc7ad0d7932b27dd6784c023fcbfdbd2dd8b08",
+      "sha256": "6eb18de518698b5f7cd50baa7fdbc0b834001c1b2aae1af3c1272e16de1852af",
+      "seed_tag": "seed-parentadec3a34-stream-singleton-followup-104857600-128-read-repeat3-20261005",
+      "server_exit": 0,
+      "failures_total": 0,
+      "keys_checked": 8
+    }
+  },
+  "summary": [
+    {
+      "logical_bytes": 104857600,
+      "field_bytes": 128,
+      "keys": 8,
+      "operation": "XRANGE",
+      "connections": 2560,
+      "pairs": [
+        {
+          "round": 1,
+          "parent": {
+            "tag": "parentadec3a34-stream-singleton-followup-104857600-128-read-repeat1-20261005",
+            "qps": 136094.63,
+            "p99_ms": 75.775,
+            "requests": 4098763
+          },
+          "singleton": {
+            "tag": "singleton85bc7ad0-stream-singleton-followup-104857600-128-read-repeat1-20261005",
+            "qps": 135137.56,
+            "p99_ms": 75.775,
+            "requests": 4070324
+          },
+          "qps_change_percent": -0.70323862153856,
+          "p99_change_percent": 0.0
+        },
+        {
+          "round": 2,
+          "parent": {
+            "tag": "parentadec3a34-stream-singleton-followup-104857600-128-read-repeat2-20261005",
+            "qps": 137028.89,
+            "p99_ms": 76.287,
+            "requests": 4127158
+          },
+          "singleton": {
+            "tag": "singleton85bc7ad0-stream-singleton-followup-104857600-128-read-repeat2-20261005",
+            "qps": 137759.51,
+            "p99_ms": 74.239,
+            "requests": 4146947
+          },
+          "qps_change_percent": 0.5331868338129153,
+          "p99_change_percent": -2.684598948706862
+        },
+        {
+          "round": 3,
+          "parent": {
+            "tag": "parentadec3a34-stream-singleton-followup-104857600-128-read-repeat3-20261005",
+            "qps": 137496.41,
+            "p99_ms": 75.263,
+            "requests": 4140787
+          },
+          "singleton": {
+            "tag": "singleton85bc7ad0-stream-singleton-followup-104857600-128-read-repeat3-20261005",
+            "qps": 136960.51,
+            "p99_ms": 74.751,
+            "requests": 4124335
+          },
+          "qps_change_percent": -0.389755630710642,
+          "p99_change_percent": -0.6802811474429626
+        }
+      ],
+      "qps_paired_percent": {
+        "median": -0.389755630710642,
+        "min": -0.70323862153856,
+        "max": 0.5331868338129153,
+        "positive_pairs": 1,
+        "negative_pairs": 2
+      },
+      "p99_paired_percent": {
+        "median": -0.6802811474429626,
+        "min": -2.684598948706862,
+        "max": 0.0,
+        "positive_pairs": 0,
+        "negative_pairs": 2
+      },
+      "parent_median_qps": 137028.89,
+      "parent_median_p99_ms": 75.775,
+      "singleton_median_qps": 136960.51,
+      "singleton_median_p99_ms": 74.751
+    },
+    {
+      "logical_bytes": 104857600,
+      "field_bytes": 128,
+      "keys": 8,
+      "operation": "XRANGE_FULL",
+      "connections": 1,
+      "pairs": [
+        {
+          "round": 1,
+          "parent": {
+            "tag": "parentadec3a34-stream-singleton-followup-104857600-128-read-repeat1-20261005",
+            "qps": 0.5,
+            "p99_ms": 2072.575,
+            "requests": 15
+          },
+          "singleton": {
+            "tag": "singleton85bc7ad0-stream-singleton-followup-104857600-128-read-repeat1-20261005",
+            "qps": 0.51,
+            "p99_ms": 2047.999,
+            "requests": 16
+          },
+          "qps_change_percent": 2.0000000000000018,
+          "p99_change_percent": -1.1857713231125389
+        },
+        {
+          "round": 2,
+          "parent": {
+            "tag": "parentadec3a34-stream-singleton-followup-104857600-128-read-repeat2-20261005",
+            "qps": 0.5,
+            "p99_ms": 2211.839,
+            "requests": 16
+          },
+          "singleton": {
+            "tag": "singleton85bc7ad0-stream-singleton-followup-104857600-128-read-repeat2-20261005",
+            "qps": 0.51,
+            "p99_ms": 2015.231,
+            "requests": 16
+          },
+          "qps_change_percent": 2.0000000000000018,
+          "p99_change_percent": -8.888892907666424
+        },
+        {
+          "round": 3,
+          "parent": {
+            "tag": "parentadec3a34-stream-singleton-followup-104857600-128-read-repeat3-20261005",
+            "qps": 0.51,
+            "p99_ms": 2056.191,
+            "requests": 16
+          },
+          "singleton": {
+            "tag": "singleton85bc7ad0-stream-singleton-followup-104857600-128-read-repeat3-20261005",
+            "qps": 0.51,
+            "p99_ms": 2039.807,
+            "requests": 16
+          },
+          "qps_change_percent": 0.0,
+          "p99_change_percent": -0.7968131365228115
+        }
+      ],
+      "qps_paired_percent": {
+        "median": 2.0000000000000018,
+        "min": 0.0,
+        "max": 2.0000000000000018,
+        "positive_pairs": 2,
+        "negative_pairs": 0
+      },
+      "p99_paired_percent": {
+        "median": -1.1857713231125389,
+        "min": -8.888892907666424,
+        "max": -0.7968131365228115,
+        "positive_pairs": 0,
+        "negative_pairs": 3
+      },
+      "parent_median_qps": 0.5,
+      "parent_median_p99_ms": 2072.575,
+      "singleton_median_qps": 0.51,
+      "singleton_median_p99_ms": 2039.807
+    },
+    {
+      "logical_bytes": 104857600,
+      "field_bytes": 128,
+      "keys": 8,
+      "operation": "XRANGE_FULL",
+      "connections": 4,
+      "pairs": [
+        {
+          "round": 1,
+          "parent": {
+            "tag": "parentadec3a34-stream-singleton-followup-104857600-128-read-repeat1-20261005",
+            "qps": 1.89,
+            "p99_ms": 2244.607,
+            "requests": 60
+          },
+          "singleton": {
+            "tag": "singleton85bc7ad0-stream-singleton-followup-104857600-128-read-repeat1-20261005",
+            "qps": 1.96,
+            "p99_ms": 2326.527,
+            "requests": 59
+          },
+          "qps_change_percent": 3.703703703703698,
+          "p99_change_percent": 3.6496366624536147
+        },
+        {
+          "round": 2,
+          "parent": {
+            "tag": "parentadec3a34-stream-singleton-followup-104857600-128-read-repeat2-20261005",
+            "qps": 1.97,
+            "p99_ms": 2293.759,
+            "requests": 60
+          },
+          "singleton": {
+            "tag": "singleton85bc7ad0-stream-singleton-followup-104857600-128-read-repeat2-20261005",
+            "qps": 1.89,
+            "p99_ms": 2293.759,
+            "requests": 60
+          },
+          "qps_change_percent": -4.060913705583758,
+          "p99_change_percent": 0.0
+        },
+        {
+          "round": 3,
+          "parent": {
+            "tag": "parentadec3a34-stream-singleton-followup-104857600-128-read-repeat3-20261005",
+            "qps": 2.0,
+            "p99_ms": 2310.143,
+            "requests": 60
+          },
+          "singleton": {
+            "tag": "singleton85bc7ad0-stream-singleton-followup-104857600-128-read-repeat3-20261005",
+            "qps": 1.99,
+            "p99_ms": 2326.527,
+            "requests": 60
+          },
+          "qps_change_percent": -0.5000000000000004,
+          "p99_change_percent": 0.7092201651585972
+        }
+      ],
+      "qps_paired_percent": {
+        "median": -0.5000000000000004,
+        "min": -4.060913705583758,
+        "max": 3.703703703703698,
+        "positive_pairs": 1,
+        "negative_pairs": 2
+      },
+      "p99_paired_percent": {
+        "median": 0.7092201651585972,
+        "min": 0.0,
+        "max": 3.6496366624536147,
+        "positive_pairs": 2,
+        "negative_pairs": 0
+      },
+      "parent_median_qps": 1.97,
+      "parent_median_p99_ms": 2293.759,
+      "singleton_median_qps": 1.96,
+      "singleton_median_p99_ms": 2326.527
+    },
+    {
+      "logical_bytes": 104857600,
+      "field_bytes": 128,
+      "keys": 8,
+      "operation": "XRANGE_FULL",
+      "connections": 16,
+      "pairs": [
+        {
+          "round": 1,
+          "parent": {
+            "tag": "parentadec3a34-stream-singleton-followup-104857600-128-read-repeat1-20261005",
+            "qps": 7.04,
+            "p99_ms": 2539.519,
+            "requests": 213
+          },
+          "singleton": {
+            "tag": "singleton85bc7ad0-stream-singleton-followup-104857600-128-read-repeat1-20261005",
+            "qps": 6.9,
+            "p99_ms": 2949.119,
+            "requests": 217
+          },
+          "qps_change_percent": -1.9886363636363535,
+          "p99_change_percent": 16.129038609279966
+        },
+        {
+          "round": 2,
+          "parent": {
+            "tag": "parentadec3a34-stream-singleton-followup-104857600-128-read-repeat2-20261005",
+            "qps": 7.02,
+            "p99_ms": 2490.367,
+            "requests": 220
+          },
+          "singleton": {
+            "tag": "singleton85bc7ad0-stream-singleton-followup-104857600-128-read-repeat2-20261005",
+            "qps": 7.14,
+            "p99_ms": 2539.519,
+            "requests": 216
+          },
+          "qps_change_percent": 1.7094017094017033,
+          "p99_change_percent": 1.973685003053749
+        },
+        {
+          "round": 3,
+          "parent": {
+            "tag": "parentadec3a34-stream-singleton-followup-104857600-128-read-repeat3-20261005",
+            "qps": 7.16,
+            "p99_ms": 2588.671,
+            "requests": 218
+          },
+          "singleton": {
+            "tag": "singleton85bc7ad0-stream-singleton-followup-104857600-128-read-repeat3-20261005",
+            "qps": 6.77,
+            "p99_ms": 2555.903,
+            "requests": 217
+          },
+          "qps_change_percent": -5.44692737430168,
+          "p99_change_percent": -1.2658232737957076
+        }
+      ],
+      "qps_paired_percent": {
+        "median": -1.9886363636363535,
+        "min": -5.44692737430168,
+        "max": 1.7094017094017033,
+        "positive_pairs": 1,
+        "negative_pairs": 2
+      },
+      "p99_paired_percent": {
+        "median": 1.973685003053749,
+        "min": -1.2658232737957076,
+        "max": 16.129038609279966,
+        "positive_pairs": 2,
+        "negative_pairs": 1
+      },
+      "parent_median_qps": 7.04,
+      "parent_median_p99_ms": 2539.519,
+      "singleton_median_qps": 6.9,
+      "singleton_median_p99_ms": 2555.903
+    }
+  ]
+}
