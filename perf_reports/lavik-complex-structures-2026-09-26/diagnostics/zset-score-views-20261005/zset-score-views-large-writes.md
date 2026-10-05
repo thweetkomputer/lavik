@@ -29,3 +29,7 @@
 三库未重跑，Redis/Valkey persistence OFF、Kvrocks WAL OFF 与 80 GiB cache 不等价于 Lavik durable SPDK、无 payload cache。该表只提供历史差距，不代表同期公平性或整体追平。
 
 连同[大对象读取 24 点](zset-score-views-large-reads.md)，已有 48/96 点完成。小对象控制及独立 perf 尚未完成；读取增益伴随尾延迟风险，#280 仍保持 Draft。所有数据归属冻结提交，不作为新 head `a5c825e9` 的验证。
+
+## 命令计数核验
+
+[24 点 INFO 审计](zset-score-views-large-writes-command-audit.json)逐点确认 workload 命令 calls 增量等于压测 requests，所有命令 failed/rejected 增量为零，计数窗口除预期业务命令外只有 INFO；没有混入另一种 ZSet 负载或预置写入。前后 INFO 与输入快照的 SHA 均保留。[审计脚本](audit-zset-score-commands.py)不将该检查解释为性能因果或存储 IO 归因。

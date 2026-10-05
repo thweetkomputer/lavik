@@ -29,3 +29,7 @@
 | 5120 | 205,232.20 | 692,906.77 | 551,247.48 | 534,859.09 | 29.62% |
 
 这些历史差距仍然明显，不能将约 14%～20% 的增量收益当作整体追平。Redis/Valkey 未开启持久化，Kvrocks 关闭 WAL 并使用 80 GiB block cache；Lavik 为 durable SPDK、无 payload cache。三库未重跑，本表不是同期、同持久化条件的性能对照。
+
+## 命令计数核验
+
+[24 点 INFO 审计](zset-score-views-large-reads-command-audit.json)逐点确认 workload 命令 calls 增量等于压测 requests，所有命令 failed/rejected 增量为零，计数窗口除预期业务命令外只有 INFO；没有混入另一种 ZSet 负载或预置写入。前后 INFO 与输入快照的 SHA 均保留。[审计脚本](audit-zset-score-commands.py)不将该检查解释为性能因果或存储 IO 归因。

@@ -14,6 +14,8 @@
 
 [24 点 ZSCORE 三轮对照](zset-score-views-large-reads.md)：c80/320/2560/5120 的配对 QPS 中位数分别 **+16.27% / +19.82% / +17.08% / +14.45%**，每档三轮均提升。前三档 p99 三轮均改善；c5120 p99 两轮变差，中位 **+2.40%**。[大对象写入 24 点](zset-score-views-large-writes.md)也已完成：c80/320/2560/5120 的配对 QPS 中位 **−1.10%/+0.24%/−0.76%/−1.62%**，各档方向混合；c2560 p99 中位 **+6.67%**。小对象对照、独立 perf 尚未完成，PR 保持草稿。该部分不是整体性能或追平对手的结论。
 
+已完成的 48 个大对象点也通过 INFO 命令计数核验：[读取 24 点](zset-score-views-large-reads-command-audit.json) · [写入 24 点](zset-score-views-large-writes-command-audit.json)。每点实际业务调用数等于 requests，失败/拒绝增量为零，除 INFO 外没有其他命令混入测量窗口。这不证明性能变化的因果。
+
 ## 原生验证结果与后续测量
 
 [原生验证摘要](zset-score-views-native-summary.json) · [二进制、依赖及完整测试清单](zset-score-views-versions.json) · [验证驱动日志](zset-score-views-native-driver.log)
