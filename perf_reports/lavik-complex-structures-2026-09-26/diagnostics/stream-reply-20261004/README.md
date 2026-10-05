@@ -136,3 +136,5 @@ candidate 附加线程中没有样本的 TID：579464；附加命令和记录日
 父版本 `adec3a34` 的原生生产二进制已完成 Stream/迁移验证：初次 25 例中 22 通过、2 个 fault-only 跳过、1 个大型 RDB 导入因根分区空间不足失败。保持同一二进制和测试驱动，只把测试数据目录移到 `/mnt/dev`，单独重跑该失败用例后通过；原始失败日志保留，未改代码或超时。随后 5 个阻塞/恢复用例和 Pub/Sub 驱动也通过。[完整证据](stream-followup-parent-native-validation.json)。这不是该提交的性能测量，完整 fault-enabled CI 仍待完成。
 
 窗口版本 `ac62975f` 正在原生编译验证，小回复版本 `85bc7ad0` 排在其后。[后续对照脚本](repeat-stream-followups-after-validation.py) 要求三个精确提交均完成原生验证和完整 CI，并等待已排队的 ZSet 对照、perf 及 extent 故障复现结束。随后串行运行 90 个观测：三轮平衡版本顺序；读取共用每轮新建的同一份父版本数据，写入每个版本独立新建数据；同时保留全量、单条读取、写入和 p99。两个优化独立对照父版本，尚无收益结论。
+
+[独立 perf 调度](profile-stream-followups-after-repeats.py) 在上述 90 个无错误观测完成之后，再分别采集三个版本的 100 MiB / 128 B 全量读取（c1）和单条读取（c2560）。每组独立新建数据；30 秒计数窗口、25 秒逐 worker 的 99 Hz task-clock/DWARF 采样。保留所有附加线程，包括零样本辅助线程；CPU 占比包含轮询和后台工作，不把采样 QPS 混入吞吐对照，也不将错开的窗口换算为 CPU/命令。[采样驱动](profile-stream-followup-allworkers.py)。
