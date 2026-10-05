@@ -1,16 +1,12 @@
 # Complex structures: Redis, Valkey, Kvrocks and Lavik
 
-All 36 large-Set observations are complete: median paired SADD/SREM QPS changes at c80/c320/c5120 are **−6.95%/−6.55%/−10.62%**, with two losses in each three-pair group. At c320/c5120, p99 improves in every pair. #276 still has no demonstrated general throughput win; [all results and tradeoffs](diagnostics/hash-route-replace-20261005/hash-route-set-large.md) are published. Smaller-Set controls and independent perf remain pending.
+All [144 Hash/Set route-replacement observations](diagnostics/hash-route-replace-20261005/hash-route-complete.md) are complete. Large-Hash HSET c5120 gains +7.81% QPS, but smaller-Hash HSET and both Set write scopes have negative paired medians. #276 remains draft; all QPS/p99 tradeoffs and historical peer gaps are retained. Independent perf remains pending.
 
 [简体中文](README.zh-CN.md)
 
 [ZINCRBY worker-distribution analysis](diagnostics/zset-worker-distribution-20261005/README.md): the fixed eight keys map to four data owners with 12 workers. Existing perf thread distribution is documented; fixed-binary 8/12-worker controls are queued, with no tuning gain claimed.
 
-All 72 Hash controls are complete: smaller-Hash HSET median paired QPS falls 0.91%–2.86% and p99 worsens. Large-Hash c5120 gains do not generalize; #276 remains draft. [All pairs and regressions](diagnostics/hash-route-replace-20261005/hash-route-hash-small.md).
-
 [Borrowed member-page score reads](diagnostics/zset-score-views-20261005/README.md): avoids owning every field/value while retaining full validation. All 17 jobs pass in both fork and upstream CI; [PR #280](https://github.com/eloqdata/lavik/pull/280) remains draft; 96 paired observations and independent ZSCORE perf are queued, with no measured gain yet.
-
-Hash route replacement completed three paired runs at 100 MiB per key / 500 keys: HSET c5120 median paired QPS +7.81%, p99 −8.19%; lower-concurrency gains are mixed and HGET regressions remain. [Full results](diagnostics/hash-route-replace-20261005/hash-route-large.md).
 
 Long-key diagnosis updated: main also hit the original 60-second GET timeout on an unsampled copy of the retained image. Earlier perf captures show CRC, copy and comparison hotspots; the root-reuse candidate still awaits independent replay. [Evidence and limitations](diagnostics/list-reply-reserve-20261004/README.md).
 

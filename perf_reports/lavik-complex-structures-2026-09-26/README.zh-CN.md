@@ -1,16 +1,12 @@
 # 复杂数据结构性能：Redis、Valkey、Kvrocks 与 Lavik
 
-大 Set 的 36 点三轮对照已完成：SADD/SREM QPS 配对中位在 c80/c320/c5120 下降 **6.95%/6.55%/10.62%**；c320/c5120 的 p99 三轮改善。#276 仍不具备通用吞吐收益，[完整结果及取舍](diagnostics/hash-route-replace-20261005/hash-route-set-large.md)已公开；小 Set 与独立 perf 继续验证。
+Hash/Set 单路由替换的[全部 144 点对照](diagnostics/hash-route-replace-20261005/hash-route-complete.md)已完成。大 Hash HSET c5120 的 QPS +7.81% 未推广到其他范围：小 Hash HSET 与两种 Set 写入中位均回退，#276 保持草稿。完整 QPS/p99、反向结果和历史 peer 差距均已公开；独立 perf 继续验证。
 
 [English](README.md)
 
 [ZINCRBY worker 分布分析](diagnostics/zset-worker-distribution-20261005/README.md)：现有 8 个 key 在 12 workers 下仅落到 4 个数据 owner；已核对 perf 线程分布，固定二进制的 8/12-worker 配置对照已排队，尚无调参收益结论。
 
-Hash 对照已完成全部 72 点：较小 Hash 的 HSET QPS 中位下降 0.91%–2.86%，p99 中位变差；大 Hash c5120 的收益未普遍复现，#276 保持草稿。[全部回退与逐轮结果](diagnostics/hash-route-replace-20261005/hash-route-hash-small.md)。
-
 [ZSCORE/ZMSCORE 成员页借用视图](diagnostics/zset-score-views-20261005/README.md)：去掉整页字段/值复制，保留完整校验；fork 与上游 CI 各 17 项通过，[PR #280](https://github.com/eloqdata/lavik/pull/280) 保持草稿；96 点配对及独立读 perf 已排队，尚无性能结论。
-
-Hash 单路由替换完成 100 MiB、500 keys 的三轮对照：HSET c5120 QPS 配对中位 +7.81%，p99 −8.19%；低连接收益混合，HGET 仍有回退。[完整结果](diagnostics/hash-route-replace-20261005/hash-route-large.md)。
 
 长 key 诊断已更新：main 在同镜像无采样重放也触发 60 秒 GET 超时；旧版本 perf 显示 CRC、复制和比较热点，根记录复用候选仍待独立重放。[证据与限制](diagnostics/list-reply-reserve-20261004/README.md)。
 
