@@ -7,17 +7,29 @@ published baseline/member-leaf figures below remain measurements of `a565d603`
 and `a1b24b60`, not of that updated head.
 
 PR #273's planner-fixture repair `92906489` [passes full CI](pr273-92906489-full-ci.json).
-The [100 MiB / 1024 B / 8-key comparison](zset-source-reuse-large.md) now contains
-all 48 observations from three independent AB/BA/AB pairs. ZINCRBY median paired
-QPS changes at 80/320/2560/5120 connections are +2.08%/+1.46%/+1.46%/−0.36%;
-high-concurrency write p99 improves, but ZSCORE c5120 p99 has a +14.81% median
-regression (worse in two of three pairs). Small-object controls and separate
-perf remain pending, so the PR stays a draft. Candidate ZINCRBY reaches only
-5.91–8.71% of the matching fastest historical peer; settings and sampling differ.
+Its [96-observation comparison](zset-source-reuse-complete-summary.json) is complete:
+[100 MiB / 1024 B / 8 keys](zset-source-reuse-large.md) and
+[64 KiB / 128 B / 64 keys](zset-source-reuse-small.md), each with three independent
+AB/BA/AB pairs. Large-object ZINCRBY median paired QPS changes at
+80/320/2560/5120 connections are +2.08%/+1.46%/+1.46%/−0.36%; small-object
+changes are +2.79%/+1.04%/+2.19%/+2.88%. High-load write p99 improves, but the
+large c5120 read-control p99 has a +14.81% median regression. Small read QPS at
+c80/c320 has −3.00%/−2.22% median changes and p99 +4.46%/+8.21%, worse in two
+of three pairs. All observations passed raw-data, cardinality, provenance and
+server-exit checks. The PR stays a draft while separate perf and read-control
+cause investigation remain outstanding.
+
+The candidate reaches only 5.91–8.71% (large) and 9.07–16.06% (small) of the
+matching fastest historical peer's ZINCRBY throughput. Settings and sampling
+differ, and the peers were not rerun. Independent fresh populations may have
+different member-page layouts; the per-instance read grid precedes its writes.
+Three pairs do not identify the cause of a regression or provide confidence intervals.
 
 These measurements use the frozen production binary built at `d012a301`;
 `92906489` changes only the test fixture and is recorded separately as test
-validation. Historical pending-status paragraphs below describe earlier stages.
+validation. [All observations](zset-source-reuse-repeats.json) and the linked
+scope reports retain every result, including regressions. Historical pending-status
+paragraphs below describe earlier stages.
 
 [PR #266](https://github.com/eloqdata/lavik/pull/266).
 
