@@ -1,6 +1,6 @@
 # 现有 PR 收敛状态
 
-核验时间：2026-10-05T14:51:48.716126+00:00。暂停寻找新优化，仅处理已有 PR、失败诊断及已排队验证。
+核验时间：2026-10-05T15:26:52.760422+00:00。暂停寻找新优化，仅处理已有 PR、失败诊断及已排队验证。
 
 #266/#267/#270/#280 已在远端合并；本轮没有执行自动合并。#275 已直接 rebase 到包含 #266/#270/#280 的 main `838a290f`，不再以 #270 分支为基底；#267 随后合并，当前 #275/#282 均无合并冲突。历史测量仍固定原始提交。
 
@@ -11,7 +11,7 @@
 | [#270](https://github.com/eloqdata/lavik/pull/270) | `631e6104` | main | [17/17 通过](https://github.com/eloqdata/lavik/actions/runs/37308667273) | 已合并（`2765fea5`）。当前 CI 全绿、无冲突和未解决评审线程；完整配对支持全量读取收益，点读及小写尾延迟权衡保留。 |
 | [#271](https://github.com/eloqdata/lavik/pull/271) | `a27637f0` | #266 | [已取消：6 项通过、9 分片取消，2 汇总项因此失败](https://github.com/eloqdata/lavik/actions/runs/37312155267) | 已关闭：完整 72 点有局部读收益，但小对象写 QPS 回退、大对象高并发写 p99 三轮恶化。 |
 | [#272](https://github.com/eloqdata/lavik/pull/272) | `0d36b4a9` | #266 | [17/17 通过](https://github.com/eloqdata/lavik/actions/runs/37308612324) | 已关闭：CI 全绿；完整 72 点有局部读收益，但大对象高并发读 QPS 三轮下降，写收益不稳定。 |
-| [#275](https://github.com/eloqdata/lavik/pull/275) | `0b1fb8bc` | main `838a290f` | [运行中](https://github.com/eloqdata/lavik/actions/runs/37327265108)；旧 `38485460` 为 17/17 | 草稿：大 Stream 全量读取 +128%–327%；小对象写及尾延迟回退，原 RDB 超时未解释。 |
+| [#275](https://github.com/eloqdata/lavik/pull/275) | `dbd72cb1` | main `838a290f` | [运行中](https://github.com/eloqdata/lavik/actions/runs/37332687744)；[前版 bootstrap 失败及测试修复](pr275-bootstrap-ci-failure.md) | 草稿：大 Stream 全量读取 +128%–327%；小对象写及尾延迟回退，原 RDB 超时未解释。 |
 | [#280](https://github.com/eloqdata/lavik/pull/280) | `253ab6a9` | main | [17/17 通过](https://github.com/eloqdata/lavik/actions/runs/37312803218) | 已合并（`838a290f`）。当前 CI 全绿、无冲突与未解决评审线程；96 点及独立 perf 完成，读取有重复收益。历史 RESTORE 超时仍单独保留。 |
 | [#282](https://github.com/eloqdata/lavik/pull/282) | `2c94e9da` | main | [17/17 通过](https://github.com/eloqdata/lavik/actions/runs/37297697141) | 草稿：长 key 候选回放通过；普通短 key 原生回归及 72 点对照待完成，尚无配对 QPS 结论。 |
 
@@ -30,3 +30,5 @@ CI 与原生性能实验是不同证据：上表只使用与当前远端 head �
 [#280 当前 head 完整 CI](pr280-rebased-full-ci.json) · [#280 转为非 draft 的检查与操作记录](pr280-ready-for-review.json)。原 RESTORE 失败记录仍保留；通过当前 CI 不等于已证明原超时根因。上述四个非 draft PR 随后已合并。#275 新 head 的 CI 正在运行，#282 对应 head 为 17/17 通过；两者仍因各自剩余验证或性能问题保持草稿。
 
 [#275 合并父分支后的 rebase 核验](pr275-after270-rebase-verification.json)：四个补丁的 range-diff 均相同，四个受影响文件字节完全一致；格式与 diff 检查通过。新 CI 验证合并后的组合，旧 head 的 CI 和历史性能不转记为新 head。
+
+#275 的 rebase head `0b1fb8bc` CI 已因 bootstrap 测试收到提交前 busy 拒绝而失败；测试修复版为 `dbd72cb1`，新 CI 待完成，详见上表。不是 Stream 生产实现修改，也未解释历史 RDB 超时。
