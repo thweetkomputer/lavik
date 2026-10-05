@@ -1,0 +1,58 @@
+Note: Google Test filter = GroupedSortedSetWriteE2e.PointWritesReuseMemberLeafAndKeepBatchFailureAtomic
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from GroupedSortedSetWriteE2e
+[ RUN      ] GroupedSortedSetWriteE2e.PointWritesReuseMemberLeafAndKeepBatchFailureAtomic
+/mnt/dev/lavik-complex-next-20261004/tests/grouped/zset_write_e2e_test.cpp:165: Failure
+Expected equality of these values:
+  failed.kind_
+    Which is: '$' (36, 0x24)
+  '-'
+    Which is: '-' (45, 0x2D)
+
+/mnt/dev/lavik-complex-next-20261004/tests/grouped/zset_write_e2e_test.cpp:166: Failure
+Expected: (failed.text_.find("plan page read failure")) != (std::string::npos), actual: 18446744073709551615 vs 18446744073709551615
+
+/mnt/dev/lavik-complex-next-20261004/tests/grouped/zset_write_e2e_test.cpp:168: Failure
+Expected equality of these values:
+  client.Command({"ZSCORE", key, member(1)}).text_
+    Which is: "10001.5"
+  "1.5"
+
+/mnt/dev/lavik-complex-next-20261004/tests/grouped/zset_write_e2e_test.cpp:166: Failure
+Expected: (failed.text_.find("plan page read failure")) != (std::string::npos), actual: 18446744073709551615 vs 18446744073709551615
+
+/mnt/dev/lavik-complex-next-20261004/tests/grouped/zset_write_e2e_test.cpp:168: Failure
+Expected equality of these values:
+  client.Command({"ZSCORE", key, member(1)}).text_
+    Which is: "10001.5"
+  "1.5"
+
+/mnt/dev/lavik-complex-next-20261004/tests/grouped/zset_write_e2e_test.cpp:178: Failure
+Expected equality of these values:
+  executed.items_[0].text_
+    Which is: "10001.25"
+  "1.25"
+
+/mnt/dev/lavik-complex-next-20261004/tests/grouped/zset_write_e2e_test.cpp:179: Failure
+Expected equality of these values:
+  executed.items_[1].text_
+    Which is: "10001"
+  "1"
+
+/mnt/dev/lavik-complex-next-20261004/tests/grouped/zset_write_e2e_test.cpp:210: Failure
+Expected equality of these values:
+  client.Command({"ZSCORE", key, member(1)}).text_
+    Which is: "10001"
+  "1"
+
+[  FAILED  ] GroupedSortedSetWriteE2e.PointWritesReuseMemberLeafAndKeepBatchFailureAtomic (710 ms)
+[----------] 1 test from GroupedSortedSetWriteE2e (710 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (710 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] GroupedSortedSetWriteE2e.PointWritesReuseMemberLeafAndKeepBatchFailureAtomic
+
+ 1 FAILED TEST
