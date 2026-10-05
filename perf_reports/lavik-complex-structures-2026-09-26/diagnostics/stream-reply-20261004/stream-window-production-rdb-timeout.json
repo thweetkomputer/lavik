@@ -12,5 +12,10 @@
   "failure": "XREADGROUP: response timed out: Resource temporarily unavailable (errno=11)",
   "limitations": "The fixture has XREADGROUP before export and after import, but the original exception names only the command and cleanup removed logs/images. Cannot identify the phase or root cause from this output. Fault-enabled same-source selected26cases passed previously; neither proves the cause of this production timeout.",
   "next": "Diagnostic-only test commit763d9076 retains images/log/RDB on failure and adds before-export/after-import context; source patch included. Independent private-file parentadec vs candidate5b, two alternating pairs, fixed production binaries, original15s socket and180s import/export limits, stopfirstfailure. Allpass will not explain originaltimeout.",
-  "status": "All Stream performance waiters exited before measurements. Corrected production validation incomplete; no QPS claim."
+  "status": "All Stream performance waiters exited before measurements. Corrected production validation incomplete; no QPS claim.",
+  "reproduction_followup": {
+    "result": "All four isolated runs passed: parent/window, window/parent with same frozen binaries and diagnostic-only driver.",
+    "proof": "stream-rdb-timeout-reproductions.json",
+    "limitation": "Original production-suite timeout remains unexplained; no code or timeout change was made. Passing isolated cases does not establish absence of the original issue. Window performance remains pending."
+  }
 }

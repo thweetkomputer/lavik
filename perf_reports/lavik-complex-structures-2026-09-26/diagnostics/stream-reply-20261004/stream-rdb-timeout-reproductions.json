@@ -1,0 +1,195 @@
+{
+  "versions": {
+    "parent": {
+      "commit": "adec3a3414adf7b18dc304d336253258e228cb02",
+      "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-stream-followup-parent-adec3a34-20261005",
+      "sha256": "62891463498c88ff2137a1a28baea251d9c55fe503fbbe581da47f2ff1ba463f",
+      "source_repo": "/mnt/dev/lavik-complex-next-20261004",
+      "bycorf_commit": "62509c93d40c2480f5046b71454db6cf95801b04",
+      "build": "RelWithDebInfo, native, LTO, GCC 13, SPDK, BUILD_TESTING=OFF, LAVIK_ENABLE_TEST_FAULTS=OFF",
+      "build_directory": "/mnt/dev/lavik-complex-next-20261004/build-spdk",
+      "no_build_or_tests_during_measurements": true,
+      "pr": 270,
+      "ci_required_before_performance": true,
+      "initial_environment_failure": "/mnt/dev/lavik-complex-iterations-20261004/stream-followup-parent-stream-transfer-tests.json",
+      "failed_case_retry": "/mnt/dev/lavik-complex-iterations-20261004/stream-followup-parent-large-rdb-retry.json"
+    },
+    "window": {
+      "commit": "5b9ebdedecc0cc7a3fea93fb73b1fbbb6b7186c6",
+      "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-stream-followup-window-5b9ebded-20261005",
+      "sha256": "3af06ea2dc0e276f03cfb48d9d8c9df0e84979ba8e4275725bcf6456c728d13d",
+      "source_repo": "/mnt/dev/lavik-complex-next-20261004",
+      "bycorf_commit": "62509c93d40c2480f5046b71454db6cf95801b04",
+      "build": "RelWithDebInfo, native, LTO, GCC 13, SPDK, BUILD_TESTING=OFF, LAVIK_ENABLE_TEST_FAULTS=OFF",
+      "build_directory": "/mnt/dev/lavik-complex-next-20261004/build-spdk",
+      "no_build_or_tests_during_measurements": true,
+      "pr": 275,
+      "ci_required_before_performance": true
+    }
+  },
+  "driver_commit": "763d9076c76e5f0985a72c26d62959882043a9f2",
+  "driver_sha256": "c69c0270c122ff573eea04f45cfe0ece8151108f4a7c1d9bb50f9fc4a0084b4f",
+  "method": "Two alternating parent/candidate pairs on independent private files; same immutable production binaries; diagnostic-only test changes identify pre-export vs post-import XREADGROUP and retain images/log/RDB on failure. Original socket15s and import/export180s deadlines unchanged. Stop first failure; all-pass does not explain original timeout.",
+  "rows": [
+    {
+      "version": "parent",
+      "round": 1,
+      "exit": 0,
+      "elapsed_seconds": 94.57586669921875,
+      "result": {
+        "tests": 1,
+        "failures": 0,
+        "disabled": 0,
+        "errors": 0,
+        "timestamp": "2026-10-05T01:56:38Z",
+        "time": "94.571s",
+        "name": "AllTests",
+        "testsuites": [
+          {
+            "name": "GroupedStreamE2e",
+            "tests": 1,
+            "failures": 0,
+            "disabled": 0,
+            "errors": 0,
+            "timestamp": "2026-10-05T01:56:38Z",
+            "time": "94.571s",
+            "testsuite": [
+              {
+                "name": "LargeRdbRoundTripKeepsMessagesAndDeletedPendingBounded",
+                "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/stream_e2e_test.cpp",
+                "line": 753,
+                "status": "RUN",
+                "result": "COMPLETED",
+                "timestamp": "2026-10-05T01:56:38Z",
+                "time": "94.571s",
+                "classname": "GroupedStreamE2e"
+              }
+            ]
+          }
+        ]
+      },
+      "log": "/mnt/dev/lavik-complex-iterations-20261004/stream-rdb-timeout-parent-1.txt",
+      "data_directory": "/mnt/dev/lavik-complex-iterations-20261004/stream-rdb-timeout-parent-1-data"
+    },
+    {
+      "version": "window",
+      "round": 1,
+      "exit": 0,
+      "elapsed_seconds": 88.50089883804321,
+      "result": {
+        "tests": 1,
+        "failures": 0,
+        "disabled": 0,
+        "errors": 0,
+        "timestamp": "2026-10-05T01:58:13Z",
+        "time": "88.496s",
+        "name": "AllTests",
+        "testsuites": [
+          {
+            "name": "GroupedStreamE2e",
+            "tests": 1,
+            "failures": 0,
+            "disabled": 0,
+            "errors": 0,
+            "timestamp": "2026-10-05T01:58:13Z",
+            "time": "88.496s",
+            "testsuite": [
+              {
+                "name": "LargeRdbRoundTripKeepsMessagesAndDeletedPendingBounded",
+                "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/stream_e2e_test.cpp",
+                "line": 753,
+                "status": "RUN",
+                "result": "COMPLETED",
+                "timestamp": "2026-10-05T01:58:13Z",
+                "time": "88.496s",
+                "classname": "GroupedStreamE2e"
+              }
+            ]
+          }
+        ]
+      },
+      "log": "/mnt/dev/lavik-complex-iterations-20261004/stream-rdb-timeout-window-1.txt",
+      "data_directory": "/mnt/dev/lavik-complex-iterations-20261004/stream-rdb-timeout-window-1-data"
+    },
+    {
+      "version": "window",
+      "round": 2,
+      "exit": 0,
+      "elapsed_seconds": 89.49520635604858,
+      "result": {
+        "tests": 1,
+        "failures": 0,
+        "disabled": 0,
+        "errors": 0,
+        "timestamp": "2026-10-05T01:59:42Z",
+        "time": "89.49s",
+        "name": "AllTests",
+        "testsuites": [
+          {
+            "name": "GroupedStreamE2e",
+            "tests": 1,
+            "failures": 0,
+            "disabled": 0,
+            "errors": 0,
+            "timestamp": "2026-10-05T01:59:42Z",
+            "time": "89.49s",
+            "testsuite": [
+              {
+                "name": "LargeRdbRoundTripKeepsMessagesAndDeletedPendingBounded",
+                "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/stream_e2e_test.cpp",
+                "line": 753,
+                "status": "RUN",
+                "result": "COMPLETED",
+                "timestamp": "2026-10-05T01:59:42Z",
+                "time": "89.49s",
+                "classname": "GroupedStreamE2e"
+              }
+            ]
+          }
+        ]
+      },
+      "log": "/mnt/dev/lavik-complex-iterations-20261004/stream-rdb-timeout-window-2.txt",
+      "data_directory": "/mnt/dev/lavik-complex-iterations-20261004/stream-rdb-timeout-window-2-data"
+    },
+    {
+      "version": "parent",
+      "round": 2,
+      "exit": 0,
+      "elapsed_seconds": 88.38906741142273,
+      "result": {
+        "tests": 1,
+        "failures": 0,
+        "disabled": 0,
+        "errors": 0,
+        "timestamp": "2026-10-05T02:01:12Z",
+        "time": "88.384s",
+        "name": "AllTests",
+        "testsuites": [
+          {
+            "name": "GroupedStreamE2e",
+            "tests": 1,
+            "failures": 0,
+            "disabled": 0,
+            "errors": 0,
+            "timestamp": "2026-10-05T02:01:12Z",
+            "time": "88.384s",
+            "testsuite": [
+              {
+                "name": "LargeRdbRoundTripKeepsMessagesAndDeletedPendingBounded",
+                "file": "/mnt/dev/lavik-complex-next-20261004/tests/grouped/stream_e2e_test.cpp",
+                "line": 753,
+                "status": "RUN",
+                "result": "COMPLETED",
+                "timestamp": "2026-10-05T02:01:12Z",
+                "time": "88.384s",
+                "classname": "GroupedStreamE2e"
+              }
+            ]
+          }
+        ]
+      },
+      "log": "/mnt/dev/lavik-complex-iterations-20261004/stream-rdb-timeout-parent-2.txt",
+      "data_directory": "/mnt/dev/lavik-complex-iterations-20261004/stream-rdb-timeout-parent-2-data"
+    }
+  ]
+}
