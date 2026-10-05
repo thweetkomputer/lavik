@@ -53,6 +53,23 @@
 
 独立 perf 已开始，用于理解热点及退化；采样吞吐不混入上述干净结果。原始测量及候选分支保留。三组配对范围不是置信区间；p99 负变化代表改善，单个分位数改善也不能抵消未达到预期的点读吞吐。此前 #270 的历史收益仍归属于原固定二进制，不受本候选撤回影响。
 
+## #274 独立 perf 已完成
+
+四组都独立新建 8 个 100 MiB / 128 B Stream，分别采集父版本 `adec3a34` 和小回复版本 `85bc7ad0` 的全量 XRANGE c1、点查 XRANGE c2560。30 秒命令与计数窗口，25 秒、99 Hz 的逐线程 task-clock/DWARF；全部数据基数、固定二进制来源、退出码和命令错误检查通过。此前 60 点干净对照的结论不变，#274 已关闭。
+
+[完整采样来源](stream-singleton-followup-profiles.json) · [汇总脚本](summarize-stream-followup-self.py) · [父版本全量](stream-singleton-parent-full-self-summary.json) · [候选全量](stream-singleton-singleton-full-self-summary.json) · [父版本点查](stream-singleton-parent-point-self-summary.json) · [候选点查](stream-singleton-singleton-point-self-summary.json)。每份摘要保留逐线程事件权重、输入符号百分比及漏失样本数，便于复算；原始 perf 和线程栈保留本地。
+
+| 采样 | RunOnce self | PollStorage self | memmove self | StreamRecordKey self | 存储读取数 / XRANGE | 已报告 CPU 覆盖率 |
+|---|---:|---:|---:|---:|---:|---:|
+| parent-full | 49.94% | 18.94% | 1.14% | 1.11% | 19399.47 | 99.41% |
+| singleton-full | 50.00% | 19.44% | 0.80% | 0.80% | 19289.60 | 100.00% |
+| parent-point | 17.86% | 0.75% | 0.59% | 1.71% | 0.84 | 88.55% |
+| singleton-point | 17.42% | 0.53% | 0.64% | 1.70% | 0.87 | 88.14% |
+
+CPU 比例按线程 task-clock 事件数加权，含轮询、后台与内核工作，不是延迟占比或每命令 CPU。原 self 报告只输出单线程占比至少 0.1% 的符号并保留两位小数；点查的分散小热点会被截断，因此同时报告覆盖率，不把剩余比例重新归一化。略超过 100% 的覆盖率来自输入舍入。所有记录的 lost samples 为零，零样本辅助线程仍保留；这不等价于证明所有调用链完整。
+
+全量读取中 memmove 的采样占比下降，但干净对照未显示稳定吞吐收益；每个命令仍均摊约 1.9 万次存储读取。计数来自整个服务端窗口，含后台与边界重叠命令；不同新建数据的物理布局可能不同，不能把两个窗口的 I/O 差异归因于回复优化。高轮询占比也不等同于等待磁盘的时间。点查中的 key 解析热点提示重复校验值得检查，已准备[页内校验复用原型](../stream-key-validation-20261005/README.md)，尚无其性能结论。
+
 ## 正确性与出处
 
 [原生生产二进制测试证明](../stream-range-main-20261004/stream-reply-local-tests-passed.json) · [Stream 测试及跳过项](../stream-range-main-20261004/stream-reply-perf-stream-tests.json) · [阻塞/恢复测试](../stream-range-main-20261004/stream-reply-list-tests.json) · [pubsub/RESP3 测试](../stream-range-main-20261004/stream-reply-pubsub-tests.txt) · [两种架构完整 CI](../stream-range-main-20261004/pr270-1e-ci.json) · [二进制与源码](stream-reply-versions.json)。原生测试使用后续测量的同一不可变二进制，测试故障开关关闭；14 项 Stream 测试通过（含大 RDB 往返），仅 1 项故障专用测试跳过；完整故障覆盖来自 CI。
