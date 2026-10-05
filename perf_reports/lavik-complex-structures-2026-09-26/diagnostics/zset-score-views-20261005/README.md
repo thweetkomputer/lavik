@@ -6,7 +6,7 @@
 
 现有 HGET/HMGET 视图扫描器只检查请求字段的重复，不能直接替代原 ZSCORE 全页校验；因此复用 HashValueReader 并增加完整校验 visitor。原 Hash 编辑中的临时字段 key/hash 类型移至同文件共享，避免复制该类型实现。测试扩展已有 codec corruption/binary/empty fixture，覆盖命中后的无关重复字段、错误路由和 visitor 错误；现有 ZSet fixture 增加反序 256 成员跨页 ZMSCORE 检查，没有新增磁盘 fixture。
 
-[当前 CI 观察](zset-score-views-ci-observation.json)：格式和 arm64 编译通过，amd64 构建仍在运行，完整 CI 尚未结束。[实时 CI](https://github.com/thweetkomputer/lavik/actions/runs/37272089111) · [源码及脚本身份](prototype-status.json)。没有原生回归或性能结果，尚未提 PR，不能把已完成的 ZINCRBY 采样称为 ZSCORE 读热点证明。
+[固定 head 的完整 fork CI](zset-score-views-9d1ffc85-full-ci.json) 已通过全部 17 项：两种架构编译、12 个软件分片、格式和汇总检查。[草稿 PR #280](https://github.com/eloqdata/lavik/pull/280) 已提交，upstream PR 合并树 CI 单独执行；PR 创建时 main 已新增两个 Meta 优化提交，性能对照仍固定原父版本 `4610d607` 和候选 `9d1ffc85`，不重标为其他版本。[PR 身份](pr280-created.json) · [源码及脚本身份](prototype-status.json)。原生回归和性能尚未完成，不能把已有 ZINCRBY 采样称为 ZSCORE 读热点证明。
 
 ## 已排队的验证与测量
 

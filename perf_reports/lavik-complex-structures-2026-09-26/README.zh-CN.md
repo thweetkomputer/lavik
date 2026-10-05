@@ -6,7 +6,7 @@
 
 Hash 对照已完成全部 72 点：较小 Hash 的 HSET QPS 中位下降 0.91%–2.86%，p99 中位变差；大 Hash c5120 的收益未普遍复现，#276 保持草稿。[全部回退与逐轮结果](diagnostics/hash-route-replace-20261005/hash-route-hash-small.md)。
 
-[ZSCORE/ZMSCORE 成员页借用视图](diagnostics/zset-score-views-20261005/README.md)：去掉整页字段/值复制，保留完整校验；CI 进行中，96 点配对及独立读 perf 已排队，尚无性能结论。
+[ZSCORE/ZMSCORE 成员页借用视图](diagnostics/zset-score-views-20261005/README.md)：去掉整页字段/值复制，保留完整校验；完整 fork CI 17 项通过，[草稿 PR #280](https://github.com/eloqdata/lavik/pull/280) 已提交；96 点配对及独立读 perf 已排队，尚无性能结论。
 
 Hash 单路由替换完成 100 MiB、500 keys 的三轮对照：HSET c5120 QPS 配对中位 +7.81%，p99 −8.19%；低连接收益混合，HGET 仍有回退。[完整结果](diagnostics/hash-route-replace-20261005/hash-route-large.md)。
 
