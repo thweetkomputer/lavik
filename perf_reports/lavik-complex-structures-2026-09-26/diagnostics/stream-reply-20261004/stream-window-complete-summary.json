@@ -1,0 +1,1249 @@
+{
+  "input_sha256": "426fdc4c5482c1855a88e0a7c460cfc3f58491bca908e8187baea1494dce2f1c",
+  "seed_proofs": {
+    "seed-parentadec3a34-stream-window-followup-104857600-128-read-repeat1-20261005": {
+      "source_commit": "adec3a3414adf7b18dc304d336253258e228cb02",
+      "sha256": "62891463498c88ff2137a1a28baea251d9c55fe503fbbe581da47f2ff1ba463f",
+      "keys_checked": 8,
+      "server_exit": 0,
+      "failures_total": 0
+    },
+    "seed-parentadec3a34-stream-window-followup-104857600-128-read-repeat2-20261005": {
+      "source_commit": "adec3a3414adf7b18dc304d336253258e228cb02",
+      "sha256": "62891463498c88ff2137a1a28baea251d9c55fe503fbbe581da47f2ff1ba463f",
+      "keys_checked": 8,
+      "server_exit": 0,
+      "failures_total": 0
+    },
+    "seed-parentadec3a34-stream-window-followup-104857600-128-read-repeat3-20261005": {
+      "source_commit": "adec3a3414adf7b18dc304d336253258e228cb02",
+      "sha256": "62891463498c88ff2137a1a28baea251d9c55fe503fbbe581da47f2ff1ba463f",
+      "keys_checked": 8,
+      "server_exit": 0,
+      "failures_total": 0
+    },
+    "seed-parentadec3a34-stream-window-followup-65536-1024-read-repeat1-20261005": {
+      "source_commit": "adec3a3414adf7b18dc304d336253258e228cb02",
+      "sha256": "62891463498c88ff2137a1a28baea251d9c55fe503fbbe581da47f2ff1ba463f",
+      "keys_checked": 64,
+      "server_exit": 0,
+      "failures_total": 0
+    },
+    "seed-parentadec3a34-stream-window-followup-65536-1024-read-repeat2-20261005": {
+      "source_commit": "adec3a3414adf7b18dc304d336253258e228cb02",
+      "sha256": "62891463498c88ff2137a1a28baea251d9c55fe503fbbe581da47f2ff1ba463f",
+      "keys_checked": 64,
+      "server_exit": 0,
+      "failures_total": 0
+    },
+    "seed-parentadec3a34-stream-window-followup-65536-1024-read-repeat3-20261005": {
+      "source_commit": "adec3a3414adf7b18dc304d336253258e228cb02",
+      "sha256": "62891463498c88ff2137a1a28baea251d9c55fe503fbbe581da47f2ff1ba463f",
+      "keys_checked": 64,
+      "server_exit": 0,
+      "failures_total": 0
+    }
+  },
+  "scope": "all",
+  "versions": {
+    "parent": {
+      "commit": "adec3a3414adf7b18dc304d336253258e228cb02",
+      "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-stream-followup-parent-adec3a34-20261005",
+      "sha256": "62891463498c88ff2137a1a28baea251d9c55fe503fbbe581da47f2ff1ba463f",
+      "source_repo": "/mnt/dev/lavik-complex-next-20261004",
+      "bycorf_commit": "62509c93d40c2480f5046b71454db6cf95801b04",
+      "build": "RelWithDebInfo, native, LTO, GCC 13, SPDK, BUILD_TESTING=OFF, LAVIK_ENABLE_TEST_FAULTS=OFF",
+      "build_directory": "/mnt/dev/lavik-complex-next-20261004/build-spdk",
+      "no_build_or_tests_during_measurements": true,
+      "pr": 270,
+      "ci_required_before_performance": true,
+      "initial_environment_failure": "/mnt/dev/lavik-complex-iterations-20261004/stream-followup-parent-stream-transfer-tests.json",
+      "failed_case_retry": "/mnt/dev/lavik-complex-iterations-20261004/stream-followup-parent-large-rdb-retry.json",
+      "full_fault_enabled_ci": "https://github.com/eloqdata/lavik/actions/runs/37248504314"
+    },
+    "window": {
+      "commit": "5b9ebdedecc0cc7a3fea93fb73b1fbbb6b7186c6",
+      "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-stream-followup-window-5b9ebded-20261005",
+      "sha256": "3af06ea2dc0e276f03cfb48d9d8c9df0e84979ba8e4275725bcf6456c728d13d",
+      "source_repo": "/mnt/dev/lavik-complex-next-20261004",
+      "bycorf_commit": "62509c93d40c2480f5046b71454db6cf95801b04",
+      "build": "RelWithDebInfo, native, LTO, GCC 13, SPDK, BUILD_TESTING=OFF, LAVIK_ENABLE_TEST_FAULTS=OFF",
+      "build_directory": "/mnt/dev/lavik-complex-next-20261004/build-spdk",
+      "no_build_or_tests_during_measurements": true,
+      "pr": 275,
+      "ci_required_before_performance": true,
+      "full_fault_enabled_ci": "https://github.com/eloqdata/lavik/actions/runs/37251491010"
+    }
+  },
+  "observations": 60,
+  "method": "Three 30-second pairs parent/window, window/parent, parent/window. PR275window5b versus exactruntimeparentadec. Original production timeout was not reproduced in the same-order suite and remains unexplained; all required current native suites and full CI precede measurement. Each read round restarts all versions on one fresh parent-seeded unchanged population; writes use an independent fresh seed for every version. Large 100MiB/128B/8keys: XRANGE_FULL c1/4/16, XRANGE c2560, XADD_MAXLEN c320/5120. Small 64KiB/1024B/64keys: XRANGE_FULL c80, XRANGE c5120, XADD_MAXLEN c2560/5120. All errors retained. Exact production binaries pass native tests and full fault-enabled CI. No concurrent builds, tests, or perf on this host.",
+  "limitations": "Three paired changes, not confidence intervals. Median paired ratio is not the ratio of marginal medians. Full reads have few commands and rounded QPS. Negative p99 change is better. Historical peers not rerun; this is incremental parent-versus-window evidence, not overall parity.",
+  "proofs": {
+    "parentadec3a34-stream-window-followup-104857600-128-read-repeat1-20261005": {
+      "source_commit": "adec3a3414adf7b18dc304d336253258e228cb02",
+      "sha256": "62891463498c88ff2137a1a28baea251d9c55fe503fbbe581da47f2ff1ba463f",
+      "seed_tag": "seed-parentadec3a34-stream-window-followup-104857600-128-read-repeat1-20261005",
+      "server_exit": 0,
+      "failures_total": 0,
+      "keys_checked": 8,
+      "before_cardinality_range": [
+        819200,
+        819200
+      ],
+      "after_cardinality_range": [
+        819200,
+        819200
+      ]
+    },
+    "window5b9ebded-stream-window-followup-104857600-128-read-repeat1-20261005": {
+      "source_commit": "5b9ebdedecc0cc7a3fea93fb73b1fbbb6b7186c6",
+      "sha256": "3af06ea2dc0e276f03cfb48d9d8c9df0e84979ba8e4275725bcf6456c728d13d",
+      "seed_tag": "seed-parentadec3a34-stream-window-followup-104857600-128-read-repeat1-20261005",
+      "server_exit": 0,
+      "failures_total": 0,
+      "keys_checked": 8,
+      "before_cardinality_range": [
+        819200,
+        819200
+      ],
+      "after_cardinality_range": [
+        819200,
+        819200
+      ]
+    },
+    "window5b9ebded-stream-window-followup-104857600-128-read-repeat2-20261005": {
+      "source_commit": "5b9ebdedecc0cc7a3fea93fb73b1fbbb6b7186c6",
+      "sha256": "3af06ea2dc0e276f03cfb48d9d8c9df0e84979ba8e4275725bcf6456c728d13d",
+      "seed_tag": "seed-parentadec3a34-stream-window-followup-104857600-128-read-repeat2-20261005",
+      "server_exit": 0,
+      "failures_total": 0,
+      "keys_checked": 8,
+      "before_cardinality_range": [
+        819200,
+        819200
+      ],
+      "after_cardinality_range": [
+        819200,
+        819200
+      ]
+    },
+    "parentadec3a34-stream-window-followup-104857600-128-read-repeat2-20261005": {
+      "source_commit": "adec3a3414adf7b18dc304d336253258e228cb02",
+      "sha256": "62891463498c88ff2137a1a28baea251d9c55fe503fbbe581da47f2ff1ba463f",
+      "seed_tag": "seed-parentadec3a34-stream-window-followup-104857600-128-read-repeat2-20261005",
+      "server_exit": 0,
+      "failures_total": 0,
+      "keys_checked": 8,
+      "before_cardinality_range": [
+        819200,
+        819200
+      ],
+      "after_cardinality_range": [
+        819200,
+        819200
+      ]
+    },
+    "parentadec3a34-stream-window-followup-104857600-128-read-repeat3-20261005": {
+      "source_commit": "adec3a3414adf7b18dc304d336253258e228cb02",
+      "sha256": "62891463498c88ff2137a1a28baea251d9c55fe503fbbe581da47f2ff1ba463f",
+      "seed_tag": "seed-parentadec3a34-stream-window-followup-104857600-128-read-repeat3-20261005",
+      "server_exit": 0,
+      "failures_total": 0,
+      "keys_checked": 8,
+      "before_cardinality_range": [
+        819200,
+        819200
+      ],
+      "after_cardinality_range": [
+        819200,
+        819200
+      ]
+    },
+    "window5b9ebded-stream-window-followup-104857600-128-read-repeat3-20261005": {
+      "source_commit": "5b9ebdedecc0cc7a3fea93fb73b1fbbb6b7186c6",
+      "sha256": "3af06ea2dc0e276f03cfb48d9d8c9df0e84979ba8e4275725bcf6456c728d13d",
+      "seed_tag": "seed-parentadec3a34-stream-window-followup-104857600-128-read-repeat3-20261005",
+      "server_exit": 0,
+      "failures_total": 0,
+      "keys_checked": 8,
+      "before_cardinality_range": [
+        819200,
+        819200
+      ],
+      "after_cardinality_range": [
+        819200,
+        819200
+      ]
+    },
+    "parentadec3a34-stream-window-followup-104857600-128-write-repeat1-20261005": {
+      "source_commit": "adec3a3414adf7b18dc304d336253258e228cb02",
+      "sha256": "62891463498c88ff2137a1a28baea251d9c55fe503fbbe581da47f2ff1ba463f",
+      "seed_tag": null,
+      "server_exit": 0,
+      "failures_total": 0,
+      "keys_checked": 8,
+      "before_cardinality_range": [
+        819200,
+        819200
+      ],
+      "after_cardinality_range": [
+        819202,
+        819299
+      ]
+    },
+    "window5b9ebded-stream-window-followup-104857600-128-write-repeat1-20261005": {
+      "source_commit": "5b9ebdedecc0cc7a3fea93fb73b1fbbb6b7186c6",
+      "sha256": "3af06ea2dc0e276f03cfb48d9d8c9df0e84979ba8e4275725bcf6456c728d13d",
+      "seed_tag": null,
+      "server_exit": 0,
+      "failures_total": 0,
+      "keys_checked": 8,
+      "before_cardinality_range": [
+        819200,
+        819200
+      ],
+      "after_cardinality_range": [
+        819203,
+        819277
+      ]
+    },
+    "window5b9ebded-stream-window-followup-104857600-128-write-repeat2-20261005": {
+      "source_commit": "5b9ebdedecc0cc7a3fea93fb73b1fbbb6b7186c6",
+      "sha256": "3af06ea2dc0e276f03cfb48d9d8c9df0e84979ba8e4275725bcf6456c728d13d",
+      "seed_tag": null,
+      "server_exit": 0,
+      "failures_total": 0,
+      "keys_checked": 8,
+      "before_cardinality_range": [
+        819200,
+        819200
+      ],
+      "after_cardinality_range": [
+        819209,
+        819293
+      ]
+    },
+    "parentadec3a34-stream-window-followup-104857600-128-write-repeat2-20261005": {
+      "source_commit": "adec3a3414adf7b18dc304d336253258e228cb02",
+      "sha256": "62891463498c88ff2137a1a28baea251d9c55fe503fbbe581da47f2ff1ba463f",
+      "seed_tag": null,
+      "server_exit": 0,
+      "failures_total": 0,
+      "keys_checked": 8,
+      "before_cardinality_range": [
+        819200,
+        819200
+      ],
+      "after_cardinality_range": [
+        819200,
+        819298
+      ]
+    },
+    "parentadec3a34-stream-window-followup-104857600-128-write-repeat3-20261005": {
+      "source_commit": "adec3a3414adf7b18dc304d336253258e228cb02",
+      "sha256": "62891463498c88ff2137a1a28baea251d9c55fe503fbbe581da47f2ff1ba463f",
+      "seed_tag": null,
+      "server_exit": 0,
+      "failures_total": 0,
+      "keys_checked": 8,
+      "before_cardinality_range": [
+        819200,
+        819200
+      ],
+      "after_cardinality_range": [
+        819218,
+        819283
+      ]
+    },
+    "window5b9ebded-stream-window-followup-104857600-128-write-repeat3-20261005": {
+      "source_commit": "5b9ebdedecc0cc7a3fea93fb73b1fbbb6b7186c6",
+      "sha256": "3af06ea2dc0e276f03cfb48d9d8c9df0e84979ba8e4275725bcf6456c728d13d",
+      "seed_tag": null,
+      "server_exit": 0,
+      "failures_total": 0,
+      "keys_checked": 8,
+      "before_cardinality_range": [
+        819200,
+        819200
+      ],
+      "after_cardinality_range": [
+        819205,
+        819292
+      ]
+    },
+    "parentadec3a34-stream-window-followup-65536-1024-read-repeat1-20261005": {
+      "source_commit": "adec3a3414adf7b18dc304d336253258e228cb02",
+      "sha256": "62891463498c88ff2137a1a28baea251d9c55fe503fbbe581da47f2ff1ba463f",
+      "seed_tag": "seed-parentadec3a34-stream-window-followup-65536-1024-read-repeat1-20261005",
+      "server_exit": 0,
+      "failures_total": 0,
+      "keys_checked": 64,
+      "before_cardinality_range": [
+        64,
+        64
+      ],
+      "after_cardinality_range": [
+        64,
+        64
+      ]
+    },
+    "window5b9ebded-stream-window-followup-65536-1024-read-repeat1-20261005": {
+      "source_commit": "5b9ebdedecc0cc7a3fea93fb73b1fbbb6b7186c6",
+      "sha256": "3af06ea2dc0e276f03cfb48d9d8c9df0e84979ba8e4275725bcf6456c728d13d",
+      "seed_tag": "seed-parentadec3a34-stream-window-followup-65536-1024-read-repeat1-20261005",
+      "server_exit": 0,
+      "failures_total": 0,
+      "keys_checked": 64,
+      "before_cardinality_range": [
+        64,
+        64
+      ],
+      "after_cardinality_range": [
+        64,
+        64
+      ]
+    },
+    "window5b9ebded-stream-window-followup-65536-1024-read-repeat2-20261005": {
+      "source_commit": "5b9ebdedecc0cc7a3fea93fb73b1fbbb6b7186c6",
+      "sha256": "3af06ea2dc0e276f03cfb48d9d8c9df0e84979ba8e4275725bcf6456c728d13d",
+      "seed_tag": "seed-parentadec3a34-stream-window-followup-65536-1024-read-repeat2-20261005",
+      "server_exit": 0,
+      "failures_total": 0,
+      "keys_checked": 64,
+      "before_cardinality_range": [
+        64,
+        64
+      ],
+      "after_cardinality_range": [
+        64,
+        64
+      ]
+    },
+    "parentadec3a34-stream-window-followup-65536-1024-read-repeat2-20261005": {
+      "source_commit": "adec3a3414adf7b18dc304d336253258e228cb02",
+      "sha256": "62891463498c88ff2137a1a28baea251d9c55fe503fbbe581da47f2ff1ba463f",
+      "seed_tag": "seed-parentadec3a34-stream-window-followup-65536-1024-read-repeat2-20261005",
+      "server_exit": 0,
+      "failures_total": 0,
+      "keys_checked": 64,
+      "before_cardinality_range": [
+        64,
+        64
+      ],
+      "after_cardinality_range": [
+        64,
+        64
+      ]
+    },
+    "parentadec3a34-stream-window-followup-65536-1024-read-repeat3-20261005": {
+      "source_commit": "adec3a3414adf7b18dc304d336253258e228cb02",
+      "sha256": "62891463498c88ff2137a1a28baea251d9c55fe503fbbe581da47f2ff1ba463f",
+      "seed_tag": "seed-parentadec3a34-stream-window-followup-65536-1024-read-repeat3-20261005",
+      "server_exit": 0,
+      "failures_total": 0,
+      "keys_checked": 64,
+      "before_cardinality_range": [
+        64,
+        64
+      ],
+      "after_cardinality_range": [
+        64,
+        64
+      ]
+    },
+    "window5b9ebded-stream-window-followup-65536-1024-read-repeat3-20261005": {
+      "source_commit": "5b9ebdedecc0cc7a3fea93fb73b1fbbb6b7186c6",
+      "sha256": "3af06ea2dc0e276f03cfb48d9d8c9df0e84979ba8e4275725bcf6456c728d13d",
+      "seed_tag": "seed-parentadec3a34-stream-window-followup-65536-1024-read-repeat3-20261005",
+      "server_exit": 0,
+      "failures_total": 0,
+      "keys_checked": 64,
+      "before_cardinality_range": [
+        64,
+        64
+      ],
+      "after_cardinality_range": [
+        64,
+        64
+      ]
+    },
+    "parentadec3a34-stream-window-followup-65536-1024-write-repeat1-20261005": {
+      "source_commit": "adec3a3414adf7b18dc304d336253258e228cb02",
+      "sha256": "62891463498c88ff2137a1a28baea251d9c55fe503fbbe581da47f2ff1ba463f",
+      "seed_tag": null,
+      "server_exit": 0,
+      "failures_total": 0,
+      "keys_checked": 64,
+      "before_cardinality_range": [
+        64,
+        64
+      ],
+      "after_cardinality_range": [
+        64,
+        162
+      ]
+    },
+    "window5b9ebded-stream-window-followup-65536-1024-write-repeat1-20261005": {
+      "source_commit": "5b9ebdedecc0cc7a3fea93fb73b1fbbb6b7186c6",
+      "sha256": "3af06ea2dc0e276f03cfb48d9d8c9df0e84979ba8e4275725bcf6456c728d13d",
+      "seed_tag": null,
+      "server_exit": 0,
+      "failures_total": 0,
+      "keys_checked": 64,
+      "before_cardinality_range": [
+        64,
+        64
+      ],
+      "after_cardinality_range": [
+        72,
+        162
+      ]
+    },
+    "window5b9ebded-stream-window-followup-65536-1024-write-repeat2-20261005": {
+      "source_commit": "5b9ebdedecc0cc7a3fea93fb73b1fbbb6b7186c6",
+      "sha256": "3af06ea2dc0e276f03cfb48d9d8c9df0e84979ba8e4275725bcf6456c728d13d",
+      "seed_tag": null,
+      "server_exit": 0,
+      "failures_total": 0,
+      "keys_checked": 64,
+      "before_cardinality_range": [
+        64,
+        64
+      ],
+      "after_cardinality_range": [
+        64,
+        161
+      ]
+    },
+    "parentadec3a34-stream-window-followup-65536-1024-write-repeat2-20261005": {
+      "source_commit": "adec3a3414adf7b18dc304d336253258e228cb02",
+      "sha256": "62891463498c88ff2137a1a28baea251d9c55fe503fbbe581da47f2ff1ba463f",
+      "seed_tag": null,
+      "server_exit": 0,
+      "failures_total": 0,
+      "keys_checked": 64,
+      "before_cardinality_range": [
+        64,
+        64
+      ],
+      "after_cardinality_range": [
+        69,
+        159
+      ]
+    },
+    "parentadec3a34-stream-window-followup-65536-1024-write-repeat3-20261005": {
+      "source_commit": "adec3a3414adf7b18dc304d336253258e228cb02",
+      "sha256": "62891463498c88ff2137a1a28baea251d9c55fe503fbbe581da47f2ff1ba463f",
+      "seed_tag": null,
+      "server_exit": 0,
+      "failures_total": 0,
+      "keys_checked": 64,
+      "before_cardinality_range": [
+        64,
+        64
+      ],
+      "after_cardinality_range": [
+        72,
+        163
+      ]
+    },
+    "window5b9ebded-stream-window-followup-65536-1024-write-repeat3-20261005": {
+      "source_commit": "5b9ebdedecc0cc7a3fea93fb73b1fbbb6b7186c6",
+      "sha256": "3af06ea2dc0e276f03cfb48d9d8c9df0e84979ba8e4275725bcf6456c728d13d",
+      "seed_tag": null,
+      "server_exit": 0,
+      "failures_total": 0,
+      "keys_checked": 64,
+      "before_cardinality_range": [
+        64,
+        64
+      ],
+      "after_cardinality_range": [
+        69,
+        162
+      ]
+    }
+  },
+  "summary": [
+    {
+      "logical_bytes": 65536,
+      "field_bytes": 1024,
+      "keys": 64,
+      "operation": "XADD_MAXLEN",
+      "connections": 2560,
+      "pairs": [
+        {
+          "round": 1,
+          "parent": {
+            "tag": "parentadec3a34-stream-window-followup-65536-1024-write-repeat1-20261005",
+            "qps": 65904.41,
+            "p99_ms": 276.479,
+            "requests": 1979098
+          },
+          "window": {
+            "tag": "window5b9ebded-stream-window-followup-65536-1024-write-repeat1-20261005",
+            "qps": 64845.02,
+            "p99_ms": 278.527,
+            "requests": 1947071
+          },
+          "qps_change_percent": -1.6074645080655592,
+          "p99_change_percent": 0.7407434199342422
+        },
+        {
+          "round": 2,
+          "parent": {
+            "tag": "parentadec3a34-stream-window-followup-65536-1024-write-repeat2-20261005",
+            "qps": 67172.5,
+            "p99_ms": 245.759,
+            "requests": 2017415
+          },
+          "window": {
+            "tag": "window5b9ebded-stream-window-followup-65536-1024-write-repeat2-20261005",
+            "qps": 64363.67,
+            "p99_ms": 270.335,
+            "requests": 1933405
+          },
+          "qps_change_percent": -4.18151773419182,
+          "p99_change_percent": 10.00004069026974
+        },
+        {
+          "round": 3,
+          "parent": {
+            "tag": "parentadec3a34-stream-window-followup-65536-1024-write-repeat3-20261005",
+            "qps": 66387.9,
+            "p99_ms": 274.431,
+            "requests": 1993543
+          },
+          "window": {
+            "tag": "window5b9ebded-stream-window-followup-65536-1024-write-repeat3-20261005",
+            "qps": 63866.68,
+            "p99_ms": 284.671,
+            "requests": 1918462
+          },
+          "qps_change_percent": -3.7977101248872103,
+          "p99_change_percent": 3.7313568802358477
+        }
+      ],
+      "qps_paired_percent": {
+        "median": -3.7977101248872103,
+        "min": -4.18151773419182,
+        "max": -1.6074645080655592,
+        "positive_pairs": 0,
+        "negative_pairs": 3
+      },
+      "p99_paired_percent": {
+        "median": 3.7313568802358477,
+        "min": 0.7407434199342422,
+        "max": 10.00004069026974,
+        "positive_pairs": 3,
+        "negative_pairs": 0
+      },
+      "parent_median_qps": 66387.9,
+      "parent_median_p99_ms": 274.431,
+      "window_median_qps": 64363.67,
+      "window_median_p99_ms": 278.527
+    },
+    {
+      "logical_bytes": 65536,
+      "field_bytes": 1024,
+      "keys": 64,
+      "operation": "XADD_MAXLEN",
+      "connections": 5120,
+      "pairs": [
+        {
+          "round": 1,
+          "parent": {
+            "tag": "parentadec3a34-stream-window-followup-65536-1024-write-repeat1-20261005",
+            "qps": 57927.62,
+            "p99_ms": 450.559,
+            "requests": 1740550
+          },
+          "window": {
+            "tag": "window5b9ebded-stream-window-followup-65536-1024-write-repeat1-20261005",
+            "qps": 56970.47,
+            "p99_ms": 389.119,
+            "requests": 1712319
+          },
+          "qps_change_percent": -1.6523206028488668,
+          "p99_change_percent": -13.63639390179754
+        },
+        {
+          "round": 2,
+          "parent": {
+            "tag": "parentadec3a34-stream-window-followup-65536-1024-write-repeat2-20261005",
+            "qps": 58326.96,
+            "p99_ms": 380.927,
+            "requests": 1753503
+          },
+          "window": {
+            "tag": "window5b9ebded-stream-window-followup-65536-1024-write-repeat2-20261005",
+            "qps": 57934.84,
+            "p99_ms": 395.263,
+            "requests": 1741718
+          },
+          "qps_change_percent": -0.6722791655865534,
+          "p99_change_percent": 3.7634507399055384
+        },
+        {
+          "round": 3,
+          "parent": {
+            "tag": "parentadec3a34-stream-window-followup-65536-1024-write-repeat3-20261005",
+            "qps": 58639.26,
+            "p99_ms": 346.111,
+            "requests": 1763458
+          },
+          "window": {
+            "tag": "window5b9ebded-stream-window-followup-65536-1024-write-repeat3-20261005",
+            "qps": 57167.0,
+            "p99_ms": 409.599,
+            "requests": 1718318
+          },
+          "qps_change_percent": -2.510706990504319,
+          "p99_change_percent": 18.34324826428515
+        }
+      ],
+      "qps_paired_percent": {
+        "median": -1.6523206028488668,
+        "min": -2.510706990504319,
+        "max": -0.6722791655865534,
+        "positive_pairs": 0,
+        "negative_pairs": 3
+      },
+      "p99_paired_percent": {
+        "median": 3.7634507399055384,
+        "min": -13.63639390179754,
+        "max": 18.34324826428515,
+        "positive_pairs": 2,
+        "negative_pairs": 1
+      },
+      "parent_median_qps": 58326.96,
+      "parent_median_p99_ms": 380.927,
+      "window_median_qps": 57167.0,
+      "window_median_p99_ms": 395.263
+    },
+    {
+      "logical_bytes": 65536,
+      "field_bytes": 1024,
+      "keys": 64,
+      "operation": "XRANGE",
+      "connections": 5120,
+      "pairs": [
+        {
+          "round": 1,
+          "parent": {
+            "tag": "parentadec3a34-stream-window-followup-65536-1024-read-repeat1-20261005",
+            "qps": 209611.86,
+            "p99_ms": 499.711,
+            "requests": 6318539
+          },
+          "window": {
+            "tag": "window5b9ebded-stream-window-followup-65536-1024-read-repeat1-20261005",
+            "qps": 203289.13,
+            "p99_ms": 460.799,
+            "requests": 6127354
+          },
+          "qps_change_percent": -3.01639897666095,
+          "p99_change_percent": -7.786900828678989
+        },
+        {
+          "round": 2,
+          "parent": {
+            "tag": "parentadec3a34-stream-window-followup-65536-1024-read-repeat2-20261005",
+            "qps": 203592.52,
+            "p99_ms": 462.847,
+            "requests": 6137905
+          },
+          "window": {
+            "tag": "window5b9ebded-stream-window-followup-65536-1024-read-repeat2-20261005",
+            "qps": 203221.77,
+            "p99_ms": 464.895,
+            "requests": 6125747
+          },
+          "qps_change_percent": -0.18210393977146078,
+          "p99_change_percent": 0.4424788320978701
+        },
+        {
+          "round": 3,
+          "parent": {
+            "tag": "parentadec3a34-stream-window-followup-65536-1024-read-repeat3-20261005",
+            "qps": 201873.14,
+            "p99_ms": 468.991,
+            "requests": 6081290
+          },
+          "window": {
+            "tag": "window5b9ebded-stream-window-followup-65536-1024-read-repeat3-20261005",
+            "qps": 203580.65,
+            "p99_ms": 468.991,
+            "requests": 6132797
+          },
+          "qps_change_percent": 0.8458331801843411,
+          "p99_change_percent": 0.0
+        }
+      ],
+      "qps_paired_percent": {
+        "median": -0.18210393977146078,
+        "min": -3.01639897666095,
+        "max": 0.8458331801843411,
+        "positive_pairs": 1,
+        "negative_pairs": 2
+      },
+      "p99_paired_percent": {
+        "median": 0.0,
+        "min": -7.786900828678989,
+        "max": 0.4424788320978701,
+        "positive_pairs": 1,
+        "negative_pairs": 1
+      },
+      "parent_median_qps": 203592.52,
+      "parent_median_p99_ms": 468.991,
+      "window_median_qps": 203289.13,
+      "window_median_p99_ms": 464.895
+    },
+    {
+      "logical_bytes": 65536,
+      "field_bytes": 1024,
+      "keys": 64,
+      "operation": "XRANGE_FULL",
+      "connections": 80,
+      "pairs": [
+        {
+          "round": 1,
+          "parent": {
+            "tag": "parentadec3a34-stream-window-followup-65536-1024-read-repeat1-20261005",
+            "qps": 43896.5,
+            "p99_ms": 3.759,
+            "requests": 1316939
+          },
+          "window": {
+            "tag": "window5b9ebded-stream-window-followup-65536-1024-read-repeat1-20261005",
+            "qps": 43894.26,
+            "p99_ms": 5.279,
+            "requests": 1316965
+          },
+          "qps_change_percent": -0.005102912532883863,
+          "p99_change_percent": 40.43628624634212
+        },
+        {
+          "round": 2,
+          "parent": {
+            "tag": "parentadec3a34-stream-window-followup-65536-1024-read-repeat2-20261005",
+            "qps": 43885.89,
+            "p99_ms": 3.727,
+            "requests": 1316649
+          },
+          "window": {
+            "tag": "window5b9ebded-stream-window-followup-65536-1024-read-repeat2-20261005",
+            "qps": 43868.07,
+            "p99_ms": 5.247,
+            "requests": 1316428
+          },
+          "qps_change_percent": -0.04060530617016056,
+          "p99_change_percent": 40.78347196136303
+        },
+        {
+          "round": 3,
+          "parent": {
+            "tag": "parentadec3a34-stream-window-followup-65536-1024-read-repeat3-20261005",
+            "qps": 43872.68,
+            "p99_ms": 3.839,
+            "requests": 1316233
+          },
+          "window": {
+            "tag": "window5b9ebded-stream-window-followup-65536-1024-read-repeat3-20261005",
+            "qps": 43888.36,
+            "p99_ms": 5.279,
+            "requests": 1316703
+          },
+          "qps_change_percent": 0.035739781567944995,
+          "p99_change_percent": 37.50976816879397
+        }
+      ],
+      "qps_paired_percent": {
+        "median": -0.005102912532883863,
+        "min": -0.04060530617016056,
+        "max": 0.035739781567944995,
+        "positive_pairs": 1,
+        "negative_pairs": 2
+      },
+      "p99_paired_percent": {
+        "median": 40.43628624634212,
+        "min": 37.50976816879397,
+        "max": 40.78347196136303,
+        "positive_pairs": 3,
+        "negative_pairs": 0
+      },
+      "parent_median_qps": 43885.89,
+      "parent_median_p99_ms": 3.759,
+      "window_median_qps": 43888.36,
+      "window_median_p99_ms": 5.279
+    },
+    {
+      "logical_bytes": 104857600,
+      "field_bytes": 128,
+      "keys": 8,
+      "operation": "XADD_MAXLEN",
+      "connections": 320,
+      "pairs": [
+        {
+          "round": 1,
+          "parent": {
+            "tag": "parentadec3a34-stream-window-followup-104857600-128-write-repeat1-20261005",
+            "qps": 14803.8,
+            "p99_ms": 94.719,
+            "requests": 444610
+          },
+          "window": {
+            "tag": "window5b9ebded-stream-window-followup-104857600-128-write-repeat1-20261005",
+            "qps": 15524.48,
+            "p99_ms": 83.455,
+            "requests": 466119
+          },
+          "qps_change_percent": 4.8682095137734915,
+          "p99_change_percent": -11.892017441062508
+        },
+        {
+          "round": 2,
+          "parent": {
+            "tag": "parentadec3a34-stream-window-followup-104857600-128-write-repeat2-20261005",
+            "qps": 14869.87,
+            "p99_ms": 98.815,
+            "requests": 446656
+          },
+          "window": {
+            "tag": "window5b9ebded-stream-window-followup-104857600-128-write-repeat2-20261005",
+            "qps": 14084.84,
+            "p99_ms": 104.959,
+            "requests": 423162
+          },
+          "qps_change_percent": -5.279333309571643,
+          "p99_change_percent": 6.217679502099882
+        },
+        {
+          "round": 3,
+          "parent": {
+            "tag": "parentadec3a34-stream-window-followup-104857600-128-write-repeat3-20261005",
+            "qps": 14575.85,
+            "p99_ms": 97.791,
+            "requests": 437767
+          },
+          "window": {
+            "tag": "window5b9ebded-stream-window-followup-104857600-128-write-repeat3-20261005",
+            "qps": 13936.3,
+            "p99_ms": 99.327,
+            "requests": 418369
+          },
+          "qps_change_percent": -4.387737250314738,
+          "p99_change_percent": 1.5706966898794361
+        }
+      ],
+      "qps_paired_percent": {
+        "median": -4.387737250314738,
+        "min": -5.279333309571643,
+        "max": 4.8682095137734915,
+        "positive_pairs": 1,
+        "negative_pairs": 2
+      },
+      "p99_paired_percent": {
+        "median": 1.5706966898794361,
+        "min": -11.892017441062508,
+        "max": 6.217679502099882,
+        "positive_pairs": 2,
+        "negative_pairs": 1
+      },
+      "parent_median_qps": 14803.8,
+      "parent_median_p99_ms": 97.791,
+      "window_median_qps": 14084.84,
+      "window_median_p99_ms": 99.327
+    },
+    {
+      "logical_bytes": 104857600,
+      "field_bytes": 128,
+      "keys": 8,
+      "operation": "XADD_MAXLEN",
+      "connections": 5120,
+      "pairs": [
+        {
+          "round": 1,
+          "parent": {
+            "tag": "parentadec3a34-stream-window-followup-104857600-128-write-repeat1-20261005",
+            "qps": 14513.53,
+            "p99_ms": 1949.695,
+            "requests": 440915
+          },
+          "window": {
+            "tag": "window5b9ebded-stream-window-followup-104857600-128-write-repeat1-20261005",
+            "qps": 15139.62,
+            "p99_ms": 946.175,
+            "requests": 459168
+          },
+          "qps_change_percent": 4.313836812960048,
+          "p99_change_percent": -51.4706146345967
+        },
+        {
+          "round": 2,
+          "parent": {
+            "tag": "parentadec3a34-stream-window-followup-104857600-128-write-repeat2-20261005",
+            "qps": 14113.4,
+            "p99_ms": 1564.671,
+            "requests": 431030
+          },
+          "window": {
+            "tag": "window5b9ebded-stream-window-followup-104857600-128-write-repeat2-20261005",
+            "qps": 14417.34,
+            "p99_ms": 1359.871,
+            "requests": 440171
+          },
+          "qps_change_percent": 2.1535561948219373,
+          "p99_change_percent": -13.089013600942302
+        },
+        {
+          "round": 3,
+          "parent": {
+            "tag": "parentadec3a34-stream-window-followup-104857600-128-write-repeat3-20261005",
+            "qps": 15450.27,
+            "p99_ms": 1409.023,
+            "requests": 468395
+          },
+          "window": {
+            "tag": "window5b9ebded-stream-window-followup-104857600-128-write-repeat3-20261005",
+            "qps": 14269.36,
+            "p99_ms": 1662.975,
+            "requests": 436455
+          },
+          "qps_change_percent": -7.6432968485340425,
+          "p99_change_percent": 18.023268605267617
+        }
+      ],
+      "qps_paired_percent": {
+        "median": 2.1535561948219373,
+        "min": -7.6432968485340425,
+        "max": 4.313836812960048,
+        "positive_pairs": 2,
+        "negative_pairs": 1
+      },
+      "p99_paired_percent": {
+        "median": -13.089013600942302,
+        "min": -51.4706146345967,
+        "max": 18.023268605267617,
+        "positive_pairs": 1,
+        "negative_pairs": 2
+      },
+      "parent_median_qps": 14513.53,
+      "parent_median_p99_ms": 1564.671,
+      "window_median_qps": 14417.34,
+      "window_median_p99_ms": 1359.871
+    },
+    {
+      "logical_bytes": 104857600,
+      "field_bytes": 128,
+      "keys": 8,
+      "operation": "XRANGE",
+      "connections": 2560,
+      "pairs": [
+        {
+          "round": 1,
+          "parent": {
+            "tag": "parentadec3a34-stream-window-followup-104857600-128-read-repeat1-20261005",
+            "qps": 137223.5,
+            "p99_ms": 74.751,
+            "requests": 4132900
+          },
+          "window": {
+            "tag": "window5b9ebded-stream-window-followup-104857600-128-read-repeat1-20261005",
+            "qps": 135759.24,
+            "p99_ms": 75.775,
+            "requests": 4089711
+          },
+          "qps_change_percent": -1.0670621285712834,
+          "p99_change_percent": 1.3698813393800746
+        },
+        {
+          "round": 2,
+          "parent": {
+            "tag": "parentadec3a34-stream-window-followup-104857600-128-read-repeat2-20261005",
+            "qps": 136430.22,
+            "p99_ms": 75.263,
+            "requests": 4108434
+          },
+          "window": {
+            "tag": "window5b9ebded-stream-window-followup-104857600-128-read-repeat2-20261005",
+            "qps": 133517.52,
+            "p99_ms": 76.799,
+            "requests": 4021079
+          },
+          "qps_change_percent": -2.1349375526917846,
+          "p99_change_percent": 2.04084344232891
+        },
+        {
+          "round": 3,
+          "parent": {
+            "tag": "parentadec3a34-stream-window-followup-104857600-128-read-repeat3-20261005",
+            "qps": 136735.94,
+            "p99_ms": 74.751,
+            "requests": 4117555
+          },
+          "window": {
+            "tag": "window5b9ebded-stream-window-followup-104857600-128-read-repeat3-20261005",
+            "qps": 137202.29,
+            "p99_ms": 74.239,
+            "requests": 4132873
+          },
+          "qps_change_percent": 0.34105883208175314,
+          "p99_change_percent": -0.6849406696900373
+        }
+      ],
+      "qps_paired_percent": {
+        "median": -1.0670621285712834,
+        "min": -2.1349375526917846,
+        "max": 0.34105883208175314,
+        "positive_pairs": 1,
+        "negative_pairs": 2
+      },
+      "p99_paired_percent": {
+        "median": 1.3698813393800746,
+        "min": -0.6849406696900373,
+        "max": 2.04084344232891,
+        "positive_pairs": 2,
+        "negative_pairs": 1
+      },
+      "parent_median_qps": 136735.94,
+      "parent_median_p99_ms": 74.751,
+      "window_median_qps": 135759.24,
+      "window_median_p99_ms": 75.775
+    },
+    {
+      "logical_bytes": 104857600,
+      "field_bytes": 128,
+      "keys": 8,
+      "operation": "XRANGE_FULL",
+      "connections": 1,
+      "pairs": [
+        {
+          "round": 1,
+          "parent": {
+            "tag": "parentadec3a34-stream-window-followup-104857600-128-read-repeat1-20261005",
+            "qps": 0.5,
+            "p99_ms": 2056.191,
+            "requests": 16
+          },
+          "window": {
+            "tag": "window5b9ebded-stream-window-followup-104857600-128-read-repeat1-20261005",
+            "qps": 2.19,
+            "p99_ms": 464.895,
+            "requests": 66
+          },
+          "qps_change_percent": 338.0,
+          "p99_change_percent": -77.39047588477919
+        },
+        {
+          "round": 2,
+          "parent": {
+            "tag": "parentadec3a34-stream-window-followup-104857600-128-read-repeat2-20261005",
+            "qps": 0.51,
+            "p99_ms": 2031.615,
+            "requests": 16
+          },
+          "window": {
+            "tag": "window5b9ebded-stream-window-followup-104857600-128-read-repeat2-20261005",
+            "qps": 2.18,
+            "p99_ms": 483.327,
+            "requests": 66
+          },
+          "qps_change_percent": 327.45098039215685,
+          "p99_change_percent": -76.20971493122467
+        },
+        {
+          "round": 3,
+          "parent": {
+            "tag": "parentadec3a34-stream-window-followup-104857600-128-read-repeat3-20261005",
+            "qps": 0.51,
+            "p99_ms": 2056.191,
+            "requests": 16
+          },
+          "window": {
+            "tag": "window5b9ebded-stream-window-followup-104857600-128-read-repeat3-20261005",
+            "qps": 1.92,
+            "p99_ms": 1269.759,
+            "requests": 58
+          },
+          "qps_change_percent": 276.4705882352941,
+          "p99_change_percent": -38.2470305530955
+        }
+      ],
+      "qps_paired_percent": {
+        "median": 327.45098039215685,
+        "min": 276.4705882352941,
+        "max": 338.0,
+        "positive_pairs": 3,
+        "negative_pairs": 0
+      },
+      "p99_paired_percent": {
+        "median": -76.20971493122467,
+        "min": -77.39047588477919,
+        "max": -38.2470305530955,
+        "positive_pairs": 0,
+        "negative_pairs": 3
+      },
+      "parent_median_qps": 0.51,
+      "parent_median_p99_ms": 2056.191,
+      "window_median_qps": 2.18,
+      "window_median_p99_ms": 483.327
+    },
+    {
+      "logical_bytes": 104857600,
+      "field_bytes": 128,
+      "keys": 8,
+      "operation": "XRANGE_FULL",
+      "connections": 4,
+      "pairs": [
+        {
+          "round": 1,
+          "parent": {
+            "tag": "parentadec3a34-stream-window-followup-104857600-128-read-repeat1-20261005",
+            "qps": 1.92,
+            "p99_ms": 2244.607,
+            "requests": 61
+          },
+          "window": {
+            "tag": "window5b9ebded-stream-window-followup-104857600-128-read-repeat1-20261005",
+            "qps": 6.41,
+            "p99_ms": 851.967,
+            "requests": 194
+          },
+          "qps_change_percent": 233.85416666666669,
+          "p99_change_percent": -62.043823261711296
+        },
+        {
+          "round": 2,
+          "parent": {
+            "tag": "parentadec3a34-stream-window-followup-104857600-128-read-repeat2-20261005",
+            "qps": 1.98,
+            "p99_ms": 2293.759,
+            "requests": 60
+          },
+          "window": {
+            "tag": "window5b9ebded-stream-window-followup-104857600-128-read-repeat2-20261005",
+            "qps": 6.47,
+            "p99_ms": 839.679,
+            "requests": 197
+          },
+          "qps_change_percent": 226.76767676767676,
+          "p99_change_percent": -63.39288477996163
+        },
+        {
+          "round": 3,
+          "parent": {
+            "tag": "parentadec3a34-stream-window-followup-104857600-128-read-repeat3-20261005",
+            "qps": 1.9,
+            "p99_ms": 2342.911,
+            "requests": 58
+          },
+          "window": {
+            "tag": "window5b9ebded-stream-window-followup-104857600-128-read-repeat3-20261005",
+            "qps": 6.39,
+            "p99_ms": 876.543,
+            "requests": 195
+          },
+          "qps_change_percent": 236.31578947368422,
+          "p99_change_percent": -62.587439300938016
+        }
+      ],
+      "qps_paired_percent": {
+        "median": 233.85416666666669,
+        "min": 226.76767676767676,
+        "max": 236.31578947368422,
+        "positive_pairs": 3,
+        "negative_pairs": 0
+      },
+      "p99_paired_percent": {
+        "median": -62.587439300938016,
+        "min": -63.39288477996163,
+        "max": -62.043823261711296,
+        "positive_pairs": 0,
+        "negative_pairs": 3
+      },
+      "parent_median_qps": 1.92,
+      "parent_median_p99_ms": 2293.759,
+      "window_median_qps": 6.41,
+      "window_median_p99_ms": 851.967
+    },
+    {
+      "logical_bytes": 104857600,
+      "field_bytes": 128,
+      "keys": 8,
+      "operation": "XRANGE_FULL",
+      "connections": 16,
+      "pairs": [
+        {
+          "round": 1,
+          "parent": {
+            "tag": "parentadec3a34-stream-window-followup-104857600-128-read-repeat1-20261005",
+            "qps": 7.18,
+            "p99_ms": 2490.367,
+            "requests": 220
+          },
+          "window": {
+            "tag": "window5b9ebded-stream-window-followup-104857600-128-read-repeat1-20261005",
+            "qps": 16.07,
+            "p99_ms": 1564.671,
+            "requests": 496
+          },
+          "qps_change_percent": 123.81615598885793,
+          "p99_change_percent": -37.171067557512615
+        },
+        {
+          "round": 2,
+          "parent": {
+            "tag": "parentadec3a34-stream-window-followup-104857600-128-read-repeat2-20261005",
+            "qps": 7.11,
+            "p99_ms": 2506.751,
+            "requests": 216
+          },
+          "window": {
+            "tag": "window5b9ebded-stream-window-followup-104857600-128-read-repeat2-20261005",
+            "qps": 16.28,
+            "p99_ms": 1572.863,
+            "requests": 499
+          },
+          "qps_change_percent": 128.97327707454292,
+          "p99_change_percent": -37.254916822612216
+        },
+        {
+          "round": 3,
+          "parent": {
+            "tag": "parentadec3a34-stream-window-followup-104857600-128-read-repeat3-20261005",
+            "qps": 7.16,
+            "p99_ms": 2539.519,
+            "requests": 217
+          },
+          "window": {
+            "tag": "window5b9ebded-stream-window-followup-104857600-128-read-repeat3-20261005",
+            "qps": 16.36,
+            "p99_ms": 1531.903,
+            "requests": 497
+          },
+          "qps_change_percent": 128.49162011173183,
+          "p99_change_percent": -39.677434978828664
+        }
+      ],
+      "qps_paired_percent": {
+        "median": 128.49162011173183,
+        "min": 123.81615598885793,
+        "max": 128.97327707454292,
+        "positive_pairs": 3,
+        "negative_pairs": 0
+      },
+      "p99_paired_percent": {
+        "median": -37.254916822612216,
+        "min": -39.677434978828664,
+        "max": -37.171067557512615,
+        "positive_pairs": 0,
+        "negative_pairs": 3
+      },
+      "parent_median_qps": 7.16,
+      "parent_median_p99_ms": 2506.751,
+      "window_median_qps": 16.28,
+      "window_median_p99_ms": 1564.671
+    }
+  ]
+}
