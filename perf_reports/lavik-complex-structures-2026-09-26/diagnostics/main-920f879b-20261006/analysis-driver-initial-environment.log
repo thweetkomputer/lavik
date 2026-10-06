@@ -1,0 +1,15 @@
+START render-main-refresh.py 1791309465.5393326
+Traceback (most recent call last):
+  File "/mnt/dev/lavik-main-920f879b-20261006/render-main-refresh.py", line 68, in <module>
+    spec.loader.exec_module(plot)
+  File "<frozen importlib._bootstrap_external>", line 995, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/plot_current_main.py", line 10, in <module>
+    import matplotlib
+ModuleNotFoundError: No module named 'matplotlib'
+Traceback (most recent call last):
+  File "/mnt/dev/lavik-main-920f879b-20261006/after-refresh.py", line 16, in <module>
+    subprocess.run(['python3',str(W/name),*args],check=True)
+  File "/usr/lib/python3.12/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['python3', '/mnt/dev/lavik-main-920f879b-20261006/render-main-refresh.py']' returned non-zero exit status 1.

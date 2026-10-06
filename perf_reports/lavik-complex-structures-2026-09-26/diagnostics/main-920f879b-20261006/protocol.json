@@ -1,0 +1,20 @@
+{
+  "main": "920f879b05636d066ef0485f1ee1121813ef79ac",
+  "previous_main": "5a3903d9b3c0632e3b34e827b779d9daa58455c2",
+  "main_commit_log": "920f879b0 Reuse verified physical root identity when refreshing grouped reads (#282)\na043658b3 perf: overlap pinned Stream range reads within an admitted page window (#275)\n646439ed4 perf: buffer repeated updates to large Hash and Set routing metadata (#285)\nc8d5c7884 perf(meta): capture Admin and Sentinel reads by purpose (#284)\nd88a5e8fd perf(meta): share Data publication views and read exact directive results (#281)\n5a3903d9b perf(storage): overlap List range reads and reduce reply allocation and copying (#267)\n838a290f0 perf(zset): read indexed scores from validated page views (#280)\n2765fea55 perf(stream): coalesce reply chunks and serialize borrowed fields (#270)\n",
+  "scope": "28 original report grids plus four batched-import conditions; rerun Lavik only; historical peer measurements retained with persistence caveats",
+  "method": "Same original grid, seconds, CPU/storage settings and seed methods; independent fresh population per condition; one scan, not repeated paired evidence. No seed shim; Hash/Set layout variation limits attribution of changes to individual PRs.",
+  "publication": "https://github.com/thweetkomputer/lavik refs/heads/bench/complex-structures-2026-09-26",
+  "native": "Build pinned main; grouped units and full ordered integration suite, production faults OFF; private /tmp mount, serialized host lock; run tests before benchmarks.",
+  "grid_points": 332,
+  "imports": 4,
+  "scripts": {
+    "refresh-main.py": "f80e8a3fbb090c22cbb76770b54c99c24f26a5267eab8f749f1a46b0f50ae922",
+    "run-condition.py": "7bd1483d6f7943ed920c080577878ccbb37f6d287632f9c574ee86c6af375260",
+    "run-import.py": "509ae62cf6b8074be2a5c5cc7199f443e53a96d009d52d54f114bc87a3b968f2",
+    "validate-native.py": "d581fda237ea9431bad67efbc256cefbe055c9cb18336f8c4b2ef39cacb88695",
+    "host.py": "166ea9c2841efd183db250d67accab66e4f316df57a1376bce7b4c3fbf679fad",
+    "private-tmp-exec.py": "752d56304fc5aa542fd1a493af40d177575cdf3d780c901998edf1736825594a"
+  },
+  "start_utc": "2026-10-06T15:25:40Z"
+}

@@ -1,0 +1,523 @@
+{
+  "tests": 36,
+  "failures": 0,
+  "disabled": 0,
+  "errors": 0,
+  "timestamp": "2026-10-06T15:37:53Z",
+  "time": "16.723s",
+  "name": "AllTests",
+  "testsuites": [
+    {
+      "name": "GroupedHashWriteE2e",
+      "tests": 20,
+      "failures": 0,
+      "disabled": 0,
+      "errors": 0,
+      "timestamp": "2026-10-06T15:37:53Z",
+      "time": "14.403s",
+      "testsuite": [
+        {
+          "name": "ConcurrentLocalAndExecWritesRecover",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/hash_write_e2e_test.cpp",
+          "line": 42,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-06T15:37:53Z",
+          "time": "8.941s",
+          "classname": "GroupedHashWriteE2e"
+        },
+        {
+          "name": "DemotesBelowStrictGroupPayloadThresholdAfterRecovery",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/hash_write_e2e_test.cpp",
+          "line": 145,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-06T15:38:02Z",
+          "time": "0.981s",
+          "classname": "GroupedHashWriteE2e"
+        },
+        {
+          "name": "BatchedFieldsPreserveOrderAcrossGrowthAndRecovery",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/hash_write_e2e_test.cpp",
+          "line": 195,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-06T15:38:03Z",
+          "time": "0.608s",
+          "classname": "GroupedHashWriteE2e"
+        },
+        {
+          "name": "PromotionAndPointUpdateOnlyRewriteOneGroup",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/hash_write_e2e_test.cpp",
+          "line": 598,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-06T15:38:04Z",
+          "time": "0.715s",
+          "classname": "GroupedHashWriteE2e"
+        },
+        {
+          "name": "MultiFieldReadsPreserveOrderAndDuplicatesAfterRecovery",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/hash_write_e2e_test.cpp",
+          "line": 648,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-06T15:38:04Z",
+          "time": "0.48s",
+          "classname": "GroupedHashWriteE2e"
+        },
+        {
+          "name": "ConditionalIncrementDeleteAndNewIncarnation",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/hash_write_e2e_test.cpp",
+          "line": 710,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-06T15:38:05Z",
+          "time": "0.338s",
+          "classname": "GroupedHashWriteE2e"
+        },
+        {
+          "name": "FailedAuxiliaryBatchCannotReappearAfterLaterExecWrite",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/hash_write_e2e_test.cpp",
+          "line": 736,
+          "status": "RUN",
+          "result": "SKIPPED",
+          "timestamp": "2026-10-06T15:38:05Z",
+          "time": "0s",
+          "classname": "GroupedHashWriteE2e",
+          "skipped": [
+            {
+              "message": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/hash_write_e2e_test.cpp:739\nrequires Debug\/fault auxiliary hook\n"
+            }
+          ]
+        },
+        {
+          "name": "OversizedFieldSplitsIntoExtentBackedLeaf",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/hash_write_e2e_test.cpp",
+          "line": 776,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-06T15:38:05Z",
+          "time": "0.584s",
+          "classname": "GroupedHashWriteE2e"
+        },
+        {
+          "name": "SetUsesSameGroupedLifecycleWithSetType",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/hash_write_e2e_test.cpp",
+          "line": 799,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-06T15:38:06Z",
+          "time": "0.428s",
+          "classname": "GroupedHashWriteE2e"
+        },
+        {
+          "name": "BatchedMembersSurviveGrowthAndDuplicateLookup",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/hash_write_e2e_test.cpp",
+          "line": 830,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-06T15:38:06Z",
+          "time": "0.506s",
+          "classname": "GroupedHashWriteE2e"
+        },
+        {
+          "name": "LocalSuccessorWaitsUntilCommitDecision",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/hash_write_e2e_test.cpp",
+          "line": 980,
+          "status": "RUN",
+          "result": "SKIPPED",
+          "timestamp": "2026-10-06T15:38:07Z",
+          "time": "0s",
+          "classname": "GroupedHashWriteE2e",
+          "skipped": [
+            {
+              "message": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/hash_write_e2e_test.cpp:982\nrequires grouped dependency gate\n"
+            }
+          ]
+        },
+        {
+          "name": "LocalSuccessorWakesOnCommitFailure",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/hash_write_e2e_test.cpp",
+          "line": 987,
+          "status": "RUN",
+          "result": "SKIPPED",
+          "timestamp": "2026-10-06T15:38:07Z",
+          "time": "0s",
+          "classname": "GroupedHashWriteE2e",
+          "skipped": [
+            {
+              "message": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/hash_write_e2e_test.cpp:989\nrequires grouped dependency gate\n"
+            }
+          ]
+        },
+        {
+          "name": "OrdinarySuccessorsStageBeforePredecessorDecision",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/hash_write_e2e_test.cpp",
+          "line": 1098,
+          "status": "RUN",
+          "result": "SKIPPED",
+          "timestamp": "2026-10-06T15:38:07Z",
+          "time": "0s",
+          "classname": "GroupedHashWriteE2e",
+          "skipped": [
+            {
+              "message": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/hash_write_e2e_test.cpp:1100\nrequires grouped dependency gate\n"
+            }
+          ]
+        },
+        {
+          "name": "FailedPredecessorPreventsSuccessorCommitAndRecovery",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/hash_write_e2e_test.cpp",
+          "line": 1105,
+          "status": "RUN",
+          "result": "SKIPPED",
+          "timestamp": "2026-10-06T15:38:07Z",
+          "time": "0s",
+          "classname": "GroupedHashWriteE2e",
+          "skipped": [
+            {
+              "message": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/hash_write_e2e_test.cpp:1107\nrequires grouped dependency gate\n"
+            }
+          ]
+        },
+        {
+          "name": "OrderedTypesPipelineAndRecoverOrAbortTogether",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/hash_write_e2e_test.cpp",
+          "line": 1112,
+          "status": "RUN",
+          "result": "SKIPPED",
+          "timestamp": "2026-10-06T15:38:07Z",
+          "time": "0s",
+          "classname": "GroupedHashWriteE2e",
+          "skipped": [
+            {
+              "message": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/hash_write_e2e_test.cpp:1114\nrequires grouped dependency gate\n"
+            }
+          ]
+        },
+        {
+          "name": "MultiKeyMetadataDependenciesDoNotFailUnrelatedWrites",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/hash_write_e2e_test.cpp",
+          "line": 1193,
+          "status": "RUN",
+          "result": "SKIPPED",
+          "timestamp": "2026-10-06T15:38:07Z",
+          "time": "0s",
+          "classname": "GroupedHashWriteE2e",
+          "skipped": [
+            {
+              "message": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/hash_write_e2e_test.cpp:1196\nrequires grouped dependency gate\n"
+            }
+          ]
+        },
+        {
+          "name": "FailedExecCommandDropsUnusedPredecessor",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/hash_write_e2e_test.cpp",
+          "line": 1252,
+          "status": "RUN",
+          "result": "SKIPPED",
+          "timestamp": "2026-10-06T15:38:07Z",
+          "time": "0s",
+          "classname": "GroupedHashWriteE2e",
+          "skipped": [
+            {
+              "message": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/hash_write_e2e_test.cpp:1254\nrequires grouped dependency and auxiliary-write faults\n"
+            }
+          ]
+        },
+        {
+          "name": "ColdCompactWritesReleaseStateButKeepTheKeyLocked",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/hash_write_e2e_test.cpp",
+          "line": 1444,
+          "status": "RUN",
+          "result": "SKIPPED",
+          "timestamp": "2026-10-06T15:38:07Z",
+          "time": "0s",
+          "classname": "GroupedHashWriteE2e",
+          "skipped": [
+            {
+              "message": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/hash_write_e2e_test.cpp:1446\nrequires Debug\/fault compact Hash write pause hook\n"
+            }
+          ]
+        },
+        {
+          "name": "ColdCompactNoopWatchHmsetTtlAndPromotionKeepSemantics",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/hash_write_e2e_test.cpp",
+          "line": 1514,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-06T15:38:07Z",
+          "time": "0.818s",
+          "classname": "GroupedHashWriteE2e"
+        },
+        {
+          "name": "PublicationHandoffOomFailsClosedAndRecoversOldGraph",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/hash_write_e2e_test.cpp",
+          "line": 1573,
+          "status": "RUN",
+          "result": "SKIPPED",
+          "timestamp": "2026-10-06T15:38:08Z",
+          "time": "0s",
+          "classname": "GroupedHashWriteE2e",
+          "skipped": [
+            {
+              "message": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/hash_write_e2e_test.cpp:1575\nrequires handoff rejection after grouped root staging\n"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "HashReplaceE2e",
+      "tests": 7,
+      "failures": 0,
+      "disabled": 0,
+      "errors": 0,
+      "timestamp": "2026-10-06T15:38:08Z",
+      "time": "1.86s",
+      "testsuite": [
+        {
+          "name": "SemanticsTtlBinaryFieldsAndUnchangedStandardCommands",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/hash_write_e2e_test.cpp",
+          "line": 288,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-06T15:38:08Z",
+          "time": "0.1s",
+          "classname": "HashReplaceE2e"
+        },
+        {
+          "name": "DifferentRequestSizesPreserveLastDuplicateAfterRecovery",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/hash_write_e2e_test.cpp",
+          "line": 324,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-06T15:38:08Z",
+          "time": "0.387s",
+          "classname": "HashReplaceE2e"
+        },
+        {
+          "name": "PromotionUsesFinalDeduplicatedBytes",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/hash_write_e2e_test.cpp",
+          "line": 365,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-06T15:38:08Z",
+          "time": "0.487s",
+          "classname": "HashReplaceE2e"
+        },
+        {
+          "name": "WatchExecAndLua",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/hash_write_e2e_test.cpp",
+          "line": 491,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-06T15:38:09Z",
+          "time": "0.099s",
+          "classname": "HashReplaceE2e"
+        },
+        {
+          "name": "GroupedReplacementDemotionExtentsAndColdRecovery",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/hash_write_e2e_test.cpp",
+          "line": 523,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-06T15:38:09Z",
+          "time": "0.785s",
+          "classname": "HashReplaceE2e"
+        },
+        {
+          "name": "AuxiliaryOomPreservesOldHashInsideExec",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/hash_write_e2e_test.cpp",
+          "line": 561,
+          "status": "RUN",
+          "result": "SKIPPED",
+          "timestamp": "2026-10-06T15:38:09Z",
+          "time": "0s",
+          "classname": "HashReplaceE2e",
+          "skipped": [
+            {
+              "message": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/hash_write_e2e_test.cpp:563\nrequires Debug\/fault server\n"
+            }
+          ]
+        },
+        {
+          "name": "ColdReplacementDoesNotLoadOldPayload",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/hash_write_e2e_test.cpp",
+          "line": 1313,
+          "status": "RUN",
+          "result": "SKIPPED",
+          "timestamp": "2026-10-06T15:38:09Z",
+          "time": "0s",
+          "classname": "HashReplaceE2e",
+          "skipped": [
+            {
+              "message": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/hash_write_e2e_test.cpp:1315\nrequires payload read fault hook\n"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "HashReadOwnershipE2e",
+      "tests": 1,
+      "failures": 0,
+      "disabled": 0,
+      "errors": 0,
+      "timestamp": "2026-10-06T15:38:09Z",
+      "time": "0.458s",
+      "testsuite": [
+        {
+          "name": "FullReadsPreserveCompactAndGroupedValues",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/hash_write_e2e_test.cpp",
+          "line": 404,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-10-06T15:38:09Z",
+          "time": "0.458s",
+          "classname": "HashReadOwnershipE2e"
+        }
+      ]
+    },
+    {
+      "name": "BatchWindows\/GroupedHashWriteCrashE2e",
+      "tests": 8,
+      "failures": 0,
+      "disabled": 0,
+      "errors": 0,
+      "timestamp": "2026-10-06T15:38:10Z",
+      "time": "0s",
+      "testsuite": [
+        {
+          "name": "UncommittedOuterNeverPublishesPartialHash\/0",
+          "value_param": "\"group-batch-before-root\"",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/hash_write_e2e_test.cpp",
+          "line": 1653,
+          "status": "RUN",
+          "result": "SKIPPED",
+          "timestamp": "2026-10-06T15:38:10Z",
+          "time": "0s",
+          "classname": "BatchWindows\/GroupedHashWriteCrashE2e",
+          "skipped": [
+            {
+              "message": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/hash_write_e2e_test.cpp:1655\nrequires Debug\/fault crash hook\n"
+            }
+          ]
+        },
+        {
+          "name": "UncommittedOuterNeverPublishesPartialHash\/1",
+          "value_param": "\"group-root-staged-before-batch-decision\"",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/hash_write_e2e_test.cpp",
+          "line": 1653,
+          "status": "RUN",
+          "result": "SKIPPED",
+          "timestamp": "2026-10-06T15:38:10Z",
+          "time": "0s",
+          "classname": "BatchWindows\/GroupedHashWriteCrashE2e",
+          "skipped": [
+            {
+              "message": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/hash_write_e2e_test.cpp:1655\nrequires Debug\/fault crash hook\n"
+            }
+          ]
+        },
+        {
+          "name": "UncommittedOuterNeverPublishesPartialHash\/2",
+          "value_param": "\"group-batch-durable-before-outer-decision\"",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/hash_write_e2e_test.cpp",
+          "line": 1653,
+          "status": "RUN",
+          "result": "SKIPPED",
+          "timestamp": "2026-10-06T15:38:10Z",
+          "time": "0s",
+          "classname": "BatchWindows\/GroupedHashWriteCrashE2e",
+          "skipped": [
+            {
+              "message": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/hash_write_e2e_test.cpp:1655\nrequires Debug\/fault crash hook\n"
+            }
+          ]
+        },
+        {
+          "name": "UncommittedOuterNeverPublishesPartialHash\/3",
+          "value_param": "\"group-extents-durable-before-record\"",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/hash_write_e2e_test.cpp",
+          "line": 1653,
+          "status": "RUN",
+          "result": "SKIPPED",
+          "timestamp": "2026-10-06T15:38:10Z",
+          "time": "0s",
+          "classname": "BatchWindows\/GroupedHashWriteCrashE2e",
+          "skipped": [
+            {
+              "message": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/hash_write_e2e_test.cpp:1655\nrequires Debug\/fault crash hook\n"
+            }
+          ]
+        },
+        {
+          "name": "ReplacementNeverRevivesPartialOrOldFields\/0",
+          "value_param": "\"group-batch-before-root\"",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/hash_write_e2e_test.cpp",
+          "line": 1691,
+          "status": "RUN",
+          "result": "SKIPPED",
+          "timestamp": "2026-10-06T15:38:10Z",
+          "time": "0s",
+          "classname": "BatchWindows\/GroupedHashWriteCrashE2e",
+          "skipped": [
+            {
+              "message": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/hash_write_e2e_test.cpp:1693\nrequires Debug\/fault crash hook\n"
+            }
+          ]
+        },
+        {
+          "name": "ReplacementNeverRevivesPartialOrOldFields\/1",
+          "value_param": "\"group-root-staged-before-batch-decision\"",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/hash_write_e2e_test.cpp",
+          "line": 1691,
+          "status": "RUN",
+          "result": "SKIPPED",
+          "timestamp": "2026-10-06T15:38:10Z",
+          "time": "0s",
+          "classname": "BatchWindows\/GroupedHashWriteCrashE2e",
+          "skipped": [
+            {
+              "message": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/hash_write_e2e_test.cpp:1693\nrequires Debug\/fault crash hook\n"
+            }
+          ]
+        },
+        {
+          "name": "ReplacementNeverRevivesPartialOrOldFields\/2",
+          "value_param": "\"group-batch-durable-before-outer-decision\"",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/hash_write_e2e_test.cpp",
+          "line": 1691,
+          "status": "RUN",
+          "result": "SKIPPED",
+          "timestamp": "2026-10-06T15:38:10Z",
+          "time": "0s",
+          "classname": "BatchWindows\/GroupedHashWriteCrashE2e",
+          "skipped": [
+            {
+              "message": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/hash_write_e2e_test.cpp:1693\nrequires Debug\/fault crash hook\n"
+            }
+          ]
+        },
+        {
+          "name": "ReplacementNeverRevivesPartialOrOldFields\/3",
+          "value_param": "\"group-extents-durable-before-record\"",
+          "file": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/hash_write_e2e_test.cpp",
+          "line": 1691,
+          "status": "RUN",
+          "result": "SKIPPED",
+          "timestamp": "2026-10-06T15:38:10Z",
+          "time": "0s",
+          "classname": "BatchWindows\/GroupedHashWriteCrashE2e",
+          "skipped": [
+            {
+              "message": "\/mnt\/dev\/lavik-complex-next-20261004\/tests\/grouped\/hash_write_e2e_test.cpp:1693\nrequires Debug\/fault crash hook\n"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
