@@ -1,0 +1,167 @@
+[0/2] Re-checking globbed directories...
+[1/48] Building CXX object CMakeFiles/lavik_module.dir/src/storage/engine/grouped/list.cpp.o
+[2/48] Building CXX object CMakeFiles/lavik_module.dir/src/storage/engine/grouped/restore.cpp.o
+[3/48] Building CXX object CMakeFiles/lavik_module.dir/src/storage/engine/grouped/mutation.cpp.o
+/mnt/dev/lavik-complex-next-20261004/src/storage/engine/grouped/mutation.cpp: In member function ‘absl::lts_20250512::StatusOr<lavik::storage::HashGroupMutationPlan> lavik::storage::StorageEngine::Impl::PrepareGroupedHashMutation(const lavik::storage::GroupedHashObject::Handle&, lavik::storage::HashValue, std::span<const lavik::storage::HashGroupId>, uint64_t, uint64_t)’:
+/mnt/dev/lavik-complex-next-20261004/src/storage/engine/grouped/mutation.cpp:88:53: warning: missing initializer for member ‘lavik::storage::HashGroupSnapshot::prepared_’ [-Wmissing-field-initializers]
+   88 |                                         .value_ = {}})
+      |                                                     ^
+/mnt/dev/lavik-complex-next-20261004/src/storage/engine/grouped/mutation.cpp:116:29: warning: missing initializer for member ‘lavik::storage::HashGroupSnapshot::prepared_’ [-Wmissing-field-initializers]
+  116 |       plan.writes_.push_back({.incarnation_ = plan.root_.incarnation_,
+      |       ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  117 |                               .id_ = id,
+      |                               ~~~~~~~~~~
+  118 |                               .retired_ = true,
+      |                               ~~~~~~~~~~~~~~~~~
+  119 |                               .value_ = {}});
+      |                               ~~~~~~~~~~~~~~
+[4/48] Building CXX object CMakeFiles/lavik_module.dir/src/storage/engine/collection_ingest.cpp.o
+[5/48] Building CXX object CMakeFiles/lavik_module.dir/src/storage/engine/grouped/metadata.cpp.o
+[6/48] Building CXX object CMakeFiles/lavik_module.dir/src/storage/engine/grouped/ordered_mutation.cpp.o
+[7/48] Building CXX object CMakeFiles/lavik_module.dir/src/storage/engine/replica_collection.cpp.o
+[8/48] Building CXX object CMakeFiles/lavik_module.dir/src/storage/engine/grouped/lifecycle.cpp.o
+[9/48] Building CXX object CMakeFiles/lavik_module.dir/src/storage/engine/grouped/object_index.cpp.o
+[10/48] Building CXX object CMakeFiles/lavik_module.dir/src/storage/engine/indirect_key.cpp.o
+[11/48] Building CXX object CMakeFiles/lavik_module.dir/src/storage/engine/hash_tree.cpp.o
+/mnt/dev/lavik-complex-next-20261004/src/storage/engine/hash_tree.cpp: In member function ‘bycorf::Task<absl::lts_20250512::StatusOr<lavik::storage::HashResult> > lavik::storage::StorageEngine::Impl::ExecuteHashLikeLocked(uint8_t, std::string_view, const lavik::storage::Digest&, const lavik::storage::HashOperation&, lavik::storage::ValueType, lavik::storage::TxShardWrites*, lavik::storage::ReplicationCommandAppend*, const lavik::storage::MutationPrecondition*)’:
+/mnt/dev/lavik-complex-next-20261004/src/storage/engine/hash_tree.cpp:886:31: warning: missing initializer for member ‘lavik::storage::HashGroupSnapshot::prepared_’ [-Wmissing-field-initializers]
+  886 |         plan.writes_.push_back({.incarnation_ = plan.root_.incarnation_,
+      |         ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  887 |                                 .id_ = id,
+      |                                 ~~~~~~~~~~
+  888 |                                 .retired_ = true,
+      |                                 ~~~~~~~~~~~~~~~~~
+  889 |                                 .value_ = {}});
+      |                                 ~~~~~~~~~~~~~~
+[12/48] Building CXX object CMakeFiles/lavik_module.dir/src/storage/engine/init.cpp.o
+[13/48] Building CXX object CMakeFiles/lavik_module.dir/src/storage/engine/list_api.cpp.o
+[14/48] Building CXX object CMakeFiles/lavik_module.dir/src/storage/engine/metrics.cpp.o
+[15/48] Building CXX object CMakeFiles/lavik_module.dir/src/storage/engine/list_tree.cpp.o
+[16/48] Building CXX object CMakeFiles/lavik_module.dir/src/storage/engine/read.cpp.o
+[17/48] Building CXX object CMakeFiles/lavik_module.dir/src/storage/engine/recovery.cpp.o
+[18/48] Building CXX object CMakeFiles/lavik_module.dir/src/storage/engine/replication_log.cpp.o
+[19/48] Building CXX object CMakeFiles/lavik_module.dir/src/storage/engine/replication.cpp.o
+[20/48] Building CXX object CMakeFiles/lavik_module.dir/src/storage/engine/redis_export_backlog.cpp.o
+[21/48] Building CXX object CMakeFiles/lavik_module.dir/src/storage/engine/system_state.cpp.o
+[22/48] Building CXX object CMakeFiles/lavik_module.dir/src/storage/engine/tomb_raider.cpp.o
+[23/48] Building CXX object CMakeFiles/lavik_module.dir/src/storage/engine/tx_cleaner.cpp.o
+[24/48] Building CXX object CMakeFiles/lavik_module.dir/src/redis/rdb_collection.cpp.o
+In file included from /mnt/dev/lavik-complex-next-20261004/src/redis/rdb_stream_encoder.h:26,
+                 from /mnt/dev/lavik-complex-next-20261004/src/redis/rdb_collection.cpp:24:
+/mnt/dev/lavik-complex-next-20261004/src/redis/rdb_record_spool.h: In static member function ‘static absl::lts_20250512::StatusOr<lavik::rdb::RecordSpool::Record> lavik::rdb::RecordSpool::Allocate(std::size_t, std::size_t)’:
+/mnt/dev/lavik-complex-next-20261004/src/redis/rdb_record_spool.h:134:57: warning: missing initializer for member ‘lavik::rdb::RecordSpool::Record::key_’ [-Wmissing-field-initializers]
+  134 |     Record record{.reservation_ = std::move(reservation)};
+      |                                                         ^
+/mnt/dev/lavik-complex-next-20261004/src/redis/rdb_record_spool.h:134:57: warning: missing initializer for member ‘lavik::rdb::RecordSpool::Record::value_’ [-Wmissing-field-initializers]
+[25/48] Building CXX object CMakeFiles/lavik_module.dir/src/redis/rdb.cpp.o
+In file included from /mnt/dev/lavik-complex-next-20261004/src/redis/rdb.cpp:32:
+/mnt/dev/lavik-complex-next-20261004/src/redis/rdb_record_spool.h: In static member function ‘static absl::lts_20250512::StatusOr<lavik::rdb::RecordSpool::Record> lavik::rdb::RecordSpool::Allocate(std::size_t, std::size_t)’:
+/mnt/dev/lavik-complex-next-20261004/src/redis/rdb_record_spool.h:134:57: warning: missing initializer for member ‘lavik::rdb::RecordSpool::Record::key_’ [-Wmissing-field-initializers]
+  134 |     Record record{.reservation_ = std::move(reservation)};
+      |                                                         ^
+/mnt/dev/lavik-complex-next-20261004/src/redis/rdb_record_spool.h:134:57: warning: missing initializer for member ‘lavik::rdb::RecordSpool::Record::value_’ [-Wmissing-field-initializers]
+/mnt/dev/lavik-complex-next-20261004/src/redis/rdb.cpp: In static member function ‘static absl::lts_20250512::StatusOr<lavik::rdb::RecordSpool::Record> lavik::rdb::{anonymous}::StreamInput::String(lavik::rdb::{anonymous}::Reader*)’:
+/mnt/dev/lavik-complex-next-20261004/src/redis/rdb.cpp:1743:70: warning: missing initializer for member ‘lavik::rdb::RecordSpool::Record::key_’ [-Wmissing-field-initializers]
+ 1743 |     RecordSpool::Record result{.reservation_ = std::move(reservation)};
+      |                                                                      ^
+/mnt/dev/lavik-complex-next-20261004/src/redis/rdb.cpp:1743:70: warning: missing initializer for member ‘lavik::rdb::RecordSpool::Record::value_’ [-Wmissing-field-initializers]
+[26/48] Building CXX object CMakeFiles/lavik_module.dir/src/redis/list_command.cpp.o
+[27/48] Building CXX object CMakeFiles/lavik_module.dir/src/storage/engine/write.cpp.o
+[28/48] Building CXX object CMakeFiles/lavik_module.dir/src/redis/stream_command.cpp.o
+/mnt/dev/lavik-complex-next-20261004/src/redis/stream_command.cpp: In function ‘absl::lts_20250512::StatusOr<lavik::storage::CompactValueUpdate> lavik::{anonymous}::Changed(Stream)’:
+/mnt/dev/lavik-complex-next-20261004/src/redis/stream_command.cpp:788:67: warning: missing initializer for member ‘lavik::storage::CompactValueUpdate::stream_trim_’ [-Wmissing-field-initializers]
+  788 |                                      .expire_at_ms_ = std::nullopt};
+      |                                                                   ^
+/mnt/dev/lavik-complex-next-20261004/src/redis/stream_command.cpp:788:67: warning: missing initializer for member ‘lavik::storage::CompactValueUpdate::stream_trim_complete_’ [-Wmissing-field-initializers]
+/mnt/dev/lavik-complex-next-20261004/src/redis/stream_command.cpp:788:67: warning: missing initializer for member ‘lavik::storage::CompactValueUpdate::stream_pending_removed_’ [-Wmissing-field-initializers]
+/mnt/dev/lavik-complex-next-20261004/src/redis/stream_command.cpp: In function ‘bycorf::Task<absl::lts_20250512::Status> lavik::{anonymous}::RunCompact(const lavik::CommandRequest&, const lavik::storage::Digest*, lavik::storage::TxShardWrites*, bool, const lavik::storage::CompactValueCallback&, lavik::storage::ReplicationCommandAppend*)’:
+/mnt/dev/lavik-complex-next-20261004/src/redis/stream_command.cpp:976:64: warning: missing initializer for member ‘lavik::storage::StreamGroupAccess::pending_scan_’ [-Wmissing-field-initializers]
+  976 |     storage::StreamGroupAccess group{.group_ = request.args_[3]};
+      |                                                                ^
+/mnt/dev/lavik-complex-next-20261004/src/redis/stream_command.cpp:976:64: warning: missing initializer for member ‘lavik::storage::StreamGroupAccess::remove_consumer_’ [-Wmissing-field-initializers]
+/mnt/dev/lavik-complex-next-20261004/src/redis/stream_command.cpp:992:64: warning: missing initializer for member ‘lavik::storage::StreamGroupAccess::pending_scan_’ [-Wmissing-field-initializers]
+  992 |     storage::StreamGroupAccess group{.group_ = request.args_[3]};
+      |                                                                ^
+/mnt/dev/lavik-complex-next-20261004/src/redis/stream_command.cpp:992:64: warning: missing initializer for member ‘lavik::storage::StreamGroupAccess::remove_consumer_’ [-Wmissing-field-initializers]
+/mnt/dev/lavik-complex-next-20261004/src/redis/stream_command.cpp:1006:53: warning: missing initializer for member ‘lavik::storage::StreamGroupAccess::pending_scan_’ [-Wmissing-field-initializers]
+ 1006 |         .group_ = request.args_[3], .destroy_ = true};
+      |                                                     ^
+/mnt/dev/lavik-complex-next-20261004/src/redis/stream_command.cpp:1006:53: warning: missing initializer for member ‘lavik::storage::StreamGroupAccess::remove_consumer_’ [-Wmissing-field-initializers]
+/mnt/dev/lavik-complex-next-20261004/src/redis/stream_command.cpp:1038:57: warning: missing initializer for member ‘lavik::storage::StreamGroupAccess::remove_consumer_’ [-Wmissing-field-initializers]
+ 1038 |         .group_ = a[2], .pending_scan_ = std::move(scan)};
+      |                                                         ^
+/mnt/dev/lavik-complex-next-20261004/src/redis/stream_command.cpp:1069:34: warning: missing initializer for member ‘lavik::storage::StreamRangeAccess::selected_ids_’ [-Wmissing-field-initializers]
+ 1069 |             .load_entries_ = true}};
+      |                                  ^
+/mnt/dev/lavik-complex-next-20261004/src/redis/stream_command.cpp:1069:34: warning: missing initializer for member ‘lavik::storage::StreamPendingAccess::consumer_’ [-Wmissing-field-initializers]
+/mnt/dev/lavik-complex-next-20261004/src/redis/stream_command.cpp:1069:35: warning: missing initializer for member ‘lavik::storage::StreamGroupAccess::remove_consumer_’ [-Wmissing-field-initializers]
+ 1069 |             .load_entries_ = true}};
+      |                                   ^
+/mnt/dev/lavik-complex-next-20261004/src/redis/stream_command.cpp:1073:70: warning: missing initializer for member ‘lavik::storage::StreamGroupAccess::pending_scan_’ [-Wmissing-field-initializers]
+ 1073 |                                      .consumers_ = {request.args_[3]}};
+      |                                                                      ^
+/mnt/dev/lavik-complex-next-20261004/src/redis/stream_command.cpp:1073:70: warning: missing initializer for member ‘lavik::storage::StreamGroupAccess::remove_consumer_’ [-Wmissing-field-initializers]
+/mnt/dev/lavik-complex-next-20261004/src/redis/stream_command.cpp: In function ‘bycorf::Task<absl::lts_20250512::StatusOr<lavik::{anonymous}::ReadOneResult> > lavik::{anonymous}::ReadOneLocal(uint8_t, std::string, Id, bool, bool, std::string, std::string, bool, bool, uint64_t, const lavik::storage::Digest*, lavik::storage::TxShardWrites*, const lavik::CommandRequest*)’:
+/mnt/dev/lavik-complex-next-20261004/src/redis/stream_command.cpp:1383:60: warning: missing initializer for member ‘lavik::storage::StreamRangeAccess::selected_ids_’ [-Wmissing-field-initializers]
+ 1383 |                                    .first_exclusive_ = true},
+      |                                                            ^
+/mnt/dev/lavik-complex-next-20261004/src/redis/stream_command.cpp:1387:50: warning: missing initializer for member ‘lavik::{anonymous}::ReadOneResult::entries_’ [-Wmissing-field-initializers]
+ 1387 |         co_return ReadOneResult{.cursor_ = cursor};
+      |                                                  ^
+/mnt/dev/lavik-complex-next-20261004/src/redis/stream_command.cpp:1387:50: warning: missing initializer for member ‘lavik::{anonymous}::ReadOneResult::stream_’ [-Wmissing-field-initializers]
+/mnt/dev/lavik-complex-next-20261004/src/redis/stream_command.cpp:1390:76: warning: missing initializer for member ‘lavik::{anonymous}::ReadOneResult::entries_’ [-Wmissing-field-initializers]
+ 1390 |     co_return ReadOneResult{.cursor_ = cursor, .stream_ = std::move(*state)};
+      |                                                                            ^
+/mnt/dev/lavik-complex-next-20261004/src/redis/stream_command.cpp:1405:57: warning: missing initializer for member ‘lavik::{anonymous}::ReadOneResult::stream_’ [-Wmissing-field-initializers]
+ 1405 |   ReadOneResult result{.entries_ = {}, .cursor_ = cursor};
+      |                                                         ^
+/mnt/dev/lavik-complex-next-20261004/src/redis/stream_command.cpp:1507:60: warning: missing initializer for member ‘lavik::storage::StreamRangeAccess::selected_ids_’ [-Wmissing-field-initializers]
+ 1507 |                                    .first_exclusive_ = true};
+      |                                                            ^
+/mnt/dev/lavik-complex-next-20261004/src/redis/stream_command.cpp:1513:59: warning: missing initializer for member ‘lavik::storage::StreamGroupAccess::pending_scan_’ [-Wmissing-field-initializers]
+ 1513 |                                    .entry_ids_only_ = true};
+      |                                                           ^
+/mnt/dev/lavik-complex-next-20261004/src/redis/stream_command.cpp:1513:59: warning: missing initializer for member ‘lavik::storage::StreamGroupAccess::remove_consumer_’ [-Wmissing-field-initializers]
+/mnt/dev/lavik-complex-next-20261004/src/redis/stream_command.cpp:1524:38: warning: missing initializer for member ‘lavik::storage::StreamRangeAccess::selected_ids_’ [-Wmissing-field-initializers]
+ 1524 |                 .load_entries_ = true},
+      |                                      ^
+/mnt/dev/lavik-complex-next-20261004/src/redis/stream_command.cpp:1525:32: warning: missing initializer for member ‘lavik::storage::StreamGroupAccess::remove_consumer_’ [-Wmissing-field-initializers]
+ 1525 |         .entry_ids_only_ = true};
+      |                                ^
+/mnt/dev/lavik-complex-next-20261004/src/redis/stream_command.cpp:1554:70: warning: missing initializer for member ‘lavik::storage::StreamRangeAccess::selected_ids_’ [-Wmissing-field-initializers]
+ 1554 |                                      .count_ = result.entries_.size()};
+      |                                                                      ^
+/mnt/dev/lavik-complex-next-20261004/src/redis/stream_command.cpp: In function ‘bycorf::Task<lavik::CommandReply> lavik::{anonymous}::ExecuteImpl(const lavik::CommandRequest&, const lavik::storage::Digest*, lavik::storage::TxShardWrites*, lavik::ReplyBuilder&, uint64_t)’:
+/mnt/dev/lavik-complex-next-20261004/src/redis/stream_command.cpp:2163:76: warning: missing initializer for member ‘lavik::storage::StreamRangeAccess::selected_ids_’ [-Wmissing-field-initializers]
+ 2163 |                                                               : xinfo_count},
+      |                                                                            ^
+/mnt/dev/lavik-complex-next-20261004/src/redis/stream_command.cpp: In lambda function:
+/mnt/dev/lavik-complex-next-20261004/src/redis/stream_command.cpp:2679:56: warning: missing initializer for member ‘lavik::{anonymous}::Group::summary_’ [-Wmissing-field-initializers]
+ 2679 |                                          .pending_ = {}});
+      |                                                        ^
+[29/48] Building CXX object CMakeFiles/lavik_module.dir/src/redis/zset_command.cpp.o
+/mnt/dev/lavik-complex-next-20261004/src/redis/zset_command.cpp: In lambda function:
+/mnt/dev/lavik-complex-next-20261004/src/redis/zset_command.cpp:2294:69: warning: missing initializer for member ‘lavik::storage::CompactValueUpdate::stream_trim_’ [-Wmissing-field-initializers]
+ 2294 |                                        .expire_at_ms_ = std::nullopt};
+      |                                                                     ^
+/mnt/dev/lavik-complex-next-20261004/src/redis/zset_command.cpp:2294:69: warning: missing initializer for member ‘lavik::storage::CompactValueUpdate::stream_trim_complete_’ [-Wmissing-field-initializers]
+/mnt/dev/lavik-complex-next-20261004/src/redis/zset_command.cpp:2294:69: warning: missing initializer for member ‘lavik::storage::CompactValueUpdate::stream_pending_removed_’ [-Wmissing-field-initializers]
+[30/48] Building CXX object CMakeFiles/lavik_unit_tests.dir/tests/grouped/sorted_rewrite_test.cpp.o
+[31/48] Building CXX object CMakeFiles/lavik_unit_tests.dir/tests/grouped/hash_test.cpp.o
+[32/48] Building CXX object CMakeFiles/lavik_unit_tests.dir/tests/ordered_compact_codec_test.cpp.o
+[33/48] Building CXX object CMakeFiles/lavik_unit_tests.dir/tests/grouped/collection_test.cpp.o
+[34/48] Building CXX object CMakeFiles/lavik_unit_tests.dir/tests/record_payload_cursor_test.cpp.o
+[35/48] Building CXX object CMakeFiles/lavik_unit_tests.dir/tests/collection_compact_stream_test.cpp.o
+[36/48] Building CXX object CMakeFiles/lavik_unit_tests.dir/tests/grouped/ordered_object_test.cpp.o
+[37/48] Building CXX object CMakeFiles/lavik_unit_tests.dir/tests/grouped/object_index_test.cpp.o
+[38/48] Linking CXX static library liblavik_module.a
+[39/48] Building CXX object CMakeFiles/lavik_unit_tests.dir/tests/record_location_test.cpp.o
+[40/48] Building CXX object CMakeFiles/lavik_unit_tests.dir/tests/storage_capacity_test.cpp.o
+[41/48] Building CXX object CMakeFiles/lavik_grouped_ordered_write_e2e_test.dir/tests/grouped/stream_e2e_test.cpp.o
+[42/48] Building CXX object CMakeFiles/lavik_grouped_ordered_write_e2e_test.dir/tests/grouped/rdb_stream_e2e_test.cpp.o
+[43/48] Building CXX object CMakeFiles/lavik_grouped_ordered_write_e2e_test.dir/tests/grouped/ordered_write_e2e_test.cpp.o
+[44/48] Building CXX object CMakeFiles/lavik_grouped_ordered_write_e2e_test.dir/tests/grouped/transfer_e2e_test.cpp.o
+[45/48] Building CXX object CMakeFiles/lavik_grouped_ordered_write_e2e_test.dir/tests/grouped/zset_write_e2e_test.cpp.o
+[46/48] Linking CXX executable lavik_grouped_ordered_write_e2e_test
+[47/48] Linking CXX executable lavik
+[48/48] Linking CXX executable lavik_unit_tests

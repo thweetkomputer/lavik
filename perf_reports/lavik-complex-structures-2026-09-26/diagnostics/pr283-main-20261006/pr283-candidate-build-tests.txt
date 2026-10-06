@@ -1,0 +1,34 @@
+[0/2] Re-checking globbed directories...
+[1/6] Building CXX object CMakeFiles/lavik_module.dir/src/storage/engine/grouped/zset.cpp.o
+/mnt/dev/lavik-complex-next-20261004/src/storage/engine/grouped/zset.cpp: In lambda function:
+/mnt/dev/lavik-complex-next-20261004/src/storage/engine/grouped/zset.cpp:678:23: warning: loop variable ‘<structured bindings>’ creates a copy from type ‘const std::pair<long unsigned int, long unsigned int>’ [-Wrange-loop-construct]
+  678 |       for (const auto [rank, slot] : selection.draws_) {
+      |                       ^~~~~~~~~~~~
+/mnt/dev/lavik-complex-next-20261004/src/storage/engine/grouped/zset.cpp:678:23: note: use reference type to prevent copying
+  678 |       for (const auto [rank, slot] : selection.draws_) {
+      |                       ^~~~~~~~~~~~
+      |                       &
+/mnt/dev/lavik-complex-next-20261004/src/storage/engine/grouped/zset.cpp:708:62: warning: missing initializer for member ‘lavik::storage::CompactValueUpdate::stream_trim_’ [-Wmissing-field-initializers]
+  708 |                                 .expire_at_ms_ = std::nullopt};
+      |                                                              ^
+/mnt/dev/lavik-complex-next-20261004/src/storage/engine/grouped/zset.cpp:708:62: warning: missing initializer for member ‘lavik::storage::CompactValueUpdate::stream_trim_complete_’ [-Wmissing-field-initializers]
+/mnt/dev/lavik-complex-next-20261004/src/storage/engine/grouped/zset.cpp:708:62: warning: missing initializer for member ‘lavik::storage::CompactValueUpdate::stream_pending_removed_’ [-Wmissing-field-initializers]
+/mnt/dev/lavik-complex-next-20261004/src/storage/engine/grouped/zset.cpp:738:62: warning: missing initializer for member ‘lavik::storage::CompactValueUpdate::stream_trim_’ [-Wmissing-field-initializers]
+  738 |                                 .expire_at_ms_ = std::nullopt};
+      |                                                              ^
+/mnt/dev/lavik-complex-next-20261004/src/storage/engine/grouped/zset.cpp:738:62: warning: missing initializer for member ‘lavik::storage::CompactValueUpdate::stream_trim_complete_’ [-Wmissing-field-initializers]
+/mnt/dev/lavik-complex-next-20261004/src/storage/engine/grouped/zset.cpp:738:62: warning: missing initializer for member ‘lavik::storage::CompactValueUpdate::stream_pending_removed_’ [-Wmissing-field-initializers]
+/mnt/dev/lavik-complex-next-20261004/src/storage/engine/grouped/zset.cpp:777:60: warning: missing initializer for member ‘lavik::storage::CompactValueUpdate::stream_trim_’ [-Wmissing-field-initializers]
+  777 |                               .expire_at_ms_ = std::nullopt};
+      |                                                            ^
+/mnt/dev/lavik-complex-next-20261004/src/storage/engine/grouped/zset.cpp:777:60: warning: missing initializer for member ‘lavik::storage::CompactValueUpdate::stream_trim_complete_’ [-Wmissing-field-initializers]
+/mnt/dev/lavik-complex-next-20261004/src/storage/engine/grouped/zset.cpp:777:60: warning: missing initializer for member ‘lavik::storage::CompactValueUpdate::stream_pending_removed_’ [-Wmissing-field-initializers]
+/mnt/dev/lavik-complex-next-20261004/src/storage/engine/grouped/zset.cpp: In lambda function:
+/mnt/dev/lavik-complex-next-20261004/src/storage/engine/grouped/zset.cpp:1299:42: warning: unused parameter ‘i’ [-Wunused-parameter]
+ 1299 |   auto check_plan_read = [&](std::size_t i) -> absl::Status {
+      |                              ~~~~~~~~~~~~^
+[2/6] Building CXX object CMakeFiles/lavik_grouped_ordered_write_e2e_test.dir/tests/grouped/zset_write_e2e_test.cpp.o
+[3/6] Linking CXX static library liblavik_module.a
+[4/6] Linking CXX executable lavik_grouped_ordered_write_e2e_test
+[5/6] Linking CXX executable lavik_unit_tests
+[6/6] Linking CXX executable lavik

@@ -1,0 +1,308 @@
+{
+  "commit": "ace4198b0e1080cbb5116d40817b4dcc38f7ff8c",
+  "source_repo": "/mnt/dev/lavik-complex-next-20261004",
+  "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-pr283-candidate-ace4198b-20261006",
+  "sha256": "89d1ba257023f2ca2056041be81f0935d4c1a865f09645491f8404f1c658e155",
+  "driver": "/mnt/dev/lavik-benchmark-binaries/pr283-candidate-driver-ace4198b-20261006",
+  "driver_sha256": "31c933222cc161607123265c5520dae3d1d946ad60eb5ace7d3df93083bba622",
+  "bycorf_commit": "62509c93d40c2480f5046b71454db6cf95801b04",
+  "bycorf_source_repo": "/mnt/dev/lavik-set-hash-20260929/bycorf",
+  "bycorf_source_status": " m third_party/spdk",
+  "bycorf_submodule_revisions": [
+    " 76bb24329e8bf5f39704eb10d21b9a80befa7c81 third_party/abseil (20250512.1)",
+    " 37a1a9b926b4678141931f2f22e7a877b5b565c2 third_party/dpdk (v21.02-17380-g37a1a9b926)",
+    " d41bf9220ec39277ff235379e9089d9e0fd6c2a5 third_party/liburing (liburing-2.15)",
+    " d519b163cbc0e2f28c35d9bc86d610da368b032c third_party/spdk (v26.05)",
+    " 37a1a9b926b4678141931f2f22e7a877b5b565c2 third_party/spdk/dpdk (v21.02-17380-g37a1a9b926)",
+    " 935a3802883249ba3b12e566833994af7991e808 third_party/spdk/intel-ipsec-mb (v0.50-2636-g935a3802)",
+    " c196241ae89b1aa4f62efeb849a937c011b3a926 third_party/spdk/isa-l (v2.31.0-207-gc196241)",
+    " 07d0b253843ace996aa5a44f538c9b83b085aba6 third_party/spdk/isa-l-crypto (v2.24.0-384-g07d0b25)",
+    " f922ada35b3ef47407687d19c63db1ea19c96550 third_party/spdk/libvfio-user (v0.1-728-gf922ada)",
+    " 6ad1007e6fa47ff6468eaba0b304d77334c34d4a third_party/spdk/ocf (v24.09)",
+    " be52a634c139647b14940ba8a3ff254d6b1ca8c4 third_party/spdk/xnvme (v0.7.5)"
+  ],
+  "bycorf_provenance_observed_at": "2026-10-06T01:17:48.350430+00:00",
+  "build": "Existing GCC native SPDK build-spdk cache; production tests/faults OFF, separately built test drivers",
+  "ci": {
+    "conclusion": "",
+    "headSha": "ace4198b0e1080cbb5116d40817b4dcc38f7ff8c",
+    "jobs": [
+      {
+        "completedAt": "2026-10-06T00:51:04Z",
+        "conclusion": "success",
+        "databaseId": 112052355235,
+        "name": "clang-format",
+        "startedAt": "2026-10-06T00:50:49Z",
+        "status": "completed",
+        "steps": [
+          {
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "name": "Run actions/checkout@v7",
+            "number": 2,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "name": "Run actions/setup-python@v7",
+            "number": 3,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "name": "Install pre-commit",
+            "number": 4,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "name": "Check all maintained sources",
+            "number": 5,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "name": "Post Run actions/setup-python@v7",
+            "number": 9,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@v7",
+            "number": 10,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 11,
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/eloqdata/lavik/actions/runs/37396115650/job/112052355235"
+      },
+      {
+        "completedAt": "0001-01-01T00:00:00Z",
+        "conclusion": "",
+        "databaseId": 112052355434,
+        "name": "Build tests (amd64)",
+        "startedAt": "2026-10-06T00:51:24Z",
+        "status": "in_progress",
+        "steps": [
+          {
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "name": "Run actions/checkout@v7",
+            "number": 2,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "name": "Run actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e",
+            "number": 3,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "name": "Restore compiler cache",
+            "number": 4,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "name": "Initialize runtime dependencies",
+            "number": 5,
+            "status": "completed"
+          },
+          {
+            "conclusion": "",
+            "name": "Install build dependencies",
+            "number": 6,
+            "status": "in_progress"
+          },
+          {
+            "conclusion": "",
+            "name": "Check CI runner and bundle regressions",
+            "number": 7,
+            "status": "pending"
+          },
+          {
+            "conclusion": "",
+            "name": "Check Go formatting",
+            "number": 8,
+            "status": "pending"
+          },
+          {
+            "conclusion": "",
+            "name": "Install Redis integration peers",
+            "number": 9,
+            "status": "pending"
+          },
+          {
+            "conclusion": "",
+            "name": "Configure",
+            "number": 10,
+            "status": "pending"
+          },
+          {
+            "conclusion": "",
+            "name": "Build all targets once",
+            "number": 11,
+            "status": "pending"
+          },
+          {
+            "conclusion": "",
+            "name": "Package test runtime",
+            "number": 12,
+            "status": "pending"
+          },
+          {
+            "conclusion": "",
+            "name": "Upload test runtime",
+            "number": 13,
+            "status": "pending"
+          },
+          {
+            "conclusion": "",
+            "name": "Post Restore compiler cache",
+            "number": 24,
+            "status": "pending"
+          },
+          {
+            "conclusion": "",
+            "name": "Post Run actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e",
+            "number": 25,
+            "status": "pending"
+          },
+          {
+            "conclusion": "",
+            "name": "Post Run actions/checkout@v7",
+            "number": 26,
+            "status": "pending"
+          }
+        ],
+        "url": "https://github.com/eloqdata/lavik/actions/runs/37396115650/job/112052355434"
+      },
+      {
+        "completedAt": "0001-01-01T00:00:00Z",
+        "conclusion": "",
+        "databaseId": 112052355547,
+        "name": "Build tests (arm64)",
+        "startedAt": "2026-10-06T00:50:51Z",
+        "status": "in_progress",
+        "steps": [
+          {
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "name": "Run actions/checkout@v7",
+            "number": 2,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "name": "Run actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e",
+            "number": 3,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "name": "Restore compiler cache",
+            "number": 4,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "name": "Initialize runtime dependencies",
+            "number": 5,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "name": "Install build dependencies",
+            "number": 6,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "name": "Check CI runner and bundle regressions",
+            "number": 7,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "name": "Check Go formatting",
+            "number": 8,
+            "status": "completed"
+          },
+          {
+            "conclusion": "",
+            "name": "Install Redis integration peers",
+            "number": 9,
+            "status": "in_progress"
+          },
+          {
+            "conclusion": "",
+            "name": "Configure",
+            "number": 10,
+            "status": "pending"
+          },
+          {
+            "conclusion": "",
+            "name": "Build all targets once",
+            "number": 11,
+            "status": "pending"
+          },
+          {
+            "conclusion": "",
+            "name": "Package test runtime",
+            "number": 12,
+            "status": "pending"
+          },
+          {
+            "conclusion": "",
+            "name": "Upload test runtime",
+            "number": 13,
+            "status": "pending"
+          },
+          {
+            "conclusion": "",
+            "name": "Post Restore compiler cache",
+            "number": 24,
+            "status": "pending"
+          },
+          {
+            "conclusion": "",
+            "name": "Post Run actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e",
+            "number": 25,
+            "status": "pending"
+          },
+          {
+            "conclusion": "",
+            "name": "Post Run actions/checkout@v7",
+            "number": 26,
+            "status": "pending"
+          }
+        ],
+        "url": "https://github.com/eloqdata/lavik/actions/runs/37396115650/job/112052355547"
+      }
+    ],
+    "status": "in_progress",
+    "url": "https://github.com/eloqdata/lavik/actions/runs/37396115650"
+  },
+  "compiler_tmpdir": "/mnt/dev/lavik-pr283-main-20261006/compiler-tmp-pr283"
+}

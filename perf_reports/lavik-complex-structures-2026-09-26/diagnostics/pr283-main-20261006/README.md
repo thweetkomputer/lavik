@@ -2,7 +2,7 @@
 
 按用户 rebase 后的版本重新固定比较：main `5a3903d9b3c0632e3b34e827b779d9daa58455c2`，候选 `ace4198b0e1080cbb5116d40817b4dcc38f7ff8c`。候选的直接父提交即本次 main。旧父版本 `838a290f` 的构建已停止，没有产生本轮性能测量。
 
-状态：原生构建与回归进行中；尚无 QPS 收益结论。候选的新 CI 另行运行，旧 head 的 CI 不转记为新版本通过。
+状态：两边原生构建与完整回归已通过，144 点配对正在运行；尚无完整 QPS 收益结论。固定 main 与候选的新 CI 均为 17/17 成功，分别见 [main CI](parent-full-ci.json) 和 [候选当前 CI](candidate-current-ci.json)。`candidate-full-ci.json` 保留初次查询时的进行中状态，不作为最终通过证明。
 
 [固定协议](protocol.json) · [原始原生构建和验证](validate-native.py) · [修正临时目录后的完整原生验证](validate-native-private-tmp.py) · [对照驱动](repeat-controls.py) · [实际命令及同分值预置](run-zset-controls.py) · [perf 与 main 刷新顺序](refresh-main.py)。这些脚本保留本次运行的绝对工作路径；共享主机锁和依赖来源来自既有基准工作区。
 
@@ -23,3 +23,12 @@ ZADD 对八个成员交替设置分值 0/1；随机 key 和并发可能产生同
 [原始 GTest 记录](pr283-parent-native-tests.json) · [原始完整日志](pr283-parent-native-tests.txt) · [环境修复记录](scratch-environment-repair.json) · [隔离临时目录启动器](private-tmp-exec.py)。旧 native、配对和 main 刷新队列均已终止，后两者在前置检查停止，没有性能观测；旧日志分别保留。
 
 新的测试进程在独立 mount namespace 中把任务目录映射为 `/tmp`，使用约 143 GiB 空闲的数据盘，宿主机 `/tmp` 和权限保持不变。两边生产二进制及性能驱动使用同一临时盘策略；没有修改生产代码或超时，没有跳过失败测试。main 使用字节相同的二进制重跑完整原生回归，再构建并运行候选。这是本次 ENOSPC 的环境修复，不解释历史 PR #275 的不同超时。
+
+## 完整原生验证
+
+| 版本 | 单元测试通过 | 集成测试通过 | 故障注入用例跳过 | 失败 |
+|---|---:|---:|---:|---:|
+| main `5a3903d9` | 128 | 74 | 34 | 0 |
+| #283 `ace4198b` | 128 | 75 | 34 | 0 |
+
+[验证摘要](native-complete-summary.json) · [main 完整集成日志](pr283-parent-native-tests-private-tmp.txt) · [候选完整集成日志](pr283-candidate-native-tests-private-tmp.txt) · [匹配构建证明](matched-build-proof.json) · [二进制与测试版本记录](pr283-versions.json)。两边均关闭故障注入；34 个跳过是该生产配置下的故障注入用例，完整集成套件未作筛选。候选多一个页内二进制成员回归用例。原始 ENOSPC 和修复后的通过结果分别保留，不能据此解释其他历史失败。
