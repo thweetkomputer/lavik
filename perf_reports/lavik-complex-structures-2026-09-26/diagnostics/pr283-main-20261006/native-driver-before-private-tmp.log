@@ -1,0 +1,22 @@
+WAIT_FOR_HOST_LOCK pr283-native-validation 1063800 1791247915.7214327
+HOST_LOCK_ACQUIRED pr283-native-validation 1063800 1791247915.7214732
+START parent checkout 1791247915.7365806
+PASS parent checkout 1791247915.7682652
+START parent configure-tests 1791247915.7682955
+PASS parent configure-tests 1791247920.6920934
+START parent build-tests 1791247920.6921387
+PASS parent build-tests 1791248107.9625065
+START parent unit-tests 1791248107.9626276
+PASS parent unit-tests 1791248110.7331746
+START parent configure-production 1791248110.7541194
+PASS parent configure-production 1791248115.2273645
+START parent build-production 1791248115.2274227
+PASS parent build-production 1791248115.2915046
+START parent native-tests 1791248116.0874379
+Traceback (most recent call last):
+  File "/mnt/dev/lavik-pr283-main-20261006/validate-native.py", line 56, in <module>
+    run('native-tests',[str(driver),str(binary),'--gtest_filter=*','--gtest_output=json:'+str(W/(prefix+'-native-tests.json'))],env)
+  File "/mnt/dev/lavik-pr283-main-20261006/validate-native.py", line 32, in run
+    if code:raise subprocess.CalledProcessError(code,argv)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+subprocess.CalledProcessError: Command '['/mnt/dev/lavik-benchmark-binaries/pr283-parent-driver-5a3903d9-20261006', '/mnt/dev/lavik-benchmark-binaries/lavik-pr283-parent-5a3903d9-20261006', '--gtest_filter=*', '--gtest_output=json:/mnt/dev/lavik-pr283-main-20261006/pr283-parent-native-tests.json']' returned non-zero exit status 1.

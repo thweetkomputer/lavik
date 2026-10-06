@@ -1,0 +1,11 @@
+{
+  "time": 1791248814.4984848,
+  "original_test": "GroupedStreamE2e.LargeRdbRoundTripKeepsMessagesAndDeletedPendingBounded",
+  "failure": "RDB scratch file: No space left on device",
+  "host_tmp_free_mib": 833,
+  "isolated_tmp_free_gib": 143.33,
+  "source": "src/redis/rdb_record_spool.h uses std::tmpfile; glibc tmpfile probe confirms /tmp, ignoring TMPDIR",
+  "repair": "Private mount namespace binds task directory from /mnt/dev at /tmp; native test privileges remain uid1000; host /tmp unchanged. Same policy for both measured versions. No production change, timeout extension or excluded test.",
+  "native_scope": "Original main suite retained; full main integration rerun on identical binary; candidate full build/integration follows.",
+  "old_processes": "All three prior handles missing before restart; original comparison and main refresh stopped at their guards before any measurements."
+}

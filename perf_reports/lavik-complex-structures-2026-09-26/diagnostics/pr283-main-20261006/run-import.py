@@ -17,7 +17,7 @@ def run(args):
 run(['sudo','-n','python3',str(W/'host.py'),'prepare'])
 try:
  print('START',tag,time.time(),flush=True)
- run(['sudo','-n','env','LAVIK_BENCH_ROOT='+str(R),'python3',str(R/'run_with_memory_guard.py'),'--minimum-available-gib=20','--','python3',str(R/'seed_batched_import.py'),'lavik','--binary='+v['binary'],'--source-repo='+v['source_repo'],'--source-commit='+v['commit'],'--tag='+tag,'--types='+kind,'--sizes=1048576','--fields='+str(field),'--keys=50000','--mode=full','--levels=1','--seconds=1','--fill-workers=8','--seed-pipeline=64','--seed-command-bytes=16384'])
+ run(['sudo','-n','env','LAVIK_BENCH_ROOT='+str(R),'unshare','--mount','--propagation','private','python3',str(W/'private-tmp-exec.py'),str(W/'benchmark-tmp'),'0','0','python3',str(R/'run_with_memory_guard.py'),'--minimum-available-gib=20','--','python3',str(R/'seed_batched_import.py'),'lavik','--binary='+v['binary'],'--source-repo='+v['source_repo'],'--source-commit='+v['commit'],'--tag='+tag,'--types='+kind,'--sizes=1048576','--fields='+str(field),'--keys=50000','--mode=full','--levels=1','--seconds=1','--fill-workers=8','--seed-pipeline=64','--seed-command-bytes=16384'])
  print('COMPLETE',tag,time.time(),flush=True)
 finally:run(['sudo','-n','python3',str(W/'host.py'),'restore'])
 run(['sudo','-n','chown','-R',str(os.getuid())+':'+str(os.getgid()),str(raw)])

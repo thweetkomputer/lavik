@@ -52,7 +52,7 @@ for size, field, keys in [(104857600, 1024, 8), (65536, 128, 64)]:
         subprocess.run(['sudo', '-n', 'python3', str(W / 'host.py'), 'prepare'], check=True)
         try:
             execute(['sudo', '-n', 'env', 'LAVIK_BENCH_ROOT=' + str(R),
-                     'LAVIK_PROFILE_ZSET_OPERATION=ZINCRBY', 'python3',
+                     'LAVIK_PROFILE_ZSET_OPERATION=ZINCRBY', 'unshare','--mount','--propagation','private','python3',str(W/'private-tmp-exec.py'),str(W/'benchmark-tmp'),'0','0','python3',
                      str(R / 'run_with_memory_guard.py'), '--minimum-available-gib=20', '--',
                      'python3', str(W / 'profile-ordered-allworkers.py'), 'lavik',
                      '--binary=' + v['binary'], '--source-repo=' + v['source_repo'],

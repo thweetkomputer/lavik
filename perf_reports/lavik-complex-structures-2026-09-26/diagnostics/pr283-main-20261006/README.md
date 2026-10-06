@@ -4,7 +4,7 @@
 
 状态：原生构建与回归进行中；尚无 QPS 收益结论。候选的新 CI 另行运行，旧 head 的 CI 不转记为新版本通过。
 
-[固定协议](protocol.json) · [原生构建和验证](validate-native.py) · [对照驱动](repeat-controls.py) · [实际命令及同分值预置](run-zset-controls.py) · [perf 与 main 刷新顺序](refresh-main.py)。这些脚本保留本次运行的绝对工作路径；共享主机锁和依赖来源来自既有基准工作区。
+[固定协议](protocol.json) · [原始原生构建和验证](validate-native.py) · [修正临时目录后的完整原生验证](validate-native-private-tmp.py) · [对照驱动](repeat-controls.py) · [实际命令及同分值预置](run-zset-controls.py) · [perf 与 main 刷新顺序](refresh-main.py)。这些脚本保留本次运行的绝对工作路径；共享主机锁和依赖来源来自既有基准工作区。
 
 两边使用相同 GCC/native/SPDK 生产配置，关闭测试故障注入，先执行原生回归，再串行测量。保持原报告 12 个 worker、pipeline=1 和独立客户端。正式 QPS 与 perf 分开运行。
 
@@ -15,3 +15,11 @@ ZADD 对八个成员交替设置分值 0/1；随机 key 和并发可能产生同
 配对测量后，对两种大小各采集 main/候选的 ZINCRBY c80 perf，分别使用新建数据。CPU 采样为每个 worker 独立 99 Hz task-clock / 16 KiB DWARF、25 秒窗口；命令及计数窗口 30 秒，采样占比不等同每命令 CPU 时间或分配次数。
 
 随后以同一个 main 生产二进制刷新报告原有 28 组吞吐和 4 组批量导入。原报告曲线在复测完成前继续保留原始提交标记，不将历史结果改名为新 main。Redis、Valkey、Kvrocks 保留历史匹配负载，持久化及缓存设置差异仍适用。
+
+## 原生验证的临时盘限制
+
+首次 main 完整原生回归中，`LargeRdbRoundTripKeepsMessagesAndDeletedPendingBounded` 的 RDB 导入失败，日志明确为 `RDB scratch file: No space left on device`。当时系统 `/tmp` 所在文件系统仅余约 833 MiB。源码使用 `std::tmpfile()`，独立 glibc 调用确认实际落在 `/tmp`，不会使用构建环境的 `TMPDIR`。原始失败没有改成成功，也不归因于尚未执行的候选。
+
+[原始 GTest 记录](pr283-parent-native-tests.json) · [原始完整日志](pr283-parent-native-tests.txt) · [环境修复记录](scratch-environment-repair.json) · [隔离临时目录启动器](private-tmp-exec.py)。旧 native、配对和 main 刷新队列均已终止，后两者在前置检查停止，没有性能观测；旧日志分别保留。
+
+新的测试进程在独立 mount namespace 中把任务目录映射为 `/tmp`，使用约 143 GiB 空闲的数据盘，宿主机 `/tmp` 和权限保持不变。两边生产二进制及性能驱动使用同一临时盘策略；没有修改生产代码或超时，没有跳过失败测试。main 使用字节相同的二进制重跑完整原生回归，再构建并运行候选。这是本次 ENOSPC 的环境修复，不解释历史 PR #275 的不同超时。

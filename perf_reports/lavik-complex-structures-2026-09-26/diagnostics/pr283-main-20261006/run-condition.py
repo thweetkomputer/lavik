@@ -16,7 +16,7 @@ if (raw/'complete.json').exists():
  print('ALREADY_COMPLETE',tag,flush=True);raise SystemExit(0)
 assert not raw.exists(),f'Unfinished run needs explicit resume: {raw}'
 base=['lavik','--binary='+v['binary'],'--source-repo='+v['source_repo'],'--source-commit='+v['commit'],'--types='+a.kind,'--sizes='+str(a.size),'--fields='+str(a.field),'--keys='+str(a.keys)]
-guard=['sudo','-n','env','LAVIK_BENCH_ROOT='+str(R),'LAVIK_LSET_NO_PERF=1','python3',str(R/'run_with_memory_guard.py'),'--minimum-available-gib=20','--','python3']
+guard=['sudo','-n','env','LAVIK_BENCH_ROOT='+str(R),'LAVIK_LSET_NO_PERF=1','unshare','--mount','--propagation','private','python3',str(W/'private-tmp-exec.py'),str(W/'benchmark-tmp'),'0','0','python3',str(R/'run_with_memory_guard.py'),'--minimum-available-gib=20','--','python3']
 run(['sudo','-n','python3',str(W/'host.py'),'prepare'])
 try:
  print('START',tag,time.time(),flush=True)

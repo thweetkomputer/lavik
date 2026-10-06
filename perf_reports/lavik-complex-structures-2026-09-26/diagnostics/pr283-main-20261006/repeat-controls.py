@@ -87,7 +87,7 @@ def run(label, size, field, keys, round_, write=False, seed_tag=None, seed_only=
     raw = R / 'raw' / ('lavik-' + tag)
     assert not raw.exists(), raw
     helper = 'run-zset-controls.py'
-    args = ['sudo', '-n', 'env', 'LAVIK_BENCH_ROOT=' + str(R), 'PR283_OPERATION='+('SEED' if seed_only else operation), 'PR283_LAYOUT='+layout, 'python3',
+    args = ['sudo', '-n', 'env', 'LAVIK_BENCH_ROOT=' + str(R), 'PR283_OPERATION='+('SEED' if seed_only else operation), 'PR283_LAYOUT='+layout, 'unshare','--mount','--propagation','private','python3',str(W/'private-tmp-exec.py'),str(W/'benchmark-tmp'),'0','0','python3',
             str(R / 'run_with_memory_guard.py'), '--minimum-available-gib=20', '--',
             'python3', str(W / helper), 'lavik', '--binary=' + v['binary'],
             '--source-repo=' + v['source_repo'], '--source-commit=' + v['commit'],

@@ -1,0 +1,425 @@
+[==========] Running 108 tests from 15 test suites.
+[----------] Global test environment set-up.
+[----------] 15 tests from GroupedStreamE2e
+[ RUN      ] GroupedStreamE2e.SmallStreamKeepsCompactStorage
+[       OK ] GroupedStreamE2e.SmallStreamKeepsCompactStorage (338 ms)
+[ RUN      ] GroupedStreamE2e.ConcurrentDurabilityWaitersRecheckPartialFlushes
+[       OK ] GroupedStreamE2e.ConcurrentDurabilityWaitersRecheckPartialFlushes (1966 ms)
+[ RUN      ] GroupedStreamE2e.PromotesAtSharedSizeBoundaryAndRecovers
+[       OK ] GroupedStreamE2e.PromotesAtSharedSizeBoundaryAndRecovers (767 ms)
+[ RUN      ] GroupedStreamE2e.AppendOnlyRewritesBoundedPagesAndRecovers
+[       OK ] GroupedStreamE2e.AppendOnlyRewritesBoundedPagesAndRecovers (6753 ms)
+[ RUN      ] GroupedStreamE2e.DeleteRoutesIdsAndPreservesPendingAndNodeBoundaries
+[       OK ] GroupedStreamE2e.DeleteRoutesIdsAndPreservesPendingAndNodeBoundaries (1627 ms)
+[ RUN      ] GroupedStreamE2e.EmptyStreamRetainsGroupsAndPendingAcrossRecovery
+[       OK ] GroupedStreamE2e.EmptyStreamRetainsGroupsAndPendingAcrossRecovery (1839 ms)
+[ RUN      ] GroupedStreamE2e.BinaryNamesLargeIdsAndApproximateNodes
+[       OK ] GroupedStreamE2e.BinaryNamesLargeIdsAndApproximateNodes (217 ms)
+[ RUN      ] GroupedStreamE2e.MultipleConsumersSparseAcksCopyAndRename
+[       OK ] GroupedStreamE2e.MultipleConsumersSparseAcksCopyAndRename (3242 ms)
+[ RUN      ] GroupedStreamE2e.FailedAppendCannotLeakIntoFollowingAckInExec
+/mnt/dev/lavik-complex-next-20261004/tests/grouped/stream_e2e_test.cpp:357: Skipped
+requires grouped auxiliary fault hook
+
+[  SKIPPED ] GroupedStreamE2e.FailedAppendCannotLeakIntoFollowingAckInExec (0 ms)
+[ RUN      ] GroupedStreamE2e.RewoundNoAckAndForceClaimPreserveUnloadedPending
+[       OK ] GroupedStreamE2e.RewoundNoAckAndForceClaimPreserveUnloadedPending (117 ms)
+[ RUN      ] GroupedStreamE2e.ExpirationDeletionAndFlushCannotResurrectOldGraphs
+[       OK ] GroupedStreamE2e.ExpirationDeletionAndFlushCannotResurrectOldGraphs (1569 ms)
+[ RUN      ] GroupedStreamE2e.AggregateAbove512MiBKeepsHotPathsAndRecoveryBounded
+[       OK ] GroupedStreamE2e.AggregateAbove512MiBKeepsHotPathsAndRecoveryBounded (58615 ms)
+[ RUN      ] GroupedStreamE2e.RangeRepliesPreserveMixedSizeBinaryRecords
+[       OK ] GroupedStreamE2e.RangeRepliesPreserveMixedSizeBinaryRecords (185 ms)
+[ RUN      ] GroupedStreamE2e.LargeRepliesKeepSnapshotsAndDeletedHistory
+[       OK ] GroupedStreamE2e.LargeRepliesKeepSnapshotsAndDeletedHistory (15447 ms)
+[ RUN      ] GroupedStreamE2e.LargeRdbRoundTripKeepsMessagesAndDeletedPendingBounded
+/mnt/dev/lavik-complex-next-20261004/tests/grouped/stream_e2e_test.cpp:717: Failure
+Expected: (server.Log().find("loaded RDB file")) != (std::string::npos), actual: 18446744073709551615 vs 18446744073709551615
+[2026-10-06 00:57:39.333] [lavik] [info] I/O backends: network=kernel storage=uring rings=one-per-worker
+[2026-10-06 00:57:39.333] [lavik] [info] mimalloc recovery_purge_delay=1000 online_purge_delay=60000 arena_eager_commit=1 allow_thp=0
+[2026-10-06 00:57:39.333] [lavik] [info] lavik version=0.1.0-dev listening on 127.0.0.1:51937 tls_port=0 metrics_port=0 shards=3 maxclients=10000 maxclients_fd_reserve=256 pin_workers=false idle_timeout_ms=-1 busy_poll_us=20 foreground_budget_us=1000 background_budget_us=10 background_warrant_percent=1 spdk_max_completions_per_poll=8 spdk_foreground_pre_poll_us=5 registered_buffer_bytes=67108864 per worker storage_write_buffers=4 storage_read_buffer_bytes=1048576 replication_publish_queue_bytes=16777216 per worker max_memory=268435456 maxmemory_clients=5% client_query_buffer_limit=1073741824 flush_max_ms=20 flush_size_bytes=131072 defrag_max_active_per_device=8 defrag_sleep_ms=0 defrag_record_sleep_us=0 defrag_paused=true shutdown_checkpoint=false replication_backlog_backpressure=true
+[2026-10-06 00:57:39.334] [lavik] [info] memory limit=268435456 (256.00M) initial_used=0 initial_rss=10674176
+[2026-10-06 00:57:39.337] [lavik] [info] storage device id=0 path=/mnt/dev/lavik-pr283-main-20261006/pr283-parent-test-data/lavik-grouped-write-U3gWAH capacity-bytes=4294967296 data-blocks=511 foreground-blocks=503 defrag-reserve-blocks=8 data-bytes=4286578688
+[2026-10-06 00:57:39.337] [lavik] [info] storage capacity: data-blocks=511 foreground-blocks=503 defrag-reserve-blocks=8
+[2026-10-06 00:57:39.337] [lavik] [info] storage direct-I/O alignment=4096 bytes
+[2026-10-06 00:57:39.337] [lavik] [info] storage flush submission size=131072 bytes
+[2026-10-06 00:57:39.377] [lavik] [info] storage device id=0 foreground-weight=503 home-workers=3
+[2026-10-06 00:57:39.381] [lavik] [info] runtime workers=4 data_shards=3 control_worker=3 cpus=
+[2026-10-06 00:57:39.382] [lavik] [info] runtime cycle-counter=rdtsc frequency-source=absl::NominalCPUFrequency frequency=2596147002 Hz (2596.147 MHz) ticks-per-us=2596.147
+[2026-10-06 00:57:39.404] [lavik] [info] storage recovery: blocks=0/0 (100.0%) swept=511/511 records=0 rate=0 blocks/s 0.00M records/s eta=0.0s
+[2026-10-06 00:57:39.407] [lavik] [info] mimalloc recovery collection complete; online purge_delay=60000
+[2026-10-06 00:58:18.957] [lavik] [error] startup catalog/RDB recovery failed: RDB scratch file: No space left on device
+
+
+[  FAILED  ] GroupedStreamE2e.LargeRdbRoundTripKeepsMessagesAndDeletedPendingBounded (90244 ms)
+[----------] 15 tests from GroupedStreamE2e (182933 ms total)
+
+[----------] 3 tests from GroupedListWriteE2e
+[ RUN      ] GroupedListWriteE2e.RangeReadsFitReplyBudgetAndKeepRankOrder
+[       OK ] GroupedListWriteE2e.RangeReadsFitReplyBudgetAndKeepRankOrder (4165 ms)
+[ RUN      ] GroupedListWriteE2e.RangeReadFailureJoinsStartedPages
+/mnt/dev/lavik-complex-next-20261004/tests/grouped/ordered_write_e2e_test.cpp:113: Skipped
+requires read and partial batch start failure injection
+
+[  SKIPPED ] GroupedListWriteE2e.RangeReadFailureJoinsStartedPages (0 ms)
+[ RUN      ] GroupedListWriteE2e.SuspendedReadersReleaseWorkerState
+/mnt/dev/lavik-complex-next-20261004/tests/grouped/ordered_write_e2e_test.cpp:156: Skipped
+requires grouped List read gate
+
+[  SKIPPED ] GroupedListWriteE2e.SuspendedReadersReleaseWorkerState (0 ms)
+[----------] 3 tests from GroupedListWriteE2e (4165 ms total)
+
+[----------] 1 test from GroupedDemotionE2e
+[ RUN      ] GroupedDemotionE2e.StringListSetSortedSetGeoAndStreamRecoverCompact
+[       OK ] GroupedDemotionE2e.StringListSetSortedSetGeoAndStreamRecoverCompact (721 ms)
+[----------] 1 test from GroupedDemotionE2e (721 ms total)
+
+[----------] 4 tests from GroupedStringWriteE2e
+[ RUN      ] GroupedStringWriteE2e.FixedSegmentsPointWritesTtlAndRecovery
+[       OK ] GroupedStringWriteE2e.FixedSegmentsPointWritesTtlAndRecovery (1264 ms)
+[ RUN      ] GroupedStringWriteE2e.LongKeysPromoteAndRecover
+[       OK ] GroupedStringWriteE2e.LongKeysPromoteAndRecover (673 ms)
+[ RUN      ] GroupedStringWriteE2e.TransactionsTransferAndRdbKeepStringSemantics
+[       OK ] GroupedStringWriteE2e.TransactionsTransferAndRdbKeepStringSemantics (441 ms)
+[ RUN      ] GroupedStringWriteE2e.ExpirationRestoresBoundedDeviceCapacity
+[       OK ] GroupedStringWriteE2e.ExpirationRestoresBoundedDeviceCapacity (2659 ms)
+[----------] 4 tests from GroupedStringWriteE2e (5038 ms total)
+
+[----------] 7 tests from IndirectKeyE2e
+[ RUN      ] IndirectKeyE2e.BoundarySharedSegmentsAndExtentRecoverAcrossWorkers
+[       OK ] IndirectKeyE2e.BoundarySharedSegmentsAndExtentRecoverAcrossWorkers (4406 ms)
+[ RUN      ] IndirectKeyE2e.RegistryGrowthAndRecoveryPreserveUuidIdentity
+[       OK ] IndirectKeyE2e.RegistryGrowthAndRecoveryPreserveUuidIdentity (7337 ms)
+[ RUN      ] IndirectKeyE2e.KeyLargerThanExternalGroupReadsAndMutates
+[       OK ] IndirectKeyE2e.KeyLargerThanExternalGroupReadsAndMutates (3734 ms)
+[ RUN      ] IndirectKeyE2e.RemoteGroupedReadsRespectParentKeyOwnership
+[       OK ] IndirectKeyE2e.RemoteGroupedReadsRespectParentKeyOwnership (5494 ms)
+[ RUN      ] IndirectKeyE2e.CollectionsTransactionsAndExpiryKeepOriginalNames
+[       OK ] IndirectKeyE2e.CollectionsTransactionsAndExpiryKeepOriginalNames (780 ms)
+[ RUN      ] IndirectKeyE2e.DedicatedCleanerRelocatesLiveUuidAfterFlushDb
+[       OK ] IndirectKeyE2e.DedicatedCleanerRelocatesLiveUuidAfterFlushDb (2321 ms)
+[ RUN      ] IndirectKeyE2e.RepeatedFlushReclaimsLargeKeyExtents
+[       OK ] IndirectKeyE2e.RepeatedFlushReclaimsLargeKeyExtents (7041 ms)
+[----------] 7 tests from IndirectKeyE2e (31116 ms total)
+
+[----------] 12 tests from GroupedOrderedWriteE2e
+[ RUN      ] GroupedOrderedWriteE2e.ListPointSetOnlyRewritesTargetAndNeighbours
+[       OK ] GroupedOrderedWriteE2e.ListPointSetOnlyRewritesTargetAndNeighbours (698 ms)
+[ RUN      ] GroupedOrderedWriteE2e.ListReadIntervalsAcrossPagesAndRecovery
+[       OK ] GroupedOrderedWriteE2e.ListReadIntervalsAcrossPagesAndRecovery (361 ms)
+[ RUN      ] GroupedOrderedWriteE2e.ListCommandSurfaceAndEmptyRecreation
+[       OK ] GroupedOrderedWriteE2e.ListCommandSurfaceAndEmptyRecreation (543 ms)
+[ RUN      ] GroupedOrderedWriteE2e.LargeListItemUsesExtentsWithoutRewritingAllPages
+[       OK ] GroupedOrderedWriteE2e.LargeListItemUsesExtentsWithoutRewritingAllPages (604 ms)
+[ RUN      ] GroupedOrderedWriteE2e.FailedListBatchCannotLeakIntoLaterExecCommand
+/mnt/dev/lavik-complex-next-20261004/tests/grouped/ordered_write_e2e_test.cpp:1065: Skipped
+requires Debug/fault command-local auxiliary hook
+
+[  SKIPPED ] GroupedOrderedWriteE2e.FailedListBatchCannotLeakIntoLaterExecCommand (0 ms)
+[ RUN      ] GroupedOrderedWriteE2e.SortedSetPointUpdateOnlyRewritesNearbyPages
+[       OK ] GroupedOrderedWriteE2e.SortedSetPointUpdateOnlyRewritesNearbyPages (686 ms)
+[ RUN      ] GroupedOrderedWriteE2e.SortedSetCrossEndMovesDoNotRewriteMiddlePages
+[       OK ] GroupedOrderedWriteE2e.SortedSetCrossEndMovesDoNotRewriteMiddlePages (1135 ms)
+[ RUN      ] GroupedOrderedWriteE2e.ExpirationOnlyChangesRootsForAllCollectionTypes
+[       OK ] GroupedOrderedWriteE2e.ExpirationOnlyChangesRootsForAllCollectionTypes (870 ms)
+[ RUN      ] GroupedOrderedWriteE2e.SortedSetRemovalPopAndStoreCommandSurface
+[       OK ] GroupedOrderedWriteE2e.SortedSetRemovalPopAndStoreCommandSurface (337 ms)
+[ RUN      ] GroupedOrderedWriteE2e.LargeSortedSetMemberUsesExtents
+[       OK ] GroupedOrderedWriteE2e.LargeSortedSetMemberUsesExtents (1116 ms)
+[ RUN      ] GroupedOrderedWriteE2e.GeoUsesGroupedSortedSetAndStoreSurvivesRecovery
+[       OK ] GroupedOrderedWriteE2e.GeoUsesGroupedSortedSetAndStoreSurvivesRecovery (410 ms)
+[ RUN      ] GroupedOrderedWriteE2e.FailedSortedSetBatchCannotLeakIntoLaterExecCommand
+/mnt/dev/lavik-complex-next-20261004/tests/grouped/ordered_write_e2e_test.cpp:1543: Skipped
+requires Debug/fault command-local auxiliary hook
+
+[  SKIPPED ] GroupedOrderedWriteE2e.FailedSortedSetBatchCannotLeakIntoLaterExecCommand (0 ms)
+[----------] 12 tests from GroupedOrderedWriteE2e (6766 ms total)
+
+[----------] 9 tests from GroupedRdbStreamE2e
+[ RUN      ] GroupedRdbStreamE2e.FourTypesMultiPageLargeItemsAndMultipleWorkers
+[       OK ] GroupedRdbStreamE2e.FourTypesMultiPageLargeItemsAndMultipleWorkers (3642 ms)
+[ RUN      ] GroupedRdbStreamE2e.LaterPageFailurePreservesPreviousDump
+/mnt/dev/lavik-complex-next-20261004/tests/grouped/rdb_stream_e2e_test.cpp:132: Skipped
+requires the Debug RDB page failure hook
+
+[  SKIPPED ] GroupedRdbStreamE2e.LaterPageFailurePreservesPreviousDump (0 ms)
+[ RUN      ] GroupedRdbStreamE2e.PageAdmissionOomPreservesPreviousDumpAndReleasesPins
+[       OK ] GroupedRdbStreamE2e.PageAdmissionOomPreservesPreviousDumpAndReleasesPins (2186 ms)
+[ RUN      ] GroupedRdbStreamE2e.ConcurrentEndWaitsForAdmittedPageAndAllowsTheNextBackup
+/mnt/dev/lavik-complex-next-20261004/tests/grouped/rdb_stream_e2e_test.cpp:253: Skipped
+requires the Debug concurrent RDB End hook
+
+[  SKIPPED ] GroupedRdbStreamE2e.ConcurrentEndWaitsForAdmittedPageAndAllowsTheNextBackup (0 ms)
+[ RUN      ] GroupedRdbStreamE2e.RestoreStreamsFourTypesInsideAndOutsideExec
+[       OK ] GroupedRdbStreamE2e.RestoreStreamsFourTypesInsideAndOutsideExec (2071 ms)
+[ RUN      ] GroupedRdbStreamE2e.ZsetRestoreBatchesPreserveOrderAndRollback
+[       OK ] GroupedRdbStreamE2e.ZsetRestoreBatchesPreserveOrderAndRollback (6311 ms)
+[ RUN      ] GroupedRdbStreamE2e.StartupImportStreamsPagesAndSortsUnorderedZsetInput
+[       OK ] GroupedRdbStreamE2e.StartupImportStreamsPagesAndSortsUnorderedZsetInput (881 ms)
+[ RUN      ] GroupedRdbStreamE2e.BackupStreamsFourTypesThenImportsAndRestarts
+[       OK ] GroupedRdbStreamE2e.BackupStreamsFourTypesThenImportsAndRestarts (5114 ms)
+[ RUN      ] GroupedRdbStreamE2e.LargeListOverOneGiBImportsAndExportsWithoutAggregate
+/mnt/dev/lavik-complex-next-20261004/tests/grouped/rdb_stream_e2e_test.cpp:710: Skipped
+opt-in private 4 GiB image and >1 GiB RDB
+
+[  SKIPPED ] GroupedRdbStreamE2e.LargeListOverOneGiBImportsAndExportsWithoutAggregate (0 ms)
+[----------] 9 tests from GroupedRdbStreamE2e (20207 ms total)
+
+[----------] 22 tests from GroupedSortedSetWriteE2e
+[ RUN      ] GroupedSortedSetWriteE2e.TypedChangesDoNotRereadOrderedMemberDiff
+/mnt/dev/lavik-complex-next-20261004/tests/grouped/zset_write_e2e_test.cpp:65: Skipped
+requires member-diff read failure injection
+
+[  SKIPPED ] GroupedSortedSetWriteE2e.TypedChangesDoNotRereadOrderedMemberDiff (0 ms)
+[ RUN      ] GroupedSortedSetWriteE2e.PointWritesReuseMemberLeafAndKeepBatchFailureAtomic
+/mnt/dev/lavik-complex-next-20261004/tests/grouped/zset_write_e2e_test.cpp:128: Skipped
+requires member-index leaf read failure injection
+
+[  SKIPPED ] GroupedSortedSetWriteE2e.PointWritesReuseMemberLeafAndKeepBatchFailureAtomic (0 ms)
+[ RUN      ] GroupedSortedSetWriteE2e.AdjacentScoreMovesReusePagesAcrossRecovery
+[       OK ] GroupedSortedSetWriteE2e.AdjacentScoreMovesReusePagesAcrossRecovery (1061 ms)
+[ RUN      ] GroupedSortedSetWriteE2e.PlannerSkipsUnchangedNeighborButChecksNewLinks
+/mnt/dev/lavik-complex-next-20261004/tests/grouped/zset_write_e2e_test.cpp:251: Skipped
+requires plan-page read failure injection
+
+[  SKIPPED ] GroupedSortedSetWriteE2e.PlannerSkipsUnchangedNeighborButChecksNewLinks (0 ms)
+[ RUN      ] GroupedSortedSetWriteE2e.BatchedMemberIndexChangesMatchOrderedPages
+[       OK ] GroupedSortedSetWriteE2e.BatchedMemberIndexChangesMatchOrderedPages (461 ms)
+[ RUN      ] GroupedSortedSetWriteE2e.MemberScoresUsePrefixPagesWithoutOrderedReads
+/mnt/dev/lavik-complex-next-20261004/tests/grouped/zset_write_e2e_test.cpp:394: Skipped
+requires ordered-read failure injection
+
+[  SKIPPED ] GroupedSortedSetWriteE2e.MemberScoresUsePrefixPagesWithoutOrderedReads (0 ms)
+[ RUN      ] GroupedSortedSetWriteE2e.ScoreBoundsSkipUnrelatedPagesAfterRecovery
+/mnt/dev/lavik-complex-next-20261004/tests/grouped/zset_write_e2e_test.cpp:432: Skipped
+requires selected ordered-page failure injection
+
+[  SKIPPED ] GroupedSortedSetWriteE2e.ScoreBoundsSkipUnrelatedPagesAfterRecovery (0 ms)
+[ RUN      ] GroupedSortedSetWriteE2e.ScoreBoundsHandleLongTieRunsAndMixedBatchMoves
+[       OK ] GroupedSortedSetWriteE2e.ScoreBoundsHandleLongTieRunsAndMixedBatchMoves (1575 ms)
+[ RUN      ] GroupedSortedSetWriteE2e.ScoreBoundsRecoverAfterMultiExtentParentKey
+[       OK ] GroupedSortedSetWriteE2e.ScoreBoundsRecoverAfterMultiExtentParentKey (5185 ms)
+[ RUN      ] GroupedSortedSetWriteE2e.FailedMemberWriteCannotCommitOrderedHalf
+/mnt/dev/lavik-complex-next-20261004/tests/grouped/zset_write_e2e_test.cpp:607: Skipped
+requires auxiliary-write failure injection
+
+[  SKIPPED ] GroupedSortedSetWriteE2e.FailedMemberWriteCannotCommitOrderedHalf (0 ms)
+[ RUN      ] GroupedSortedSetWriteE2e.PointFlagsDuplicatesScoresAndAtomicNan
+[       OK ] GroupedSortedSetWriteE2e.PointFlagsDuplicatesScoresAndAtomicNan (109 ms)
+[ RUN      ] GroupedSortedSetWriteE2e.PointScoreMovesRewriteOnlyEndpointPages
+[       OK ] GroupedSortedSetWriteE2e.PointScoreMovesRewriteOnlyEndpointPages (689 ms)
+[ RUN      ] GroupedSortedSetWriteE2e.BoundedRangeAliasesRanksBoundsAndMixedScoreLex
+[       OK ] GroupedSortedSetWriteE2e.BoundedRangeAliasesRanksBoundsAndMixedScoreLex (101 ms)
+[ RUN      ] GroupedSortedSetWriteE2e.PageScanRepliesOwnBinaryMembersAcrossRecovery
+[       OK ] GroupedSortedSetWriteE2e.PageScanRepliesOwnBinaryMembersAcrossRecovery (461 ms)
+[ RUN      ] GroupedSortedSetWriteE2e.ScanCursorsAndAllPopEntryPointsRecover
+[       OK ] GroupedSortedSetWriteE2e.ScanCursorsAndAllPopEntryPointsRecover (358 ms)
+[ RUN      ] GroupedSortedSetWriteE2e.FullImageAndRandomReplyOomAreAtomic
+[       OK ] GroupedSortedSetWriteE2e.FullImageAndRandomReplyOomAreAtomic (3356 ms)
+[ RUN      ] GroupedSortedSetWriteE2e.RangeRemovalFitsSelectedPagesAndRecovers
+[       OK ] GroupedSortedSetWriteE2e.RangeRemovalFitsSelectedPagesAndRecovers (3805 ms)
+[ RUN      ] GroupedSortedSetWriteE2e.FailedRangeRemovalPreservesExecPrefixAndRecovery
+/mnt/dev/lavik-complex-next-20261004/tests/grouped/zset_write_e2e_test.cpp:1054: Skipped
+requires auxiliary-write failure injection
+
+[  SKIPPED ] GroupedSortedSetWriteE2e.FailedRangeRemovalPreservesExecPrefixAndRecovery (0 ms)
+[ RUN      ] GroupedSortedSetWriteE2e.RandomAndRangeRemovalPreserveSemantics
+[       OK ] GroupedSortedSetWriteE2e.RandomAndRangeRemovalPreserveSemantics (93 ms)
+[ RUN      ] GroupedSortedSetWriteE2e.GeoPointReadsPreserveRepliesAndExecVisibility
+[       OK ] GroupedSortedSetWriteE2e.GeoPointReadsPreserveRepliesAndExecVisibility (465 ms)
+[ RUN      ] GroupedSortedSetWriteE2e.MultiKeyAggregateOomPreservesStoreAndExecPrefix
+[       OK ] GroupedSortedSetWriteE2e.MultiKeyAggregateOomPreservesStoreAndExecPrefix (2630 ms)
+[ RUN      ] GroupedSortedSetWriteE2e.AggregateAbove512MiBRemainsBoundedAndRecovers
+[       OK ] GroupedSortedSetWriteE2e.AggregateAbove512MiBRemainsBoundedAndRecovers (131230 ms)
+[----------] 22 tests from GroupedSortedSetWriteE2e (151587 ms total)
+
+[----------] 7 tests from GroupedTransferE2e
+[ RUN      ] GroupedTransferE2e.FourTypesCopyRenameAcrossDatabasesAndWorkersRecover
+[       OK ] GroupedTransferE2e.FourTypesCopyRenameAcrossDatabasesAndWorkersRecover (11631 ms)
+[ RUN      ] GroupedTransferE2e.FailedExecCopyKeepsOldGraphAndCommitsLaterCommand
+/mnt/dev/lavik-complex-next-20261004/tests/grouped/transfer_e2e_test.cpp:120: Skipped
+requires group auxiliary failure injection
+
+[  SKIPPED ] GroupedTransferE2e.FailedExecCopyKeepsOldGraphAndCommitsLaterCommand (0 ms)
+[ RUN      ] GroupedTransferE2e.FullImageScratchOomPreservesValuesAndMetadataReads
+[       OK ] GroupedTransferE2e.FullImageScratchOomPreservesValuesAndMetadataReads (1323 ms)
+[ RUN      ] GroupedTransferE2e.ScanUsesOneLeafAndSurvivesDeletingEarlierFields
+[       OK ] GroupedTransferE2e.ScanUsesOneLeafAndSurvivesDeletingEarlierFields (4860 ms)
+[ RUN      ] GroupedTransferE2e.ListSearchRetainsOnePageAndInsertOnlyItsInterval
+[       OK ] GroupedTransferE2e.ListSearchRetainsOnePageAndInsertOnlyItsInterval (1433 ms)
+[ RUN      ] GroupedTransferE2e.RandomFieldsAndSetPopDoNotMaterializeTheCollection
+[       OK ] GroupedTransferE2e.RandomFieldsAndSetPopDoNotMaterializeTheCollection (2829 ms)
+[ RUN      ] GroupedTransferE2e.SetMultiKeyOomLeavesDestinationAndHoldsIntact
+[       OK ] GroupedTransferE2e.SetMultiKeyOomLeavesDestinationAndHoldsIntact (11927 ms)
+[----------] 7 tests from GroupedTransferE2e (34005 ms total)
+
+[----------] 3 tests from GroupedRandomStreamE2e
+[ RUN      ] GroupedRandomStreamE2e.FiniteRepliesAreByteExactAcrossBulkBoundaries
+[       OK ] GroupedRandomStreamE2e.FiniteRepliesAreByteExactAcrossBulkBoundaries (231 ms)
+[ RUN      ] GroupedRandomStreamE2e.DisconnectDuringLargeBulkReleasesStreamState
+[       OK ] GroupedRandomStreamE2e.DisconnectDuringLargeBulkReleasesStreamState (711 ms)
+[ RUN      ] GroupedRandomStreamE2e.AdmissionFailureReturnsOneErrorWithoutArrayPrefix
+/mnt/dev/lavik-complex-next-20261004/tests/grouped/random_stream_e2e_test.cpp:156: Skipped
+requires Debug/fault random stream construction hook
+
+[  SKIPPED ] GroupedRandomStreamE2e.AdmissionFailureReturnsOneErrorWithoutArrayPrefix (0 ms)
+[----------] 3 tests from GroupedRandomStreamE2e (942 ms total)
+
+[----------] 6 tests from BatchWindows/GroupedStreamCrashE2e
+[ RUN      ] BatchWindows/GroupedStreamCrashE2e.InterruptedAppendKeepsPreviousGraph/0
+/mnt/dev/lavik-complex-next-20261004/tests/grouped/stream_e2e_test.cpp:749: Skipped
+requires grouped crash hooks
+
+[  SKIPPED ] BatchWindows/GroupedStreamCrashE2e.InterruptedAppendKeepsPreviousGraph/0 (0 ms)
+[ RUN      ] BatchWindows/GroupedStreamCrashE2e.InterruptedAppendKeepsPreviousGraph/1
+/mnt/dev/lavik-complex-next-20261004/tests/grouped/stream_e2e_test.cpp:749: Skipped
+requires grouped crash hooks
+
+[  SKIPPED ] BatchWindows/GroupedStreamCrashE2e.InterruptedAppendKeepsPreviousGraph/1 (0 ms)
+[ RUN      ] BatchWindows/GroupedStreamCrashE2e.InterruptedAppendKeepsPreviousGraph/2
+/mnt/dev/lavik-complex-next-20261004/tests/grouped/stream_e2e_test.cpp:749: Skipped
+requires grouped crash hooks
+
+[  SKIPPED ] BatchWindows/GroupedStreamCrashE2e.InterruptedAppendKeepsPreviousGraph/2 (0 ms)
+[ RUN      ] BatchWindows/GroupedStreamCrashE2e.InterruptedTrimKeepsMessagesAndPending/0
+/mnt/dev/lavik-complex-next-20261004/tests/grouped/stream_e2e_test.cpp:776: Skipped
+requires grouped crash hooks
+
+[  SKIPPED ] BatchWindows/GroupedStreamCrashE2e.InterruptedTrimKeepsMessagesAndPending/0 (0 ms)
+[ RUN      ] BatchWindows/GroupedStreamCrashE2e.InterruptedTrimKeepsMessagesAndPending/1
+/mnt/dev/lavik-complex-next-20261004/tests/grouped/stream_e2e_test.cpp:776: Skipped
+requires grouped crash hooks
+
+[  SKIPPED ] BatchWindows/GroupedStreamCrashE2e.InterruptedTrimKeepsMessagesAndPending/1 (0 ms)
+[ RUN      ] BatchWindows/GroupedStreamCrashE2e.InterruptedTrimKeepsMessagesAndPending/2
+/mnt/dev/lavik-complex-next-20261004/tests/grouped/stream_e2e_test.cpp:776: Skipped
+requires grouped crash hooks
+
+[  SKIPPED ] BatchWindows/GroupedStreamCrashE2e.InterruptedTrimKeepsMessagesAndPending/2 (0 ms)
+[----------] 6 tests from BatchWindows/GroupedStreamCrashE2e (0 ms total)
+
+[----------] 3 tests from BatchWindows/GroupedStringCrashE2e
+[ RUN      ] BatchWindows/GroupedStringCrashE2e.PartialSegmentBatchKeepsPreviousRoot/0
+/mnt/dev/lavik-complex-next-20261004/tests/grouped/ordered_write_e2e_test.cpp:837: Skipped
+requires grouped crash hooks
+
+[  SKIPPED ] BatchWindows/GroupedStringCrashE2e.PartialSegmentBatchKeepsPreviousRoot/0 (0 ms)
+[ RUN      ] BatchWindows/GroupedStringCrashE2e.PartialSegmentBatchKeepsPreviousRoot/1
+/mnt/dev/lavik-complex-next-20261004/tests/grouped/ordered_write_e2e_test.cpp:837: Skipped
+requires grouped crash hooks
+
+[  SKIPPED ] BatchWindows/GroupedStringCrashE2e.PartialSegmentBatchKeepsPreviousRoot/1 (0 ms)
+[ RUN      ] BatchWindows/GroupedStringCrashE2e.PartialSegmentBatchKeepsPreviousRoot/2
+/mnt/dev/lavik-complex-next-20261004/tests/grouped/ordered_write_e2e_test.cpp:837: Skipped
+requires grouped crash hooks
+
+[  SKIPPED ] BatchWindows/GroupedStringCrashE2e.PartialSegmentBatchKeepsPreviousRoot/2 (0 ms)
+[----------] 3 tests from BatchWindows/GroupedStringCrashE2e (0 ms total)
+
+[----------] 8 tests from AllTypes/GroupedFullDiskExpirationE2e
+[ RUN      ] AllTypes/GroupedFullDiskExpirationE2e.ReclaimsGraphAndRecovers/HashInline
+[       OK ] AllTypes/GroupedFullDiskExpirationE2e.ReclaimsGraphAndRecovers/HashInline (10585 ms)
+[ RUN      ] AllTypes/GroupedFullDiskExpirationE2e.ReclaimsGraphAndRecovers/HashIndirect
+[       OK ] AllTypes/GroupedFullDiskExpirationE2e.ReclaimsGraphAndRecovers/HashIndirect (13120 ms)
+[ RUN      ] AllTypes/GroupedFullDiskExpirationE2e.ReclaimsGraphAndRecovers/SetInline
+[       OK ] AllTypes/GroupedFullDiskExpirationE2e.ReclaimsGraphAndRecovers/SetInline (10511 ms)
+[ RUN      ] AllTypes/GroupedFullDiskExpirationE2e.ReclaimsGraphAndRecovers/SetIndirect
+[       OK ] AllTypes/GroupedFullDiskExpirationE2e.ReclaimsGraphAndRecovers/SetIndirect (13195 ms)
+[ RUN      ] AllTypes/GroupedFullDiskExpirationE2e.ReclaimsGraphAndRecovers/ListInline
+[       OK ] AllTypes/GroupedFullDiskExpirationE2e.ReclaimsGraphAndRecovers/ListInline (10503 ms)
+[ RUN      ] AllTypes/GroupedFullDiskExpirationE2e.ReclaimsGraphAndRecovers/ListIndirect
+[       OK ] AllTypes/GroupedFullDiskExpirationE2e.ReclaimsGraphAndRecovers/ListIndirect (13121 ms)
+[ RUN      ] AllTypes/GroupedFullDiskExpirationE2e.ReclaimsGraphAndRecovers/SortedSetInline
+[       OK ] AllTypes/GroupedFullDiskExpirationE2e.ReclaimsGraphAndRecovers/SortedSetInline (10568 ms)
+[ RUN      ] AllTypes/GroupedFullDiskExpirationE2e.ReclaimsGraphAndRecovers/SortedSetIndirect
+[       OK ] AllTypes/GroupedFullDiskExpirationE2e.ReclaimsGraphAndRecovers/SortedSetIndirect (13394 ms)
+[----------] 8 tests from AllTypes/GroupedFullDiskExpirationE2e (95000 ms total)
+
+[----------] 4 tests from BatchWindows/GroupedSortedSetCrashE2e
+[ RUN      ] BatchWindows/GroupedSortedSetCrashE2e.InterruptedSortedSetBatchKeepsPreviousValue/0
+/mnt/dev/lavik-complex-next-20261004/tests/grouped/ordered_write_e2e_test.cpp:1581: Skipped
+requires Debug/fault crash hooks
+
+[  SKIPPED ] BatchWindows/GroupedSortedSetCrashE2e.InterruptedSortedSetBatchKeepsPreviousValue/0 (0 ms)
+[ RUN      ] BatchWindows/GroupedSortedSetCrashE2e.InterruptedSortedSetBatchKeepsPreviousValue/1
+/mnt/dev/lavik-complex-next-20261004/tests/grouped/ordered_write_e2e_test.cpp:1581: Skipped
+requires Debug/fault crash hooks
+
+[  SKIPPED ] BatchWindows/GroupedSortedSetCrashE2e.InterruptedSortedSetBatchKeepsPreviousValue/1 (0 ms)
+[ RUN      ] BatchWindows/GroupedSortedSetCrashE2e.InterruptedSortedSetBatchKeepsPreviousValue/2
+/mnt/dev/lavik-complex-next-20261004/tests/grouped/ordered_write_e2e_test.cpp:1581: Skipped
+requires Debug/fault crash hooks
+
+[  SKIPPED ] BatchWindows/GroupedSortedSetCrashE2e.InterruptedSortedSetBatchKeepsPreviousValue/2 (0 ms)
+[ RUN      ] BatchWindows/GroupedSortedSetCrashE2e.InterruptedSortedSetBatchKeepsPreviousValue/3
+/mnt/dev/lavik-complex-next-20261004/tests/grouped/ordered_write_e2e_test.cpp:1581: Skipped
+requires Debug/fault crash hooks
+
+[  SKIPPED ] BatchWindows/GroupedSortedSetCrashE2e.InterruptedSortedSetBatchKeepsPreviousValue/3 (0 ms)
+[----------] 4 tests from BatchWindows/GroupedSortedSetCrashE2e (0 ms total)
+
+[----------] 4 tests from BatchWindows/GroupedListCrashE2e
+[ RUN      ] BatchWindows/GroupedListCrashE2e.InterruptedListBatchRestoresCompletePreviousValue/0
+/mnt/dev/lavik-complex-next-20261004/tests/grouped/ordered_write_e2e_test.cpp:1626: Skipped
+requires Debug/fault crash hooks
+
+[  SKIPPED ] BatchWindows/GroupedListCrashE2e.InterruptedListBatchRestoresCompletePreviousValue/0 (0 ms)
+[ RUN      ] BatchWindows/GroupedListCrashE2e.InterruptedListBatchRestoresCompletePreviousValue/1
+/mnt/dev/lavik-complex-next-20261004/tests/grouped/ordered_write_e2e_test.cpp:1626: Skipped
+requires Debug/fault crash hooks
+
+[  SKIPPED ] BatchWindows/GroupedListCrashE2e.InterruptedListBatchRestoresCompletePreviousValue/1 (0 ms)
+[ RUN      ] BatchWindows/GroupedListCrashE2e.InterruptedListBatchRestoresCompletePreviousValue/2
+/mnt/dev/lavik-complex-next-20261004/tests/grouped/ordered_write_e2e_test.cpp:1626: Skipped
+requires Debug/fault crash hooks
+
+[  SKIPPED ] BatchWindows/GroupedListCrashE2e.InterruptedListBatchRestoresCompletePreviousValue/2 (0 ms)
+[ RUN      ] BatchWindows/GroupedListCrashE2e.InterruptedListBatchRestoresCompletePreviousValue/3
+/mnt/dev/lavik-complex-next-20261004/tests/grouped/ordered_write_e2e_test.cpp:1626: Skipped
+requires Debug/fault crash hooks
+
+[  SKIPPED ] BatchWindows/GroupedListCrashE2e.InterruptedListBatchRestoresCompletePreviousValue/3 (0 ms)
+[----------] 4 tests from BatchWindows/GroupedListCrashE2e (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 108 tests from 15 test suites ran. (532485 ms total)
+[  PASSED  ] 73 tests.
+[  SKIPPED ] 34 tests, listed below:
+[  SKIPPED ] GroupedStreamE2e.FailedAppendCannotLeakIntoFollowingAckInExec
+[  SKIPPED ] GroupedListWriteE2e.RangeReadFailureJoinsStartedPages
+[  SKIPPED ] GroupedListWriteE2e.SuspendedReadersReleaseWorkerState
+[  SKIPPED ] GroupedOrderedWriteE2e.FailedListBatchCannotLeakIntoLaterExecCommand
+[  SKIPPED ] GroupedOrderedWriteE2e.FailedSortedSetBatchCannotLeakIntoLaterExecCommand
+[  SKIPPED ] GroupedRdbStreamE2e.LaterPageFailurePreservesPreviousDump
+[  SKIPPED ] GroupedRdbStreamE2e.ConcurrentEndWaitsForAdmittedPageAndAllowsTheNextBackup
+[  SKIPPED ] GroupedRdbStreamE2e.LargeListOverOneGiBImportsAndExportsWithoutAggregate
+[  SKIPPED ] GroupedSortedSetWriteE2e.TypedChangesDoNotRereadOrderedMemberDiff
+[  SKIPPED ] GroupedSortedSetWriteE2e.PointWritesReuseMemberLeafAndKeepBatchFailureAtomic
+[  SKIPPED ] GroupedSortedSetWriteE2e.PlannerSkipsUnchangedNeighborButChecksNewLinks
+[  SKIPPED ] GroupedSortedSetWriteE2e.MemberScoresUsePrefixPagesWithoutOrderedReads
+[  SKIPPED ] GroupedSortedSetWriteE2e.ScoreBoundsSkipUnrelatedPagesAfterRecovery
+[  SKIPPED ] GroupedSortedSetWriteE2e.FailedMemberWriteCannotCommitOrderedHalf
+[  SKIPPED ] GroupedSortedSetWriteE2e.FailedRangeRemovalPreservesExecPrefixAndRecovery
+[  SKIPPED ] GroupedTransferE2e.FailedExecCopyKeepsOldGraphAndCommitsLaterCommand
+[  SKIPPED ] GroupedRandomStreamE2e.AdmissionFailureReturnsOneErrorWithoutArrayPrefix
+[  SKIPPED ] BatchWindows/GroupedStreamCrashE2e.InterruptedAppendKeepsPreviousGraph/0
+[  SKIPPED ] BatchWindows/GroupedStreamCrashE2e.InterruptedAppendKeepsPreviousGraph/1
+[  SKIPPED ] BatchWindows/GroupedStreamCrashE2e.InterruptedAppendKeepsPreviousGraph/2
+[  SKIPPED ] BatchWindows/GroupedStreamCrashE2e.InterruptedTrimKeepsMessagesAndPending/0
+[  SKIPPED ] BatchWindows/GroupedStreamCrashE2e.InterruptedTrimKeepsMessagesAndPending/1
+[  SKIPPED ] BatchWindows/GroupedStreamCrashE2e.InterruptedTrimKeepsMessagesAndPending/2
+[  SKIPPED ] BatchWindows/GroupedStringCrashE2e.PartialSegmentBatchKeepsPreviousRoot/0
+[  SKIPPED ] BatchWindows/GroupedStringCrashE2e.PartialSegmentBatchKeepsPreviousRoot/1
+[  SKIPPED ] BatchWindows/GroupedStringCrashE2e.PartialSegmentBatchKeepsPreviousRoot/2
+[  SKIPPED ] BatchWindows/GroupedSortedSetCrashE2e.InterruptedSortedSetBatchKeepsPreviousValue/0
+[  SKIPPED ] BatchWindows/GroupedSortedSetCrashE2e.InterruptedSortedSetBatchKeepsPreviousValue/1
+[  SKIPPED ] BatchWindows/GroupedSortedSetCrashE2e.InterruptedSortedSetBatchKeepsPreviousValue/2
+[  SKIPPED ] BatchWindows/GroupedSortedSetCrashE2e.InterruptedSortedSetBatchKeepsPreviousValue/3
+[  SKIPPED ] BatchWindows/GroupedListCrashE2e.InterruptedListBatchRestoresCompletePreviousValue/0
+[  SKIPPED ] BatchWindows/GroupedListCrashE2e.InterruptedListBatchRestoresCompletePreviousValue/1
+[  SKIPPED ] BatchWindows/GroupedListCrashE2e.InterruptedListBatchRestoresCompletePreviousValue/2
+[  SKIPPED ] BatchWindows/GroupedListCrashE2e.InterruptedListBatchRestoresCompletePreviousValue/3
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] GroupedStreamE2e.LargeRdbRoundTripKeepsMessagesAndDeletedPendingBounded
+
+ 1 FAILED TEST
