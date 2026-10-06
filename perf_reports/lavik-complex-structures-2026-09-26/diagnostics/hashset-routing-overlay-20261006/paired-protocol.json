@@ -1,0 +1,68 @@
+{
+  "recorded_at": "2026-10-06T06:27:13.656218+00:00",
+  "parent": "5a3903d9b3c0632e3b34e827b779d9daa58455c2",
+  "candidate": "258c216c954ab48121575d4bdbb7633e3959ec39",
+  "status": "before first paired measurement",
+  "pairs": [
+    "AB",
+    "BA",
+    "AB"
+  ],
+  "scopes": [
+    {
+      "pattern": "standard",
+      "kind": "hash",
+      "logical_bytes": 104857600,
+      "field_bytes": 1024,
+      "keys": 500
+    },
+    {
+      "pattern": "standard",
+      "kind": "set",
+      "logical_bytes": 104857600,
+      "field_bytes": 1024,
+      "keys": 500
+    },
+    {
+      "pattern": "dispersed64",
+      "kind": "hash",
+      "logical_bytes": 104857600,
+      "field_bytes": 1024,
+      "keys": 500
+    },
+    {
+      "pattern": "dispersed64",
+      "kind": "set",
+      "logical_bytes": 104857600,
+      "field_bytes": 1024,
+      "keys": 500
+    },
+    {
+      "pattern": "standard",
+      "kind": "hash",
+      "logical_bytes": 1048576,
+      "field_bytes": 128,
+      "keys": 50000
+    },
+    {
+      "pattern": "standard",
+      "kind": "set",
+      "logical_bytes": 1048576,
+      "field_bytes": 128,
+      "keys": 50000
+    }
+  ],
+  "conditions": "c320,12workers,pipeline1,30seconds each; read -> write -> read-after-write; 108 points. Original report population sizes and hardware. Independent restore/restart for each version and pair. No concurrent local builds/tests/perf. Main and candidate full native tests before measurement.",
+  "limits": "No claim atc80/c5120 or against historical peer durability configurations. SetQPS includes noops. Dispersed64 uses64 HSET targets,64 Setadd/remove members,64 readtargets; standard8 Hash targets or1 Setmember and8 readtargets.",
+  "files": {
+    "repeat-overlay.py": "83cdac028b231bfeee85e705967c261a30f934b60e3377e454f21f1acf58e2b0",
+    "run-overlay-controls.py": "866a83ba1b3e77e21718ed4d716acf0c7cf9bfc433b679ac0c9f61f75674f1a2",
+    "private-tmp-exec.py": "4ab856e3882aea551af04771d920da6d9ce687b65f47ab9ca5df26bb89a5d9a8",
+    "host.py": "166ea9c2841efd183db250d67accab66e4f316df57a1376bce7b4c3fbf679fad"
+  },
+  "earlier_revision": "eddcad31 build cancelled before measurement;5092cd08 native diagnostics retained. Both revisions superseded before any paired measurement to batch folds and avoid small-map/recovery overhead.",
+  "transport_note": {
+    "time": "2026-10-06T06:57:22.226659+00:00",
+    "change": "Before any dispersed measurement, commands whose quoted SSH script exceeds100000bytes are streamed unchanged over SSH stdin to avoid Linux MAX_ARG_STRLEN. Standard commands retain their original transport; command generation and request arguments unchanged."
+  }
+}

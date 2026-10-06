@@ -8,6 +8,8 @@
 
 [#283 对 rebase 后 main 的三轮配对](diagnostics/pr283-main-20261006/README.md)已完成：小对象 ZINCRBY c320/c5120 分别 +1.80% / +1.57%，但整体写入收益不稳定；小对象 ZSCORE c320 出现未解释下降（配对中位 −36.12%，p99 +315.15%）。目前保持 draft，详细结果包含不利观测和独立 perf。
 
+[Hash/Set 大目录元数据覆盖优化](diagnostics/hashset-routing-overlay-20261006/README.md)：固定 seed 的 108 点对照，大对象标准 HSET / SADD-SREM 中位 +11.25% / +6.19%；小对象基本持平，分散 Hash 写入无稳定收益，写后 HGET 有回退。完整结果包含四份独立 perf。
+
 吞吐图固定命令、每 key 的 payload 大小、元素大小和 key 数；横轴为连接数，纵轴为 QPS。批量导入图显示完成固定数据量所需的秒数。只保留当前 main 和后续未合并 PR，其他三库保留同负载的历史实测。
 
 Redis/Valkey 关闭持久化；Kvrocks 使用无压缩 RAID0、关闭 WAL、80 GiB block/blob cache；Lavik 使用六块 NVMe SPDK 持久化，不缓存字段或页内容。配置不同，写入 QPS 不代表同等持久性下的排名。

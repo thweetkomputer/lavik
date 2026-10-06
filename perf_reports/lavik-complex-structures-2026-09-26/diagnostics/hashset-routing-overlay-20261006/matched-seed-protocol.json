@@ -1,0 +1,26 @@
+{
+  "candidate": "caba8203c1ec03c7413895053281713fc62ed379",
+  "main": "5a3903d9b3c0632e3b34e827b779d9daa58455c2",
+  "expected_clean_points": 108,
+  "pairs": "AB/BA/AB",
+  "seeds": {
+    "1": "dfc1236e248db850d3b97ae8b44bc8ce",
+    "2": "db72a1565000d2e664c282578a3ad9a8",
+    "3": "f5bee8674a28633f33a8679cf7e55c80"
+  },
+  "method": "Fresh RESTORE/restart each version. Same fixture and digest seed per pair, different seeds per round. c320,p1,12workers,30s,read/write/read-after-write. Standard1MiB128B50000keys, standard100MiB1024B500keys, dispersed64target100MiB1024B500keys; Hash/Set. No concurrent builds/tests/perf. Separate four same-seed big Hash/Set diagnostic profiles after clean matrix.",
+  "revision_reason": "Previous candidate used>=64group threshold; small Set added896bytes/key, three pairs p99regressed. New candidate uses>=1024groups. Independent random routing seeds also change physical page work substantially, so earlier54cleanpoints andfourprofiles are exploratory and excluded from new matched-layout estimates.",
+  "shim": "Benchmark-only __libc_start_main wrapper sets existing MutableDigestSeed before main. No server source/binary modification, no request-path interposition. SHA and seed /proc memory verified before commands. Never deploy with this shim.",
+  "source_sha256": {
+    "repeat-matched-seed.py": "e2cacdaa642a4f086aadbc18c7a18f435dba4660aeb08d6cc716567532713d5d",
+    "profile-matched-seed.py": "bd907ae9bdd9fe4b15ab6c84eb7e906d0a6f1c38204377c56cf955c58b15366d",
+    "fixed-seed-exec.py": "ca0eed389b963473d5f924f0714b7a527b0d068611434296f906d48e2b275d5a",
+    "fixed-digest-seed.c": "631dc7f32c83d8690c803f699a30360f0c77b2e91fee2f8f60e413bf57c128d0",
+    "fixed-digest-seed.so": "89bccbe555001459ef84f684a75ee863626424fd3de6a0d13e53d9fb0f5dfda1",
+    "run-overlay-controls.py": "866a83ba1b3e77e21718ed4d716acf0c7cf9bfc433b679ac0c9f61f75674f1a2"
+  },
+  "startup_repair": "matched-seed-startup-repair.json; initial launcher missed prlimit/taskset prefix, stopped during RESTORE before any controlled clean point. New tags include v2; no result overwritten.",
+  "shim_build_command": "cc -shared -fPIC -Wall -Wextra -Werror -O2 fixed-digest-seed.c -ldl -o fixed-digest-seed.so",
+  "shim_compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "shim_provenance_note": "Build command and compiler recorded after launch; shim binary/source and launcher hashes were captured before every population in fixed-digest-seed.json."
+}

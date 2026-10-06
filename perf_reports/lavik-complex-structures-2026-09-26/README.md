@@ -2,6 +2,9 @@
 
 [简体中文](README.zh-CN.md)
 
+
+[Hash/Set routing metadata overlay](diagnostics/hashset-routing-overlay-20261006/README.md): 108 matched-seed observations; large standard HSET / SADD-SREM median +11.25% / +6.19%. Small controls are near flat; dispersed Hash writes show no reliable gain and post-write HGET regresses. All controls and four independent perf profiles are retained.
+
 **2026-10-06: main `5a3903d9`, including merged #244, #246, #247, #249, #258, #259, #260, #262, #265, #266, #267, #268, #270, #280; 28/28 conditions refreshed.**
 
 Batched HSET/SADD import is tracked separately: 4/4 conditions refreshed.

@@ -1,0 +1,577 @@
+{
+  "profiles": {
+    "parent-hash": {
+      "total_event_weight": 264010098370,
+      "categories": {
+        "allocator": [
+          {
+            "caller": "lavik::storage::HashGroupMap<unsigned long>::Make(unsigned long, lavik::storage::RecoveredHashGroup, lavik::LocalSharedPtr<lavik::storage::HashGroupMap<unsigned long>::Node const>, lavik::LocalSharedPtr<lavik::storage::HashGroupMap<unsigned long>::Node const>)",
+            "event_weight": 5939393880,
+            "percent": 2.249684355511344
+          },
+          {
+            "caller": "lavik::storage::StorageEngine::Impl::CollectGroupedRetirements(std::shared_ptr<lavik::storage::GroupedHashObject const> const&, std::shared_ptr<lavik::storage::GroupedHashObject const> const&, std::optional<std::span<lavik::storage::HashGroupId const, 18446744073709551615ul> >) [clone .isra.0]",
+            "event_weight": 949494940,
+            "percent": 0.35964341737766387
+          },
+          {
+            "caller": "lavik::storage::ApplyHashGroupEdits(std::basic_string_view<char, std::char_traits<char> >, std::array<unsigned char, 16ul> const&, lavik::storage::HashGroupEditKind, std::span<lavik::storage::HashEntryView const, 18446744073709551615ul>)",
+            "event_weight": 939393930,
+            "percent": 0.3558174235757738
+          },
+          {
+            "caller": "lavik::storage::StorageEngine::Impl::WriteRecordLocked(lavik::storage::StorageEngine::Impl::WriteRecordLocked(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::RecordWriteRequest const&, std::shared_ptr<std::vector<lavik::storage::ExtentRef, std::allocator<lavik::storage::ExtentRef> > const>, std::unique_ptr<std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> >, std::default_delete<std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> > > >)::_ZN5lavik7storage13StorageEngine4Impl17WriteRecordLockedERNS2_11WorkerStoreERKNS2_18RecordWriteRequestESt10shared_ptrIKSt6vectorINS0_9ExtentRefESaISA_EEESt10unique_ptrIS9_INS0_13RetiredRecordESaISG_EESt14default_deleteISI_EE.Frame*) [clone .actor]",
+            "event_weight": 737373730,
+            "percent": 0.279297547537973
+          },
+          {
+            "caller": "lavik::storage::TryAllocateRetainedBytes(lavik::storage::RetainedAllocationDomain const&, unsigned long, unsigned long) [clone .constprop.0]",
+            "event_weight": 737373730,
+            "percent": 0.279297547537973
+          },
+          {
+            "caller": "lavik::storage::StorageEngine::Impl::CommitGroupedHashMutationLocked(lavik::storage::StorageEngine::Impl::CommitGroupedHashMutationLocked(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::WorkerStore::PartitionStore&, unsigned char, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::Digest const&, std::shared_ptr<lavik::storage::GroupedHashObject const>, lavik::storage::HashValue, std::vector<lavik::storage::HashGroupId, std::allocator<lavik::storage::HashGroupId> >, unsigned long, lavik::storage::ValueType, unsigned long, lavik::storage::TxShardWrites*, lavik::storage::ReplicationCommandAppend*, lavik::storage::MutationPrecondition const*, lavik::storage::HashGroupMutationPlan*)::_ZN5lavik7storage13StorageEngine4Impl31CommitGroupedHashMutationLockedERNS2_11WorkerStoreERNS3_14PartitionStoreEhSt17basic_string_viewIcSt11char_traitsIcEERKNS0_6DigestESt10shared_ptrIKNS0_17GroupedHashObjectEENS0_9HashValueESt6vectorINS0_11HashGroupIdESaISK_EEmNS0_9ValueTypeEmPNS0_13TxShardWritesEPNS0_24ReplicationCommandAppendEPKNS0_20MutationPreconditionEPNS0_21HashGroupMutationPlanE.Frame*) [clone .actor] [clone .lto_priv.0]",
+            "event_weight": 616161610,
+            "percent": 0.2333856219152925
+          },
+          {
+            "caller": "std::__new_allocator<std::_Sp_counted_ptr_inplace<lavik::cluster::(anonymous namespace)::SocketDeadlineState, std::allocator<void>, (__gnu_cxx::_Lock_policy)2> >::allocate(unsigned long, void const*) [clone .constprop.2]",
+            "event_weight": 575757570,
+            "percent": 0.21808164670773234
+          },
+          {
+            "caller": "lavik::storage::StorageEngine::Impl::PrepinGroupedRetirementsLocked(lavik::storage::StorageEngine::Impl::PrepinGroupedRetirementsLocked(lavik::storage::StorageEngine::Impl::WorkerStore&, std::shared_ptr<lavik::storage::GroupedHashObject const> const&, std::optional<std::span<lavik::storage::HashGroupId const, 18446744073709551615ul> >, bool, std::unique_ptr<lavik::storage::StorageEngine::Impl::GroupedRetirementPins, std::default_delete<lavik::storage::StorageEngine::Impl::GroupedRetirementPins> >*)::_ZN5lavik7storage13StorageEngine4Impl30PrepinGroupedRetirementsLockedERNS2_11WorkerStoreERKSt10shared_ptrIKNS0_17GroupedHashObjectEESt8optionalISt4spanIKNS0_11HashGroupIdELm18446744073709551615EEEbPSt10unique_ptrINS2_21GroupedRetirementPinsESt14default_deleteISI_EE.Frame*) [clone .actor]",
+            "event_weight": 454545450,
+            "percent": 0.17216972108505185
+          },
+          {
+            "caller": "std::__shared_count<(__gnu_cxx::_Lock_policy)2>::__shared_count<std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> >, std::allocator<void>, std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> > >(std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> >*&, std::_Sp_alloc_shared_tag<std::allocator<void> >, std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> >&&) [clone .isra.0]",
+            "event_weight": 424242420,
+            "percent": 0.16069173967938172
+          },
+          {
+            "caller": "lavik::(anonymous namespace)::ExecuteHashCommandImpl(lavik::(anonymous namespace)::ExecuteHashCommandImpl(lavik::CommandRequest const&, lavik::storage::Digest const*, lavik::storage::TxShardWrites*, lavik::ReplyBuilder&)::_ZN5lavik12_GLOBAL__N_122ExecuteHashCommandImplERKNS_14CommandRequestEPKNS_7storage6DigestEPNS4_13TxShardWritesERNS_12ReplyBuilderE.Frame*) [clone .actor] [clone .lto_priv.0]",
+            "event_weight": 404040400,
+            "percent": 0.15303975207560164
+          },
+          {
+            "caller": "std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> >::reserve(unsigned long)",
+            "event_weight": 393939390,
+            "percent": 0.14921375827371158
+          },
+          {
+            "caller": "lavik::storage::StorageEngine::Impl::InitializeTxWrites(unsigned long, std::span<lavik::storage::TxShardWrites, 18446744073709551615ul>, lavik::storage::MutationPrecondition)",
+            "event_weight": 383838380,
+            "percent": 0.14538776447182156
+          },
+          {
+            "caller": "lavik::storage::TxShardWrites::Fence& std::vector<lavik::storage::TxShardWrites::Fence, std::allocator<lavik::storage::TxShardWrites::Fence> >::emplace_back<lavik::storage::TxShardWrites::Fence>(lavik::storage::TxShardWrites::Fence&&) [clone .isra.0]",
+            "event_weight": 343434340,
+            "percent": 0.1300837892642614
+          },
+          {
+            "caller": "lavik::storage::RecordIdentity& std::vector<lavik::storage::RecordIdentity, std::allocator<lavik::storage::RecordIdentity> >::emplace_back<lavik::storage::RecordIdentity>(lavik::storage::RecordIdentity&&) [clone .isra.0]",
+            "event_weight": 343434340,
+            "percent": 0.1300837892642614
+          },
+          {
+            "caller": "lavik::storage::StorageEngine::Impl::FlushPendingBlocks(lavik::storage::StorageEngine::Impl::FlushPendingBlocks(lavik::storage::StorageEngine::Impl::WorkerStore*)::_ZN5lavik7storage13StorageEngine4Impl18FlushPendingBlocksEPNS2_11WorkerStoreE.Frame*) [clone .actor]",
+            "event_weight": 292929290,
+            "percent": 0.11095382025481118
+          },
+          {
+            "caller": "lavik::storage::HashGroupSnapshot& std::vector<lavik::storage::HashGroupSnapshot, std::allocator<lavik::storage::HashGroupSnapshot> >::emplace_back<lavik::storage::HashGroupSnapshot>(lavik::storage::HashGroupSnapshot&&) [clone .isra.0]",
+            "event_weight": 292929290,
+            "percent": 0.11095382025481118
+          },
+          {
+            "caller": "lavik::storage::StorageEngine::Impl::RunTxCleaner(lavik::storage::StorageEngine::Impl::RunTxCleaner(bool)::_ZN5lavik7storage13StorageEngine4Impl12RunTxCleanerEb.Frame*) [clone .actor]",
+            "event_weight": 292929290,
+            "percent": 0.11095382025481118
+          },
+          {
+            "caller": "lavik::storage::TxShardWrites& std::vector<lavik::storage::TxShardWrites, std::allocator<lavik::storage::TxShardWrites> >::emplace_back<lavik::storage::TxShardWrites>(lavik::storage::TxShardWrites&&) [clone .isra.0]",
+            "event_weight": 282828280,
+            "percent": 0.10712782645292114
+          },
+          {
+            "caller": "unresolved",
+            "event_weight": 282828280,
+            "percent": 0.10712782645292114
+          },
+          {
+            "caller": "lavik::storage::StorageEngine::Impl::CommitTxWrites(lavik::storage::StorageEngine::Impl::CommitTxWrites(unsigned long, std::vector<lavik::storage::TxShardWrites*, std::allocator<lavik::storage::TxShardWrites*> >, lavik::storage::RelocationDurabilityFence*)::_ZN5lavik7storage13StorageEngine4Impl14CommitTxWritesEmSt6vectorIPNS0_13TxShardWritesESaIS5_EEPNS0_25RelocationDurabilityFenceE.Frame*) [clone .actor]",
+            "event_weight": 262626260,
+            "percent": 0.09947583884914106
+          },
+          {
+            "caller": "lavik::storage::RetiredRecord& std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> >::emplace_back<lavik::storage::RetiredRecord>(lavik::storage::RetiredRecord&&) [clone .isra.0]",
+            "event_weight": 262626260,
+            "percent": 0.09947583884914106
+          },
+          {
+            "caller": "lavik::storage::StorageEngine::Impl::DrainTxCommitQueue(lavik::storage::StorageEngine::Impl::DrainTxCommitQueue(lavik::storage::StorageEngine::Impl::WorkerStore*)::_ZN5lavik7storage13StorageEngine4Impl18DrainTxCommitQueueEPNS2_11WorkerStoreE.Frame*) [clone .actor]",
+            "event_weight": 252525250,
+            "percent": 0.09564984504725102
+          },
+          {
+            "caller": "lavik::RespCommandParser::Parse(std::basic_string_view<char, std::char_traits<char> >)",
+            "event_weight": 242424240,
+            "percent": 0.09182385124536098
+          },
+          {
+            "caller": "lavik::(anonymous namespace)::ReserveArguments(std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >*, unsigned long)",
+            "event_weight": 202020200,
+            "percent": 0.07651987603780082
+          },
+          {
+            "caller": "std::vector<lavik::storage::StorageEngine::Impl::WorkerStore::PendingTxCommit, std::allocator<lavik::storage::StorageEngine::Impl::WorkerStore::PendingTxCommit> >::~vector() [clone .lto_priv.0]",
+            "event_weight": 191919190,
+            "percent": 0.07269388223591078
+          },
+          {
+            "caller": "lavik::storage::EncodeGroupedHashRoot[abi:cxx11](lavik::storage::GroupedHashRoot const&)",
+            "event_weight": 181818180,
+            "percent": 0.06886788843402074
+          },
+          {
+            "caller": "void std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> >::_M_range_insert<__gnu_cxx::__normal_iterator<lavik::storage::RetiredRecord*, std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> > > >(__gnu_cxx::__normal_iterator<lavik::storage::RetiredRecord*, std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> > >, __gnu_cxx::__normal_iterator<lavik::storage::RetiredRecord*, std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> > >, __gnu_cxx::__normal_iterator<lavik::storage::RetiredRecord*, std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> > >, std::forward_iterator_tag) [clone .isra.0]",
+            "event_weight": 171717170,
+            "percent": 0.0650418946321307
+          },
+          {
+            "caller": "lavik::local_shared_detail::Allocation<lavik::storage::HashGroupMap<unsigned long>::Node, lavik::storage::RetainedAllocator<lavik::storage::HashGroupMap<unsigned long>::Node> >::Destroy(lavik::local_shared_detail::Control<lavik::storage::HashGroupMap<unsigned long>::Node>*)",
+            "event_weight": 141414140,
+            "percent": 0.05356391322646057
+          },
+          {
+            "caller": "std::_Function_handler<absl::lts_20250512::Status (lavik::storage::GroupedObjectVersion const&), lavik::storage::StorageEngine::Impl::CommitGroupedHashMutationLocked(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::WorkerStore::PartitionStore&, unsigned char, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::Digest const&, std::shared_ptr<lavik::storage::GroupedHashObject const>, lavik::storage::HashValue, std::vector<lavik::storage::HashGroupId, std::allocator<lavik::storage::HashGroupId> >, unsigned long, lavik::storage::ValueType, unsigned long, lavik::storage::TxShardWrites*, lavik::storage::ReplicationCommandAppend*, lavik::storage::MutationPrecondition const*, lavik::storage::HashGroupMutationPlan*)::{lambda(lavik::storage::GroupedObjectVersion const&)#1}>::_M_manager(std::_Any_data&, std::_Any_data const&, std::_Manager_operation)",
+            "event_weight": 90909090,
+            "percent": 0.03443394421701037
+          },
+          {
+            "caller": "std::vector<lavik::storage::HashGroupSnapshot, std::allocator<lavik::storage::HashGroupSnapshot> >::~vector() [clone .lto_priv.0]",
+            "event_weight": 90909090,
+            "percent": 0.03443394421701037
+          },
+          {
+            "caller": "lavik::storage::StorageEngine::Impl::ExecuteHashLikeLocked(lavik::storage::StorageEngine::Impl::ExecuteHashLikeLocked(unsigned char, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::Digest const&, lavik::storage::HashOperation const&, lavik::storage::ValueType, lavik::storage::TxShardWrites*, lavik::storage::ReplicationCommandAppend*, lavik::storage::MutationPrecondition const*)::_ZN5lavik7storage13StorageEngine4Impl21ExecuteHashLikeLockedEhSt17basic_string_viewIcSt11char_traitsIcEERKNS0_6DigestERKNS0_13HashOperationENS0_9ValueTypeEPNS0_13TxShardWritesEPNS0_24ReplicationCommandAppendEPKNS0_20MutationPreconditionE.Frame*) [clone .actor]",
+            "event_weight": 90909090,
+            "percent": 0.03443394421701037
+          },
+          {
+            "caller": "lavik::CommandRequest::~CommandRequest() [clone .lto_priv.0]",
+            "event_weight": 70707070,
+            "percent": 0.026781956613230285
+          },
+          {
+            "caller": "lavik::SlowLogEntry::operator=(lavik::SlowLogEntry&&) [clone .isra.0]",
+            "event_weight": 60606060,
+            "percent": 0.022955962811340245
+          },
+          {
+            "caller": "std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> >::~vector() [clone .lto_priv.0]",
+            "event_weight": 40404040,
+            "percent": 0.015303975207560164
+          },
+          {
+            "caller": "lavik::storage::StorageEngine::Impl::GroupedRetirementPins::~GroupedRetirementPins()",
+            "event_weight": 30303030,
+            "percent": 0.011477981405670122
+          },
+          {
+            "caller": "lavik::DispatchCommand(lavik::DispatchCommand(lavik::ConnectionContext&, lavik::CommandRequest&, lavik::ReplyBuilder&)::_ZN5lavik15DispatchCommandERNS_17ConnectionContextERNS_14CommandRequestERNS_12ReplyBuilderE.Frame*) [clone .actor]",
+            "event_weight": 20202020,
+            "percent": 0.007651987603780082
+          },
+          {
+            "caller": "std::vector<lavik::storage::RecordIdentity, std::allocator<lavik::storage::RecordIdentity> >::~vector() [clone .lto_priv.0]",
+            "event_weight": 20202020,
+            "percent": 0.007651987603780082
+          },
+          {
+            "caller": "bycorf::Task<lavik::CommandReply>::~Task() [clone .lto_priv.0]",
+            "event_weight": 20202020,
+            "percent": 0.007651987603780082
+          },
+          {
+            "caller": "lavik::storage::StorageEngine::Impl::DrainTxCommitQueue(lavik::storage::StorageEngine::Impl::WorkerStore*)::{lambda()#2}::operator()(lavik::storage::StorageEngine::Impl::DrainTxCommitQueue(lavik::storage::StorageEngine::Impl::WorkerStore*)::{lambda()#2}::operator()() const::_ZZN5lavik7storage13StorageEngine4Impl18DrainTxCommitQueueEPNS2_11WorkerStoreEENKUlvE0_clEv.Frame*) [clone .actor]",
+            "event_weight": 20202020,
+            "percent": 0.007651987603780082
+          },
+          {
+            "caller": "std::_Sp_counted_ptr_inplace<lavik::storage::GroupedHashObject, lavik::storage::RetainedAllocator<lavik::storage::GroupedHashObject>, (__gnu_cxx::_Lock_policy)2>::_M_dispose()",
+            "event_weight": 20202020,
+            "percent": 0.007651987603780082
+          },
+          {
+            "caller": "lavik::storage::StorageEngine::Impl::LoadValueLocal(lavik::storage::StorageEngine::Impl::WorkerStore&, unsigned char, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::RecordLocation, unsigned long, lavik::ReadLatencyTrace*, std::optional<unsigned long>)",
+            "event_weight": 20202020,
+            "percent": 0.007651987603780082
+          },
+          {
+            "caller": "lavik::storage::StorageEngine::Impl::DestroyBlockState(lavik::storage::StorageEngine::Impl::WorkerStore&, unsigned long)",
+            "event_weight": 20202020,
+            "percent": 0.007651987603780082
+          },
+          {
+            "caller": "lavik::ExecuteCommandBody(lavik::CommandRequest const&, lavik::ReplyBuilder&, unsigned long, lavik::ConnectionContext*, lavik::(anonymous namespace)::ReplicationTransactionOrderGuard*, std::optional<bool>)",
+            "event_weight": 20202020,
+            "percent": 0.007651987603780082
+          },
+          {
+            "caller": "lavik::storage::StorageEngine::Impl::LoadHashGroupPayload(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::WorkerStore::PartitionStore&, unsigned char, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::Digest const&, std::shared_ptr<lavik::storage::GroupedHashObject const>, lavik::storage::HashGroupId, bool)",
+            "event_weight": 20202020,
+            "percent": 0.007651987603780082
+          },
+          {
+            "caller": "lavik::storage::StorageEngine::Impl::NoteTxRecordLocal(lavik::storage::StorageEngine::Impl::WorkerStore&, unsigned long, unsigned long, unsigned long, unsigned int, bool, lavik::storage::TxShardWrites const*, unsigned int, unsigned long)",
+            "event_weight": 20202020,
+            "percent": 0.007651987603780082
+          },
+          {
+            "caller": "lavik::storage::StorageEngine::Impl::InspectTxBlocksLocal(lavik::storage::StorageEngine::Impl::InspectTxBlocksLocal(lavik::storage::StorageEngine::Impl::WorkerStore&, bool)::_ZN5lavik7storage13StorageEngine4Impl20InspectTxBlocksLocalERNS2_11WorkerStoreEb.Frame*) [clone .actor] [clone .lto_priv.0]",
+            "event_weight": 10101010,
+            "percent": 0.003825993801890041
+          },
+          {
+            "caller": "bycorf::Task<absl::lts_20250512::StatusOr<lavik::storage::StorageEngine::Impl::LoadedValue> >::~Task() [clone .lto_priv.0]",
+            "event_weight": 10101010,
+            "percent": 0.003825993801890041
+          },
+          {
+            "caller": "lavik::storage::StorageEngine::Impl::RelocateIfCurrent(unsigned int, std::basic_string_view<char, std::char_traits<char> >, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::RecordHeader const&, lavik::storage::RecordLocation const&, bool)",
+            "event_weight": 10101010,
+            "percent": 0.003825993801890041
+          },
+          {
+            "caller": "lavik::storage::StorageEngine::Impl::HasLiveBacklogTxLeaseLocal(lavik::storage::StorageEngine::Impl::WorkerStore&)",
+            "event_weight": 10101010,
+            "percent": 0.003825993801890041
+          },
+          {
+            "caller": "std::_Sp_counted_deleter<unsigned char*, lavik::storage::StorageEngine::Impl::InitializeTxWrites(unsigned long, std::span<lavik::storage::TxShardWrites, 18446744073709551615ul>, lavik::storage::MutationPrecondition)::{lambda(void*)#1}, std::allocator<void>, (__gnu_cxx::_Lock_policy)2>::_M_dispose() [clone .lto_priv.0]",
+            "event_weight": 10101010,
+            "percent": 0.003825993801890041
+          },
+          {
+            "caller": "bycorf::SubmitTaskAwaiter<lavik::storage::StorageEngine::Impl::WaitForTxBacklog()::{lambda()#1}>::Start(bycorf::RemoteWork*) [clone .lto_priv.0]",
+            "event_weight": 10101010,
+            "percent": 0.003825993801890041
+          },
+          {
+            "caller": "lavik::(anonymous namespace)::ExecuteStorageCommand(lavik::(anonymous namespace)::ExecuteStorageCommand(lavik::CommandRequest const&, lavik::ReplyBuilder&, lavik::ReadLatencyTrace*, lavik::SetLatencyTrace*, bool)::_ZN5lavik12_GLOBAL__N_121ExecuteStorageCommandERKNS_14CommandRequestERNS_12ReplyBuilderEPNS_16ReadLatencyTraceEPNS_15SetLatencyTraceEb.Frame*) [clone .actor] [clone .lto_priv.0]",
+            "event_weight": 10101010,
+            "percent": 0.003825993801890041
+          },
+          {
+            "caller": "bycorf::Task<absl::lts_20250512::StatusOr<lavik::storage::HashResult> >::~Task() [clone .lto_priv.0]",
+            "event_weight": 10101010,
+            "percent": 0.003825993801890041
+          }
+        ],
+        "siphash": [
+          {
+            "caller": "lavik::storage::ComputeDigest(std::basic_string_view<char, std::char_traits<char> >)",
+            "event_weight": 686868680,
+            "percent": 0.2601675785285228
+          },
+          {
+            "caller": "lavik::storage::ApplyHashGroupEdits(std::basic_string_view<char, std::char_traits<char> >, std::array<unsigned char, 16ul> const&, lavik::storage::HashGroupEditKind, std::span<lavik::storage::HashEntryView const, 18446744073709551615ul>)",
+            "event_weight": 202020200,
+            "percent": 0.07651987603780082
+          },
+          {
+            "caller": "lavik::storage::HashGroupDirectory::Find(std::basic_string_view<char, std::char_traits<char> >) const",
+            "event_weight": 40404040,
+            "percent": 0.015303975207560164
+          }
+        ],
+        "routing_inclusive": [
+          {
+            "caller": "Any HashGroupMap frame",
+            "event_weight": 28373737090,
+            "percent": 10.747216589509126
+          }
+        ]
+      }
+    },
+    "parent-set": {
+      "total_event_weight": 276171714410,
+      "categories": {
+        "allocator": [
+          {
+            "caller": "lavik::storage::HashGroupMap<unsigned long>::Make(unsigned long, lavik::storage::RecoveredHashGroup, lavik::LocalSharedPtr<lavik::storage::HashGroupMap<unsigned long>::Node const>, lavik::LocalSharedPtr<lavik::storage::HashGroupMap<unsigned long>::Node const>)",
+            "event_weight": 2585858560,
+            "percent": 0.9363227387440108
+          },
+          {
+            "caller": "lavik::storage::ApplyHashGroupEdits(std::basic_string_view<char, std::char_traits<char> >, std::array<unsigned char, 16ul> const&, lavik::storage::HashGroupEditKind, std::span<lavik::storage::HashEntryView const, 18446744073709551615ul>)",
+            "event_weight": 1171717160,
+            "percent": 0.42427124099337993
+          },
+          {
+            "caller": "lavik::storage::StorageEngine::Impl::CollectGroupedRetirements(std::shared_ptr<lavik::storage::GroupedHashObject const> const&, std::shared_ptr<lavik::storage::GroupedHashObject const> const&, std::optional<std::span<lavik::storage::HashGroupId const, 18446744073709551615ul> >) [clone .isra.0]",
+            "event_weight": 838383830,
+            "percent": 0.30357338795215977
+          },
+          {
+            "caller": "lavik::storage::TryAllocateRetainedBytes(lavik::storage::RetainedAllocationDomain const&, unsigned long, unsigned long) [clone .constprop.0]",
+            "event_weight": 707070700,
+            "percent": 0.2560257488753155
+          },
+          {
+            "caller": "unresolved",
+            "event_weight": 656565650,
+            "percent": 0.2377381953842215
+          },
+          {
+            "caller": "lavik::storage::StorageEngine::Impl::InitializeTxWrites(unsigned long, std::span<lavik::storage::TxShardWrites, 18446744073709551615ul>, lavik::storage::MutationPrecondition)",
+            "event_weight": 464646460,
+            "percent": 0.16824549211806444
+          },
+          {
+            "caller": "lavik::storage::StorageEngine::Impl::WriteRecordLocked(lavik::storage::StorageEngine::Impl::WriteRecordLocked(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::RecordWriteRequest const&, std::shared_ptr<std::vector<lavik::storage::ExtentRef, std::allocator<lavik::storage::ExtentRef> > const>, std::unique_ptr<std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> >, std::default_delete<std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> > > >)::_ZN5lavik7storage13StorageEngine4Impl17WriteRecordLockedERNS2_11WorkerStoreERKNS2_18RecordWriteRequestESt10shared_ptrIKSt6vectorINS0_9ExtentRefESaISA_EEESt10unique_ptrIS9_INS0_13RetiredRecordESaISG_EESt14default_deleteISI_EE.Frame*) [clone .actor]",
+            "event_weight": 424242420,
+            "percent": 0.15361544932518928
+          },
+          {
+            "caller": "lavik::storage::StorageEngine::Impl::RunTxCleaner(lavik::storage::StorageEngine::Impl::RunTxCleaner(bool)::_ZN5lavik7storage13StorageEngine4Impl12RunTxCleanerEb.Frame*) [clone .actor]",
+            "event_weight": 404040400,
+            "percent": 0.1463004279287517
+          },
+          {
+            "caller": "lavik::storage::StorageEngine::Impl::PrepinGroupedRetirementsLocked(lavik::storage::StorageEngine::Impl::PrepinGroupedRetirementsLocked(lavik::storage::StorageEngine::Impl::WorkerStore&, std::shared_ptr<lavik::storage::GroupedHashObject const> const&, std::optional<std::span<lavik::storage::HashGroupId const, 18446744073709551615ul> >, bool, std::unique_ptr<lavik::storage::StorageEngine::Impl::GroupedRetirementPins, std::default_delete<lavik::storage::StorageEngine::Impl::GroupedRetirementPins> >*)::_ZN5lavik7storage13StorageEngine4Impl30PrepinGroupedRetirementsLockedERNS2_11WorkerStoreERKSt10shared_ptrIKNS0_17GroupedHashObjectEESt8optionalISt4spanIKNS0_11HashGroupIdELm18446744073709551615EEEbPSt10unique_ptrINS2_21GroupedRetirementPinsESt14default_deleteISI_EE.Frame*) [clone .actor]",
+            "event_weight": 393939390,
+            "percent": 0.1426429172305329
+          },
+          {
+            "caller": "std::__shared_count<(__gnu_cxx::_Lock_policy)2>::__shared_count<std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> >, std::allocator<void>, std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> > >(std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> >*&, std::_Sp_alloc_shared_tag<std::allocator<void> >, std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> >&&) [clone .isra.0]",
+            "event_weight": 343434340,
+            "percent": 0.12435536373943894
+          },
+          {
+            "caller": "lavik::storage::StorageEngine::Impl::CommitGroupedHashMutationLocked(lavik::storage::StorageEngine::Impl::CommitGroupedHashMutationLocked(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::WorkerStore::PartitionStore&, unsigned char, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::Digest const&, std::shared_ptr<lavik::storage::GroupedHashObject const>, lavik::storage::HashValue, std::vector<lavik::storage::HashGroupId, std::allocator<lavik::storage::HashGroupId> >, unsigned long, lavik::storage::ValueType, unsigned long, lavik::storage::TxShardWrites*, lavik::storage::ReplicationCommandAppend*, lavik::storage::MutationPrecondition const*, lavik::storage::HashGroupMutationPlan*)::_ZN5lavik7storage13StorageEngine4Impl31CommitGroupedHashMutationLockedERNS2_11WorkerStoreERNS3_14PartitionStoreEhSt17basic_string_viewIcSt11char_traitsIcEERKNS0_6DigestESt10shared_ptrIKNS0_17GroupedHashObjectEENS0_9HashValueESt6vectorINS0_11HashGroupIdESaISK_EEmNS0_9ValueTypeEmPNS0_13TxShardWritesEPNS0_24ReplicationCommandAppendEPKNS0_20MutationPreconditionEPNS0_21HashGroupMutationPlanE.Frame*) [clone .actor] [clone .lto_priv.0]",
+            "event_weight": 333333330,
+            "percent": 0.12069785304122015
+          },
+          {
+            "caller": "lavik::storage::RetiredRecord& std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> >::emplace_back<lavik::storage::RetiredRecord>(lavik::storage::RetiredRecord&&) [clone .isra.0]",
+            "event_weight": 313131310,
+            "percent": 0.11338283164478256
+          },
+          {
+            "caller": "lavik::storage::StorageEngine::Impl::DrainTxCommitQueue(lavik::storage::StorageEngine::Impl::DrainTxCommitQueue(lavik::storage::StorageEngine::Impl::WorkerStore*)::_ZN5lavik7storage13StorageEngine4Impl18DrainTxCommitQueueEPNS2_11WorkerStoreE.Frame*) [clone .actor]",
+            "event_weight": 303030300,
+            "percent": 0.10972532094656377
+          },
+          {
+            "caller": "std::__new_allocator<std::_Sp_counted_ptr_inplace<lavik::cluster::(anonymous namespace)::SocketDeadlineState, std::allocator<void>, (__gnu_cxx::_Lock_policy)2> >::allocate(unsigned long, void const*) [clone .constprop.2]",
+            "event_weight": 303030300,
+            "percent": 0.10972532094656377
+          },
+          {
+            "caller": "lavik::(anonymous namespace)::ExecuteSetCommandImpl(lavik::(anonymous namespace)::ExecuteSetCommandImpl(lavik::CommandRequest const&, lavik::storage::Digest const*, lavik::storage::TxShardWrites*, lavik::ReplyBuilder&)::_ZN5lavik12_GLOBAL__N_121ExecuteSetCommandImplERKNS_14CommandRequestEPKNS_7storage6DigestEPNS4_13TxShardWritesERNS_12ReplyBuilderE.Frame*) [clone .actor] [clone .lto_priv.0]",
+            "event_weight": 303030300,
+            "percent": 0.10972532094656377
+          },
+          {
+            "caller": "lavik::storage::RecordIdentity& std::vector<lavik::storage::RecordIdentity, std::allocator<lavik::storage::RecordIdentity> >::emplace_back<lavik::storage::RecordIdentity>(lavik::storage::RecordIdentity&&) [clone .isra.0]",
+            "event_weight": 252525250,
+            "percent": 0.0914377674554698
+          },
+          {
+            "caller": "std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> >::reserve(unsigned long)",
+            "event_weight": 252525250,
+            "percent": 0.0914377674554698
+          },
+          {
+            "caller": "lavik::storage::TxShardWrites::Fence& std::vector<lavik::storage::TxShardWrites::Fence, std::allocator<lavik::storage::TxShardWrites::Fence> >::emplace_back<lavik::storage::TxShardWrites::Fence>(lavik::storage::TxShardWrites::Fence&&) [clone .isra.0]",
+            "event_weight": 242424240,
+            "percent": 0.08778025675725101
+          },
+          {
+            "caller": "lavik::storage::StorageEngine::Impl::CommitTxWrites(lavik::storage::StorageEngine::Impl::CommitTxWrites(unsigned long, std::vector<lavik::storage::TxShardWrites*, std::allocator<lavik::storage::TxShardWrites*> >, lavik::storage::RelocationDurabilityFence*)::_ZN5lavik7storage13StorageEngine4Impl14CommitTxWritesEmSt6vectorIPNS0_13TxShardWritesESaIS5_EEPNS0_25RelocationDurabilityFenceE.Frame*) [clone .actor]",
+            "event_weight": 232323230,
+            "percent": 0.08412274605903222
+          },
+          {
+            "caller": "lavik::storage::HashGroupSnapshot& std::vector<lavik::storage::HashGroupSnapshot, std::allocator<lavik::storage::HashGroupSnapshot> >::emplace_back<lavik::storage::HashGroupSnapshot>(lavik::storage::HashGroupSnapshot&&) [clone .isra.0]",
+            "event_weight": 202020200,
+            "percent": 0.07315021396437585
+          },
+          {
+            "caller": "lavik::(anonymous namespace)::ReserveArguments(std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >*, unsigned long)",
+            "event_weight": 191919190,
+            "percent": 0.06949270326615706
+          },
+          {
+            "caller": "lavik::storage::TxShardWrites& std::vector<lavik::storage::TxShardWrites, std::allocator<lavik::storage::TxShardWrites> >::emplace_back<lavik::storage::TxShardWrites>(lavik::storage::TxShardWrites&&) [clone .isra.0]",
+            "event_weight": 191919190,
+            "percent": 0.06949270326615706
+          },
+          {
+            "caller": "lavik::RespCommandParser::Parse(std::basic_string_view<char, std::char_traits<char> >)",
+            "event_weight": 181818180,
+            "percent": 0.06583519256793827
+          },
+          {
+            "caller": "lavik::storage::EncodeGroupedHashRoot[abi:cxx11](lavik::storage::GroupedHashRoot const&)",
+            "event_weight": 171717170,
+            "percent": 0.06217768186971947
+          },
+          {
+            "caller": "lavik::CommandRequest::~CommandRequest() [clone .lto_priv.0]",
+            "event_weight": 141414140,
+            "percent": 0.051205149775063095
+          },
+          {
+            "caller": "lavik::storage::StorageEngine::Impl::FlushPendingBlocks(lavik::storage::StorageEngine::Impl::FlushPendingBlocks(lavik::storage::StorageEngine::Impl::WorkerStore*)::_ZN5lavik7storage13StorageEngine4Impl18FlushPendingBlocksEPNS2_11WorkerStoreE.Frame*) [clone .actor]",
+            "event_weight": 111111110,
+            "percent": 0.040232617680406715
+          },
+          {
+            "caller": "void std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> >::_M_range_insert<__gnu_cxx::__normal_iterator<lavik::storage::RetiredRecord*, std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> > > >(__gnu_cxx::__normal_iterator<lavik::storage::RetiredRecord*, std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> > >, __gnu_cxx::__normal_iterator<lavik::storage::RetiredRecord*, std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> > >, __gnu_cxx::__normal_iterator<lavik::storage::RetiredRecord*, std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> > >, std::forward_iterator_tag) [clone .isra.0]",
+            "event_weight": 111111110,
+            "percent": 0.040232617680406715
+          },
+          {
+            "caller": "lavik::local_shared_detail::Allocation<lavik::storage::HashGroupMap<unsigned long>::Node, lavik::storage::RetainedAllocator<lavik::storage::HashGroupMap<unsigned long>::Node> >::Destroy(lavik::local_shared_detail::Control<lavik::storage::HashGroupMap<unsigned long>::Node>*)",
+            "event_weight": 101010100,
+            "percent": 0.036575106982187924
+          },
+          {
+            "caller": "std::_Function_handler<absl::lts_20250512::Status (lavik::storage::GroupedObjectVersion const&), lavik::storage::StorageEngine::Impl::CommitGroupedHashMutationLocked(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::WorkerStore::PartitionStore&, unsigned char, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::Digest const&, std::shared_ptr<lavik::storage::GroupedHashObject const>, lavik::storage::HashValue, std::vector<lavik::storage::HashGroupId, std::allocator<lavik::storage::HashGroupId> >, unsigned long, lavik::storage::ValueType, unsigned long, lavik::storage::TxShardWrites*, lavik::storage::ReplicationCommandAppend*, lavik::storage::MutationPrecondition const*, lavik::storage::HashGroupMutationPlan*)::{lambda(lavik::storage::GroupedObjectVersion const&)#1}>::_M_manager(std::_Any_data&, std::_Any_data const&, std::_Manager_operation)",
+            "event_weight": 80808080,
+            "percent": 0.02926008558575034
+          },
+          {
+            "caller": "std::vector<lavik::storage::HashGroupSnapshot, std::allocator<lavik::storage::HashGroupSnapshot> >::~vector() [clone .lto_priv.0]",
+            "event_weight": 60606060,
+            "percent": 0.021945064189312753
+          },
+          {
+            "caller": "std::vector<lavik::storage::StorageEngine::Impl::WorkerStore::PendingTxCommit, std::allocator<lavik::storage::StorageEngine::Impl::WorkerStore::PendingTxCommit> >::~vector() [clone .lto_priv.0]",
+            "event_weight": 60606060,
+            "percent": 0.021945064189312753
+          },
+          {
+            "caller": "std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> >::~vector() [clone .lto_priv.0]",
+            "event_weight": 40404040,
+            "percent": 0.01463004279287517
+          },
+          {
+            "caller": "lavik::storage::StorageEngine::Impl::MarkRetiredRecordsDead(lavik::storage::StorageEngine::Impl::MarkRetiredRecordsDead(lavik::storage::StorageEngine::Impl::WorkerStore*, std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> >)::_ZN5lavik7storage13StorageEngine4Impl22MarkRetiredRecordsDeadEPNS2_11WorkerStoreESt6vectorINS0_13RetiredRecordESaIS6_EE.Frame*) [clone .actor] [clone .lto_priv.0]",
+            "event_weight": 40404040,
+            "percent": 0.01463004279287517
+          },
+          {
+            "caller": "lavik::storage::StorageEngine::Impl::ExecuteHashLikeLocked(lavik::storage::StorageEngine::Impl::ExecuteHashLikeLocked(unsigned char, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::Digest const&, lavik::storage::HashOperation const&, lavik::storage::ValueType, lavik::storage::TxShardWrites*, lavik::storage::ReplicationCommandAppend*, lavik::storage::MutationPrecondition const*)::_ZN5lavik7storage13StorageEngine4Impl21ExecuteHashLikeLockedEhSt17basic_string_viewIcSt11char_traitsIcEERKNS0_6DigestERKNS0_13HashOperationENS0_9ValueTypeEPNS0_13TxShardWritesEPNS0_24ReplicationCommandAppendEPKNS0_20MutationPreconditionE.Frame*) [clone .actor]",
+            "event_weight": 40404040,
+            "percent": 0.01463004279287517
+          },
+          {
+            "caller": "lavik::storage::StorageEngine::Impl::DrainTxCommitQueue(lavik::storage::StorageEngine::Impl::WorkerStore*)::{lambda()#2}::operator()(lavik::storage::StorageEngine::Impl::DrainTxCommitQueue(lavik::storage::StorageEngine::Impl::WorkerStore*)::{lambda()#2}::operator()() const::_ZZN5lavik7storage13StorageEngine4Impl18DrainTxCommitQueueEPNS2_11WorkerStoreEENKUlvE0_clEv.Frame*) [clone .actor]",
+            "event_weight": 30303030,
+            "percent": 0.010972532094656377
+          },
+          {
+            "caller": "lavik::DispatchCommand(lavik::DispatchCommand(lavik::ConnectionContext&, lavik::CommandRequest&, lavik::ReplyBuilder&)::_ZN5lavik15DispatchCommandERNS_17ConnectionContextERNS_14CommandRequestERNS_12ReplyBuilderE.Frame*) [clone .actor]",
+            "event_weight": 20202020,
+            "percent": 0.007315021396437585
+          },
+          {
+            "caller": "std::_Sp_counted_ptr_inplace<lavik::storage::GroupedHashObject, lavik::storage::RetainedAllocator<lavik::storage::GroupedHashObject>, (__gnu_cxx::_Lock_policy)2>::_M_dispose()",
+            "event_weight": 20202020,
+            "percent": 0.007315021396437585
+          },
+          {
+            "caller": "lavik::storage::StorageEngine::Impl::GroupedRetirementPins::~GroupedRetirementPins()",
+            "event_weight": 20202020,
+            "percent": 0.007315021396437585
+          },
+          {
+            "caller": "bycorf::SubmitTaskAwaiter<lavik::(anonymous namespace)::ExecuteCommandOnOwner(unsigned int, lavik::CommandRequest&, lavik::ReplyBuilder&, unsigned long, lavik::ConnectionContext*)::{lambda()#1}>::Start(bycorf::RemoteWork*) [clone .lto_priv.0]",
+            "event_weight": 20202020,
+            "percent": 0.007315021396437585
+          },
+          {
+            "caller": "lavik::storage::StorageEngine::Impl::NoteTxRecordLocal(lavik::storage::StorageEngine::Impl::WorkerStore&, unsigned long, unsigned long, unsigned long, unsigned int, bool, lavik::storage::TxShardWrites const*, unsigned int, unsigned long)",
+            "event_weight": 20202020,
+            "percent": 0.007315021396437585
+          },
+          {
+            "caller": "bycorf::Task<lavik::CommandReply>::~Task() [clone .lto_priv.0]",
+            "event_weight": 20202020,
+            "percent": 0.007315021396437585
+          },
+          {
+            "caller": "lavik::storage::StorageEngine::Impl::DestroyBlockState(lavik::storage::StorageEngine::Impl::WorkerStore&, unsigned long)",
+            "event_weight": 10101010,
+            "percent": 0.0036575106982187923
+          },
+          {
+            "caller": "lavik::storage::HashGroupMap<unsigned long>::SetNode(lavik::LocalSharedPtr<lavik::storage::HashGroupMap<unsigned long>::Node const> const&, unsigned long, lavik::storage::RecoveredHashGroup)",
+            "event_weight": 10101010,
+            "percent": 0.0036575106982187923
+          },
+          {
+            "caller": "lavik::storage::StorageEngine::Impl::LoadValueLocal(lavik::storage::StorageEngine::Impl::WorkerStore&, unsigned char, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::RecordLocation, unsigned long, lavik::ReadLatencyTrace*, std::optional<unsigned long>)",
+            "event_weight": 10101010,
+            "percent": 0.0036575106982187923
+          },
+          {
+            "caller": "lavik::storage::(anonymous namespace)::SipHash12(std::basic_string_view<char, std::char_traits<char> >, std::array<unsigned char, 16ul> const&) [clone .lto_priv.0]",
+            "event_weight": 10101010,
+            "percent": 0.0036575106982187923
+          },
+          {
+            "caller": "std::vector<lavik::storage::RecordIdentity, std::allocator<lavik::storage::RecordIdentity> >::~vector() [clone .lto_priv.0]",
+            "event_weight": 10101010,
+            "percent": 0.0036575106982187923
+          },
+          {
+            "caller": "absl::lts_20250512::internal_statusor::StatusOrData<std::vector<lavik::storage::TxCleanerBlock, std::allocator<lavik::storage::TxCleanerBlock> > >::~StatusOrData() [clone .lto_priv.0]",
+            "event_weight": 10101010,
+            "percent": 0.0036575106982187923
+          },
+          {
+            "caller": "lavik::ExecuteCommandBody(lavik::CommandRequest const&, lavik::ReplyBuilder&, unsigned long, lavik::ConnectionContext*, lavik::(anonymous namespace)::ReplicationTransactionOrderGuard*, std::optional<bool>)",
+            "event_weight": 10101010,
+            "percent": 0.0036575106982187923
+          },
+          {
+            "caller": "lavik::storage::StorageEngine::WaitForTxBacklog(lavik::storage::StorageEngine::WaitForTxBacklog()::_ZN5lavik7storage13StorageEngine16WaitForTxBacklogEv.Frame*) [clone .actor]",
+            "event_weight": 10101010,
+            "percent": 0.0036575106982187923
+          }
+        ],
+        "siphash": [
+          {
+            "caller": "lavik::storage::ApplyHashGroupEdits(std::basic_string_view<char, std::char_traits<char> >, std::array<unsigned char, 16ul> const&, lavik::storage::HashGroupEditKind, std::span<lavik::storage::HashEntryView const, 18446744073709551615ul>)",
+            "event_weight": 13838383700,
+            "percent": 5.010789656559745
+          },
+          {
+            "caller": "lavik::storage::HashGroupDirectory::Find(std::basic_string_view<char, std::char_traits<char> >) const",
+            "event_weight": 2464646440,
+            "percent": 0.8924326103653853
+          },
+          {
+            "caller": "lavik::storage::ComputeDigest(std::basic_string_view<char, std::char_traits<char> >)",
+            "event_weight": 888888880,
+            "percent": 0.3218609414432537
+          }
+        ],
+        "routing_inclusive": [
+          {
+            "caller": "Any HashGroupMap frame",
+            "event_weight": 17676767500,
+            "percent": 6.400643721882886
+          }
+        ]
+      }
+    }
+  },
+  "limits": "Sampled call-stack attribution includes polling/background/kernel in denominator. Allocator category matches malloc/mi_free leaf symbols; it is not every allocation and does not prove zero initialization. DWARF truncation/inlining/unresolved frames can omit callers. Shares are not allocation counts, per-command CPU, or QPS gains."
+}

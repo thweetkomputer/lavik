@@ -1,0 +1,17 @@
+{
+  "time": "2026-10-06T08:00:18.826869+00:00",
+  "reason": "First-pair small Set QPS -13.40%,p99 +52.44%; prioritize reverse-order replication and fresh per-worker CPU profiles. No source change.",
+  "source_commit": "258c216c954ab48121575d4bdbb7633e3959ec39",
+  "main": "5a3903d9b3c0632e3b34e827b779d9daa58455c2",
+  "preserved_clean_points": 42,
+  "interrupted_scope": "candidate258c216c-route-overlay-standard-set-104857600-1024-k500-r2-20261006",
+  "interrupted_stage": "RESTORE seed, before any clean throughput point; all complete observations retained",
+  "focus": "Set,1MiB/key,128Bmembers,50000keys,c320,pipeline1,12workers. Keep original round1AB; run round2BA andround3AB,three30secondconditions each:read,write,read-after-write. Then independent main and candidate fresh profiles at same size with25second99Hz task-clock/DWARF12workers inside30secondwrite/counterwindow.",
+  "expected_clean_points": 18,
+  "files": {
+    "repeat-small-set.py": "b350b1a23986d613d7c8b865cacd5a0afd4cb4cc5119b37c8f453ae44da8163c",
+    "profile-small-set.py": "7e2d242711e5abc14962b8764e8cabaab1e807ffa435d40e2dede8c38f7deb30",
+    "run-overlay-controls.py": "866a83ba1b3e77e21718ed4d716acf0c7cf9bfc433b679ac0c9f61f75674f1a2"
+  },
+  "scheduler_retry": "Initial priority launch stopped before any new benchmark because the previous runner had already restored SPDK; changed redundant restore to conditional restore, then verified kernel drivers when already restored. Failure logs retained."
+}
