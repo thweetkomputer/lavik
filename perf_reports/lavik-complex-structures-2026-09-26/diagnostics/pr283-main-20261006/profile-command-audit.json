@@ -1,0 +1,124 @@
+{
+  "input_sha256": "19e2697206cf35a21ca73716a051242a0d5fd8646673d4f846bd06381a5355f7",
+  "auditor_sha256": "91ca0aa3108f1b5d167da8737f9ec90739fbc60cda05292885d2cb636404dfc8",
+  "observations": 4,
+  "audits": [
+    {
+      "tag": "diagnostic-parent5a3903d9-pr283-zincrby-104857600-1024-c80-20261006",
+      "operation": "ZINCRBY",
+      "connections": 80,
+      "requests": 1152319,
+      "configured_test_seconds": 30,
+      "memtier_reported_duration_ms": 30004,
+      "wire_commands": [
+        "zincrby"
+      ],
+      "client_sha256": "52fd05a33d50926addddc638496bdec3f794fb0a459fb921d63670279220486e",
+      "command_sha256": "1b9ae39fb729b3f452952d305b66b140471d6df87caa57a3994d09bf8d4ce335",
+      "command_deltas": {
+        "info": {
+          "calls": 1,
+          "rejected_calls": 0,
+          "failed_calls": 0
+        },
+        "zincrby": {
+          "calls": 1152319,
+          "rejected_calls": 0,
+          "failed_calls": 0
+        }
+      },
+      "info_sha256": {
+        "before": "1ab6fcefcdd978f59e39e78022e9abb0126a38969f9d97cb8f7331166c4a0115",
+        "after": "46d4ac6cf57b30937d18d7852bc52c95dfabf48cf0fd1ceb1def646e7c407d22"
+      }
+    },
+    {
+      "tag": "diagnostic-candidateace4198b-pr283-zincrby-104857600-1024-c80-20261006",
+      "operation": "ZINCRBY",
+      "connections": 80,
+      "requests": 1156682,
+      "configured_test_seconds": 30,
+      "memtier_reported_duration_ms": 30006,
+      "wire_commands": [
+        "zincrby"
+      ],
+      "client_sha256": "fcaa1583bceaba7e036dc7321c1858fd627d1555e81e7c2188084031f373ea6b",
+      "command_sha256": "1b9ae39fb729b3f452952d305b66b140471d6df87caa57a3994d09bf8d4ce335",
+      "command_deltas": {
+        "info": {
+          "calls": 1,
+          "rejected_calls": 0,
+          "failed_calls": 0
+        },
+        "zincrby": {
+          "calls": 1156682,
+          "rejected_calls": 0,
+          "failed_calls": 0
+        }
+      },
+      "info_sha256": {
+        "before": "f873c8e5c4614109c39958e4a5d626d3dc390781dba204736847c15361b7cce5",
+        "after": "af2cd2ac6254671dd697ab90e058f3a15159f47ad7cbd63e931b57c3a6c5ef61"
+      }
+    },
+    {
+      "tag": "diagnostic-parent5a3903d9-pr283-zincrby-65536-128-c80-20261006",
+      "operation": "ZINCRBY",
+      "connections": 80,
+      "requests": 2387972,
+      "configured_test_seconds": 30,
+      "memtier_reported_duration_ms": 30001,
+      "wire_commands": [
+        "zincrby"
+      ],
+      "client_sha256": "c1a9e2cb99036f3f87c00e646cf1410fa5404684539df15e69ebfef7389b6f8b",
+      "command_sha256": "80fbdfe938fb31d619ffa7461e8b727dd51c45bf5519d57c0440b34f49758482",
+      "command_deltas": {
+        "info": {
+          "calls": 1,
+          "rejected_calls": 0,
+          "failed_calls": 0
+        },
+        "zincrby": {
+          "calls": 2387972,
+          "rejected_calls": 0,
+          "failed_calls": 0
+        }
+      },
+      "info_sha256": {
+        "before": "0d05c539c058f1387fd105b203a3f14ca786497b7c643343997d162085bf7779",
+        "after": "5ab045f5ea73a28f4fe25e05e760c84d2be64aaeeb596a4147326d5f53806b6d"
+      }
+    },
+    {
+      "tag": "diagnostic-candidateace4198b-pr283-zincrby-65536-128-c80-20261006",
+      "operation": "ZINCRBY",
+      "connections": 80,
+      "requests": 2567692,
+      "configured_test_seconds": 30,
+      "memtier_reported_duration_ms": 30001,
+      "wire_commands": [
+        "zincrby"
+      ],
+      "client_sha256": "7c41aeebb6d833071ef1ed56b240a4a20fec5e16149ae409722f5b7bbeaed175",
+      "command_sha256": "80fbdfe938fb31d619ffa7461e8b727dd51c45bf5519d57c0440b34f49758482",
+      "command_deltas": {
+        "info": {
+          "calls": 1,
+          "rejected_calls": 0,
+          "failed_calls": 0
+        },
+        "zincrby": {
+          "calls": 2567692,
+          "rejected_calls": 0,
+          "failed_calls": 0
+        }
+      },
+      "info_sha256": {
+        "before": "ef7b88e321d6eb16610401c15bc3ad5326ffb065dafe55e195d8e7ec673d7e4b",
+        "after": "cb41d26c5da3e90276f4c05639291b610c2acedf19d87b97aa7f15acdc3dd326"
+      }
+    }
+  ],
+  "scope": "All provided completed observations: exact client request count equals the sum of expected wire-command calls, no rejected/failed calls, no other command except INFO in each measurement window. Does not establish throughput causality or physical IO per command."
+}

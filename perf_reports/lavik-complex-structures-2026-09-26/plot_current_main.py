@@ -219,21 +219,24 @@ def readme(manifest, zh):
     if imported != len(imports):
         import_status += "未完成的图注明实际历史版本。" if zh else " Pending charts identify their actual historical version."
     lines += [import_status, ""]
+    note = manifest.get("notes", {}).get("zh" if zh else "en")
+    if note:
+        lines += [note, ""]
     lines += [("吞吐图固定命令、每 key 的 payload 大小、元素大小和 key 数；横轴为连接数，纵轴为 QPS。批量导入图显示完成固定数据量所需的秒数。只保留当前 main 和后续未合并 PR，其他三库保留同负载的历史实测。" if zh else "Throughput figures fix the command, payload bytes per key, entry size and key count; axes show connections and QPS. Batched-import figures show seconds to fill a fixed dataset. Keep the current main and subsequent unmerged PRs; peers retain historical measurements of the same workload."), ""]
     if done != len(rows):
         lines += ["未完成复测的图暂时保留带实际版本号的历史 Lavik 测量，图注明确标记待更新。旧结果没有改名为新 main。" if zh else "Pending conditions retain explicitly labeled historical Lavik measurements. Old observations are not relabeled as the new main.", ""]
     lines += ["Redis/Valkey 关闭持久化；Kvrocks 使用无压缩 RAID0、关闭 WAL、80 GiB block/blob cache；Lavik 使用六块 NVMe SPDK 持久化，不缓存字段或页内容。配置不同，写入 QPS 不代表同等持久性下的排名。" if zh else "Redis/Valkey disable persistence. Kvrocks uses uncompressed RAID0, disabled WAL and 80 GiB block/blob cache. Lavik persists through six SPDK NVMe devices without caching field/page payloads. Write QPS compares these configurations, not equivalent durability.", ""]
-    lines += ["本轮不重跑其他三库。Lavik 使用 AMD EPYC 9V74、16 vCPU、12 个服务 worker。每点 8 秒，较多 key 的 LSET 为 10 秒；pipeline=1。每组独立预置并逐 key 校验，perf 采样在完整连接扫描后单独进行，不混入 QPS 图。单次扫描没有统计置信区间。" if zh else "Peers are not rerun this round. Lavik uses AMD EPYC 9V74, 16 vCPUs and 12 serving workers. Points last 8 s (10 s for high-key-count LSET), pipeline=1. Each condition is independently seeded and checked key by key. CPU profiles run separately after complete clean grids. Single sweeps have no statistical confidence intervals.", ""]
+    lines += ["本轮不重跑其他三库。Lavik 使用 AMD EPYC 9V74、16 vCPU、12 个服务 worker。每点 8 秒，较多 key 的 LSET 为 10 秒；pipeline=1。每组独立预置并逐 key 校验，perf 另行采集，不混入 QPS 图。单次扫描没有统计置信区间。" if zh else "Peers are not rerun this round. Lavik uses AMD EPYC 9V74, 16 vCPUs and 12 serving workers. Points last 8 s (10 s for high-key-count LSET), pipeline=1. Each condition is independently seeded and checked key by key. CPU profiles run separately from the plotted throughput measurements. Single sweeps have no statistical confidence intervals.", ""]
     lines += ["本轮固定使用上述 main 提交，已合并优化不再作为独立 PR 曲线显示。历史观察仍保留原始提交号；每完成一组独立复测才替换对应图。" if zh else "This round pins the main revision above. Merged optimizations are no longer separate PR curves. Historical observations retain their measured commits; each chart is replaced only after its independent rerun completes.", ""]
     lines += ["[绘图数据清单](current-main.json) · [复现脚本](run.py) · [上一轮构建与硬件证明](diagnostics/main-refresh-20261004/host-and-build.json)" if zh else "[Plot sources](current-main.json) · [Runner](run.py) · [Previous-round build and hardware](diagnostics/main-refresh-20261004/host-and-build.json)", ""]
     gap_report = str(Path(manifest["build_proof"]).parent / "main-gap-summary.md") if manifest.get("build_proof") else None
     if gap_report and (ROOT / gap_report).exists():
-        lines += [f"[完整 main 基线：逐命令差距与优化优先级]({gap_report})" if zh else f"[Complete main baseline: per-command gaps and optimization priorities]({gap_report})", ""]
+        lines += [f"[完整 main 基线：逐命令差距]({gap_report})" if zh else f"[Complete main baseline: per-command gaps]({gap_report})", ""]
     if manifest.get("build_proof"):
         proof = manifest["build_proof"]
         lines += [f"[本轮构建与硬件证明]({proof})" if zh else f"[Current build and hardware]({proof})", ""]
         diagnostic = Path(proof).parent
-        for filename, title in [("README.md", "本轮 perf 分析" if zh else "Current perf analysis"),
+        for filename, title in [("README.md", "本轮测量与验证" if zh else "Current measurements and validation"),
                                 ("report-audit.json", "本轮绘图数据核验" if zh else "Current plot-data audit")]:
             path = diagnostic / filename
             if (ROOT / path).exists():
@@ -245,27 +248,18 @@ def readme(manifest, zh):
     if active:
         links = " · ".join(f"[PR #{number}]({url})" for number, url in sorted(active.items()))
         lines += [("未合并优化：" if zh else "Unmerged optimizations: ") + links, ""]
-    if (ROOT / "diagnostics/main-a565d603-20261004/pr-main-integration.json").exists():
-        lines += ["main 随后更新至 `19496654`；本页仍使用固定基线 `a565d603`。[优化分支的新提交与验证状态](diagnostics/main-a565d603-20261004/pr-main-integration.json)，新提交尚未替换已测量二进制。" if zh else "Main subsequently advanced to `19496654`; this report retains pinned baseline `a565d603`. [Integrated PR heads and validation status](diagnostics/main-a565d603-20261004/pr-main-integration.json) remain separate from the measured binaries.", ""]
-    if (ROOT / "diagnostics/stream-suffix-20261004/README.md").exists():
-        lines += ["[Stream 尾部目录复用：吞吐、交替复测、perf 与测试](diagnostics/stream-suffix-20261004/README.md)" if zh else "[Stream suffix directory reuse: throughput, paired runs, perf and tests](diagnostics/stream-suffix-20261004/README.md)", ""]
-    if (ROOT / "diagnostics/stream-range-main-20261004/README.md").exists():
-        lines += ["[Stream 回复批处理 PR #270：配对复测、控制项与 perf](diagnostics/stream-reply-20261004/README.md)" if zh else "[Stream reply batching PR #270: paired checks, controls and perf](diagnostics/stream-reply-20261004/README.md)", ""]
-    if (ROOT / "diagnostics/zset-member-probe-20261004/README.md").exists():
-        lines += ["[ZSet 成员叶页复用：吞吐、交替复测、perf 与测试](diagnostics/zset-member-probe-20261004/README.md)" if zh else "[ZSet member-leaf reuse: throughput, paired runs, perf and tests](diagnostics/zset-member-probe-20261004/README.md)", ""]
-        lines += ["后续 [PR #271](https://github.com/eloqdata/lavik/pull/271) 消除内联页的重复清单查找，仍在验证，尚无吞吐收益结论。" if zh else "Follow-up [PR #271](https://github.com/eloqdata/lavik/pull/271) removes redundant inline-page manifest lookups; validation and throughput measurements remain pending.", ""]
-    lines += ["[PR #272](https://github.com/eloqdata/lavik/pull/272) 复用解码摘要，减少重复字段检查和路由校验中的哈希计算；仍为未测量草稿。" if zh else "[PR #272](https://github.com/eloqdata/lavik/pull/272) reuses decoded hashes in duplicate and route validation; it remains an unmeasured draft.", ""]
-    lines += ["[PR #273](https://github.com/eloqdata/lavik/pull/273) 复用单成员写入已经解码的有序源页并转移其内存预算；仍为未测量草稿。" if zh else "[PR #273](https://github.com/eloqdata/lavik/pull/273) reuses an admitted ordered source page for point writes; it remains an unmeasured draft.", ""]
-    if (ROOT / "diagnostics/list-read-window-20261004/README.md").exists():
-        lines += ["[List 范围读取：吞吐、内存准入、交替复测与 perf](diagnostics/list-read-window-20261004/README.md)" if zh else "[List range reads: throughput, memory admission, paired runs and perf](diagnostics/list-read-window-20261004/README.md)", ""]
-    if (ROOT / "diagnostics/list-reply-reserve-20261004/README.md").exists():
-        lines += ["[List 回复空间预留：增量复测、复制热点与当前结果](diagnostics/list-reply-reserve-20261004/README.md)" if zh else "[List reply reservation: incremental repeats, copy hotspots and current results](diagnostics/list-reply-reserve-20261004/README.md)", ""]
-    if (ROOT / "diagnostics/list-byte-window-20261004/README.md").exists():
-        lines += ["[List 字节受限窗口：草稿 PR #269 配对复测、回退与 perf](diagnostics/list-byte-window-20261004/README.md)" if zh else "[List byte-bounded window: draft PR #269 paired repeats, regressions and perf](diagnostics/list-byte-window-20261004/README.md)", ""]
-    if (ROOT / "diagnostics/grouped-expiry-recovery-20261004/README.md").exists():
-        lines += ["[满盘过期恢复与 CI 修复（PR #268；历史观测保留原始二进制）](diagnostics/grouped-expiry-recovery-20261004/README.md)" if zh else "[Full-device expiration recovery and CI repair (PR #268; historical observations retain their original binaries)](diagnostics/grouped-expiry-recovery-20261004/README.md)", ""]
-    if 249 in active:
-        lines += ["PR #249 的实测：Stream XADD MAXLEN 两组峰值提高约 9%–11%；100 MiB × 500 key 的 RPUSH 导入耗时减少约 20.7%。LSET 没有测到提升，100 MiB 组峰值低 3.3%。这些是单次扫描结果，仍未达到 Kvrocks 的写入吞吐。[原始比较与限制](diagnostics/ordered-metadata-20261004/README.md)。" if zh else "PR #249 measurements: Stream XADD MAXLEN peaks improve by about 9%–11% in two conditions; RPUSH fill time for 500 keys of 100 MiB falls by about 20.7%. LSET shows no improvement, with its 100 MiB peak 3.3% lower. These are single sweeps and do not reach Kvrocks write throughput. [Comparisons and limitations](diagnostics/ordered-metadata-20261004/README.md).", ""]
+    # PR conclusions belong to their evidence pages, not hard-coded prose
+    # that becomes stale each time the main figures are regenerated.
+    for path, en, cn in [
+        ("diagnostics/pr283-main-20261006/README.md", "Rebased PR #283 versus main: paired results, perf and validation", "rebase 后 #283 与 main：配对结果、perf 及验证"),
+        ("diagnostics/grouped-expiry-recovery-20261004/pr-cleanup-current.md", "PR disposition and retained failure records", "PR 去留与原始失败记录"),
+        ("diagnostics/combined-20261005/README.md", "Historical fixed combination: full results and tradeoffs", "历史固定组合：完整结果与取舍"),
+        ("diagnostics/zset-score-views-20261005/README.md", "Historical #280 measurements and perf", "历史 #280 测量与 perf"),
+        ("diagnostics/stream-reply-20261004/README.md", "Stream reply and read-window evidence", "Stream 回复与读取窗口证据"),
+        ("diagnostics/list-reply-reserve-20261004/README.md", "List replies and grouped root-read evidence", "List 回复与 grouped 根记录读取证据"),
+    ]:
+        if (ROOT / path).exists():
+            lines += [f"[{cn if zh else en}]({path})", ""]
     failures = []
     resumes = []
     for row in rows:
@@ -281,7 +275,7 @@ def readme(manifest, zh):
     if failures:
         lines += ["本轮失败测点（图中留空，错误请求的吞吐不计为成功 QPS）：" if zh else "Failed observations in this run (gaps in figures; errored requests are not successful QPS):", "", *failures, ""]
     if any(row["kind"] == "list" and row["size"] == 104857600 and row["field"] == 128 and row["main"].get("fresh") for row in rows):
-        lines += ["[100 MiB LRANGE 内存准入分析](diagnostics/main-refresh-20261004/list-lrange-admission.md)" if zh else "[100 MiB LRANGE admission analysis](diagnostics/main-refresh-20261004/list-lrange-admission.md)", ""]
+        lines += ["[历史 100 MiB LRANGE 内存准入分析](diagnostics/main-refresh-20261004/list-lrange-admission.md)" if zh else "[Historical 100 MiB LRANGE admission analysis](diagnostics/main-refresh-20261004/list-lrange-admission.md)", ""]
     if resumes:
         lines += [("以下扫描在正常停服后恢复同一份数据继续，只补缺失点，成功和失败的已有观察均保留：" if zh else "These grids resume the same retained dataset after a clean stop, measuring only missing points and retaining all existing successes/failures: ") + " · ".join(resumes) + ".", ""]
     for kind in ["list", "hash", "set", "zset", "stream"]:
