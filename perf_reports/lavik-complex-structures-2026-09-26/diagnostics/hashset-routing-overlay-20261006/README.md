@@ -1,5 +1,7 @@
 # Hash/Set routing metadata：固定 digest seed 的写入对照
 
+实现已提交为 [PR #285](https://github.com/eloqdata/lavik/pull/285)，当前为 ready for review。
+
 本轮优化已有 hash-prefix 的路由元数据替换：大目录暂存最多 8 个不可变覆盖项，反复修改同一前缀不再逐次复制 AVL 路径；覆盖项满时合并复制共享路径。目录少于 1024 项时沿用原路径，避免小对象额外分配。这里只缓存路由元数据，不缓存字段值或磁盘页；持久化格式、提交与恢复顺序不变。
 
 基线为 main `5a3903d9b3c0632e3b34e827b779d9daa58455c2`，候选为 `caba8203c1ec03c7413895053281713fc62ed379`。测量期间 main 前进到 `d88a5e8f`；本报告没有把旧基线重新标作最新 main。Bycorf 实际源码提交、嵌套依赖状态、生产二进制 SHA256 和构建选项见 [构建证据](validated-versions.json)。

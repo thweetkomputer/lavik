@@ -3,6 +3,8 @@
 [简体中文](README.zh-CN.md)
 
 
+[PR #275: 60 observations after rebasing onto main](diagnostics/pr275-main-20261006/README.md): large full XRANGE gains +325.49% / +238.95% / +130.87% at c1/c4/c16. Small full-read QPS is flat, but p99 regresses in all three pairs (median +39.07%). The PR remains draft; merging is not recommended yet.
+
 [Hash/Set routing metadata overlay](diagnostics/hashset-routing-overlay-20261006/README.md): 108 matched-seed observations; large standard HSET / SADD-SREM median +11.25% / +6.19%. Small controls are near flat; dispersed Hash writes show no reliable gain and post-write HGET regresses. All controls and four independent perf profiles are retained.
 
 **2026-10-06: main `5a3903d9`, including merged #244, #246, #247, #249, #258, #259, #260, #262, #265, #266, #267, #268, #270, #280; 28/28 conditions refreshed.**

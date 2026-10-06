@@ -1,0 +1,89 @@
+[0/2] Re-checking globbed directories...
+[1/18] Building CXX object CMakeFiles/lavik_module.dir/src/storage/engine/grouped/list.cpp.o
+[2/18] Building CXX object CMakeFiles/lavik_module.dir/src/storage/engine/grouped/read.cpp.o
+[3/18] Building CXX object CMakeFiles/lavik_module.dir/src/storage/engine/compact_api.cpp.o
+[4/18] Building CXX object CMakeFiles/lavik_module.dir/src/storage/engine/grouped/stream.cpp.o
+/mnt/dev/lavik-complex-next-20261004/src/storage/engine/grouped/stream.cpp: In member function ‘bycorf::Task<absl::lts_20250512::StatusOr<lavik::storage::StreamTrimResult> > lavik::storage::StorageEngine::Impl::StreamPageAccess::Trim(const lavik::storage::StreamTrimRequest&, std::vector<lavik::storage::StreamRecordChange>&, std::vector<long unsigned int>&, uint64_t)’:
+/mnt/dev/lavik-complex-next-20261004/src/storage/engine/grouped/stream.cpp:509:75: warning: missing initializer for member ‘lavik::storage::StreamTrimResult::first_id_’ [-Wmissing-field-initializers]
+  509 |     StreamTrimResult result{.removed_ = remove, .length_ = length - remove};
+      |                                                                           ^
+/mnt/dev/lavik-complex-next-20261004/src/storage/engine/grouped/stream.cpp: In member function ‘bycorf::Task<absl::lts_20250512::Status> lavik::storage::StorageEngine::Impl::ExecuteGroupedStreamInspect(WorkerStore&, WorkerStore::PartitionStore&, uint8_t, std::string_view, const lavik::storage::Digest&, lavik::storage::GroupedHashObject::Handle, const lavik::storage::CompactValueCallback&, const lavik::storage::StreamInspectAccess&)’:
+/mnt/dev/lavik-complex-next-20261004/src/storage/engine/grouped/stream.cpp:915:78: warning: missing initializer for member ‘lavik::storage::StreamGroupSummary::first_pending_’ [-Wmissing-field-initializers]
+  915 |                                .consumers_ = Count(*value, value->size() - 4)};
+      |                                                                              ^
+/mnt/dev/lavik-complex-next-20261004/src/storage/engine/grouped/stream.cpp:915:78: warning: missing initializer for member ‘lavik::storage::StreamGroupSummary::last_pending_’ [-Wmissing-field-initializers]
+/mnt/dev/lavik-complex-next-20261004/src/storage/engine/grouped/stream.cpp:915:78: warning: missing initializer for member ‘lavik::storage::StreamGroupSummary::consumer_pending_’ [-Wmissing-field-initializers]
+[5/18] Building CXX object CMakeFiles/lavik_module.dir/src/storage/engine/grouped/zset_members.cpp.o
+/mnt/dev/lavik-complex-next-20261004/src/storage/engine/grouped/zset_members.cpp: In member function ‘bycorf::Task<absl::lts_20250512::StatusOr<lavik::storage::StorageEngine::Impl::SortedSetMemberMutation> > lavik::storage::StorageEngine::Impl::PrepareSortedSetMembers(WorkerStore&, WorkerStore::PartitionStore&, uint8_t, std::string_view, const lavik::storage::Digest&, lavik::storage::GroupedHashObject::Handle, const lavik::storage::OrderedCollectionMutationPlan&, bool, std::optional<std::span<const SortedSetMemberChange> >, SortedSetMemberProbe*)’:
+/mnt/dev/lavik-complex-next-20261004/src/storage/engine/grouped/zset_members.cpp:326:29: warning: missing initializer for member ‘lavik::storage::HashGroupSnapshot::prepared_’ [-Wmissing-field-initializers]
+  326 |       plan.writes_.push_back({.incarnation_ = plan.root_.incarnation_,
+      |       ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  327 |                               .id_ = id,
+      |                               ~~~~~~~~~~
+  328 |                               .retired_ = true,
+      |                               ~~~~~~~~~~~~~~~~~
+  329 |                               .value_ = {}});
+      |                               ~~~~~~~~~~~~~~
+[6/18] Building CXX object CMakeFiles/lavik_module.dir/src/storage/engine/grouped/hash_random.cpp.o
+[7/18] Building CXX object CMakeFiles/lavik_module.dir/src/storage/engine/grouped/zset.cpp.o
+/mnt/dev/lavik-complex-next-20261004/src/storage/engine/grouped/zset.cpp: In lambda function:
+/mnt/dev/lavik-complex-next-20261004/src/storage/engine/grouped/zset.cpp:679:23: warning: loop variable ‘<structured bindings>’ creates a copy from type ‘const std::pair<long unsigned int, long unsigned int>’ [-Wrange-loop-construct]
+  679 |       for (const auto [rank, slot] : selection.draws_) {
+      |                       ^~~~~~~~~~~~
+/mnt/dev/lavik-complex-next-20261004/src/storage/engine/grouped/zset.cpp:679:23: note: use reference type to prevent copying
+  679 |       for (const auto [rank, slot] : selection.draws_) {
+      |                       ^~~~~~~~~~~~
+      |                       &
+/mnt/dev/lavik-complex-next-20261004/src/storage/engine/grouped/zset.cpp:709:62: warning: missing initializer for member ‘lavik::storage::CompactValueUpdate::stream_trim_’ [-Wmissing-field-initializers]
+  709 |                                 .expire_at_ms_ = std::nullopt};
+      |                                                              ^
+/mnt/dev/lavik-complex-next-20261004/src/storage/engine/grouped/zset.cpp:709:62: warning: missing initializer for member ‘lavik::storage::CompactValueUpdate::stream_trim_complete_’ [-Wmissing-field-initializers]
+/mnt/dev/lavik-complex-next-20261004/src/storage/engine/grouped/zset.cpp:709:62: warning: missing initializer for member ‘lavik::storage::CompactValueUpdate::stream_pending_removed_’ [-Wmissing-field-initializers]
+/mnt/dev/lavik-complex-next-20261004/src/storage/engine/grouped/zset.cpp:739:62: warning: missing initializer for member ‘lavik::storage::CompactValueUpdate::stream_trim_’ [-Wmissing-field-initializers]
+  739 |                                 .expire_at_ms_ = std::nullopt};
+      |                                                              ^
+/mnt/dev/lavik-complex-next-20261004/src/storage/engine/grouped/zset.cpp:739:62: warning: missing initializer for member ‘lavik::storage::CompactValueUpdate::stream_trim_complete_’ [-Wmissing-field-initializers]
+/mnt/dev/lavik-complex-next-20261004/src/storage/engine/grouped/zset.cpp:739:62: warning: missing initializer for member ‘lavik::storage::CompactValueUpdate::stream_pending_removed_’ [-Wmissing-field-initializers]
+/mnt/dev/lavik-complex-next-20261004/src/storage/engine/grouped/zset.cpp:778:60: warning: missing initializer for member ‘lavik::storage::CompactValueUpdate::stream_trim_’ [-Wmissing-field-initializers]
+  778 |                               .expire_at_ms_ = std::nullopt};
+      |                                                            ^
+/mnt/dev/lavik-complex-next-20261004/src/storage/engine/grouped/zset.cpp:778:60: warning: missing initializer for member ‘lavik::storage::CompactValueUpdate::stream_trim_complete_’ [-Wmissing-field-initializers]
+/mnt/dev/lavik-complex-next-20261004/src/storage/engine/grouped/zset.cpp:778:60: warning: missing initializer for member ‘lavik::storage::CompactValueUpdate::stream_pending_removed_’ [-Wmissing-field-initializers]
+/mnt/dev/lavik-complex-next-20261004/src/storage/engine/grouped/zset.cpp: In lambda function:
+/mnt/dev/lavik-complex-next-20261004/src/storage/engine/grouped/zset.cpp:1312:42: warning: unused parameter ‘i’ [-Wunused-parameter]
+ 1312 |   auto check_plan_read = [&](std::size_t i) -> absl::Status {
+      |                              ~~~~~~~~~~~~^
+[8/18] Building CXX object CMakeFiles/lavik_module.dir/src/storage/engine/transfer_api.cpp.o
+[9/18] Building CXX object CMakeFiles/lavik_module.dir/src/storage/engine/grouped/mutation.cpp.o
+/mnt/dev/lavik-complex-next-20261004/src/storage/engine/grouped/mutation.cpp: In member function ‘absl::lts_20250512::StatusOr<lavik::storage::HashGroupMutationPlan> lavik::storage::StorageEngine::Impl::PrepareGroupedHashMutation(const lavik::storage::GroupedHashObject::Handle&, lavik::storage::HashValue, std::span<const lavik::storage::HashGroupId>, uint64_t, uint64_t)’:
+/mnt/dev/lavik-complex-next-20261004/src/storage/engine/grouped/mutation.cpp:88:53: warning: missing initializer for member ‘lavik::storage::HashGroupSnapshot::prepared_’ [-Wmissing-field-initializers]
+   88 |                                         .value_ = {}})
+      |                                                     ^
+/mnt/dev/lavik-complex-next-20261004/src/storage/engine/grouped/mutation.cpp:116:29: warning: missing initializer for member ‘lavik::storage::HashGroupSnapshot::prepared_’ [-Wmissing-field-initializers]
+  116 |       plan.writes_.push_back({.incarnation_ = plan.root_.incarnation_,
+      |       ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  117 |                               .id_ = id,
+      |                               ~~~~~~~~~~
+  118 |                               .retired_ = true,
+      |                               ~~~~~~~~~~~~~~~~~
+  119 |                               .value_ = {}});
+      |                               ~~~~~~~~~~~~~~
+[10/18] Building CXX object CMakeFiles/lavik_module.dir/src/storage/engine/grouped/ordered_mutation.cpp.o
+[11/18] Building CXX object CMakeFiles/lavik_module.dir/src/storage/engine/list_tree.cpp.o
+[12/18] Building CXX object CMakeFiles/lavik_module.dir/src/storage/engine/hash_tree.cpp.o
+/mnt/dev/lavik-complex-next-20261004/src/storage/engine/hash_tree.cpp: In member function ‘bycorf::Task<absl::lts_20250512::StatusOr<lavik::storage::HashResult> > lavik::storage::StorageEngine::Impl::ExecuteHashLikeLocked(uint8_t, std::string_view, const lavik::storage::Digest&, const lavik::storage::HashOperation&, lavik::storage::ValueType, lavik::storage::TxShardWrites*, lavik::storage::ReplicationCommandAppend*, const lavik::storage::MutationPrecondition*)’:
+/mnt/dev/lavik-complex-next-20261004/src/storage/engine/hash_tree.cpp:886:31: warning: missing initializer for member ‘lavik::storage::HashGroupSnapshot::prepared_’ [-Wmissing-field-initializers]
+  886 |         plan.writes_.push_back({.incarnation_ = plan.root_.incarnation_,
+      |         ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  887 |                                 .id_ = id,
+      |                                 ~~~~~~~~~~
+  888 |                                 .retired_ = true,
+      |                                 ~~~~~~~~~~~~~~~~~
+  889 |                                 .value_ = {}});
+      |                                 ~~~~~~~~~~~~~~
+[13/18] Building CXX object CMakeFiles/lavik_grouped_ordered_write_e2e_test.dir/tests/grouped/stream_e2e_test.cpp.o
+[14/18] Building CXX object CMakeFiles/lavik_unit_tests.dir/tests/grouped/object_index_test.cpp.o
+[15/18] Linking CXX static library liblavik_module.a
+[16/18] Linking CXX executable lavik_grouped_ordered_write_e2e_test
+[17/18] Linking CXX executable lavik_unit_tests
+[18/18] Linking CXX executable lavik

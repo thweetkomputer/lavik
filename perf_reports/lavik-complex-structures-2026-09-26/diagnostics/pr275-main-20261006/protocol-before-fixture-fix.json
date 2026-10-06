@@ -1,0 +1,79 @@
+{
+  "main": "d88a5e8fdcc5702272b26f9853f4baad7a146988",
+  "candidate": "eccea5c79d4e71e39ae1e1217aecb226f4ff75e9",
+  "ci_run": 37452841525,
+  "native": {
+    "build": "Same native GCC13 SPDK RelWithDebInfo LTO build cache; build both pinned commits, freeze production binaries with tests/fault injection OFF, retain separate drivers.",
+    "tests": "Grouped metadata/hash units; complete ordered E2E suite; three separate repetitions per version of Stream large-RDB roundtrip and ListIndirect full-disk RESTORE/expiration recovery. Existing timeouts unchanged. Failures stop the chain and are retained.",
+    "tmp": "Private mount namespace binding task scratch on /mnt/dev over /tmp; host /tmp unchanged."
+  },
+  "performance": {
+    "points": 60,
+    "seconds_per_point": 30,
+    "pairs": 3,
+    "order": [
+      [
+        "parent",
+        "window"
+      ],
+      [
+        "window",
+        "parent"
+      ],
+      [
+        "parent",
+        "window"
+      ]
+    ],
+    "workers": 12,
+    "pipeline": 1,
+    "large": {
+      "bytes_per_key": 104857600,
+      "entry_bytes": 128,
+      "keys": 8,
+      "XRANGE_FULL_connections": [
+        1,
+        4,
+        16
+      ],
+      "XRANGE_connections": [
+        2560
+      ],
+      "XADD_MAXLEN_connections": [
+        320,
+        5120
+      ]
+    },
+    "small": {
+      "bytes_per_key": 65536,
+      "entry_bytes": 1024,
+      "keys": 64,
+      "XRANGE_FULL_connections": [
+        80
+      ],
+      "XRANGE_connections": [
+        5120
+      ],
+      "XADD_MAXLEN_connections": [
+        2560,
+        5120
+      ]
+    },
+    "seeding": "For each read pair, fresh parent-seeded population, each version restarted on the same unchanged data. Writes freshly seed each version separately. Validate every key, source/binary identity, errors and clean exits.",
+    "storage": "Six authorized scratch NVMe only, SPDK. Existing host restoration and global lock required.",
+    "host_serialization": "Do not acquire/build/test until complete Hash/Set clean+perf chain reports success. All local native builds/tests and clean performance measurements run serially.",
+    "ci": "Remote CI is recorded separately; performance measurement does not by itself establish correctness."
+  },
+  "scripts": {
+    "run-after-hashset.py": "0ef1d95417d4137fb0b26efbc0a0721f559627ec7e213c7ae69b6a35e5f364f0",
+    "summarize-stream-window.py": "ba9611d882a18e6a7adaa1ca80c94529a9d50499103a842f7e4eeafa153769f4",
+    "validate-native.py": "2832e3245570f04d10f52e4f8fc2d04e604f1d27f0789dbf8d42a12130905b3d",
+    "host.py": "166ea9c2841efd183db250d67accab66e4f316df57a1376bce7b4c3fbf679fad",
+    "private-tmp-exec.py": "ba981102838290d3319baeab514b3effc777815619be23980ba994e9d85fb2c1",
+    "watch-ci.py": "de46d201aa301c8c4d6dafb5bf817e1ef2de69e7bb114aca233aaa661cd5d7e5",
+    "run-write-only.py": "349fe30768e57ccb23c44cff2bc85b23e069f18db417e62a6815910f63e6bdeb",
+    "repeat-stream-window.py": "2fb45ec71c762bd1d490849d241442244b82793fe97b9889557ac66d848adc08",
+    "run-stream-reply-reads.py": "ff9b5b9e9642d075f766512df6f140af737c9e0e34abcfe255e1e4a3d8bcf1e1"
+  },
+  "created_utc_epoch": 1791285610.5082438
+}

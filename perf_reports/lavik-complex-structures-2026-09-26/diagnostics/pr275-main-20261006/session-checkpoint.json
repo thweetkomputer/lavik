@@ -1,0 +1,46 @@
+{
+  "updated": 1791287566.5750477,
+  "pr275": {
+    "main": "d88a5e8fdcc5702272b26f9853f4baad7a146988",
+    "candidate": "fd2972b0f9ea9ccda5d231dd0d4984d9ee1b44e5",
+    "source": "/mnt/dev/lavik-pr275-main-20261006",
+    "work": "/mnt/dev/lavik-pr275-validation-20261006",
+    "ci": 37457923836,
+    "ci_watcher_pid": 1240972,
+    "native_and_perf_chain": {
+      "pid": 1235419,
+      "generation": "39168169",
+      "time": 1791286832.3819666
+    },
+    "phase": "main full native E2E running; then 3 repeats of historical cases; candidate native build/full/repeats; then60 point Stream matrix",
+    "first_rebase_head": "eccea5c79d4e71e39ae1e1217aecb226f4ff75e9",
+    "first_ci": 37452841525,
+    "first_ci_result": "13 successful, 2 fixture-test shard failures and 2 aggregates; both ordered E2E suites passed",
+    "repair": "two Python mocks only, 10 local tests + precommit pass; already committed/pushed",
+    "no_merge_authorization": true
+  },
+  "hashset": {
+    "source": "/mnt/dev/lavik-hashset-write-main-20261006",
+    "work": "/mnt/dev/lavik-hashset-write-20261006",
+    "candidate": "caba8203c1ec03c7413895053281713fc62ed379",
+    "baseline": "5a3903d9b3c0632e3b34e827b779d9daa58455c2",
+    "all_measurements_and_analysis_complete": true,
+    "report_commit": "7378afae9442a3ec9780ec3610ea6d288df6bbc9",
+    "report_repo": "thweetkomputer/lavik",
+    "report_branch": "bench/complex-structures-2026-09-26",
+    "pr": 285,
+    "draft": false,
+    "new_pr_ci": 37458456165,
+    "ci_watcher_pid": 1242682,
+    "earlier_same_head_ci": 37436501005,
+    "earlier_ci_result": "17/17 success",
+    "remaining": "watch PR285 CI, link PR285 in report alongside future PR275 publication; do not relabel pinned5a results as latestmain"
+  },
+  "safety": [
+    "Do not touch dirty original /mnt/dev/lavik worktree",
+    "Report worktree origin points UPSTREAM; publish via explicit https://github.com/thweetkomputer/lavik URL",
+    "Initial report push accidentally created upstream branch, corrected by publishing fork then exact-SHA guarded deletion; verified no upstream branch or accidental CI run remains",
+    "Do not stage report spdk-host-commands.jsonl,spdk-host-original.json,spdk-restored.json",
+    "Global host execution lock controls native and performance serial execution; do not run other local builds/tests/perf during clean matrix"
+  ]
+}
