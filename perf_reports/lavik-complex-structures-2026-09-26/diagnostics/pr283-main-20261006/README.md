@@ -1,0 +1,17 @@
+# PR #283 与当前 main 的配对测试
+
+按用户 rebase 后的版本重新固定比较：main `5a3903d9b3c0632e3b34e827b779d9daa58455c2`，候选 `ace4198b0e1080cbb5116d40817b4dcc38f7ff8c`。候选的直接父提交即本次 main。旧父版本 `838a290f` 的构建已停止，没有产生本轮性能测量。
+
+状态：原生构建与回归进行中；尚无 QPS 收益结论。候选的新 CI 另行运行，旧 head 的 CI 不转记为新版本通过。
+
+[固定协议](protocol.json) · [原生构建和验证](validate-native.py) · [对照驱动](repeat-controls.py) · [实际命令及同分值预置](run-zset-controls.py) · [perf 与 main 刷新顺序](refresh-main.py)。这些脚本保留本次运行的绝对工作路径；共享主机锁和依赖来源来自既有基准工作区。
+
+两边使用相同 GCC/native/SPDK 生产配置，关闭测试故障注入，先执行原生回归，再串行测量。保持原报告 12 个 worker、pipeline=1 和独立客户端。正式 QPS 与 perf 分开运行。
+
+配对测试共 144 个测点：100 MiB/key、1024 B/member、8 keys，以及 64 KiB/key、128 B/member、64 keys。ZSCORE/ZINCRBY 使用 c80/320/2560/5120；ZADD CH 使用 c80/5120，分别预置不同分值和全零分值。每个条件三轮 A/B、B/A、A/B，每点 30 秒。读取对共享父版本新建的逻辑数据并分别重启；写入对各自独立新建。保留全部 QPS、p99、失败和不利结果。
+
+ZADD 对八个成员交替设置分值 0/1；随机 key 和并发可能产生同分值 no-op。因此将报告命令吞吐，不把每个请求计为实际成员修改。全零分值预置逐 key 检查 ZCOUNT；所有条件在测量前后检查 key 和成员基数。
+
+配对测量后，对两种大小各采集 main/候选的 ZINCRBY c80 perf，分别使用新建数据。CPU 采样为每个 worker 独立 99 Hz task-clock / 16 KiB DWARF、25 秒窗口；命令及计数窗口 30 秒，采样占比不等同每命令 CPU 时间或分配次数。
+
+随后以同一个 main 生产二进制刷新报告原有 28 组吞吐和 4 组批量导入。原报告曲线在复测完成前继续保留原始提交标记，不将历史结果改名为新 main。Redis、Valkey、Kvrocks 保留历史匹配负载，持久化及缓存设置差异仍适用。
