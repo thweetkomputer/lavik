@@ -16,7 +16,6 @@ original_commands = run.command_lines
 original_resp = run.resp
 original_measure = run.measure
 original_validate = run.validate
-original_fill = run.fill
 
 
 def resp(*args):
@@ -27,23 +26,6 @@ def resp(*args):
         for index in range(2, len(args), 2):
             args[index] = 0
     return original_resp(*args)
-
-
-def fill(kind, field_bytes, entries, keys, pipeline, workers, target_bytes):
-    if layout != 'ties':
-        return original_fill(kind, field_bytes, entries, keys, pipeline, workers, target_bytes)
-    # Descending members keep each all-equal-score insertion near the first
-    # page. Ascending insertion would rescan the growing tie run per batch,
-    # making setup quadratic. Both versions get exactly the same member set,
-    # all-zero scores and seed order; measured commands retain normal names.
-    original_value = run.value
-    run.value = lambda i, n: original_value(entries - 1 - i, n)
-    try:
-        result = original_fill(kind, field_bytes, entries, keys, pipeline, workers, target_bytes)
-    finally:
-        run.value = original_value
-    result['tie_seed_order'] = 'descending member bytes'
-    return result
 
 
 def commands(op, field_bytes, entries):
@@ -79,6 +61,5 @@ def measure(directory, *args):
 run.resp = resp
 run.command_lines = commands
 run.validate = validate
-run.fill = fill
 run.measure = measure
 run.main()
