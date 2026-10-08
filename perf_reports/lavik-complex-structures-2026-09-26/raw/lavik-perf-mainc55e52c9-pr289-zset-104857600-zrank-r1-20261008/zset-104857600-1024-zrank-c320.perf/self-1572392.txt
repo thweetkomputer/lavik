@@ -1,0 +1,22 @@
+# To display the perf.data header info, please use --header/--header-only options.
+#
+#
+# Total Lost Samples: 0
+#
+# Samples: 12  of event 'task-clock'
+# Event count (approx.): 121212120
+#
+# Overhead  Symbol                                                                                                                                                                                                                                                                  IPC   [IPC Coverage]
+# ........  ......................................................................................................................................................................................................................................................................  ....................
+#
+    50.00%  [.] lavik::storage::StorageEngine::Impl::ActiveExpiration(lavik::storage::StorageEngine::Impl::ActiveExpiration(lavik::storage::StorageEngine::Impl::WorkerStore*)::_ZN5lavik7storage13StorageEngine4Impl16ActiveExpirationEPNS2_11WorkerStoreE.Frame*) [clone .actor]  -      -            
+    16.67%  [.] bycorf::Worker::RunOnce(bool)                                                                                                                                                                                                                                       -      -            
+     8.33%  [k] _raw_spin_unlock_irqrestore                                                                                                                                                                                                                                         -      -            
+     8.33%  [.] bycorf::Worker::Enqueue(std::__n4861::coroutine_handle<void>, bool) [clone .constprop.0]                                                                                                                                                                            -      -            
+     8.33%  [k] io_cqring_wait                                                                                                                                                                                                                                                      -      -            
+     8.33%  [.] 0x0000000000000940                                                                                                                                                                                                                                                  -      -            
+
+
+#
+# (Cannot load tips.txt file, please install perf!)
+#

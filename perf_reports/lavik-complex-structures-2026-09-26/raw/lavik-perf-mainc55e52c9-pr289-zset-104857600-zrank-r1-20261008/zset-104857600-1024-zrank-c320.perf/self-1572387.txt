@@ -1,0 +1,22 @@
+# To display the perf.data header info, please use --header/--header-only options.
+#
+#
+# Total Lost Samples: 0
+#
+# Samples: 12  of event 'task-clock'
+# Event count (approx.): 121212120
+#
+# Overhead  Symbol                                                                                                                                                                                                                                                                   IPC   [IPC Coverage]
+# ........  .......................................................................................................................................................................................................................................................................  ....................
+#
+    41.67%  [.] bycorf::Worker::RunOnce(bool)                                                                                                                                                                                                                                        -      -            
+    25.00%  [.] lavik::storage::StorageEngine::Impl::ActiveExpiration(lavik::storage::StorageEngine::Impl::ActiveExpiration(lavik::storage::StorageEngine::Impl::WorkerStore*)::_ZN5lavik7storage13StorageEngine4Impl16ActiveExpirationEPNS2_11WorkerStoreE.Frame*) [clone .actor]   -      -            
+     8.33%  [.] _mi_theap_malloc_zero                                                                                                                                                                                                                                                -      -            
+     8.33%  [k] _raw_spin_unlock_irq                                                                                                                                                                                                                                                 -      -            
+     8.33%  [k] io_free_batch_list                                                                                                                                                                                                                                                   -      -            
+     8.33%  [.] lavik::(anonymous namespace)::RedisService::Serve(lavik::(anonymous namespace)::RedisService::Serve(bycorf::TcpStream&, lavik::ConnectionContext&)::_ZN5lavik12_GLOBAL__N_112RedisService5ServeERN6bycorf9TcpStreamERNS_17ConnectionContextE.Frame*) [clone .actor]  -      -            
+
+
+#
+# (Cannot load tips.txt file, please install perf!)
+#

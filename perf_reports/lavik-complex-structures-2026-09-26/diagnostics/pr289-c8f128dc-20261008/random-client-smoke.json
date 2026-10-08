@@ -1,0 +1,348 @@
+[
+  {
+    "operation": "LPUSH_RPOP",
+    "seconds": 1,
+    "elapsed_seconds": 1.000356693,
+    "connections": 32,
+    "keys": 8,
+    "entries": 8192,
+    "field_bytes": 1024,
+    "seed": 42,
+    "pipeline": 1,
+    "threads": 16,
+    "errors": 0,
+    "totals": {
+      "count": 118248,
+      "qps": 118205.836805,
+      "p50_ms": 0.263345,
+      "p99_ms": 0.351287,
+      "p999_ms": 0.517166
+    },
+    "commands": {
+      "LPUSH": {
+        "count": 58943,
+        "qps": 58921.9829411,
+        "p50_ms": 0.263004,
+        "p99_ms": 0.352238,
+        "p999_ms": 0.517566
+      },
+      "RPOP": {
+        "count": 59305,
+        "qps": 59283.8538643,
+        "p50_ms": 0.263665,
+        "p99_ms": 0.350726,
+        "p999_ms": 0.516714
+      }
+    },
+    "key_counts": {
+      "complex_1": {
+        "first": 7534,
+        "second": 7512,
+        "net": 22
+      },
+      "complex_2": {
+        "first": 7370,
+        "second": 7347,
+        "net": 23
+      },
+      "complex_3": {
+        "first": 7233,
+        "second": 7424,
+        "net": -191
+      },
+      "complex_4": {
+        "first": 7359,
+        "second": 7431,
+        "net": -72
+      },
+      "complex_5": {
+        "first": 7380,
+        "second": 7482,
+        "net": -102
+      },
+      "complex_6": {
+        "first": 7279,
+        "second": 7457,
+        "net": -178
+      },
+      "complex_7": {
+        "first": 7310,
+        "second": 7286,
+        "net": 24
+      },
+      "complex_8": {
+        "first": 7478,
+        "second": 7366,
+        "net": 112
+      }
+    },
+    "observed_push_min": 7975,
+    "observed_push_max": 8417,
+    "checked_cardinalities": {
+      "complex_1": 8214,
+      "complex_2": 8215,
+      "complex_3": 8001,
+      "complex_4": 8120,
+      "complex_5": 8090,
+      "complex_6": 8014,
+      "complex_7": 8216,
+      "complex_8": 8304
+    }
+  },
+  {
+    "operation": "RPUSH_LPOP",
+    "seconds": 1,
+    "elapsed_seconds": 1.000384334,
+    "connections": 32,
+    "keys": 8,
+    "entries": 8192,
+    "field_bytes": 1024,
+    "seed": 42,
+    "pipeline": 1,
+    "threads": 16,
+    "errors": 0,
+    "totals": {
+      "count": 111211,
+      "qps": 111168.274252,
+      "p50_ms": 0.28052,
+      "p99_ms": 0.382333,
+      "p999_ms": 0.565578
+    },
+    "commands": {
+      "RPUSH": {
+        "count": 55419,
+        "qps": 55397.708777,
+        "p50_ms": 0.2801,
+        "p99_ms": 0.383234,
+        "p999_ms": 0.565739
+      },
+      "LPOP": {
+        "count": 55792,
+        "qps": 55770.5654755,
+        "p50_ms": 0.280931,
+        "p99_ms": 0.381902,
+        "p999_ms": 0.565538
+      }
+    },
+    "key_counts": {
+      "complex_1": {
+        "first": 7041,
+        "second": 7081,
+        "net": -40
+      },
+      "complex_2": {
+        "first": 6944,
+        "second": 6936,
+        "net": 8
+      },
+      "complex_3": {
+        "first": 6813,
+        "second": 7005,
+        "net": -192
+      },
+      "complex_4": {
+        "first": 6884,
+        "second": 6997,
+        "net": -113
+      },
+      "complex_5": {
+        "first": 6920,
+        "second": 7023,
+        "net": -103
+      },
+      "complex_6": {
+        "first": 6883,
+        "second": 6981,
+        "net": -98
+      },
+      "complex_7": {
+        "first": 6907,
+        "second": 6847,
+        "net": 60
+      },
+      "complex_8": {
+        "first": 7027,
+        "second": 6922,
+        "net": 105
+      }
+    },
+    "observed_push_min": 7995,
+    "observed_push_max": 8419,
+    "checked_cardinalities": {
+      "complex_1": 8152,
+      "complex_2": 8200,
+      "complex_3": 8000,
+      "complex_4": 8079,
+      "complex_5": 8089,
+      "complex_6": 8094,
+      "complex_7": 8252,
+      "complex_8": 8297
+    }
+  },
+  {
+    "operation": "ZRANK",
+    "seconds": 1,
+    "elapsed_seconds": 1.000417442,
+    "connections": 32,
+    "keys": 8,
+    "entries": 8192,
+    "field_bytes": 1024,
+    "seed": 42,
+    "pipeline": 1,
+    "threads": 16,
+    "errors": 0,
+    "totals": {
+      "count": 109371,
+      "qps": 109325.363002,
+      "p50_ms": 0.283145,
+      "p99_ms": 0.397406,
+      "p999_ms": 0.569784
+    },
+    "commands": {
+      "ZRANK": {
+        "count": 109371,
+        "qps": 109325.363002,
+        "p50_ms": 0.283145,
+        "p99_ms": 0.397406,
+        "p999_ms": 0.569784
+      }
+    },
+    "key_counts": {
+      "complex_1": {
+        "first": 13877,
+        "second": 0,
+        "net": 0
+      },
+      "complex_2": {
+        "first": 13627,
+        "second": 0,
+        "net": 0
+      },
+      "complex_3": {
+        "first": 13619,
+        "second": 0,
+        "net": 0
+      },
+      "complex_4": {
+        "first": 13653,
+        "second": 0,
+        "net": 0
+      },
+      "complex_5": {
+        "first": 13711,
+        "second": 0,
+        "net": 0
+      },
+      "complex_6": {
+        "first": 13636,
+        "second": 0,
+        "net": 0
+      },
+      "complex_7": {
+        "first": 13528,
+        "second": 0,
+        "net": 0
+      },
+      "complex_8": {
+        "first": 13720,
+        "second": 0,
+        "net": 0
+      }
+    },
+    "observed_push_min": 0,
+    "observed_push_max": 0,
+    "checked_cardinalities": {
+      "complex_1": 8192,
+      "complex_2": 8192,
+      "complex_3": 8192,
+      "complex_4": 8192,
+      "complex_5": 8192,
+      "complex_6": 8192,
+      "complex_7": 8192,
+      "complex_8": 8192
+    }
+  },
+  {
+    "operation": "ZREVRANK",
+    "seconds": 1,
+    "elapsed_seconds": 1.000404054,
+    "connections": 32,
+    "keys": 8,
+    "entries": 8192,
+    "field_bytes": 1024,
+    "seed": 42,
+    "pipeline": 1,
+    "threads": 16,
+    "errors": 0,
+    "totals": {
+      "count": 107891,
+      "qps": 107847.423817,
+      "p50_ms": 0.28725,
+      "p99_ms": 0.394772,
+      "p999_ms": 0.578016
+    },
+    "commands": {
+      "ZREVRANK": {
+        "count": 107891,
+        "qps": 107847.423817,
+        "p50_ms": 0.28725,
+        "p99_ms": 0.394772,
+        "p999_ms": 0.578016
+      }
+    },
+    "key_counts": {
+      "complex_1": {
+        "first": 13688,
+        "second": 0,
+        "net": 0
+      },
+      "complex_2": {
+        "first": 13442,
+        "second": 0,
+        "net": 0
+      },
+      "complex_3": {
+        "first": 13438,
+        "second": 0,
+        "net": 0
+      },
+      "complex_4": {
+        "first": 13468,
+        "second": 0,
+        "net": 0
+      },
+      "complex_5": {
+        "first": 13522,
+        "second": 0,
+        "net": 0
+      },
+      "complex_6": {
+        "first": 13428,
+        "second": 0,
+        "net": 0
+      },
+      "complex_7": {
+        "first": 13358,
+        "second": 0,
+        "net": 0
+      },
+      "complex_8": {
+        "first": 13547,
+        "second": 0,
+        "net": 0
+      }
+    },
+    "observed_push_min": 0,
+    "observed_push_max": 0,
+    "checked_cardinalities": {
+      "complex_1": 8192,
+      "complex_2": 8192,
+      "complex_3": 8192,
+      "complex_4": 8192,
+      "complex_5": 8192,
+      "complex_6": 8192,
+      "complex_7": 8192,
+      "complex_8": 8192
+    }
+  }
+]

@@ -1,0 +1,42 @@
+{
+  "orders": [
+    [
+      "main",
+      "pr289"
+    ],
+    [
+      "pr289",
+      "main"
+    ],
+    [
+      "main",
+      "pr289"
+    ]
+  ],
+  "sizes": [
+    8388608,
+    104857600
+  ],
+  "keys": 8,
+  "field_bytes": 1024,
+  "connections": 320,
+  "seconds": 30,
+  "pipeline": 1,
+  "client_threads": 16,
+  "operations": {
+    "list": [
+      "LPUSH_RPOP",
+      "RPUSH_LPOP"
+    ],
+    "zset": [
+      "ZRANK",
+      "ZREVRANK"
+    ]
+  },
+  "scope": "Pinned PR head versus its exact main base; both versions freshly measured. No 5120 connections.",
+  "rank": "Distinct ascending seed scores; independent random key and uniform choice among eight evenly spaced ranks including both endpoints. Every result checked against exact expected rank. Equal-score runs and missing-member throughput are outside this measured workload.",
+  "mixed": "Independent uniform key and independent 50/50 add/pop choice per request; no forced pairing. Exact final cardinality = initial + adds - pops, and [0.5N, 2N] guard. Command QPS, not pairs/sec.",
+  "isolation": "Fresh server, freshly discarded allowlisted SPDK media and deterministic seed for every point, including each operation and version. Wait for transaction cleanup before measurement. Same process digest/client seeds within each pair; different seeds between rounds.",
+  "configuration": "16-vCPU budget, 12 Lavik workers, six SPDK NVMe, 8 GiB EAL, remote client pinned CPU0-15, pipeline1. Identical native GCC/LTO production flags and Bycorf dependency.",
+  "limits": "Three pairs at c320; not a full concurrency sweep. Time-based mixed writes may complete different work amounts and experience different random drift. Perf is collected separately and excluded from clean throughput comparisons."
+}

@@ -12,7 +12,7 @@ New List push/pop and ZSet add/pop: 160 points across four systems, with 10 QPS/
 
 1 observation(s) exceeded the predeclared final-cardinality bounds and remain gaps. Original counts and failure records are retained without replacement runs; see the [mixed-write validation notes](diagnostics/main-c55e52c9-20261008/mixed-writes.md).
 
-[Measurements and validation](diagnostics/main-c55e52c9-20261008/README.md) · [Fresh four-system random add/pop](diagnostics/main-c55e52c9-20261008/mixed-writes.md) · [Comparison with the previous main](diagnostics/main-c55e52c9-20261008/previous-main-comparison.md). #288 is merged. All current Lavik curves measure the merged main; historical PR evidence retains its measured revisions.
+[Measurements and validation](diagnostics/main-c55e52c9-20261008/README.md) · [Fresh four-system random add/pop](diagnostics/main-c55e52c9-20261008/mixed-writes.md) · [Comparison with the previous main](diagnostics/main-c55e52c9-20261008/previous-main-comparison.md). #288 is merged. All current Lavik curves measure the merged main; historical PR evidence retains its measured revisions. · [#289: three paired rank and List push/pop runs](diagnostics/pr289-c8f128dc-20261008/README.md) (separate PR comparison; current main curves retained).
 
 Throughput figures fix the command, payload bytes per key, entry size and key count; axes show connections and QPS. Batched-import figures show seconds to fill a fixed dataset. Keep the current main and subsequent unmerged PRs. Existing command charts retain historical matched peer runs; the new random add/pop charts rerun all four systems.
 
