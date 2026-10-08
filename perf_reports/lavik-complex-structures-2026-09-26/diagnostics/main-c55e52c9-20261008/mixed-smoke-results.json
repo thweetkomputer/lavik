@@ -1,0 +1,2942 @@
+[
+  {
+    "system": "lavik",
+    "tag": "smoke-mainc55e52c9-mixed-list-8388608-lpush_rpop-c16-20261008",
+    "raw": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-smoke-mainc55e52c9-mixed-list-8388608-lpush_rpop-c16-20261008",
+    "provenance": {
+      "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-refresh-main-c55e52c9-20261008",
+      "sha256": "440f66d53e8e643327ca5e592d46010cc3ee1f2126e095c84f80241a01de7377",
+      "source_commit": "c55e52c98d785dec9603d33ddcf55eab299eb11e",
+      "fields": [
+        1024
+      ],
+      "sizes": [
+        8388608
+      ],
+      "keys": 8,
+      "types": [
+        "list"
+      ],
+      "levels": [
+        16
+      ],
+      "full_levels": [
+        1,
+        4,
+        16
+      ],
+      "seconds": 1,
+      "backlog_mb": null,
+      "client_threads": 16,
+      "seed_pipeline": 1,
+      "fill_workers": 8,
+      "seed_command_bytes": 16384,
+      "mode": "point",
+      "reused_seed_from": null,
+      "seed_dump_path": null,
+      "seed_dump_sha256": null,
+      "continue_on_error": false
+    },
+    "version": {
+      "server": "# Server\r\nlavik_version:0.1.0-dev\r\nredis_mode:standalone\r\nprocess_id:1463741\r\nrun_id:836b430907abd7d501e9c72e76aa33f9cde0b6d6\r\ntcp_port:6379\r\nworker_threads:12\r\nuptime_in_seconds:0\r\n\r\n"
+    },
+    "result": {
+      "product": "lavik-smoke-mainc55e52c9-mixed-list-8388608-lpush_rpop-c16-20261008",
+      "type": "list",
+      "logical_bytes": 8388608,
+      "field_bytes": 1024,
+      "entries_per_key": 8192,
+      "keys": 8,
+      "operation": "LPUSH_RPOP",
+      "connections": 16,
+      "qps": 32570.3318081,
+      "p50_ms": 0.340008,
+      "p99_ms": 1.992329,
+      "p999_ms": 8.217336,
+      "requests": 32601,
+      "seconds": 1,
+      "elapsed_seconds": 1.416865044971928,
+      "commands": {
+        "LPUSH": {
+          "count": 16273,
+          "qps": 16257.6917737,
+          "p50_ms": 0.343293,
+          "p99_ms": 1.803616,
+          "p999_ms": 7.9054
+        },
+        "RPOP": {
+          "count": 16328,
+          "qps": 16312.6400345,
+          "p50_ms": 0.336824,
+          "p99_ms": 2.20016,
+          "p999_ms": 8.32016
+        }
+      },
+      "key_counts": {
+        "complex_1": {
+          "first": 2126,
+          "second": 2099,
+          "net": 27
+        },
+        "complex_2": {
+          "first": 2007,
+          "second": 2043,
+          "net": -36
+        },
+        "complex_3": {
+          "first": 2045,
+          "second": 2008,
+          "net": 37
+        },
+        "complex_4": {
+          "first": 1973,
+          "second": 2077,
+          "net": -104
+        },
+        "complex_5": {
+          "first": 2005,
+          "second": 2059,
+          "net": -54
+        },
+        "complex_6": {
+          "first": 2038,
+          "second": 2039,
+          "net": -1
+        },
+        "complex_7": {
+          "first": 2031,
+          "second": 1949,
+          "net": 82
+        },
+        "complex_8": {
+          "first": 2048,
+          "second": 2054,
+          "net": -6
+        }
+      },
+      "client_elapsed_seconds": 1.000941599,
+      "command_audit": {
+        "passed": true,
+        "server_counts": {
+          "info": 1.0,
+          "rpop": 16328.0,
+          "lpush": 16273.0
+        },
+        "client_counts": {
+          "LPUSH": 16273,
+          "RPOP": 16328
+        }
+      },
+      "bounded": {
+        "baseline": 8192,
+        "maximum_guard": 16384,
+        "minimum_guard": 4096,
+        "observed_push_min": 8085,
+        "observed_push_max": 8275,
+        "all_final_counts": {
+          "complex_1": 8219,
+          "complex_2": 8156,
+          "complex_3": 8229,
+          "complex_4": 8088,
+          "complex_5": 8138,
+          "complex_6": 8191,
+          "complex_7": 8274,
+          "complex_8": 8186
+        }
+      }
+    }
+  },
+  {
+    "system": "lavik",
+    "tag": "smoke-mainc55e52c9-mixed-list-8388608-rpush_lpop-c16-20261008",
+    "raw": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-smoke-mainc55e52c9-mixed-list-8388608-rpush_lpop-c16-20261008",
+    "provenance": {
+      "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-refresh-main-c55e52c9-20261008",
+      "sha256": "440f66d53e8e643327ca5e592d46010cc3ee1f2126e095c84f80241a01de7377",
+      "source_commit": "c55e52c98d785dec9603d33ddcf55eab299eb11e",
+      "fields": [
+        1024
+      ],
+      "sizes": [
+        8388608
+      ],
+      "keys": 8,
+      "types": [
+        "list"
+      ],
+      "levels": [
+        16
+      ],
+      "full_levels": [
+        1,
+        4,
+        16
+      ],
+      "seconds": 1,
+      "backlog_mb": null,
+      "client_threads": 16,
+      "seed_pipeline": 1,
+      "fill_workers": 8,
+      "seed_command_bytes": 16384,
+      "mode": "point",
+      "reused_seed_from": null,
+      "seed_dump_path": null,
+      "seed_dump_sha256": null,
+      "continue_on_error": false
+    },
+    "version": {
+      "server": "# Server\r\nlavik_version:0.1.0-dev\r\nredis_mode:standalone\r\nprocess_id:1464206\r\nrun_id:c6e4c1a1db4b29206985ac1fac5584256259a3bc\r\ntcp_port:6379\r\nworker_threads:12\r\nuptime_in_seconds:0\r\n\r\n"
+    },
+    "result": {
+      "product": "lavik-smoke-mainc55e52c9-mixed-list-8388608-rpush_lpop-c16-20261008",
+      "type": "list",
+      "logical_bytes": 8388608,
+      "field_bytes": 1024,
+      "entries_per_key": 8192,
+      "keys": 8,
+      "operation": "RPUSH_LPOP",
+      "connections": 16,
+      "qps": 45385.8111214,
+      "p50_ms": 0.214671,
+      "p99_ms": 3.316849,
+      "p999_ms": 6.878724,
+      "requests": 45469,
+      "seconds": 1,
+      "elapsed_seconds": 1.416726220981218,
+      "commands": {
+        "RPUSH": {
+          "count": 22736,
+          "qps": 22694.4028163,
+          "p50_ms": 0.18033,
+          "p99_ms": 3.528576,
+          "p999_ms": 6.863422
+        },
+        "LPOP": {
+          "count": 22733,
+          "qps": 22691.408305,
+          "p50_ms": 0.241406,
+          "p99_ms": 3.060596,
+          "p999_ms": 6.88159
+        }
+      },
+      "key_counts": {
+        "complex_1": {
+          "first": 2955,
+          "second": 2934,
+          "net": 21
+        },
+        "complex_2": {
+          "first": 2819,
+          "second": 2799,
+          "net": 20
+        },
+        "complex_3": {
+          "first": 2846,
+          "second": 2831,
+          "net": 15
+        },
+        "complex_4": {
+          "first": 2793,
+          "second": 2863,
+          "net": -70
+        },
+        "complex_5": {
+          "first": 2787,
+          "second": 2853,
+          "net": -66
+        },
+        "complex_6": {
+          "first": 2802,
+          "second": 2826,
+          "net": -24
+        },
+        "complex_7": {
+          "first": 2856,
+          "second": 2725,
+          "net": 131
+        },
+        "complex_8": {
+          "first": 2878,
+          "second": 2902,
+          "net": -24
+        }
+      },
+      "client_elapsed_seconds": 1.001832927,
+      "command_audit": {
+        "passed": true,
+        "server_counts": {
+          "lpop": 22733.0,
+          "rpush": 22736.0,
+          "info": 1.0
+        },
+        "client_counts": {
+          "RPUSH": 22736,
+          "LPOP": 22733
+        }
+      },
+      "bounded": {
+        "baseline": 8192,
+        "maximum_guard": 16384,
+        "minimum_guard": 4096,
+        "observed_push_min": 8078,
+        "observed_push_max": 8327,
+        "all_final_counts": {
+          "complex_1": 8213,
+          "complex_2": 8212,
+          "complex_3": 8207,
+          "complex_4": 8122,
+          "complex_5": 8126,
+          "complex_6": 8168,
+          "complex_7": 8323,
+          "complex_8": 8168
+        }
+      }
+    }
+  },
+  {
+    "system": "lavik",
+    "tag": "smoke-mainc55e52c9-mixed-zset-8388608-zadd_head_zpopmax-c16-20261008",
+    "raw": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-smoke-mainc55e52c9-mixed-zset-8388608-zadd_head_zpopmax-c16-20261008",
+    "provenance": {
+      "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-refresh-main-c55e52c9-20261008",
+      "sha256": "440f66d53e8e643327ca5e592d46010cc3ee1f2126e095c84f80241a01de7377",
+      "source_commit": "c55e52c98d785dec9603d33ddcf55eab299eb11e",
+      "fields": [
+        1024
+      ],
+      "sizes": [
+        8388608
+      ],
+      "keys": 8,
+      "types": [
+        "zset"
+      ],
+      "levels": [
+        16
+      ],
+      "full_levels": [
+        1,
+        4,
+        16
+      ],
+      "seconds": 1,
+      "backlog_mb": null,
+      "client_threads": 16,
+      "seed_pipeline": 1,
+      "fill_workers": 8,
+      "seed_command_bytes": 16384,
+      "mode": "point",
+      "reused_seed_from": null,
+      "seed_dump_path": null,
+      "seed_dump_sha256": null,
+      "continue_on_error": false
+    },
+    "version": {
+      "server": "# Server\r\nlavik_version:0.1.0-dev\r\nredis_mode:standalone\r\nprocess_id:1464668\r\nrun_id:9680e5945ae66eda251e8f33ea9908feca87b86e\r\ntcp_port:6379\r\nworker_threads:12\r\nuptime_in_seconds:0\r\n\r\n"
+    },
+    "result": {
+      "product": "lavik-smoke-mainc55e52c9-mixed-zset-8388608-zadd_head_zpopmax-c16-20261008",
+      "type": "zset",
+      "logical_bytes": 8388608,
+      "field_bytes": 1024,
+      "entries_per_key": 8192,
+      "keys": 8,
+      "operation": "ZADD_HEAD_ZPOPMAX",
+      "connections": 16,
+      "qps": 20163.3257749,
+      "p50_ms": 0.468901,
+      "p99_ms": 6.818595,
+      "p999_ms": 10.983482,
+      "requests": 20191,
+      "seconds": 1,
+      "elapsed_seconds": 1.3664371570339426,
+      "commands": {
+        "ZADD": {
+          "count": 9976,
+          "qps": 9962.32667675,
+          "p50_ms": 0.488541,
+          "p99_ms": 6.881199,
+          "p999_ms": 10.983482
+        },
+        "ZPOPMAX": {
+          "count": 10215,
+          "qps": 10200.9990981,
+          "p50_ms": 0.44817,
+          "p99_ms": 6.752246,
+          "p999_ms": 11.377171
+        }
+      },
+      "key_counts": {
+        "complex_1": {
+          "first": 1327,
+          "second": 1303,
+          "net": 24
+        },
+        "complex_2": {
+          "first": 1205,
+          "second": 1291,
+          "net": -86
+        },
+        "complex_3": {
+          "first": 1230,
+          "second": 1244,
+          "net": -14
+        },
+        "complex_4": {
+          "first": 1227,
+          "second": 1299,
+          "net": -72
+        },
+        "complex_5": {
+          "first": 1235,
+          "second": 1295,
+          "net": -60
+        },
+        "complex_6": {
+          "first": 1253,
+          "second": 1278,
+          "net": -25
+        },
+        "complex_7": {
+          "first": 1231,
+          "second": 1234,
+          "net": -3
+        },
+        "complex_8": {
+          "first": 1268,
+          "second": 1271,
+          "net": -3
+        }
+      },
+      "client_elapsed_seconds": 1.001372503,
+      "command_audit": {
+        "passed": true,
+        "server_counts": {
+          "zpopmax": 10215.0,
+          "zadd": 9976.0,
+          "info": 1.0
+        },
+        "client_counts": {
+          "ZADD": 9976,
+          "ZPOPMAX": 10215
+        }
+      },
+      "bounded": {
+        "baseline": 8192,
+        "maximum_guard": 16384,
+        "minimum_guard": 4096,
+        "observed_push_min": 0,
+        "observed_push_max": 0,
+        "all_final_counts": {
+          "complex_1": 8216,
+          "complex_2": 8106,
+          "complex_3": 8178,
+          "complex_4": 8120,
+          "complex_5": 8132,
+          "complex_6": 8167,
+          "complex_7": 8189,
+          "complex_8": 8189
+        }
+      }
+    }
+  },
+  {
+    "system": "lavik",
+    "tag": "smoke-mainc55e52c9-mixed-zset-8388608-zadd_random_zpopmin-c16-20261008",
+    "raw": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-smoke-mainc55e52c9-mixed-zset-8388608-zadd_random_zpopmin-c16-20261008",
+    "provenance": {
+      "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-refresh-main-c55e52c9-20261008",
+      "sha256": "440f66d53e8e643327ca5e592d46010cc3ee1f2126e095c84f80241a01de7377",
+      "source_commit": "c55e52c98d785dec9603d33ddcf55eab299eb11e",
+      "fields": [
+        1024
+      ],
+      "sizes": [
+        8388608
+      ],
+      "keys": 8,
+      "types": [
+        "zset"
+      ],
+      "levels": [
+        16
+      ],
+      "full_levels": [
+        1,
+        4,
+        16
+      ],
+      "seconds": 1,
+      "backlog_mb": null,
+      "client_threads": 16,
+      "seed_pipeline": 1,
+      "fill_workers": 8,
+      "seed_command_bytes": 16384,
+      "mode": "point",
+      "reused_seed_from": null,
+      "seed_dump_path": null,
+      "seed_dump_sha256": null,
+      "continue_on_error": false
+    },
+    "version": {
+      "server": "# Server\r\nlavik_version:0.1.0-dev\r\nredis_mode:standalone\r\nprocess_id:1465138\r\nrun_id:1a6761ada8e66971d6c7a7026d50c08bc38ae6f5\r\ntcp_port:6379\r\nworker_threads:12\r\nuptime_in_seconds:0\r\n\r\n"
+    },
+    "result": {
+      "product": "lavik-smoke-mainc55e52c9-mixed-zset-8388608-zadd_random_zpopmin-c16-20261008",
+      "type": "zset",
+      "logical_bytes": 8388608,
+      "field_bytes": 1024,
+      "entries_per_key": 8192,
+      "keys": 8,
+      "operation": "ZADD_RANDOM_ZPOPMIN",
+      "connections": 16,
+      "qps": 15656.4721579,
+      "p50_ms": 0.568119,
+      "p99_ms": 8.610775,
+      "p999_ms": 11.311523,
+      "requests": 15700,
+      "seconds": 1,
+      "elapsed_seconds": 1.5168191699776798,
+      "commands": {
+        "ZADD": {
+          "count": 7734,
+          "qps": 7712.55768595,
+          "p50_ms": 0.646967,
+          "p99_ms": 8.919666,
+          "p999_ms": 11.310201
+        },
+        "ZPOPMIN": {
+          "count": 7966,
+          "qps": 7943.91447198,
+          "p50_ms": 0.473117,
+          "p99_ms": 8.061994,
+          "p999_ms": 11.326755
+        }
+      },
+      "key_counts": {
+        "complex_1": {
+          "first": 1015,
+          "second": 998,
+          "net": 17
+        },
+        "complex_2": {
+          "first": 952,
+          "second": 990,
+          "net": -38
+        },
+        "complex_3": {
+          "first": 961,
+          "second": 978,
+          "net": -17
+        },
+        "complex_4": {
+          "first": 951,
+          "second": 1014,
+          "net": -63
+        },
+        "complex_5": {
+          "first": 921,
+          "second": 1007,
+          "net": -86
+        },
+        "complex_6": {
+          "first": 998,
+          "second": 996,
+          "net": 2
+        },
+        "complex_7": {
+          "first": 951,
+          "second": 960,
+          "net": -9
+        },
+        "complex_8": {
+          "first": 985,
+          "second": 1023,
+          "net": -38
+        }
+      },
+      "client_elapsed_seconds": 1.002780182,
+      "command_audit": {
+        "passed": true,
+        "server_counts": {
+          "info": 1.0,
+          "zpopmin": 7966.0,
+          "zadd": 7734.0
+        },
+        "client_counts": {
+          "ZADD": 7734,
+          "ZPOPMIN": 7966
+        }
+      },
+      "bounded": {
+        "baseline": 8192,
+        "maximum_guard": 16384,
+        "minimum_guard": 4096,
+        "observed_push_min": 0,
+        "observed_push_max": 0,
+        "all_final_counts": {
+          "complex_1": 8209,
+          "complex_2": 8154,
+          "complex_3": 8175,
+          "complex_4": 8129,
+          "complex_5": 8106,
+          "complex_6": 8194,
+          "complex_7": 8183,
+          "complex_8": 8154
+        }
+      }
+    }
+  },
+  {
+    "system": "lavik",
+    "tag": "smoke-mainc55e52c9-mixed-zset-8388608-zadd_tail_zpopmin-c16-20261008",
+    "raw": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-smoke-mainc55e52c9-mixed-zset-8388608-zadd_tail_zpopmin-c16-20261008",
+    "provenance": {
+      "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-refresh-main-c55e52c9-20261008",
+      "sha256": "440f66d53e8e643327ca5e592d46010cc3ee1f2126e095c84f80241a01de7377",
+      "source_commit": "c55e52c98d785dec9603d33ddcf55eab299eb11e",
+      "fields": [
+        1024
+      ],
+      "sizes": [
+        8388608
+      ],
+      "keys": 8,
+      "types": [
+        "zset"
+      ],
+      "levels": [
+        16
+      ],
+      "full_levels": [
+        1,
+        4,
+        16
+      ],
+      "seconds": 1,
+      "backlog_mb": null,
+      "client_threads": 16,
+      "seed_pipeline": 1,
+      "fill_workers": 8,
+      "seed_command_bytes": 16384,
+      "mode": "point",
+      "reused_seed_from": null,
+      "seed_dump_path": null,
+      "seed_dump_sha256": null,
+      "continue_on_error": false
+    },
+    "version": {
+      "server": "# Server\r\nlavik_version:0.1.0-dev\r\nredis_mode:standalone\r\nprocess_id:1465594\r\nrun_id:5593ca3be6ea723a4bc67b5fb1ad859bcedb1838\r\ntcp_port:6379\r\nworker_threads:12\r\nuptime_in_seconds:0\r\n\r\n"
+    },
+    "result": {
+      "product": "lavik-smoke-mainc55e52c9-mixed-zset-8388608-zadd_tail_zpopmin-c16-20261008",
+      "type": "zset",
+      "logical_bytes": 8388608,
+      "field_bytes": 1024,
+      "entries_per_key": 8192,
+      "keys": 8,
+      "operation": "ZADD_TAIL_ZPOPMIN",
+      "connections": 16,
+      "qps": 24366.3079231,
+      "p50_ms": 0.363103,
+      "p99_ms": 7.195579,
+      "p999_ms": 9.739973,
+      "requests": 24559,
+      "seconds": 1,
+      "elapsed_seconds": 1.4164350180653855,
+      "commands": {
+        "ZADD": {
+          "count": 12235,
+          "qps": 12139.0031125,
+          "p50_ms": 0.342262,
+          "p99_ms": 7.194177,
+          "p999_ms": 9.739973
+        },
+        "ZPOPMIN": {
+          "count": 12324,
+          "qps": 12227.3048106,
+          "p50_ms": 0.380239,
+          "p99_ms": 7.195579,
+          "p999_ms": 9.734895
+        }
+      },
+      "key_counts": {
+        "complex_1": {
+          "first": 1612,
+          "second": 1600,
+          "net": 12
+        },
+        "complex_2": {
+          "first": 1494,
+          "second": 1557,
+          "net": -63
+        },
+        "complex_3": {
+          "first": 1501,
+          "second": 1521,
+          "net": -20
+        },
+        "complex_4": {
+          "first": 1516,
+          "second": 1541,
+          "net": -25
+        },
+        "complex_5": {
+          "first": 1527,
+          "second": 1566,
+          "net": -39
+        },
+        "complex_6": {
+          "first": 1535,
+          "second": 1524,
+          "net": 11
+        },
+        "complex_7": {
+          "first": 1512,
+          "second": 1471,
+          "net": 41
+        },
+        "complex_8": {
+          "first": 1538,
+          "second": 1544,
+          "net": -6
+        }
+      },
+      "client_elapsed_seconds": 1.007908136,
+      "command_audit": {
+        "passed": true,
+        "server_counts": {
+          "zadd": 12235.0,
+          "zpopmin": 12324.0,
+          "info": 1.0
+        },
+        "client_counts": {
+          "ZADD": 12235,
+          "ZPOPMIN": 12324
+        }
+      },
+      "bounded": {
+        "baseline": 8192,
+        "maximum_guard": 16384,
+        "minimum_guard": 4096,
+        "observed_push_min": 0,
+        "observed_push_max": 0,
+        "all_final_counts": {
+          "complex_1": 8204,
+          "complex_2": 8129,
+          "complex_3": 8172,
+          "complex_4": 8167,
+          "complex_5": 8153,
+          "complex_6": 8203,
+          "complex_7": 8233,
+          "complex_8": 8186
+        }
+      }
+    }
+  },
+  {
+    "system": "redis",
+    "tag": "smoke-mainc55e52c9-mixed-list-8388608-lpush_rpop-c16-20261008",
+    "raw": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/redis-smoke-mainc55e52c9-mixed-list-8388608-lpush_rpop-c16-20261008",
+    "provenance": {
+      "binary": "/mnt/dev/peer-bench/redis/v8.8.0/src/src/redis-server",
+      "sha256": "91bc016e933b716b41226bf8958576a51bca2403f68d9f26a7d6f7d94ebb3ffe",
+      "source_commit": null,
+      "fields": [
+        1024
+      ],
+      "sizes": [
+        8388608
+      ],
+      "keys": 8,
+      "types": [
+        "list"
+      ],
+      "levels": [
+        16
+      ],
+      "full_levels": [
+        1,
+        4,
+        16
+      ],
+      "seconds": 1,
+      "backlog_mb": null,
+      "client_threads": 16,
+      "seed_pipeline": 1,
+      "fill_workers": 8,
+      "seed_command_bytes": 16384,
+      "mode": "point",
+      "reused_seed_from": null,
+      "seed_dump_path": null,
+      "seed_dump_sha256": null,
+      "continue_on_error": false
+    },
+    "version": {
+      "server": "# Server\r\nredis_version:8.8.0\r\nredis_git_sha1:00000000\r\nredis_git_dirty:1\r\nredis_build_id:1817b7f2026e7f24\r\nredis_mode:standalone\r\nos:Linux 7.0.0-1014-azure x86_64\r\narch_bits:64\r\nmonotonic_clock:POSIX clock_gettime\r\nmultiplexing_api:epoll\r\natomicvar_api:c11-builtin\r\ngcc_version:13.3.0\r\nprocess_id:1465838\r\nprocess_supervised:no\r\nrun_id:58ddbd1a75d8cd2dae89697affaa39f98da856ce\r\ntcp_port:6379\r\nserver_time_usec:1791429537186099\r\nuptime_in_seconds:1\r\nuptime_in_days:0\r\nhz:10\r\nconfigured_hz:10\r\nlru_clock:13044641\r\nexecutable:/mnt/dev/peer-bench/redis/v8.8.0/src/src/redis-server\r\nconfig_file:\r\nio_threads_active:1\r\nlistener0:name=tcp,bind=172.16.0.4,port=6379\r\n"
+    },
+    "result": {
+      "product": "redis-smoke-mainc55e52c9-mixed-list-8388608-lpush_rpop-c16-20261008",
+      "type": "list",
+      "logical_bytes": 8388608,
+      "field_bytes": 1024,
+      "entries_per_key": 8192,
+      "keys": 8,
+      "operation": "LPUSH_RPOP",
+      "connections": 16,
+      "qps": 142002.781699,
+      "p50_ms": 0.110405,
+      "p99_ms": 0.158908,
+      "p999_ms": 0.248081,
+      "requests": 142035,
+      "seconds": 1,
+      "elapsed_seconds": 1.4669496100395918,
+      "commands": {
+        "LPUSH": {
+          "count": 71034,
+          "qps": 71017.8871067,
+          "p50_ms": 0.110395,
+          "p99_ms": 0.158817,
+          "p999_ms": 0.249142
+        },
+        "RPOP": {
+          "count": 71001,
+          "qps": 70984.8945922,
+          "p50_ms": 0.110415,
+          "p99_ms": 0.158968,
+          "p999_ms": 0.247059
+        }
+      },
+      "key_counts": {
+        "complex_1": {
+          "first": 9033,
+          "second": 8950,
+          "net": 83
+        },
+        "complex_2": {
+          "first": 8887,
+          "second": 8882,
+          "net": 5
+        },
+        "complex_3": {
+          "first": 8856,
+          "second": 8794,
+          "net": 62
+        },
+        "complex_4": {
+          "first": 8804,
+          "second": 8864,
+          "net": -60
+        },
+        "complex_5": {
+          "first": 8860,
+          "second": 8794,
+          "net": 66
+        },
+        "complex_6": {
+          "first": 8905,
+          "second": 8967,
+          "net": -62
+        },
+        "complex_7": {
+          "first": 8765,
+          "second": 8734,
+          "net": 31
+        },
+        "complex_8": {
+          "first": 8924,
+          "second": 9016,
+          "net": -92
+        }
+      },
+      "client_elapsed_seconds": 1.000226885,
+      "command_audit": {
+        "passed": true,
+        "server_counts": {
+          "rpop": 71001.0,
+          "lpush": 71034.0,
+          "info": 1.0
+        },
+        "client_counts": {
+          "LPUSH": 71034,
+          "RPOP": 71001
+        }
+      },
+      "bounded": {
+        "baseline": 8192,
+        "maximum_guard": 16384,
+        "minimum_guard": 4096,
+        "observed_push_min": 8066,
+        "observed_push_max": 8377,
+        "all_final_counts": {
+          "complex_1": 8275,
+          "complex_2": 8197,
+          "complex_3": 8254,
+          "complex_4": 8132,
+          "complex_5": 8258,
+          "complex_6": 8130,
+          "complex_7": 8223,
+          "complex_8": 8100
+        }
+      }
+    }
+  },
+  {
+    "system": "redis",
+    "tag": "smoke-mainc55e52c9-mixed-list-8388608-rpush_lpop-c16-20261008",
+    "raw": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/redis-smoke-mainc55e52c9-mixed-list-8388608-rpush_lpop-c16-20261008",
+    "provenance": {
+      "binary": "/mnt/dev/peer-bench/redis/v8.8.0/src/src/redis-server",
+      "sha256": "91bc016e933b716b41226bf8958576a51bca2403f68d9f26a7d6f7d94ebb3ffe",
+      "source_commit": null,
+      "fields": [
+        1024
+      ],
+      "sizes": [
+        8388608
+      ],
+      "keys": 8,
+      "types": [
+        "list"
+      ],
+      "levels": [
+        16
+      ],
+      "full_levels": [
+        1,
+        4,
+        16
+      ],
+      "seconds": 1,
+      "backlog_mb": null,
+      "client_threads": 16,
+      "seed_pipeline": 1,
+      "fill_workers": 8,
+      "seed_command_bytes": 16384,
+      "mode": "point",
+      "reused_seed_from": null,
+      "seed_dump_path": null,
+      "seed_dump_sha256": null,
+      "continue_on_error": false
+    },
+    "version": {
+      "server": "# Server\r\nredis_version:8.8.0\r\nredis_git_sha1:00000000\r\nredis_git_dirty:1\r\nredis_build_id:1817b7f2026e7f24\r\nredis_mode:standalone\r\nos:Linux 7.0.0-1014-azure x86_64\r\narch_bits:64\r\nmonotonic_clock:POSIX clock_gettime\r\nmultiplexing_api:epoll\r\natomicvar_api:c11-builtin\r\ngcc_version:13.3.0\r\nprocess_id:1465874\r\nprocess_supervised:no\r\nrun_id:0b3a18860fdd5806d70534c6b95a0efe59901fa8\r\ntcp_port:6379\r\nserver_time_usec:1791429542276257\r\nuptime_in_seconds:0\r\nuptime_in_days:0\r\nhz:10\r\nconfigured_hz:10\r\nlru_clock:13044646\r\nexecutable:/mnt/dev/peer-bench/redis/v8.8.0/src/src/redis-server\r\nconfig_file:\r\nio_threads_active:1\r\nlistener0:name=tcp,bind=172.16.0.4,port=6379\r\n"
+    },
+    "result": {
+      "product": "redis-smoke-mainc55e52c9-mixed-list-8388608-rpush_lpop-c16-20261008",
+      "type": "list",
+      "logical_bytes": 8388608,
+      "field_bytes": 1024,
+      "entries_per_key": 8192,
+      "keys": 8,
+      "operation": "RPUSH_LPOP",
+      "connections": 16,
+      "qps": 142718.715089,
+      "p50_ms": 0.109193,
+      "p99_ms": 0.177555,
+      "p999_ms": 0.268171,
+      "requests": 142749,
+      "seconds": 1,
+      "elapsed_seconds": 1.316657321061939,
+      "commands": {
+        "RPUSH": {
+          "count": 71387,
+          "qps": 71371.8548924,
+          "p50_ms": 0.109223,
+          "p99_ms": 0.179148,
+          "p999_ms": 0.270445
+        },
+        "LPOP": {
+          "count": 71362,
+          "qps": 71346.8601963,
+          "p50_ms": 0.109153,
+          "p99_ms": 0.175693,
+          "p999_ms": 0.265697
+        }
+      },
+      "key_counts": {
+        "complex_1": {
+          "first": 9048,
+          "second": 9005,
+          "net": 43
+        },
+        "complex_2": {
+          "first": 8946,
+          "second": 8936,
+          "net": 10
+        },
+        "complex_3": {
+          "first": 8933,
+          "second": 8859,
+          "net": 74
+        },
+        "complex_4": {
+          "first": 8851,
+          "second": 8897,
+          "net": -46
+        },
+        "complex_5": {
+          "first": 8883,
+          "second": 8856,
+          "net": 27
+        },
+        "complex_6": {
+          "first": 8944,
+          "second": 8991,
+          "net": -47
+        },
+        "complex_7": {
+          "first": 8820,
+          "second": 8803,
+          "net": 17
+        },
+        "complex_8": {
+          "first": 8962,
+          "second": 9015,
+          "net": -53
+        }
+      },
+      "client_elapsed_seconds": 1.0002122,
+      "command_audit": {
+        "passed": true,
+        "server_counts": {
+          "info": 1.0,
+          "lpop": 71362.0,
+          "rpush": 71387.0
+        },
+        "client_counts": {
+          "RPUSH": 71387,
+          "LPOP": 71362
+        }
+      },
+      "bounded": {
+        "baseline": 8192,
+        "maximum_guard": 16384,
+        "minimum_guard": 4096,
+        "observed_push_min": 8070,
+        "observed_push_max": 8390,
+        "all_final_counts": {
+          "complex_1": 8235,
+          "complex_2": 8202,
+          "complex_3": 8266,
+          "complex_4": 8146,
+          "complex_5": 8219,
+          "complex_6": 8145,
+          "complex_7": 8209,
+          "complex_8": 8139
+        }
+      }
+    }
+  },
+  {
+    "system": "redis",
+    "tag": "smoke-mainc55e52c9-mixed-zset-8388608-zadd_head_zpopmax-c16-20261008",
+    "raw": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/redis-smoke-mainc55e52c9-mixed-zset-8388608-zadd_head_zpopmax-c16-20261008",
+    "provenance": {
+      "binary": "/mnt/dev/peer-bench/redis/v8.8.0/src/src/redis-server",
+      "sha256": "91bc016e933b716b41226bf8958576a51bca2403f68d9f26a7d6f7d94ebb3ffe",
+      "source_commit": null,
+      "fields": [
+        1024
+      ],
+      "sizes": [
+        8388608
+      ],
+      "keys": 8,
+      "types": [
+        "zset"
+      ],
+      "levels": [
+        16
+      ],
+      "full_levels": [
+        1,
+        4,
+        16
+      ],
+      "seconds": 1,
+      "backlog_mb": null,
+      "client_threads": 16,
+      "seed_pipeline": 1,
+      "fill_workers": 8,
+      "seed_command_bytes": 16384,
+      "mode": "point",
+      "reused_seed_from": null,
+      "seed_dump_path": null,
+      "seed_dump_sha256": null,
+      "continue_on_error": false
+    },
+    "version": {
+      "server": "# Server\r\nredis_version:8.8.0\r\nredis_git_sha1:00000000\r\nredis_git_dirty:1\r\nredis_build_id:1817b7f2026e7f24\r\nredis_mode:standalone\r\nos:Linux 7.0.0-1014-azure x86_64\r\narch_bits:64\r\nmonotonic_clock:POSIX clock_gettime\r\nmultiplexing_api:epoll\r\natomicvar_api:c11-builtin\r\ngcc_version:13.3.0\r\nprocess_id:1465912\r\nprocess_supervised:no\r\nrun_id:9b4f54b89eb996284a7c90de8764e43566ca7963\r\ntcp_port:6379\r\nserver_time_usec:1791429546364532\r\nuptime_in_seconds:0\r\nuptime_in_days:0\r\nhz:10\r\nconfigured_hz:10\r\nlru_clock:13044650\r\nexecutable:/mnt/dev/peer-bench/redis/v8.8.0/src/src/redis-server\r\nconfig_file:\r\nio_threads_active:1\r\nlistener0:name=tcp,bind=172.16.0.4,port=6379\r\n"
+    },
+    "result": {
+      "product": "redis-smoke-mainc55e52c9-mixed-zset-8388608-zadd_head_zpopmax-c16-20261008",
+      "type": "zset",
+      "logical_bytes": 8388608,
+      "field_bytes": 1024,
+      "entries_per_key": 8192,
+      "keys": 8,
+      "operation": "ZADD_HEAD_ZPOPMAX",
+      "connections": 16,
+      "qps": 117278.606403,
+      "p50_ms": 0.111217,
+      "p99_ms": 0.186119,
+      "p999_ms": 0.276383,
+      "requests": 127696,
+      "seconds": 1,
+      "elapsed_seconds": 1.366498272982426,
+      "commands": {
+        "ZADD": {
+          "count": 63912,
+          "qps": 58698.0821045,
+          "p50_ms": 0.111196,
+          "p99_ms": 0.186119,
+          "p999_ms": 0.271756
+        },
+        "ZPOPMAX": {
+          "count": 63784,
+          "qps": 58580.5242984,
+          "p50_ms": 0.111246,
+          "p99_ms": 0.185998,
+          "p999_ms": 0.281546
+        }
+      },
+      "key_counts": {
+        "complex_1": {
+          "first": 8157,
+          "second": 8051,
+          "net": 106
+        },
+        "complex_2": {
+          "first": 8003,
+          "second": 7972,
+          "net": 31
+        },
+        "complex_3": {
+          "first": 8002,
+          "second": 7955,
+          "net": 47
+        },
+        "complex_4": {
+          "first": 7914,
+          "second": 7945,
+          "net": -31
+        },
+        "complex_5": {
+          "first": 7940,
+          "second": 7885,
+          "net": 55
+        },
+        "complex_6": {
+          "first": 7982,
+          "second": 8022,
+          "net": -40
+        },
+        "complex_7": {
+          "first": 7876,
+          "second": 7846,
+          "net": 30
+        },
+        "complex_8": {
+          "first": 8038,
+          "second": 8108,
+          "net": -70
+        }
+      },
+      "client_elapsed_seconds": 1.088826035,
+      "command_audit": {
+        "passed": true,
+        "server_counts": {
+          "zpopmax": 63784.0,
+          "info": 1.0,
+          "zadd": 63912.0
+        },
+        "client_counts": {
+          "ZADD": 63912,
+          "ZPOPMAX": 63784
+        }
+      },
+      "bounded": {
+        "baseline": 8192,
+        "maximum_guard": 16384,
+        "minimum_guard": 4096,
+        "observed_push_min": 0,
+        "observed_push_max": 0,
+        "all_final_counts": {
+          "complex_1": 8298,
+          "complex_2": 8223,
+          "complex_3": 8239,
+          "complex_4": 8161,
+          "complex_5": 8247,
+          "complex_6": 8152,
+          "complex_7": 8222,
+          "complex_8": 8122
+        }
+      }
+    }
+  },
+  {
+    "system": "redis",
+    "tag": "smoke-mainc55e52c9-mixed-zset-8388608-zadd_random_zpopmin-c16-20261008",
+    "raw": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/redis-smoke-mainc55e52c9-mixed-zset-8388608-zadd_random_zpopmin-c16-20261008",
+    "provenance": {
+      "binary": "/mnt/dev/peer-bench/redis/v8.8.0/src/src/redis-server",
+      "sha256": "91bc016e933b716b41226bf8958576a51bca2403f68d9f26a7d6f7d94ebb3ffe",
+      "source_commit": null,
+      "fields": [
+        1024
+      ],
+      "sizes": [
+        8388608
+      ],
+      "keys": 8,
+      "types": [
+        "zset"
+      ],
+      "levels": [
+        16
+      ],
+      "full_levels": [
+        1,
+        4,
+        16
+      ],
+      "seconds": 1,
+      "backlog_mb": null,
+      "client_threads": 16,
+      "seed_pipeline": 1,
+      "fill_workers": 8,
+      "seed_command_bytes": 16384,
+      "mode": "point",
+      "reused_seed_from": null,
+      "seed_dump_path": null,
+      "seed_dump_sha256": null,
+      "continue_on_error": false
+    },
+    "version": {
+      "server": "# Server\r\nredis_version:8.8.0\r\nredis_git_sha1:00000000\r\nredis_git_dirty:1\r\nredis_build_id:1817b7f2026e7f24\r\nredis_mode:standalone\r\nos:Linux 7.0.0-1014-azure x86_64\r\narch_bits:64\r\nmonotonic_clock:POSIX clock_gettime\r\nmultiplexing_api:epoll\r\natomicvar_api:c11-builtin\r\ngcc_version:13.3.0\r\nprocess_id:1465948\r\nprocess_supervised:no\r\nrun_id:48322284b3cf59589930f4f776b54cfdb8650134\r\ntcp_port:6379\r\nserver_time_usec:1791429550453672\r\nuptime_in_seconds:0\r\nuptime_in_days:0\r\nhz:10\r\nconfigured_hz:10\r\nlru_clock:13044654\r\nexecutable:/mnt/dev/peer-bench/redis/v8.8.0/src/src/redis-server\r\nconfig_file:\r\nio_threads_active:1\r\nlistener0:name=tcp,bind=172.16.0.4,port=6379\r\n"
+    },
+    "result": {
+      "product": "redis-smoke-mainc55e52c9-mixed-zset-8388608-zadd_random_zpopmin-c16-20261008",
+      "type": "zset",
+      "logical_bytes": 8388608,
+      "field_bytes": 1024,
+      "entries_per_key": 8192,
+      "keys": 8,
+      "operation": "ZADD_RANDOM_ZPOPMIN",
+      "connections": 16,
+      "qps": 136172.914529,
+      "p50_ms": 0.114151,
+      "p99_ms": 0.180389,
+      "p999_ms": 0.257365,
+      "requests": 136205,
+      "seconds": 1,
+      "elapsed_seconds": 1.316643490921706,
+      "commands": {
+        "ZADD": {
+          "count": 67816,
+          "qps": 67800.0247548,
+          "p50_ms": 0.114581,
+          "p99_ms": 0.181741,
+          "p999_ms": 0.260705
+        },
+        "ZPOPMIN": {
+          "count": 68389,
+          "qps": 68372.8897746,
+          "p50_ms": 0.11374,
+          "p99_ms": 0.178497,
+          "p999_ms": 0.255232
+        }
+      },
+      "key_counts": {
+        "complex_1": {
+          "first": 8604,
+          "second": 8550,
+          "net": 54
+        },
+        "complex_2": {
+          "first": 8559,
+          "second": 8593,
+          "net": -34
+        },
+        "complex_3": {
+          "first": 8451,
+          "second": 8639,
+          "net": -188
+        },
+        "complex_4": {
+          "first": 8407,
+          "second": 8508,
+          "net": -101
+        },
+        "complex_5": {
+          "first": 8369,
+          "second": 8556,
+          "net": -187
+        },
+        "complex_6": {
+          "first": 8528,
+          "second": 8574,
+          "net": -46
+        },
+        "complex_7": {
+          "first": 8401,
+          "second": 8388,
+          "net": 13
+        },
+        "complex_8": {
+          "first": 8497,
+          "second": 8581,
+          "net": -84
+        }
+      },
+      "client_elapsed_seconds": 1.000235623,
+      "command_audit": {
+        "passed": true,
+        "server_counts": {
+          "zadd": 67816.0,
+          "info": 1.0,
+          "zpopmin": 68389.0
+        },
+        "client_counts": {
+          "ZADD": 67816,
+          "ZPOPMIN": 68389
+        }
+      },
+      "bounded": {
+        "baseline": 8192,
+        "maximum_guard": 16384,
+        "minimum_guard": 4096,
+        "observed_push_min": 0,
+        "observed_push_max": 0,
+        "all_final_counts": {
+          "complex_1": 8246,
+          "complex_2": 8158,
+          "complex_3": 8004,
+          "complex_4": 8091,
+          "complex_5": 8005,
+          "complex_6": 8146,
+          "complex_7": 8205,
+          "complex_8": 8108
+        }
+      }
+    }
+  },
+  {
+    "system": "redis",
+    "tag": "smoke-mainc55e52c9-mixed-zset-8388608-zadd_tail_zpopmin-c16-20261008",
+    "raw": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/redis-smoke-mainc55e52c9-mixed-zset-8388608-zadd_tail_zpopmin-c16-20261008",
+    "provenance": {
+      "binary": "/mnt/dev/peer-bench/redis/v8.8.0/src/src/redis-server",
+      "sha256": "91bc016e933b716b41226bf8958576a51bca2403f68d9f26a7d6f7d94ebb3ffe",
+      "source_commit": null,
+      "fields": [
+        1024
+      ],
+      "sizes": [
+        8388608
+      ],
+      "keys": 8,
+      "types": [
+        "zset"
+      ],
+      "levels": [
+        16
+      ],
+      "full_levels": [
+        1,
+        4,
+        16
+      ],
+      "seconds": 1,
+      "backlog_mb": null,
+      "client_threads": 16,
+      "seed_pipeline": 1,
+      "fill_workers": 8,
+      "seed_command_bytes": 16384,
+      "mode": "point",
+      "reused_seed_from": null,
+      "seed_dump_path": null,
+      "seed_dump_sha256": null,
+      "continue_on_error": false
+    },
+    "version": {
+      "server": "# Server\r\nredis_version:8.8.0\r\nredis_git_sha1:00000000\r\nredis_git_dirty:1\r\nredis_build_id:1817b7f2026e7f24\r\nredis_mode:standalone\r\nos:Linux 7.0.0-1014-azure x86_64\r\narch_bits:64\r\nmonotonic_clock:POSIX clock_gettime\r\nmultiplexing_api:epoll\r\natomicvar_api:c11-builtin\r\ngcc_version:13.3.0\r\nprocess_id:1465989\r\nprocess_supervised:no\r\nrun_id:875843fd1067b7ed10a447352b9374a32d18d9bb\r\ntcp_port:6379\r\nserver_time_usec:1791429554547386\r\nuptime_in_seconds:0\r\nuptime_in_days:0\r\nhz:10\r\nconfigured_hz:10\r\nlru_clock:13044658\r\nexecutable:/mnt/dev/peer-bench/redis/v8.8.0/src/src/redis-server\r\nconfig_file:\r\nio_threads_active:1\r\nlistener0:name=tcp,bind=172.16.0.4,port=6379\r\n"
+    },
+    "result": {
+      "product": "redis-smoke-mainc55e52c9-mixed-zset-8388608-zadd_tail_zpopmin-c16-20261008",
+      "type": "zset",
+      "logical_bytes": 8388608,
+      "field_bytes": 1024,
+      "entries_per_key": 8192,
+      "keys": 8,
+      "operation": "ZADD_TAIL_ZPOPMIN",
+      "connections": 16,
+      "qps": 136972.837155,
+      "p50_ms": 0.113249,
+      "p99_ms": 0.180419,
+      "p999_ms": 0.268431,
+      "requests": 137008,
+      "seconds": 1,
+      "elapsed_seconds": 1.3166410468984395,
+      "commands": {
+        "ZADD": {
+          "count": 68444,
+          "qps": 68426.4339764,
+          "p50_ms": 0.113439,
+          "p99_ms": 0.181481,
+          "p999_ms": 0.267911
+        },
+        "ZPOPMIN": {
+          "count": 68564,
+          "qps": 68546.4031787,
+          "p50_ms": 0.113069,
+          "p99_ms": 0.179429,
+          "p999_ms": 0.270815
+        }
+      },
+      "key_counts": {
+        "complex_1": {
+          "first": 8679,
+          "second": 8632,
+          "net": 47
+        },
+        "complex_2": {
+          "first": 8591,
+          "second": 8566,
+          "net": 25
+        },
+        "complex_3": {
+          "first": 8549,
+          "second": 8506,
+          "net": 43
+        },
+        "complex_4": {
+          "first": 8501,
+          "second": 8562,
+          "net": -61
+        },
+        "complex_5": {
+          "first": 8521,
+          "second": 8508,
+          "net": 13
+        },
+        "complex_6": {
+          "first": 8589,
+          "second": 8656,
+          "net": -67
+        },
+        "complex_7": {
+          "first": 8435,
+          "second": 8439,
+          "net": -4
+        },
+        "complex_8": {
+          "first": 8579,
+          "second": 8695,
+          "net": -116
+        }
+      },
+      "client_elapsed_seconds": 1.000256714,
+      "command_audit": {
+        "passed": true,
+        "server_counts": {
+          "info": 1.0,
+          "zpopmin": 68564.0,
+          "zadd": 68444.0
+        },
+        "client_counts": {
+          "ZADD": 68444,
+          "ZPOPMIN": 68564
+        }
+      },
+      "bounded": {
+        "baseline": 8192,
+        "maximum_guard": 16384,
+        "minimum_guard": 4096,
+        "observed_push_min": 0,
+        "observed_push_max": 0,
+        "all_final_counts": {
+          "complex_1": 8239,
+          "complex_2": 8217,
+          "complex_3": 8235,
+          "complex_4": 8131,
+          "complex_5": 8205,
+          "complex_6": 8125,
+          "complex_7": 8188,
+          "complex_8": 8076
+        }
+      }
+    }
+  },
+  {
+    "system": "valkey",
+    "tag": "smoke-mainc55e52c9-mixed-list-8388608-lpush_rpop-c16-20261008",
+    "raw": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/valkey-smoke-mainc55e52c9-mixed-list-8388608-lpush_rpop-c16-20261008",
+    "provenance": {
+      "binary": "/mnt/dev/peer-bench/valkey/v9.1.0/src/src/valkey-server",
+      "sha256": "a44b46cd7eeaf3409c38f9ee3a9f8db2488acadf1224fc9e51580aaeb651afea",
+      "source_commit": null,
+      "fields": [
+        1024
+      ],
+      "sizes": [
+        8388608
+      ],
+      "keys": 8,
+      "types": [
+        "list"
+      ],
+      "levels": [
+        16
+      ],
+      "full_levels": [
+        1,
+        4,
+        16
+      ],
+      "seconds": 1,
+      "backlog_mb": null,
+      "client_threads": 16,
+      "seed_pipeline": 1,
+      "fill_workers": 8,
+      "seed_command_bytes": 16384,
+      "mode": "point",
+      "reused_seed_from": null,
+      "seed_dump_path": null,
+      "seed_dump_sha256": null,
+      "continue_on_error": false
+    },
+    "version": {
+      "server": "# Server\r\nredis_version:7.2.4\r\nserver_name:valkey\r\nvalkey_version:9.1.0\r\nvalkey_release_stage:ga\r\nredis_git_sha1:00000000\r\nredis_git_dirty:1\r\nredis_build_id:4012781e100171d6\r\nserver_mode:standalone\r\nos:Linux 7.0.0-1014-azure x86_64\r\narch_bits:64\r\nmonotonic_clock:X86 TSC @ 2596.69 ticks/us\r\nmultiplexing_api:epoll\r\ngcc_version:13.3.0\r\nprocess_id:1466024\r\nprocess_supervised:no\r\nrun_id:1c08d2bd296745916ca4e7886369c4be16d2627b\r\ntcp_port:6379\r\nserver_time_usec:1791429558662700\r\nuptime_in_seconds:0\r\nuptime_in_days:0\r\nhz:10\r\nconfigured_hz:10\r\nclients_hz:10\r\nlru_clock:13044662\r\nexecutable:/mnt/dev/peer-bench/valkey/v9.1.0/src/src/valkey-server\r\nconfig_file:\r\nio_threads_active:0\r\navailability_zone:\r\nlistener0:name=tcp,bind=172.16.0.4,port=6379\r\n"
+    },
+    "result": {
+      "product": "valkey-smoke-mainc55e52c9-mixed-list-8388608-lpush_rpop-c16-20261008",
+      "type": "list",
+      "logical_bytes": 8388608,
+      "field_bytes": 1024,
+      "entries_per_key": 8192,
+      "keys": 8,
+      "operation": "LPUSH_RPOP",
+      "connections": 16,
+      "qps": 157937.826452,
+      "p50_ms": 0.093399,
+      "p99_ms": 0.189343,
+      "p999_ms": 0.330785,
+      "requests": 157968,
+      "seconds": 1,
+      "elapsed_seconds": 1.3164841060061008,
+      "commands": {
+        "LPUSH": {
+          "count": 78984,
+          "qps": 78968.913226,
+          "p50_ms": 0.09349,
+          "p99_ms": 0.190275,
+          "p999_ms": 0.331516
+        },
+        "RPOP": {
+          "count": 78984,
+          "qps": 78968.913226,
+          "p50_ms": 0.093299,
+          "p99_ms": 0.188242,
+          "p999_ms": 0.330785
+        }
+      },
+      "key_counts": {
+        "complex_1": {
+          "first": 10042,
+          "second": 9931,
+          "net": 111
+        },
+        "complex_2": {
+          "first": 9898,
+          "second": 9933,
+          "net": -35
+        },
+        "complex_3": {
+          "first": 9885,
+          "second": 9806,
+          "net": 79
+        },
+        "complex_4": {
+          "first": 9748,
+          "second": 9874,
+          "net": -126
+        },
+        "complex_5": {
+          "first": 9792,
+          "second": 9793,
+          "net": -1
+        },
+        "complex_6": {
+          "first": 9875,
+          "second": 9926,
+          "net": -51
+        },
+        "complex_7": {
+          "first": 9800,
+          "second": 9699,
+          "net": 101
+        },
+        "complex_8": {
+          "first": 9944,
+          "second": 10022,
+          "net": -78
+        }
+      },
+      "client_elapsed_seconds": 1.000191047,
+      "command_audit": {
+        "passed": true,
+        "server_counts": {
+          "lpush": 78984.0,
+          "info": 1.0,
+          "rpop": 78984.0
+        },
+        "client_counts": {
+          "LPUSH": 78984,
+          "RPOP": 78984
+        }
+      },
+      "bounded": {
+        "baseline": 8192,
+        "maximum_guard": 16384,
+        "minimum_guard": 4096,
+        "observed_push_min": 8059,
+        "observed_push_max": 8371,
+        "all_final_counts": {
+          "complex_1": 8303,
+          "complex_2": 8157,
+          "complex_3": 8271,
+          "complex_4": 8066,
+          "complex_5": 8191,
+          "complex_6": 8141,
+          "complex_7": 8293,
+          "complex_8": 8114
+        }
+      }
+    }
+  },
+  {
+    "system": "valkey",
+    "tag": "smoke-mainc55e52c9-mixed-list-8388608-rpush_lpop-c16-20261008",
+    "raw": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/valkey-smoke-mainc55e52c9-mixed-list-8388608-rpush_lpop-c16-20261008",
+    "provenance": {
+      "binary": "/mnt/dev/peer-bench/valkey/v9.1.0/src/src/valkey-server",
+      "sha256": "a44b46cd7eeaf3409c38f9ee3a9f8db2488acadf1224fc9e51580aaeb651afea",
+      "source_commit": null,
+      "fields": [
+        1024
+      ],
+      "sizes": [
+        8388608
+      ],
+      "keys": 8,
+      "types": [
+        "list"
+      ],
+      "levels": [
+        16
+      ],
+      "full_levels": [
+        1,
+        4,
+        16
+      ],
+      "seconds": 1,
+      "backlog_mb": null,
+      "client_threads": 16,
+      "seed_pipeline": 1,
+      "fill_workers": 8,
+      "seed_command_bytes": 16384,
+      "mode": "point",
+      "reused_seed_from": null,
+      "seed_dump_path": null,
+      "seed_dump_sha256": null,
+      "continue_on_error": false
+    },
+    "version": {
+      "server": "# Server\r\nredis_version:7.2.4\r\nserver_name:valkey\r\nvalkey_version:9.1.0\r\nvalkey_release_stage:ga\r\nredis_git_sha1:00000000\r\nredis_git_dirty:1\r\nredis_build_id:4012781e100171d6\r\nserver_mode:standalone\r\nos:Linux 7.0.0-1014-azure x86_64\r\narch_bits:64\r\nmonotonic_clock:X86 TSC @ 2596.29 ticks/us\r\nmultiplexing_api:epoll\r\ngcc_version:13.3.0\r\nprocess_id:1466061\r\nprocess_supervised:no\r\nrun_id:2deb2935ffc6b2e94226034c6bbc05e71d1b1e1a\r\ntcp_port:6379\r\nserver_time_usec:1791429562725920\r\nuptime_in_seconds:0\r\nuptime_in_days:0\r\nhz:10\r\nconfigured_hz:10\r\nclients_hz:10\r\nlru_clock:13044666\r\nexecutable:/mnt/dev/peer-bench/valkey/v9.1.0/src/src/valkey-server\r\nconfig_file:\r\nio_threads_active:0\r\navailability_zone:\r\nlistener0:name=tcp,bind=172.16.0.4,port=6379\r\n"
+    },
+    "result": {
+      "product": "valkey-smoke-mainc55e52c9-mixed-list-8388608-rpush_lpop-c16-20261008",
+      "type": "list",
+      "logical_bytes": 8388608,
+      "field_bytes": 1024,
+      "entries_per_key": 8192,
+      "keys": 8,
+      "operation": "RPUSH_LPOP",
+      "connections": 16,
+      "qps": 161462.157467,
+      "p50_ms": 0.092388,
+      "p99_ms": 0.165888,
+      "p999_ms": 0.28065,
+      "requests": 161495,
+      "seconds": 1,
+      "elapsed_seconds": 1.3163859869819134,
+      "commands": {
+        "RPUSH": {
+          "count": 80741,
+          "qps": 80724.5800553,
+          "p50_ms": 0.092468,
+          "p99_ms": 0.16675,
+          "p999_ms": 0.288611
+        },
+        "LPOP": {
+          "count": 80754,
+          "qps": 80737.5774116,
+          "p50_ms": 0.092298,
+          "p99_ms": 0.165057,
+          "p999_ms": 0.278797
+        }
+      },
+      "key_counts": {
+        "complex_1": {
+          "first": 10267,
+          "second": 10153,
+          "net": 114
+        },
+        "complex_2": {
+          "first": 10089,
+          "second": 10108,
+          "net": -19
+        },
+        "complex_3": {
+          "first": 10097,
+          "second": 10024,
+          "net": 73
+        },
+        "complex_4": {
+          "first": 9969,
+          "second": 10094,
+          "net": -125
+        },
+        "complex_5": {
+          "first": 10015,
+          "second": 10015,
+          "net": 0
+        },
+        "complex_6": {
+          "first": 10118,
+          "second": 10190,
+          "net": -72
+        },
+        "complex_7": {
+          "first": 10009,
+          "second": 9955,
+          "net": 54
+        },
+        "complex_8": {
+          "first": 10177,
+          "second": 10215,
+          "net": -38
+        }
+      },
+      "client_elapsed_seconds": 1.000203407,
+      "command_audit": {
+        "passed": true,
+        "server_counts": {
+          "rpush": 80741.0,
+          "info": 1.0,
+          "lpop": 80754.0
+        },
+        "client_counts": {
+          "RPUSH": 80741,
+          "LPOP": 80754
+        }
+      },
+      "bounded": {
+        "baseline": 8192,
+        "maximum_guard": 16384,
+        "minimum_guard": 4096,
+        "observed_push_min": 8055,
+        "observed_push_max": 8383,
+        "all_final_counts": {
+          "complex_1": 8306,
+          "complex_2": 8173,
+          "complex_3": 8265,
+          "complex_4": 8067,
+          "complex_5": 8192,
+          "complex_6": 8120,
+          "complex_7": 8246,
+          "complex_8": 8154
+        }
+      }
+    }
+  },
+  {
+    "system": "valkey",
+    "tag": "smoke-mainc55e52c9-mixed-zset-8388608-zadd_head_zpopmax-c16-20261008",
+    "raw": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/valkey-smoke-mainc55e52c9-mixed-zset-8388608-zadd_head_zpopmax-c16-20261008",
+    "provenance": {
+      "binary": "/mnt/dev/peer-bench/valkey/v9.1.0/src/src/valkey-server",
+      "sha256": "a44b46cd7eeaf3409c38f9ee3a9f8db2488acadf1224fc9e51580aaeb651afea",
+      "source_commit": null,
+      "fields": [
+        1024
+      ],
+      "sizes": [
+        8388608
+      ],
+      "keys": 8,
+      "types": [
+        "zset"
+      ],
+      "levels": [
+        16
+      ],
+      "full_levels": [
+        1,
+        4,
+        16
+      ],
+      "seconds": 1,
+      "backlog_mb": null,
+      "client_threads": 16,
+      "seed_pipeline": 1,
+      "fill_workers": 8,
+      "seed_command_bytes": 16384,
+      "mode": "point",
+      "reused_seed_from": null,
+      "seed_dump_path": null,
+      "seed_dump_sha256": null,
+      "continue_on_error": false
+    },
+    "version": {
+      "server": "# Server\r\nredis_version:7.2.4\r\nserver_name:valkey\r\nvalkey_version:9.1.0\r\nvalkey_release_stage:ga\r\nredis_git_sha1:00000000\r\nredis_git_dirty:1\r\nredis_build_id:4012781e100171d6\r\nserver_mode:standalone\r\nos:Linux 7.0.0-1014-azure x86_64\r\narch_bits:64\r\nmonotonic_clock:X86 TSC @ 2596.29 ticks/us\r\nmultiplexing_api:epoll\r\ngcc_version:13.3.0\r\nprocess_id:1466098\r\nprocess_supervised:no\r\nrun_id:43aa1feb13fd7f9b6fac61c06c0873ee24b471da\r\ntcp_port:6379\r\nserver_time_usec:1791429566815779\r\nuptime_in_seconds:0\r\nuptime_in_days:0\r\nhz:10\r\nconfigured_hz:10\r\nclients_hz:10\r\nlru_clock:13044670\r\nexecutable:/mnt/dev/peer-bench/valkey/v9.1.0/src/src/valkey-server\r\nconfig_file:\r\nio_threads_active:0\r\navailability_zone:\r\nlistener0:name=tcp,bind=172.16.0.4,port=6379\r\n"
+    },
+    "result": {
+      "product": "valkey-smoke-mainc55e52c9-mixed-zset-8388608-zadd_head_zpopmax-c16-20261008",
+      "type": "zset",
+      "logical_bytes": 8388608,
+      "field_bytes": 1024,
+      "entries_per_key": 8192,
+      "keys": 8,
+      "operation": "ZADD_HEAD_ZPOPMAX",
+      "connections": 16,
+      "qps": 152740.905928,
+      "p50_ms": 0.09339,
+      "p99_ms": 0.200831,
+      "p999_ms": 0.312892,
+      "requests": 152773,
+      "seconds": 1,
+      "elapsed_seconds": 1.4667399020399898,
+      "commands": {
+        "ZADD": {
+          "count": 76429,
+          "qps": 76412.9440358,
+          "p50_ms": 0.09354,
+          "p99_ms": 0.201131,
+          "p999_ms": 0.315682
+        },
+        "ZPOPMAX": {
+          "count": 76344,
+          "qps": 76327.9618923,
+          "p50_ms": 0.093229,
+          "p99_ms": 0.20063,
+          "p999_ms": 0.299218
+        }
+      },
+      "key_counts": {
+        "complex_1": {
+          "first": 9721,
+          "second": 9598,
+          "net": 123
+        },
+        "complex_2": {
+          "first": 9568,
+          "second": 9609,
+          "net": -41
+        },
+        "complex_3": {
+          "first": 9567,
+          "second": 9495,
+          "net": 72
+        },
+        "complex_4": {
+          "first": 9445,
+          "second": 9519,
+          "net": -74
+        },
+        "complex_5": {
+          "first": 9463,
+          "second": 9451,
+          "net": 12
+        },
+        "complex_6": {
+          "first": 9559,
+          "second": 9594,
+          "net": -35
+        },
+        "complex_7": {
+          "first": 9457,
+          "second": 9405,
+          "net": 52
+        },
+        "complex_8": {
+          "first": 9649,
+          "second": 9673,
+          "net": -24
+        }
+      },
+      "client_elapsed_seconds": 1.000210121,
+      "command_audit": {
+        "passed": true,
+        "server_counts": {
+          "zadd": 76429.0,
+          "zpopmax": 76344.0,
+          "info": 1.0
+        },
+        "client_counts": {
+          "ZADD": 76429,
+          "ZPOPMAX": 76344
+        }
+      },
+      "bounded": {
+        "baseline": 8192,
+        "maximum_guard": 16384,
+        "minimum_guard": 4096,
+        "observed_push_min": 0,
+        "observed_push_max": 0,
+        "all_final_counts": {
+          "complex_1": 8315,
+          "complex_2": 8151,
+          "complex_3": 8264,
+          "complex_4": 8118,
+          "complex_5": 8204,
+          "complex_6": 8157,
+          "complex_7": 8244,
+          "complex_8": 8168
+        }
+      }
+    }
+  },
+  {
+    "system": "valkey",
+    "tag": "smoke-mainc55e52c9-mixed-zset-8388608-zadd_random_zpopmin-c16-20261008",
+    "raw": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/valkey-smoke-mainc55e52c9-mixed-zset-8388608-zadd_random_zpopmin-c16-20261008",
+    "provenance": {
+      "binary": "/mnt/dev/peer-bench/valkey/v9.1.0/src/src/valkey-server",
+      "sha256": "a44b46cd7eeaf3409c38f9ee3a9f8db2488acadf1224fc9e51580aaeb651afea",
+      "source_commit": null,
+      "fields": [
+        1024
+      ],
+      "sizes": [
+        8388608
+      ],
+      "keys": 8,
+      "types": [
+        "zset"
+      ],
+      "levels": [
+        16
+      ],
+      "full_levels": [
+        1,
+        4,
+        16
+      ],
+      "seconds": 1,
+      "backlog_mb": null,
+      "client_threads": 16,
+      "seed_pipeline": 1,
+      "fill_workers": 8,
+      "seed_command_bytes": 16384,
+      "mode": "point",
+      "reused_seed_from": null,
+      "seed_dump_path": null,
+      "seed_dump_sha256": null,
+      "continue_on_error": false
+    },
+    "version": {
+      "server": "# Server\r\nredis_version:7.2.4\r\nserver_name:valkey\r\nvalkey_version:9.1.0\r\nvalkey_release_stage:ga\r\nredis_git_sha1:00000000\r\nredis_git_dirty:1\r\nredis_build_id:4012781e100171d6\r\nserver_mode:standalone\r\nos:Linux 7.0.0-1014-azure x86_64\r\narch_bits:64\r\nmonotonic_clock:X86 TSC @ 2596.29 ticks/us\r\nmultiplexing_api:epoll\r\ngcc_version:13.3.0\r\nprocess_id:1466135\r\nprocess_supervised:no\r\nrun_id:9a9fb1da3253302abd9a8ccfaaa8d5e5b5d9b295\r\ntcp_port:6379\r\nserver_time_usec:1791429571905788\r\nuptime_in_seconds:0\r\nuptime_in_days:0\r\nhz:10\r\nconfigured_hz:10\r\nclients_hz:10\r\nlru_clock:13044675\r\nexecutable:/mnt/dev/peer-bench/valkey/v9.1.0/src/src/valkey-server\r\nconfig_file:\r\nio_threads_active:0\r\navailability_zone:\r\nlistener0:name=tcp,bind=172.16.0.4,port=6379\r\n"
+    },
+    "result": {
+      "product": "valkey-smoke-mainc55e52c9-mixed-zset-8388608-zadd_random_zpopmin-c16-20261008",
+      "type": "zset",
+      "logical_bytes": 8388608,
+      "field_bytes": 1024,
+      "entries_per_key": 8192,
+      "keys": 8,
+      "operation": "ZADD_RANDOM_ZPOPMIN",
+      "connections": 16,
+      "qps": 157641.677151,
+      "p50_ms": 0.094601,
+      "p99_ms": 0.166249,
+      "p999_ms": 0.313989,
+      "requests": 157676,
+      "seconds": 1,
+      "elapsed_seconds": 1.3164556849515066,
+      "commands": {
+        "ZADD": {
+          "count": 78458,
+          "qps": 78440.9212935,
+          "p50_ms": 0.095052,
+          "p99_ms": 0.16706,
+          "p999_ms": 0.313989
+        },
+        "ZPOPMIN": {
+          "count": 79218,
+          "qps": 79200.755857,
+          "p50_ms": 0.094131,
+          "p99_ms": 0.165447,
+          "p999_ms": 0.300189
+        }
+      },
+      "key_counts": {
+        "complex_1": {
+          "first": 9984,
+          "second": 9902,
+          "net": 82
+        },
+        "complex_2": {
+          "first": 9853,
+          "second": 9946,
+          "net": -93
+        },
+        "complex_3": {
+          "first": 9752,
+          "second": 9990,
+          "net": -238
+        },
+        "complex_4": {
+          "first": 9737,
+          "second": 9906,
+          "net": -169
+        },
+        "complex_5": {
+          "first": 9668,
+          "second": 9849,
+          "net": -181
+        },
+        "complex_6": {
+          "first": 9846,
+          "second": 9943,
+          "net": -97
+        },
+        "complex_7": {
+          "first": 9717,
+          "second": 9727,
+          "net": -10
+        },
+        "complex_8": {
+          "first": 9901,
+          "second": 9955,
+          "net": -54
+        }
+      },
+      "client_elapsed_seconds": 1.000217727,
+      "command_audit": {
+        "passed": true,
+        "server_counts": {
+          "zadd": 78458.0,
+          "info": 1.0,
+          "zpopmin": 79218.0
+        },
+        "client_counts": {
+          "ZADD": 78458,
+          "ZPOPMIN": 79218
+        }
+      },
+      "bounded": {
+        "baseline": 8192,
+        "maximum_guard": 16384,
+        "minimum_guard": 4096,
+        "observed_push_min": 0,
+        "observed_push_max": 0,
+        "all_final_counts": {
+          "complex_1": 8274,
+          "complex_2": 8099,
+          "complex_3": 7954,
+          "complex_4": 8023,
+          "complex_5": 8011,
+          "complex_6": 8095,
+          "complex_7": 8182,
+          "complex_8": 8138
+        }
+      }
+    }
+  },
+  {
+    "system": "valkey",
+    "tag": "smoke-mainc55e52c9-mixed-zset-8388608-zadd_tail_zpopmin-c16-20261008",
+    "raw": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/valkey-smoke-mainc55e52c9-mixed-zset-8388608-zadd_tail_zpopmin-c16-20261008",
+    "provenance": {
+      "binary": "/mnt/dev/peer-bench/valkey/v9.1.0/src/src/valkey-server",
+      "sha256": "a44b46cd7eeaf3409c38f9ee3a9f8db2488acadf1224fc9e51580aaeb651afea",
+      "source_commit": null,
+      "fields": [
+        1024
+      ],
+      "sizes": [
+        8388608
+      ],
+      "keys": 8,
+      "types": [
+        "zset"
+      ],
+      "levels": [
+        16
+      ],
+      "full_levels": [
+        1,
+        4,
+        16
+      ],
+      "seconds": 1,
+      "backlog_mb": null,
+      "client_threads": 16,
+      "seed_pipeline": 1,
+      "fill_workers": 8,
+      "seed_command_bytes": 16384,
+      "mode": "point",
+      "reused_seed_from": null,
+      "seed_dump_path": null,
+      "seed_dump_sha256": null,
+      "continue_on_error": false
+    },
+    "version": {
+      "server": "# Server\r\nredis_version:7.2.4\r\nserver_name:valkey\r\nvalkey_version:9.1.0\r\nvalkey_release_stage:ga\r\nredis_git_sha1:00000000\r\nredis_git_dirty:1\r\nredis_build_id:4012781e100171d6\r\nserver_mode:standalone\r\nos:Linux 7.0.0-1014-azure x86_64\r\narch_bits:64\r\nmonotonic_clock:X86 TSC @ 2596.29 ticks/us\r\nmultiplexing_api:epoll\r\ngcc_version:13.3.0\r\nprocess_id:1466173\r\nprocess_supervised:no\r\nrun_id:d76fe7d3c7536b8ce29586ebe1d8c0bc9cedb028\r\ntcp_port:6379\r\nserver_time_usec:1791429575996791\r\nuptime_in_seconds:0\r\nuptime_in_days:0\r\nhz:10\r\nconfigured_hz:10\r\nclients_hz:10\r\nlru_clock:13044679\r\nexecutable:/mnt/dev/peer-bench/valkey/v9.1.0/src/src/valkey-server\r\nconfig_file:\r\nio_threads_active:0\r\navailability_zone:\r\nlistener0:name=tcp,bind=172.16.0.4,port=6379\r\n"
+    },
+    "result": {
+      "product": "valkey-smoke-mainc55e52c9-mixed-zset-8388608-zadd_tail_zpopmin-c16-20261008",
+      "type": "zset",
+      "logical_bytes": 8388608,
+      "field_bytes": 1024,
+      "entries_per_key": 8192,
+      "keys": 8,
+      "operation": "ZADD_TAIL_ZPOPMIN",
+      "connections": 16,
+      "qps": 161255.070378,
+      "p50_ms": 0.091847,
+      "p99_ms": 0.155252,
+      "p999_ms": 0.277886,
+      "requests": 161290,
+      "seconds": 1,
+      "elapsed_seconds": 1.316287163994275,
+      "commands": {
+        "ZADD": {
+          "count": 80654,
+          "qps": 80636.5332399,
+          "p50_ms": 0.092067,
+          "p99_ms": 0.155923,
+          "p999_ms": 0.322342
+        },
+        "ZPOPMIN": {
+          "count": 80636,
+          "qps": 80618.5371381,
+          "p50_ms": 0.091607,
+          "p99_ms": 0.154451,
+          "p999_ms": 0.232633
+        }
+      },
+      "key_counts": {
+        "complex_1": {
+          "first": 10249,
+          "second": 10129,
+          "net": 120
+        },
+        "complex_2": {
+          "first": 10093,
+          "second": 10116,
+          "net": -23
+        },
+        "complex_3": {
+          "first": 10074,
+          "second": 10005,
+          "net": 69
+        },
+        "complex_4": {
+          "first": 9957,
+          "second": 10100,
+          "net": -143
+        },
+        "complex_5": {
+          "first": 10019,
+          "second": 9991,
+          "net": 28
+        },
+        "complex_6": {
+          "first": 10101,
+          "second": 10175,
+          "net": -74
+        },
+        "complex_7": {
+          "first": 9995,
+          "second": 9917,
+          "net": 78
+        },
+        "complex_8": {
+          "first": 10166,
+          "second": 10203,
+          "net": -37
+        }
+      },
+      "client_elapsed_seconds": 1.000216611,
+      "command_audit": {
+        "passed": true,
+        "server_counts": {
+          "zadd": 80654.0,
+          "info": 1.0,
+          "zpopmin": 80636.0
+        },
+        "client_counts": {
+          "ZADD": 80654,
+          "ZPOPMIN": 80636
+        }
+      },
+      "bounded": {
+        "baseline": 8192,
+        "maximum_guard": 16384,
+        "minimum_guard": 4096,
+        "observed_push_min": 0,
+        "observed_push_max": 0,
+        "all_final_counts": {
+          "complex_1": 8312,
+          "complex_2": 8169,
+          "complex_3": 8261,
+          "complex_4": 8049,
+          "complex_5": 8220,
+          "complex_6": 8118,
+          "complex_7": 8270,
+          "complex_8": 8155
+        }
+      }
+    }
+  },
+  {
+    "system": "kvrocks",
+    "tag": "smoke-mainc55e52c9-mixed-list-8388608-lpush_rpop-c16-20261008",
+    "raw": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/kvrocks-smoke-mainc55e52c9-mixed-list-8388608-lpush_rpop-c16-20261008",
+    "provenance": {
+      "binary": "/mnt/dev/peer-bench/tiering-beta1-retest-2026-09-18/sources/kvrocks/build/kvrocks",
+      "sha256": "e1b91029b6e1ac74034c946428345ce853a9ee5d1b3c851249efdf3d3a5b734f",
+      "source_commit": "28440b5cba12a791b058713cbbae4ef86fbf37a2",
+      "fields": [
+        1024
+      ],
+      "sizes": [
+        8388608
+      ],
+      "keys": 8,
+      "types": [
+        "list"
+      ],
+      "levels": [
+        16
+      ],
+      "full_levels": [
+        1,
+        4,
+        16
+      ],
+      "seconds": 1,
+      "backlog_mb": null,
+      "client_threads": 16,
+      "seed_pipeline": 1,
+      "fill_workers": 8,
+      "seed_command_bytes": 16384,
+      "mode": "point",
+      "reused_seed_from": null,
+      "seed_dump_path": null,
+      "seed_dump_sha256": null,
+      "continue_on_error": false
+    },
+    "version": {
+      "server": "# Server\r\nversion:2.16.0\r\nkvrocks_version:2.16.0\r\nredis_version:7.0.0\r\ngit_sha1:28440b5\r\nkvrocks_git_sha1:28440b5\r\nredis_mode:standalone\r\nkvrocks_mode:standalone\r\nos:Linux 7.0.0-1014-azure x86_64\r\ngcc_version:13.3.0\r\nrocksdb_version:11.1.1\r\narch_bits:64\r\nprocess_id:1466395\r\ntcp_port:6379\r\nserver_time_usec:1791429585710253\r\nuptime_in_seconds:0\r\nuptime_in_days:0\r\nexecutable:/mnt/dev/peer-bench/tiering-beta1-retest-2026-09-18/sources/kvrocks/build/kvrocks\r\nconfig_file:/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/kvrocks-smoke-mainc55e52c9-mixed-list-8388608-lpush_rpop-c16-20261008/kvrocks.conf\r\n"
+    },
+    "result": {
+      "product": "kvrocks-smoke-mainc55e52c9-mixed-list-8388608-lpush_rpop-c16-20261008",
+      "type": "list",
+      "logical_bytes": 8388608,
+      "field_bytes": 1024,
+      "entries_per_key": 8192,
+      "keys": 8,
+      "operation": "LPUSH_RPOP",
+      "connections": 16,
+      "qps": 136312.372246,
+      "p50_ms": 0.110985,
+      "p99_ms": 0.213159,
+      "p999_ms": 0.277775,
+      "requests": 136343,
+      "seconds": 1,
+      "elapsed_seconds": 1.3167451040353626,
+      "commands": {
+        "LPUSH": {
+          "count": 68162,
+          "qps": 68146.6882569,
+          "p50_ms": 0.111346,
+          "p99_ms": 0.21361,
+          "p999_ms": 0.279708
+        },
+        "RPOP": {
+          "count": 68181,
+          "qps": 68165.6839888,
+          "p50_ms": 0.110625,
+          "p99_ms": 0.212668,
+          "p999_ms": 0.276744
+        }
+      },
+      "key_counts": {
+        "complex_1": {
+          "first": 8664,
+          "second": 8567,
+          "net": 97
+        },
+        "complex_2": {
+          "first": 8534,
+          "second": 8518,
+          "net": 16
+        },
+        "complex_3": {
+          "first": 8521,
+          "second": 8449,
+          "net": 72
+        },
+        "complex_4": {
+          "first": 8448,
+          "second": 8539,
+          "net": -91
+        },
+        "complex_5": {
+          "first": 8474,
+          "second": 8451,
+          "net": 23
+        },
+        "complex_6": {
+          "first": 8573,
+          "second": 8592,
+          "net": -19
+        },
+        "complex_7": {
+          "first": 8403,
+          "second": 8394,
+          "net": 9
+        },
+        "complex_8": {
+          "first": 8545,
+          "second": 8671,
+          "net": -126
+        }
+      },
+      "client_elapsed_seconds": 1.000224688,
+      "command_audit": {
+        "passed": true,
+        "server_counts": {
+          "rpop": 68181.0,
+          "lpush": 68162.0,
+          "info": 1.0
+        },
+        "client_counts": {
+          "LPUSH": 68162,
+          "RPOP": 68181
+        }
+      },
+      "bounded": {
+        "baseline": 8192,
+        "maximum_guard": 16384,
+        "minimum_guard": 4096,
+        "observed_push_min": 8054,
+        "observed_push_max": 8364,
+        "all_final_counts": {
+          "complex_1": 8289,
+          "complex_2": 8208,
+          "complex_3": 8264,
+          "complex_4": 8101,
+          "complex_5": 8215,
+          "complex_6": 8173,
+          "complex_7": 8201,
+          "complex_8": 8066
+        }
+      }
+    }
+  },
+  {
+    "system": "kvrocks",
+    "tag": "smoke-mainc55e52c9-mixed-list-8388608-rpush_lpop-c16-20261008",
+    "raw": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/kvrocks-smoke-mainc55e52c9-mixed-list-8388608-rpush_lpop-c16-20261008",
+    "provenance": {
+      "binary": "/mnt/dev/peer-bench/tiering-beta1-retest-2026-09-18/sources/kvrocks/build/kvrocks",
+      "sha256": "e1b91029b6e1ac74034c946428345ce853a9ee5d1b3c851249efdf3d3a5b734f",
+      "source_commit": "28440b5cba12a791b058713cbbae4ef86fbf37a2",
+      "fields": [
+        1024
+      ],
+      "sizes": [
+        8388608
+      ],
+      "keys": 8,
+      "types": [
+        "list"
+      ],
+      "levels": [
+        16
+      ],
+      "full_levels": [
+        1,
+        4,
+        16
+      ],
+      "seconds": 1,
+      "backlog_mb": null,
+      "client_threads": 16,
+      "seed_pipeline": 1,
+      "fill_workers": 8,
+      "seed_command_bytes": 16384,
+      "mode": "point",
+      "reused_seed_from": null,
+      "seed_dump_path": null,
+      "seed_dump_sha256": null,
+      "continue_on_error": false
+    },
+    "version": {
+      "server": "# Server\r\nversion:2.16.0\r\nkvrocks_version:2.16.0\r\nredis_version:7.0.0\r\ngit_sha1:28440b5\r\nkvrocks_git_sha1:28440b5\r\nredis_mode:standalone\r\nkvrocks_mode:standalone\r\nos:Linux 7.0.0-1014-azure x86_64\r\ngcc_version:13.3.0\r\nrocksdb_version:11.1.1\r\narch_bits:64\r\nprocess_id:1466586\r\ntcp_port:6379\r\nserver_time_usec:1791429590986179\r\nuptime_in_seconds:0\r\nuptime_in_days:0\r\nexecutable:/mnt/dev/peer-bench/tiering-beta1-retest-2026-09-18/sources/kvrocks/build/kvrocks\r\nconfig_file:/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/kvrocks-smoke-mainc55e52c9-mixed-list-8388608-rpush_lpop-c16-20261008/kvrocks.conf\r\n"
+    },
+    "result": {
+      "product": "kvrocks-smoke-mainc55e52c9-mixed-list-8388608-rpush_lpop-c16-20261008",
+      "type": "list",
+      "logical_bytes": 8388608,
+      "field_bytes": 1024,
+      "entries_per_key": 8192,
+      "keys": 8,
+      "operation": "RPUSH_LPOP",
+      "connections": 16,
+      "qps": 138926.361931,
+      "p50_ms": 0.110786,
+      "p99_ms": 0.179348,
+      "p999_ms": 0.239098,
+      "requests": 138964,
+      "seconds": 1,
+      "elapsed_seconds": 1.3165818890556693,
+      "commands": {
+        "RPUSH": {
+          "count": 69456,
+          "qps": 69437.1880076,
+          "p50_ms": 0.111277,
+          "p99_ms": 0.179809,
+          "p999_ms": 0.236238
+        },
+        "LPOP": {
+          "count": 69508,
+          "qps": 69489.1739235,
+          "p50_ms": 0.110305,
+          "p99_ms": 0.178927,
+          "p999_ms": 0.24121
+        }
+      },
+      "key_counts": {
+        "complex_1": {
+          "first": 8832,
+          "second": 8752,
+          "net": 80
+        },
+        "complex_2": {
+          "first": 8710,
+          "second": 8707,
+          "net": 3
+        },
+        "complex_3": {
+          "first": 8679,
+          "second": 8622,
+          "net": 57
+        },
+        "complex_4": {
+          "first": 8605,
+          "second": 8675,
+          "net": -70
+        },
+        "complex_5": {
+          "first": 8638,
+          "second": 8630,
+          "net": 8
+        },
+        "complex_6": {
+          "first": 8708,
+          "second": 8785,
+          "net": -77
+        },
+        "complex_7": {
+          "first": 8560,
+          "second": 8543,
+          "net": 17
+        },
+        "complex_8": {
+          "first": 8724,
+          "second": 8794,
+          "net": -70
+        }
+      },
+      "client_elapsed_seconds": 1.000270921,
+      "command_audit": {
+        "passed": true,
+        "server_counts": {
+          "lpop": 69508.0,
+          "rpush": 69456.0,
+          "info": 1.0
+        },
+        "client_counts": {
+          "RPUSH": 69456,
+          "LPOP": 69508
+        }
+      },
+      "bounded": {
+        "baseline": 8192,
+        "maximum_guard": 16384,
+        "minimum_guard": 4096,
+        "observed_push_min": 8058,
+        "observed_push_max": 8381,
+        "all_final_counts": {
+          "complex_1": 8272,
+          "complex_2": 8195,
+          "complex_3": 8249,
+          "complex_4": 8122,
+          "complex_5": 8200,
+          "complex_6": 8115,
+          "complex_7": 8209,
+          "complex_8": 8122
+        }
+      }
+    }
+  },
+  {
+    "system": "kvrocks",
+    "tag": "smoke-mainc55e52c9-mixed-zset-8388608-zadd_head_zpopmax-c16-20261008",
+    "raw": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/kvrocks-smoke-mainc55e52c9-mixed-zset-8388608-zadd_head_zpopmax-c16-20261008",
+    "provenance": {
+      "binary": "/mnt/dev/peer-bench/tiering-beta1-retest-2026-09-18/sources/kvrocks/build/kvrocks",
+      "sha256": "e1b91029b6e1ac74034c946428345ce853a9ee5d1b3c851249efdf3d3a5b734f",
+      "source_commit": "28440b5cba12a791b058713cbbae4ef86fbf37a2",
+      "fields": [
+        1024
+      ],
+      "sizes": [
+        8388608
+      ],
+      "keys": 8,
+      "types": [
+        "zset"
+      ],
+      "levels": [
+        16
+      ],
+      "full_levels": [
+        1,
+        4,
+        16
+      ],
+      "seconds": 1,
+      "backlog_mb": null,
+      "client_threads": 16,
+      "seed_pipeline": 1,
+      "fill_workers": 8,
+      "seed_command_bytes": 16384,
+      "mode": "point",
+      "reused_seed_from": null,
+      "seed_dump_path": null,
+      "seed_dump_sha256": null,
+      "continue_on_error": false
+    },
+    "version": {
+      "server": "# Server\r\nversion:2.16.0\r\nkvrocks_version:2.16.0\r\nredis_version:7.0.0\r\ngit_sha1:28440b5\r\nkvrocks_git_sha1:28440b5\r\nredis_mode:standalone\r\nkvrocks_mode:standalone\r\nos:Linux 7.0.0-1014-azure x86_64\r\ngcc_version:13.3.0\r\nrocksdb_version:11.1.1\r\narch_bits:64\r\nprocess_id:1466778\r\ntcp_port:6379\r\nserver_time_usec:1791429596396306\r\nuptime_in_seconds:0\r\nuptime_in_days:0\r\nexecutable:/mnt/dev/peer-bench/tiering-beta1-retest-2026-09-18/sources/kvrocks/build/kvrocks\r\nconfig_file:/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/kvrocks-smoke-mainc55e52c9-mixed-zset-8388608-zadd_head_zpopmax-c16-20261008/kvrocks.conf\r\n"
+    },
+    "result": {
+      "product": "kvrocks-smoke-mainc55e52c9-mixed-zset-8388608-zadd_head_zpopmax-c16-20261008",
+      "type": "zset",
+      "logical_bytes": 8388608,
+      "field_bytes": 1024,
+      "entries_per_key": 8192,
+      "keys": 8,
+      "operation": "ZADD_HEAD_ZPOPMAX",
+      "connections": 16,
+      "qps": 15201.4663774,
+      "p50_ms": 0.695289,
+      "p99_ms": 5.125894,
+      "p999_ms": 7.87188,
+      "requests": 15309,
+      "seconds": 1,
+      "elapsed_seconds": 1.3165384919848293,
+      "commands": {
+        "ZADD": {
+          "count": 7629,
+          "qps": 7575.41230604,
+          "p50_ms": 0.343203,
+          "p99_ms": 4.591454,
+          "p999_ms": 6.95556
+        },
+        "ZPOPMAX": {
+          "count": 7680,
+          "qps": 7626.05407136,
+          "p50_ms": 0.940406,
+          "p99_ms": 5.600914,
+          "p999_ms": 8.662812
+        }
+      },
+      "key_counts": {
+        "complex_1": {
+          "first": 1008,
+          "second": 983,
+          "net": 25
+        },
+        "complex_2": {
+          "first": 953,
+          "second": 979,
+          "net": -26
+        },
+        "complex_3": {
+          "first": 922,
+          "second": 921,
+          "net": 1
+        },
+        "complex_4": {
+          "first": 928,
+          "second": 985,
+          "net": -57
+        },
+        "complex_5": {
+          "first": 946,
+          "second": 967,
+          "net": -21
+        },
+        "complex_6": {
+          "first": 938,
+          "second": 942,
+          "net": -4
+        },
+        "complex_7": {
+          "first": 948,
+          "second": 919,
+          "net": 29
+        },
+        "complex_8": {
+          "first": 986,
+          "second": 984,
+          "net": 2
+        }
+      },
+      "client_elapsed_seconds": 1.007073898,
+      "command_audit": {
+        "passed": true,
+        "server_counts": {
+          "zadd": 7629.0,
+          "info": 1.0,
+          "zpopmax": 7680.0
+        },
+        "client_counts": {
+          "ZADD": 7629,
+          "ZPOPMAX": 7680
+        }
+      },
+      "bounded": {
+        "baseline": 8192,
+        "maximum_guard": 16384,
+        "minimum_guard": 4096,
+        "observed_push_min": 0,
+        "observed_push_max": 0,
+        "all_final_counts": {
+          "complex_1": 8217,
+          "complex_2": 8166,
+          "complex_3": 8193,
+          "complex_4": 8135,
+          "complex_5": 8171,
+          "complex_6": 8188,
+          "complex_7": 8221,
+          "complex_8": 8194
+        }
+      }
+    }
+  },
+  {
+    "system": "kvrocks",
+    "tag": "smoke-mainc55e52c9-mixed-zset-8388608-zadd_random_zpopmin-c16-20261008",
+    "raw": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/kvrocks-smoke-mainc55e52c9-mixed-zset-8388608-zadd_random_zpopmin-c16-20261008",
+    "provenance": {
+      "binary": "/mnt/dev/peer-bench/tiering-beta1-retest-2026-09-18/sources/kvrocks/build/kvrocks",
+      "sha256": "e1b91029b6e1ac74034c946428345ce853a9ee5d1b3c851249efdf3d3a5b734f",
+      "source_commit": "28440b5cba12a791b058713cbbae4ef86fbf37a2",
+      "fields": [
+        1024
+      ],
+      "sizes": [
+        8388608
+      ],
+      "keys": 8,
+      "types": [
+        "zset"
+      ],
+      "levels": [
+        16
+      ],
+      "full_levels": [
+        1,
+        4,
+        16
+      ],
+      "seconds": 1,
+      "backlog_mb": null,
+      "client_threads": 16,
+      "seed_pipeline": 1,
+      "fill_workers": 8,
+      "seed_command_bytes": 16384,
+      "mode": "point",
+      "reused_seed_from": null,
+      "seed_dump_path": null,
+      "seed_dump_sha256": null,
+      "continue_on_error": false
+    },
+    "version": {
+      "server": "# Server\r\nversion:2.16.0\r\nkvrocks_version:2.16.0\r\nredis_version:7.0.0\r\ngit_sha1:28440b5\r\nkvrocks_git_sha1:28440b5\r\nredis_mode:standalone\r\nkvrocks_mode:standalone\r\nos:Linux 7.0.0-1014-azure x86_64\r\ngcc_version:13.3.0\r\nrocksdb_version:11.1.1\r\narch_bits:64\r\nprocess_id:1466970\r\ntcp_port:6379\r\nserver_time_usec:1791429601814911\r\nuptime_in_seconds:0\r\nuptime_in_days:0\r\nexecutable:/mnt/dev/peer-bench/tiering-beta1-retest-2026-09-18/sources/kvrocks/build/kvrocks\r\nconfig_file:/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/kvrocks-smoke-mainc55e52c9-mixed-zset-8388608-zadd_random_zpopmin-c16-20261008/kvrocks.conf\r\n"
+    },
+    "result": {
+      "product": "kvrocks-smoke-mainc55e52c9-mixed-zset-8388608-zadd_random_zpopmin-c16-20261008",
+      "type": "zset",
+      "logical_bytes": 8388608,
+      "field_bytes": 1024,
+      "entries_per_key": 8192,
+      "keys": 8,
+      "operation": "ZADD_RANDOM_ZPOPMIN",
+      "connections": 16,
+      "qps": 29956.959716,
+      "p50_ms": 0.347389,
+      "p99_ms": 2.569232,
+      "p999_ms": 3.851198,
+      "requests": 30025,
+      "seconds": 1,
+      "elapsed_seconds": 1.3166575949871913,
+      "commands": {
+        "ZADD": {
+          "count": 14852,
+          "qps": 14818.3435704,
+          "p50_ms": 0.225457,
+          "p99_ms": 2.237305,
+          "p999_ms": 3.433804
+        },
+        "ZPOPMIN": {
+          "count": 15173,
+          "qps": 15138.6161456,
+          "p50_ms": 0.464545,
+          "p99_ms": 2.78184,
+          "p999_ms": 3.981874
+        }
+      },
+      "key_counts": {
+        "complex_1": {
+          "first": 1952,
+          "second": 1964,
+          "net": -12
+        },
+        "complex_2": {
+          "first": 1811,
+          "second": 1893,
+          "net": -82
+        },
+        "complex_3": {
+          "first": 1866,
+          "second": 1866,
+          "net": 0
+        },
+        "complex_4": {
+          "first": 1839,
+          "second": 1908,
+          "net": -69
+        },
+        "complex_5": {
+          "first": 1818,
+          "second": 1940,
+          "net": -122
+        },
+        "complex_6": {
+          "first": 1855,
+          "second": 1876,
+          "net": -21
+        },
+        "complex_7": {
+          "first": 1833,
+          "second": 1828,
+          "net": 5
+        },
+        "complex_8": {
+          "first": 1878,
+          "second": 1898,
+          "net": -20
+        }
+      },
+      "client_elapsed_seconds": 1.002271268,
+      "command_audit": {
+        "passed": true,
+        "server_counts": {
+          "info": 1.0,
+          "zadd": 14852.0,
+          "zpopmin": 15173.0
+        },
+        "client_counts": {
+          "ZADD": 14852,
+          "ZPOPMIN": 15173
+        }
+      },
+      "bounded": {
+        "baseline": 8192,
+        "maximum_guard": 16384,
+        "minimum_guard": 4096,
+        "observed_push_min": 0,
+        "observed_push_max": 0,
+        "all_final_counts": {
+          "complex_1": 8180,
+          "complex_2": 8110,
+          "complex_3": 8192,
+          "complex_4": 8123,
+          "complex_5": 8070,
+          "complex_6": 8171,
+          "complex_7": 8197,
+          "complex_8": 8172
+        }
+      }
+    }
+  },
+  {
+    "system": "kvrocks",
+    "tag": "smoke-mainc55e52c9-mixed-zset-8388608-zadd_tail_zpopmin-c16-20261008",
+    "raw": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/kvrocks-smoke-mainc55e52c9-mixed-zset-8388608-zadd_tail_zpopmin-c16-20261008",
+    "provenance": {
+      "binary": "/mnt/dev/peer-bench/tiering-beta1-retest-2026-09-18/sources/kvrocks/build/kvrocks",
+      "sha256": "e1b91029b6e1ac74034c946428345ce853a9ee5d1b3c851249efdf3d3a5b734f",
+      "source_commit": "28440b5cba12a791b058713cbbae4ef86fbf37a2",
+      "fields": [
+        1024
+      ],
+      "sizes": [
+        8388608
+      ],
+      "keys": 8,
+      "types": [
+        "zset"
+      ],
+      "levels": [
+        16
+      ],
+      "full_levels": [
+        1,
+        4,
+        16
+      ],
+      "seconds": 1,
+      "backlog_mb": null,
+      "client_threads": 16,
+      "seed_pipeline": 1,
+      "fill_workers": 8,
+      "seed_command_bytes": 16384,
+      "mode": "point",
+      "reused_seed_from": null,
+      "seed_dump_path": null,
+      "seed_dump_sha256": null,
+      "continue_on_error": false
+    },
+    "version": {
+      "server": "# Server\r\nversion:2.16.0\r\nkvrocks_version:2.16.0\r\nredis_version:7.0.0\r\ngit_sha1:28440b5\r\nkvrocks_git_sha1:28440b5\r\nredis_mode:standalone\r\nkvrocks_mode:standalone\r\nos:Linux 7.0.0-1014-azure x86_64\r\ngcc_version:13.3.0\r\nrocksdb_version:11.1.1\r\narch_bits:64\r\nprocess_id:1467163\r\ntcp_port:6379\r\nserver_time_usec:1791429607229544\r\nuptime_in_seconds:0\r\nuptime_in_days:0\r\nexecutable:/mnt/dev/peer-bench/tiering-beta1-retest-2026-09-18/sources/kvrocks/build/kvrocks\r\nconfig_file:/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/kvrocks-smoke-mainc55e52c9-mixed-zset-8388608-zadd_tail_zpopmin-c16-20261008/kvrocks.conf\r\n"
+    },
+    "result": {
+      "product": "kvrocks-smoke-mainc55e52c9-mixed-zset-8388608-zadd_tail_zpopmin-c16-20261008",
+      "type": "zset",
+      "logical_bytes": 8388608,
+      "field_bytes": 1024,
+      "entries_per_key": 8192,
+      "keys": 8,
+      "operation": "ZADD_TAIL_ZPOPMIN",
+      "connections": 16,
+      "qps": 29878.8401953,
+      "p50_ms": 0.337205,
+      "p99_ms": 2.764403,
+      "p999_ms": 4.457345,
+      "requests": 29942,
+      "seconds": 1,
+      "elapsed_seconds": 1.3166901810327545,
+      "commands": {
+        "ZADD": {
+          "count": 14900,
+          "qps": 14868.5698654,
+          "p50_ms": 0.200841,
+          "p99_ms": 2.559827,
+          "p999_ms": 4.041843
+        },
+        "ZPOPMIN": {
+          "count": 15042,
+          "qps": 15010.2703299,
+          "p50_ms": 0.458746,
+          "p99_ms": 2.950512,
+          "p999_ms": 4.493148
+        }
+      },
+      "key_counts": {
+        "complex_1": {
+          "first": 1922,
+          "second": 1934,
+          "net": -12
+        },
+        "complex_2": {
+          "first": 1860,
+          "second": 1851,
+          "net": 9
+        },
+        "complex_3": {
+          "first": 1849,
+          "second": 1839,
+          "net": 10
+        },
+        "complex_4": {
+          "first": 1831,
+          "second": 1898,
+          "net": -67
+        },
+        "complex_5": {
+          "first": 1821,
+          "second": 1914,
+          "net": -93
+        },
+        "complex_6": {
+          "first": 1873,
+          "second": 1890,
+          "net": -17
+        },
+        "complex_7": {
+          "first": 1844,
+          "second": 1798,
+          "net": 46
+        },
+        "complex_8": {
+          "first": 1900,
+          "second": 1918,
+          "net": -18
+        }
+      },
+      "client_elapsed_seconds": 1.002113864,
+      "command_audit": {
+        "passed": true,
+        "server_counts": {
+          "zadd": 14900.0,
+          "info": 1.0,
+          "zpopmin": 15042.0
+        },
+        "client_counts": {
+          "ZADD": 14900,
+          "ZPOPMIN": 15042
+        }
+      },
+      "bounded": {
+        "baseline": 8192,
+        "maximum_guard": 16384,
+        "minimum_guard": 4096,
+        "observed_push_min": 0,
+        "observed_push_max": 0,
+        "all_final_counts": {
+          "complex_1": 8180,
+          "complex_2": 8201,
+          "complex_3": 8202,
+          "complex_4": 8125,
+          "complex_5": 8099,
+          "complex_6": 8175,
+          "complex_7": 8238,
+          "complex_8": 8174
+        }
+      }
+    }
+  }
+]

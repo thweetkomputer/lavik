@@ -14,7 +14,7 @@ import matplotlib.pyplot as plt
 from matplotlib.ticker import FuncFormatter
 
 ROOT = Path(__file__).resolve().parent
-POINT = [80, 320, 1280, 2560, 5120]
+POINT = [80, 320, 1280, 2560]
 OPS = {"hash": ["HGET", "HSET", "HGETALL"],
        "set": ["SISMEMBER", "SADD_SREM", "SMEMBERS"],
        "list": ["LINDEX", "LSET", "LRANGE"],
@@ -89,6 +89,10 @@ def load(row, source, revision):
         if row["category"] != "lset":
             expected["full_levels"] = levels(row, OPS[row["kind"]][-1])
         for name, value in expected.items():
+            if name == "levels" and proof.get(name) == POINT + [5120]:
+                # Earlier completed scans remain archived unchanged. The user
+                # removed this level from subsequent runs and current figures.
+                continue
             if proof.get(name) != value:
                 raise ValueError(f"{source}: {name} differs from manifest")
         if json.loads((source / "server-exit.json").read_text())["code"] != 0:
@@ -105,6 +109,8 @@ def load(row, source, revision):
         for path in source.glob(prefix + f"*.{suffix}.json"):
             data = json.loads(path.read_text())
             point = (data["operation"], data["connections"])
+            if point[1] == 5120:
+                continue
             if point[0] not in commands(row):
                 continue
             if point in results or point in errors:
@@ -204,7 +210,27 @@ def draw_list_fill(row):
         writer.writerows(measured)
 
 
+def mixed_sections(mixed, kind, zh):
+    """Keep fresh mixed workloads separate from historical fixed-size commands."""
+    if not mixed or kind not in ("list", "zset"):
+        return []
+    lines = ["### " + ("随机增删：四库新测" if zh else "Random add/pop: fresh four-system measurements"), ""]
+    lines += ["每次请求独立随机选择 key，再以各 50% 概率选择插入或弹出。每点 30 秒、pipeline=1；8 个 key、1 KiB 元素，每个点启动新服务并独立预填。左图为命令 QPS（不是命令对数），右图为混合命令 p99。" if zh else "Each request independently chooses a uniform random key and then add or pop with 50% probability each. Points last 30 s at pipeline=1, with 8 keys and 1 KiB entries; every point starts a fresh server and seeded population. Left: command QPS, not pairs/s. Right: mixed-command p99.", ""]
+    if kind == "zset":
+        lines += ["ZADD NX 每次插入唯一新成员；头插使用递减低分数，尾插使用递增高分数，随机插入在原始分数区间均匀选分数。分数按客户端发号递增或递减；并发到达可能重排，不保证每次严格插在绝对头尾。淘汰后分数均匀不等于排名均匀。所有 pop 都必须返回非空成员。" if zh else "ZADD NX inserts a unique new member every time. Head/tail scores decrease/increase beyond the seed range; random scores are uniform within the original seed range. Scores are monotonic in client ticket order; concurrent arrival can reorder them, so strict head/tail insertion is not guaranteed. Uniform scores do not imply uniform ranks after turnover. Every pop must return a nonempty member.", ""]
+    lines += [f"[{'负载、配置与校验' if zh else 'Workload, configuration and validation'}]({mixed['measurement_notes']}) · [{'完整原始数据清单' if zh else 'All raw sources'}](current-mixed-writes.json)", ""]
+    for chart in (c for c in mixed["charts"] if c["kind"] == kind):
+        title = chart["title_zh" if zh else "title_en"]
+        size = f"{chart['size']//1048576} MiB/key"
+        lines += [f"#### {title} · {size}", "", f"![{chart['title_en']} {size}]({chart['chart']})", "", f"[CSV]({chart['csv']})", ""]
+    return lines
+
+
 def readme(manifest, zh):
+    mixed_path = ROOT / "current-mixed-writes.json"
+    mixed = json.loads(mixed_path.read_text()) if mixed_path.exists() else None
+    if mixed:
+        assert mixed["target_main"] == manifest["target_main"]
     rows = manifest["plots"]
     done = sum(r["main"].get("fresh", False) for r in rows)
     commit = manifest["target_main"][:8]
@@ -219,16 +245,22 @@ def readme(manifest, zh):
     if imported != len(imports):
         import_status += "未完成的图注明实际历史版本。" if zh else " Pending charts identify their actual historical version."
     lines += [import_status, ""]
+    lines += ["按用户要求，当前所有曲线和汇总均去掉 5120 连接档位；已测数据仅保留在原始存档，后续测量跳过该档。" if zh else "At the user's request, all current curves and summaries exclude 5120 connections. Existing measurements remain archived; subsequent runs skip that level.", ""]
+    if mixed:
+        lines += [f"新增 List push/pop 与 ZSet 增删：四库共 {len(mixed["points"])} 点、{len(mixed["charts"])} 张 QPS/p99 对比图。" if zh else f"New List push/pop and ZSet add/pop: {len(mixed["points"])} points across four systems, with {len(mixed["charts"])} QPS/p99 comparison figures.", ""]
+        if mixed.get('guard_failures'):
+            count = len(mixed['guard_failures'])
+            lines += [f"其中 {count} 点因随机增删后的长度越过预设范围而留空；原始计数与失败原因保留，未挑选重跑。详见[混合写校验说明]({mixed['measurement_notes']})。" if zh else f"{count} observation(s) exceeded the predeclared final-cardinality bounds and remain gaps. Original counts and failure records are retained without replacement runs; see the [mixed-write validation notes]({mixed['measurement_notes']}).", ""]
     note = manifest.get("notes", {}).get("zh" if zh else "en")
     if note:
         lines += [note, ""]
-    lines += [("吞吐图固定命令、每 key 的 payload 大小、元素大小和 key 数；横轴为连接数，纵轴为 QPS。批量导入图显示完成固定数据量所需的秒数。只保留当前 main 和后续未合并 PR，其他三库保留同负载的历史实测。" if zh else "Throughput figures fix the command, payload bytes per key, entry size and key count; axes show connections and QPS. Batched-import figures show seconds to fill a fixed dataset. Keep the current main and subsequent unmerged PRs; peers retain historical measurements of the same workload."), ""]
+    lines += [("吞吐图固定命令、每 key 的 payload 大小、元素大小和 key 数；横轴为连接数，纵轴为 QPS。批量导入图显示完成固定数据量所需的秒数。只保留当前 main 和后续未合并 PR；原有命令图的三库保留同负载历史实测，新增随机增删图的四库全部重测。" if zh else "Throughput figures fix the command, payload bytes per key, entry size and key count; axes show connections and QPS. Batched-import figures show seconds to fill a fixed dataset. Keep the current main and subsequent unmerged PRs. Existing command charts retain historical matched peer runs; the new random add/pop charts rerun all four systems."), ""]
     if done != len(rows):
         lines += ["未完成复测的图暂时保留带实际版本号的历史 Lavik 测量，图注明确标记待更新。旧结果没有改名为新 main。" if zh else "Pending conditions retain explicitly labeled historical Lavik measurements. Old observations are not relabeled as the new main.", ""]
     lines += ["Redis/Valkey 关闭持久化；Kvrocks 使用无压缩 RAID0、关闭 WAL、80 GiB block/blob cache；Lavik 使用六块 NVMe SPDK 持久化，不缓存字段或页内容。配置不同，写入 QPS 不代表同等持久性下的排名。" if zh else "Redis/Valkey disable persistence. Kvrocks uses uncompressed RAID0, disabled WAL and 80 GiB block/blob cache. Lavik persists through six SPDK NVMe devices without caching field/page payloads. Write QPS compares these configurations, not equivalent durability.", ""]
-    lines += ["本轮不重跑其他三库。Lavik 使用 AMD EPYC 9V74、16 vCPU、12 个服务 worker。每点 8 秒，较多 key 的 LSET 为 10 秒；pipeline=1。每组独立预置并逐 key 校验，perf 诊断与吞吐测试分开，本轮采样范围见测量说明。单次扫描没有统计置信区间。" if zh else "Peers are not rerun this round. Lavik uses AMD EPYC 9V74, 16 vCPUs and 12 serving workers. Points last 8 s (10 s for high-key-count LSET), pipeline=1. Each condition is independently seeded and checked key by key. Perf diagnostics are separate from throughput measurements; see the measurement notes for this round’s profiling scope. Single sweeps have no statistical confidence intervals.", ""]
+    lines += ["原有命令图仅重跑 Lavik；新增随机增删图重跑四库、每点 30 秒。Lavik 使用 AMD EPYC 9V74、16 vCPU、12 个服务 worker。原有命令图每点 8 秒，较多 key 的 LSET 为 10 秒；全部 pipeline=1。每组独立预置并逐 key 校验，perf 诊断与吞吐测试分开，本轮采样范围见测量说明。单次扫描没有统计置信区间。" if zh else "Existing command grids rerun Lavik only; new random add/pop grids rerun all four systems for 30 s/point. Lavik uses AMD EPYC 9V74, 16 vCPUs and 12 serving workers. Existing command points last 8 s (10 s for high-key-count LSET); all use pipeline=1. Each condition is independently seeded and checked key by key. Perf diagnostics are separate from throughput measurements; see the measurement notes for this round’s profiling scope. Single sweeps have no statistical confidence intervals.", ""]
     lines += ["本轮固定使用上述 main 提交，已合并优化不再作为独立 PR 曲线显示。历史观察仍保留原始提交号；每完成一组独立复测才替换对应图。" if zh else "This round pins the main revision above. Merged optimizations are no longer separate PR curves. Historical observations retain their measured commits; each chart is replaced only after its independent rerun completes.", ""]
-    lines += ["[绘图数据清单](current-main.json) · [复现脚本](run.py) · [上一轮构建与硬件证明](diagnostics/main-refresh-20261004/host-and-build.json)" if zh else "[Plot sources](current-main.json) · [Runner](run.py) · [Previous-round build and hardware](diagnostics/main-refresh-20261004/host-and-build.json)", ""]
+    lines += ["[绘图数据清单](current-main.json) · [复现脚本](run.py) · [历史构建与硬件证明（10 月 4 日）](diagnostics/main-refresh-20261004/host-and-build.json)" if zh else "[Plot sources](current-main.json) · [Runner](run.py) · [Historical build and hardware (Oct 4)](diagnostics/main-refresh-20261004/host-and-build.json)", ""]
     gap_report = str(Path(manifest["build_proof"]).parent / "main-gap-summary.md") if manifest.get("build_proof") else None
     if gap_report and (ROOT / gap_report).exists():
         lines += [f"[完整 main 基线：逐命令差距]({gap_report})" if zh else f"[Complete main baseline: per-command gaps]({gap_report})", ""]
@@ -242,7 +274,7 @@ def readme(manifest, zh):
             if (ROOT / path).exists():
                 lines += [f"[{title}]({path})", ""]
     if (ROOT / "diagnostics/main-refresh-20261004/report-audit.json").exists():
-        lines += ["[上一轮绘图数据核验](diagnostics/main-refresh-20261004/report-audit.json) · [上一轮核验脚本](diagnostics/main-refresh-20261004/audit-report.py)" if zh else "[Previous-round plot-data audit](diagnostics/main-refresh-20261004/report-audit.json) · [Previous-round audit script](diagnostics/main-refresh-20261004/audit-report.py)", ""]
+        lines += ["[历史绘图数据核验（10 月 4 日）](diagnostics/main-refresh-20261004/report-audit.json) · [历史核验脚本（10 月 4 日）](diagnostics/main-refresh-20261004/audit-report.py)" if zh else "[Historical plot-data audit (Oct 4)](diagnostics/main-refresh-20261004/report-audit.json) · [Historical audit script (Oct 4)](diagnostics/main-refresh-20261004/audit-report.py)", ""]
     lines += ["[Hash/Set 写入 perf 分析](diagnostics/hashset-write-20261004/README.md) · [有序目录优化与测试](diagnostics/ordered-metadata-20261004/README.md)" if zh else "[Hash/Set write profiles](diagnostics/hashset-write-20261004/README.md) · [Ordered metadata optimization and tests](diagnostics/ordered-metadata-20261004/README.md)", ""]
     active = {v["pr"]: v["url"] for r in rows for v in r.get("variants", []) if "pr" in v}
     if active:
@@ -251,8 +283,8 @@ def readme(manifest, zh):
     # PR conclusions belong to their evidence pages, not hard-coded prose
     # that becomes stale each time the main figures are regenerated.
     for path, en, cn in [
-        ("diagnostics/pr283-main-20261006/README.md", "Rebased PR #283 versus main: paired results, perf and validation", "rebase 后 #283 与 main：配对结果、perf 及验证"),
-        ("diagnostics/grouped-expiry-recovery-20261004/pr-cleanup-current.md", "PR disposition and retained failure records", "PR 去留与原始失败记录"),
+        ("diagnostics/pr283-main-20261006/README.md", "Closed PR #283: historical paired results, perf and validation", "已关闭 #283 的历史配对、perf 及验证"),
+        ("diagnostics/grouped-expiry-recovery-20261004/pr-cleanup-current.md", "Historical PR disposition and retained failure records", "历史 PR 去留与原始失败记录"),
         ("diagnostics/combined-20261005/README.md", "Historical fixed combination: full results and tradeoffs", "历史固定组合：完整结果与取舍"),
         ("diagnostics/zset-score-views-20261005/README.md", "Historical #280 measurements and perf", "历史 #280 测量与 perf"),
         ("diagnostics/stream-reply-20261004/README.md", "Stream reply and read-window evidence", "Stream 回复与读取窗口证据"),
@@ -268,6 +300,8 @@ def readme(manifest, zh):
         source = folder("lavik", row["main"]["tag"])
         for path in sorted(source.glob("*.error.json")):
             failure = json.loads(path.read_text())
+            if failure['connections'] == 5120:
+                continue
             label = f"{NAMES[row['kind']]} {failure['operation']} · {row['size']//1048576} MiB/key · {row['field']} B · {failure['connections']} connections"
             failures.append(f"- {label}: [recorded failure]({path.relative_to(ROOT)}).")
         if (source / "resume.json").exists():
@@ -280,6 +314,7 @@ def readme(manifest, zh):
         lines += [("以下扫描在正常停服后恢复同一份数据继续，只补缺失点，成功和失败的已有观察均保留：" if zh else "These grids resume the same retained dataset after a clean stop, measuring only missing points and retaining all existing successes/failures: ") + " · ".join(resumes) + ".", ""]
     for kind in ["list", "hash", "set", "zset", "stream"]:
         lines += ["## " + NAMES[kind], ""]
+        lines += mixed_sections(mixed, kind, zh)
         if kind == "set":
             lines += ["SADD + SREM 为两个命令等比例混合，QPS 计算完成的命令数，不是命令对数。随机命中相同 key 时可能产生空操作，因此不代表实际持久化修改次数。" if zh else "SADD + SREM mixes the two commands equally; QPS counts commands, not pairs. Random concurrent access can produce no-op additions/removals, so this is not the rate of durable changes.", ""]
         for op in OPS[kind]:
@@ -313,7 +348,7 @@ def readme(manifest, zh):
                 status = ("本轮 main 基线" if zh else "Measured main baseline") if version.get("fresh") else ("历史测量，导入复测待完成" if zh else "Historical measurement; import refresh pending")
                 lines += [f"{item['field']} B/entry · {status} `{version['commit'][:8]}`", "", f"![{command} batched import, {item['field']} B](charts/{kind}-1048576-{item['field']}-k50000-fill.png)", "", f"[Lavik raw](raw/lavik-{version['tag']}/)", ""]
     lines += ["## " + ("测量与复现" if zh else "Measurement and reproduction"), ""]
-    lines += ["memtier 在独立客户端主机 172.16.0.5 上运行，绑定 CPU 0–15；key 均匀随机。HGET/HSET、SISMEMBER、LINDEX/LSET、ZSCORE/ZINCRBY 和指定 ID 的 XRANGE 在每 key 的八个等距位置间轮换，并非对所有字段均匀采样。SADD/SREM 使用固定测试 member；XADD MAXLEN 追加新 ID。每组按连接数顺序测试，后续写入点继承前面测点改变的值和布局。" if zh else "memtier runs on the separate client 172.16.0.5 pinned to CPUs 0–15, with uniformly random keys. HGET/HSET, SISMEMBER, LINDEX/LSET, ZSCORE/ZINCRBY and one-ID XRANGE rotate through eight evenly spaced positions per key, not all fields uniformly. SADD/SREM uses a fixed test member; XADD MAXLEN appends new IDs. Connection points run sequentially within a condition, so later writes inherit values/layout changed by earlier points.", ""]
+    lines += ["原有命令图使用 memtier，在独立客户端主机 172.16.0.5 上运行，绑定 CPU 0–15；key 均匀随机。HGET/HSET、SISMEMBER、LINDEX/LSET、ZSCORE/ZINCRBY 和指定 ID 的 XRANGE 在每 key 的八个等距位置间轮换，并非对所有字段均匀采样。SADD/SREM 使用固定测试 member；XADD MAXLEN 追加新 ID。每组按连接数顺序测试，后续写入点继承前面测点改变的值和布局。" if zh else "Existing command charts use memtier on the separate client 172.16.0.5 pinned to CPUs 0–15, with uniformly random keys. HGET/HSET, SISMEMBER, LINDEX/LSET, ZSCORE/ZINCRBY and one-ID XRANGE rotate through eight evenly spaced positions per key, not all fields uniformly. SADD/SREM uses a fixed test member; XADD MAXLEN appends new IDs. Connection points run sequentially within a condition, so later writes inherit values/layout changed by earlier points.", ""]
     lines += ["Hash/Set：1 MiB/key 使用 50,000 keys，100 MiB/key 使用 500 keys。LSET 的大 key 数负载同样使用 50,000/500 keys。其他有序结构保留既有四库一致的 64/8-key 负载，标题明确区分；不同 key 数的曲线不能直接比较。" if zh else "Hash/Set use 50,000 keys at 1 MiB/key and 500 at 100 MiB/key; high-key-count LSET uses the same counts. Other ordered-structure conditions retain the matched 64/8-key peer workloads, explicitly identified in titles. Different key counts are not interchangeable.", ""]
     lines += ["Hash/Set 以 RESTORE 独立预置后清理、重启恢复再测；LSET 大 key 数预置使用 32 个连接、128 KiB RPUSH 批次、pipeline=4。预置耗时保存在每组 raw 目录中，不将 RESTORE 与其他系统的 HSET/SADD 导入耗时混比。" if zh else "Hash/Set use independent RESTORE seeding, transaction cleanup and recovery before measurement. High-key-count LSET seeds with 32 clients, 128 KiB RPUSH batches and pipeline=4. Fill timings remain in raw directories; RESTORE timings are not equated with peer HSET/SADD import timings.", ""]
     lines += ["读取整个 100 MiB key 的低吞吐测点可能只有少量完成回复，小差异不作性能结论。八秒成功不代表长时间高并发下内存稳定；历史 SMEMBERS 持续负载曾触发内存准入拒绝。失败测点保留断线与说明，不填零、不插值。" if zh else "Low-throughput whole-key reads can complete few replies in eight seconds; small differences are not performance conclusions. Eight successful seconds do not establish sustained memory stability: an earlier sustained SMEMBERS run exhausted memory admission. Failed points remain gaps with annotations, never zeroes or interpolated values.", ""]
@@ -343,6 +378,8 @@ def main():
         item["chart_commit"] = v["commit"]
         item["chart_tag"] = v["tag"]
     imports_path.write_text(json.dumps(imports, indent=2) + "\n")
+    if (ROOT / "current-mixed-writes.json").exists() and args.condition is None:
+        subprocess.run([sys.executable, str(ROOT / "plot_mixed_writes.py")], check=True)
     for zh, name in [(True, "README.zh-CN.md"), (False, "README.md")]:
         (ROOT / name).write_text(readme(manifest, zh))
 

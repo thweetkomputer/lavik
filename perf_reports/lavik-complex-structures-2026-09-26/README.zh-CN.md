@@ -2,31 +2,37 @@
 
 [English](README.md)
 
-**2026-10-06：main `920f879b` 已完成 28/28 组复测，包含已合并的 #244, #246, #247, #249, #258, #259, #260, #262, #265, #266, #267, #268, #270, #275, #280, #281, #282, #284, #285。**
+**2026-10-08：main `c55e52c9` 已完成 28/28 组复测，包含已合并的 #244, #246, #247, #249, #258, #259, #260, #262, #265, #266, #267, #268, #270, #275, #280, #281, #282, #284, #285, #286, #287, #288。**
 
 批量 HSET/SADD 导入另计：4/4 组已更新。
 
-[与上一轮 main 的 QPS/p99 对比](diagnostics/main-920f879b-20261006/previous-main-comparison.md)。#275、#282、#285 已合并；#283 已关闭未合并。当前图表均重测自上述 main。历史证据：[Stream 三轮对照](diagnostics/pr275-main-20261006/README.md)、[Hash/Set 三轮与 perf](diagnostics/hashset-routing-overlay-20261006/README.md)、[长 key 优化](diagnostics/list-reply-reserve-20261004/README.md)。历史草稿建议和数值仅适用于当时提交。
+按用户要求，当前所有曲线和汇总均去掉 5120 连接档位；已测数据仅保留在原始存档，后续测量跳过该档。
 
-吞吐图固定命令、每 key 的 payload 大小、元素大小和 key 数；横轴为连接数，纵轴为 QPS。批量导入图显示完成固定数据量所需的秒数。只保留当前 main 和后续未合并 PR，其他三库保留同负载的历史实测。
+新增 List push/pop 与 ZSet 增删：四库共 160 点、10 张 QPS/p99 对比图。
+
+其中 1 点因随机增删后的长度越过预设范围而留空；原始计数与失败原因保留，未挑选重跑。详见[混合写校验说明](diagnostics/main-c55e52c9-20261008/mixed-writes.md)。
+
+[本轮测量与验证](diagnostics/main-c55e52c9-20261008/README.md) · [新增四库随机增删](diagnostics/main-c55e52c9-20261008/mixed-writes.md) · [与上一轮 main 的观测对比](diagnostics/main-c55e52c9-20261008/previous-main-comparison.md)。#288 已合并，当前 Lavik 曲线均来自合并后的 main；历史 PR 结果保留原始实测提交。
+
+吞吐图固定命令、每 key 的 payload 大小、元素大小和 key 数；横轴为连接数，纵轴为 QPS。批量导入图显示完成固定数据量所需的秒数。只保留当前 main 和后续未合并 PR；原有命令图的三库保留同负载历史实测，新增随机增删图的四库全部重测。
 
 Redis/Valkey 关闭持久化；Kvrocks 使用无压缩 RAID0、关闭 WAL、80 GiB block/blob cache；Lavik 使用六块 NVMe SPDK 持久化，不缓存字段或页内容。配置不同，写入 QPS 不代表同等持久性下的排名。
 
-本轮不重跑其他三库。Lavik 使用 AMD EPYC 9V74、16 vCPU、12 个服务 worker。每点 8 秒，较多 key 的 LSET 为 10 秒；pipeline=1。每组独立预置并逐 key 校验，perf 诊断与吞吐测试分开，本轮采样范围见测量说明。单次扫描没有统计置信区间。
+原有命令图仅重跑 Lavik；新增随机增删图重跑四库、每点 30 秒。Lavik 使用 AMD EPYC 9V74、16 vCPU、12 个服务 worker。原有命令图每点 8 秒，较多 key 的 LSET 为 10 秒；全部 pipeline=1。每组独立预置并逐 key 校验，perf 诊断与吞吐测试分开，本轮采样范围见测量说明。单次扫描没有统计置信区间。
 
 本轮固定使用上述 main 提交，已合并优化不再作为独立 PR 曲线显示。历史观察仍保留原始提交号；每完成一组独立复测才替换对应图。
 
-[绘图数据清单](current-main.json) · [复现脚本](run.py) · [上一轮构建与硬件证明](diagnostics/main-refresh-20261004/host-and-build.json)
+[绘图数据清单](current-main.json) · [复现脚本](run.py) · [历史构建与硬件证明（10 月 4 日）](diagnostics/main-refresh-20261004/host-and-build.json)
 
-[完整 main 基线：逐命令差距](diagnostics/main-920f879b-20261006/main-gap-summary.md)
+[完整 main 基线：逐命令差距](diagnostics/main-c55e52c9-20261008/main-gap-summary.md)
 
-[本轮构建与硬件证明](diagnostics/main-920f879b-20261006/host-and-build.json)
+[本轮构建与硬件证明](diagnostics/main-c55e52c9-20261008/host-and-build.json)
 
-[本轮测量与验证](diagnostics/main-920f879b-20261006/README.md)
+[本轮测量与验证](diagnostics/main-c55e52c9-20261008/README.md)
 
-[本轮绘图数据核验](diagnostics/main-920f879b-20261006/report-audit.json)
+[本轮绘图数据核验](diagnostics/main-c55e52c9-20261008/report-audit.json)
 
-[上一轮绘图数据核验](diagnostics/main-refresh-20261004/report-audit.json) · [上一轮核验脚本](diagnostics/main-refresh-20261004/audit-report.py)
+[历史绘图数据核验（10 月 4 日）](diagnostics/main-refresh-20261004/report-audit.json) · [历史核验脚本（10 月 4 日）](diagnostics/main-refresh-20261004/audit-report.py)
 
 [Hash/Set 写入 perf 分析](diagnostics/hashset-write-20261004/README.md) · [有序目录优化与测试](diagnostics/ordered-metadata-20261004/README.md)
 
@@ -46,137 +52,167 @@ Redis/Valkey 关闭持久化；Kvrocks 使用无压缩 RAID0、关闭 WAL、80 G
 
 ## List
 
+### 随机增删：四库新测
+
+每次请求独立随机选择 key，再以各 50% 概率选择插入或弹出。每点 30 秒、pipeline=1；8 个 key、1 KiB 元素，每个点启动新服务并独立预填。左图为命令 QPS（不是命令对数），右图为混合命令 p99。
+
+[负载、配置与校验](diagnostics/main-c55e52c9-20261008/mixed-writes.md) · [完整原始数据清单](current-mixed-writes.json)
+
+#### List：LPUSH / RPOP · 8 MiB/key
+
+![List: LPUSH / RPOP 8 MiB/key](charts/list-8388608-1024-k8-lpush_rpop-mixed.png)
+
+[CSV](list-8388608-1024-k8-lpush_rpop-mixed.csv)
+
+#### List：LPUSH / RPOP · 100 MiB/key
+
+![List: LPUSH / RPOP 100 MiB/key](charts/list-104857600-1024-k8-lpush_rpop-mixed.png)
+
+[CSV](list-104857600-1024-k8-lpush_rpop-mixed.csv)
+
+#### List：RPUSH / LPOP · 8 MiB/key
+
+![List: RPUSH / LPOP 8 MiB/key](charts/list-8388608-1024-k8-rpush_lpop-mixed.png)
+
+[CSV](list-8388608-1024-k8-rpush_lpop-mixed.csv)
+
+#### List：RPUSH / LPOP · 100 MiB/key
+
+![List: RPUSH / LPOP 100 MiB/key](charts/list-104857600-1024-k8-rpush_lpop-mixed.png)
+
+[CSV](list-104857600-1024-k8-rpush_lpop-mixed.csv)
+
 ### LINDEX
 
 #### 64 KiB/key
 
-128 B/entry · 64 keys · 本轮 main 基线 `920f879b`
+128 B/entry · 64 keys · 本轮 main 基线 `c55e52c9`
 
 ![List LINDEX 64 KiB/key, 128 B, 64 keys](charts/list-65536-128-k64-lindex-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main 920f879b](raw/lavik-main920f879b-ordered-list-65536-k64-f128-20261006/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-ordered-list-65536-k64-f128-20261008/)
 
-1024 B/entry · 64 keys · 本轮 main 基线 `920f879b`
+1024 B/entry · 64 keys · 本轮 main 基线 `c55e52c9`
 
 ![List LINDEX 64 KiB/key, 1024 B, 64 keys](charts/list-65536-1024-k64-lindex-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main 920f879b](raw/lavik-main920f879b-ordered-list-65536-k64-f1024-20261006/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-ordered-list-65536-k64-f1024-20261008/)
 
 #### 1 MiB/key
 
-128 B/entry · 64 keys · 本轮 main 基线 `920f879b`
+128 B/entry · 64 keys · 本轮 main 基线 `c55e52c9`
 
 ![List LINDEX 1 MiB/key, 128 B, 64 keys](charts/list-1048576-128-k64-lindex-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main 920f879b](raw/lavik-main920f879b-ordered-list-1048576-k64-f128-20261006/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-ordered-list-1048576-k64-f128-20261008/)
 
-1024 B/entry · 64 keys · 本轮 main 基线 `920f879b`
+1024 B/entry · 64 keys · 本轮 main 基线 `c55e52c9`
 
 ![List LINDEX 1 MiB/key, 1024 B, 64 keys](charts/list-1048576-1024-k64-lindex-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main 920f879b](raw/lavik-main920f879b-ordered-list-1048576-k64-f1024-20261006/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-ordered-list-1048576-k64-f1024-20261008/)
 
 #### 100 MiB/key
 
-128 B/entry · 8 keys · 本轮 main 基线 `920f879b`
+128 B/entry · 8 keys · 本轮 main 基线 `c55e52c9`
 
 ![List LINDEX 100 MiB/key, 128 B, 8 keys](charts/list-104857600-128-k8-lindex-current.png)
 
-[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main 920f879b](raw/lavik-main920f879b-ordered-list-104857600-k8-f128-20261006/)
+[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-ordered-list-104857600-k8-f128-20261008/)
 
-1024 B/entry · 8 keys · 本轮 main 基线 `920f879b`
+1024 B/entry · 8 keys · 本轮 main 基线 `c55e52c9`
 
 ![List LINDEX 100 MiB/key, 1024 B, 8 keys](charts/list-104857600-1024-k8-lindex-current.png)
 
-[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main 920f879b](raw/lavik-main920f879b-ordered-list-104857600-k8-f1024-20261006/)
+[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-ordered-list-104857600-k8-f1024-20261008/)
 
 ### LSET
 
 #### 64 KiB/key
 
-128 B/entry · 64 keys · 本轮 main 基线 `920f879b`
+128 B/entry · 64 keys · 本轮 main 基线 `c55e52c9`
 
 ![List LSET 64 KiB/key, 128 B, 64 keys](charts/list-65536-128-k64-lset-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main 920f879b](raw/lavik-main920f879b-ordered-list-65536-k64-f128-20261006/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-ordered-list-65536-k64-f128-20261008/)
 
-1024 B/entry · 64 keys · 本轮 main 基线 `920f879b`
+1024 B/entry · 64 keys · 本轮 main 基线 `c55e52c9`
 
 ![List LSET 64 KiB/key, 1024 B, 64 keys](charts/list-65536-1024-k64-lset-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main 920f879b](raw/lavik-main920f879b-ordered-list-65536-k64-f1024-20261006/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-ordered-list-65536-k64-f1024-20261008/)
 
 #### 1 MiB/key
 
-128 B/entry · 64 keys · 本轮 main 基线 `920f879b`
+128 B/entry · 64 keys · 本轮 main 基线 `c55e52c9`
 
 ![List LSET 1 MiB/key, 128 B, 64 keys](charts/list-1048576-128-k64-lset-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main 920f879b](raw/lavik-main920f879b-ordered-list-1048576-k64-f128-20261006/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-ordered-list-1048576-k64-f128-20261008/)
 
-1024 B/entry · 50,000 keys · 本轮 main 基线 `920f879b`
+1024 B/entry · 50,000 keys · 本轮 main 基线 `c55e52c9`
 
 ![List LSET 1 MiB/key, 1024 B, 50000 keys](charts/list-1048576-1024-k50000-lset-current.png)
 
-[Redis](raw/redis-lset-matched-1048576-k50000-f1024-20261001/) · [Valkey](raw/valkey-lset-matched-1048576-k50000-f1024-20261001/) · [Kvrocks (80 GiB cache)](raw/kvrocks-lset-matched-1048576-k50000-f1024-20261001/) · [Lavik main 920f879b](raw/lavik-main920f879b-lset-list-1048576-k50000-f1024-20261006/)
+[Redis](raw/redis-lset-matched-1048576-k50000-f1024-20261001/) · [Valkey](raw/valkey-lset-matched-1048576-k50000-f1024-20261001/) · [Kvrocks (80 GiB cache)](raw/kvrocks-lset-matched-1048576-k50000-f1024-20261001/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-lset-list-1048576-k50000-f1024-20261008/)
 
 #### 100 MiB/key
 
-128 B/entry · 8 keys · 本轮 main 基线 `920f879b`
+128 B/entry · 8 keys · 本轮 main 基线 `c55e52c9`
 
 ![List LSET 100 MiB/key, 128 B, 8 keys](charts/list-104857600-128-k8-lset-current.png)
 
-[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main 920f879b](raw/lavik-main920f879b-ordered-list-104857600-k8-f128-20261006/)
+[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-ordered-list-104857600-k8-f128-20261008/)
 
-1024 B/entry · 500 keys · 本轮 main 基线 `920f879b`
+1024 B/entry · 500 keys · 本轮 main 基线 `c55e52c9`
 
 ![List LSET 100 MiB/key, 1024 B, 500 keys](charts/list-104857600-1024-k500-lset-current.png)
 
-[Redis](raw/redis-lset-matched-104857600-k500-f1024-20261001/) · [Valkey](raw/valkey-lset-matched-104857600-k500-f1024-20261001/) · [Kvrocks (80 GiB cache)](raw/kvrocks-lset-matched-104857600-k500-f1024-20261001/) · [Lavik main 920f879b](raw/lavik-main920f879b-lset-list-104857600-k500-f1024-20261006/)
+[Redis](raw/redis-lset-matched-104857600-k500-f1024-20261001/) · [Valkey](raw/valkey-lset-matched-104857600-k500-f1024-20261001/) · [Kvrocks (80 GiB cache)](raw/kvrocks-lset-matched-104857600-k500-f1024-20261001/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-lset-list-104857600-k500-f1024-20261008/)
 
 ### LRANGE 0 -1
 
 #### 64 KiB/key
 
-128 B/entry · 64 keys · 本轮 main 基线 `920f879b`
+128 B/entry · 64 keys · 本轮 main 基线 `c55e52c9`
 
 ![List LRANGE 64 KiB/key, 128 B, 64 keys](charts/list-65536-128-k64-lrange-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main 920f879b](raw/lavik-main920f879b-ordered-list-65536-k64-f128-20261006/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-ordered-list-65536-k64-f128-20261008/)
 
-1024 B/entry · 64 keys · 本轮 main 基线 `920f879b`
+1024 B/entry · 64 keys · 本轮 main 基线 `c55e52c9`
 
 ![List LRANGE 64 KiB/key, 1024 B, 64 keys](charts/list-65536-1024-k64-lrange-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main 920f879b](raw/lavik-main920f879b-ordered-list-65536-k64-f1024-20261006/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-ordered-list-65536-k64-f1024-20261008/)
 
 #### 1 MiB/key
 
-128 B/entry · 64 keys · 本轮 main 基线 `920f879b`
+128 B/entry · 64 keys · 本轮 main 基线 `c55e52c9`
 
 ![List LRANGE 1 MiB/key, 128 B, 64 keys](charts/list-1048576-128-k64-lrange-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main 920f879b](raw/lavik-main920f879b-ordered-list-1048576-k64-f128-20261006/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-ordered-list-1048576-k64-f128-20261008/)
 
-1024 B/entry · 64 keys · 本轮 main 基线 `920f879b`
+1024 B/entry · 64 keys · 本轮 main 基线 `c55e52c9`
 
 ![List LRANGE 1 MiB/key, 1024 B, 64 keys](charts/list-1048576-1024-k64-lrange-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main 920f879b](raw/lavik-main920f879b-ordered-list-1048576-k64-f1024-20261006/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-ordered-list-1048576-k64-f1024-20261008/)
 
 #### 100 MiB/key
 
-128 B/entry · 8 keys · 本轮 main 基线 `920f879b`
+128 B/entry · 8 keys · 本轮 main 基线 `c55e52c9`
 
 ![List LRANGE 100 MiB/key, 128 B, 8 keys](charts/list-104857600-128-k8-lrange-current.png)
 
-[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main 920f879b](raw/lavik-main920f879b-ordered-list-104857600-k8-f128-20261006/)
+[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-ordered-list-104857600-k8-f128-20261008/)
 
-1024 B/entry · 8 keys · 本轮 main 基线 `920f879b`
+1024 B/entry · 8 keys · 本轮 main 基线 `c55e52c9`
 
 ![List LRANGE 100 MiB/key, 1024 B, 8 keys](charts/list-104857600-1024-k8-lrange-current.png)
 
-[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main 920f879b](raw/lavik-main920f879b-ordered-list-104857600-k8-f1024-20261006/)
+[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-ordered-list-104857600-k8-f1024-20261008/)
 
 ### RPUSH 批量预置
 
@@ -196,91 +232,91 @@ Redis/Valkey 关闭持久化；Kvrocks 使用无压缩 RAID0、关闭 WAL、80 G
 
 #### 1 MiB/key
 
-128 B/entry · 50,000 keys · 本轮 main 基线 `920f879b`
+128 B/entry · 50,000 keys · 本轮 main 基线 `c55e52c9`
 
 ![Hash HGET 1 MiB/key, 128 B, 50000 keys](charts/hash-1048576-128-k50000-hget-current.png)
 
-[Redis](raw/redis-hash-1m-k50000-f128-20260929/) · [Valkey](raw/valkey-hash-1m-k50000-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-1m-k50000-f128-20260929/) · [Lavik main 920f879b](raw/lavik-main920f879b-hashset-hash-1048576-k50000-f128-20261006/)
+[Redis](raw/redis-hash-1m-k50000-f128-20260929/) · [Valkey](raw/valkey-hash-1m-k50000-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-1m-k50000-f128-20260929/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-hashset-hash-1048576-k50000-f128-20261008/)
 
-1024 B/entry · 50,000 keys · 本轮 main 基线 `920f879b`
+1024 B/entry · 50,000 keys · 本轮 main 基线 `c55e52c9`
 
 ![Hash HGET 1 MiB/key, 1024 B, 50000 keys](charts/hash-1048576-1024-k50000-hget-current.png)
 
-[Redis](raw/redis-hash-1m-k50000-f1024-20260929/) · [Valkey](raw/valkey-hash-1m-k50000-f1024-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-1m-k50000-f1024-20260929/) · [Lavik main 920f879b](raw/lavik-main920f879b-hashset-hash-1048576-k50000-f1024-20261006/)
+[Redis](raw/redis-hash-1m-k50000-f1024-20260929/) · [Valkey](raw/valkey-hash-1m-k50000-f1024-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-1m-k50000-f1024-20260929/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-hashset-hash-1048576-k50000-f1024-20261008/)
 
 #### 100 MiB/key
 
-128 B/entry · 500 keys · 本轮 main 基线 `920f879b`
+128 B/entry · 500 keys · 本轮 main 基线 `c55e52c9`
 
 ![Hash HGET 100 MiB/key, 128 B, 500 keys](charts/hash-104857600-128-k500-hget-current.png)
 
-[Redis](raw/redis-hash-100m-k500-f128-20260929/) · [Valkey](raw/valkey-hash-100m-k500-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-100m-k500-f128-20260929/) · [Lavik main 920f879b](raw/lavik-main920f879b-hashset-hash-104857600-k500-f128-20261006/)
+[Redis](raw/redis-hash-100m-k500-f128-20260929/) · [Valkey](raw/valkey-hash-100m-k500-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-100m-k500-f128-20260929/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-hashset-hash-104857600-k500-f128-20261008/)
 
-1024 B/entry · 500 keys · 本轮 main 基线 `920f879b`
+1024 B/entry · 500 keys · 本轮 main 基线 `c55e52c9`
 
 ![Hash HGET 100 MiB/key, 1024 B, 500 keys](charts/hash-104857600-1024-k500-hget-current.png)
 
-[Redis](raw/redis-hash-100m-k500-f1024-20260929/) · [Valkey](raw/valkey-hash-100m-k500-f1024-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-100m-k500-f1024-20260929/) · [Lavik main 920f879b](raw/lavik-main920f879b-hashset-hash-104857600-k500-f1024-20261006/)
+[Redis](raw/redis-hash-100m-k500-f1024-20260929/) · [Valkey](raw/valkey-hash-100m-k500-f1024-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-100m-k500-f1024-20260929/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-hashset-hash-104857600-k500-f1024-20261008/)
 
 ### HSET
 
 #### 1 MiB/key
 
-128 B/entry · 50,000 keys · 本轮 main 基线 `920f879b`
+128 B/entry · 50,000 keys · 本轮 main 基线 `c55e52c9`
 
 ![Hash HSET 1 MiB/key, 128 B, 50000 keys](charts/hash-1048576-128-k50000-hset-current.png)
 
-[Redis](raw/redis-hash-1m-k50000-f128-20260929/) · [Valkey](raw/valkey-hash-1m-k50000-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-1m-k50000-f128-20260929/) · [Lavik main 920f879b](raw/lavik-main920f879b-hashset-hash-1048576-k50000-f128-20261006/)
+[Redis](raw/redis-hash-1m-k50000-f128-20260929/) · [Valkey](raw/valkey-hash-1m-k50000-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-1m-k50000-f128-20260929/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-hashset-hash-1048576-k50000-f128-20261008/)
 
-1024 B/entry · 50,000 keys · 本轮 main 基线 `920f879b`
+1024 B/entry · 50,000 keys · 本轮 main 基线 `c55e52c9`
 
 ![Hash HSET 1 MiB/key, 1024 B, 50000 keys](charts/hash-1048576-1024-k50000-hset-current.png)
 
-[Redis](raw/redis-hash-1m-k50000-f1024-20260929/) · [Valkey](raw/valkey-hash-1m-k50000-f1024-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-1m-k50000-f1024-20260929/) · [Lavik main 920f879b](raw/lavik-main920f879b-hashset-hash-1048576-k50000-f1024-20261006/)
+[Redis](raw/redis-hash-1m-k50000-f1024-20260929/) · [Valkey](raw/valkey-hash-1m-k50000-f1024-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-1m-k50000-f1024-20260929/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-hashset-hash-1048576-k50000-f1024-20261008/)
 
 #### 100 MiB/key
 
-128 B/entry · 500 keys · 本轮 main 基线 `920f879b`
+128 B/entry · 500 keys · 本轮 main 基线 `c55e52c9`
 
 ![Hash HSET 100 MiB/key, 128 B, 500 keys](charts/hash-104857600-128-k500-hset-current.png)
 
-[Redis](raw/redis-hash-100m-k500-f128-20260929/) · [Valkey](raw/valkey-hash-100m-k500-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-100m-k500-f128-20260929/) · [Lavik main 920f879b](raw/lavik-main920f879b-hashset-hash-104857600-k500-f128-20261006/)
+[Redis](raw/redis-hash-100m-k500-f128-20260929/) · [Valkey](raw/valkey-hash-100m-k500-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-100m-k500-f128-20260929/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-hashset-hash-104857600-k500-f128-20261008/)
 
-1024 B/entry · 500 keys · 本轮 main 基线 `920f879b`
+1024 B/entry · 500 keys · 本轮 main 基线 `c55e52c9`
 
 ![Hash HSET 100 MiB/key, 1024 B, 500 keys](charts/hash-104857600-1024-k500-hset-current.png)
 
-[Redis](raw/redis-hash-100m-k500-f1024-20260929/) · [Valkey](raw/valkey-hash-100m-k500-f1024-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-100m-k500-f1024-20260929/) · [Lavik main 920f879b](raw/lavik-main920f879b-hashset-hash-104857600-k500-f1024-20261006/)
+[Redis](raw/redis-hash-100m-k500-f1024-20260929/) · [Valkey](raw/valkey-hash-100m-k500-f1024-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-100m-k500-f1024-20260929/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-hashset-hash-104857600-k500-f1024-20261008/)
 
 ### HGETALL
 
 #### 1 MiB/key
 
-128 B/entry · 50,000 keys · 本轮 main 基线 `920f879b`
+128 B/entry · 50,000 keys · 本轮 main 基线 `c55e52c9`
 
 ![Hash HGETALL 1 MiB/key, 128 B, 50000 keys](charts/hash-1048576-128-k50000-hgetall-current.png)
 
-[Redis](raw/redis-hash-1m-k50000-f128-20260929/) · [Valkey](raw/valkey-hash-1m-k50000-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-1m-k50000-f128-20260929/) · [Lavik main 920f879b](raw/lavik-main920f879b-hashset-hash-1048576-k50000-f128-20261006/)
+[Redis](raw/redis-hash-1m-k50000-f128-20260929/) · [Valkey](raw/valkey-hash-1m-k50000-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-1m-k50000-f128-20260929/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-hashset-hash-1048576-k50000-f128-20261008/)
 
-1024 B/entry · 50,000 keys · 本轮 main 基线 `920f879b`
+1024 B/entry · 50,000 keys · 本轮 main 基线 `c55e52c9`
 
 ![Hash HGETALL 1 MiB/key, 1024 B, 50000 keys](charts/hash-1048576-1024-k50000-hgetall-current.png)
 
-[Redis](raw/redis-hash-1m-k50000-f1024-20260929/) · [Valkey](raw/valkey-hash-1m-k50000-f1024-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-1m-k50000-f1024-20260929/) · [Lavik main 920f879b](raw/lavik-main920f879b-hashset-hash-1048576-k50000-f1024-20261006/)
+[Redis](raw/redis-hash-1m-k50000-f1024-20260929/) · [Valkey](raw/valkey-hash-1m-k50000-f1024-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-1m-k50000-f1024-20260929/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-hashset-hash-1048576-k50000-f1024-20261008/)
 
 #### 100 MiB/key
 
-128 B/entry · 500 keys · 本轮 main 基线 `920f879b`
+128 B/entry · 500 keys · 本轮 main 基线 `c55e52c9`
 
 ![Hash HGETALL 100 MiB/key, 128 B, 500 keys](charts/hash-104857600-128-k500-hgetall-current.png)
 
-[Redis](raw/redis-hash-100m-k500-f128-20260929/) · [Valkey](raw/valkey-hash-100m-k500-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-100m-k500-f128-20260929/) · [Lavik main 920f879b](raw/lavik-main920f879b-hashset-hash-104857600-k500-f128-20261006/)
+[Redis](raw/redis-hash-100m-k500-f128-20260929/) · [Valkey](raw/valkey-hash-100m-k500-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-100m-k500-f128-20260929/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-hashset-hash-104857600-k500-f128-20261008/)
 
-1024 B/entry · 500 keys · 本轮 main 基线 `920f879b`
+1024 B/entry · 500 keys · 本轮 main 基线 `c55e52c9`
 
 ![Hash HGETALL 100 MiB/key, 1024 B, 500 keys](charts/hash-104857600-1024-k500-hgetall-current.png)
 
-[Redis](raw/redis-hash-100m-k500-f1024-20260929/) · [Valkey](raw/valkey-hash-100m-k500-f1024-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-100m-k500-f1024-20260929/) · [Lavik main 920f879b](raw/lavik-main920f879b-hashset-hash-104857600-k500-f1024-20261006/)
+[Redis](raw/redis-hash-100m-k500-f1024-20260929/) · [Valkey](raw/valkey-hash-100m-k500-f1024-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-hash-100m-k500-f1024-20260929/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-hashset-hash-104857600-k500-f1024-20261008/)
 
 ### HSET 批量导入
 
@@ -288,17 +324,17 @@ Redis/Valkey 关闭持久化；Kvrocks 使用无压缩 RAID0、关闭 WAL、80 G
 
 50,000 keys；8 个客户端、pipeline=64、每命令约 16 KiB 元素。使用与历史三库相同的逐命令 RESP 编码方式，耗时包含 Python 客户端编码；不是 RESTORE，也不代表数据库单独的吞吐上限。
 
-1024 B/entry · 本轮 main 基线 `920f879b`
+1024 B/entry · 本轮 main 基线 `c55e52c9`
 
 ![HSET batched import, 1024 B](charts/hash-1048576-1024-k50000-fill.png)
 
-[Lavik raw](raw/lavik-main920f879b-import-hash-1048576-k50000-f1024-20261006/)
+[Lavik raw](raw/lavik-mainc55e52c9-import-hash-1048576-k50000-f1024-20261008/)
 
-128 B/entry · 本轮 main 基线 `920f879b`
+128 B/entry · 本轮 main 基线 `c55e52c9`
 
 ![HSET batched import, 128 B](charts/hash-1048576-128-k50000-fill.png)
 
-[Lavik raw](raw/lavik-main920f879b-import-hash-1048576-k50000-f128-20261006/)
+[Lavik raw](raw/lavik-mainc55e52c9-import-hash-1048576-k50000-f128-20261008/)
 
 ## Set
 
@@ -308,91 +344,91 @@ SADD + SREM 为两个命令等比例混合，QPS 计算完成的命令数，不�
 
 #### 1 MiB/key
 
-128 B/entry · 50,000 keys · 本轮 main 基线 `920f879b`
+128 B/entry · 50,000 keys · 本轮 main 基线 `c55e52c9`
 
 ![Set SISMEMBER 1 MiB/key, 128 B, 50000 keys](charts/set-1048576-128-k50000-sismember-current.png)
 
-[Redis](raw/redis-set-1m-k50000-f128-20260929/) · [Valkey](raw/valkey-set-1m-k50000-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-1m-k50000-f128-20260929/) · [Lavik main 920f879b](raw/lavik-main920f879b-hashset-set-1048576-k50000-f128-20261006/)
+[Redis](raw/redis-set-1m-k50000-f128-20260929/) · [Valkey](raw/valkey-set-1m-k50000-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-1m-k50000-f128-20260929/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-hashset-set-1048576-k50000-f128-20261008/)
 
-1024 B/entry · 50,000 keys · 本轮 main 基线 `920f879b`
+1024 B/entry · 50,000 keys · 本轮 main 基线 `c55e52c9`
 
 ![Set SISMEMBER 1 MiB/key, 1024 B, 50000 keys](charts/set-1048576-1024-k50000-sismember-current.png)
 
-[Redis](raw/redis-set-1m-k50000-f1024-20260929/) · [Valkey](raw/valkey-set-1m-k50000-f1024-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-1m-k50000-f1024-20260929/) · [Lavik main 920f879b](raw/lavik-main920f879b-hashset-set-1048576-k50000-f1024-20261006/)
+[Redis](raw/redis-set-1m-k50000-f1024-20260929/) · [Valkey](raw/valkey-set-1m-k50000-f1024-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-1m-k50000-f1024-20260929/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-hashset-set-1048576-k50000-f1024-20261008/)
 
 #### 100 MiB/key
 
-128 B/entry · 500 keys · 本轮 main 基线 `920f879b`
+128 B/entry · 500 keys · 本轮 main 基线 `c55e52c9`
 
 ![Set SISMEMBER 100 MiB/key, 128 B, 500 keys](charts/set-104857600-128-k500-sismember-current.png)
 
-[Redis](raw/redis-set-100m-k500-f128-20260929/) · [Valkey](raw/valkey-set-100m-k500-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-100m-k500-f128-20260929/) · [Lavik main 920f879b](raw/lavik-main920f879b-hashset-set-104857600-k500-f128-20261006/)
+[Redis](raw/redis-set-100m-k500-f128-20260929/) · [Valkey](raw/valkey-set-100m-k500-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-100m-k500-f128-20260929/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-hashset-set-104857600-k500-f128-20261008/)
 
-1024 B/entry · 500 keys · 本轮 main 基线 `920f879b`
+1024 B/entry · 500 keys · 本轮 main 基线 `c55e52c9`
 
 ![Set SISMEMBER 100 MiB/key, 1024 B, 500 keys](charts/set-104857600-1024-k500-sismember-current.png)
 
-[Redis](raw/redis-set-100m-k500-f1024-20260929/) · [Valkey](raw/valkey-set-100m-k500-f1024-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-100m-k500-f1024-20260929/) · [Lavik main 920f879b](raw/lavik-main920f879b-hashset-set-104857600-k500-f1024-20261006/)
+[Redis](raw/redis-set-100m-k500-f1024-20260929/) · [Valkey](raw/valkey-set-100m-k500-f1024-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-100m-k500-f1024-20260929/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-hashset-set-104857600-k500-f1024-20261008/)
 
 ### SADD + SREM
 
 #### 1 MiB/key
 
-128 B/entry · 50,000 keys · 本轮 main 基线 `920f879b`
+128 B/entry · 50,000 keys · 本轮 main 基线 `c55e52c9`
 
 ![Set SADD_SREM 1 MiB/key, 128 B, 50000 keys](charts/set-1048576-128-k50000-sadd_srem-current.png)
 
-[Redis](raw/redis-set-1m-k50000-f128-20260929/) · [Valkey](raw/valkey-set-1m-k50000-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-1m-k50000-f128-20260929/) · [Lavik main 920f879b](raw/lavik-main920f879b-hashset-set-1048576-k50000-f128-20261006/)
+[Redis](raw/redis-set-1m-k50000-f128-20260929/) · [Valkey](raw/valkey-set-1m-k50000-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-1m-k50000-f128-20260929/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-hashset-set-1048576-k50000-f128-20261008/)
 
-1024 B/entry · 50,000 keys · 本轮 main 基线 `920f879b`
+1024 B/entry · 50,000 keys · 本轮 main 基线 `c55e52c9`
 
 ![Set SADD_SREM 1 MiB/key, 1024 B, 50000 keys](charts/set-1048576-1024-k50000-sadd_srem-current.png)
 
-[Redis](raw/redis-set-1m-k50000-f1024-20260929/) · [Valkey](raw/valkey-set-1m-k50000-f1024-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-1m-k50000-f1024-20260929/) · [Lavik main 920f879b](raw/lavik-main920f879b-hashset-set-1048576-k50000-f1024-20261006/)
+[Redis](raw/redis-set-1m-k50000-f1024-20260929/) · [Valkey](raw/valkey-set-1m-k50000-f1024-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-1m-k50000-f1024-20260929/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-hashset-set-1048576-k50000-f1024-20261008/)
 
 #### 100 MiB/key
 
-128 B/entry · 500 keys · 本轮 main 基线 `920f879b`
+128 B/entry · 500 keys · 本轮 main 基线 `c55e52c9`
 
 ![Set SADD_SREM 100 MiB/key, 128 B, 500 keys](charts/set-104857600-128-k500-sadd_srem-current.png)
 
-[Redis](raw/redis-set-100m-k500-f128-20260929/) · [Valkey](raw/valkey-set-100m-k500-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-100m-k500-f128-20260929/) · [Lavik main 920f879b](raw/lavik-main920f879b-hashset-set-104857600-k500-f128-20261006/)
+[Redis](raw/redis-set-100m-k500-f128-20260929/) · [Valkey](raw/valkey-set-100m-k500-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-100m-k500-f128-20260929/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-hashset-set-104857600-k500-f128-20261008/)
 
-1024 B/entry · 500 keys · 本轮 main 基线 `920f879b`
+1024 B/entry · 500 keys · 本轮 main 基线 `c55e52c9`
 
 ![Set SADD_SREM 100 MiB/key, 1024 B, 500 keys](charts/set-104857600-1024-k500-sadd_srem-current.png)
 
-[Redis](raw/redis-set-100m-k500-f1024-20260929/) · [Valkey](raw/valkey-set-100m-k500-f1024-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-100m-k500-f1024-20260929/) · [Lavik main 920f879b](raw/lavik-main920f879b-hashset-set-104857600-k500-f1024-20261006/)
+[Redis](raw/redis-set-100m-k500-f1024-20260929/) · [Valkey](raw/valkey-set-100m-k500-f1024-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-100m-k500-f1024-20260929/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-hashset-set-104857600-k500-f1024-20261008/)
 
 ### SMEMBERS
 
 #### 1 MiB/key
 
-128 B/entry · 50,000 keys · 本轮 main 基线 `920f879b`
+128 B/entry · 50,000 keys · 本轮 main 基线 `c55e52c9`
 
 ![Set SMEMBERS 1 MiB/key, 128 B, 50000 keys](charts/set-1048576-128-k50000-smembers-current.png)
 
-[Redis](raw/redis-set-1m-k50000-f128-20260929/) · [Valkey](raw/valkey-set-1m-k50000-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-1m-k50000-f128-20260929/) · [Lavik main 920f879b](raw/lavik-main920f879b-hashset-set-1048576-k50000-f128-20261006/)
+[Redis](raw/redis-set-1m-k50000-f128-20260929/) · [Valkey](raw/valkey-set-1m-k50000-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-1m-k50000-f128-20260929/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-hashset-set-1048576-k50000-f128-20261008/)
 
-1024 B/entry · 50,000 keys · 本轮 main 基线 `920f879b`
+1024 B/entry · 50,000 keys · 本轮 main 基线 `c55e52c9`
 
 ![Set SMEMBERS 1 MiB/key, 1024 B, 50000 keys](charts/set-1048576-1024-k50000-smembers-current.png)
 
-[Redis](raw/redis-set-1m-k50000-f1024-20260929/) · [Valkey](raw/valkey-set-1m-k50000-f1024-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-1m-k50000-f1024-20260929/) · [Lavik main 920f879b](raw/lavik-main920f879b-hashset-set-1048576-k50000-f1024-20261006/)
+[Redis](raw/redis-set-1m-k50000-f1024-20260929/) · [Valkey](raw/valkey-set-1m-k50000-f1024-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-1m-k50000-f1024-20260929/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-hashset-set-1048576-k50000-f1024-20261008/)
 
 #### 100 MiB/key
 
-128 B/entry · 500 keys · 本轮 main 基线 `920f879b`
+128 B/entry · 500 keys · 本轮 main 基线 `c55e52c9`
 
 ![Set SMEMBERS 100 MiB/key, 128 B, 500 keys](charts/set-104857600-128-k500-smembers-current.png)
 
-[Redis](raw/redis-set-100m-k500-f128-20260929/) · [Valkey](raw/valkey-set-100m-k500-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-100m-k500-f128-20260929/) · [Lavik main 920f879b](raw/lavik-main920f879b-hashset-set-104857600-k500-f128-20261006/)
+[Redis](raw/redis-set-100m-k500-f128-20260929/) · [Valkey](raw/valkey-set-100m-k500-f128-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-100m-k500-f128-20260929/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-hashset-set-104857600-k500-f128-20261008/)
 
-1024 B/entry · 500 keys · 本轮 main 基线 `920f879b`
+1024 B/entry · 500 keys · 本轮 main 基线 `c55e52c9`
 
 ![Set SMEMBERS 100 MiB/key, 1024 B, 500 keys](charts/set-104857600-1024-k500-smembers-current.png)
 
-[Redis](raw/redis-set-100m-k500-f1024-20260929/) · [Valkey](raw/valkey-set-100m-k500-f1024-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-100m-k500-f1024-20260929/) · [Lavik main 920f879b](raw/lavik-main920f879b-hashset-set-104857600-k500-f1024-20261006/)
+[Redis](raw/redis-set-100m-k500-f1024-20260929/) · [Valkey](raw/valkey-set-100m-k500-f1024-20260929/) · [Kvrocks (80 GiB cache)](raw/kvrocks-set-100m-k500-f1024-20260929/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-hashset-set-104857600-k500-f1024-20261008/)
 
 ### SADD 批量导入
 
@@ -400,151 +436,195 @@ SADD + SREM 为两个命令等比例混合，QPS 计算完成的命令数，不�
 
 50,000 keys；8 个客户端、pipeline=64、每命令约 16 KiB 元素。使用与历史三库相同的逐命令 RESP 编码方式，耗时包含 Python 客户端编码；不是 RESTORE，也不代表数据库单独的吞吐上限。
 
-1024 B/entry · 本轮 main 基线 `920f879b`
+1024 B/entry · 本轮 main 基线 `c55e52c9`
 
 ![SADD batched import, 1024 B](charts/set-1048576-1024-k50000-fill.png)
 
-[Lavik raw](raw/lavik-main920f879b-import-set-1048576-k50000-f1024-20261006/)
+[Lavik raw](raw/lavik-mainc55e52c9-import-set-1048576-k50000-f1024-20261008/)
 
-128 B/entry · 本轮 main 基线 `920f879b`
+128 B/entry · 本轮 main 基线 `c55e52c9`
 
 ![SADD batched import, 128 B](charts/set-1048576-128-k50000-fill.png)
 
-[Lavik raw](raw/lavik-main920f879b-import-set-1048576-k50000-f128-20261006/)
+[Lavik raw](raw/lavik-mainc55e52c9-import-set-1048576-k50000-f128-20261008/)
 
 ## Sorted Set
+
+### 随机增删：四库新测
+
+每次请求独立随机选择 key，再以各 50% 概率选择插入或弹出。每点 30 秒、pipeline=1；8 个 key、1 KiB 元素，每个点启动新服务并独立预填。左图为命令 QPS（不是命令对数），右图为混合命令 p99。
+
+ZADD NX 每次插入唯一新成员；头插使用递减低分数，尾插使用递增高分数，随机插入在原始分数区间均匀选分数。分数按客户端发号递增或递减；并发到达可能重排，不保证每次严格插在绝对头尾。淘汰后分数均匀不等于排名均匀。所有 pop 都必须返回非空成员。
+
+[负载、配置与校验](diagnostics/main-c55e52c9-20261008/mixed-writes.md) · [完整原始数据清单](current-mixed-writes.json)
+
+#### ZSet：低分方向新成员 ZADD / ZPOPMAX · 8 MiB/key
+
+![ZSet: ZADD (descending scores) / ZPOPMAX 8 MiB/key](charts/zset-8388608-1024-k8-zadd_head_zpopmax-mixed.png)
+
+[CSV](zset-8388608-1024-k8-zadd_head_zpopmax-mixed.csv)
+
+#### ZSet：低分方向新成员 ZADD / ZPOPMAX · 100 MiB/key
+
+![ZSet: ZADD (descending scores) / ZPOPMAX 100 MiB/key](charts/zset-104857600-1024-k8-zadd_head_zpopmax-mixed.png)
+
+[CSV](zset-104857600-1024-k8-zadd_head_zpopmax-mixed.csv)
+
+#### ZSet：随机分数新成员 ZADD / ZPOPMIN · 8 MiB/key
+
+![ZSet: ZADD (random score) / ZPOPMIN 8 MiB/key](charts/zset-8388608-1024-k8-zadd_random_zpopmin-mixed.png)
+
+[CSV](zset-8388608-1024-k8-zadd_random_zpopmin-mixed.csv)
+
+#### ZSet：随机分数新成员 ZADD / ZPOPMIN · 100 MiB/key
+
+![ZSet: ZADD (random score) / ZPOPMIN 100 MiB/key](charts/zset-104857600-1024-k8-zadd_random_zpopmin-mixed.png)
+
+[CSV](zset-104857600-1024-k8-zadd_random_zpopmin-mixed.csv)
+
+#### ZSet：高分方向新成员 ZADD / ZPOPMIN · 8 MiB/key
+
+![ZSet: ZADD (ascending scores) / ZPOPMIN 8 MiB/key](charts/zset-8388608-1024-k8-zadd_tail_zpopmin-mixed.png)
+
+[CSV](zset-8388608-1024-k8-zadd_tail_zpopmin-mixed.csv)
+
+#### ZSet：高分方向新成员 ZADD / ZPOPMIN · 100 MiB/key
+
+![ZSet: ZADD (ascending scores) / ZPOPMIN 100 MiB/key](charts/zset-104857600-1024-k8-zadd_tail_zpopmin-mixed.png)
+
+[CSV](zset-104857600-1024-k8-zadd_tail_zpopmin-mixed.csv)
 
 ### ZSCORE
 
 #### 64 KiB/key
 
-128 B/entry · 64 keys · 本轮 main 基线 `920f879b`
+128 B/entry · 64 keys · 本轮 main 基线 `c55e52c9`
 
 ![Sorted Set ZSCORE 64 KiB/key, 128 B, 64 keys](charts/zset-65536-128-k64-zscore-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main 920f879b](raw/lavik-main920f879b-ordered-zset-65536-k64-f128-20261006/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-ordered-zset-65536-k64-f128-20261008/)
 
-1024 B/entry · 64 keys · 本轮 main 基线 `920f879b`
+1024 B/entry · 64 keys · 本轮 main 基线 `c55e52c9`
 
 ![Sorted Set ZSCORE 64 KiB/key, 1024 B, 64 keys](charts/zset-65536-1024-k64-zscore-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main 920f879b](raw/lavik-main920f879b-ordered-zset-65536-k64-f1024-20261006/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-ordered-zset-65536-k64-f1024-20261008/)
 
 #### 1 MiB/key
 
-128 B/entry · 64 keys · 本轮 main 基线 `920f879b`
+128 B/entry · 64 keys · 本轮 main 基线 `c55e52c9`
 
 ![Sorted Set ZSCORE 1 MiB/key, 128 B, 64 keys](charts/zset-1048576-128-k64-zscore-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main 920f879b](raw/lavik-main920f879b-ordered-zset-1048576-k64-f128-20261006/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-ordered-zset-1048576-k64-f128-20261008/)
 
-1024 B/entry · 64 keys · 本轮 main 基线 `920f879b`
+1024 B/entry · 64 keys · 本轮 main 基线 `c55e52c9`
 
 ![Sorted Set ZSCORE 1 MiB/key, 1024 B, 64 keys](charts/zset-1048576-1024-k64-zscore-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main 920f879b](raw/lavik-main920f879b-ordered-zset-1048576-k64-f1024-20261006/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-ordered-zset-1048576-k64-f1024-20261008/)
 
 #### 100 MiB/key
 
-128 B/entry · 8 keys · 本轮 main 基线 `920f879b`
+128 B/entry · 8 keys · 本轮 main 基线 `c55e52c9`
 
 ![Sorted Set ZSCORE 100 MiB/key, 128 B, 8 keys](charts/zset-104857600-128-k8-zscore-current.png)
 
-[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main 920f879b](raw/lavik-main920f879b-ordered-zset-104857600-k8-f128-20261006/)
+[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-ordered-zset-104857600-k8-f128-20261008/)
 
-1024 B/entry · 8 keys · 本轮 main 基线 `920f879b`
+1024 B/entry · 8 keys · 本轮 main 基线 `c55e52c9`
 
 ![Sorted Set ZSCORE 100 MiB/key, 1024 B, 8 keys](charts/zset-104857600-1024-k8-zscore-current.png)
 
-[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main 920f879b](raw/lavik-main920f879b-ordered-zset-104857600-k8-f1024-20261006/)
+[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-ordered-zset-104857600-k8-f1024-20261008/)
 
 ### ZINCRBY
 
 #### 64 KiB/key
 
-128 B/entry · 64 keys · 本轮 main 基线 `920f879b`
+128 B/entry · 64 keys · 本轮 main 基线 `c55e52c9`
 
 ![Sorted Set ZINCRBY 64 KiB/key, 128 B, 64 keys](charts/zset-65536-128-k64-zincrby-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main 920f879b](raw/lavik-main920f879b-ordered-zset-65536-k64-f128-20261006/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-ordered-zset-65536-k64-f128-20261008/)
 
-1024 B/entry · 64 keys · 本轮 main 基线 `920f879b`
+1024 B/entry · 64 keys · 本轮 main 基线 `c55e52c9`
 
 ![Sorted Set ZINCRBY 64 KiB/key, 1024 B, 64 keys](charts/zset-65536-1024-k64-zincrby-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main 920f879b](raw/lavik-main920f879b-ordered-zset-65536-k64-f1024-20261006/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-ordered-zset-65536-k64-f1024-20261008/)
 
 #### 1 MiB/key
 
-128 B/entry · 64 keys · 本轮 main 基线 `920f879b`
+128 B/entry · 64 keys · 本轮 main 基线 `c55e52c9`
 
 ![Sorted Set ZINCRBY 1 MiB/key, 128 B, 64 keys](charts/zset-1048576-128-k64-zincrby-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main 920f879b](raw/lavik-main920f879b-ordered-zset-1048576-k64-f128-20261006/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-ordered-zset-1048576-k64-f128-20261008/)
 
-1024 B/entry · 64 keys · 本轮 main 基线 `920f879b`
+1024 B/entry · 64 keys · 本轮 main 基线 `c55e52c9`
 
 ![Sorted Set ZINCRBY 1 MiB/key, 1024 B, 64 keys](charts/zset-1048576-1024-k64-zincrby-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main 920f879b](raw/lavik-main920f879b-ordered-zset-1048576-k64-f1024-20261006/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-ordered-zset-1048576-k64-f1024-20261008/)
 
 #### 100 MiB/key
 
-128 B/entry · 8 keys · 本轮 main 基线 `920f879b`
+128 B/entry · 8 keys · 本轮 main 基线 `c55e52c9`
 
 ![Sorted Set ZINCRBY 100 MiB/key, 128 B, 8 keys](charts/zset-104857600-128-k8-zincrby-current.png)
 
-[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main 920f879b](raw/lavik-main920f879b-ordered-zset-104857600-k8-f128-20261006/)
+[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-ordered-zset-104857600-k8-f128-20261008/)
 
-1024 B/entry · 8 keys · 本轮 main 基线 `920f879b`
+1024 B/entry · 8 keys · 本轮 main 基线 `c55e52c9`
 
 ![Sorted Set ZINCRBY 100 MiB/key, 1024 B, 8 keys](charts/zset-104857600-1024-k8-zincrby-current.png)
 
-[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main 920f879b](raw/lavik-main920f879b-ordered-zset-104857600-k8-f1024-20261006/)
+[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-ordered-zset-104857600-k8-f1024-20261008/)
 
 ### ZRANGE 0 -1 WITHSCORES
 
 #### 64 KiB/key
 
-128 B/entry · 64 keys · 本轮 main 基线 `920f879b`
+128 B/entry · 64 keys · 本轮 main 基线 `c55e52c9`
 
 ![Sorted Set ZRANGE 64 KiB/key, 128 B, 64 keys](charts/zset-65536-128-k64-zrange-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main 920f879b](raw/lavik-main920f879b-ordered-zset-65536-k64-f128-20261006/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-ordered-zset-65536-k64-f128-20261008/)
 
-1024 B/entry · 64 keys · 本轮 main 基线 `920f879b`
+1024 B/entry · 64 keys · 本轮 main 基线 `c55e52c9`
 
 ![Sorted Set ZRANGE 64 KiB/key, 1024 B, 64 keys](charts/zset-65536-1024-k64-zrange-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main 920f879b](raw/lavik-main920f879b-ordered-zset-65536-k64-f1024-20261006/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-ordered-zset-65536-k64-f1024-20261008/)
 
 #### 1 MiB/key
 
-128 B/entry · 64 keys · 本轮 main 基线 `920f879b`
+128 B/entry · 64 keys · 本轮 main 基线 `c55e52c9`
 
 ![Sorted Set ZRANGE 1 MiB/key, 128 B, 64 keys](charts/zset-1048576-128-k64-zrange-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main 920f879b](raw/lavik-main920f879b-ordered-zset-1048576-k64-f128-20261006/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-ordered-zset-1048576-k64-f128-20261008/)
 
-1024 B/entry · 64 keys · 本轮 main 基线 `920f879b`
+1024 B/entry · 64 keys · 本轮 main 基线 `c55e52c9`
 
 ![Sorted Set ZRANGE 1 MiB/key, 1024 B, 64 keys](charts/zset-1048576-1024-k64-zrange-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main 920f879b](raw/lavik-main920f879b-ordered-zset-1048576-k64-f1024-20261006/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-ordered-zset-1048576-k64-f1024-20261008/)
 
 #### 100 MiB/key
 
-128 B/entry · 8 keys · 本轮 main 基线 `920f879b`
+128 B/entry · 8 keys · 本轮 main 基线 `c55e52c9`
 
 ![Sorted Set ZRANGE 100 MiB/key, 128 B, 8 keys](charts/zset-104857600-128-k8-zrange-current.png)
 
-[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main 920f879b](raw/lavik-main920f879b-ordered-zset-104857600-k8-f128-20261006/)
+[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-ordered-zset-104857600-k8-f128-20261008/)
 
-1024 B/entry · 8 keys · 本轮 main 基线 `920f879b`
+1024 B/entry · 8 keys · 本轮 main 基线 `c55e52c9`
 
 ![Sorted Set ZRANGE 100 MiB/key, 1024 B, 8 keys](charts/zset-104857600-1024-k8-zrange-current.png)
 
-[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main 920f879b](raw/lavik-main920f879b-ordered-zset-104857600-k8-f1024-20261006/)
+[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-ordered-zset-104857600-k8-f1024-20261008/)
 
 ## Stream
 
@@ -552,137 +632,137 @@ SADD + SREM 为两个命令等比例混合，QPS 计算完成的命令数，不�
 
 #### 64 KiB/key
 
-128 B/entry · 64 keys · 本轮 main 基线 `920f879b`
+128 B/entry · 64 keys · 本轮 main 基线 `c55e52c9`
 
 ![Stream XRANGE 64 KiB/key, 128 B, 64 keys](charts/stream-65536-128-k64-xrange-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main 920f879b](raw/lavik-main920f879b-ordered-stream-65536-k64-f128-20261006/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-ordered-stream-65536-k64-f128-20261008/)
 
-1024 B/entry · 64 keys · 本轮 main 基线 `920f879b`
+1024 B/entry · 64 keys · 本轮 main 基线 `c55e52c9`
 
 ![Stream XRANGE 64 KiB/key, 1024 B, 64 keys](charts/stream-65536-1024-k64-xrange-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main 920f879b](raw/lavik-main920f879b-ordered-stream-65536-k64-f1024-20261006/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-ordered-stream-65536-k64-f1024-20261008/)
 
 #### 1 MiB/key
 
-128 B/entry · 64 keys · 本轮 main 基线 `920f879b`
+128 B/entry · 64 keys · 本轮 main 基线 `c55e52c9`
 
 ![Stream XRANGE 1 MiB/key, 128 B, 64 keys](charts/stream-1048576-128-k64-xrange-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main 920f879b](raw/lavik-main920f879b-ordered-stream-1048576-k64-f128-20261006/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-ordered-stream-1048576-k64-f128-20261008/)
 
-1024 B/entry · 64 keys · 本轮 main 基线 `920f879b`
+1024 B/entry · 64 keys · 本轮 main 基线 `c55e52c9`
 
 ![Stream XRANGE 1 MiB/key, 1024 B, 64 keys](charts/stream-1048576-1024-k64-xrange-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main 920f879b](raw/lavik-main920f879b-ordered-stream-1048576-k64-f1024-20261006/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-ordered-stream-1048576-k64-f1024-20261008/)
 
 #### 100 MiB/key
 
-128 B/entry · 8 keys · 本轮 main 基线 `920f879b`
+128 B/entry · 8 keys · 本轮 main 基线 `c55e52c9`
 
 ![Stream XRANGE 100 MiB/key, 128 B, 8 keys](charts/stream-104857600-128-k8-xrange-current.png)
 
-[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main 920f879b](raw/lavik-main920f879b-ordered-stream-104857600-k8-f128-20261006/)
+[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-ordered-stream-104857600-k8-f128-20261008/)
 
-1024 B/entry · 8 keys · 本轮 main 基线 `920f879b`
+1024 B/entry · 8 keys · 本轮 main 基线 `c55e52c9`
 
 ![Stream XRANGE 100 MiB/key, 1024 B, 8 keys](charts/stream-104857600-1024-k8-xrange-current.png)
 
-[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main 920f879b](raw/lavik-main920f879b-ordered-stream-104857600-k8-f1024-20261006/)
+[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-ordered-stream-104857600-k8-f1024-20261008/)
 
 ### XADD MAXLEN ~
 
 #### 64 KiB/key
 
-128 B/entry · 64 keys · 本轮 main 基线 `920f879b`
+128 B/entry · 64 keys · 本轮 main 基线 `c55e52c9`
 
 ![Stream XADD_MAXLEN 64 KiB/key, 128 B, 64 keys](charts/stream-65536-128-k64-xadd_maxlen-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main 920f879b](raw/lavik-main920f879b-ordered-stream-65536-k64-f128-20261006/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-ordered-stream-65536-k64-f128-20261008/)
 
-1024 B/entry · 64 keys · 本轮 main 基线 `920f879b`
+1024 B/entry · 64 keys · 本轮 main 基线 `c55e52c9`
 
 ![Stream XADD_MAXLEN 64 KiB/key, 1024 B, 64 keys](charts/stream-65536-1024-k64-xadd_maxlen-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main 920f879b](raw/lavik-main920f879b-ordered-stream-65536-k64-f1024-20261006/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-ordered-stream-65536-k64-f1024-20261008/)
 
 #### 1 MiB/key
 
-128 B/entry · 64 keys · 本轮 main 基线 `920f879b`
+128 B/entry · 64 keys · 本轮 main 基线 `c55e52c9`
 
 ![Stream XADD_MAXLEN 1 MiB/key, 128 B, 64 keys](charts/stream-1048576-128-k64-xadd_maxlen-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main 920f879b](raw/lavik-main920f879b-ordered-stream-1048576-k64-f128-20261006/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-ordered-stream-1048576-k64-f128-20261008/)
 
-1024 B/entry · 64 keys · 本轮 main 基线 `920f879b`
+1024 B/entry · 64 keys · 本轮 main 基线 `c55e52c9`
 
 ![Stream XADD_MAXLEN 1 MiB/key, 1024 B, 64 keys](charts/stream-1048576-1024-k64-xadd_maxlen-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main 920f879b](raw/lavik-main920f879b-ordered-stream-1048576-k64-f1024-20261006/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-ordered-stream-1048576-k64-f1024-20261008/)
 
 #### 100 MiB/key
 
-128 B/entry · 8 keys · 本轮 main 基线 `920f879b`
+128 B/entry · 8 keys · 本轮 main 基线 `c55e52c9`
 
 ![Stream XADD_MAXLEN 100 MiB/key, 128 B, 8 keys](charts/stream-104857600-128-k8-xadd_maxlen-current.png)
 
-[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main 920f879b](raw/lavik-main920f879b-ordered-stream-104857600-k8-f128-20261006/)
+[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-ordered-stream-104857600-k8-f128-20261008/)
 
-1024 B/entry · 8 keys · 本轮 main 基线 `920f879b`
+1024 B/entry · 8 keys · 本轮 main 基线 `c55e52c9`
 
 ![Stream XADD_MAXLEN 100 MiB/key, 1024 B, 8 keys](charts/stream-104857600-1024-k8-xadd_maxlen-current.png)
 
-[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main 920f879b](raw/lavik-main920f879b-ordered-stream-104857600-k8-f1024-20261006/)
+[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-ordered-stream-104857600-k8-f1024-20261008/)
 
 ### XRANGE - +
 
 #### 64 KiB/key
 
-128 B/entry · 64 keys · 本轮 main 基线 `920f879b`
+128 B/entry · 64 keys · 本轮 main 基线 `c55e52c9`
 
 ![Stream XRANGE_FULL 64 KiB/key, 128 B, 64 keys](charts/stream-65536-128-k64-xrange_full-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main 920f879b](raw/lavik-main920f879b-ordered-stream-65536-k64-f128-20261006/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-ordered-stream-65536-k64-f128-20261008/)
 
-1024 B/entry · 64 keys · 本轮 main 基线 `920f879b`
+1024 B/entry · 64 keys · 本轮 main 基线 `c55e52c9`
 
 ![Stream XRANGE_FULL 64 KiB/key, 1024 B, 64 keys](charts/stream-65536-1024-k64-xrange_full-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main 920f879b](raw/lavik-main920f879b-ordered-stream-65536-k64-f1024-20261006/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-ordered-stream-65536-k64-f1024-20261008/)
 
 #### 1 MiB/key
 
-128 B/entry · 64 keys · 本轮 main 基线 `920f879b`
+128 B/entry · 64 keys · 本轮 main 基线 `c55e52c9`
 
 ![Stream XRANGE_FULL 1 MiB/key, 128 B, 64 keys](charts/stream-1048576-128-k64-xrange_full-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main 920f879b](raw/lavik-main920f879b-ordered-stream-1048576-k64-f128-20261006/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-ordered-stream-1048576-k64-f128-20261008/)
 
-1024 B/entry · 64 keys · 本轮 main 基线 `920f879b`
+1024 B/entry · 64 keys · 本轮 main 基线 `c55e52c9`
 
 ![Stream XRANGE_FULL 1 MiB/key, 1024 B, 64 keys](charts/stream-1048576-1024-k64-xrange_full-current.png)
 
-[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main 920f879b](raw/lavik-main920f879b-ordered-stream-1048576-k64-f1024-20261006/)
+[Redis](raw/redis/) · [Valkey](raw/valkey/) · [Kvrocks (80 GiB cache)](raw/kvrocks/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-ordered-stream-1048576-k64-f1024-20261008/)
 
 #### 100 MiB/key
 
-128 B/entry · 8 keys · 本轮 main 基线 `920f879b`
+128 B/entry · 8 keys · 本轮 main 基线 `c55e52c9`
 
 ![Stream XRANGE_FULL 100 MiB/key, 128 B, 8 keys](charts/stream-104857600-128-k8-xrange_full-current.png)
 
-[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main 920f879b](raw/lavik-main920f879b-ordered-stream-104857600-k8-f128-20261006/)
+[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-ordered-stream-104857600-k8-f128-20261008/)
 
-1024 B/entry · 8 keys · 本轮 main 基线 `920f879b`
+1024 B/entry · 8 keys · 本轮 main 基线 `c55e52c9`
 
 ![Stream XRANGE_FULL 100 MiB/key, 1024 B, 8 keys](charts/stream-104857600-1024-k8-xrange_full-current.png)
 
-[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main 920f879b](raw/lavik-main920f879b-ordered-stream-104857600-k8-f1024-20261006/)
+[Redis](raw/redis-100m/) · [Valkey](raw/valkey-100m/) · [Kvrocks (80 GiB cache)](raw/kvrocks-100m/) · [Lavik main c55e52c9](raw/lavik-mainc55e52c9-ordered-stream-104857600-k8-f1024-20261008/)
 
 ## 测量与复现
 
-memtier 在独立客户端主机 172.16.0.5 上运行，绑定 CPU 0–15；key 均匀随机。HGET/HSET、SISMEMBER、LINDEX/LSET、ZSCORE/ZINCRBY 和指定 ID 的 XRANGE 在每 key 的八个等距位置间轮换，并非对所有字段均匀采样。SADD/SREM 使用固定测试 member；XADD MAXLEN 追加新 ID。每组按连接数顺序测试，后续写入点继承前面测点改变的值和布局。
+原有命令图使用 memtier，在独立客户端主机 172.16.0.5 上运行，绑定 CPU 0–15；key 均匀随机。HGET/HSET、SISMEMBER、LINDEX/LSET、ZSCORE/ZINCRBY 和指定 ID 的 XRANGE 在每 key 的八个等距位置间轮换，并非对所有字段均匀采样。SADD/SREM 使用固定测试 member；XADD MAXLEN 追加新 ID。每组按连接数顺序测试，后续写入点继承前面测点改变的值和布局。
 
 Hash/Set：1 MiB/key 使用 50,000 keys，100 MiB/key 使用 500 keys。LSET 的大 key 数负载同样使用 50,000/500 keys。其他有序结构保留既有四库一致的 64/8-key 负载，标题明确区分；不同 key 数的曲线不能直接比较。
 

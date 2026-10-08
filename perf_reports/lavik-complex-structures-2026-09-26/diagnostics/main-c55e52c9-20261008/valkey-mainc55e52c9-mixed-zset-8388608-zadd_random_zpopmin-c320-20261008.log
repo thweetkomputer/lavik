@@ -1,0 +1,21 @@
+2026-10-08 05:02:35 valkey-mainc55e52c9-mixed-zset-8388608-zadd_random_zpopmin-c320-20261008 zset-8388608-1024 fill
+2026-10-08 05:02:35 zset fill worker 7 keys 1 / 1
+2026-10-08 05:02:35 zset fill worker 4 keys 1 / 1
+2026-10-08 05:02:35 zset fill worker 3 keys 1 / 1
+2026-10-08 05:02:35 zset fill worker 6 keys 1 / 1
+2026-10-08 05:02:35 zset fill worker 1 keys 1 / 1
+2026-10-08 05:02:35 zset fill worker 5 keys 1 / 1
+2026-10-08 05:02:35 zset fill worker 2 keys 1 / 1
+2026-10-08 05:02:35 zset fill worker 8 keys 1 / 1
+Traceback (most recent call last):
+  File "/mnt/dev/lavik-main-c55e52c9-20261008/run-random.py", line 105, in <module>
+    run.main()
+  File "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/run.py", line 612, in main
+    measure(directory, kind, size, field_bytes, entries,
+  File "/mnt/dev/lavik-main-c55e52c9-20261008/run-random.py", line 91, in measure
+    after_cardinality=run.validate(kind,field_bytes,entries,keys,product,after=True)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dev/lavik-main-c55e52c9-20261008/run-random.py", line 24, in validate
+    assert all(entries//2<=n<=entries*2 for n in counts.values()),counts
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'complex_1': 9607, 'complex_2': 8679, 'complex_3': 9010, 'complex_4': 3884, 'complex_5': 7889, 'complex_6': 8348, 'complex_7': 6816, 'complex_8': 6016}

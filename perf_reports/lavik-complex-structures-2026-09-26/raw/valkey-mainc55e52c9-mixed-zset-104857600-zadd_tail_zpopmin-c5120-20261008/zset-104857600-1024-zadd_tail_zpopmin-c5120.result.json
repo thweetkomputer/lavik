@@ -1,0 +1,105 @@
+{
+  "product": "valkey-mainc55e52c9-mixed-zset-104857600-zadd_tail_zpopmin-c5120-20261008",
+  "type": "zset",
+  "logical_bytes": 104857600,
+  "field_bytes": 1024,
+  "entries_per_key": 102400,
+  "keys": 8,
+  "operation": "ZADD_TAIL_ZPOPMIN",
+  "connections": 5120,
+  "qps": 384128.334115,
+  "p50_ms": 12.963821,
+  "p99_ms": 17.711063,
+  "p999_ms": 61.077094,
+  "requests": 11527501,
+  "seconds": 30,
+  "elapsed_seconds": 42.50809896597639,
+  "commands": {
+    "ZADD": {
+      "count": 5762291,
+      "qps": 192015.532466,
+      "p50_ms": 12.965248,
+      "p99_ms": 17.708862,
+      "p999_ms": 61.078806
+    },
+    "ZPOPMIN": {
+      "count": 5765210,
+      "qps": 192112.801649,
+      "p50_ms": 12.962344,
+      "p99_ms": 17.713328,
+      "p999_ms": 61.074661
+    }
+  },
+  "key_counts": {
+    "complex_1": {
+      "first": 720662,
+      "second": 720349,
+      "net": 313
+    },
+    "complex_2": {
+      "first": 719860,
+      "second": 721152,
+      "net": -1292
+    },
+    "complex_3": {
+      "first": 721556,
+      "second": 720370,
+      "net": 1186
+    },
+    "complex_4": {
+      "first": 720022,
+      "second": 721609,
+      "net": -1587
+    },
+    "complex_5": {
+      "first": 720152,
+      "second": 719690,
+      "net": 462
+    },
+    "complex_6": {
+      "first": 720371,
+      "second": 720894,
+      "net": -523
+    },
+    "complex_7": {
+      "first": 719864,
+      "second": 721138,
+      "net": -1274
+    },
+    "complex_8": {
+      "first": 719804,
+      "second": 720008,
+      "net": -204
+    }
+  },
+  "client_elapsed_seconds": 30.009504575,
+  "command_audit": {
+    "passed": true,
+    "server_counts": {
+      "info": 1.0,
+      "zadd": 5762291.0,
+      "zpopmin": 5765210.0
+    },
+    "client_counts": {
+      "ZADD": 5762291,
+      "ZPOPMIN": 5765210
+    }
+  },
+  "bounded": {
+    "baseline": 102400,
+    "maximum_guard": 204800,
+    "minimum_guard": 51200,
+    "observed_push_min": 0,
+    "observed_push_max": 0,
+    "all_final_counts": {
+      "complex_1": 102713,
+      "complex_2": 101108,
+      "complex_3": 103586,
+      "complex_4": 100813,
+      "complex_5": 102862,
+      "complex_6": 101877,
+      "complex_7": 101126,
+      "complex_8": 102196
+    }
+  }
+}

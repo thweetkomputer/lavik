@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt
 
 
 ROOT = Path(__file__).resolve().parent
-POINT_LEVELS = (80, 320, 1280, 2560, 5120)
+POINT_LEVELS = (80, 320, 1280, 2560)
 FULL_LEVELS = {1048576: (16, 80), 104857600: (1, 4, 16)}
 SIZES = {1048576: ("1m", 50000, "1 MiB"),
          104857600: ("100m", 500, "100 MiB")}
@@ -54,6 +54,10 @@ def load(product, kind, size, field, variant=None, main=None):
                         "full_levels": list(FULL_LEVELS[size]), "seconds": 8,
                         "mode": "both"}
     for name, expected in expected_options.items():
+        if name == "levels" and options.get(name) == list(POINT_LEVELS) + [5120]:
+            # Preserve completed historical grids while omitting the level
+            # removed from the current report at the user's request.
+            continue
         if options.get(name) != expected:
             raise RuntimeError(f"{folder}: {name}={options.get(name)}, expected {expected}")
     if product == "lavik" and options.get("source_commit") != main["commit"]:
@@ -76,12 +80,16 @@ def load(product, kind, size, field, variant=None, main=None):
                 ("field_bytes", field), ("keys", keys))):
             raise RuntimeError(f"mismatched result: {path}")
         point = (row["operation"], row["connections"])
+        if point[1] == 5120:
+            continue
         if point in results:
             raise RuntimeError(f"duplicate result: {path}")
         results[point] = row
     for path in folder.glob("*.error.json"):
         row = json.loads(path.read_text())
         point = (row["operation"], row["connections"])
+        if point[1] == 5120:
+            continue
         if point in failures or point in results:
             raise RuntimeError(f"duplicate or conflicting result: {path}")
         failures[point] = row["error"]

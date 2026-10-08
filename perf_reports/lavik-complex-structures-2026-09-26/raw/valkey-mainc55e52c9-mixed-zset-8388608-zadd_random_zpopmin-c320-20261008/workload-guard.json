@@ -1,0 +1,90 @@
+{
+  "type": "zset",
+  "operation": "ZADD_RANDOM_ZPOPMIN",
+  "logical_bytes": 8388608,
+  "field_bytes": 1024,
+  "entries_per_key": 8192,
+  "keys": 8,
+  "connections": 320,
+  "seconds": 30,
+  "qps": null,
+  "p50_ms": null,
+  "p99_ms": null,
+  "p999_ms": null,
+  "requests": 15151845,
+  "failure": {
+    "reason": "final cardinality outside predeclared [0.5N, 2N] guard",
+    "initial_per_key": 8192,
+    "minimum": 4096,
+    "maximum": 16384,
+    "final_counts": {
+      "complex_1": 9607,
+      "complex_2": 8679,
+      "complex_3": 9010,
+      "complex_4": 3884,
+      "complex_5": 7889,
+      "complex_6": 8348,
+      "complex_7": 6816,
+      "complex_8": 6016
+    },
+    "original_log": "valkey-mainc55e52c9-mixed-zset-8388608-zadd_random_zpopmin-c320-20261008.log",
+    "disposition": "Retained without rerun; excluded from QPS/p99 curves as a gap. No client or server command errors."
+  },
+  "observed_client_metrics_excluded_from_curves": {
+    "count": 15151845,
+    "qps": 505048.565134,
+    "p50_ms": 0.597178,
+    "p99_ms": 1.340409,
+    "p999_ms": 2.506698
+  },
+  "command_audit": {
+    "passed": true,
+    "server_counts": {
+      "info": 1.0,
+      "zpopmin": 7578566.0,
+      "zadd": 7573279.0
+    }
+  },
+  "key_counts": {
+    "complex_1": {
+      "first": 946763,
+      "second": 945348,
+      "net": 1415
+    },
+    "complex_2": {
+      "first": 948053,
+      "second": 947566,
+      "net": 487
+    },
+    "complex_3": {
+      "first": 946798,
+      "second": 945980,
+      "net": 818
+    },
+    "complex_4": {
+      "first": 945261,
+      "second": 949569,
+      "net": -4308
+    },
+    "complex_5": {
+      "first": 946622,
+      "second": 946925,
+      "net": -303
+    },
+    "complex_6": {
+      "first": 948374,
+      "second": 948218,
+      "net": 156
+    },
+    "complex_7": {
+      "first": 946050,
+      "second": 947426,
+      "net": -1376
+    },
+    "complex_8": {
+      "first": 945358,
+      "second": 947534,
+      "net": -2176
+    }
+  }
+}

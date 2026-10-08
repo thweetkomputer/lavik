@@ -1,0 +1,105 @@
+{
+  "product": "lavik-mainc55e52c9-mixed-list-104857600-rpush_lpop-c2560-20261008",
+  "type": "list",
+  "logical_bytes": 104857600,
+  "field_bytes": 1024,
+  "entries_per_key": 102400,
+  "keys": 8,
+  "operation": "RPUSH_LPOP",
+  "connections": 2560,
+  "qps": 22889.2124325,
+  "p50_ms": 83.041258,
+  "p99_ms": 430.364847,
+  "p999_ms": 436.987416,
+  "requests": 693020,
+  "seconds": 30,
+  "elapsed_seconds": 36.189347535022534,
+  "commands": {
+    "RPUSH": {
+      "count": 346047,
+      "qps": 11429.3141534,
+      "p50_ms": 82.686475,
+      "p99_ms": 430.314898,
+      "p999_ms": 436.98074
+    },
+    "LPOP": {
+      "count": 346973,
+      "qps": 11459.898279,
+      "p50_ms": 83.323874,
+      "p99_ms": 430.42027,
+      "p999_ms": 437.012061
+    }
+  },
+  "key_counts": {
+    "complex_1": {
+      "first": 43394,
+      "second": 43453,
+      "net": -59
+    },
+    "complex_2": {
+      "first": 43370,
+      "second": 43281,
+      "net": 89
+    },
+    "complex_3": {
+      "first": 43437,
+      "second": 43079,
+      "net": 358
+    },
+    "complex_4": {
+      "first": 43016,
+      "second": 43523,
+      "net": -507
+    },
+    "complex_5": {
+      "first": 43045,
+      "second": 43208,
+      "net": -163
+    },
+    "complex_6": {
+      "first": 43388,
+      "second": 43351,
+      "net": 37
+    },
+    "complex_7": {
+      "first": 43175,
+      "second": 43523,
+      "net": -348
+    },
+    "complex_8": {
+      "first": 43222,
+      "second": 43555,
+      "net": -333
+    }
+  },
+  "client_elapsed_seconds": 30.277144836,
+  "command_audit": {
+    "passed": true,
+    "server_counts": {
+      "lpop": 346973.0,
+      "info": 1.0,
+      "rpush": 346047.0
+    },
+    "client_counts": {
+      "RPUSH": 346047,
+      "LPOP": 346973
+    }
+  },
+  "bounded": {
+    "baseline": 102400,
+    "maximum_guard": 204800,
+    "minimum_guard": 51200,
+    "observed_push_min": 101895,
+    "observed_push_max": 102843,
+    "all_final_counts": {
+      "complex_1": 102341,
+      "complex_2": 102489,
+      "complex_3": 102758,
+      "complex_4": 101893,
+      "complex_5": 102237,
+      "complex_6": 102437,
+      "complex_7": 102052,
+      "complex_8": 102067
+    }
+  }
+}

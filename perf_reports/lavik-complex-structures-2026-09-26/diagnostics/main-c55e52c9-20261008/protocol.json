@@ -1,0 +1,52 @@
+{
+  "main": "c55e52c98d785dec9603d33ddcf55eab299eb11e",
+  "previous_main": "920f879b05636d066ef0485f1ee1121813ef79ac",
+  "legacy": {
+    "conditions": 28,
+    "points": 332,
+    "batched_imports": 4,
+    "peers": "historical unchanged workloads retained",
+    "seconds": 8,
+    "high_key_lset_seconds": 10
+  },
+  "new_mixed": {
+    "systems": [
+      "lavik",
+      "redis",
+      "valkey",
+      "kvrocks"
+    ],
+    "sizes": [
+      8388608,
+      104857600
+    ],
+    "field_bytes": 1024,
+    "keys": 8,
+    "connections": [
+      80,
+      320,
+      1280,
+      2560,
+      5120
+    ],
+    "seconds": 30,
+    "points": 200,
+    "repeats": 1,
+    "pipeline": 1,
+    "client_threads": 16,
+    "client_seed": 42,
+    "workloads": [
+      "LPUSH_RPOP",
+      "RPUSH_LPOP",
+      "ZADD_HEAD_ZPOPMAX",
+      "ZADD_RANDOM_ZPOPMIN",
+      "ZADD_TAIL_ZPOPMIN"
+    ],
+    "population": "uniform independent key and 50/50 add/pop every request; new unique ZSet members; no nil pops; all final key counts audited; List guards [0.5N,2N]",
+    "lifecycle": "fresh server per point; fresh Lavik media and verified fixed startup digest seed; fresh Kvrocks database directory per point on same allowlisted RAID0; warm seeded population",
+    "settle": "Lavik transaction cleaner stable; Kvrocks flush/compaction idle in two snapshots; Redis/Valkey 2 seconds idle",
+    "method": "single concurrency sweep, no confidence interval; new mixed data are not combined with earlier Fenwick ablation numbers"
+  },
+  "publication": "https://github.com/thweetkomputer/lavik refs/heads/bench/complex-structures-2026-09-26",
+  "started_utc": "2026-10-08T03:07:39.633427+00:00"
+}

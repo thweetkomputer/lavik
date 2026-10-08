@@ -1,0 +1,22 @@
+WAIT_FOR_HOST_LOCK main-c55e52c9-native-validation 1448879 1791428437.27267
+HOST_LOCK_ACQUIRED main-c55e52c9-native-validation 1448879 1791428437.2727025
+START main checkout 1791428437.279562
+PASS main checkout 1791428437.2951863
+START main configure-tests 1791428437.2952025
+PASS main configure-tests 1791428442.2187457
+START main build-tests 1791428442.2187943
+PASS main build-tests 1791428678.1582937
+START main unit-tests 1791428678.158404
+PASS main unit-tests 1791428680.879462
+START main configure-production 1791428680.9139316
+PASS main configure-production 1791428685.3869905
+START main build-production 1791428685.387034
+PASS main build-production 1791428685.4510472
+START main native-tests-private-tmp 1791428686.2422354
+Traceback (most recent call last):
+  File "/mnt/dev/lavik-main-c55e52c9-20261008/validate-native.py", line 57, in <module>
+    run('native-tests-private-tmp',['sudo','-n','--preserve-env=TMPDIR,LAVIK_TEST_DATA_DIR','unshare','--mount','--propagation','private','python3',str(W/'private-tmp-exec.py'),str(W/'native-tmp'),str(os.getuid()),str(os.getgid()),str(driver),str(binary),'--gtest_filter=*','--gtest_output=json:'+str(W/(prefix+'-native-tests-private-tmp.json'))],env)
+  File "/mnt/dev/lavik-main-c55e52c9-20261008/validate-native.py", line 31, in run
+    if code:raise subprocess.CalledProcessError(code,argv)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+subprocess.CalledProcessError: Command '['sudo', '-n', '--preserve-env=TMPDIR,LAVIK_TEST_DATA_DIR', 'unshare', '--mount', '--propagation', 'private', 'python3', '/mnt/dev/lavik-main-c55e52c9-20261008/private-tmp-exec.py', '/mnt/dev/lavik-main-c55e52c9-20261008/native-tmp', '1000', '1000', '/mnt/dev/lavik-benchmark-binaries/refresh-main-driver-c55e52c9-20261008', '/mnt/dev/lavik-benchmark-binaries/lavik-refresh-main-c55e52c9-20261008', '--gtest_filter=*', '--gtest_output=json:/mnt/dev/lavik-main-c55e52c9-20261008/refresh-main-native-tests-private-tmp.json']' returned non-zero exit status 1.

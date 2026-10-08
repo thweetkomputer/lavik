@@ -1,0 +1,24 @@
+{
+  "date": "2026-10-08",
+  "completed_before_pause": 116,
+  "retained_guard_point": {
+    "system": "valkey",
+    "size": 8388608,
+    "operation": "ZADD_RANDOM_ZPOPMIN",
+    "connections": 320
+  },
+  "reason": "Key complex_4 ended at 3884, below predeclared minimum 4096; no command errors. Preserve gap; do not rerun.",
+  "measurement_harness_unchanged": [
+    "run-random.py",
+    "random-client.cpp",
+    "random-client",
+    "host.py",
+    "fixed-seed-exec.py",
+    "private-tmp-exec.py"
+  ],
+  "original_orchestration": "run-mixed-suite-before-cardinality-guard.py",
+  "original_hashes": "mixed-harness-provenance-before-cardinality-guard.json",
+  "resumed_hashes": "mixed-harness-provenance.json",
+  "resumed_orchestration": "run-mixed-suite.py",
+  "retention_audit": "mixed_failures.py"
+}

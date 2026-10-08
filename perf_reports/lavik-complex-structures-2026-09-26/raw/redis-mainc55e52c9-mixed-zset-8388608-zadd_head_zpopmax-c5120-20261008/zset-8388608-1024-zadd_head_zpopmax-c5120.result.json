@@ -1,0 +1,105 @@
+{
+  "product": "redis-mainc55e52c9-mixed-zset-8388608-zadd_head_zpopmax-c5120-20261008",
+  "type": "zset",
+  "logical_bytes": 8388608,
+  "field_bytes": 1024,
+  "entries_per_key": 8192,
+  "keys": 8,
+  "operation": "ZADD_HEAD_ZPOPMAX",
+  "connections": 5120,
+  "qps": 396512.913429,
+  "p50_ms": 12.835067,
+  "p99_ms": 15.389877,
+  "p999_ms": 22.984728,
+  "requests": 11899161,
+  "seconds": 30,
+  "elapsed_seconds": 42.8130156690022,
+  "commands": {
+    "ZADD": {
+      "count": 5948117,
+      "qps": 198207.688852,
+      "p50_ms": 12.834951,
+      "p99_ms": 15.38972,
+      "p999_ms": 23.140437
+    },
+    "ZPOPMAX": {
+      "count": 5951044,
+      "qps": 198305.224577,
+      "p50_ms": 12.835171,
+      "p99_ms": 15.390071,
+      "p999_ms": 22.841299
+    }
+  },
+  "key_counts": {
+    "complex_1": {
+      "first": 744025,
+      "second": 743749,
+      "net": 276
+    },
+    "complex_2": {
+      "first": 743122,
+      "second": 744554,
+      "net": -1432
+    },
+    "complex_3": {
+      "first": 744584,
+      "second": 743548,
+      "net": 1036
+    },
+    "complex_4": {
+      "first": 743252,
+      "second": 744556,
+      "net": -1304
+    },
+    "complex_5": {
+      "first": 743598,
+      "second": 742931,
+      "net": 667
+    },
+    "complex_6": {
+      "first": 743637,
+      "second": 743923,
+      "net": -286
+    },
+    "complex_7": {
+      "first": 743119,
+      "second": 744323,
+      "net": -1204
+    },
+    "complex_8": {
+      "first": 742780,
+      "second": 743460,
+      "net": -680
+    }
+  },
+  "client_elapsed_seconds": 30.009516959,
+  "command_audit": {
+    "passed": true,
+    "server_counts": {
+      "zpopmax": 5951044.0,
+      "zadd": 5948117.0,
+      "info": 1.0
+    },
+    "client_counts": {
+      "ZADD": 5948117,
+      "ZPOPMAX": 5951044
+    }
+  },
+  "bounded": {
+    "baseline": 8192,
+    "maximum_guard": 16384,
+    "minimum_guard": 4096,
+    "observed_push_min": 0,
+    "observed_push_max": 0,
+    "all_final_counts": {
+      "complex_1": 8468,
+      "complex_2": 6760,
+      "complex_3": 9228,
+      "complex_4": 6888,
+      "complex_5": 8859,
+      "complex_6": 7906,
+      "complex_7": 6988,
+      "complex_8": 7512
+    }
+  }
+}

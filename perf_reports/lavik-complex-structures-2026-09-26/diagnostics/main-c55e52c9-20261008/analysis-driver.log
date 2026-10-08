@@ -1,0 +1,222 @@
+WAIT_FOR_HOST_LOCK main-c55e52c9-report-analysis 1529650 1791448101.7009614
+HOST_LOCK_ACQUIRED main-c55e52c9-report-analysis 1529650 1791448101.7010088
+START_ANALYSIS collect-mixed.py 1791448101.7010393
+ALL_200_MIXED_POINTS_AUDITED 1683509197
+PASS_ANALYSIS collect-mixed.py 1791448101.794901
+START_ANALYSIS render-main-refresh.py 1791448101.794947
+/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/charts/hash-1048576-1024-k50000-fill.png
+/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/hash-1048576-1024-k50000-fill.csv
+/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/charts/hash-1048576-128-k50000-fill.png
+/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/hash-1048576-128-k50000-fill.csv
+/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/charts/set-1048576-1024-k50000-fill.png
+/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/set-1048576-1024-k50000-fill.csv
+/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/charts/set-1048576-128-k50000-fill.png
+/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/set-1048576-128-k50000-fill.csv
+All new-main plots and source selections rendered; review introduction before publication.
+PASS_ANALYSIS render-main-refresh.py 1791448116.4282517
+START_ANALYSIS plot_mixed_writes.py 1791448116.4283178
+PASS_ANALYSIS plot_mixed_writes.py 1791448118.9211318
+START_ANALYSIS build-main-gap-summary.py 1791448118.9211988
+{
+  "conditions": 28,
+  "points": 278,
+  "summary": [
+    {
+      "command": "XADD_MAXLEN",
+      "points": 24,
+      "successful": 24,
+      "errors": 0,
+      "median_ratio": 0.08598641082063468,
+      "minimum_ratio": 0.02699841207490932,
+      "maximum_ratio": 0.14288579178763539,
+      "at_least_80pct": 0,
+      "at_least_fastest": 0
+    },
+    {
+      "command": "ZINCRBY",
+      "points": 24,
+      "successful": 24,
+      "errors": 0,
+      "median_ratio": 0.09783467067426369,
+      "minimum_ratio": 0.054252193736127545,
+      "maximum_ratio": 0.1904296540004074,
+      "at_least_80pct": 0,
+      "at_least_fastest": 0
+    },
+    {
+      "command": "LSET",
+      "points": 32,
+      "successful": 32,
+      "errors": 0,
+      "median_ratio": 0.21877482275357313,
+      "minimum_ratio": 0.1420306931113627,
+      "maximum_ratio": 0.650570496921375,
+      "at_least_80pct": 0,
+      "at_least_fastest": 0
+    },
+    {
+      "command": "HSET",
+      "points": 16,
+      "successful": 16,
+      "errors": 0,
+      "median_ratio": 0.31230436042543347,
+      "minimum_ratio": 0.1801529943499797,
+      "maximum_ratio": 0.3767736321668934,
+      "at_least_80pct": 0,
+      "at_least_fastest": 0
+    },
+    {
+      "command": "XRANGE",
+      "points": 24,
+      "successful": 24,
+      "errors": 0,
+      "median_ratio": 0.3415418976266114,
+      "minimum_ratio": 0.20529294670583872,
+      "maximum_ratio": 0.6510770718080329,
+      "at_least_80pct": 0,
+      "at_least_fastest": 0
+    },
+    {
+      "command": "SADD_SREM",
+      "points": 16,
+      "successful": 16,
+      "errors": 0,
+      "median_ratio": 0.4003028515298967,
+      "minimum_ratio": 0.27387658192829956,
+      "maximum_ratio": 0.5825436159869547,
+      "at_least_80pct": 0,
+      "at_least_fastest": 0
+    },
+    {
+      "command": "SMEMBERS",
+      "points": 10,
+      "successful": 10,
+      "errors": 0,
+      "median_ratio": 0.4846280954918557,
+      "minimum_ratio": 0.12130637636080872,
+      "maximum_ratio": 0.9985667010939443,
+      "at_least_80pct": 1,
+      "at_least_fastest": 0
+    },
+    {
+      "command": "ZSCORE",
+      "points": 24,
+      "successful": 24,
+      "errors": 0,
+      "median_ratio": 0.5316136620351195,
+      "minimum_ratio": 0.20179164124832621,
+      "maximum_ratio": 0.9070167299334998,
+      "at_least_80pct": 6,
+      "at_least_fastest": 0
+    },
+    {
+      "command": "HGETALL",
+      "points": 10,
+      "successful": 10,
+      "errors": 0,
+      "median_ratio": 0.5322443969570521,
+      "minimum_ratio": 0.12919463087248323,
+      "maximum_ratio": 1.062162485133697,
+      "at_least_80pct": 3,
+      "at_least_fastest": 2
+    },
+    {
+      "command": "ZRANGE",
+      "points": 14,
+      "successful": 14,
+      "errors": 0,
+      "median_ratio": 0.7078439069340284,
+      "minimum_ratio": 0.14716312056737588,
+      "maximum_ratio": 1.1045710536953772,
+      "at_least_80pct": 6,
+      "at_least_fastest": 2
+    },
+    {
+      "command": "SISMEMBER",
+      "points": 16,
+      "successful": 16,
+      "errors": 0,
+      "median_ratio": 0.7888337994586702,
+      "minimum_ratio": 0.43167007693655385,
+      "maximum_ratio": 1.2122839602919193,
+      "at_least_80pct": 7,
+      "at_least_fastest": 2
+    },
+    {
+      "command": "HGET",
+      "points": 16,
+      "successful": 16,
+      "errors": 0,
+      "median_ratio": 0.8324068603827954,
+      "minimum_ratio": 0.46040124813874533,
+      "maximum_ratio": 1.1611063591480872,
+      "at_least_80pct": 9,
+      "at_least_fastest": 3
+    },
+    {
+      "command": "LINDEX",
+      "points": 24,
+      "successful": 24,
+      "errors": 0,
+      "median_ratio": 0.8419004045387906,
+      "minimum_ratio": 0.4154244504382463,
+      "maximum_ratio": 1.07298936457495,
+      "at_least_80pct": 14,
+      "at_least_fastest": 8
+    },
+    {
+      "command": "LRANGE",
+      "points": 14,
+      "successful": 14,
+      "errors": 0,
+      "median_ratio": 0.9990948035233715,
+      "minimum_ratio": 0.593241551939925,
+      "maximum_ratio": 1.1701052033412702,
+      "at_least_80pct": 10,
+      "at_least_fastest": 4
+    },
+    {
+      "command": "XRANGE_FULL",
+      "points": 14,
+      "successful": 14,
+      "errors": 0,
+      "median_ratio": 1.1208981371331261,
+      "minimum_ratio": 0.9445299671228587,
+      "maximum_ratio": 1.3799212598425197,
+      "at_least_80pct": 14,
+      "at_least_fastest": 9
+    }
+  ]
+}
+PASS_ANALYSIS build-main-gap-summary.py 1791448118.9602406
+START_ANALYSIS collect-baseline.py 1791448118.9602752
+Verified command counters for 278 observations
+BASELINE_COMMAND_AUDIT_COMPLETE 278 successful 0 failed
+PASS_ANALYSIS collect-baseline.py 1791448119.1387088
+START_ANALYSIS write-report.py 1791448119.138755
+BILINGUAL_REPORT_WRITTEN 0 retained legacy failures
+PASS_ANALYSIS write-report.py 1791448119.5524063
+START_ANALYSIS audit-current.py 1791448119.5524695
+{
+  "time": 1791448120.3574975,
+  "target_main": "c55e52c98d785dec9603d33ddcf55eab299eb11e",
+  "fresh_conditions": 28,
+  "total_conditions": 28,
+  "observations": 1112,
+  "fill_observations": 24,
+  "failed_observations": [],
+  "checks": [
+    "all plotted QPS/p99 match raw source",
+    "all selected connection grids are complete with failures explicitly retained",
+    "fresh source commits and binary hashes match manifest",
+    "fresh raw has validated cardinalities and clean exits",
+    "all HSET/SADD and RPUSH fill CSV elapsed times match raw source",
+    "historical versions retain original identities",
+    "all README links and 94 figures exist"
+  ]
+}
+PASS_ANALYSIS audit-current.py 1791448120.403029
+START_ANALYSIS audit-mixed.py 1791448120.403093
+ALL_MIXED_PLOTS_AUDITED 160
+PASS_ANALYSIS audit-mixed.py 1791448120.7944484
+ALL_MAIN_REPORT_ANALYSIS_COMPLETE 1791448121.599807

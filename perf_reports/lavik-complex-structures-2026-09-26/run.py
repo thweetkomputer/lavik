@@ -413,7 +413,9 @@ def main():
     p.add_argument("--sizes", default="65536,1048576")
     p.add_argument("--fields", default="128,1024")
     p.add_argument("--types", default=",".join(TYPES))
-    p.add_argument("--levels", default="80,320,1280,2560,5120")
+    p.add_argument("--levels", default="80,320,1280,2560")
+    p.add_argument("--exclude-levels", default="5120",
+                   help="Omit connection levels; pass an empty value to replay archived grids")
     p.add_argument("--full-levels", default="1,4,16")
     p.add_argument("--seconds", type=int, default=8)
     p.add_argument("--mode", choices=("point", "full", "both"), default="point")
@@ -453,8 +455,12 @@ def main():
     kinds = tuple(opt.types.split(","))
     sizes = tuple(map(int, opt.sizes.split(",")))
     fields = tuple(map(int, opt.fields.split(",")))
-    levels = tuple(map(int, opt.levels.split(",")))
-    full_levels = tuple(map(int, opt.full_levels.split(",")))
+    # The report no longer measures 5120 connections. Filter explicit legacy
+    # argument lists too, so a seed already in flight does not start that point.
+    excluded = {int(x) for x in opt.exclude_levels.split(",") if x}
+    levels = tuple(n for n in map(int, opt.levels.split(",")) if n not in excluded)
+    full_levels = tuple(n for n in map(int, opt.full_levels.split(",")) if n not in excluded)
+    assert levels and full_levels, "Connection exclusion left an empty grid"
     assert set(kinds) <= set(TYPES) and opt.keys >= 8
     assert 1 <= opt.client_threads <= 16 and opt.seed_pipeline >= 1
     assert 1 <= opt.fill_workers <= 128

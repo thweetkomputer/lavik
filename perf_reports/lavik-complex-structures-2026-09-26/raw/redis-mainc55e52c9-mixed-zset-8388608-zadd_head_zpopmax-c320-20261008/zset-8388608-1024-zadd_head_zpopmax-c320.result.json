@@ -1,0 +1,105 @@
+{
+  "product": "redis-mainc55e52c9-mixed-zset-8388608-zadd_head_zpopmax-c320-20261008",
+  "type": "zset",
+  "logical_bytes": 8388608,
+  "field_bytes": 1024,
+  "entries_per_key": 8192,
+  "keys": 8,
+  "operation": "ZADD_HEAD_ZPOPMAX",
+  "connections": 320,
+  "qps": 488860.398653,
+  "p50_ms": 0.651074,
+  "p99_ms": 1.111446,
+  "p999_ms": 1.379641,
+  "requests": 14666210,
+  "seconds": 30,
+  "elapsed_seconds": 32.787937816930935,
+  "commands": {
+    "ZADD": {
+      "count": 7330867,
+      "qps": 244355.601351,
+      "p50_ms": 0.64962,
+      "p99_ms": 1.114271,
+      "p999_ms": 1.378645
+    },
+    "ZPOPMAX": {
+      "count": 7335343,
+      "qps": 244504.797302,
+      "p50_ms": 0.652539,
+      "p99_ms": 1.108387,
+      "p999_ms": 1.380541
+    }
+  },
+  "key_counts": {
+    "complex_1": {
+      "first": 916307,
+      "second": 915205,
+      "net": 1102
+    },
+    "complex_2": {
+      "first": 916909,
+      "second": 918093,
+      "net": -1184
+    },
+    "complex_3": {
+      "first": 915673,
+      "second": 916429,
+      "net": -756
+    },
+    "complex_4": {
+      "first": 916253,
+      "second": 917513,
+      "net": -1260
+    },
+    "complex_5": {
+      "first": 917045,
+      "second": 916417,
+      "net": 628
+    },
+    "complex_6": {
+      "first": 916431,
+      "second": 918304,
+      "net": -1873
+    },
+    "complex_7": {
+      "first": 915741,
+      "second": 916500,
+      "net": -759
+    },
+    "complex_8": {
+      "first": 916508,
+      "second": 916882,
+      "net": -374
+    }
+  },
+  "client_elapsed_seconds": 30.000814221,
+  "command_audit": {
+    "passed": true,
+    "server_counts": {
+      "info": 1.0,
+      "zadd": 7330867.0,
+      "zpopmax": 7335343.0
+    },
+    "client_counts": {
+      "ZADD": 7330867,
+      "ZPOPMAX": 7335343
+    }
+  },
+  "bounded": {
+    "baseline": 8192,
+    "maximum_guard": 16384,
+    "minimum_guard": 4096,
+    "observed_push_min": 0,
+    "observed_push_max": 0,
+    "all_final_counts": {
+      "complex_1": 9294,
+      "complex_2": 7008,
+      "complex_3": 7436,
+      "complex_4": 6932,
+      "complex_5": 8820,
+      "complex_6": 6319,
+      "complex_7": 7433,
+      "complex_8": 7818
+    }
+  }
+}
