@@ -1,0 +1,322 @@
+{
+  "complete": true,
+  "observations": 42,
+  "aggregation": "Median of three paired percentage changes. Absolute values are separate medians; their ratio need not equal the median paired ratio.",
+  "results": [
+    {
+      "operation": "LPUSH_RPOP",
+      "pairs_completed": 3,
+      "qps_change_pct": 0.6423723080501764,
+      "p99_change_pct": 2.5470349645828616,
+      "qps_change_min_pct": 0.36394944698523446,
+      "qps_change_max_pct": 1.741029558473839,
+      "paired_results": [
+        {
+          "round": 1,
+          "main_qps": 45677.5670941,
+          "pr291_qps": 46472.8270388,
+          "qps_change_pct": 1.741029558473839,
+          "main_p99_ms": 31.5336,
+          "pr291_p99_ms": 30.930188,
+          "p99_change_pct": -1.9135525280970067
+        },
+        {
+          "round": 2,
+          "main_qps": 46267.5490497,
+          "pr291_qps": 46435.9395386,
+          "qps_change_pct": 0.36394944698523446,
+          "main_p99_ms": 29.882982,
+          "pr291_p99_ms": 30.644112,
+          "p99_change_pct": 2.5470349645828616
+        },
+        {
+          "round": 3,
+          "main_qps": 45955.8844459,
+          "pr291_qps": 46251.0923215,
+          "qps_change_pct": 0.6423723080501764,
+          "main_p99_ms": 30.160958,
+          "pr291_p99_ms": 31.889116,
+          "p99_change_pct": 5.729784843041119
+        }
+      ],
+      "main_qps": 45955.8844459,
+      "main_p50_ms": 3.997373,
+      "main_p99_ms": 30.160958,
+      "main_p999_ms": 38.536679,
+      "pr291_qps": 46435.9395386,
+      "pr291_p50_ms": 3.836898,
+      "pr291_p99_ms": 30.930188,
+      "pr291_p999_ms": 40.310563
+    },
+    {
+      "operation": "RPUSH_LPOP",
+      "pairs_completed": 3,
+      "qps_change_pct": 9.347521378847556,
+      "p99_change_pct": 104.30965944124408,
+      "qps_change_min_pct": 8.930011514102908,
+      "qps_change_max_pct": 13.482315599757388,
+      "paired_results": [
+        {
+          "round": 1,
+          "main_qps": 57302.0620859,
+          "pr291_qps": 62658.3845899,
+          "qps_change_pct": 9.347521378847556,
+          "main_p99_ms": 21.134277,
+          "pr291_p99_ms": 45.029428,
+          "p99_change_pct": 113.06348923126164
+        },
+        {
+          "round": 2,
+          "main_qps": 57817.646419,
+          "pr291_qps": 62980.7689014,
+          "qps_change_pct": 8.930011514102908,
+          "main_p99_ms": 21.708119,
+          "pr291_p99_ms": 44.351784,
+          "p99_change_pct": 104.30965944124408
+        },
+        {
+          "round": 3,
+          "main_qps": 56803.0508538,
+          "pr291_qps": 64461.4174402,
+          "qps_change_pct": 13.482315599757388,
+          "main_p99_ms": 21.5383,
+          "pr291_p99_ms": 40.444691,
+          "p99_change_pct": 87.7803308524814
+        }
+      ],
+      "main_qps": 57302.0620859,
+      "main_p50_ms": 4.047853,
+      "main_p99_ms": 21.5383,
+      "main_p999_ms": 30.759407,
+      "pr291_qps": 62980.7689014,
+      "pr291_p50_ms": 1.48859,
+      "pr291_p99_ms": 44.351784,
+      "pr291_p999_ms": 99.678061
+    },
+    {
+      "operation": "LSET_RESIZE",
+      "pairs_completed": 3,
+      "qps_change_pct": 20.817037868561705,
+      "p99_change_pct": 172.6776465050257,
+      "qps_change_min_pct": 15.697068407540705,
+      "qps_change_max_pct": 50.55583043174208,
+      "paired_results": [
+        {
+          "round": 1,
+          "main_qps": 30372.9162365,
+          "pr291_qps": 45728.1962662,
+          "qps_change_pct": 50.55583043174208,
+          "main_p99_ms": 65.482339,
+          "pr291_p99_ms": 104.033597,
+          "p99_change_pct": 58.872756515310186
+        },
+        {
+          "round": 2,
+          "main_qps": 40400.011886,
+          "pr291_qps": 46741.6293884,
+          "qps_change_pct": 15.697068407540705,
+          "main_p99_ms": 31.718459,
+          "pr291_p99_ms": 86.886783,
+          "p99_change_pct": 173.9312871410304
+        },
+        {
+          "round": 3,
+          "main_qps": 39513.415329,
+          "pr291_qps": 47738.9379612,
+          "qps_change_pct": 20.817037868561705,
+          "main_p99_ms": 28.806435,
+          "pr291_p99_ms": 78.548709,
+          "p99_change_pct": 172.6776465050257
+        }
+      ],
+      "main_qps": 39513.415329,
+      "main_p50_ms": 5.560645,
+      "main_p99_ms": 31.718459,
+      "main_p999_ms": 35.014029,
+      "pr291_qps": 46741.6293884,
+      "pr291_p50_ms": 2.490981,
+      "pr291_p99_ms": 86.886783,
+      "pr291_p999_ms": 165.767682
+    },
+    {
+      "operation": "ZINCRBY",
+      "pairs_completed": 3,
+      "qps_change_pct": 1.4123187047830443,
+      "p99_change_pct": -1.7495007950756536,
+      "qps_change_min_pct": 1.0776093864982794,
+      "qps_change_max_pct": 2.05905094717016,
+      "paired_results": [
+        {
+          "round": 1,
+          "main_qps": 51809.7855211,
+          "pr291_qps": 52368.092633,
+          "qps_change_pct": 1.0776093864982794,
+          "main_p99_ms": 27.262468,
+          "pr291_p99_ms": 27.810406,
+          "p99_change_pct": 2.0098620565093483
+        },
+        {
+          "round": 2,
+          "main_qps": 51927.4357135,
+          "pr291_qps": 52996.6480704,
+          "qps_change_pct": 2.05905094717016,
+          "main_p99_ms": 27.216278,
+          "pr291_p99_ms": 26.740129,
+          "p99_change_pct": -1.7495007950756536
+        },
+        {
+          "round": 3,
+          "main_qps": 51802.5753339,
+          "pr291_qps": 52534.1927949,
+          "qps_change_pct": 1.4123187047830443,
+          "main_p99_ms": 28.133391,
+          "pr291_p99_ms": 27.17572,
+          "p99_change_pct": -3.4040368613936445
+        }
+      ],
+      "main_qps": 51809.7855211,
+      "main_p50_ms": 3.446298,
+      "main_p99_ms": 27.262468,
+      "main_p999_ms": 37.317281,
+      "pr291_qps": 52534.1927949,
+      "pr291_p50_ms": 3.528145,
+      "pr291_p99_ms": 27.17572,
+      "pr291_p999_ms": 34.133159
+    },
+    {
+      "operation": "ZADD_MIDDLE_ZPOPMIN",
+      "pairs_completed": 3,
+      "qps_change_pct": 0.7067113400508251,
+      "p99_change_pct": -7.129788149042293,
+      "qps_change_min_pct": -0.5269720426720359,
+      "qps_change_max_pct": 1.1202424952068135,
+      "paired_results": [
+        {
+          "round": 1,
+          "main_qps": 23838.522014,
+          "pr291_qps": 23712.8996676,
+          "qps_change_pct": -0.5269720426720359,
+          "main_p99_ms": 53.292208,
+          "pr291_p99_ms": 54.273493,
+          "p99_change_pct": 1.841329223964605
+        },
+        {
+          "round": 2,
+          "main_qps": 23827.155708,
+          "pr291_qps": 23995.5449194,
+          "qps_change_pct": 0.7067113400508251,
+          "main_p99_ms": 54.20937,
+          "pr291_p99_ms": 47.459086,
+          "p99_change_pct": -12.452245801786665
+        },
+        {
+          "round": 3,
+          "main_qps": 23717.5125865,
+          "pr291_qps": 23983.2062413,
+          "qps_change_pct": 1.1202424952068135,
+          "main_p99_ms": 54.823873,
+          "pr291_p99_ms": 50.915047,
+          "p99_change_pct": -7.129788149042293
+        }
+      ],
+      "main_qps": 23827.155708,
+      "main_p50_ms": 8.757134,
+      "main_p99_ms": 54.20937,
+      "main_p999_ms": 67.655104,
+      "pr291_qps": 23983.2062413,
+      "pr291_p50_ms": 9.176572,
+      "pr291_p99_ms": 50.915047,
+      "pr291_p999_ms": 63.810918
+    },
+    {
+      "operation": "HSET",
+      "pairs_completed": 3,
+      "qps_change_pct": 5.111720407170717,
+      "p99_change_pct": -10.637091408309063,
+      "qps_change_min_pct": -1.1620912671615913,
+      "qps_change_max_pct": 6.87441270876441,
+      "paired_results": [
+        {
+          "round": 1,
+          "main_qps": 31953.6017269,
+          "pr291_qps": 33586.9805072,
+          "qps_change_pct": 5.111720407170717,
+          "main_p99_ms": 228.067425,
+          "pr291_p99_ms": 177.860409,
+          "p99_change_pct": -22.01411095863427
+        },
+        {
+          "round": 2,
+          "main_qps": 29338.7782207,
+          "pr291_qps": 31355.6469193,
+          "qps_change_pct": 6.87441270876441,
+          "main_p99_ms": 224.184176,
+          "pr291_p99_ms": 232.875265,
+          "p99_change_pct": 3.8767629165762374
+        },
+        {
+          "round": 3,
+          "main_qps": 33771.9177736,
+          "pr291_qps": 33379.4572664,
+          "qps_change_pct": -1.1620912671615913,
+          "main_p99_ms": 176.677724,
+          "pr291_p99_ms": 157.884353,
+          "p99_change_pct": -10.637091408309063
+        }
+      ],
+      "main_qps": 31953.6017269,
+      "main_p50_ms": 0.967667,
+      "main_p99_ms": 224.184176,
+      "main_p999_ms": 410.418807,
+      "pr291_qps": 33379.4572664,
+      "pr291_p50_ms": 0.918428,
+      "pr291_p99_ms": 177.860409,
+      "pr291_p999_ms": 393.305428
+    },
+    {
+      "operation": "SADD_SREM",
+      "pairs_completed": 3,
+      "qps_change_pct": 0.5193083701334089,
+      "p99_change_pct": 3.4111718511428135,
+      "qps_change_min_pct": -0.20268323228452845,
+      "qps_change_max_pct": 0.610119835259848,
+      "paired_results": [
+        {
+          "round": 1,
+          "main_qps": 50490.9567956,
+          "pr291_qps": 50753.1605604,
+          "qps_change_pct": 0.5193083701334089,
+          "main_p99_ms": 22.965451,
+          "pr291_p99_ms": 23.748842,
+          "p99_change_pct": 3.4111718511428135
+        },
+        {
+          "round": 2,
+          "main_qps": 50637.3981425,
+          "pr291_qps": 50534.7646272,
+          "qps_change_pct": -0.20268323228452845,
+          "main_p99_ms": 23.127721,
+          "pr291_p99_ms": 24.029023,
+          "p99_change_pct": 3.8970636146985482
+        },
+        {
+          "round": 3,
+          "main_qps": 50348.4916974,
+          "pr291_qps": 50655.677832,
+          "qps_change_pct": 0.610119835259848,
+          "main_p99_ms": 23.189574,
+          "pr291_p99_ms": 23.84127,
+          "p99_change_pct": 2.8102974207288245
+        }
+      ],
+      "main_qps": 50490.9567956,
+      "main_p50_ms": 5.245985,
+      "main_p99_ms": 23.127721,
+      "main_p999_ms": 29.52682,
+      "pr291_qps": 50655.677832,
+      "pr291_p50_ms": 5.00579,
+      "pr291_p99_ms": 23.84127,
+      "pr291_p999_ms": 31.128876
+    }
+  ]
+}

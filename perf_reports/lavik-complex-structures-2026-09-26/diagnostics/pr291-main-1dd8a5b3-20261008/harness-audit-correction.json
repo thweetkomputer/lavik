@@ -1,0 +1,8 @@
+{
+  "time": 1791467385.0969932,
+  "path": "/mnt/dev/lavik-pr291-qps-20261008/run-random.py",
+  "old_sha256": "2176d2aa1325c94838c44b64a20a6996d48170d16340a10e11edaedeffa16b66",
+  "new_sha256": "8429f9472e4f9f88b4ed9b3d5b46c0960944bf44d5d92a2a8caa3f3b1aa255e9",
+  "reason": "Post-measurement audit must use command count rather than underscore in operation label: LSET_RESIZE is one command. No load generation, seed, setup, server, client or measurement changed. Applied during first LPUSH/RPOP observation before any LSET_RESIZE observation. LPUSH/RPOP audit behavior identical in both versions.",
+  "timing_clarification": "The timestamp is within the first LPUSH/RPOP pair: main completed at 1791467375.9379342; the candidate point started at 1791467376.4356165 and the audit-only change was applied at 1791467385.0969932 during preparation, before any LSET_RESIZE point. The original reason used observation where pair was intended."
+}

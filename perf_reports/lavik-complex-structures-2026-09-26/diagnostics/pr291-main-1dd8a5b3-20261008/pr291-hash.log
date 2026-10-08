@@ -1,0 +1,90 @@
+Note: Google Test filter = GroupedHashWriteE2e.*
+[==========] Running 20 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 20 tests from GroupedHashWriteE2e
+[ RUN      ] GroupedHashWriteE2e.ConcurrentLocalAndExecWritesRecover
+[       OK ] GroupedHashWriteE2e.ConcurrentLocalAndExecWritesRecover (9109 ms)
+[ RUN      ] GroupedHashWriteE2e.DemotesBelowStrictGroupPayloadThresholdAfterRecovery
+[       OK ] GroupedHashWriteE2e.DemotesBelowStrictGroupPayloadThresholdAfterRecovery (985 ms)
+[ RUN      ] GroupedHashWriteE2e.BatchedFieldsPreserveOrderAcrossGrowthAndRecovery
+[       OK ] GroupedHashWriteE2e.BatchedFieldsPreserveOrderAcrossGrowthAndRecovery (597 ms)
+[ RUN      ] GroupedHashWriteE2e.PromotionAndPointUpdateOnlyRewriteOneGroup
+[       OK ] GroupedHashWriteE2e.PromotionAndPointUpdateOnlyRewriteOneGroup (1556 ms)
+[ RUN      ] GroupedHashWriteE2e.MultiFieldReadsPreserveOrderAndDuplicatesAfterRecovery
+[       OK ] GroupedHashWriteE2e.MultiFieldReadsPreserveOrderAndDuplicatesAfterRecovery (1320 ms)
+[ RUN      ] GroupedHashWriteE2e.ConditionalIncrementDeleteAndNewIncarnation
+[       OK ] GroupedHashWriteE2e.ConditionalIncrementDeleteAndNewIncarnation (341 ms)
+[ RUN      ] GroupedHashWriteE2e.FailedAuxiliaryBatchCannotReappearAfterLaterExecWrite
+/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:739: Skipped
+requires Debug/fault auxiliary hook
+
+[  SKIPPED ] GroupedHashWriteE2e.FailedAuxiliaryBatchCannotReappearAfterLaterExecWrite (0 ms)
+[ RUN      ] GroupedHashWriteE2e.OversizedFieldSplitsIntoExtentBackedLeaf
+[       OK ] GroupedHashWriteE2e.OversizedFieldSplitsIntoExtentBackedLeaf (569 ms)
+[ RUN      ] GroupedHashWriteE2e.SetUsesSameGroupedLifecycleWithSetType
+[       OK ] GroupedHashWriteE2e.SetUsesSameGroupedLifecycleWithSetType (429 ms)
+[ RUN      ] GroupedHashWriteE2e.BatchedMembersSurviveGrowthAndDuplicateLookup
+[       OK ] GroupedHashWriteE2e.BatchedMembersSurviveGrowthAndDuplicateLookup (495 ms)
+[ RUN      ] GroupedHashWriteE2e.LocalSuccessorWaitsUntilCommitDecision
+/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:982: Skipped
+requires grouped dependency gate
+
+[  SKIPPED ] GroupedHashWriteE2e.LocalSuccessorWaitsUntilCommitDecision (0 ms)
+[ RUN      ] GroupedHashWriteE2e.LocalSuccessorWakesOnCommitFailure
+/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:989: Skipped
+requires grouped dependency gate
+
+[  SKIPPED ] GroupedHashWriteE2e.LocalSuccessorWakesOnCommitFailure (0 ms)
+[ RUN      ] GroupedHashWriteE2e.OrdinarySuccessorsStageBeforePredecessorDecision
+/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1100: Skipped
+requires grouped dependency gate
+
+[  SKIPPED ] GroupedHashWriteE2e.OrdinarySuccessorsStageBeforePredecessorDecision (0 ms)
+[ RUN      ] GroupedHashWriteE2e.FailedPredecessorPreventsSuccessorCommitAndRecovery
+/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1107: Skipped
+requires grouped dependency gate
+
+[  SKIPPED ] GroupedHashWriteE2e.FailedPredecessorPreventsSuccessorCommitAndRecovery (0 ms)
+[ RUN      ] GroupedHashWriteE2e.OrderedTypesPipelineAndRecoverOrAbortTogether
+/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1114: Skipped
+requires grouped dependency gate
+
+[  SKIPPED ] GroupedHashWriteE2e.OrderedTypesPipelineAndRecoverOrAbortTogether (0 ms)
+[ RUN      ] GroupedHashWriteE2e.MultiKeyMetadataDependenciesDoNotFailUnrelatedWrites
+/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1196: Skipped
+requires grouped dependency gate
+
+[  SKIPPED ] GroupedHashWriteE2e.MultiKeyMetadataDependenciesDoNotFailUnrelatedWrites (0 ms)
+[ RUN      ] GroupedHashWriteE2e.FailedExecCommandDropsUnusedPredecessor
+/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1254: Skipped
+requires grouped dependency and auxiliary-write faults
+
+[  SKIPPED ] GroupedHashWriteE2e.FailedExecCommandDropsUnusedPredecessor (0 ms)
+[ RUN      ] GroupedHashWriteE2e.ColdCompactWritesReleaseStateButKeepTheKeyLocked
+/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1446: Skipped
+requires Debug/fault compact Hash write pause hook
+
+[  SKIPPED ] GroupedHashWriteE2e.ColdCompactWritesReleaseStateButKeepTheKeyLocked (0 ms)
+[ RUN      ] GroupedHashWriteE2e.ColdCompactNoopWatchHmsetTtlAndPromotionKeepSemantics
+[       OK ] GroupedHashWriteE2e.ColdCompactNoopWatchHmsetTtlAndPromotionKeepSemantics (799 ms)
+[ RUN      ] GroupedHashWriteE2e.PublicationHandoffOomFailsClosedAndRecoversOldGraph
+/mnt/dev/lavik-complex-next-20261004/tests/grouped/hash_write_e2e_test.cpp:1575: Skipped
+requires handoff rejection after grouped root staging
+
+[  SKIPPED ] GroupedHashWriteE2e.PublicationHandoffOomFailsClosedAndRecoversOldGraph (0 ms)
+[----------] 20 tests from GroupedHashWriteE2e (16205 ms total)
+
+[----------] Global test environment tear-down
+[==========] 20 tests from 1 test suite ran. (16205 ms total)
+[  PASSED  ] 10 tests.
+[  SKIPPED ] 10 tests, listed below:
+[  SKIPPED ] GroupedHashWriteE2e.FailedAuxiliaryBatchCannotReappearAfterLaterExecWrite
+[  SKIPPED ] GroupedHashWriteE2e.LocalSuccessorWaitsUntilCommitDecision
+[  SKIPPED ] GroupedHashWriteE2e.LocalSuccessorWakesOnCommitFailure
+[  SKIPPED ] GroupedHashWriteE2e.OrdinarySuccessorsStageBeforePredecessorDecision
+[  SKIPPED ] GroupedHashWriteE2e.FailedPredecessorPreventsSuccessorCommitAndRecovery
+[  SKIPPED ] GroupedHashWriteE2e.OrderedTypesPipelineAndRecoverOrAbortTogether
+[  SKIPPED ] GroupedHashWriteE2e.MultiKeyMetadataDependenciesDoNotFailUnrelatedWrites
+[  SKIPPED ] GroupedHashWriteE2e.FailedExecCommandDropsUnusedPredecessor
+[  SKIPPED ] GroupedHashWriteE2e.ColdCompactWritesReleaseStateButKeepTheKeyLocked
+[  SKIPPED ] GroupedHashWriteE2e.PublicationHandoffOomFailsClosedAndRecoversOldGraph

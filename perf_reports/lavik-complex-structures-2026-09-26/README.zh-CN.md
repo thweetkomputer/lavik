@@ -14,6 +14,8 @@
 
 [本轮测量与验证](diagnostics/main-c55e52c9-20261008/README.md) · [新增四库随机增删](diagnostics/main-c55e52c9-20261008/mixed-writes.md) · [与上一轮 main 的观测对比](diagnostics/main-c55e52c9-20261008/previous-main-comparison.md)。#288 已合并，当前 Lavik 曲线均来自合并后的 main；历史 PR 结果保留原始实测提交。 · [#289：ZRANK 与 List push/pop 三轮对照](diagnostics/pr289-c8f128dc-20261008/README.md)（独立 PR 测试，不替换 main 曲线）。 · #289 已合并为 main `cc31b3a6`；[8 MiB RPUSH/LPOP：合并后复测及三种优化尝试](diagnostics/list-queue-8m-main-cc31b3a6-20261008/README.md)（专项测试，未替换全量曲线；合并优化已提 [PR #291](https://github.com/eloqdata/lavik/pull/291)，保留全部吞吐和尾延迟结果）。
 
+[PR #291 扩展优化与 main `1dd8a5b3` 的三轮 QPS 对照](diagnostics/pr291-main-1dd8a5b3-20261008/README.md)：七项负载、42 个新测观测，覆盖 List、ZSet、HSET 和 Set；8 MiB/key、320 连接，完整披露 p99 和逐轮波动，作为专项结果保留，未替换上述全量曲线。
+
 吞吐图固定命令、每 key 的 payload 大小、元素大小和 key 数；横轴为连接数，纵轴为 QPS。批量导入图显示完成固定数据量所需的秒数。只保留当前 main 和后续未合并 PR；原有命令图的三库保留同负载历史实测，新增随机增删图的四库全部重测。
 
 Redis/Valkey 关闭持久化；Kvrocks 使用无压缩 RAID0、关闭 WAL、80 GiB block/blob cache；Lavik 使用六块 NVMe SPDK 持久化，不缓存字段或页内容。配置不同，写入 QPS 不代表同等持久性下的排名。

@@ -1,0 +1,4712 @@
+[
+  {
+    "round": 1,
+    "version": "main",
+    "kind": "list",
+    "size": 8388608,
+    "operation": "LPUSH_RPOP",
+    "digest_seed": "52197baba6b156321bd85ff0d520345b",
+    "client_seed": "1377401771",
+    "tag": "main1dd8a5b3-pr291full-list-8388608-lpush_rpop-r1-20261008",
+    "raw": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-main1dd8a5b3-pr291full-list-8388608-lpush_rpop-r1-20261008",
+    "result": {
+      "product": "lavik-main1dd8a5b3-pr291full-list-8388608-lpush_rpop-r1-20261008",
+      "type": "list",
+      "logical_bytes": 8388608,
+      "field_bytes": 1024,
+      "entries_per_key": 8192,
+      "keys": 8,
+      "operation": "LPUSH_RPOP",
+      "connections": 320,
+      "qps": 45677.5670941,
+      "p50_ms": 3.825119,
+      "p99_ms": 31.5336,
+      "p999_ms": 38.705676,
+      "requests": 1371240,
+      "seconds": 30,
+      "elapsed_seconds": 31.076807653997093,
+      "commands": {
+        "LPUSH": {
+          "count": 686906,
+          "qps": 22881.6216726,
+          "p50_ms": 3.775437,
+          "p99_ms": 31.50634,
+          "p999_ms": 38.681655
+        },
+        "RPOP": {
+          "count": 684334,
+          "qps": 22795.9454215,
+          "p50_ms": 3.874545,
+          "p99_ms": 31.564908,
+          "p999_ms": 38.728355
+        }
+      },
+      "key_counts": {
+        "complex_1": {
+          "first": 86164,
+          "second": 85828,
+          "net": 336
+        },
+        "complex_2": {
+          "first": 86091,
+          "second": 84844,
+          "net": 1247
+        },
+        "complex_3": {
+          "first": 85587,
+          "second": 85535,
+          "net": 52
+        },
+        "complex_4": {
+          "first": 85515,
+          "second": 85418,
+          "net": 97
+        },
+        "complex_5": {
+          "first": 86227,
+          "second": 86040,
+          "net": 187
+        },
+        "complex_6": {
+          "first": 85767,
+          "second": 85270,
+          "net": 497
+        },
+        "complex_7": {
+          "first": 85752,
+          "second": 85819,
+          "net": -67
+        },
+        "complex_8": {
+          "first": 85803,
+          "second": 85580,
+          "net": 223
+        }
+      },
+      "client_elapsed_seconds": 30.019987649,
+      "command_audit": {
+        "passed": true,
+        "server_counts": {
+          "info": 1.0,
+          "rpop": 684334.0,
+          "lpush": 686906.0
+        },
+        "client_counts": {
+          "LPUSH": 686906,
+          "RPOP": 684334
+        }
+      },
+      "bounded": {
+        "baseline": 8192,
+        "maximum_guard": 16384,
+        "minimum_guard": 4096,
+        "observed_push_min": 7845,
+        "observed_push_max": 9441,
+        "all_final_counts": {
+          "complex_1": 8528,
+          "complex_2": 9439,
+          "complex_3": 8244,
+          "complex_4": 8289,
+          "complex_5": 8379,
+          "complex_6": 8689,
+          "complex_7": 8125,
+          "complex_8": 8415
+        }
+      }
+    }
+  },
+  {
+    "round": 1,
+    "version": "pr291",
+    "kind": "list",
+    "size": 8388608,
+    "operation": "LPUSH_RPOP",
+    "digest_seed": "52197baba6b156321bd85ff0d520345b",
+    "client_seed": "1377401771",
+    "tag": "pr29174ba1d1e-pr291full-list-8388608-lpush_rpop-r1-20261008",
+    "raw": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-pr29174ba1d1e-pr291full-list-8388608-lpush_rpop-r1-20261008",
+    "result": {
+      "product": "lavik-pr29174ba1d1e-pr291full-list-8388608-lpush_rpop-r1-20261008",
+      "type": "list",
+      "logical_bytes": 8388608,
+      "field_bytes": 1024,
+      "entries_per_key": 8192,
+      "keys": 8,
+      "operation": "LPUSH_RPOP",
+      "connections": 320,
+      "qps": 46472.8270388,
+      "p50_ms": 3.830359,
+      "p99_ms": 30.930188,
+      "p999_ms": 41.94781,
+      "requests": 1394578,
+      "seconds": 30,
+      "elapsed_seconds": 31.22242988005746,
+      "commands": {
+        "LPUSH": {
+          "count": 698483,
+          "qps": 23276.2022981,
+          "p50_ms": 3.796513,
+          "p99_ms": 30.907041,
+          "p999_ms": 41.888997
+        },
+        "RPOP": {
+          "count": 696095,
+          "qps": 23196.6247406,
+          "p50_ms": 3.863747,
+          "p99_ms": 30.947994,
+          "p999_ms": 41.976413
+        }
+      },
+      "key_counts": {
+        "complex_1": {
+          "first": 87589,
+          "second": 87308,
+          "net": 281
+        },
+        "complex_2": {
+          "first": 87523,
+          "second": 86296,
+          "net": 1227
+        },
+        "complex_3": {
+          "first": 86974,
+          "second": 87015,
+          "net": -41
+        },
+        "complex_4": {
+          "first": 86964,
+          "second": 86911,
+          "net": 53
+        },
+        "complex_5": {
+          "first": 87732,
+          "second": 87579,
+          "net": 153
+        },
+        "complex_6": {
+          "first": 87154,
+          "second": 86762,
+          "net": 392
+        },
+        "complex_7": {
+          "first": 87308,
+          "second": 87205,
+          "net": 103
+        },
+        "complex_8": {
+          "first": 87239,
+          "second": 87019,
+          "net": 220
+        }
+      },
+      "client_elapsed_seconds": 30.008460618,
+      "command_audit": {
+        "passed": true,
+        "server_counts": {
+          "info": 1.0,
+          "rpop": 696095.0,
+          "lpush": 698483.0
+        },
+        "client_counts": {
+          "LPUSH": 698483,
+          "RPOP": 696095
+        }
+      },
+      "bounded": {
+        "baseline": 8192,
+        "maximum_guard": 16384,
+        "minimum_guard": 4096,
+        "observed_push_min": 7850,
+        "observed_push_max": 9457,
+        "all_final_counts": {
+          "complex_1": 8473,
+          "complex_2": 9419,
+          "complex_3": 8151,
+          "complex_4": 8245,
+          "complex_5": 8345,
+          "complex_6": 8584,
+          "complex_7": 8295,
+          "complex_8": 8412
+        }
+      }
+    }
+  },
+  {
+    "round": 1,
+    "version": "main",
+    "kind": "list",
+    "size": 8388608,
+    "operation": "RPUSH_LPOP",
+    "digest_seed": "52197baba6b156321bd85ff0d520345b",
+    "client_seed": "1377401771",
+    "tag": "main1dd8a5b3-pr291full-list-8388608-rpush_lpop-r1-20261008",
+    "raw": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-main1dd8a5b3-pr291full-list-8388608-rpush_lpop-r1-20261008",
+    "result": {
+      "product": "lavik-main1dd8a5b3-pr291full-list-8388608-rpush_lpop-r1-20261008",
+      "type": "list",
+      "logical_bytes": 8388608,
+      "field_bytes": 1024,
+      "entries_per_key": 8192,
+      "keys": 8,
+      "operation": "RPUSH_LPOP",
+      "connections": 320,
+      "qps": 57302.0620859,
+      "p50_ms": 4.047853,
+      "p99_ms": 21.134277,
+      "p999_ms": 29.90207,
+      "requests": 1719890,
+      "seconds": 30,
+      "elapsed_seconds": 31.074075742042623,
+      "commands": {
+        "RPUSH": {
+          "count": 861046,
+          "qps": 28687.7133717,
+          "p50_ms": 4.017697,
+          "p99_ms": 21.104879,
+          "p999_ms": 29.941754
+        },
+        "LPOP": {
+          "count": 858844,
+          "qps": 28614.3487142,
+          "p50_ms": 4.077889,
+          "p99_ms": 21.15881,
+          "p999_ms": 29.880368
+        }
+      },
+      "key_counts": {
+        "complex_1": {
+          "first": 107771,
+          "second": 107608,
+          "net": 163
+        },
+        "complex_2": {
+          "first": 107930,
+          "second": 106455,
+          "net": 1475
+        },
+        "complex_3": {
+          "first": 107398,
+          "second": 107050,
+          "net": 348
+        },
+        "complex_4": {
+          "first": 107180,
+          "second": 107396,
+          "net": -216
+        },
+        "complex_5": {
+          "first": 107960,
+          "second": 108090,
+          "net": -130
+        },
+        "complex_6": {
+          "first": 107562,
+          "second": 107069,
+          "net": 493
+        },
+        "complex_7": {
+          "first": 107655,
+          "second": 107625,
+          "net": 30
+        },
+        "complex_8": {
+          "first": 107590,
+          "second": 107551,
+          "net": 39
+        }
+      },
+      "client_elapsed_seconds": 30.01445214,
+      "command_audit": {
+        "passed": true,
+        "server_counts": {
+          "rpush": 861046.0,
+          "info": 1.0,
+          "lpop": 858844.0
+        },
+        "client_counts": {
+          "RPUSH": 861046,
+          "LPOP": 858844
+        }
+      },
+      "bounded": {
+        "baseline": 8192,
+        "maximum_guard": 16384,
+        "minimum_guard": 4096,
+        "observed_push_min": 7853,
+        "observed_push_max": 9819,
+        "all_final_counts": {
+          "complex_1": 8355,
+          "complex_2": 9667,
+          "complex_3": 8540,
+          "complex_4": 7976,
+          "complex_5": 8062,
+          "complex_6": 8685,
+          "complex_7": 8222,
+          "complex_8": 8231
+        }
+      }
+    }
+  },
+  {
+    "round": 1,
+    "version": "pr291",
+    "kind": "list",
+    "size": 8388608,
+    "operation": "RPUSH_LPOP",
+    "digest_seed": "52197baba6b156321bd85ff0d520345b",
+    "client_seed": "1377401771",
+    "tag": "pr29174ba1d1e-pr291full-list-8388608-rpush_lpop-r1-20261008",
+    "raw": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-pr29174ba1d1e-pr291full-list-8388608-rpush_lpop-r1-20261008",
+    "result": {
+      "product": "lavik-pr29174ba1d1e-pr291full-list-8388608-rpush_lpop-r1-20261008",
+      "type": "list",
+      "logical_bytes": 8388608,
+      "field_bytes": 1024,
+      "entries_per_key": 8192,
+      "keys": 8,
+      "operation": "RPUSH_LPOP",
+      "connections": 320,
+      "qps": 62658.3845899,
+      "p50_ms": 1.535496,
+      "p99_ms": 45.029428,
+      "p999_ms": 105.644722,
+      "requests": 1880178,
+      "seconds": 30,
+      "elapsed_seconds": 31.275516571011394,
+      "commands": {
+        "RPUSH": {
+          "count": 941020,
+          "qps": 31360.2185893,
+          "p50_ms": 1.530048,
+          "p99_ms": 45.18569,
+          "p999_ms": 106.311699
+        },
+        "LPOP": {
+          "count": 939158,
+          "qps": 31298.1660006,
+          "p50_ms": 1.540785,
+          "p99_ms": 44.751432,
+          "p999_ms": 104.811184
+        }
+      },
+      "key_counts": {
+        "complex_1": {
+          "first": 117815,
+          "second": 117697,
+          "net": 118
+        },
+        "complex_2": {
+          "first": 117914,
+          "second": 116591,
+          "net": 1323
+        },
+        "complex_3": {
+          "first": 117455,
+          "second": 117282,
+          "net": 173
+        },
+        "complex_4": {
+          "first": 117086,
+          "second": 117489,
+          "net": -403
+        },
+        "complex_5": {
+          "first": 118136,
+          "second": 118096,
+          "net": 40
+        },
+        "complex_6": {
+          "first": 117351,
+          "second": 117008,
+          "net": 343
+        },
+        "complex_7": {
+          "first": 117651,
+          "second": 117572,
+          "net": 79
+        },
+        "complex_8": {
+          "first": 117612,
+          "second": 117423,
+          "net": 189
+        }
+      },
+      "client_elapsed_seconds": 30.006806149,
+      "command_audit": {
+        "passed": true,
+        "server_counts": {
+          "info": 1.0,
+          "lpop": 939158.0,
+          "rpush": 941020.0
+        },
+        "client_counts": {
+          "RPUSH": 941020,
+          "LPOP": 939158
+        }
+      },
+      "bounded": {
+        "baseline": 8192,
+        "maximum_guard": 16384,
+        "minimum_guard": 4096,
+        "observed_push_min": 7778,
+        "observed_push_max": 9739,
+        "all_final_counts": {
+          "complex_1": 8310,
+          "complex_2": 9515,
+          "complex_3": 8365,
+          "complex_4": 7789,
+          "complex_5": 8232,
+          "complex_6": 8535,
+          "complex_7": 8271,
+          "complex_8": 8381
+        }
+      }
+    }
+  },
+  {
+    "round": 1,
+    "version": "main",
+    "kind": "list",
+    "size": 8388608,
+    "operation": "LSET_RESIZE",
+    "digest_seed": "52197baba6b156321bd85ff0d520345b",
+    "client_seed": "1377401771",
+    "tag": "main1dd8a5b3-pr291full-list-8388608-lset_resize-r1-20261008",
+    "raw": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-main1dd8a5b3-pr291full-list-8388608-lset_resize-r1-20261008",
+    "result": {
+      "product": "lavik-main1dd8a5b3-pr291full-list-8388608-lset_resize-r1-20261008",
+      "type": "list",
+      "logical_bytes": 8388608,
+      "field_bytes": 1024,
+      "entries_per_key": 8192,
+      "keys": 8,
+      "operation": "LSET_RESIZE",
+      "connections": 320,
+      "qps": 30372.9162365,
+      "p50_ms": 6.655663,
+      "p99_ms": 65.482339,
+      "p999_ms": 113.034561,
+      "requests": 912819,
+      "seconds": 30,
+      "elapsed_seconds": 31.071199079044163,
+      "commands": {
+        "LSET": {
+          "count": 912819,
+          "qps": 30372.9162365,
+          "p50_ms": 6.655663,
+          "p99_ms": 65.482339,
+          "p999_ms": 113.034561
+        }
+      },
+      "key_counts": {
+        "complex_1": {
+          "first": 114572,
+          "second": 0,
+          "net": 0
+        },
+        "complex_2": {
+          "first": 113520,
+          "second": 0,
+          "net": 0
+        },
+        "complex_3": {
+          "first": 114025,
+          "second": 0,
+          "net": 0
+        },
+        "complex_4": {
+          "first": 113927,
+          "second": 0,
+          "net": 0
+        },
+        "complex_5": {
+          "first": 114662,
+          "second": 0,
+          "net": 0
+        },
+        "complex_6": {
+          "first": 113986,
+          "second": 0,
+          "net": 0
+        },
+        "complex_7": {
+          "first": 114013,
+          "second": 0,
+          "net": 0
+        },
+        "complex_8": {
+          "first": 114114,
+          "second": 0,
+          "net": 0
+        }
+      },
+      "client_elapsed_seconds": 30.053716044,
+      "command_audit": {
+        "passed": true,
+        "server_counts": {
+          "lset": 912819.0,
+          "info": 1.0
+        },
+        "client_counts": {
+          "LSET": 912819
+        }
+      },
+      "bounded": {
+        "baseline": 8192,
+        "maximum_guard": 16384,
+        "minimum_guard": 4096,
+        "observed_push_min": 0,
+        "observed_push_max": 0,
+        "all_final_counts": {
+          "complex_1": 8192,
+          "complex_2": 8192,
+          "complex_3": 8192,
+          "complex_4": 8192,
+          "complex_5": 8192,
+          "complex_6": 8192,
+          "complex_7": 8192,
+          "complex_8": 8192
+        }
+      }
+    }
+  },
+  {
+    "round": 1,
+    "version": "pr291",
+    "kind": "list",
+    "size": 8388608,
+    "operation": "LSET_RESIZE",
+    "digest_seed": "52197baba6b156321bd85ff0d520345b",
+    "client_seed": "1377401771",
+    "tag": "pr29174ba1d1e-pr291full-list-8388608-lset_resize-r1-20261008",
+    "raw": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-pr29174ba1d1e-pr291full-list-8388608-lset_resize-r1-20261008",
+    "result": {
+      "product": "lavik-pr29174ba1d1e-pr291full-list-8388608-lset_resize-r1-20261008",
+      "type": "list",
+      "logical_bytes": 8388608,
+      "field_bytes": 1024,
+      "entries_per_key": 8192,
+      "keys": 8,
+      "operation": "LSET_RESIZE",
+      "connections": 320,
+      "qps": 45728.1962662,
+      "p50_ms": 2.486837,
+      "p99_ms": 104.033597,
+      "p999_ms": 165.767682,
+      "requests": 1374408,
+      "seconds": 30,
+      "elapsed_seconds": 30.97936631401535,
+      "commands": {
+        "LSET": {
+          "count": 1374408,
+          "qps": 45728.1962662,
+          "p50_ms": 2.486837,
+          "p99_ms": 104.033597,
+          "p999_ms": 165.767682
+        }
+      },
+      "key_counts": {
+        "complex_1": {
+          "first": 172364,
+          "second": 0,
+          "net": 0
+        },
+        "complex_2": {
+          "first": 171286,
+          "second": 0,
+          "net": 0
+        },
+        "complex_3": {
+          "first": 171502,
+          "second": 0,
+          "net": 0
+        },
+        "complex_4": {
+          "first": 171336,
+          "second": 0,
+          "net": 0
+        },
+        "complex_5": {
+          "first": 172715,
+          "second": 0,
+          "net": 0
+        },
+        "complex_6": {
+          "first": 171393,
+          "second": 0,
+          "net": 0
+        },
+        "complex_7": {
+          "first": 172006,
+          "second": 0,
+          "net": 0
+        },
+        "complex_8": {
+          "first": 171806,
+          "second": 0,
+          "net": 0
+        }
+      },
+      "client_elapsed_seconds": 30.056029151,
+      "command_audit": {
+        "passed": true,
+        "server_counts": {
+          "lset": 1374408.0,
+          "info": 1.0
+        },
+        "client_counts": {
+          "LSET": 1374408
+        }
+      },
+      "bounded": {
+        "baseline": 8192,
+        "maximum_guard": 16384,
+        "minimum_guard": 4096,
+        "observed_push_min": 0,
+        "observed_push_max": 0,
+        "all_final_counts": {
+          "complex_1": 8192,
+          "complex_2": 8192,
+          "complex_3": 8192,
+          "complex_4": 8192,
+          "complex_5": 8192,
+          "complex_6": 8192,
+          "complex_7": 8192,
+          "complex_8": 8192
+        }
+      }
+    }
+  },
+  {
+    "round": 1,
+    "version": "main",
+    "kind": "zset",
+    "size": 8388608,
+    "operation": "ZINCRBY",
+    "digest_seed": "52197baba6b156321bd85ff0d520345b",
+    "client_seed": "1377401771",
+    "tag": "main1dd8a5b3-pr291full-zset-8388608-zincrby-r1-20261008",
+    "raw": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-main1dd8a5b3-pr291full-zset-8388608-zincrby-r1-20261008",
+    "result": {
+      "product": "lavik-main1dd8a5b3-pr291full-zset-8388608-zincrby-r1-20261008",
+      "type": "zset",
+      "logical_bytes": 8388608,
+      "field_bytes": 1024,
+      "entries_per_key": 8192,
+      "keys": 8,
+      "operation": "ZINCRBY",
+      "connections": 320,
+      "qps": 51809.7855211,
+      "p50_ms": 3.443209,
+      "p99_ms": 27.262468,
+      "p999_ms": 38.309177,
+      "requests": 1554683,
+      "seconds": 30,
+      "elapsed_seconds": 31.22483696998097,
+      "commands": {
+        "ZINCRBY": {
+          "count": 1554683,
+          "qps": 51809.7855211,
+          "p50_ms": 3.443209,
+          "p99_ms": 27.262468,
+          "p999_ms": 38.309177
+        }
+      },
+      "key_counts": {
+        "complex_1": {
+          "first": 194678,
+          "second": 0,
+          "net": 0
+        },
+        "complex_2": {
+          "first": 193885,
+          "second": 0,
+          "net": 0
+        },
+        "complex_3": {
+          "first": 193639,
+          "second": 0,
+          "net": 0
+        },
+        "complex_4": {
+          "first": 193965,
+          "second": 0,
+          "net": 0
+        },
+        "complex_5": {
+          "first": 195501,
+          "second": 0,
+          "net": 0
+        },
+        "complex_6": {
+          "first": 194037,
+          "second": 0,
+          "net": 0
+        },
+        "complex_7": {
+          "first": 194516,
+          "second": 0,
+          "net": 0
+        },
+        "complex_8": {
+          "first": 194462,
+          "second": 0,
+          "net": 0
+        }
+      },
+      "client_elapsed_seconds": 30.007516618,
+      "command_audit": {
+        "passed": true,
+        "server_counts": {
+          "info": 1.0,
+          "zincrby": 1554683.0
+        },
+        "client_counts": {
+          "ZINCRBY": 1554683
+        }
+      },
+      "bounded": {
+        "baseline": 8192,
+        "maximum_guard": 16384,
+        "minimum_guard": 4096,
+        "observed_push_min": 0,
+        "observed_push_max": 0,
+        "all_final_counts": {
+          "complex_1": 8192,
+          "complex_2": 8192,
+          "complex_3": 8192,
+          "complex_4": 8192,
+          "complex_5": 8192,
+          "complex_6": 8192,
+          "complex_7": 8192,
+          "complex_8": 8192
+        }
+      }
+    }
+  },
+  {
+    "round": 1,
+    "version": "pr291",
+    "kind": "zset",
+    "size": 8388608,
+    "operation": "ZINCRBY",
+    "digest_seed": "52197baba6b156321bd85ff0d520345b",
+    "client_seed": "1377401771",
+    "tag": "pr29174ba1d1e-pr291full-zset-8388608-zincrby-r1-20261008",
+    "raw": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-pr29174ba1d1e-pr291full-zset-8388608-zincrby-r1-20261008",
+    "result": {
+      "product": "lavik-pr29174ba1d1e-pr291full-zset-8388608-zincrby-r1-20261008",
+      "type": "zset",
+      "logical_bytes": 8388608,
+      "field_bytes": 1024,
+      "entries_per_key": 8192,
+      "keys": 8,
+      "operation": "ZINCRBY",
+      "connections": 320,
+      "qps": 52368.092633,
+      "p50_ms": 3.355933,
+      "p99_ms": 27.810406,
+      "p999_ms": 34.133159,
+      "requests": 1571302,
+      "seconds": 30,
+      "elapsed_seconds": 31.02320105000399,
+      "commands": {
+        "ZINCRBY": {
+          "count": 1571302,
+          "qps": 52368.092633,
+          "p50_ms": 3.355933,
+          "p99_ms": 27.810406,
+          "p999_ms": 34.133159
+        }
+      },
+      "key_counts": {
+        "complex_1": {
+          "first": 196778,
+          "second": 0,
+          "net": 0
+        },
+        "complex_2": {
+          "first": 195985,
+          "second": 0,
+          "net": 0
+        },
+        "complex_3": {
+          "first": 195765,
+          "second": 0,
+          "net": 0
+        },
+        "complex_4": {
+          "first": 195936,
+          "second": 0,
+          "net": 0
+        },
+        "complex_5": {
+          "first": 197596,
+          "second": 0,
+          "net": 0
+        },
+        "complex_6": {
+          "first": 196069,
+          "second": 0,
+          "net": 0
+        },
+        "complex_7": {
+          "first": 196681,
+          "second": 0,
+          "net": 0
+        },
+        "complex_8": {
+          "first": 196492,
+          "second": 0,
+          "net": 0
+        }
+      },
+      "client_elapsed_seconds": 30.00494998,
+      "command_audit": {
+        "passed": true,
+        "server_counts": {
+          "zincrby": 1571302.0,
+          "info": 1.0
+        },
+        "client_counts": {
+          "ZINCRBY": 1571302
+        }
+      },
+      "bounded": {
+        "baseline": 8192,
+        "maximum_guard": 16384,
+        "minimum_guard": 4096,
+        "observed_push_min": 0,
+        "observed_push_max": 0,
+        "all_final_counts": {
+          "complex_1": 8192,
+          "complex_2": 8192,
+          "complex_3": 8192,
+          "complex_4": 8192,
+          "complex_5": 8192,
+          "complex_6": 8192,
+          "complex_7": 8192,
+          "complex_8": 8192
+        }
+      }
+    }
+  },
+  {
+    "round": 1,
+    "version": "main",
+    "kind": "zset",
+    "size": 8388608,
+    "operation": "ZADD_MIDDLE_ZPOPMIN",
+    "digest_seed": "52197baba6b156321bd85ff0d520345b",
+    "client_seed": "1377401771",
+    "tag": "main1dd8a5b3-pr291full-zset-8388608-zadd_middle_zpopmin-r1-20261008",
+    "raw": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-main1dd8a5b3-pr291full-zset-8388608-zadd_middle_zpopmin-r1-20261008",
+    "result": {
+      "product": "lavik-main1dd8a5b3-pr291full-zset-8388608-zadd_middle_zpopmin-r1-20261008",
+      "type": "zset",
+      "logical_bytes": 8388608,
+      "field_bytes": 1024,
+      "entries_per_key": 8192,
+      "keys": 8,
+      "operation": "ZADD_MIDDLE_ZPOPMIN",
+      "connections": 320,
+      "qps": 23838.522014,
+      "p50_ms": 8.774395,
+      "p99_ms": 53.292208,
+      "p999_ms": 73.274391,
+      "requests": 715576,
+      "seconds": 30,
+      "elapsed_seconds": 31.125745753059164,
+      "commands": {
+        "ZADD": {
+          "count": 358874,
+          "qps": 11955.4397426,
+          "p50_ms": 8.807244,
+          "p99_ms": 53.327075,
+          "p999_ms": 73.303644
+        },
+        "ZPOPMIN": {
+          "count": 356702,
+          "qps": 11883.0822714,
+          "p50_ms": 8.743173,
+          "p99_ms": 53.24501,
+          "p999_ms": 73.27376
+        }
+      },
+      "key_counts": {
+        "complex_1": {
+          "first": 44865,
+          "second": 44727,
+          "net": 138
+        },
+        "complex_2": {
+          "first": 45193,
+          "second": 44197,
+          "net": 996
+        },
+        "complex_3": {
+          "first": 44803,
+          "second": 44454,
+          "net": 349
+        },
+        "complex_4": {
+          "first": 44615,
+          "second": 44348,
+          "net": 267
+        },
+        "complex_5": {
+          "first": 44767,
+          "second": 45117,
+          "net": -350
+        },
+        "complex_6": {
+          "first": 44936,
+          "second": 44612,
+          "net": 324
+        },
+        "complex_7": {
+          "first": 44904,
+          "second": 44661,
+          "net": 243
+        },
+        "complex_8": {
+          "first": 44791,
+          "second": 44586,
+          "net": 205
+        }
+      },
+      "client_elapsed_seconds": 30.017632787,
+      "command_audit": {
+        "passed": true,
+        "server_counts": {
+          "info": 1.0,
+          "zadd": 358874.0,
+          "zpopmin": 356702.0
+        },
+        "client_counts": {
+          "ZADD": 358874,
+          "ZPOPMIN": 356702
+        }
+      },
+      "bounded": {
+        "baseline": 8192,
+        "maximum_guard": 16384,
+        "minimum_guard": 4096,
+        "observed_push_min": 0,
+        "observed_push_max": 0,
+        "all_final_counts": {
+          "complex_1": 8330,
+          "complex_2": 9188,
+          "complex_3": 8541,
+          "complex_4": 8459,
+          "complex_5": 7842,
+          "complex_6": 8516,
+          "complex_7": 8435,
+          "complex_8": 8397
+        }
+      }
+    }
+  },
+  {
+    "round": 1,
+    "version": "pr291",
+    "kind": "zset",
+    "size": 8388608,
+    "operation": "ZADD_MIDDLE_ZPOPMIN",
+    "digest_seed": "52197baba6b156321bd85ff0d520345b",
+    "client_seed": "1377401771",
+    "tag": "pr29174ba1d1e-pr291full-zset-8388608-zadd_middle_zpopmin-r1-20261008",
+    "raw": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-pr29174ba1d1e-pr291full-zset-8388608-zadd_middle_zpopmin-r1-20261008",
+    "result": {
+      "product": "lavik-pr29174ba1d1e-pr291full-zset-8388608-zadd_middle_zpopmin-r1-20261008",
+      "type": "zset",
+      "logical_bytes": 8388608,
+      "field_bytes": 1024,
+      "entries_per_key": 8192,
+      "keys": 8,
+      "operation": "ZADD_MIDDLE_ZPOPMIN",
+      "connections": 320,
+      "qps": 23712.8996676,
+      "p50_ms": 8.986608,
+      "p99_ms": 54.273493,
+      "p999_ms": 63.810918,
+      "requests": 712150,
+      "seconds": 30,
+      "elapsed_seconds": 30.977670882013626,
+      "commands": {
+        "ZADD": {
+          "count": 357131,
+          "qps": 11891.6121199,
+          "p50_ms": 9.043217,
+          "p99_ms": 54.302052,
+          "p999_ms": 63.760759
+        },
+        "ZPOPMIN": {
+          "count": 355019,
+          "qps": 11821.2875477,
+          "p50_ms": 8.926748,
+          "p99_ms": 54.246182,
+          "p999_ms": 63.941413
+        }
+      },
+      "key_counts": {
+        "complex_1": {
+          "first": 44638,
+          "second": 44505,
+          "net": 133
+        },
+        "complex_2": {
+          "first": 44957,
+          "second": 43961,
+          "net": 996
+        },
+        "complex_3": {
+          "first": 44589,
+          "second": 44254,
+          "net": 335
+        },
+        "complex_4": {
+          "first": 44422,
+          "second": 44151,
+          "net": 271
+        },
+        "complex_5": {
+          "first": 44596,
+          "second": 44907,
+          "net": -311
+        },
+        "complex_6": {
+          "first": 44675,
+          "second": 44400,
+          "net": 275
+        },
+        "complex_7": {
+          "first": 44712,
+          "second": 44416,
+          "net": 296
+        },
+        "complex_8": {
+          "first": 44542,
+          "second": 44425,
+          "net": 117
+        }
+      },
+      "client_elapsed_seconds": 30.032177,
+      "command_audit": {
+        "passed": true,
+        "server_counts": {
+          "zadd": 357131.0,
+          "zpopmin": 355019.0,
+          "info": 1.0
+        },
+        "client_counts": {
+          "ZADD": 357131,
+          "ZPOPMIN": 355019
+        }
+      },
+      "bounded": {
+        "baseline": 8192,
+        "maximum_guard": 16384,
+        "minimum_guard": 4096,
+        "observed_push_min": 0,
+        "observed_push_max": 0,
+        "all_final_counts": {
+          "complex_1": 8325,
+          "complex_2": 9188,
+          "complex_3": 8527,
+          "complex_4": 8463,
+          "complex_5": 7881,
+          "complex_6": 8467,
+          "complex_7": 8488,
+          "complex_8": 8309
+        }
+      }
+    }
+  },
+  {
+    "round": 1,
+    "version": "main",
+    "kind": "hash",
+    "size": 8388608,
+    "operation": "HSET",
+    "digest_seed": "52197baba6b156321bd85ff0d520345b",
+    "client_seed": "1377401771",
+    "tag": "main1dd8a5b3-pr291full-hash-8388608-hset-r1-20261008",
+    "raw": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-main1dd8a5b3-pr291full-hash-8388608-hset-r1-20261008",
+    "result": {
+      "product": "lavik-main1dd8a5b3-pr291full-hash-8388608-hset-r1-20261008",
+      "type": "hash",
+      "logical_bytes": 8388608,
+      "field_bytes": 1024,
+      "entries_per_key": 8192,
+      "keys": 8,
+      "operation": "HSET",
+      "connections": 320,
+      "qps": 31953.6017269,
+      "p50_ms": 0.967667,
+      "p99_ms": 228.067425,
+      "p999_ms": 389.614709,
+      "requests": 961041,
+      "seconds": 30,
+      "elapsed_seconds": 31.229178065084852,
+      "commands": {
+        "HSET": {
+          "count": 961041,
+          "qps": 31953.6017269,
+          "p50_ms": 0.967667,
+          "p99_ms": 228.067425,
+          "p999_ms": 389.614709
+        }
+      },
+      "key_counts": {
+        "complex_1": {
+          "first": 120560,
+          "second": 0,
+          "net": 0
+        },
+        "complex_2": {
+          "first": 119587,
+          "second": 0,
+          "net": 0
+        },
+        "complex_3": {
+          "first": 120047,
+          "second": 0,
+          "net": 0
+        },
+        "complex_4": {
+          "first": 119917,
+          "second": 0,
+          "net": 0
+        },
+        "complex_5": {
+          "first": 120727,
+          "second": 0,
+          "net": 0
+        },
+        "complex_6": {
+          "first": 120232,
+          "second": 0,
+          "net": 0
+        },
+        "complex_7": {
+          "first": 119878,
+          "second": 0,
+          "net": 0
+        },
+        "complex_8": {
+          "first": 120093,
+          "second": 0,
+          "net": 0
+        }
+      },
+      "client_elapsed_seconds": 30.07614003,
+      "command_audit": {
+        "passed": true,
+        "server_counts": {
+          "hset": 961041.0,
+          "info": 1.0
+        },
+        "client_counts": {
+          "HSET": 961041
+        }
+      },
+      "bounded": {
+        "baseline": 8192,
+        "maximum_guard": 16384,
+        "minimum_guard": 4096,
+        "observed_push_min": 0,
+        "observed_push_max": 0,
+        "all_final_counts": {
+          "complex_1": 8192,
+          "complex_2": 8192,
+          "complex_3": 8192,
+          "complex_4": 8192,
+          "complex_5": 8192,
+          "complex_6": 8192,
+          "complex_7": 8192,
+          "complex_8": 8192
+        }
+      }
+    }
+  },
+  {
+    "round": 1,
+    "version": "pr291",
+    "kind": "hash",
+    "size": 8388608,
+    "operation": "HSET",
+    "digest_seed": "52197baba6b156321bd85ff0d520345b",
+    "client_seed": "1377401771",
+    "tag": "pr29174ba1d1e-pr291full-hash-8388608-hset-r1-20261008",
+    "raw": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-pr29174ba1d1e-pr291full-hash-8388608-hset-r1-20261008",
+    "result": {
+      "product": "lavik-pr29174ba1d1e-pr291full-hash-8388608-hset-r1-20261008",
+      "type": "hash",
+      "logical_bytes": 8388608,
+      "field_bytes": 1024,
+      "entries_per_key": 8192,
+      "keys": 8,
+      "operation": "HSET",
+      "connections": 320,
+      "qps": 33586.9805072,
+      "p50_ms": 0.918428,
+      "p99_ms": 177.860409,
+      "p999_ms": 393.305428,
+      "requests": 1008688,
+      "seconds": 30,
+      "elapsed_seconds": 31.030595732969232,
+      "commands": {
+        "HSET": {
+          "count": 1008688,
+          "qps": 33586.9805072,
+          "p50_ms": 0.918428,
+          "p99_ms": 177.860409,
+          "p999_ms": 393.305428
+        }
+      },
+      "key_counts": {
+        "complex_1": {
+          "first": 126491,
+          "second": 0,
+          "net": 0
+        },
+        "complex_2": {
+          "first": 125481,
+          "second": 0,
+          "net": 0
+        },
+        "complex_3": {
+          "first": 126136,
+          "second": 0,
+          "net": 0
+        },
+        "complex_4": {
+          "first": 125771,
+          "second": 0,
+          "net": 0
+        },
+        "complex_5": {
+          "first": 126682,
+          "second": 0,
+          "net": 0
+        },
+        "complex_6": {
+          "first": 125931,
+          "second": 0,
+          "net": 0
+        },
+        "complex_7": {
+          "first": 126018,
+          "second": 0,
+          "net": 0
+        },
+        "complex_8": {
+          "first": 126178,
+          "second": 0,
+          "net": 0
+        }
+      },
+      "client_elapsed_seconds": 30.032113181,
+      "command_audit": {
+        "passed": true,
+        "server_counts": {
+          "hset": 1008688.0,
+          "info": 1.0
+        },
+        "client_counts": {
+          "HSET": 1008688
+        }
+      },
+      "bounded": {
+        "baseline": 8192,
+        "maximum_guard": 16384,
+        "minimum_guard": 4096,
+        "observed_push_min": 0,
+        "observed_push_max": 0,
+        "all_final_counts": {
+          "complex_1": 8192,
+          "complex_2": 8192,
+          "complex_3": 8192,
+          "complex_4": 8192,
+          "complex_5": 8192,
+          "complex_6": 8192,
+          "complex_7": 8192,
+          "complex_8": 8192
+        }
+      }
+    }
+  },
+  {
+    "round": 1,
+    "version": "main",
+    "kind": "set",
+    "size": 8388608,
+    "operation": "SADD_SREM",
+    "digest_seed": "52197baba6b156321bd85ff0d520345b",
+    "client_seed": "1377401771",
+    "tag": "main1dd8a5b3-pr291full-set-8388608-sadd_srem-r1-20261008",
+    "raw": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-main1dd8a5b3-pr291full-set-8388608-sadd_srem-r1-20261008",
+    "result": {
+      "product": "lavik-main1dd8a5b3-pr291full-set-8388608-sadd_srem-r1-20261008",
+      "type": "set",
+      "logical_bytes": 8388608,
+      "field_bytes": 1024,
+      "entries_per_key": 8192,
+      "keys": 8,
+      "operation": "SADD_SREM",
+      "connections": 320,
+      "qps": 50490.9567956,
+      "p50_ms": 5.256561,
+      "p99_ms": 22.965451,
+      "p999_ms": 30.095929,
+      "requests": 1515547,
+      "seconds": 30,
+      "elapsed_seconds": 31.222644458990544,
+      "commands": {
+        "SADD": {
+          "count": 759173,
+          "qps": 25292.1032099,
+          "p50_ms": 5.257397,
+          "p99_ms": 22.993453,
+          "p999_ms": 30.131735
+        },
+        "SREM": {
+          "count": 756374,
+          "qps": 25198.8535857,
+          "p50_ms": 5.255063,
+          "p99_ms": 22.937968,
+          "p999_ms": 30.037646
+        }
+      },
+      "key_counts": {
+        "complex_1": {
+          "first": 95144,
+          "second": 94627,
+          "net": 54
+        },
+        "complex_2": {
+          "first": 95300,
+          "second": 94389,
+          "net": 95
+        },
+        "complex_3": {
+          "first": 94570,
+          "second": 94567,
+          "net": 129
+        },
+        "complex_4": {
+          "first": 94884,
+          "second": 94160,
+          "net": 13
+        },
+        "complex_5": {
+          "first": 94963,
+          "second": 94839,
+          "net": -38
+        },
+        "complex_6": {
+          "first": 94493,
+          "second": 94727,
+          "net": -21
+        },
+        "complex_7": {
+          "first": 94625,
+          "second": 94654,
+          "net": -42
+        },
+        "complex_8": {
+          "first": 95194,
+          "second": 94411,
+          "net": 127
+        }
+      },
+      "client_elapsed_seconds": 30.016206786,
+      "command_audit": {
+        "passed": true,
+        "server_counts": {
+          "srem": 756374.0,
+          "sadd": 759173.0,
+          "info": 1.0
+        },
+        "client_counts": {
+          "SADD": 759173,
+          "SREM": 756374
+        }
+      },
+      "bounded": {
+        "baseline": 8192,
+        "maximum_guard": 16384,
+        "minimum_guard": 4096,
+        "observed_push_min": 0,
+        "observed_push_max": 0,
+        "all_final_counts": {
+          "complex_1": 8246,
+          "complex_2": 8287,
+          "complex_3": 8321,
+          "complex_4": 8205,
+          "complex_5": 8154,
+          "complex_6": 8171,
+          "complex_7": 8150,
+          "complex_8": 8319
+        }
+      }
+    }
+  },
+  {
+    "round": 1,
+    "version": "pr291",
+    "kind": "set",
+    "size": 8388608,
+    "operation": "SADD_SREM",
+    "digest_seed": "52197baba6b156321bd85ff0d520345b",
+    "client_seed": "1377401771",
+    "tag": "pr29174ba1d1e-pr291full-set-8388608-sadd_srem-r1-20261008",
+    "raw": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-pr29174ba1d1e-pr291full-set-8388608-sadd_srem-r1-20261008",
+    "result": {
+      "product": "lavik-pr29174ba1d1e-pr291full-set-8388608-sadd_srem-r1-20261008",
+      "type": "set",
+      "logical_bytes": 8388608,
+      "field_bytes": 1024,
+      "entries_per_key": 8192,
+      "keys": 8,
+      "operation": "SADD_SREM",
+      "connections": 320,
+      "qps": 50753.1605604,
+      "p50_ms": 5.046926,
+      "p99_ms": 23.748842,
+      "p999_ms": 30.15837,
+      "requests": 1523315,
+      "seconds": 30,
+      "elapsed_seconds": 31.122987876064144,
+      "commands": {
+        "SADD": {
+          "count": 763159,
+          "qps": 25426.6066179,
+          "p50_ms": 5.045821,
+          "p99_ms": 23.737129,
+          "p999_ms": 30.115867
+        },
+        "SREM": {
+          "count": 760156,
+          "qps": 25326.5539425,
+          "p50_ms": 5.048074,
+          "p99_ms": 23.759587,
+          "p999_ms": 30.215425
+        }
+      },
+      "key_counts": {
+        "complex_1": {
+          "first": 95617,
+          "second": 95079,
+          "net": 7
+        },
+        "complex_2": {
+          "first": 95792,
+          "second": 94939,
+          "net": -6
+        },
+        "complex_3": {
+          "first": 95086,
+          "second": 95041,
+          "net": 89
+        },
+        "complex_4": {
+          "first": 95323,
+          "second": 94668,
+          "net": -19
+        },
+        "complex_5": {
+          "first": 95493,
+          "second": 95273,
+          "net": -67
+        },
+        "complex_6": {
+          "first": 95015,
+          "second": 95159,
+          "net": 81
+        },
+        "complex_7": {
+          "first": 95172,
+          "second": 95125,
+          "net": 29
+        },
+        "complex_8": {
+          "first": 95661,
+          "second": 94872,
+          "net": 76
+        }
+      },
+      "client_elapsed_seconds": 30.014189918,
+      "command_audit": {
+        "passed": true,
+        "server_counts": {
+          "info": 1.0,
+          "srem": 760156.0,
+          "sadd": 763159.0
+        },
+        "client_counts": {
+          "SADD": 763159,
+          "SREM": 760156
+        }
+      },
+      "bounded": {
+        "baseline": 8192,
+        "maximum_guard": 16384,
+        "minimum_guard": 4096,
+        "observed_push_min": 0,
+        "observed_push_max": 0,
+        "all_final_counts": {
+          "complex_1": 8199,
+          "complex_2": 8186,
+          "complex_3": 8281,
+          "complex_4": 8173,
+          "complex_5": 8125,
+          "complex_6": 8273,
+          "complex_7": 8221,
+          "complex_8": 8268
+        }
+      }
+    }
+  },
+  {
+    "round": 2,
+    "version": "pr291",
+    "kind": "list",
+    "size": 8388608,
+    "operation": "LPUSH_RPOP",
+    "digest_seed": "f1564acf482ea4114721cb02c816388c",
+    "client_seed": "4048964303",
+    "tag": "pr29174ba1d1e-pr291full-list-8388608-lpush_rpop-r2-20261008",
+    "raw": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-pr29174ba1d1e-pr291full-list-8388608-lpush_rpop-r2-20261008",
+    "result": {
+      "product": "lavik-pr29174ba1d1e-pr291full-list-8388608-lpush_rpop-r2-20261008",
+      "type": "list",
+      "logical_bytes": 8388608,
+      "field_bytes": 1024,
+      "entries_per_key": 8192,
+      "keys": 8,
+      "operation": "LPUSH_RPOP",
+      "connections": 320,
+      "qps": 46435.9395386,
+      "p50_ms": 3.862506,
+      "p99_ms": 30.644112,
+      "p999_ms": 39.003607,
+      "requests": 1393645,
+      "seconds": 30,
+      "elapsed_seconds": 31.223756889929064,
+      "commands": {
+        "LPUSH": {
+          "count": 697859,
+          "qps": 23252.5057174,
+          "p50_ms": 3.822816,
+          "p99_ms": 30.59861,
+          "p999_ms": 38.984916
+        },
+        "RPOP": {
+          "count": 695786,
+          "qps": 23183.4338213,
+          "p50_ms": 3.89887,
+          "p99_ms": 30.685926,
+          "p999_ms": 39.004005
+        }
+      },
+      "key_counts": {
+        "complex_1": {
+          "first": 86886,
+          "second": 87118,
+          "net": -232
+        },
+        "complex_2": {
+          "first": 87156,
+          "second": 86954,
+          "net": 202
+        },
+        "complex_3": {
+          "first": 87135,
+          "second": 87288,
+          "net": -153
+        },
+        "complex_4": {
+          "first": 87661,
+          "second": 86945,
+          "net": 716
+        },
+        "complex_5": {
+          "first": 86504,
+          "second": 87092,
+          "net": -588
+        },
+        "complex_6": {
+          "first": 87458,
+          "second": 86665,
+          "net": 793
+        },
+        "complex_7": {
+          "first": 87792,
+          "second": 87197,
+          "net": 595
+        },
+        "complex_8": {
+          "first": 87267,
+          "second": 86527,
+          "net": 740
+        }
+      },
+      "client_elapsed_seconds": 30.012206361,
+      "command_audit": {
+        "passed": true,
+        "server_counts": {
+          "info": 1.0,
+          "lpush": 697859.0,
+          "rpop": 695786.0
+        },
+        "client_counts": {
+          "LPUSH": 697859,
+          "RPOP": 695786
+        }
+      },
+      "bounded": {
+        "baseline": 8192,
+        "maximum_guard": 16384,
+        "minimum_guard": 4096,
+        "observed_push_min": 7593,
+        "observed_push_max": 9080,
+        "all_final_counts": {
+          "complex_1": 7960,
+          "complex_2": 8394,
+          "complex_3": 8039,
+          "complex_4": 8908,
+          "complex_5": 7604,
+          "complex_6": 8985,
+          "complex_7": 8787,
+          "complex_8": 8932
+        }
+      }
+    }
+  },
+  {
+    "round": 2,
+    "version": "main",
+    "kind": "list",
+    "size": 8388608,
+    "operation": "LPUSH_RPOP",
+    "digest_seed": "f1564acf482ea4114721cb02c816388c",
+    "client_seed": "4048964303",
+    "tag": "main1dd8a5b3-pr291full-list-8388608-lpush_rpop-r2-20261008",
+    "raw": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-main1dd8a5b3-pr291full-list-8388608-lpush_rpop-r2-20261008",
+    "result": {
+      "product": "lavik-main1dd8a5b3-pr291full-list-8388608-lpush_rpop-r2-20261008",
+      "type": "list",
+      "logical_bytes": 8388608,
+      "field_bytes": 1024,
+      "entries_per_key": 8192,
+      "keys": 8,
+      "operation": "LPUSH_RPOP",
+      "connections": 320,
+      "qps": 46267.5490497,
+      "p50_ms": 4.069806,
+      "p99_ms": 29.882982,
+      "p999_ms": 38.536679,
+      "requests": 1389002,
+      "seconds": 30,
+      "elapsed_seconds": 31.22508892090991,
+      "commands": {
+        "LPUSH": {
+          "count": 695619,
+          "qps": 23171.0150183,
+          "p50_ms": 4.025552,
+          "p99_ms": 29.892178,
+          "p999_ms": 38.388277
+        },
+        "RPOP": {
+          "count": 693383,
+          "qps": 23096.5340314,
+          "p50_ms": 4.113763,
+          "p99_ms": 29.869911,
+          "p999_ms": 38.699534
+        }
+      },
+      "key_counts": {
+        "complex_1": {
+          "first": 86651,
+          "second": 86799,
+          "net": -148
+        },
+        "complex_2": {
+          "first": 86840,
+          "second": 86696,
+          "net": 144
+        },
+        "complex_3": {
+          "first": 86919,
+          "second": 86987,
+          "net": -68
+        },
+        "complex_4": {
+          "first": 87330,
+          "second": 86626,
+          "net": 704
+        },
+        "complex_5": {
+          "first": 86249,
+          "second": 86851,
+          "net": -602
+        },
+        "complex_6": {
+          "first": 87180,
+          "second": 86362,
+          "net": 818
+        },
+        "complex_7": {
+          "first": 87526,
+          "second": 86802,
+          "net": 724
+        },
+        "complex_8": {
+          "first": 86924,
+          "second": 86260,
+          "net": 664
+        }
+      },
+      "client_elapsed_seconds": 30.021084508,
+      "command_audit": {
+        "passed": true,
+        "server_counts": {
+          "rpop": 693383.0,
+          "lpush": 695619.0,
+          "info": 1.0
+        },
+        "client_counts": {
+          "LPUSH": 695619,
+          "RPOP": 693383
+        }
+      },
+      "bounded": {
+        "baseline": 8192,
+        "maximum_guard": 16384,
+        "minimum_guard": 4096,
+        "observed_push_min": 7552,
+        "observed_push_max": 9068,
+        "all_final_counts": {
+          "complex_1": 8044,
+          "complex_2": 8336,
+          "complex_3": 8124,
+          "complex_4": 8896,
+          "complex_5": 7590,
+          "complex_6": 9010,
+          "complex_7": 8916,
+          "complex_8": 8856
+        }
+      }
+    }
+  },
+  {
+    "round": 2,
+    "version": "pr291",
+    "kind": "list",
+    "size": 8388608,
+    "operation": "RPUSH_LPOP",
+    "digest_seed": "f1564acf482ea4114721cb02c816388c",
+    "client_seed": "4048964303",
+    "tag": "pr29174ba1d1e-pr291full-list-8388608-rpush_lpop-r2-20261008",
+    "raw": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-pr29174ba1d1e-pr291full-list-8388608-rpush_lpop-r2-20261008",
+    "result": {
+      "product": "lavik-pr29174ba1d1e-pr291full-list-8388608-rpush_lpop-r2-20261008",
+      "type": "list",
+      "logical_bytes": 8388608,
+      "field_bytes": 1024,
+      "entries_per_key": 8192,
+      "keys": 8,
+      "operation": "RPUSH_LPOP",
+      "connections": 320,
+      "qps": 62980.7689014,
+      "p50_ms": 1.48859,
+      "p99_ms": 44.351784,
+      "p999_ms": 99.678061,
+      "requests": 1891138,
+      "seconds": 30,
+      "elapsed_seconds": 31.37651253596414,
+      "commands": {
+        "RPUSH": {
+          "count": 946458,
+          "qps": 31519.9909118,
+          "p50_ms": 1.480097,
+          "p99_ms": 44.165198,
+          "p999_ms": 99.433936
+        },
+        "LPOP": {
+          "count": 944680,
+          "qps": 31460.7779897,
+          "p50_ms": 1.496799,
+          "p99_ms": 44.582184,
+          "p999_ms": 100.40115
+        }
+      },
+      "key_counts": {
+        "complex_1": {
+          "first": 118001,
+          "second": 118090,
+          "net": -89
+        },
+        "complex_2": {
+          "first": 118224,
+          "second": 118191,
+          "net": 33
+        },
+        "complex_3": {
+          "first": 118239,
+          "second": 118454,
+          "net": -215
+        },
+        "complex_4": {
+          "first": 118824,
+          "second": 118020,
+          "net": 804
+        },
+        "complex_5": {
+          "first": 117636,
+          "second": 118295,
+          "net": -659
+        },
+        "complex_6": {
+          "first": 118655,
+          "second": 117631,
+          "net": 1024
+        },
+        "complex_7": {
+          "first": 118737,
+          "second": 118295,
+          "net": 442
+        },
+        "complex_8": {
+          "first": 118142,
+          "second": 117704,
+          "net": 438
+        }
+      },
+      "client_elapsed_seconds": 30.02722947,
+      "command_audit": {
+        "passed": true,
+        "server_counts": {
+          "lpop": 944680.0,
+          "rpush": 946458.0,
+          "info": 1.0
+        },
+        "client_counts": {
+          "RPUSH": 946458,
+          "LPOP": 944680
+        }
+      },
+      "bounded": {
+        "baseline": 8192,
+        "maximum_guard": 16384,
+        "minimum_guard": 4096,
+        "observed_push_min": 7494,
+        "observed_push_max": 9313,
+        "all_final_counts": {
+          "complex_1": 8103,
+          "complex_2": 8225,
+          "complex_3": 7977,
+          "complex_4": 8996,
+          "complex_5": 7533,
+          "complex_6": 9216,
+          "complex_7": 8634,
+          "complex_8": 8630
+        }
+      }
+    }
+  },
+  {
+    "round": 2,
+    "version": "main",
+    "kind": "list",
+    "size": 8388608,
+    "operation": "RPUSH_LPOP",
+    "digest_seed": "f1564acf482ea4114721cb02c816388c",
+    "client_seed": "4048964303",
+    "tag": "main1dd8a5b3-pr291full-list-8388608-rpush_lpop-r2-20261008",
+    "raw": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-main1dd8a5b3-pr291full-list-8388608-rpush_lpop-r2-20261008",
+    "result": {
+      "product": "lavik-main1dd8a5b3-pr291full-list-8388608-rpush_lpop-r2-20261008",
+      "type": "list",
+      "logical_bytes": 8388608,
+      "field_bytes": 1024,
+      "entries_per_key": 8192,
+      "keys": 8,
+      "operation": "RPUSH_LPOP",
+      "connections": 320,
+      "qps": 57817.646419,
+      "p50_ms": 3.817577,
+      "p99_ms": 21.708119,
+      "p999_ms": 30.759407,
+      "requests": 1735289,
+      "seconds": 30,
+      "elapsed_seconds": 31.125148863065988,
+      "commands": {
+        "RPUSH": {
+          "count": 868481,
+          "qps": 28936.6943372,
+          "p50_ms": 3.788234,
+          "p99_ms": 21.62447,
+          "p999_ms": 30.313738
+        },
+        "LPOP": {
+          "count": 866808,
+          "qps": 28880.9520819,
+          "p50_ms": 3.848454,
+          "p99_ms": 21.799387,
+          "p999_ms": 31.828506
+        }
+      },
+      "key_counts": {
+        "complex_1": {
+          "first": 108445,
+          "second": 108378,
+          "net": 67
+        },
+        "complex_2": {
+          "first": 108351,
+          "second": 108519,
+          "net": -168
+        },
+        "complex_3": {
+          "first": 108405,
+          "second": 108797,
+          "net": -392
+        },
+        "complex_4": {
+          "first": 109070,
+          "second": 108236,
+          "net": 834
+        },
+        "complex_5": {
+          "first": 107943,
+          "second": 108463,
+          "net": -520
+        },
+        "complex_6": {
+          "first": 108991,
+          "second": 107962,
+          "net": 1029
+        },
+        "complex_7": {
+          "first": 108870,
+          "second": 108518,
+          "net": 352
+        },
+        "complex_8": {
+          "first": 108406,
+          "second": 107935,
+          "net": 471
+        }
+      },
+      "client_elapsed_seconds": 30.013137986,
+      "command_audit": {
+        "passed": true,
+        "server_counts": {
+          "rpush": 868481.0,
+          "lpop": 866808.0,
+          "info": 1.0
+        },
+        "client_counts": {
+          "RPUSH": 868481,
+          "LPOP": 866808
+        }
+      },
+      "bounded": {
+        "baseline": 8192,
+        "maximum_guard": 16384,
+        "minimum_guard": 4096,
+        "observed_push_min": 7526,
+        "observed_push_max": 9340,
+        "all_final_counts": {
+          "complex_1": 8259,
+          "complex_2": 8024,
+          "complex_3": 7800,
+          "complex_4": 9026,
+          "complex_5": 7672,
+          "complex_6": 9221,
+          "complex_7": 8544,
+          "complex_8": 8663
+        }
+      }
+    }
+  },
+  {
+    "round": 2,
+    "version": "pr291",
+    "kind": "list",
+    "size": 8388608,
+    "operation": "LSET_RESIZE",
+    "digest_seed": "f1564acf482ea4114721cb02c816388c",
+    "client_seed": "4048964303",
+    "tag": "pr29174ba1d1e-pr291full-list-8388608-lset_resize-r2-20261008",
+    "raw": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-pr29174ba1d1e-pr291full-list-8388608-lset_resize-r2-20261008",
+    "result": {
+      "product": "lavik-pr29174ba1d1e-pr291full-list-8388608-lset_resize-r2-20261008",
+      "type": "list",
+      "logical_bytes": 8388608,
+      "field_bytes": 1024,
+      "entries_per_key": 8192,
+      "keys": 8,
+      "operation": "LSET_RESIZE",
+      "connections": 320,
+      "qps": 46741.6293884,
+      "p50_ms": 2.492033,
+      "p99_ms": 86.886783,
+      "p999_ms": 159.683712,
+      "requests": 1402698,
+      "seconds": 30,
+      "elapsed_seconds": 31.27865987305995,
+      "commands": {
+        "LSET": {
+          "count": 1402698,
+          "qps": 46741.6293884,
+          "p50_ms": 2.492033,
+          "p99_ms": 86.886783,
+          "p999_ms": 159.683712
+        }
+      },
+      "key_counts": {
+        "complex_1": {
+          "first": 175139,
+          "second": 0,
+          "net": 0
+        },
+        "complex_2": {
+          "first": 175235,
+          "second": 0,
+          "net": 0
+        },
+        "complex_3": {
+          "first": 175662,
+          "second": 0,
+          "net": 0
+        },
+        "complex_4": {
+          "first": 175658,
+          "second": 0,
+          "net": 0
+        },
+        "complex_5": {
+          "first": 174784,
+          "second": 0,
+          "net": 0
+        },
+        "complex_6": {
+          "first": 175228,
+          "second": 0,
+          "net": 0
+        },
+        "complex_7": {
+          "first": 176107,
+          "second": 0,
+          "net": 0
+        },
+        "complex_8": {
+          "first": 174885,
+          "second": 0,
+          "net": 0
+        }
+      },
+      "client_elapsed_seconds": 30.00960853,
+      "command_audit": {
+        "passed": true,
+        "server_counts": {
+          "info": 1.0,
+          "lset": 1402698.0
+        },
+        "client_counts": {
+          "LSET": 1402698
+        }
+      },
+      "bounded": {
+        "baseline": 8192,
+        "maximum_guard": 16384,
+        "minimum_guard": 4096,
+        "observed_push_min": 0,
+        "observed_push_max": 0,
+        "all_final_counts": {
+          "complex_1": 8192,
+          "complex_2": 8192,
+          "complex_3": 8192,
+          "complex_4": 8192,
+          "complex_5": 8192,
+          "complex_6": 8192,
+          "complex_7": 8192,
+          "complex_8": 8192
+        }
+      }
+    }
+  },
+  {
+    "round": 2,
+    "version": "main",
+    "kind": "list",
+    "size": 8388608,
+    "operation": "LSET_RESIZE",
+    "digest_seed": "f1564acf482ea4114721cb02c816388c",
+    "client_seed": "4048964303",
+    "tag": "main1dd8a5b3-pr291full-list-8388608-lset_resize-r2-20261008",
+    "raw": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-main1dd8a5b3-pr291full-list-8388608-lset_resize-r2-20261008",
+    "result": {
+      "product": "lavik-main1dd8a5b3-pr291full-list-8388608-lset_resize-r2-20261008",
+      "type": "list",
+      "logical_bytes": 8388608,
+      "field_bytes": 1024,
+      "entries_per_key": 8192,
+      "keys": 8,
+      "operation": "LSET_RESIZE",
+      "connections": 320,
+      "qps": 40400.011886,
+      "p50_ms": 3.264571,
+      "p99_ms": 31.718459,
+      "p999_ms": 35.014029,
+      "requests": 1212789,
+      "seconds": 30,
+      "elapsed_seconds": 31.12513306492474,
+      "commands": {
+        "LSET": {
+          "count": 1212789,
+          "qps": 40400.011886,
+          "p50_ms": 3.264571,
+          "p99_ms": 31.718459,
+          "p999_ms": 35.014029
+        }
+      },
+      "key_counts": {
+        "complex_1": {
+          "first": 151541,
+          "second": 0,
+          "net": 0
+        },
+        "complex_2": {
+          "first": 151642,
+          "second": 0,
+          "net": 0
+        },
+        "complex_3": {
+          "first": 151755,
+          "second": 0,
+          "net": 0
+        },
+        "complex_4": {
+          "first": 151736,
+          "second": 0,
+          "net": 0
+        },
+        "complex_5": {
+          "first": 151101,
+          "second": 0,
+          "net": 0
+        },
+        "complex_6": {
+          "first": 151504,
+          "second": 0,
+          "net": 0
+        },
+        "complex_7": {
+          "first": 152437,
+          "second": 0,
+          "net": 0
+        },
+        "complex_8": {
+          "first": 151073,
+          "second": 0,
+          "net": 0
+        }
+      },
+      "client_elapsed_seconds": 30.019520871,
+      "command_audit": {
+        "passed": true,
+        "server_counts": {
+          "lset": 1212789.0,
+          "info": 1.0
+        },
+        "client_counts": {
+          "LSET": 1212789
+        }
+      },
+      "bounded": {
+        "baseline": 8192,
+        "maximum_guard": 16384,
+        "minimum_guard": 4096,
+        "observed_push_min": 0,
+        "observed_push_max": 0,
+        "all_final_counts": {
+          "complex_1": 8192,
+          "complex_2": 8192,
+          "complex_3": 8192,
+          "complex_4": 8192,
+          "complex_5": 8192,
+          "complex_6": 8192,
+          "complex_7": 8192,
+          "complex_8": 8192
+        }
+      }
+    }
+  },
+  {
+    "round": 2,
+    "version": "pr291",
+    "kind": "zset",
+    "size": 8388608,
+    "operation": "ZINCRBY",
+    "digest_seed": "f1564acf482ea4114721cb02c816388c",
+    "client_seed": "4048964303",
+    "tag": "pr29174ba1d1e-pr291full-zset-8388608-zincrby-r2-20261008",
+    "raw": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-pr29174ba1d1e-pr291full-zset-8388608-zincrby-r2-20261008",
+    "result": {
+      "product": "lavik-pr29174ba1d1e-pr291full-zset-8388608-zincrby-r2-20261008",
+      "type": "zset",
+      "logical_bytes": 8388608,
+      "field_bytes": 1024,
+      "entries_per_key": 8192,
+      "keys": 8,
+      "operation": "ZINCRBY",
+      "connections": 320,
+      "qps": 52996.6480704,
+      "p50_ms": 3.53351,
+      "p99_ms": 26.740129,
+      "p999_ms": 33.799269,
+      "requests": 1591479,
+      "seconds": 30,
+      "elapsed_seconds": 31.327752110082656,
+      "commands": {
+        "ZINCRBY": {
+          "count": 1591479,
+          "qps": 52996.6480704,
+          "p50_ms": 3.53351,
+          "p99_ms": 26.740129,
+          "p999_ms": 33.799269
+        }
+      },
+      "key_counts": {
+        "complex_1": {
+          "first": 198718,
+          "second": 0,
+          "net": 0
+        },
+        "complex_2": {
+          "first": 198807,
+          "second": 0,
+          "net": 0
+        },
+        "complex_3": {
+          "first": 199147,
+          "second": 0,
+          "net": 0
+        },
+        "complex_4": {
+          "first": 199338,
+          "second": 0,
+          "net": 0
+        },
+        "complex_5": {
+          "first": 198473,
+          "second": 0,
+          "net": 0
+        },
+        "complex_6": {
+          "first": 198886,
+          "second": 0,
+          "net": 0
+        },
+        "complex_7": {
+          "first": 199609,
+          "second": 0,
+          "net": 0
+        },
+        "complex_8": {
+          "first": 198501,
+          "second": 0,
+          "net": 0
+        }
+      },
+      "client_elapsed_seconds": 30.029804864,
+      "command_audit": {
+        "passed": true,
+        "server_counts": {
+          "info": 1.0,
+          "zincrby": 1591479.0
+        },
+        "client_counts": {
+          "ZINCRBY": 1591479
+        }
+      },
+      "bounded": {
+        "baseline": 8192,
+        "maximum_guard": 16384,
+        "minimum_guard": 4096,
+        "observed_push_min": 0,
+        "observed_push_max": 0,
+        "all_final_counts": {
+          "complex_1": 8192,
+          "complex_2": 8192,
+          "complex_3": 8192,
+          "complex_4": 8192,
+          "complex_5": 8192,
+          "complex_6": 8192,
+          "complex_7": 8192,
+          "complex_8": 8192
+        }
+      }
+    }
+  },
+  {
+    "round": 2,
+    "version": "main",
+    "kind": "zset",
+    "size": 8388608,
+    "operation": "ZINCRBY",
+    "digest_seed": "f1564acf482ea4114721cb02c816388c",
+    "client_seed": "4048964303",
+    "tag": "main1dd8a5b3-pr291full-zset-8388608-zincrby-r2-20261008",
+    "raw": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-main1dd8a5b3-pr291full-zset-8388608-zincrby-r2-20261008",
+    "result": {
+      "product": "lavik-main1dd8a5b3-pr291full-zset-8388608-zincrby-r2-20261008",
+      "type": "zset",
+      "logical_bytes": 8388608,
+      "field_bytes": 1024,
+      "entries_per_key": 8192,
+      "keys": 8,
+      "operation": "ZINCRBY",
+      "connections": 320,
+      "qps": 51927.4357135,
+      "p50_ms": 3.446298,
+      "p99_ms": 27.216278,
+      "p999_ms": 34.204472,
+      "requests": 1558153,
+      "seconds": 30,
+      "elapsed_seconds": 31.32409418199677,
+      "commands": {
+        "ZINCRBY": {
+          "count": 1558153,
+          "qps": 51927.4357135,
+          "p50_ms": 3.446298,
+          "p99_ms": 27.216278,
+          "p999_ms": 34.204472
+        }
+      },
+      "key_counts": {
+        "complex_1": {
+          "first": 194615,
+          "second": 0,
+          "net": 0
+        },
+        "complex_2": {
+          "first": 194683,
+          "second": 0,
+          "net": 0
+        },
+        "complex_3": {
+          "first": 195025,
+          "second": 0,
+          "net": 0
+        },
+        "complex_4": {
+          "first": 195185,
+          "second": 0,
+          "net": 0
+        },
+        "complex_5": {
+          "first": 194271,
+          "second": 0,
+          "net": 0
+        },
+        "complex_6": {
+          "first": 194630,
+          "second": 0,
+          "net": 0
+        },
+        "complex_7": {
+          "first": 195402,
+          "second": 0,
+          "net": 0
+        },
+        "complex_8": {
+          "first": 194342,
+          "second": 0,
+          "net": 0
+        }
+      },
+      "client_elapsed_seconds": 30.006353647,
+      "command_audit": {
+        "passed": true,
+        "server_counts": {
+          "info": 1.0,
+          "zincrby": 1558153.0
+        },
+        "client_counts": {
+          "ZINCRBY": 1558153
+        }
+      },
+      "bounded": {
+        "baseline": 8192,
+        "maximum_guard": 16384,
+        "minimum_guard": 4096,
+        "observed_push_min": 0,
+        "observed_push_max": 0,
+        "all_final_counts": {
+          "complex_1": 8192,
+          "complex_2": 8192,
+          "complex_3": 8192,
+          "complex_4": 8192,
+          "complex_5": 8192,
+          "complex_6": 8192,
+          "complex_7": 8192,
+          "complex_8": 8192
+        }
+      }
+    }
+  },
+  {
+    "round": 2,
+    "version": "pr291",
+    "kind": "zset",
+    "size": 8388608,
+    "operation": "ZADD_MIDDLE_ZPOPMIN",
+    "digest_seed": "f1564acf482ea4114721cb02c816388c",
+    "client_seed": "4048964303",
+    "tag": "pr29174ba1d1e-pr291full-zset-8388608-zadd_middle_zpopmin-r2-20261008",
+    "raw": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-pr29174ba1d1e-pr291full-zset-8388608-zadd_middle_zpopmin-r2-20261008",
+    "result": {
+      "product": "lavik-pr29174ba1d1e-pr291full-zset-8388608-zadd_middle_zpopmin-r2-20261008",
+      "type": "zset",
+      "logical_bytes": 8388608,
+      "field_bytes": 1024,
+      "entries_per_key": 8192,
+      "keys": 8,
+      "operation": "ZADD_MIDDLE_ZPOPMIN",
+      "connections": 320,
+      "qps": 23995.5449194,
+      "p50_ms": 9.88497,
+      "p99_ms": 47.459086,
+      "p999_ms": 62.016192,
+      "requests": 720408,
+      "seconds": 30,
+      "elapsed_seconds": 31.17533328209538,
+      "commands": {
+        "ZADD": {
+          "count": 360889,
+          "qps": 12020.5886253,
+          "p50_ms": 9.941635,
+          "p99_ms": 47.428961,
+          "p999_ms": 62.18889
+        },
+        "ZPOPMIN": {
+          "count": 359519,
+          "qps": 11974.956294,
+          "p50_ms": 9.828977,
+          "p99_ms": 47.496998,
+          "p999_ms": 61.80396
+        }
+      },
+      "key_counts": {
+        "complex_1": {
+          "first": 45317,
+          "second": 44693,
+          "net": 624
+        },
+        "complex_2": {
+          "first": 44975,
+          "second": 45059,
+          "net": -84
+        },
+        "complex_3": {
+          "first": 45039,
+          "second": 45320,
+          "net": -281
+        },
+        "complex_4": {
+          "first": 45028,
+          "second": 44827,
+          "net": 201
+        },
+        "complex_5": {
+          "first": 45283,
+          "second": 44913,
+          "net": 370
+        },
+        "complex_6": {
+          "first": 44911,
+          "second": 44610,
+          "net": 301
+        },
+        "complex_7": {
+          "first": 45298,
+          "second": 44941,
+          "net": 357
+        },
+        "complex_8": {
+          "first": 45038,
+          "second": 45156,
+          "net": -118
+        }
+      },
+      "client_elapsed_seconds": 30.022573041,
+      "command_audit": {
+        "passed": true,
+        "server_counts": {
+          "info": 1.0,
+          "zpopmin": 359519.0,
+          "zadd": 360889.0
+        },
+        "client_counts": {
+          "ZADD": 360889,
+          "ZPOPMIN": 359519
+        }
+      },
+      "bounded": {
+        "baseline": 8192,
+        "maximum_guard": 16384,
+        "minimum_guard": 4096,
+        "observed_push_min": 0,
+        "observed_push_max": 0,
+        "all_final_counts": {
+          "complex_1": 8816,
+          "complex_2": 8108,
+          "complex_3": 7911,
+          "complex_4": 8393,
+          "complex_5": 8562,
+          "complex_6": 8493,
+          "complex_7": 8549,
+          "complex_8": 8074
+        }
+      }
+    }
+  },
+  {
+    "round": 2,
+    "version": "main",
+    "kind": "zset",
+    "size": 8388608,
+    "operation": "ZADD_MIDDLE_ZPOPMIN",
+    "digest_seed": "f1564acf482ea4114721cb02c816388c",
+    "client_seed": "4048964303",
+    "tag": "main1dd8a5b3-pr291full-zset-8388608-zadd_middle_zpopmin-r2-20261008",
+    "raw": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-main1dd8a5b3-pr291full-zset-8388608-zadd_middle_zpopmin-r2-20261008",
+    "result": {
+      "product": "lavik-main1dd8a5b3-pr291full-zset-8388608-zadd_middle_zpopmin-r2-20261008",
+      "type": "zset",
+      "logical_bytes": 8388608,
+      "field_bytes": 1024,
+      "entries_per_key": 8192,
+      "keys": 8,
+      "operation": "ZADD_MIDDLE_ZPOPMIN",
+      "connections": 320,
+      "qps": 23827.155708,
+      "p50_ms": 8.531346,
+      "p99_ms": 54.20937,
+      "p999_ms": 64.952526,
+      "requests": 715376,
+      "seconds": 30,
+      "elapsed_seconds": 31.02544683101587,
+      "commands": {
+        "ZADD": {
+          "count": 358358,
+          "qps": 11935.8936632,
+          "p50_ms": 8.537255,
+          "p99_ms": 54.177981,
+          "p999_ms": 64.957067
+        },
+        "ZPOPMIN": {
+          "count": 357018,
+          "qps": 11891.2620448,
+          "p50_ms": 8.524561,
+          "p99_ms": 54.231434,
+          "p999_ms": 64.939451
+        }
+      },
+      "key_counts": {
+        "complex_1": {
+          "first": 45002,
+          "second": 44387,
+          "net": 615
+        },
+        "complex_2": {
+          "first": 44653,
+          "second": 44709,
+          "net": -56
+        },
+        "complex_3": {
+          "first": 44734,
+          "second": 44996,
+          "net": -262
+        },
+        "complex_4": {
+          "first": 44722,
+          "second": 44512,
+          "net": 210
+        },
+        "complex_5": {
+          "first": 44932,
+          "second": 44621,
+          "net": 311
+        },
+        "complex_6": {
+          "first": 44597,
+          "second": 44282,
+          "net": 315
+        },
+        "complex_7": {
+          "first": 45005,
+          "second": 44651,
+          "net": 354
+        },
+        "complex_8": {
+          "first": 44713,
+          "second": 44860,
+          "net": -147
+        }
+      },
+      "client_elapsed_seconds": 30.023558362,
+      "command_audit": {
+        "passed": true,
+        "server_counts": {
+          "zpopmin": 357018.0,
+          "info": 1.0,
+          "zadd": 358358.0
+        },
+        "client_counts": {
+          "ZADD": 358358,
+          "ZPOPMIN": 357018
+        }
+      },
+      "bounded": {
+        "baseline": 8192,
+        "maximum_guard": 16384,
+        "minimum_guard": 4096,
+        "observed_push_min": 0,
+        "observed_push_max": 0,
+        "all_final_counts": {
+          "complex_1": 8807,
+          "complex_2": 8136,
+          "complex_3": 7930,
+          "complex_4": 8402,
+          "complex_5": 8503,
+          "complex_6": 8507,
+          "complex_7": 8546,
+          "complex_8": 8045
+        }
+      }
+    }
+  },
+  {
+    "round": 2,
+    "version": "pr291",
+    "kind": "hash",
+    "size": 8388608,
+    "operation": "HSET",
+    "digest_seed": "f1564acf482ea4114721cb02c816388c",
+    "client_seed": "4048964303",
+    "tag": "pr29174ba1d1e-pr291full-hash-8388608-hset-r2-20261008",
+    "raw": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-pr29174ba1d1e-pr291full-hash-8388608-hset-r2-20261008",
+    "result": {
+      "product": "lavik-pr29174ba1d1e-pr291full-hash-8388608-hset-r2-20261008",
+      "type": "hash",
+      "logical_bytes": 8388608,
+      "field_bytes": 1024,
+      "entries_per_key": 8192,
+      "keys": 8,
+      "operation": "HSET",
+      "connections": 320,
+      "qps": 31355.6469193,
+      "p50_ms": 0.944252,
+      "p99_ms": 232.875265,
+      "p999_ms": 397.024863,
+      "requests": 944484,
+      "seconds": 30,
+      "elapsed_seconds": 31.28101577493362,
+      "commands": {
+        "HSET": {
+          "count": 944484,
+          "qps": 31355.6469193,
+          "p50_ms": 0.944252,
+          "p99_ms": 232.875265,
+          "p999_ms": 397.024863
+        }
+      },
+      "key_counts": {
+        "complex_1": {
+          "first": 117941,
+          "second": 0,
+          "net": 0
+        },
+        "complex_2": {
+          "first": 118080,
+          "second": 0,
+          "net": 0
+        },
+        "complex_3": {
+          "first": 118337,
+          "second": 0,
+          "net": 0
+        },
+        "complex_4": {
+          "first": 118181,
+          "second": 0,
+          "net": 0
+        },
+        "complex_5": {
+          "first": 117683,
+          "second": 0,
+          "net": 0
+        },
+        "complex_6": {
+          "first": 118081,
+          "second": 0,
+          "net": 0
+        },
+        "complex_7": {
+          "first": 118587,
+          "second": 0,
+          "net": 0
+        },
+        "complex_8": {
+          "first": 117594,
+          "second": 0,
+          "net": 0
+        }
+      },
+      "client_elapsed_seconds": 30.121655676,
+      "command_audit": {
+        "passed": true,
+        "server_counts": {
+          "hset": 944484.0,
+          "info": 1.0
+        },
+        "client_counts": {
+          "HSET": 944484
+        }
+      },
+      "bounded": {
+        "baseline": 8192,
+        "maximum_guard": 16384,
+        "minimum_guard": 4096,
+        "observed_push_min": 0,
+        "observed_push_max": 0,
+        "all_final_counts": {
+          "complex_1": 8192,
+          "complex_2": 8192,
+          "complex_3": 8192,
+          "complex_4": 8192,
+          "complex_5": 8192,
+          "complex_6": 8192,
+          "complex_7": 8192,
+          "complex_8": 8192
+        }
+      }
+    }
+  },
+  {
+    "round": 2,
+    "version": "main",
+    "kind": "hash",
+    "size": 8388608,
+    "operation": "HSET",
+    "digest_seed": "f1564acf482ea4114721cb02c816388c",
+    "client_seed": "4048964303",
+    "tag": "main1dd8a5b3-pr291full-hash-8388608-hset-r2-20261008",
+    "raw": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-main1dd8a5b3-pr291full-hash-8388608-hset-r2-20261008",
+    "result": {
+      "product": "lavik-main1dd8a5b3-pr291full-hash-8388608-hset-r2-20261008",
+      "type": "hash",
+      "logical_bytes": 8388608,
+      "field_bytes": 1024,
+      "entries_per_key": 8192,
+      "keys": 8,
+      "operation": "HSET",
+      "connections": 320,
+      "qps": 29338.7782207,
+      "p50_ms": 0.921618,
+      "p99_ms": 224.184176,
+      "p999_ms": 426.381597,
+      "requests": 884830,
+      "seconds": 30,
+      "elapsed_seconds": 31.180199183989316,
+      "commands": {
+        "HSET": {
+          "count": 884830,
+          "qps": 29338.7782207,
+          "p50_ms": 0.921618,
+          "p99_ms": 224.184176,
+          "p999_ms": 426.381597
+        }
+      },
+      "key_counts": {
+        "complex_1": {
+          "first": 110663,
+          "second": 0,
+          "net": 0
+        },
+        "complex_2": {
+          "first": 110786,
+          "second": 0,
+          "net": 0
+        },
+        "complex_3": {
+          "first": 110759,
+          "second": 0,
+          "net": 0
+        },
+        "complex_4": {
+          "first": 110764,
+          "second": 0,
+          "net": 0
+        },
+        "complex_5": {
+          "first": 109958,
+          "second": 0,
+          "net": 0
+        },
+        "complex_6": {
+          "first": 110455,
+          "second": 0,
+          "net": 0
+        },
+        "complex_7": {
+          "first": 111091,
+          "second": 0,
+          "net": 0
+        },
+        "complex_8": {
+          "first": 110354,
+          "second": 0,
+          "net": 0
+        }
+      },
+      "client_elapsed_seconds": 30.159060931,
+      "command_audit": {
+        "passed": true,
+        "server_counts": {
+          "hset": 884830.0,
+          "info": 1.0
+        },
+        "client_counts": {
+          "HSET": 884830
+        }
+      },
+      "bounded": {
+        "baseline": 8192,
+        "maximum_guard": 16384,
+        "minimum_guard": 4096,
+        "observed_push_min": 0,
+        "observed_push_max": 0,
+        "all_final_counts": {
+          "complex_1": 8192,
+          "complex_2": 8192,
+          "complex_3": 8192,
+          "complex_4": 8192,
+          "complex_5": 8192,
+          "complex_6": 8192,
+          "complex_7": 8192,
+          "complex_8": 8192
+        }
+      }
+    }
+  },
+  {
+    "round": 2,
+    "version": "pr291",
+    "kind": "set",
+    "size": 8388608,
+    "operation": "SADD_SREM",
+    "digest_seed": "f1564acf482ea4114721cb02c816388c",
+    "client_seed": "4048964303",
+    "tag": "pr29174ba1d1e-pr291full-set-8388608-sadd_srem-r2-20261008",
+    "raw": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-pr29174ba1d1e-pr291full-set-8388608-sadd_srem-r2-20261008",
+    "result": {
+      "product": "lavik-pr29174ba1d1e-pr291full-set-8388608-sadd_srem-r2-20261008",
+      "type": "set",
+      "logical_bytes": 8388608,
+      "field_bytes": 1024,
+      "entries_per_key": 8192,
+      "keys": 8,
+      "operation": "SADD_SREM",
+      "connections": 320,
+      "qps": 50534.7646272,
+      "p50_ms": 4.940757,
+      "p99_ms": 24.029023,
+      "p999_ms": 32.760024,
+      "requests": 1517285,
+      "seconds": 30,
+      "elapsed_seconds": 31.322708665044047,
+      "commands": {
+        "SADD": {
+          "count": 759631,
+          "qps": 25300.3053405,
+          "p50_ms": 4.928449,
+          "p99_ms": 24.040541,
+          "p999_ms": 34.417708
+        },
+        "SREM": {
+          "count": 757654,
+          "qps": 25234.4592867,
+          "p50_ms": 4.953275,
+          "p99_ms": 24.020015,
+          "p999_ms": 31.712067
+        }
+      },
+      "key_counts": {
+        "complex_1": {
+          "first": 94472,
+          "second": 94374,
+          "net": 25
+        },
+        "complex_2": {
+          "first": 94919,
+          "second": 94663,
+          "net": 80
+        },
+        "complex_3": {
+          "first": 94847,
+          "second": 94743,
+          "net": -35
+        },
+        "complex_4": {
+          "first": 95377,
+          "second": 94719,
+          "net": -61
+        },
+        "complex_5": {
+          "first": 94884,
+          "second": 94728,
+          "net": -3
+        },
+        "complex_6": {
+          "first": 95212,
+          "second": 94706,
+          "net": -9
+        },
+        "complex_7": {
+          "first": 94840,
+          "second": 94749,
+          "net": 5
+        },
+        "complex_8": {
+          "first": 95080,
+          "second": 94972,
+          "net": -6
+        }
+      },
+      "client_elapsed_seconds": 30.024578351,
+      "command_audit": {
+        "passed": true,
+        "server_counts": {
+          "sadd": 759631.0,
+          "srem": 757654.0,
+          "info": 1.0
+        },
+        "client_counts": {
+          "SADD": 759631,
+          "SREM": 757654
+        }
+      },
+      "bounded": {
+        "baseline": 8192,
+        "maximum_guard": 16384,
+        "minimum_guard": 4096,
+        "observed_push_min": 0,
+        "observed_push_max": 0,
+        "all_final_counts": {
+          "complex_1": 8217,
+          "complex_2": 8272,
+          "complex_3": 8157,
+          "complex_4": 8131,
+          "complex_5": 8189,
+          "complex_6": 8183,
+          "complex_7": 8197,
+          "complex_8": 8186
+        }
+      }
+    }
+  },
+  {
+    "round": 2,
+    "version": "main",
+    "kind": "set",
+    "size": 8388608,
+    "operation": "SADD_SREM",
+    "digest_seed": "f1564acf482ea4114721cb02c816388c",
+    "client_seed": "4048964303",
+    "tag": "main1dd8a5b3-pr291full-set-8388608-sadd_srem-r2-20261008",
+    "raw": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-main1dd8a5b3-pr291full-set-8388608-sadd_srem-r2-20261008",
+    "result": {
+      "product": "lavik-main1dd8a5b3-pr291full-set-8388608-sadd_srem-r2-20261008",
+      "type": "set",
+      "logical_bytes": 8388608,
+      "field_bytes": 1024,
+      "entries_per_key": 8192,
+      "keys": 8,
+      "operation": "SADD_SREM",
+      "connections": 320,
+      "qps": 50637.3981425,
+      "p50_ms": 5.245985,
+      "p99_ms": 23.127721,
+      "p999_ms": 29.52682,
+      "requests": 1519844,
+      "seconds": 30,
+      "elapsed_seconds": 31.124207500950433,
+      "commands": {
+        "SADD": {
+          "count": 760978,
+          "qps": 25353.8823482,
+          "p50_ms": 5.25285,
+          "p99_ms": 23.132577,
+          "p999_ms": 29.456482
+        },
+        "SREM": {
+          "count": 758866,
+          "qps": 25283.5157943,
+          "p50_ms": 5.238894,
+          "p99_ms": 23.123689,
+          "p999_ms": 29.60185
+        }
+      },
+      "key_counts": {
+        "complex_1": {
+          "first": 94640,
+          "second": 94555,
+          "net": -21
+        },
+        "complex_2": {
+          "first": 95032,
+          "second": 94823,
+          "net": 58
+        },
+        "complex_3": {
+          "first": 95083,
+          "second": 94860,
+          "net": 12
+        },
+        "complex_4": {
+          "first": 95558,
+          "second": 94822,
+          "net": 5
+        },
+        "complex_5": {
+          "first": 95090,
+          "second": 94862,
+          "net": 3
+        },
+        "complex_6": {
+          "first": 95348,
+          "second": 94874,
+          "net": 3
+        },
+        "complex_7": {
+          "first": 95043,
+          "second": 94956,
+          "net": -32
+        },
+        "complex_8": {
+          "first": 95184,
+          "second": 95114,
+          "net": 41
+        }
+      },
+      "client_elapsed_seconds": 30.014259337,
+      "command_audit": {
+        "passed": true,
+        "server_counts": {
+          "sadd": 760978.0,
+          "srem": 758866.0,
+          "info": 1.0
+        },
+        "client_counts": {
+          "SADD": 760978,
+          "SREM": 758866
+        }
+      },
+      "bounded": {
+        "baseline": 8192,
+        "maximum_guard": 16384,
+        "minimum_guard": 4096,
+        "observed_push_min": 0,
+        "observed_push_max": 0,
+        "all_final_counts": {
+          "complex_1": 8171,
+          "complex_2": 8250,
+          "complex_3": 8204,
+          "complex_4": 8197,
+          "complex_5": 8195,
+          "complex_6": 8195,
+          "complex_7": 8160,
+          "complex_8": 8233
+        }
+      }
+    }
+  },
+  {
+    "round": 3,
+    "version": "main",
+    "kind": "list",
+    "size": 8388608,
+    "operation": "LPUSH_RPOP",
+    "digest_seed": "bd27a4991f66320ff8fec9e9c79c672f",
+    "client_seed": "3173491865",
+    "tag": "main1dd8a5b3-pr291full-list-8388608-lpush_rpop-r3-20261008",
+    "raw": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-main1dd8a5b3-pr291full-list-8388608-lpush_rpop-r3-20261008",
+    "result": {
+      "product": "lavik-main1dd8a5b3-pr291full-list-8388608-lpush_rpop-r3-20261008",
+      "type": "list",
+      "logical_bytes": 8388608,
+      "field_bytes": 1024,
+      "entries_per_key": 8192,
+      "keys": 8,
+      "operation": "LPUSH_RPOP",
+      "connections": 320,
+      "qps": 45955.8844459,
+      "p50_ms": 3.997373,
+      "p99_ms": 30.160958,
+      "p999_ms": 38.198317,
+      "requests": 1379409,
+      "seconds": 30,
+      "elapsed_seconds": 31.222681855084375,
+      "commands": {
+        "LPUSH": {
+          "count": 689123,
+          "qps": 22958.5691822,
+          "p50_ms": 3.954022,
+          "p99_ms": 30.124764,
+          "p999_ms": 38.192187
+        },
+        "RPOP": {
+          "count": 690286,
+          "qps": 22997.3152637,
+          "p50_ms": 4.038329,
+          "p99_ms": 30.213092,
+          "p999_ms": 38.202403
+        }
+      },
+      "key_counts": {
+        "complex_1": {
+          "first": 86142,
+          "second": 86315,
+          "net": -173
+        },
+        "complex_2": {
+          "first": 85891,
+          "second": 86376,
+          "net": -485
+        },
+        "complex_3": {
+          "first": 85736,
+          "second": 85784,
+          "net": -48
+        },
+        "complex_4": {
+          "first": 86255,
+          "second": 86335,
+          "net": -80
+        },
+        "complex_5": {
+          "first": 86240,
+          "second": 86480,
+          "net": -240
+        },
+        "complex_6": {
+          "first": 86578,
+          "second": 86469,
+          "net": 109
+        },
+        "complex_7": {
+          "first": 86245,
+          "second": 86442,
+          "net": -197
+        },
+        "complex_8": {
+          "first": 86036,
+          "second": 86085,
+          "net": -49
+        }
+      },
+      "client_elapsed_seconds": 30.015938473,
+      "command_audit": {
+        "passed": true,
+        "server_counts": {
+          "lpush": 689123.0,
+          "info": 1.0,
+          "rpop": 690286.0
+        },
+        "client_counts": {
+          "LPUSH": 689123,
+          "RPOP": 690286
+        }
+      },
+      "bounded": {
+        "baseline": 8192,
+        "maximum_guard": 16384,
+        "minimum_guard": 4096,
+        "observed_push_min": 7477,
+        "observed_push_max": 8605,
+        "all_final_counts": {
+          "complex_1": 8019,
+          "complex_2": 7707,
+          "complex_3": 8144,
+          "complex_4": 8112,
+          "complex_5": 7952,
+          "complex_6": 8301,
+          "complex_7": 7995,
+          "complex_8": 8143
+        }
+      }
+    }
+  },
+  {
+    "round": 3,
+    "version": "pr291",
+    "kind": "list",
+    "size": 8388608,
+    "operation": "LPUSH_RPOP",
+    "digest_seed": "bd27a4991f66320ff8fec9e9c79c672f",
+    "client_seed": "3173491865",
+    "tag": "pr29174ba1d1e-pr291full-list-8388608-lpush_rpop-r3-20261008",
+    "raw": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-pr29174ba1d1e-pr291full-list-8388608-lpush_rpop-r3-20261008",
+    "result": {
+      "product": "lavik-pr29174ba1d1e-pr291full-list-8388608-lpush_rpop-r3-20261008",
+      "type": "list",
+      "logical_bytes": 8388608,
+      "field_bytes": 1024,
+      "entries_per_key": 8192,
+      "keys": 8,
+      "operation": "LPUSH_RPOP",
+      "connections": 320,
+      "qps": 46251.0923215,
+      "p50_ms": 3.836898,
+      "p99_ms": 31.889116,
+      "p999_ms": 40.310563,
+      "requests": 1388393,
+      "seconds": 30,
+      "elapsed_seconds": 31.17356840602588,
+      "commands": {
+        "LPUSH": {
+          "count": 693606,
+          "qps": 23105.8750229,
+          "p50_ms": 3.801674,
+          "p99_ms": 31.815706,
+          "p999_ms": 40.245922
+        },
+        "RPOP": {
+          "count": 694787,
+          "qps": 23145.2172985,
+          "p50_ms": 3.874043,
+          "p99_ms": 31.965902,
+          "p999_ms": 40.394434
+        }
+      },
+      "key_counts": {
+        "complex_1": {
+          "first": 86716,
+          "second": 86931,
+          "net": -215
+        },
+        "complex_2": {
+          "first": 86388,
+          "second": 86961,
+          "net": -573
+        },
+        "complex_3": {
+          "first": 86345,
+          "second": 86411,
+          "net": -66
+        },
+        "complex_4": {
+          "first": 86720,
+          "second": 86862,
+          "net": -142
+        },
+        "complex_5": {
+          "first": 86847,
+          "second": 87002,
+          "net": -155
+        },
+        "complex_6": {
+          "first": 87237,
+          "second": 86975,
+          "net": 262
+        },
+        "complex_7": {
+          "first": 86831,
+          "second": 87002,
+          "net": -171
+        },
+        "complex_8": {
+          "first": 86522,
+          "second": 86643,
+          "net": -121
+        }
+      },
+      "client_elapsed_seconds": 30.018599136,
+      "command_audit": {
+        "passed": true,
+        "server_counts": {
+          "rpop": 694787.0,
+          "lpush": 693606.0,
+          "info": 1.0
+        },
+        "client_counts": {
+          "LPUSH": 693606,
+          "RPOP": 694787
+        }
+      },
+      "bounded": {
+        "baseline": 8192,
+        "maximum_guard": 16384,
+        "minimum_guard": 4096,
+        "observed_push_min": 7489,
+        "observed_push_max": 8591,
+        "all_final_counts": {
+          "complex_1": 7977,
+          "complex_2": 7619,
+          "complex_3": 8126,
+          "complex_4": 8050,
+          "complex_5": 8037,
+          "complex_6": 8454,
+          "complex_7": 8021,
+          "complex_8": 8071
+        }
+      }
+    }
+  },
+  {
+    "round": 3,
+    "version": "main",
+    "kind": "list",
+    "size": 8388608,
+    "operation": "RPUSH_LPOP",
+    "digest_seed": "bd27a4991f66320ff8fec9e9c79c672f",
+    "client_seed": "3173491865",
+    "tag": "main1dd8a5b3-pr291full-list-8388608-rpush_lpop-r3-20261008",
+    "raw": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-main1dd8a5b3-pr291full-list-8388608-rpush_lpop-r3-20261008",
+    "result": {
+      "product": "lavik-main1dd8a5b3-pr291full-list-8388608-rpush_lpop-r3-20261008",
+      "type": "list",
+      "logical_bytes": 8388608,
+      "field_bytes": 1024,
+      "entries_per_key": 8192,
+      "keys": 8,
+      "operation": "RPUSH_LPOP",
+      "connections": 320,
+      "qps": 56803.0508538,
+      "p50_ms": 4.059451,
+      "p99_ms": 21.5383,
+      "p999_ms": 44.605908,
+      "requests": 1705001,
+      "seconds": 30,
+      "elapsed_seconds": 31.27421643107664,
+      "commands": {
+        "RPUSH": {
+          "count": 851608,
+          "qps": 28371.791296,
+          "p50_ms": 4.022445,
+          "p99_ms": 21.512472,
+          "p999_ms": 44.389985
+        },
+        "LPOP": {
+          "count": 853393,
+          "qps": 28431.2595578,
+          "p50_ms": 4.096324,
+          "p99_ms": 21.563743,
+          "p999_ms": 44.985786
+        }
+      },
+      "key_counts": {
+        "complex_1": {
+          "first": 106698,
+          "second": 106584,
+          "net": 114
+        },
+        "complex_2": {
+          "first": 106057,
+          "second": 106705,
+          "net": -648
+        },
+        "complex_3": {
+          "first": 105841,
+          "second": 106253,
+          "net": -412
+        },
+        "complex_4": {
+          "first": 106384,
+          "second": 106765,
+          "net": -381
+        },
+        "complex_5": {
+          "first": 106500,
+          "second": 107086,
+          "net": -586
+        },
+        "complex_6": {
+          "first": 107055,
+          "second": 106830,
+          "net": 225
+        },
+        "complex_7": {
+          "first": 106699,
+          "second": 106689,
+          "net": 10
+        },
+        "complex_8": {
+          "first": 106374,
+          "second": 106481,
+          "net": -107
+        }
+      },
+      "client_elapsed_seconds": 30.016011013,
+      "command_audit": {
+        "passed": true,
+        "server_counts": {
+          "rpush": 851608.0,
+          "info": 1.0,
+          "lpop": 853393.0
+        },
+        "client_counts": {
+          "RPUSH": 851608,
+          "LPOP": 853393
+        }
+      },
+      "bounded": {
+        "baseline": 8192,
+        "maximum_guard": 16384,
+        "minimum_guard": 4096,
+        "observed_push_min": 7465,
+        "observed_push_max": 8583,
+        "all_final_counts": {
+          "complex_1": 8306,
+          "complex_2": 7544,
+          "complex_3": 7780,
+          "complex_4": 7811,
+          "complex_5": 7606,
+          "complex_6": 8417,
+          "complex_7": 8202,
+          "complex_8": 8085
+        }
+      }
+    }
+  },
+  {
+    "round": 3,
+    "version": "pr291",
+    "kind": "list",
+    "size": 8388608,
+    "operation": "RPUSH_LPOP",
+    "digest_seed": "bd27a4991f66320ff8fec9e9c79c672f",
+    "client_seed": "3173491865",
+    "tag": "pr29174ba1d1e-pr291full-list-8388608-rpush_lpop-r3-20261008",
+    "raw": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-pr29174ba1d1e-pr291full-list-8388608-rpush_lpop-r3-20261008",
+    "result": {
+      "product": "lavik-pr29174ba1d1e-pr291full-list-8388608-rpush_lpop-r3-20261008",
+      "type": "list",
+      "logical_bytes": 8388608,
+      "field_bytes": 1024,
+      "entries_per_key": 8192,
+      "keys": 8,
+      "operation": "RPUSH_LPOP",
+      "connections": 320,
+      "qps": 64461.4174402,
+      "p50_ms": 1.487285,
+      "p99_ms": 40.444691,
+      "p999_ms": 80.555422,
+      "requests": 1934334,
+      "seconds": 30,
+      "elapsed_seconds": 31.176389405038208,
+      "commands": {
+        "RPUSH": {
+          "count": 966574,
+          "qps": 32210.9470757,
+          "p50_ms": 1.478271,
+          "p99_ms": 40.512182,
+          "p999_ms": 80.057583
+        },
+        "LPOP": {
+          "count": 967760,
+          "qps": 32250.4703644,
+          "p50_ms": 1.496498,
+          "p99_ms": 40.351537,
+          "p999_ms": 82.651637
+        }
+      },
+      "key_counts": {
+        "complex_1": {
+          "first": 121247,
+          "second": 121151,
+          "net": 96
+        },
+        "complex_2": {
+          "first": 120411,
+          "second": 120835,
+          "net": -424
+        },
+        "complex_3": {
+          "first": 119961,
+          "second": 120688,
+          "net": -727
+        },
+        "complex_4": {
+          "first": 120774,
+          "second": 121182,
+          "net": -408
+        },
+        "complex_5": {
+          "first": 120987,
+          "second": 121235,
+          "net": -248
+        },
+        "complex_6": {
+          "first": 121175,
+          "second": 120833,
+          "net": 342
+        },
+        "complex_7": {
+          "first": 121106,
+          "second": 120960,
+          "net": 146
+        },
+        "complex_8": {
+          "first": 120913,
+          "second": 120876,
+          "net": 37
+        }
+      },
+      "client_elapsed_seconds": 30.007624356,
+      "command_audit": {
+        "passed": true,
+        "server_counts": {
+          "rpush": 966574.0,
+          "lpop": 967760.0,
+          "info": 1.0
+        },
+        "client_counts": {
+          "RPUSH": 966574,
+          "LPOP": 967760
+        }
+      },
+      "bounded": {
+        "baseline": 8192,
+        "maximum_guard": 16384,
+        "minimum_guard": 4096,
+        "observed_push_min": 7402,
+        "observed_push_max": 8595,
+        "all_final_counts": {
+          "complex_1": 8288,
+          "complex_2": 7768,
+          "complex_3": 7465,
+          "complex_4": 7784,
+          "complex_5": 7944,
+          "complex_6": 8534,
+          "complex_7": 8338,
+          "complex_8": 8229
+        }
+      }
+    }
+  },
+  {
+    "round": 3,
+    "version": "main",
+    "kind": "list",
+    "size": 8388608,
+    "operation": "LSET_RESIZE",
+    "digest_seed": "bd27a4991f66320ff8fec9e9c79c672f",
+    "client_seed": "3173491865",
+    "tag": "main1dd8a5b3-pr291full-list-8388608-lset_resize-r3-20261008",
+    "raw": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-main1dd8a5b3-pr291full-list-8388608-lset_resize-r3-20261008",
+    "result": {
+      "product": "lavik-main1dd8a5b3-pr291full-list-8388608-lset_resize-r3-20261008",
+      "type": "list",
+      "logical_bytes": 8388608,
+      "field_bytes": 1024,
+      "entries_per_key": 8192,
+      "keys": 8,
+      "operation": "LSET_RESIZE",
+      "connections": 320,
+      "qps": 39513.415329,
+      "p50_ms": 5.560645,
+      "p99_ms": 28.806435,
+      "p999_ms": 32.783908,
+      "requests": 1186331,
+      "seconds": 30,
+      "elapsed_seconds": 31.275032548001036,
+      "commands": {
+        "LSET": {
+          "count": 1186331,
+          "qps": 39513.415329,
+          "p50_ms": 5.560645,
+          "p99_ms": 28.806435,
+          "p999_ms": 32.783908
+        }
+      },
+      "key_counts": {
+        "complex_1": {
+          "first": 148112,
+          "second": 0,
+          "net": 0
+        },
+        "complex_2": {
+          "first": 148029,
+          "second": 0,
+          "net": 0
+        },
+        "complex_3": {
+          "first": 147616,
+          "second": 0,
+          "net": 0
+        },
+        "complex_4": {
+          "first": 148544,
+          "second": 0,
+          "net": 0
+        },
+        "complex_5": {
+          "first": 148711,
+          "second": 0,
+          "net": 0
+        },
+        "complex_6": {
+          "first": 148648,
+          "second": 0,
+          "net": 0
+        },
+        "complex_7": {
+          "first": 148590,
+          "second": 0,
+          "net": 0
+        },
+        "complex_8": {
+          "first": 148081,
+          "second": 0,
+          "net": 0
+        }
+      },
+      "client_elapsed_seconds": 30.023499364,
+      "command_audit": {
+        "passed": true,
+        "server_counts": {
+          "info": 1.0,
+          "lset": 1186331.0
+        },
+        "client_counts": {
+          "LSET": 1186331
+        }
+      },
+      "bounded": {
+        "baseline": 8192,
+        "maximum_guard": 16384,
+        "minimum_guard": 4096,
+        "observed_push_min": 0,
+        "observed_push_max": 0,
+        "all_final_counts": {
+          "complex_1": 8192,
+          "complex_2": 8192,
+          "complex_3": 8192,
+          "complex_4": 8192,
+          "complex_5": 8192,
+          "complex_6": 8192,
+          "complex_7": 8192,
+          "complex_8": 8192
+        }
+      }
+    }
+  },
+  {
+    "round": 3,
+    "version": "pr291",
+    "kind": "list",
+    "size": 8388608,
+    "operation": "LSET_RESIZE",
+    "digest_seed": "bd27a4991f66320ff8fec9e9c79c672f",
+    "client_seed": "3173491865",
+    "tag": "pr29174ba1d1e-pr291full-list-8388608-lset_resize-r3-20261008",
+    "raw": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-pr29174ba1d1e-pr291full-list-8388608-lset_resize-r3-20261008",
+    "result": {
+      "product": "lavik-pr29174ba1d1e-pr291full-list-8388608-lset_resize-r3-20261008",
+      "type": "list",
+      "logical_bytes": 8388608,
+      "field_bytes": 1024,
+      "entries_per_key": 8192,
+      "keys": 8,
+      "operation": "LSET_RESIZE",
+      "connections": 320,
+      "qps": 47738.9379612,
+      "p50_ms": 2.490981,
+      "p99_ms": 78.548709,
+      "p999_ms": 174.314751,
+      "requests": 1434076,
+      "seconds": 30,
+      "elapsed_seconds": 31.177086930023506,
+      "commands": {
+        "LSET": {
+          "count": 1434076,
+          "qps": 47738.9379612,
+          "p50_ms": 2.490981,
+          "p99_ms": 78.548709,
+          "p999_ms": 174.314751
+        }
+      },
+      "key_counts": {
+        "complex_1": {
+          "first": 179308,
+          "second": 0,
+          "net": 0
+        },
+        "complex_2": {
+          "first": 179018,
+          "second": 0,
+          "net": 0
+        },
+        "complex_3": {
+          "first": 178459,
+          "second": 0,
+          "net": 0
+        },
+        "complex_4": {
+          "first": 179404,
+          "second": 0,
+          "net": 0
+        },
+        "complex_5": {
+          "first": 179579,
+          "second": 0,
+          "net": 0
+        },
+        "complex_6": {
+          "first": 179999,
+          "second": 0,
+          "net": 0
+        },
+        "complex_7": {
+          "first": 179393,
+          "second": 0,
+          "net": 0
+        },
+        "complex_8": {
+          "first": 178916,
+          "second": 0,
+          "net": 0
+        }
+      },
+      "client_elapsed_seconds": 30.039964466,
+      "command_audit": {
+        "passed": true,
+        "server_counts": {
+          "lset": 1434076.0,
+          "info": 1.0
+        },
+        "client_counts": {
+          "LSET": 1434076
+        }
+      },
+      "bounded": {
+        "baseline": 8192,
+        "maximum_guard": 16384,
+        "minimum_guard": 4096,
+        "observed_push_min": 0,
+        "observed_push_max": 0,
+        "all_final_counts": {
+          "complex_1": 8192,
+          "complex_2": 8192,
+          "complex_3": 8192,
+          "complex_4": 8192,
+          "complex_5": 8192,
+          "complex_6": 8192,
+          "complex_7": 8192,
+          "complex_8": 8192
+        }
+      }
+    }
+  },
+  {
+    "round": 3,
+    "version": "main",
+    "kind": "zset",
+    "size": 8388608,
+    "operation": "ZINCRBY",
+    "digest_seed": "bd27a4991f66320ff8fec9e9c79c672f",
+    "client_seed": "3173491865",
+    "tag": "main1dd8a5b3-pr291full-zset-8388608-zincrby-r3-20261008",
+    "raw": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-main1dd8a5b3-pr291full-zset-8388608-zincrby-r3-20261008",
+    "result": {
+      "product": "lavik-main1dd8a5b3-pr291full-zset-8388608-zincrby-r3-20261008",
+      "type": "zset",
+      "logical_bytes": 8388608,
+      "field_bytes": 1024,
+      "entries_per_key": 8192,
+      "keys": 8,
+      "operation": "ZINCRBY",
+      "connections": 320,
+      "qps": 51802.5753339,
+      "p50_ms": 3.535196,
+      "p99_ms": 28.133391,
+      "p999_ms": 37.317281,
+      "requests": 1554789,
+      "seconds": 30,
+      "elapsed_seconds": 31.275064929039218,
+      "commands": {
+        "ZINCRBY": {
+          "count": 1554789,
+          "qps": 51802.5753339,
+          "p50_ms": 3.535196,
+          "p99_ms": 28.133391,
+          "p999_ms": 37.317281
+        }
+      },
+      "key_counts": {
+        "complex_1": {
+          "first": 194237,
+          "second": 0,
+          "net": 0
+        },
+        "complex_2": {
+          "first": 194166,
+          "second": 0,
+          "net": 0
+        },
+        "complex_3": {
+          "first": 193560,
+          "second": 0,
+          "net": 0
+        },
+        "complex_4": {
+          "first": 194445,
+          "second": 0,
+          "net": 0
+        },
+        "complex_5": {
+          "first": 194844,
+          "second": 0,
+          "net": 0
+        },
+        "complex_6": {
+          "first": 195111,
+          "second": 0,
+          "net": 0
+        },
+        "complex_7": {
+          "first": 194539,
+          "second": 0,
+          "net": 0
+        },
+        "complex_8": {
+          "first": 193887,
+          "second": 0,
+          "net": 0
+        }
+      },
+      "client_elapsed_seconds": 30.013739471,
+      "command_audit": {
+        "passed": true,
+        "server_counts": {
+          "info": 1.0,
+          "zincrby": 1554789.0
+        },
+        "client_counts": {
+          "ZINCRBY": 1554789
+        }
+      },
+      "bounded": {
+        "baseline": 8192,
+        "maximum_guard": 16384,
+        "minimum_guard": 4096,
+        "observed_push_min": 0,
+        "observed_push_max": 0,
+        "all_final_counts": {
+          "complex_1": 8192,
+          "complex_2": 8192,
+          "complex_3": 8192,
+          "complex_4": 8192,
+          "complex_5": 8192,
+          "complex_6": 8192,
+          "complex_7": 8192,
+          "complex_8": 8192
+        }
+      }
+    }
+  },
+  {
+    "round": 3,
+    "version": "pr291",
+    "kind": "zset",
+    "size": 8388608,
+    "operation": "ZINCRBY",
+    "digest_seed": "bd27a4991f66320ff8fec9e9c79c672f",
+    "client_seed": "3173491865",
+    "tag": "pr29174ba1d1e-pr291full-zset-8388608-zincrby-r3-20261008",
+    "raw": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-pr29174ba1d1e-pr291full-zset-8388608-zincrby-r3-20261008",
+    "result": {
+      "product": "lavik-pr29174ba1d1e-pr291full-zset-8388608-zincrby-r3-20261008",
+      "type": "zset",
+      "logical_bytes": 8388608,
+      "field_bytes": 1024,
+      "entries_per_key": 8192,
+      "keys": 8,
+      "operation": "ZINCRBY",
+      "connections": 320,
+      "qps": 52534.1927949,
+      "p50_ms": 3.528145,
+      "p99_ms": 27.17572,
+      "p999_ms": 36.609751,
+      "requests": 1576493,
+      "seconds": 30,
+      "elapsed_seconds": 31.176000553998165,
+      "commands": {
+        "ZINCRBY": {
+          "count": 1576493,
+          "qps": 52534.1927949,
+          "p50_ms": 3.528145,
+          "p99_ms": 27.17572,
+          "p999_ms": 36.609751
+        }
+      },
+      "key_counts": {
+        "complex_1": {
+          "first": 197006,
+          "second": 0,
+          "net": 0
+        },
+        "complex_2": {
+          "first": 196905,
+          "second": 0,
+          "net": 0
+        },
+        "complex_3": {
+          "first": 196225,
+          "second": 0,
+          "net": 0
+        },
+        "complex_4": {
+          "first": 197161,
+          "second": 0,
+          "net": 0
+        },
+        "complex_5": {
+          "first": 197514,
+          "second": 0,
+          "net": 0
+        },
+        "complex_6": {
+          "first": 197707,
+          "second": 0,
+          "net": 0
+        },
+        "complex_7": {
+          "first": 197275,
+          "second": 0,
+          "net": 0
+        },
+        "complex_8": {
+          "first": 196700,
+          "second": 0,
+          "net": 0
+        }
+      },
+      "client_elapsed_seconds": 30.008893563,
+      "command_audit": {
+        "passed": true,
+        "server_counts": {
+          "info": 1.0,
+          "zincrby": 1576493.0
+        },
+        "client_counts": {
+          "ZINCRBY": 1576493
+        }
+      },
+      "bounded": {
+        "baseline": 8192,
+        "maximum_guard": 16384,
+        "minimum_guard": 4096,
+        "observed_push_min": 0,
+        "observed_push_max": 0,
+        "all_final_counts": {
+          "complex_1": 8192,
+          "complex_2": 8192,
+          "complex_3": 8192,
+          "complex_4": 8192,
+          "complex_5": 8192,
+          "complex_6": 8192,
+          "complex_7": 8192,
+          "complex_8": 8192
+        }
+      }
+    }
+  },
+  {
+    "round": 3,
+    "version": "main",
+    "kind": "zset",
+    "size": 8388608,
+    "operation": "ZADD_MIDDLE_ZPOPMIN",
+    "digest_seed": "bd27a4991f66320ff8fec9e9c79c672f",
+    "client_seed": "3173491865",
+    "tag": "main1dd8a5b3-pr291full-zset-8388608-zadd_middle_zpopmin-r3-20261008",
+    "raw": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-main1dd8a5b3-pr291full-zset-8388608-zadd_middle_zpopmin-r3-20261008",
+    "result": {
+      "product": "lavik-main1dd8a5b3-pr291full-zset-8388608-zadd_middle_zpopmin-r3-20261008",
+      "type": "zset",
+      "logical_bytes": 8388608,
+      "field_bytes": 1024,
+      "entries_per_key": 8192,
+      "keys": 8,
+      "operation": "ZADD_MIDDLE_ZPOPMIN",
+      "connections": 320,
+      "qps": 23717.5125865,
+      "p50_ms": 8.757134,
+      "p99_ms": 54.823873,
+      "p999_ms": 67.655104,
+      "requests": 712172,
+      "seconds": 30,
+      "elapsed_seconds": 31.175181024009362,
+      "commands": {
+        "ZADD": {
+          "count": 355714,
+          "qps": 11846.3675519,
+          "p50_ms": 8.749152,
+          "p99_ms": 54.895794,
+          "p999_ms": 67.737201
+        },
+        "ZPOPMIN": {
+          "count": 356458,
+          "qps": 11871.1450346,
+          "p50_ms": 8.765457,
+          "p99_ms": 54.758955,
+          "p999_ms": 67.5887
+        }
+      },
+      "key_counts": {
+        "complex_1": {
+          "first": 44283,
+          "second": 44226,
+          "net": 57
+        },
+        "complex_2": {
+          "first": 44578,
+          "second": 44775,
+          "net": -197
+        },
+        "complex_3": {
+          "first": 44366,
+          "second": 44075,
+          "net": 291
+        },
+        "complex_4": {
+          "first": 44416,
+          "second": 44896,
+          "net": -480
+        },
+        "complex_5": {
+          "first": 44274,
+          "second": 44808,
+          "net": -534
+        },
+        "complex_6": {
+          "first": 44562,
+          "second": 44677,
+          "net": -115
+        },
+        "complex_7": {
+          "first": 44386,
+          "second": 44383,
+          "net": 3
+        },
+        "complex_8": {
+          "first": 44849,
+          "second": 44618,
+          "net": 231
+        }
+      },
+      "client_elapsed_seconds": 30.0272635,
+      "command_audit": {
+        "passed": true,
+        "server_counts": {
+          "zadd": 355714.0,
+          "info": 1.0,
+          "zpopmin": 356458.0
+        },
+        "client_counts": {
+          "ZADD": 355714,
+          "ZPOPMIN": 356458
+        }
+      },
+      "bounded": {
+        "baseline": 8192,
+        "maximum_guard": 16384,
+        "minimum_guard": 4096,
+        "observed_push_min": 0,
+        "observed_push_max": 0,
+        "all_final_counts": {
+          "complex_1": 8249,
+          "complex_2": 7995,
+          "complex_3": 8483,
+          "complex_4": 7712,
+          "complex_5": 7658,
+          "complex_6": 8077,
+          "complex_7": 8195,
+          "complex_8": 8423
+        }
+      }
+    }
+  },
+  {
+    "round": 3,
+    "version": "pr291",
+    "kind": "zset",
+    "size": 8388608,
+    "operation": "ZADD_MIDDLE_ZPOPMIN",
+    "digest_seed": "bd27a4991f66320ff8fec9e9c79c672f",
+    "client_seed": "3173491865",
+    "tag": "pr29174ba1d1e-pr291full-zset-8388608-zadd_middle_zpopmin-r3-20261008",
+    "raw": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-pr29174ba1d1e-pr291full-zset-8388608-zadd_middle_zpopmin-r3-20261008",
+    "result": {
+      "product": "lavik-pr29174ba1d1e-pr291full-zset-8388608-zadd_middle_zpopmin-r3-20261008",
+      "type": "zset",
+      "logical_bytes": 8388608,
+      "field_bytes": 1024,
+      "entries_per_key": 8192,
+      "keys": 8,
+      "operation": "ZADD_MIDDLE_ZPOPMIN",
+      "connections": 320,
+      "qps": 23983.2062413,
+      "p50_ms": 9.176572,
+      "p99_ms": 50.915047,
+      "p999_ms": 68.516444,
+      "requests": 720336,
+      "seconds": 30,
+      "elapsed_seconds": 31.126601702999324,
+      "commands": {
+        "ZADD": {
+          "count": 359952,
+          "qps": 11984.4115148,
+          "p50_ms": 9.263212,
+          "p99_ms": 50.892698,
+          "p999_ms": 68.362039
+        },
+        "ZPOPMIN": {
+          "count": 360384,
+          "qps": 11998.7947264,
+          "p50_ms": 9.094058,
+          "p99_ms": 50.928458,
+          "p999_ms": 68.597445
+        }
+      },
+      "key_counts": {
+        "complex_1": {
+          "first": 44786,
+          "second": 44693,
+          "net": 93
+        },
+        "complex_2": {
+          "first": 45109,
+          "second": 45254,
+          "net": -145
+        },
+        "complex_3": {
+          "first": 44910,
+          "second": 44588,
+          "net": 322
+        },
+        "complex_4": {
+          "first": 44954,
+          "second": 45371,
+          "net": -417
+        },
+        "complex_5": {
+          "first": 44769,
+          "second": 45299,
+          "net": -530
+        },
+        "complex_6": {
+          "first": 45093,
+          "second": 45161,
+          "net": -68
+        },
+        "complex_7": {
+          "first": 44952,
+          "second": 44887,
+          "net": 65
+        },
+        "complex_8": {
+          "first": 45379,
+          "second": 45131,
+          "net": 248
+        }
+      },
+      "client_elapsed_seconds": 30.035016701,
+      "command_audit": {
+        "passed": true,
+        "server_counts": {
+          "zpopmin": 360384.0,
+          "info": 1.0,
+          "zadd": 359952.0
+        },
+        "client_counts": {
+          "ZADD": 359952,
+          "ZPOPMIN": 360384
+        }
+      },
+      "bounded": {
+        "baseline": 8192,
+        "maximum_guard": 16384,
+        "minimum_guard": 4096,
+        "observed_push_min": 0,
+        "observed_push_max": 0,
+        "all_final_counts": {
+          "complex_1": 8285,
+          "complex_2": 8047,
+          "complex_3": 8514,
+          "complex_4": 7775,
+          "complex_5": 7662,
+          "complex_6": 8124,
+          "complex_7": 8257,
+          "complex_8": 8440
+        }
+      }
+    }
+  },
+  {
+    "round": 3,
+    "version": "main",
+    "kind": "hash",
+    "size": 8388608,
+    "operation": "HSET",
+    "digest_seed": "bd27a4991f66320ff8fec9e9c79c672f",
+    "client_seed": "3173491865",
+    "tag": "main1dd8a5b3-pr291full-hash-8388608-hset-r3-20261008",
+    "raw": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-main1dd8a5b3-pr291full-hash-8388608-hset-r3-20261008",
+    "result": {
+      "product": "lavik-main1dd8a5b3-pr291full-hash-8388608-hset-r3-20261008",
+      "type": "hash",
+      "logical_bytes": 8388608,
+      "field_bytes": 1024,
+      "entries_per_key": 8192,
+      "keys": 8,
+      "operation": "HSET",
+      "connections": 320,
+      "qps": 33771.9177736,
+      "p50_ms": 1.000604,
+      "p99_ms": 176.677724,
+      "p999_ms": 410.418807,
+      "requests": 1013623,
+      "seconds": 30,
+      "elapsed_seconds": 31.279131488059647,
+      "commands": {
+        "HSET": {
+          "count": 1013623,
+          "qps": 33771.9177736,
+          "p50_ms": 1.000604,
+          "p99_ms": 176.677724,
+          "p999_ms": 410.418807
+        }
+      },
+      "key_counts": {
+        "complex_1": {
+          "first": 126470,
+          "second": 0,
+          "net": 0
+        },
+        "complex_2": {
+          "first": 126513,
+          "second": 0,
+          "net": 0
+        },
+        "complex_3": {
+          "first": 126194,
+          "second": 0,
+          "net": 0
+        },
+        "complex_4": {
+          "first": 126979,
+          "second": 0,
+          "net": 0
+        },
+        "complex_5": {
+          "first": 127038,
+          "second": 0,
+          "net": 0
+        },
+        "complex_6": {
+          "first": 127219,
+          "second": 0,
+          "net": 0
+        },
+        "complex_7": {
+          "first": 126871,
+          "second": 0,
+          "net": 0
+        },
+        "complex_8": {
+          "first": 126339,
+          "second": 0,
+          "net": 0
+        }
+      },
+      "client_elapsed_seconds": 30.013782658,
+      "command_audit": {
+        "passed": true,
+        "server_counts": {
+          "hset": 1013623.0,
+          "info": 1.0
+        },
+        "client_counts": {
+          "HSET": 1013623
+        }
+      },
+      "bounded": {
+        "baseline": 8192,
+        "maximum_guard": 16384,
+        "minimum_guard": 4096,
+        "observed_push_min": 0,
+        "observed_push_max": 0,
+        "all_final_counts": {
+          "complex_1": 8192,
+          "complex_2": 8192,
+          "complex_3": 8192,
+          "complex_4": 8192,
+          "complex_5": 8192,
+          "complex_6": 8192,
+          "complex_7": 8192,
+          "complex_8": 8192
+        }
+      }
+    }
+  },
+  {
+    "round": 3,
+    "version": "pr291",
+    "kind": "hash",
+    "size": 8388608,
+    "operation": "HSET",
+    "digest_seed": "bd27a4991f66320ff8fec9e9c79c672f",
+    "client_seed": "3173491865",
+    "tag": "pr29174ba1d1e-pr291full-hash-8388608-hset-r3-20261008",
+    "raw": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-pr29174ba1d1e-pr291full-hash-8388608-hset-r3-20261008",
+    "result": {
+      "product": "lavik-pr29174ba1d1e-pr291full-hash-8388608-hset-r3-20261008",
+      "type": "hash",
+      "logical_bytes": 8388608,
+      "field_bytes": 1024,
+      "entries_per_key": 8192,
+      "keys": 8,
+      "operation": "HSET",
+      "connections": 320,
+      "qps": 33379.4572664,
+      "p50_ms": 0.910972,
+      "p99_ms": 157.884353,
+      "p999_ms": 380.624924,
+      "requests": 1003151,
+      "seconds": 30,
+      "elapsed_seconds": 31.12915868300479,
+      "commands": {
+        "HSET": {
+          "count": 1003151,
+          "qps": 33379.4572664,
+          "p50_ms": 0.910972,
+          "p99_ms": 157.884353,
+          "p999_ms": 380.624924
+        }
+      },
+      "key_counts": {
+        "complex_1": {
+          "first": 124947,
+          "second": 0,
+          "net": 0
+        },
+        "complex_2": {
+          "first": 125451,
+          "second": 0,
+          "net": 0
+        },
+        "complex_3": {
+          "first": 124718,
+          "second": 0,
+          "net": 0
+        },
+        "complex_4": {
+          "first": 125532,
+          "second": 0,
+          "net": 0
+        },
+        "complex_5": {
+          "first": 125745,
+          "second": 0,
+          "net": 0
+        },
+        "complex_6": {
+          "first": 125757,
+          "second": 0,
+          "net": 0
+        },
+        "complex_7": {
+          "first": 125600,
+          "second": 0,
+          "net": 0
+        },
+        "complex_8": {
+          "first": 125401,
+          "second": 0,
+          "net": 0
+        }
+      },
+      "client_elapsed_seconds": 30.052945199,
+      "command_audit": {
+        "passed": true,
+        "server_counts": {
+          "hset": 1003151.0,
+          "info": 1.0
+        },
+        "client_counts": {
+          "HSET": 1003151
+        }
+      },
+      "bounded": {
+        "baseline": 8192,
+        "maximum_guard": 16384,
+        "minimum_guard": 4096,
+        "observed_push_min": 0,
+        "observed_push_max": 0,
+        "all_final_counts": {
+          "complex_1": 8192,
+          "complex_2": 8192,
+          "complex_3": 8192,
+          "complex_4": 8192,
+          "complex_5": 8192,
+          "complex_6": 8192,
+          "complex_7": 8192,
+          "complex_8": 8192
+        }
+      }
+    }
+  },
+  {
+    "round": 3,
+    "version": "main",
+    "kind": "set",
+    "size": 8388608,
+    "operation": "SADD_SREM",
+    "digest_seed": "bd27a4991f66320ff8fec9e9c79c672f",
+    "client_seed": "3173491865",
+    "tag": "main1dd8a5b3-pr291full-set-8388608-sadd_srem-r3-20261008",
+    "raw": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-main1dd8a5b3-pr291full-set-8388608-sadd_srem-r3-20261008",
+    "result": {
+      "product": "lavik-main1dd8a5b3-pr291full-set-8388608-sadd_srem-r3-20261008",
+      "type": "set",
+      "logical_bytes": 8388608,
+      "field_bytes": 1024,
+      "entries_per_key": 8192,
+      "keys": 8,
+      "operation": "SADD_SREM",
+      "connections": 320,
+      "qps": 50348.4916974,
+      "p50_ms": 5.095269,
+      "p99_ms": 23.189574,
+      "p999_ms": 29.08543,
+      "requests": 1510953,
+      "seconds": 30,
+      "elapsed_seconds": 31.323805584106594,
+      "commands": {
+        "SADD": {
+          "count": 755859,
+          "qps": 25186.9916443,
+          "p50_ms": 5.102434,
+          "p99_ms": 23.183776,
+          "p999_ms": 29.012857
+        },
+        "SREM": {
+          "count": 755094,
+          "qps": 25161.5000531,
+          "p50_ms": 5.087342,
+          "p99_ms": 23.197361,
+          "p999_ms": 29.187524
+        }
+      },
+      "key_counts": {
+        "complex_1": {
+          "first": 94273,
+          "second": 94087,
+          "net": -76
+        },
+        "complex_2": {
+          "first": 93982,
+          "second": 94519,
+          "net": -11
+        },
+        "complex_3": {
+          "first": 94495,
+          "second": 93890,
+          "net": 31
+        },
+        "complex_4": {
+          "first": 94731,
+          "second": 94771,
+          "net": -10
+        },
+        "complex_5": {
+          "first": 94882,
+          "second": 94641,
+          "net": -47
+        },
+        "complex_6": {
+          "first": 94616,
+          "second": 94393,
+          "net": 45
+        },
+        "complex_7": {
+          "first": 94442,
+          "second": 94241,
+          "net": -2
+        },
+        "complex_8": {
+          "first": 94438,
+          "second": 94552,
+          "net": 97
+        }
+      },
+      "client_elapsed_seconds": 30.009896008,
+      "command_audit": {
+        "passed": true,
+        "server_counts": {
+          "srem": 755094.0,
+          "info": 1.0,
+          "sadd": 755859.0
+        },
+        "client_counts": {
+          "SADD": 755859,
+          "SREM": 755094
+        }
+      },
+      "bounded": {
+        "baseline": 8192,
+        "maximum_guard": 16384,
+        "minimum_guard": 4096,
+        "observed_push_min": 0,
+        "observed_push_max": 0,
+        "all_final_counts": {
+          "complex_1": 8116,
+          "complex_2": 8181,
+          "complex_3": 8223,
+          "complex_4": 8182,
+          "complex_5": 8145,
+          "complex_6": 8237,
+          "complex_7": 8190,
+          "complex_8": 8289
+        }
+      }
+    }
+  },
+  {
+    "round": 3,
+    "version": "pr291",
+    "kind": "set",
+    "size": 8388608,
+    "operation": "SADD_SREM",
+    "digest_seed": "bd27a4991f66320ff8fec9e9c79c672f",
+    "client_seed": "3173491865",
+    "tag": "pr29174ba1d1e-pr291full-set-8388608-sadd_srem-r3-20261008",
+    "raw": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-pr29174ba1d1e-pr291full-set-8388608-sadd_srem-r3-20261008",
+    "result": {
+      "product": "lavik-pr29174ba1d1e-pr291full-set-8388608-sadd_srem-r3-20261008",
+      "type": "set",
+      "logical_bytes": 8388608,
+      "field_bytes": 1024,
+      "entries_per_key": 8192,
+      "keys": 8,
+      "operation": "SADD_SREM",
+      "connections": 320,
+      "qps": 50655.677832,
+      "p50_ms": 5.00579,
+      "p99_ms": 23.84127,
+      "p999_ms": 31.128876,
+      "requests": 1520725,
+      "seconds": 30,
+      "elapsed_seconds": 31.172878519049846,
+      "commands": {
+        "SADD": {
+          "count": 760895,
+          "qps": 25345.5766059,
+          "p50_ms": 5.002471,
+          "p99_ms": 23.832852,
+          "p999_ms": 31.160533
+        },
+        "SREM": {
+          "count": 759830,
+          "qps": 25310.1012261,
+          "p50_ms": 5.009325,
+          "p99_ms": 23.850793,
+          "p999_ms": 31.098881
+        }
+      },
+      "key_counts": {
+        "complex_1": {
+          "first": 94949,
+          "second": 94648,
+          "net": -14
+        },
+        "complex_2": {
+          "first": 94609,
+          "second": 95152,
+          "net": 1
+        },
+        "complex_3": {
+          "first": 95132,
+          "second": 94498,
+          "net": 105
+        },
+        "complex_4": {
+          "first": 95340,
+          "second": 95376,
+          "net": 6
+        },
+        "complex_5": {
+          "first": 95492,
+          "second": 95251,
+          "net": -43
+        },
+        "complex_6": {
+          "first": 95268,
+          "second": 94908,
+          "net": 73
+        },
+        "complex_7": {
+          "first": 95066,
+          "second": 94812,
+          "net": 23
+        },
+        "complex_8": {
+          "first": 95039,
+          "second": 95185,
+          "net": 67
+        }
+      },
+      "client_elapsed_seconds": 30.020820273,
+      "command_audit": {
+        "passed": true,
+        "server_counts": {
+          "info": 1.0,
+          "srem": 759830.0,
+          "sadd": 760895.0
+        },
+        "client_counts": {
+          "SADD": 760895,
+          "SREM": 759830
+        }
+      },
+      "bounded": {
+        "baseline": 8192,
+        "maximum_guard": 16384,
+        "minimum_guard": 4096,
+        "observed_push_min": 0,
+        "observed_push_max": 0,
+        "all_final_counts": {
+          "complex_1": 8178,
+          "complex_2": 8193,
+          "complex_3": 8297,
+          "complex_4": 8198,
+          "complex_5": 8149,
+          "complex_6": 8265,
+          "complex_7": 8215,
+          "complex_8": 8259
+        }
+      }
+    }
+  }
+]

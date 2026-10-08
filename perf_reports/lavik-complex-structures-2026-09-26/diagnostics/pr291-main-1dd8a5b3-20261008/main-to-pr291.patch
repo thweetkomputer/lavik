@@ -1,0 +1,977 @@
+diff --git a/docs/architecture/09-grouped-collections.md b/docs/architecture/09-grouped-collections.md
+index 4808981cb..ce4bbd883 100644
+--- a/docs/architecture/09-grouped-collections.md
++++ b/docs/architecture/09-grouped-collections.md
+@@ -375,12 +375,15 @@ of read-buffer accounting. Indexed reads retain their direct single-page path.
+ Read-only operations retain shared
+ key intent and an immutable routing view, release worker store state before
+ page I/O, and validate population and physical record lifetime in the page
+-loader. Push, pop and indexed replacement load the affected interval and its
+-immediate link neighbours; an equal-sized indexed replacement only needs its
+-target page. Pivot and position searches consume one page at a time and retain
+-only the result; insertion reloads the located interval.
+-Value removals, trimming and within-list moves retain the needed logical
+-contents before forming a replacement interval. Only changed snapshots enter
++loader. Push, pop and indexed replacement load the affected interval, with
++neighbour payloads when their links may change. Tail pushes, insertions that fit
++one page, pops that leave their single affected page nonempty, and indexed
++replacements that retain one page need only their target page. Position searches
++consume one page at a time and retain only the result. Pivot searches retain the
++matched page and its admission for insertion preparation. Full-range trims use
++resident cardinality to return without reading payloads. Other trims, value
++removals and within-list moves retain the needed logical contents before forming
++a replacement interval. Only changed snapshots enter
+ the writer, and admitted reply buffers retain their charge across owner hops.
+ 
+ Sorted Set operations use a typed storage interface. Cardinality reads root
+@@ -390,11 +393,17 @@ pages for the exact member, and combine its page offset with the directory's
+ Fenwick prefix count. Rank ranges start at the directory's
+ selected pages; score ranges and score counts first
+ seek their candidate interval using resident score bounds, then read matching
+-pages in physical order. Range, rank, count, scan, random and pop selection
++pages in physical order. Range, rank, count, scan and random selection
+ borrow member bytes from one owned read lease and validate complete page
+ framing, ordering and uniqueness before consumption. Replies copy only
+ admitted output members. Mutation source and boundary probes, and rewrite
+-planning, use owned snapshots.
++planning, use owned snapshots. Command-local probes retain admitted source
++pages containing requested members within a fixed scratch bound and reuse
++them in planning. Unrelated or excess search pages are released immediately;
++large members retain the ordinary read fallback. Pop selection passes its owned pages
++into deletion under the same exclusive key intent. Reuse checks the logical
++population and preserves member-index/ordered-index agreement; physical GC
++relocation does not invalidate owned payload bytes.
+ Mixed-score BYLEX preserves global member ordering without a resident member
+ index by repeatedly selecting
+ the next member: its work can scale with the collection size times the offset
+diff --git a/include/lavik/storage/detail/grouped/collection.h b/include/lavik/storage/detail/grouped/collection.h
+index 19dfdd096..5965776c2 100644
+--- a/include/lavik/storage/detail/grouped/collection.h
++++ b/include/lavik/storage/detail/grouped/collection.h
+@@ -139,6 +139,8 @@ inline std::size_t OrderedGroupSize(
+ }
+ 
+ inline constexpr std::size_t kOrderedGroupHeaderBytes = 64;
++// Each ordered item stores its byte length and score before its value.
++inline constexpr std::size_t kOrderedEntryHeaderBytes = 12;
+ inline constexpr std::size_t kOrderedCollectionRootBytes = 72;
+ inline constexpr std::size_t kGroupedStreamRootBytes =
+     kOrderedCollectionRootBytes + 8;
+@@ -204,7 +206,7 @@ class OrderedGroupEncoder {
+  private:
+   const OrderedGroupSnapshot* group_ = nullptr;
+   std::array<char, kOrderedGroupHeaderBytes> header_{};
+-  std::array<char, 12> entry_header_{};
++  std::array<char, kOrderedEntryHeaderBytes> entry_header_{};
+   std::size_t encoded_bytes_ = 0;
+   std::size_t entry_ = 0;
+   unsigned phase_ = 0;
+@@ -578,6 +580,9 @@ struct OrderedCollectionMutationPlan {
+ // storage primitive for List push/pop/insert/remove and Sorted Set insertion,
+ // deletion or score repositioning. The caller supplies all intersected pages
+ // plus their immediate neighbours; only changed complete pages are returned.
++// List neighbours may be omitted when their links remain unchanged, including
++// tail pushes (even with a split) and pops that leave the touched page nonempty
++// without splitting it at a smaller target size.
+ // Replacing one List item with the same byte length at the default page target
+ // needs only its containing page, because its size and links stay unchanged.
+ // Noncontiguous List removals or a Sorted Set reposition may be expressed as
+diff --git a/include/lavik/storage/detail/grouped/hash.h b/include/lavik/storage/detail/grouped/hash.h
+index c391441ef..9b47b04e5 100644
+--- a/include/lavik/storage/detail/grouped/hash.h
++++ b/include/lavik/storage/detail/grouped/hash.h
+@@ -143,7 +143,8 @@ struct HashGroupEdit {
+ // Apply ordered operands to one encoded leaf, checking all old fields for
+ // uniqueness and routing. HSET uses last-value-wins, NX uses first-value-wins,
+ // and repeated removals count once. Inputs need only survive this call. Small
+-// replacements copy views directly into checked bytes; splits and oversized
++// replacements copy views directly into checked bytes; a single edit copies
++// unchanged encoded spans without an entry-position table. Splits and oversized
+ // entries retain the bounded-state owned encoder path. Caller admits page and
+ // operand scratch before calling; this function performs no storage writes.
+ absl::StatusOr<HashGroupEdit> ApplyHashGroupEdits(
+diff --git a/src/storage/engine/grouped/collection.cpp b/src/storage/engine/grouped/collection.cpp
+index f257ba703..0706415c1 100644
+--- a/src/storage/engine/grouped/collection.cpp
++++ b/src/storage/engine/grouped/collection.cpp
+@@ -34,7 +34,7 @@ namespace {
+ constexpr std::string_view kRootMagic = "LOCROOT1";
+ constexpr std::string_view kGroupMagic = "LOCGRUP1";
+ constexpr std::size_t kRootBytes = kOrderedCollectionRootBytes;
+-constexpr std::size_t kEntryHeaderBytes = 12;
++constexpr std::size_t kEntryHeaderBytes = kOrderedEntryHeaderBytes;
+ 
+ template <typename Buffer>
+ void Store(Buffer& bytes, std::size_t offset, std::uint64_t value,
+@@ -1751,9 +1751,15 @@ absl::StatusOr<OrderedCollectionMutationPlan> PlanOrderedCollectionSplice(
+     }
+   }
+   for (std::size_t i = required_begin; i < required_end; ++i) {
+-    if (!loaded.contains(groups[i].id_))
++    if (!loaded.contains(groups[i].id_)) {
++      // List values have no cross-page ordering constraint. The directory
++      // already validates links; require a neighbour's payload only if its
++      // link actually changes after the split/removal below.
++      if (root.kind_ == OrderedCollectionKind::kList && (i < begin || i >= end))
++        continue;
+       return absl::InvalidArgumentError("ordered splice needs adjacent pages");
+-    if (i != required_begin) {
++    }
++    if (i != required_begin && loaded.contains(groups[i - 1].id_)) {
+       auto boundary = ValidateOrderedGroupBoundary(loaded.at(groups[i - 1].id_),
+                                                    loaded.at(groups[i].id_));
+       if (!boundary.ok()) return boundary;
+@@ -1838,14 +1844,18 @@ absl::StatusOr<OrderedCollectionMutationPlan> PlanOrderedCollectionSplice(
+     plan.writes_.push_back(Retired(root, groups[i].id_));
+   if (begin == 0)
+     plan.root_.first_group_ = new_first;
+-  else if (loaded.at(previous).next_ != new_first) {
++  else if (groups[begin - 1].next_ != new_first) {
++    if (!loaded.contains(previous))
++      return absl::InvalidArgumentError("ordered splice needs previous page");
+     auto& neighbour = loaded.at(previous);
+     neighbour.next_ = new_first;
+     plan.writes_.push_back(std::move(neighbour));
+   }
+   if (end == groups.size())
+     plan.root_.last_group_ = new_last;
+-  else if (loaded.at(next).previous_ != new_last) {
++  else if (groups[end].previous_ != new_last) {
++    if (!loaded.contains(next))
++      return absl::InvalidArgumentError("ordered splice needs next page");
+     auto& neighbour = loaded.at(next);
+     neighbour.previous_ = new_last;
+     plan.writes_.push_back(std::move(neighbour));
+diff --git a/src/storage/engine/grouped/hash.cpp b/src/storage/engine/grouped/hash.cpp
+index 7417e81f5..d5ab59bd5 100644
+--- a/src/storage/engine/grouped/hash.cpp
++++ b/src/storage/engine/grouped/hash.cpp
+@@ -348,6 +348,129 @@ absl::StatusOr<HashGroupEdit> ApplyHashGroupEdits(
+   if (!metadata.ok()) return metadata.status();
+   if (metadata->retired_)
+     return absl::DataLossError("cannot edit a retired Hash leaf");
++  if (edits.size() == 1) {
++    const auto& edit = edits.front();
++    std::optional<HashEntryView> current;
++    auto valid =
++        VisitHashGroupFields(payload, metadata->field_count_, metadata->id_,
++                             seed, [&](const HashEntryView& entry) {
++                               if (entry.field_ == edit.field_) current = entry;
++                               return absl::OkStatus();
++                             });
++    if (!valid.ok()) return valid;
++    auto size = AppendHashEntrySize(kCompactHeaderBytes, edit.field_.size(),
++                                    edit.value_.size(), kHashGroupPayloadLimit);
++    if (!size.ok()) return size.status();
++    if (!metadata->id_.ContainsHash(ComputeDigest(edit.field_, seed).value_))
++      return absl::InvalidArgumentError("Hash edit outside its group route");
++    HashGroupEdit result;
++    const bool remove = kind == HashGroupEditKind::kDelete;
++    if ((remove && !current) ||
++        (current && (kind == HashGroupEditKind::kSetIfAbsent ||
++                     (!remove && current->value_ == edit.value_))))
++      return result;
++    result.changed_ = true;
++    result.added_ = !current;
++    result.removed_ = remove;
++    const auto count =
++        std::uint64_t{metadata->field_count_} + result.added_ - result.removed_;
++    if (count > UINT32_MAX)
++      return absl::OutOfRangeError("Hash edit cardinality overflow");
++    const auto old_bytes = payload.size() - kGroupHeaderBytes;
++    const auto removed_bytes =
++        current ? 8 + current->field_.size() + current->value_.size() : 0;
++    const auto added_bytes = remove ? 0 : *size - kCompactHeaderBytes;
++    const auto bytes =
++        count == 0 ? 0
++                   : (old_bytes == 0 ? kCompactHeaderBytes : old_bytes) -
++                         removed_bytes + added_bytes;
++    HashGroupSnapshot replacement{.incarnation_ = metadata->incarnation_,
++                                  .id_ = metadata->id_,
++                                  .value_ = {}};
++    if (bytes <= kCollectionGroupTargetBytes) {
++      // A point edit needs no field-to-position map or vector of every entry.
++      // Full route/duplicate validation above remains mandatory, even for a
++      // no-op. Copy unchanged encoded spans once, without rebuilding each
++      // field header. Views borrow the live read lease until this returns.
++      std::string encoded;
++      const auto total = kGroupHeaderBytes + bytes;
++      encoded.resize_and_overwrite(
++          total, [&](char* output, std::size_t) noexcept {
++            EncodeGroupHeader({output, kGroupHeaderBytes}, replacement, count,
++                              bytes);
++            if (count == 0) return total;
++            std::span<char> compact(output + kGroupHeaderBytes, bytes);
++            Store(compact, 0, kHashValueMagic, 8);
++            Store(compact, 8, kStorageFormatVersion, 4);
++            Store(compact, 12, kCompactHeaderBytes, 4);
++            Store(compact, 16, count, 4);
++            Store(compact, 20, 0, 4);
++            Store(compact, 24, bytes, 8);
++            const auto body = payload.substr(kGroupHeaderBytes);
++            const std::size_t at =
++                current ? static_cast<std::size_t>(current->field_.data() -
++                                                   body.data()) -
++                              8
++                        : old_bytes;
++            std::size_t offset = kCompactHeaderBytes;
++            if (at > kCompactHeaderBytes) {
++              const auto prefix = at - kCompactHeaderBytes;
++              std::memcpy(compact.data() + offset,
++                          body.data() + kCompactHeaderBytes, prefix);
++              offset += prefix;
++            }
++            if (!remove) {
++              Store(compact, offset, edit.field_.size(), 4);
++              Store(compact, offset + 4, edit.value_.size(), 4);
++              offset += 8;
++              if (!edit.field_.empty())
++                std::memcpy(compact.data() + offset, edit.field_.data(),
++                            edit.field_.size());
++              offset += edit.field_.size();
++              if (!edit.value_.empty())
++                std::memcpy(compact.data() + offset, edit.value_.data(),
++                            edit.value_.size());
++              offset += edit.value_.size();
++            }
++            const auto end = at + removed_bytes;
++            if (end < old_bytes)
++              std::memcpy(compact.data() + offset, body.data() + end,
++                          old_bytes - end);
++            return total;
++          });
++      replacement.prepared_ = PreparedHashGroupPayload(
++          std::move(encoded), count, metadata->id_, metadata->incarnation_);
++      result.leaves_.push_back(std::move(replacement));
++    } else {
++      // Splits and oversized values still use owned streaming snapshots. The
++      // checked reader needs no second route/duplicate index on this pass.
++      replacement.value_.entries_.reserve(count);
++      auto append = [&](const HashEntryView& entry) {
++        replacement.value_.entries_.push_back(
++            {.digest_ = ComputeDigest(entry.field_),
++             .field_ = std::string(entry.field_),
++             .value_ = std::string(entry.value_)});
++      };
++      if (metadata->field_count_ != 0) {
++        auto reader = HashValueReader::Open(payload.substr(kGroupHeaderBytes));
++        if (!reader.ok()) return reader.status();
++        for (std::size_t i = 0; i < reader->size(); ++i) {
++          auto entry = reader->Next();
++          if (!entry.ok()) return entry.status();
++          if (entry->field_ == edit.field_) {
++            if (!remove) append(edit);
++          } else {
++            append(*entry);
++          }
++        }
++      }
++      if (!current) append(edit);
++      auto leaves = SplitHashGroup(std::move(replacement), seed);
++      if (!leaves.ok()) return leaves.status();
++      result.leaves_ = std::move(*leaves);
++    }
++    return result;
++  }
+   struct Entry {
+     HashEntryView view;
+     bool removed = false;
+diff --git a/src/storage/engine/grouped/list.cpp b/src/storage/engine/grouped/list.cpp
+index b2a3ed68c..b036cbae4 100644
+--- a/src/storage/engine/grouped/list.cpp
++++ b/src/storage/engine/grouped/list.cpp
+@@ -148,11 +148,19 @@ Task<absl::StatusOr<ListResult>> StorageEngine::Impl::ExecuteGroupedListLocked(
+                          operation.kind_ == ListOperationKind::kIndex ||
+                          operation.kind_ == ListOperationKind::kRange ||
+                          operation.kind_ == ListOperationKind::kPosition;
++  // A full-range trim changes neither values nor WATCH state. Its range is
++  // determined by resident cardinality; no payload validation/read is needed.
++  if (operation.kind_ == ListOperationKind::kTrim &&
++      ListRange(operation.first_, operation.second_, count) ==
++          std::pair<std::uint64_t, std::uint64_t>{0, count})
++    co_return result;
+   // Searching a disk-backed List must not retain its unrelated values. Only
+-  // LPOS's actual output and one decoded page survive each iteration; LINSERT
+-  // retains just the pivot rank and reloads its affected interval below.
++  // LPOS's actual output and one decoded page survive each iteration. LINSERT
++  // retains the matched page with its admission for mutation preparation.
+   const bool find_pivot = operation.kind_ == ListOperationKind::kInsertBefore ||
+                           operation.kind_ == ListOperationKind::kInsertAfter;
++  std::optional<MemoryReservation> pivot_scratch;
++  std::optional<LoadedOrderedGroup> pivot_page;
+   std::optional<std::uint64_t> pivot_rank;
+   if (find_pivot || operation.kind_ == ListOperationKind::kPosition) {
+     {
+@@ -198,6 +206,8 @@ Task<absl::StatusOr<ListResult>> StorageEngine::Impl::ExecuteGroupedListLocked(
+             continue;
+           if (find_pivot) {
+             pivot_rank = position;
++            pivot_scratch.emplace(std::move(*scratch));
++            pivot_page.emplace(std::move(*page));
+             break;
+           }
+           if (++matches >= wanted) {
+@@ -309,10 +319,40 @@ Task<absl::StatusOr<ListResult>> StorageEngine::Impl::ExecuteGroupedListLocked(
+   std::size_t begin_page = first->group_index_;
+   std::size_t end_page = last->group_index_ + 1;
+   if (!read_only) {
+-    // Links belong to their complete page snapshots. A split/removal can
+-    // change either neighbour, so pin its logical contents in the same plan.
+-    if (begin_page != 0) --begin_page;
+-    if (end_page != directory.groups().size()) ++end_page;
++    // Tail insertion retains the old tail's identity even when it splits, so
++    // its predecessor cannot change. A pop that leaves its one touched page
++    // nonempty also preserves both links. Avoid reading/decoding neighbours
++    // in these cases; page retirement still needs their complete snapshots.
++    const bool append = rank == count && erase_count == 0;
++    const bool partial_pop =
++        (operation.kind_ == ListOperationKind::kPopLeft ||
++         operation.kind_ == ListOperationKind::kPopRight) &&
++        begin_page + 1 == end_page &&
++        erase_count < directory.groups()[begin_page].item_count_;
++    // A nonempty one-page splice retains its first page id, including a
++    // split. Only its successor can acquire a different previous link.
++    const bool retains_first =
++        begin_page + 1 == end_page &&
++        (!insertions.empty() ||
++         erase_count < directory.groups()[begin_page].item_count_);
++    bool fits = false;
++    if (begin_page + 1 == end_page && erase_count == 0 &&
++        end_page != directory.groups().size()) {
++      std::uint64_t bytes = directory.groups()[begin_page].encoded_bytes_;
++      fits = bytes <= kCollectionGroupTargetBytes;
++      for (const auto& entry : insertions) {
++        const auto extra = kOrderedEntryHeaderBytes + entry.value_.size();
++        if (!fits || extra > kCollectionGroupTargetBytes - bytes) {
++          fits = false;
++          break;
++        }
++        bytes += extra;
++      }
++    }
++    if (!append && !partial_pop && !retains_first && begin_page != 0)
++      --begin_page;
++    if (!partial_pop && !fits && end_page != directory.groups().size())
++      ++end_page;
+   }
+   GroupedScratchBudget page_budget;
+   for (std::size_t i = begin_page; i < end_page; ++i) {
+@@ -428,7 +468,6 @@ Task<absl::StatusOr<ListResult>> StorageEngine::Impl::ExecuteGroupedListLocked(
+   std::vector<LoadedOrderedGroup> loaded;
+   loaded.reserve(end_page - begin_page);
+   std::optional<LoadedOrderedGroup> set_page;
+-  bool same_size_set = false;
+   if (operation.kind_ == ListOperationKind::kSet) {
+     if (prepared != nullptr) co_await bycorf::Yield(*store.worker_);
+     auto page = co_await LoadOrderedGroupSnapshot(
+@@ -437,28 +476,41 @@ Task<absl::StatusOr<ListResult>> StorageEngine::Impl::ExecuteGroupedListLocked(
+     if (!page.ok()) co_return page.status();
+     if (first->offset_ >= page->snapshot_.entries_.size())
+       co_return absl::DataLossError("List replacement rank exceeds page");
+-    same_size_set = page->snapshot_.entries_[first->offset_].value_.size() ==
+-                    operation.value_.size();
++    const auto old_size =
++        page->snapshot_.entries_[first->offset_].value_.size();
++    const auto bytes = directory.groups()[first->group_index_].encoded_bytes_;
++    // Equal-sized oversized items keep the planner's existing fast path.
++    // Other replacements need a successor only if the page actually splits.
++    if (old_size == operation.value_.size() ||
++        bytes - old_size + operation.value_.size() <=
++            kCollectionGroupTargetBytes ||
++        page->snapshot_.entries_.size() == 1) {
++      begin_page = first->group_index_;
++      end_page = begin_page + 1;
++    }
+     set_page.emplace(std::move(*page));
+-    // The splice planner verifies that an equal-sized replacement preserves
+-    // the complete page and links. Retain the conservative page admission,
+-    // but avoid reading neighbours whose contents cannot affect this write.
+-    if (same_size_set) loaded.push_back(std::move(*set_page));
+   }
+-  for (std::size_t i = begin_page; !same_size_set && i < end_page; ++i) {
++  for (std::size_t i = begin_page; i < end_page; ++i) {
+     if (set_page && i == first->group_index_) {
+       loaded.push_back(std::move(*set_page));
+       continue;
+     }
++    if (pivot_page && pivot_page->snapshot_.id_ == directory.groups()[i].id_) {
++      loaded.push_back(std::move(*pivot_page));
++      pivot_page.reset();
++      continue;
++    }
+     if (prepared != nullptr) co_await bycorf::Yield(*store.worker_);
+     auto page =
+         co_await LoadOrderedGroupSnapshot(store, partition, db_id, key, digest,
+                                           object, directory.groups()[i].id_);
+-    if (!page.ok()) {
+-      co_return page.status();
+-    }
++    if (!page.ok()) co_return page.status();
+     loaded.push_back(std::move(*page));
+   }
++  // The mutation's page reservation now covers reused payloads too. A pivot
++  // at the preceding page's end may lie outside the actual insertion page.
++  pivot_page.reset();
++  pivot_scratch.reset();
+   if (operation.kind_ == ListOperationKind::kPopLeft ||
+       operation.kind_ == ListOperationKind::kPopRight) {
+     std::uint64_t remaining = erase_count;
+diff --git a/src/storage/engine/grouped/zset.cpp b/src/storage/engine/grouped/zset.cpp
+index f9a878fba..d3e9af851 100644
+--- a/src/storage/engine/grouped/zset.cpp
++++ b/src/storage/engine/grouped/zset.cpp
+@@ -799,7 +799,7 @@ StorageEngine::Impl::ExecuteGroupedSortedSetLocked(
+     const SortedSetOperation& operation, GroupedObject::Handle object,
+     TxShardWrites* tx, ReplicationCommandAppend* replication,
+     const MutationPrecondition* mutation_precondition,
+-    PreparedOrderedMutation* prepared) {
++    PreparedOrderedMutation* prepared, SortedSetOrderedProbe* ordered_probe) {
+   if (!object || !object->is_ordered() ||
+       object->ordered_directory().root().kind_ !=
+           OrderedCollectionKind::kSortedSet)
+@@ -849,10 +849,43 @@ StorageEngine::Impl::ExecuteGroupedSortedSetLocked(
+   };
+   // A scan retains one physical read lease and borrowed member views.
+   // Keep scratch admitted until both disappear; replies own separate copies.
+-  using OwnedScanPage = AdmittedScanPage<LoadedOrderedGroup>;
+-  auto read_page_impl =
+-      [&]<typename Page>(
+-          std::size_t i) -> Task<absl::StatusOr<AdmittedScanPage<Page>>> {
++  SortedSetOrderedProbe local_probe{.source_ = object, .pages_ = {}};
++  if (ordered_probe == nullptr) ordered_probe = &local_probe;
++  if (ordered_probe->source_.get() != object.get())
++    co_return absl::DataLossError("Sorted Set probe logical view mismatch");
++  auto& probed_pages = ordered_probe->pages_;
++  using OwnedScanPage = SortedSetOrderedProbe::Page;
++  auto retain_probe = [&](std::size_t i, OwnedScanPage page) {
++    // Reuse is optional, not a batch-sized payload cache. Bound admitted
++    // retention (including decoded entry overhead), so large members and
++    // wide pops keep the ordinary one-page scan/fallback under maxmemory.
++    constexpr std::size_t kProbeBytes = 64 * 1024;
++    std::size_t bytes = page.admission_.bytes();
++    if (bytes > kProbeBytes) return;
++    for (const auto& [index, retained] : probed_pages) {
++      if (retained.admission_.bytes() > kProbeBytes - bytes) return;
++      bytes += retained.admission_.bytes();
++    }
++    probed_pages.emplace(i, std::move(page));
++  };
++  auto read_page_impl = [&]<typename Page>(std::size_t i)
++      -> Task<absl::StatusOr<
++          std::conditional_t<std::is_same_v<Page, LoadedOrderedGroup>,
++                             OwnedScanPage, AdmittedScanPage<Page>>>> {
++    using ResultPage =
++        std::conditional_t<std::is_same_v<Page, LoadedOrderedGroup>,
++                           OwnedScanPage, AdmittedScanPage<Page>>;
++    if constexpr (std::is_same_v<Page, LoadedOrderedGroup>) {
++      if (auto found = probed_pages.find(i); found != probed_pages.end()) {
++        // Owned payloads survive GC relocation, but not logical replacement.
++        GroupedScratchBudget budget;
++        auto valid = add_page_budget(&budget, i);
++        if (!valid.ok()) co_return valid;
++        auto page = std::move(found->second);
++        probed_pages.erase(found);
++        co_return page;
++      }
++    }
+     LAVIK_FAULT_INJECT(
+         // An optional one-based directory page isolates routing tests from
+         // the existing fail-all-ordered-reads member-index test.
+@@ -882,7 +915,7 @@ StorageEngine::Impl::ExecuteGroupedSortedSetLocked(
+     };
+     auto page = co_await load();
+     if (!page.ok()) co_return page.status();
+-    co_return AdmittedScanPage<Page>{std::move(*admission), std::move(*page)};
++    co_return ResultPage{std::move(*admission), std::move(*page)};
+   };
+   auto read_page = [&](std::size_t i) {
+     return read_page_impl.template operator()<LoadedSortedSetPage>(i);
+@@ -916,7 +949,8 @@ StorageEngine::Impl::ExecuteGroupedSortedSetLocked(
+         store, partition, db_id, key, digest,
+         SortedSetOperation{.kind_ = SortedSetOperationKind::kRemove,
+                            .members_ = removed},
+-        object, tx, replication, mutation_precondition, prepared);
++        object, tx, replication, mutation_precondition, prepared,
++        ordered_probe);
+     if (!deleted.ok()) co_return deleted.status();
+     result.changed_ = deleted->changed_;
+     result.length_ = deleted->length_;
+@@ -981,9 +1015,9 @@ StorageEngine::Impl::ExecuteGroupedSortedSetLocked(
+          ++ordinal) {
+       const auto i =
+           operation.reverse_ ? metadata.size() - 1 - ordinal : ordinal;
+-      auto page = co_await read_page(i);
++      auto page = co_await read_owned_page(i);
+       if (!page.ok()) co_return page.status();
+-      const auto& entries = page->page_.entries_;
++      const auto& entries = page->page_.snapshot_.entries_;
+       for (std::size_t j = 0;
+            result.members_.size() < count && j < entries.size(); ++j) {
+         const auto at = operation.reverse_ ? entries.size() - 1 - j : j;
+@@ -992,6 +1026,7 @@ StorageEngine::Impl::ExecuteGroupedSortedSetLocked(
+         auto appended = AppendOutput(std::move(*copied), &result);
+         if (!appended.ok()) co_return appended;
+       }
++      retain_probe(i, std::move(*page));
+     }
+     if (result.members_.size() != count)
+       co_return absl::DataLossError("Sorted Set pop cardinality mismatch");
+@@ -1199,6 +1234,33 @@ StorageEngine::Impl::ExecuteGroupedSortedSetLocked(
+     // under the same retained logical root; absence is corruption, not nil.
+     co_return absl::DataLossError("Sorted Set indexed member missing");
+   }
++  // Pop already knows the exact source pages. Check the member index above
++  // against their owned entries, then omit those members from score routing.
++  // New point-write probes follow the same path on later planner reads.
++  auto locate_sources = [&](std::size_t i,
++                            const auto& entries) -> absl::StatusOr<bool> {
++    bool matched = false;
++    for (const auto& entry : entries) {
++      auto member = members.find(entry.value_);
++      if (member == members.end()) continue;
++      auto& state = member->second;
++      if (state.source_ != kNoPage)
++        return absl::DataLossError("duplicate persisted Sorted Set member");
++      if (!state.before_ || *state.before_ != entry.score_)
++        return absl::DataLossError("member-index/ordered score mismatch");
++      state.source_ = i;
++      --remaining_sources;
++      matched = true;
++    }
++    return matched;
++  };
++  for (const auto& [i, page] : probed_pages) {
++    GroupedScratchBudget budget;
++    status = add_page_budget(&budget, i);
++    if (!status.ok()) co_return status;
++    auto located = locate_sources(i, page.page_.snapshot_.entries_);
++    if (!located.ok()) co_return located.status();
++  }
+   // The two resident doubles bound old-score candidates without reading
+   // unrelated pages. Equal-score runs still scan for exact members. Sort
+   // and merge requested intervals so a batch reads an overlapping page only
+@@ -1206,7 +1268,7 @@ StorageEngine::Impl::ExecuteGroupedSortedSetLocked(
+   std::vector<std::pair<std::size_t, std::size_t>> source_ranges;
+   source_ranges.reserve(members.size());
+   for (const auto& [member, state] : members) {
+-    if (!state.before_) continue;
++    if (!state.before_ || state.source_ != kNoPage) continue;
+     const auto first = directory.LowerBoundScore(*state.before_);
+     const auto end = directory.UpperBoundScore(*state.before_);
+     if (first >= end)
+@@ -1218,21 +1280,14 @@ StorageEngine::Impl::ExecuteGroupedSortedSetLocked(
+   for (const auto& [first, end] : source_ranges) {
+     for (std::size_t i = std::max(first, scanned_end);
+          i < end && remaining_sources != 0; ++i) {
++      if (probed_pages.contains(i)) continue;
+       auto page = co_await read_owned_page(i);
+       if (!page.ok()) co_return page.status();
+-      for (const auto& entry : page->page_.snapshot_.entries_) {
+-        auto member = members.find(entry.value_);
+-        if (member == members.end()) continue;
+-        auto& state = member->second;
+-        if (state.source_ != kNoPage)
+-          co_return absl::DataLossError(
+-              "duplicate persisted Sorted Set member");
+-        if (!state.before_ || *state.before_ != entry.score_)
+-          co_return absl::DataLossError("member-index/ordered score mismatch");
+-        state.before_ = state.after_ = entry.score_;
+-        state.source_ = i;
+-        --remaining_sources;
+-      }
++      auto located = locate_sources(i, page->page_.snapshot_.entries_);
++      if (!located.ok()) co_return located.status();
++      // Equal-score scans may touch unrelated pages. Retain only pages with
++      // requested members, so a point update never caches the whole set.
++      if (*located) retain_probe(i, std::move(*page));
+     }
+     scanned_end = std::max(scanned_end, end);
+   }
+@@ -1301,9 +1356,13 @@ StorageEngine::Impl::ExecuteGroupedSortedSetLocked(
+       modified.insert(i);
+       ++next;
+     }
++    if (boundary && modified.contains(i)) retain_probe(i, std::move(*boundary));
+   }
+   if (next != pending.size())
+     co_return absl::DataLossError("Sorted Set destination scan ended early");
++  std::erase_if(probed_pages, [&](const auto& page) {
++    return !modified.contains(page.first);
++  });
+   std::set<std::size_t> selected = modified;
+   for (const auto i : modified) {
+     if (i != 0) selected.insert(i - 1);
+@@ -1340,12 +1399,19 @@ StorageEngine::Impl::ExecuteGroupedSortedSetLocked(
+   // neighbour only if splitting/retirement actually changes its link.
+   // Routing and pair redistribution need only the already modified pages.
+   for (const auto i : modified) {
+-    status = check_plan_read(i);
+-    if (!status.ok()) co_return status;
+-    auto page = co_await LoadOrderedGroupSnapshot(
+-        store, partition, db_id, key, digest, object, metadata[i].id_);
+-    if (!page.ok()) co_return page.status();
+-    loaded.emplace(i, std::move(page->snapshot_));
++    if (probed_pages.contains(i)) {
++      auto page = co_await read_owned_page(i);
++      if (!page.ok()) co_return page.status();
++      loaded.emplace(i, std::move(page->page_.snapshot_));
++      // working_admission now covers the transferred strings.
++    } else {
++      status = check_plan_read(i);
++      if (!status.ok()) co_return status;
++      auto page = co_await LoadOrderedGroupSnapshot(
++          store, partition, db_id, key, digest, object, metadata[i].id_);
++      if (!page.ok()) co_return page.status();
++      loaded.emplace(i, std::move(page->snapshot_));
++    }
+   }
+   for (const auto i : modified) {
+     auto& entries = loaded.at(i).entries_;
+diff --git a/src/storage/engine/impl.h b/src/storage/engine/impl.h
+index 57debe45d..095753afa 100644
+--- a/src/storage/engine/impl.h
++++ b/src/storage/engine/impl.h
+@@ -2410,13 +2410,26 @@ class StorageEngine::Impl {
+       TxShardWrites* tx, ReplicationCommandAppend* replication,
+       const MutationPrecondition* mutation_precondition = nullptr,
+       PreparedOrderedMutation* prepared = nullptr);
++  // Command-local checked ordered pages. Retain only pages containing requested
++  // members (or a destination boundary), with admission beside owned strings.
++  // Pop selection passes this cache into deletion under the same key intent;
++  // it is never stored in the resident object or reused by another command.
++  struct SortedSetOrderedProbe {
++    struct Page {
++      MemoryReservation admission_;
++      LoadedOrderedGroup page_;
++    };
++    GroupedObject::Handle source_;
++    std::map<std::size_t, Page> pages_;
++  };
+   Task<absl::StatusOr<SortedSetResult>> ExecuteGroupedSortedSetLocked(
+       WorkerStore& store, WorkerStore::PartitionStore& partition,
+       std::uint8_t db_id, std::string_view key, const Digest& digest,
+       const SortedSetOperation& operation, GroupedObject::Handle previous,
+       TxShardWrites* tx, ReplicationCommandAppend* replication,
+       const MutationPrecondition* mutation_precondition = nullptr,
+-      PreparedOrderedMutation* prepared = nullptr);
++      PreparedOrderedMutation* prepared = nullptr,
++      SortedSetOrderedProbe* ordered_probe = nullptr);
+ 
+   Task<ExpirationInfo> GetExpiration(std::uint8_t db_id, std::string_view key);
+ 
+diff --git a/tests/grouped/collection_test.cpp b/tests/grouped/collection_test.cpp
+index 22b4a01be..d0666dcda 100644
+--- a/tests/grouped/collection_test.cpp
++++ b/tests/grouped/collection_test.cpp
+@@ -889,6 +889,31 @@ TEST(GroupedCollectionTest,
+         auto plan = PlanOrderedCollectionSplice(
+             *directory, Loaded(split->groups_), rank, count, insertions, 104);
+         ASSERT_TRUE(plan.ok()) << plan.status();
++        // Repeat each splice with only touched pages and neighbours whose
++        // links change. This includes tail splits, partial pops, retirement,
++        // middle edits and whole-key deletion, using the full plan as oracle.
++        const auto first =
++            directory->FindRank(std::min(rank, original.size() - 1));
++        const auto last =
++            count == 0 ? first : directory->FindRank(rank + count - 1);
++        auto minimal = Loaded(split->groups_);
++        std::erase_if(minimal, [&](const auto& page) {
++          const auto index = *directory->FindIndex(page.snapshot_.id_);
++          return (index < first->group_index_ || index > last->group_index_) &&
++                 std::none_of(plan->writes_.begin(), plan->writes_.end(),
++                              [&](const auto& write) {
++                                return write.id_ == page.snapshot_.id_;
++                              });
++        });
++        auto local = PlanOrderedCollectionSplice(*directory, std::move(minimal),
++                                                 rank, count, insertions, 104);
++        ASSERT_TRUE(local.ok()) << local.status();
++        EXPECT_EQ(local->root_, plan->root_);
++        EXPECT_EQ(local->delete_key_, plan->delete_key_);
++        ASSERT_EQ(local->writes_.size(), plan->writes_.size());
++        for (std::size_t i = 0; i < plan->writes_.size(); ++i)
++          EXPECT_EQ(EncodeOrderedGroup(local->writes_[i]),
++                    EncodeOrderedGroup(plan->writes_[i]));
+         EXPECT_EQ(plan->expected_sequence_, 1);
+         if (expected.empty()) {
+           EXPECT_TRUE(plan->delete_key_);
+@@ -946,10 +971,10 @@ TEST(GroupedCollectionTest, SameSizeListReplacementNeedsOnlyItsOwnPage) {
+     EXPECT_EQ(page.entries_[rank % 2].value_, "change");
+     EXPECT_EQ(page.entries_[1 - rank % 2], pages[index].entries_[1 - rank % 2]);
+   }
+-  // Growth still requires neighbours for splitting; stale pages must never
+-  // pass through the shortcut even when the replacement has the same size.
++  // A split that changes the next page's link still requires that neighbour;
++  // stale pages must never pass even when the replacement has the same size.
+   EXPECT_EQ(PlanOrderedCollectionSplice(*directory, Loaded({pages[1]}), 2, 1,
+-                                        {{.value_ = "longer!"}})
++                                        {{.value_ = "longer!"}}, 100)
+                 .status()
+                 .code(),
+             absl::StatusCode::kInvalidArgument);
+@@ -981,7 +1006,7 @@ TEST(GroupedCollectionTest, SpliceRejectsStaleMissingDuplicateAndInvalidInput) {
+   auto missing = Loaded(split->groups_);
+   missing.erase(missing.begin() + 1);
+   EXPECT_FALSE(
+-      PlanOrderedCollectionSplice(*directory, std::move(missing), 0, 1, {})
++      PlanOrderedCollectionSplice(*directory, std::move(missing), 0, 2, {})
+           .ok());
+   auto duplicate = Loaded(split->groups_);
+   duplicate.push_back(duplicate.front());
+diff --git a/tests/grouped/hash_test.cpp b/tests/grouped/hash_test.cpp
+index ba0d54fac..61cab84a4 100644
+--- a/tests/grouped/hash_test.cpp
++++ b/tests/grouped/hash_test.cpp
+@@ -147,6 +147,49 @@ TEST(HashGroupEdits, NxNoopsRepeatedRemovalAndEmptyLeaf) {
+   EXPECT_TRUE(DecodeHashGroup(*empty).ok());
+ }
+ 
++TEST(HashGroupEdits,
++     PointEditsMatchBatchEncodingAcrossEmptySplitAndBinaryData) {
++  for (const auto count : {0, 1, 7, 200}) {
++    auto value = Value(count, 128);
++    if (count != 0) value.entries_[0].field_.clear();
++    HashGroupSnapshot group{.incarnation_ = 17, .value_ = std::move(value)};
++    auto payload = EncodeHashGroup(group);
++    ASSERT_TRUE(payload.ok()) << payload.status();
++    for (const auto kind :
++         {HashGroupEditKind::kSet, HashGroupEditKind::kSetIfAbsent,
++          HashGroupEditKind::kDelete}) {
++      for (const auto& field : {std::string{}, std::string("field-3"),
++                                std::string("new\0field", 9)}) {
++        for (const auto& bytes :
++             {std::string{}, std::string("v\0", 2), std::string(128, 'd'),
++              std::string(9000, 'x')}) {
++          SCOPED_TRACE(testing::Message() << count << ":" << int(kind) << ":"
++                                          << field << ":" << bytes.size());
++          const std::array<HashEntryView, 2> edits{
++              {{field, bytes}, {field, bytes}}};
++          auto point = ApplyHashGroupEdits(*payload, Seed(), kind,
++                                           std::span(edits).first(1));
++          auto batch = ApplyHashGroupEdits(*payload, Seed(), kind, edits);
++          ASSERT_TRUE(point.ok()) << point.status();
++          ASSERT_TRUE(batch.ok()) << batch.status();
++          EXPECT_EQ(point->changed_, batch->changed_);
++          EXPECT_EQ(point->added_, batch->added_);
++          EXPECT_EQ(point->removed_, batch->removed_);
++          ASSERT_EQ(point->leaves_.size(), batch->leaves_.size());
++          for (std::size_t i = 0; i < point->leaves_.size(); ++i) {
++            auto encoded = EncodeHashGroup(point->leaves_[i]);
++            auto expected = EncodeHashGroup(batch->leaves_[i]);
++            ASSERT_TRUE(encoded.ok()) << encoded.status();
++            ASSERT_TRUE(expected.ok()) << expected.status();
++            EXPECT_EQ(*encoded, *expected);
++            EXPECT_TRUE(DecodeHashGroup(*encoded).ok());
++          }
++        }
++      }
++    }
++  }
++}
++
+ TEST(HashGroupEdits, SplitsAndOversizedValuesKeepOwnedStreamingPath) {
+   HashGroupSnapshot group{.incarnation_ = 17, .value_ = Value(64, 64)};
+   auto payload = EncodeHashGroup(group);
+diff --git a/tests/grouped/ordered_write_e2e_test.cpp b/tests/grouped/ordered_write_e2e_test.cpp
+index 96cdad7d4..445f803d0 100644
+--- a/tests/grouped/ordered_write_e2e_test.cpp
++++ b/tests/grouped/ordered_write_e2e_test.cpp
+@@ -974,6 +974,75 @@ TEST(GroupedOrderedWriteE2e,
+   ExpectList(client, "list", items);
+ }
+ 
++TEST(GroupedListWriteE2e, FullRangeTrimReadsNoPayloadAndPreservesWatch) {
++#if !LAVIK_TEST_FAULTS_AVAILABLE
++  GTEST_SKIP() << "requires payload read failure injection";
++#endif
++  PrivateDisk disk;
++  const std::string key = "trim-noop";
++  {
++    Server server(disk, 1);
++    Client client(server.port());
++    ASSERT_EQ(client.Command(Push(key, Items())).text_, "256");
++    client.Durable();
++    ASSERT_EQ(server.Wait(true), 0) << server.Log();
++  }
++  ScopedEnvironment fault("LAVIK_FAIL_VALUE_READ_KEY", key.c_str());
++  Server server(disk, 3);
++  Client watcher(server.port());
++  Client writer(server.port());
++  ASSERT_EQ(watcher.Command({"WATCH", key}).text_, "OK");
++  EXPECT_EQ(writer.Command({"LTRIM", key, "0", "-1"}).text_, "OK");
++  EXPECT_EQ(writer.Command({"LTRIM", key, "-99999", "99999"}).text_, "OK");
++  ASSERT_EQ(watcher.Command({"MULTI"}).text_, "OK");
++  ASSERT_EQ(watcher.Command({"LLEN", key}).text_, "QUEUED");
++  const auto result = watcher.Command({"EXEC"});
++  ASSERT_EQ(result.items_.size(), 1) << result.text_;
++  EXPECT_EQ(result.items_[0].text_, "256");
++  // A real trim still needs checked payloads and cannot partially publish
++  // when that read fails.
++  EXPECT_EQ(writer.Command({"LTRIM", key, "1", "-1"}).kind_, '-');
++  EXPECT_EQ(writer.Command({"LLEN", key}).text_, "256");
++}
++
++TEST(GroupedOrderedWriteE2e, ListReusedPivotAndDeferredNeighboursRecover) {
++  PrivateDisk disk;
++  auto items = Items();
++  {
++    Server server(disk);
++    Client client(server.port());
++    ASSERT_EQ(client.Command(Push("list", items)).text_, "256");
++    // Shrink, then grow within the old page; the following growth splits it.
++    for (const auto size : {1, 120, 18000, 0, 128}) {
++      items[128] = std::string(size, 'v');
++      ASSERT_EQ(client.Command({"LSET", "list", "128", items[128]}).text_,
++                "OK");
++      ExpectList(client, "list", items);
++    }
++    for (const auto size : {0, 1, 1000, 17000}) {
++      std::string value(size, 'h');
++      ASSERT_EQ(client.Command({"LPUSH", "list", value}).text_,
++                std::to_string(items.size() + 1));
++      items.insert(items.begin(), value);
++    }
++    for (const auto at : {0u, 57u, 128u, 259u}) {
++      const auto pivot = items[at];
++      const std::string value("insert\0value", 12);
++      ASSERT_EQ(
++          client.Command({"LINSERT", "list", "AFTER", pivot, value}).text_,
++          std::to_string(items.size() + 1));
++      // Redis uses the first matching pivot even when page values repeat.
++      items.insert(std::find(items.begin(), items.end(), pivot) + 1, value);
++    }
++    ExpectList(client, "list", items);
++    client.Durable();
++    ASSERT_EQ(server.Wait(true), 0) << server.Log();
++  }
++  Server recovered(disk, 3);
++  Client client(recovered.port());
++  ExpectList(client, "list", items);
++}
++
+ TEST(GroupedOrderedWriteE2e, ListReadIntervalsAcrossPagesAndRecovery) {
+   PrivateDisk disk;
+   auto items = Items();
+@@ -1019,6 +1088,9 @@ TEST(GroupedOrderedWriteE2e, ListCommandSurfaceAndEmptyRecreation) {
+     Server server(disk);
+     Client client(server.port());
+     ASSERT_EQ(client.Command(Push("list", items)).text_, "256");
++    // Both normalized full ranges are metadata-only no-ops.
++    EXPECT_EQ(client.Command({"LTRIM", "list", "0", "-1"}).text_, "OK");
++    EXPECT_EQ(client.Command({"LTRIM", "list", "-99999", "99999"}).text_, "OK");
+     EXPECT_EQ(client.Command({"LPUSHX", "missing", "x"}).text_, "0");
+     EXPECT_EQ(client.Command({"RPUSHX", "missing", "x"}).text_, "0");
+     EXPECT_EQ(client.Command({"LPUSH", "list", "a", "b"}).text_, "258");
+@@ -1526,6 +1598,52 @@ TEST(GroupedOrderedWriteE2e, SortedSetRemovalPopAndStoreCommandSurface) {
+   EXPECT_EQ(client.Command({"EXISTS", "difference"}).text_, "0");
+ }
+ 
++TEST(GroupedOrderedWriteE2e,
++     SortedSetPopReusesTiedPagesAndRecoversBothIndexes) {
++  PrivateDisk disk;
++  auto members = Items();
++  std::sort(members.begin(), members.end());
++  {
++    Server server(disk);
++    Client client(server.port());
++    std::vector<std::string> command{"ZADD", "tied"};
++    for (const auto& member : members) {
++      command.push_back("7");
++      command.push_back(member);
++    }
++    ASSERT_EQ(client.Command(command).text_, "256");
++    // Equal scores span pages. Exercise both bounded probe reuse and its
++    // read fallback, still checking exact members in the prefix index.
++    for (const auto& operation : {"ZPOPMIN", "ZPOPMAX"}) {
++      auto popped = client.Command({operation, "tied", "70"});
++      ASSERT_EQ(popped.items_.size(), 140) << popped.text_;
++      for (std::size_t i = 0; i < 70; ++i) {
++        const auto at = std::string_view(operation) == "ZPOPMIN"
++                            ? i
++                            : members.size() - 1 - i;
++        EXPECT_EQ(popped.items_[2 * i].text_, members[at]);
++        EXPECT_EQ(popped.items_[2 * i + 1].text_, "7");
++        EXPECT_EQ(client.Command({"ZSCORE", "tied", members[at]}).text_, "-1");
++      }
++      if (std::string_view(operation) == "ZPOPMIN")
++        members.erase(members.begin(), members.begin() + 70);
++      else
++        members.resize(members.size() - 70);
++    }
++    client.Durable();
++    ASSERT_EQ(server.Wait(true), 0) << server.Log();
++  }
++  Server recovered(disk, 3);
++  Client client(recovered.port());
++  const auto range = client.Command({"ZRANGE", "tied", "0", "-1"});
++  ASSERT_EQ(range.items_.size(), members.size());
++  for (std::size_t i = 0; i < members.size(); ++i) {
++    EXPECT_EQ(range.items_[i].text_, members[i]);
++    EXPECT_EQ(client.Command({"ZRANK", "tied", members[i]}).text_,
++              std::to_string(i));
++  }
++}
++
+ TEST(GroupedOrderedWriteE2e, LargeSortedSetMemberUsesExtents) {
+   PrivateDisk disk;
+   const auto members = Items();
+diff --git a/tests/grouped/zset_write_e2e_test.cpp b/tests/grouped/zset_write_e2e_test.cpp
+index c39c883f3..095b65b38 100644
+--- a/tests/grouped/zset_write_e2e_test.cpp
++++ b/tests/grouped/zset_write_e2e_test.cpp
+@@ -122,6 +122,55 @@ TEST(GroupedSortedSetWriteE2e, TypedChangesDoNotRereadOrderedMemberDiff) {
+   EXPECT_EQ(client.Command({"ZRANGE", key, "0", "-1"}).items_.size(), 248);
+ }
+ 
++TEST(GroupedSortedSetWriteE2e, SourceAndPopPagesAvoidSecondPlanRead) {
++#if !LAVIK_TEST_FAULTS_AVAILABLE
++  GTEST_SKIP() << "requires ordered plan read failure injection";
++#endif
++  PrivateDisk disk;
++  const std::string key = "ordered-probe";
++  auto member = [](unsigned i) {
++    return std::to_string(i) + std::string(128, 'm');
++  };
++  {
++    Server server(disk, 1);
++    Client client(server.port());
++    ASSERT_EQ(client.Command(ZSetSeed(key)).text_, "256");
++    client.Durable();
++    ASSERT_EQ(server.Wait(true), 0) << server.Log();
++  }
++  {
++    ScopedEnvironment fault("LAVIK_FAIL_ZSET_PLAN_READ_KEY", key.c_str());
++    ScopedEnvironment page("LAVIK_FAIL_ZSET_PLAN_READ_PAGE", "1");
++    Server server(disk, 3);
++    Client client(server.port());
++    // Existing source pages already contain the complete checked payload.
++    // Fail every new planner read of page one: source reuse and the head
++    // pop still succeed, while an unprobed insertion fails before publication.
++    // The tail pop also exercises selection handoff at the other endpoint.
++    ASSERT_EQ(client.Command({"ZINCRBY", key, "0.5", member(10)}).text_,
++              "10.5");
++    ASSERT_EQ(client.Command({"ZREM", key, member(11)}).text_, "1");
++    for (const auto* op : {"ZPOPMIN", "ZPOPMAX"}) {
++      const auto reply = client.Command({op, key});
++      ASSERT_EQ(reply.items_.size(), 2) << reply.text_;
++      EXPECT_EQ(reply.items_[0].text_,
++                member(std::string_view(op) == "ZPOPMIN" ? 0 : 255));
++    }
++    const auto failed = client.Command({"ZADD", key, "-1", "new"});
++    EXPECT_EQ(failed.kind_, '-');
++    EXPECT_NE(failed.text_.find("plan page read failure"), std::string::npos);
++    EXPECT_EQ(client.Command({"ZCARD", key}).text_, "253");
++    EXPECT_EQ(client.Command({"ZSCORE", key, "new"}).text_, "-1");
++    client.Durable();
++    ASSERT_EQ(server.Wait(true), 0) << server.Log();
++  }
++  Server recovered(disk, 2);
++  Client client(recovered.port());
++  EXPECT_EQ(client.Command({"ZCARD", key}).text_, "253");
++  EXPECT_EQ(client.Command({"ZSCORE", key, member(10)}).text_, "10.5");
++  EXPECT_EQ(client.Command({"ZRANK", key, member(12)}).text_, "10");
++}
++
+ TEST(GroupedSortedSetWriteE2e,
+      PointWritesReuseMemberLeafAndKeepBatchFailureAtomic) {
+ #if !LAVIK_TEST_FAULTS_AVAILABLE

@@ -1,0 +1,110 @@
+{
+  "versions": {
+    "main": {
+      "commit": "1dd8a5b35aefc9215e0090204a0680efe9848e4a",
+      "source_repo": "/mnt/dev/lavik-complex-next-20261004",
+      "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-pr291-qps-main-1dd8a5b3-20261008",
+      "sha256": "158de38dfbc0e639be9c845e02def9aeb0e29b5ee3cb39b5407b3a400e70b1af",
+      "bycorf_commit": "62509c93d40c2480f5046b71454db6cf95801b04",
+      "bycorf_source_repo": "/mnt/dev/lavik-set-hash-20260929/bycorf",
+      "bycorf_source_status": " m third_party/spdk",
+      "bycorf_submodule_revisions": [
+        " 76bb24329e8bf5f39704eb10d21b9a80befa7c81 third_party/abseil (20250512.1)",
+        " 37a1a9b926b4678141931f2f22e7a877b5b565c2 third_party/dpdk (v21.02-17380-g37a1a9b926)",
+        " d41bf9220ec39277ff235379e9089d9e0fd6c2a5 third_party/liburing (liburing-2.15)",
+        " d519b163cbc0e2f28c35d9bc86d610da368b032c third_party/spdk (v26.05)",
+        " 37a1a9b926b4678141931f2f22e7a877b5b565c2 third_party/spdk/dpdk (v21.02-17380-g37a1a9b926)",
+        " 935a3802883249ba3b12e566833994af7991e808 third_party/spdk/intel-ipsec-mb (v0.50-2636-g935a3802)",
+        " c196241ae89b1aa4f62efeb849a937c011b3a926 third_party/spdk/isa-l (v2.31.0-207-gc196241)",
+        " 07d0b253843ace996aa5a44f538c9b83b085aba6 third_party/spdk/isa-l-crypto (v2.24.0-384-g07d0b25)",
+        " f922ada35b3ef47407687d19c63db1ea19c96550 third_party/spdk/libvfio-user (v0.1-728-gf922ada)",
+        " 6ad1007e6fa47ff6468eaba0b304d77334c34d4a third_party/spdk/ocf (v24.09)",
+        " be52a634c139647b14940ba8a3ff254d6b1ca8c4 third_party/spdk/xnvme (v0.7.5)"
+      ],
+      "bycorf_provenance_observed_at": "2026-10-08T13:43:52.430862+00:00"
+    },
+    "pr291": {
+      "commit": "74ba1d1ea3af697666b7eeaa06908dd4572eff95",
+      "source_repo": "/mnt/dev/lavik-complex-next-20261004",
+      "binary": "/mnt/dev/lavik-benchmark-binaries/lavik-pr291-qps-pr291-74ba1d1e-20261008",
+      "sha256": "6fd46db79d02970da4f2cbe282fa808edd942812c82fbf820f05bd474652340b",
+      "bycorf_commit": "62509c93d40c2480f5046b71454db6cf95801b04",
+      "bycorf_source_repo": "/mnt/dev/lavik-set-hash-20260929/bycorf",
+      "bycorf_source_status": " m third_party/spdk",
+      "bycorf_submodule_revisions": [
+        " 76bb24329e8bf5f39704eb10d21b9a80befa7c81 third_party/abseil (20250512.1)",
+        " 37a1a9b926b4678141931f2f22e7a877b5b565c2 third_party/dpdk (v21.02-17380-g37a1a9b926)",
+        " d41bf9220ec39277ff235379e9089d9e0fd6c2a5 third_party/liburing (liburing-2.15)",
+        " d519b163cbc0e2f28c35d9bc86d610da368b032c third_party/spdk (v26.05)",
+        " 37a1a9b926b4678141931f2f22e7a877b5b565c2 third_party/spdk/dpdk (v21.02-17380-g37a1a9b926)",
+        " 935a3802883249ba3b12e566833994af7991e808 third_party/spdk/intel-ipsec-mb (v0.50-2636-g935a3802)",
+        " c196241ae89b1aa4f62efeb849a937c011b3a926 third_party/spdk/isa-l (v2.31.0-207-gc196241)",
+        " 07d0b253843ace996aa5a44f538c9b83b085aba6 third_party/spdk/isa-l-crypto (v2.24.0-384-g07d0b25)",
+        " f922ada35b3ef47407687d19c63db1ea19c96550 third_party/spdk/libvfio-user (v0.1-728-gf922ada)",
+        " 6ad1007e6fa47ff6468eaba0b304d77334c34d4a third_party/spdk/ocf (v24.09)",
+        " be52a634c139647b14940ba8a3ff254d6b1ca8c4 third_party/spdk/xnvme (v0.7.5)"
+      ],
+      "bycorf_provenance_observed_at": "2026-10-08T13:48:31.798239+00:00"
+    }
+  },
+  "operations": [
+    [
+      "list",
+      "LPUSH_RPOP"
+    ],
+    [
+      "list",
+      "RPUSH_LPOP"
+    ],
+    [
+      "list",
+      "LSET_RESIZE"
+    ],
+    [
+      "zset",
+      "ZINCRBY"
+    ],
+    [
+      "zset",
+      "ZADD_MIDDLE_ZPOPMIN"
+    ],
+    [
+      "hash",
+      "HSET"
+    ],
+    [
+      "set",
+      "SADD_SREM"
+    ]
+  ],
+  "rounds": [
+    1,
+    2,
+    3
+  ],
+  "orders": [
+    [
+      "main",
+      "pr291"
+    ],
+    [
+      "pr291",
+      "main"
+    ],
+    [
+      "main",
+      "pr291"
+    ]
+  ],
+  "size_per_key": 8388608,
+  "keys": 8,
+  "field_bytes": 1024,
+  "connections": 320,
+  "seconds": 30,
+  "pipeline": 1,
+  "client_threads": 16,
+  "selection": "Uniform random key; independently equal-probability mixed operation choice. Set chooses uniformly from 2N members with N initially present; exact cardinality deltas use actual SADD/SREM reply counts. List resize alternates 1008/1024 byte replacements across clients. HSET replaces seeded fields; ZINCRBY adds 1 to existing members. Point operations choose among eight seeded positions.",
+  "isolation": "Fresh server and fresh allowlisted scratch NVMe for each point; deterministic process/client seeds matched per pair; wait for transaction cleanup after seed. Same native production flags, Bycorf, worker CPUs and devices.",
+  "comparison": "Latest main 1dd8a5b3 versus main plus both PR291 commits (local integration 74ba1d1e). PR291 source head 79bdbfeda remains unchanged.",
+  "limits": "320 connections and 8 MiB/key only. Time-based closed-loop load; throughput and p99 are reported separately, not matched-throughput causality. No 5120 connections. Three paired repetitions, not statistical proof."
+}
