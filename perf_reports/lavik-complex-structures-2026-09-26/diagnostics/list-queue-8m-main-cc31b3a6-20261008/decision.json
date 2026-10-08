@@ -1,0 +1,12 @@
+{
+  "conclusion": "已更新并复测合并后的 main。省略未变化邻页确实能减少加载与解码，但这次三种候选均未得到同时改善吞吐和尾延迟的结果：同时优化 push/pop 的吞吐配对提升中位数为 18.0%，p99 增加 65.3%；只优化 pop 的吞吐增加 12.9%，p99 增加 70.2%；只优化 push 的吞吐下降 12.1%。因此本次不提新 PR，也不把候选应用到 main。保留全部实验补丁与原始数据供复现。提交队列积压是待继续定位的现象，目前尚未证明根因。",
+  "combined": "未采用：p99 回退",
+  "push-only": "未采用：吞吐回退",
+  "pop-only": "未采用：p99 回退",
+  "new_pr": null,
+  "retained_branches": [
+    "perf/rpush-lpop-8m-20261008",
+    "perf/rpush-neighbour-8m-20261008",
+    "perf/lpop-neighbour-8m-20261008"
+  ]
+}

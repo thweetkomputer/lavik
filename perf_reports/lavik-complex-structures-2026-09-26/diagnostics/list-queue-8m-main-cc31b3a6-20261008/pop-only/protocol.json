@@ -1,0 +1,33 @@
+{
+  "rounds": [
+    4,
+    5,
+    6
+  ],
+  "orders": [
+    [
+      "main",
+      "popopt"
+    ],
+    [
+      "popopt",
+      "main"
+    ],
+    [
+      "main",
+      "popopt"
+    ]
+  ],
+  "size_per_key": 8388608,
+  "keys": 8,
+  "value_bytes": 1024,
+  "connections": 320,
+  "seconds": 30,
+  "pipeline": 1,
+  "client_threads": 16,
+  "operation": "RPUSH_LPOP",
+  "selection": "Independent uniform key and independent 50/50 push/pop per command; exact final cardinality checks and bounded guard. Fresh server/media/seed for every point.",
+  "baseline": "Merged main cc31b3a6; frozen binary from identical c8f128dc tree, documented in versions.json.",
+  "exploratory_runs": "../lavik-rpush-lpop-20261008 contains the initial main exploration and rejected combined candidate; excluded from this paired summary.",
+  "perf": "Independent 25-second 99Hz DWARF worker profiles, not clean QPS points."
+}

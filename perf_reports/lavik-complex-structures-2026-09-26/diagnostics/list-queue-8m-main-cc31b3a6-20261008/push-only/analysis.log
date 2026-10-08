@@ -1,0 +1,40 @@
+WAIT_FOR_HOST_LOCK queue8m-analysis-and-final-audit 1604294 1791458467.0623763
+HOST_LOCK_ACQUIRED queue8m-analysis-and-final-audit 1604294 1791458467.0624185
+{
+  "pairs": [
+    {
+      "round": 4,
+      "qps_ratio": 0.9772552160922853,
+      "p99_ratio": 1.1228655267432572
+    },
+    {
+      "round": 5,
+      "qps_ratio": 0.8792515004028304,
+      "p99_ratio": 0.8098696946117222
+    },
+    {
+      "round": 6,
+      "qps_ratio": 0.7116003309502598,
+      "p99_ratio": 3.168056598681922
+    }
+  ],
+  "qps_ratio_median": 0.8792515004028304,
+  "p99_ratio_median": 1.1228655267432572,
+  "versions": {
+    "main": {
+      "qps": 49785.5513288,
+      "p99_ms": 49.078502
+    },
+    "pushopt": {
+      "qps": 41207.6453192,
+      "p99_ms": 66.258928
+    }
+  },
+  "audited_commands": 8143409,
+  "clean_paired_commands": 8143409,
+  "exploratory": 0,
+  "paired_observations": 6
+}
+list RPUSH_LPOP main samples 14736 inclusive {'splice': 0.9839847991313789, 'release': 0.753257328990228, 'directory_apply': 2.198697068403909, 'cow_array': 0.9704125950054289, 'allocate': 3.203040173724213, 'copy': 1.6015200868621065, 'rank_lookup': 0.04750271444082519, 'ordered_page_read': 0.04750271444082519} self {'cow_array': 0.3325190010857763, 'allocate': 1.974755700325733, 'copy': 1.5608034744842563, 'splice': 0.11536373507057546, 'rank_lookup': 0.04071661237785016, 'directory_apply': 0.12214983713355049, 'ordered_page_read': 0.013572204125950055, 'release': 0.013572204125950055}
+list RPUSH_LPOP pushopt samples 15104 inclusive {'release': 0.8275953389830508, 'allocate': 3.058792372881356, 'copy': 1.2314618644067796, 'directory_apply': 2.6416843220338984, 'cow_array': 1.1321504237288136, 'splice': 0.9732521186440678, 'rank_lookup': 0.1059322033898305, 'ordered_page_read': 0.033103813559322036} self {'allocate': 1.8140889830508475, 'copy': 1.1851165254237288, 'splice': 0.1059322033898305, 'cow_array': 0.4038665254237288, 'ordered_page_read': 0.01986228813559322, 'release': 0.013241525423728813, 'rank_lookup': 0.04634533898305085, 'directory_apply': 0.11255296610169492}
+ALL_PUSH8M_ANALYSIS_COMPLETE

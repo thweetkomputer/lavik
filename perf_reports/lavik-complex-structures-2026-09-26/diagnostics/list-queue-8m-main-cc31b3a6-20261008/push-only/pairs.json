@@ -1,0 +1,698 @@
+[
+  {
+    "round": 4,
+    "version": "main",
+    "kind": "list",
+    "size": 8388608,
+    "operation": "RPUSH_LPOP",
+    "digest_seed": "b973d020142074848d2a631e526fe1dc",
+    "client_seed": "3111374880",
+    "tag": "maincc31b3a6-push8m-list-8388608-rpush_lpop-r4-20261008",
+    "raw": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-maincc31b3a6-push8m-list-8388608-rpush_lpop-r4-20261008",
+    "result": {
+      "product": "lavik-maincc31b3a6-push8m-list-8388608-rpush_lpop-r4-20261008",
+      "type": "list",
+      "logical_bytes": 8388608,
+      "field_bytes": 1024,
+      "entries_per_key": 8192,
+      "keys": 8,
+      "operation": "RPUSH_LPOP",
+      "connections": 320,
+      "qps": 49785.5513288,
+      "p50_ms": 4.058459,
+      "p99_ms": 49.078502,
+      "p999_ms": 113.559486,
+      "requests": 1497089,
+      "seconds": 30,
+      "elapsed_seconds": 31.275046313996427,
+      "commands": {
+        "RPUSH": {
+          "count": 749364,
+          "qps": 24920.0280584,
+          "p50_ms": 4.024418,
+          "p99_ms": 49.233364,
+          "p999_ms": 113.908648
+        },
+        "LPOP": {
+          "count": 747725,
+          "qps": 24865.5232704,
+          "p50_ms": 4.093726,
+          "p99_ms": 48.799214,
+          "p999_ms": 113.240835
+        }
+      },
+      "key_counts": {
+        "complex_1": {
+          "first": 93769,
+          "second": 93183,
+          "net": 586
+        },
+        "complex_2": {
+          "first": 93184,
+          "second": 93758,
+          "net": -574
+        },
+        "complex_3": {
+          "first": 93712,
+          "second": 93557,
+          "net": 155
+        },
+        "complex_4": {
+          "first": 93448,
+          "second": 93669,
+          "net": -221
+        },
+        "complex_5": {
+          "first": 93859,
+          "second": 93063,
+          "net": 796
+        },
+        "complex_6": {
+          "first": 93556,
+          "second": 93667,
+          "net": -111
+        },
+        "complex_7": {
+          "first": 93802,
+          "second": 93644,
+          "net": 158
+        },
+        "complex_8": {
+          "first": 94034,
+          "second": 93184,
+          "net": 850
+        }
+      },
+      "client_elapsed_seconds": 30.070752659,
+      "command_audit": {
+        "passed": true,
+        "server_counts": {
+          "rpush": 749364.0,
+          "info": 1.0,
+          "lpop": 747725.0
+        },
+        "client_counts": {
+          "RPUSH": 749364,
+          "LPOP": 747725
+        }
+      },
+      "bounded": {
+        "baseline": 8192,
+        "maximum_guard": 16384,
+        "minimum_guard": 4096,
+        "observed_push_min": 7546,
+        "observed_push_max": 9176,
+        "all_final_counts": {
+          "complex_1": 8778,
+          "complex_2": 7618,
+          "complex_3": 8347,
+          "complex_4": 7971,
+          "complex_5": 8988,
+          "complex_6": 8081,
+          "complex_7": 8350,
+          "complex_8": 9042
+        }
+      }
+    }
+  },
+  {
+    "round": 4,
+    "version": "pushopt",
+    "kind": "list",
+    "size": 8388608,
+    "operation": "RPUSH_LPOP",
+    "digest_seed": "b973d020142074848d2a631e526fe1dc",
+    "client_seed": "3111374880",
+    "tag": "pushopta519271b-push8m-list-8388608-rpush_lpop-r4-20261008",
+    "raw": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-pushopta519271b-push8m-list-8388608-rpush_lpop-r4-20261008",
+    "result": {
+      "product": "lavik-pushopta519271b-push8m-list-8388608-rpush_lpop-r4-20261008",
+      "type": "list",
+      "logical_bytes": 8388608,
+      "field_bytes": 1024,
+      "entries_per_key": 8192,
+      "keys": 8,
+      "operation": "RPUSH_LPOP",
+      "connections": 320,
+      "qps": 48653.1897221,
+      "p50_ms": 3.724134,
+      "p99_ms": 55.108558,
+      "p999_ms": 127.180615,
+      "requests": 1461093,
+      "seconds": 30,
+      "elapsed_seconds": 31.07533320505172,
+      "commands": {
+        "RPUSH": {
+          "count": 731400,
+          "qps": 24355.0157059,
+          "p50_ms": 3.685508,
+          "p99_ms": 54.883877,
+          "p999_ms": 126.582572
+        },
+        "LPOP": {
+          "count": 729693,
+          "qps": 24298.1740162,
+          "p50_ms": 3.76434,
+          "p99_ms": 55.311129,
+          "p999_ms": 127.656649
+        }
+      },
+      "key_counts": {
+        "complex_1": {
+          "first": 91593,
+          "second": 90908,
+          "net": 685
+        },
+        "complex_2": {
+          "first": 90986,
+          "second": 91545,
+          "net": -559
+        },
+        "complex_3": {
+          "first": 91513,
+          "second": 91286,
+          "net": 227
+        },
+        "complex_4": {
+          "first": 91160,
+          "second": 91393,
+          "net": -233
+        },
+        "complex_5": {
+          "first": 91740,
+          "second": 90851,
+          "net": 889
+        },
+        "complex_6": {
+          "first": 91237,
+          "second": 91438,
+          "net": -201
+        },
+        "complex_7": {
+          "first": 91425,
+          "second": 91376,
+          "net": 49
+        },
+        "complex_8": {
+          "first": 91746,
+          "second": 90896,
+          "net": 850
+        }
+      },
+      "client_elapsed_seconds": 30.030775132,
+      "command_audit": {
+        "passed": true,
+        "server_counts": {
+          "rpush": 731400.0,
+          "lpop": 729693.0,
+          "info": 1.0
+        },
+        "client_counts": {
+          "RPUSH": 731400,
+          "LPOP": 729693
+        }
+      },
+      "bounded": {
+        "baseline": 8192,
+        "maximum_guard": 16384,
+        "minimum_guard": 4096,
+        "observed_push_min": 7542,
+        "observed_push_max": 9179,
+        "all_final_counts": {
+          "complex_1": 8877,
+          "complex_2": 7633,
+          "complex_3": 8419,
+          "complex_4": 7959,
+          "complex_5": 9081,
+          "complex_6": 7991,
+          "complex_7": 8241,
+          "complex_8": 9042
+        }
+      }
+    }
+  },
+  {
+    "round": 5,
+    "version": "pushopt",
+    "kind": "list",
+    "size": 8388608,
+    "operation": "RPUSH_LPOP",
+    "digest_seed": "414eb9753ceae1316a004c8b56e4f84c",
+    "client_seed": "1095678325",
+    "tag": "pushopta519271b-push8m-list-8388608-rpush_lpop-r5-20261008",
+    "raw": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-pushopta519271b-push8m-list-8388608-rpush_lpop-r5-20261008",
+    "result": {
+      "product": "lavik-pushopta519271b-push8m-list-8388608-rpush_lpop-r5-20261008",
+      "type": "list",
+      "logical_bytes": 8388608,
+      "field_bytes": 1024,
+      "entries_per_key": 8192,
+      "keys": 8,
+      "operation": "RPUSH_LPOP",
+      "connections": 320,
+      "qps": 34454.3273579,
+      "p50_ms": 3.896706,
+      "p99_ms": 79.291355,
+      "p999_ms": 154.012893,
+      "requests": 1034118,
+      "seconds": 30,
+      "elapsed_seconds": 31.17369604005944,
+      "commands": {
+        "RPUSH": {
+          "count": 517441,
+          "qps": 17239.8910012,
+          "p50_ms": 3.857618,
+          "p99_ms": 78.664772,
+          "p999_ms": 154.426703
+        },
+        "LPOP": {
+          "count": 516677,
+          "qps": 17214.4363567,
+          "p50_ms": 3.938804,
+          "p99_ms": 79.716941,
+          "p999_ms": 153.720761
+        }
+      },
+      "key_counts": {
+        "complex_1": {
+          "first": 64872,
+          "second": 64894,
+          "net": -22
+        },
+        "complex_2": {
+          "first": 64666,
+          "second": 64748,
+          "net": -82
+        },
+        "complex_3": {
+          "first": 65045,
+          "second": 64876,
+          "net": 169
+        },
+        "complex_4": {
+          "first": 65136,
+          "second": 64265,
+          "net": 871
+        },
+        "complex_5": {
+          "first": 64204,
+          "second": 64590,
+          "net": -386
+        },
+        "complex_6": {
+          "first": 64603,
+          "second": 64273,
+          "net": 330
+        },
+        "complex_7": {
+          "first": 64215,
+          "second": 64681,
+          "net": -466
+        },
+        "complex_8": {
+          "first": 64700,
+          "second": 64350,
+          "net": 350
+        }
+      },
+      "client_elapsed_seconds": 30.014168881,
+      "command_audit": {
+        "passed": true,
+        "server_counts": {
+          "lpop": 516677.0,
+          "info": 1.0,
+          "rpush": 517441.0
+        },
+        "client_counts": {
+          "RPUSH": 517441,
+          "LPOP": 516677
+        }
+      },
+      "bounded": {
+        "baseline": 8192,
+        "maximum_guard": 16384,
+        "minimum_guard": 4096,
+        "observed_push_min": 7708,
+        "observed_push_max": 9109,
+        "all_final_counts": {
+          "complex_1": 8170,
+          "complex_2": 8110,
+          "complex_3": 8361,
+          "complex_4": 9063,
+          "complex_5": 7806,
+          "complex_6": 8522,
+          "complex_7": 7726,
+          "complex_8": 8542
+        }
+      }
+    }
+  },
+  {
+    "round": 5,
+    "version": "main",
+    "kind": "list",
+    "size": 8388608,
+    "operation": "RPUSH_LPOP",
+    "digest_seed": "414eb9753ceae1316a004c8b56e4f84c",
+    "client_seed": "1095678325",
+    "tag": "maincc31b3a6-push8m-list-8388608-rpush_lpop-r5-20261008",
+    "raw": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-maincc31b3a6-push8m-list-8388608-rpush_lpop-r5-20261008",
+    "result": {
+      "product": "lavik-maincc31b3a6-push8m-list-8388608-rpush_lpop-r5-20261008",
+      "type": "list",
+      "logical_bytes": 8388608,
+      "field_bytes": 1024,
+      "entries_per_key": 8192,
+      "keys": 8,
+      "operation": "RPUSH_LPOP",
+      "connections": 320,
+      "qps": 39185.9750505,
+      "p50_ms": 3.721866,
+      "p99_ms": 97.906312,
+      "p999_ms": 149.609873,
+      "requests": 1176086,
+      "seconds": 30,
+      "elapsed_seconds": 30.972898222971708,
+      "commands": {
+        "RPUSH": {
+          "count": 588395,
+          "qps": 19604.715803,
+          "p50_ms": 3.683718,
+          "p99_ms": 98.132048,
+          "p999_ms": 149.685404
+        },
+        "LPOP": {
+          "count": 587691,
+          "qps": 19581.2592476,
+          "p50_ms": 3.760313,
+          "p99_ms": 97.775958,
+          "p999_ms": 149.453859
+        }
+      },
+      "key_counts": {
+        "complex_1": {
+          "first": 73767,
+          "second": 73766,
+          "net": 1
+        },
+        "complex_2": {
+          "first": 73463,
+          "second": 73538,
+          "net": -75
+        },
+        "complex_3": {
+          "first": 74028,
+          "second": 73739,
+          "net": 289
+        },
+        "complex_4": {
+          "first": 73952,
+          "second": 73131,
+          "net": 821
+        },
+        "complex_5": {
+          "first": 73140,
+          "second": 73431,
+          "net": -291
+        },
+        "complex_6": {
+          "first": 73502,
+          "second": 73134,
+          "net": 368
+        },
+        "complex_7": {
+          "first": 73074,
+          "second": 73699,
+          "net": -625
+        },
+        "complex_8": {
+          "first": 73469,
+          "second": 73253,
+          "net": 216
+        }
+      },
+      "client_elapsed_seconds": 30.012931884,
+      "command_audit": {
+        "passed": true,
+        "server_counts": {
+          "info": 1.0,
+          "rpush": 588395.0,
+          "lpop": 587691.0
+        },
+        "client_counts": {
+          "RPUSH": 588395,
+          "LPOP": 587691
+        }
+      },
+      "bounded": {
+        "baseline": 8192,
+        "maximum_guard": 16384,
+        "minimum_guard": 4096,
+        "observed_push_min": 7511,
+        "observed_push_max": 9120,
+        "all_final_counts": {
+          "complex_1": 8193,
+          "complex_2": 8117,
+          "complex_3": 8481,
+          "complex_4": 9013,
+          "complex_5": 7901,
+          "complex_6": 8560,
+          "complex_7": 7567,
+          "complex_8": 8408
+        }
+      }
+    }
+  },
+  {
+    "round": 6,
+    "version": "main",
+    "kind": "list",
+    "size": 8388608,
+    "operation": "RPUSH_LPOP",
+    "digest_seed": "b6b25a7aeef275374da38f0c1a890fc3",
+    "client_seed": "3065141882",
+    "tag": "maincc31b3a6-push8m-list-8388608-rpush_lpop-r6-20261008",
+    "raw": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-maincc31b3a6-push8m-list-8388608-rpush_lpop-r6-20261008",
+    "result": {
+      "product": "lavik-maincc31b3a6-push8m-list-8388608-rpush_lpop-r6-20261008",
+      "type": "list",
+      "logical_bytes": 8388608,
+      "field_bytes": 1024,
+      "entries_per_key": 8192,
+      "keys": 8,
+      "operation": "RPUSH_LPOP",
+      "connections": 320,
+      "qps": 57908.4122462,
+      "p50_ms": 4.10667,
+      "p99_ms": 20.914692,
+      "p999_ms": 26.97322,
+      "requests": 1737942,
+      "seconds": 30,
+      "elapsed_seconds": 31.2768725680653,
+      "commands": {
+        "RPUSH": {
+          "count": 868300,
+          "qps": 28931.8483318,
+          "p50_ms": 4.063957,
+          "p99_ms": 20.889943,
+          "p999_ms": 26.970384
+        },
+        "LPOP": {
+          "count": 869642,
+          "qps": 28976.5639145,
+          "p50_ms": 4.149459,
+          "p99_ms": 20.933719,
+          "p999_ms": 26.975063
+        }
+      },
+      "key_counts": {
+        "complex_1": {
+          "first": 108539,
+          "second": 108692,
+          "net": -153
+        },
+        "complex_2": {
+          "first": 108600,
+          "second": 108570,
+          "net": 30
+        },
+        "complex_3": {
+          "first": 108431,
+          "second": 108605,
+          "net": -174
+        },
+        "complex_4": {
+          "first": 108789,
+          "second": 108361,
+          "net": 428
+        },
+        "complex_5": {
+          "first": 109021,
+          "second": 109655,
+          "net": -634
+        },
+        "complex_6": {
+          "first": 108047,
+          "second": 108802,
+          "net": -755
+        },
+        "complex_7": {
+          "first": 108675,
+          "second": 108702,
+          "net": -27
+        },
+        "complex_8": {
+          "first": 108198,
+          "second": 108255,
+          "net": -57
+        }
+      },
+      "client_elapsed_seconds": 30.011909023,
+      "command_audit": {
+        "passed": true,
+        "server_counts": {
+          "info": 1.0,
+          "rpush": 868300.0,
+          "lpop": 869642.0
+        },
+        "client_counts": {
+          "RPUSH": 868300,
+          "LPOP": 869642
+        }
+      },
+      "bounded": {
+        "baseline": 8192,
+        "maximum_guard": 16384,
+        "minimum_guard": 4096,
+        "observed_push_min": 7422,
+        "observed_push_max": 8942,
+        "all_final_counts": {
+          "complex_1": 8039,
+          "complex_2": 8222,
+          "complex_3": 8018,
+          "complex_4": 8620,
+          "complex_5": 7558,
+          "complex_6": 7437,
+          "complex_7": 8165,
+          "complex_8": 8135
+        }
+      }
+    }
+  },
+  {
+    "round": 6,
+    "version": "pushopt",
+    "kind": "list",
+    "size": 8388608,
+    "operation": "RPUSH_LPOP",
+    "digest_seed": "b6b25a7aeef275374da38f0c1a890fc3",
+    "client_seed": "3065141882",
+    "tag": "pushopta519271b-push8m-list-8388608-rpush_lpop-r6-20261008",
+    "raw": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-pushopta519271b-push8m-list-8388608-rpush_lpop-r6-20261008",
+    "result": {
+      "product": "lavik-pushopta519271b-push8m-list-8388608-rpush_lpop-r6-20261008",
+      "type": "list",
+      "logical_bytes": 8388608,
+      "field_bytes": 1024,
+      "entries_per_key": 8192,
+      "keys": 8,
+      "operation": "RPUSH_LPOP",
+      "connections": 320,
+      "qps": 41207.6453192,
+      "p50_ms": 3.735766,
+      "p99_ms": 66.258928,
+      "p999_ms": 126.96231,
+      "requests": 1237081,
+      "seconds": 30,
+      "elapsed_seconds": 31.07735928799957,
+      "commands": {
+        "RPUSH": {
+          "count": 618513,
+          "qps": 20602.906624,
+          "p50_ms": 3.700243,
+          "p99_ms": 66.02599,
+          "p999_ms": 127.035135
+        },
+        "LPOP": {
+          "count": 618568,
+          "qps": 20604.7386952,
+          "p50_ms": 3.769961,
+          "p99_ms": 66.564375,
+          "p999_ms": 126.954629
+        }
+      },
+      "key_counts": {
+        "complex_1": {
+          "first": 77356,
+          "second": 77179,
+          "net": 177
+        },
+        "complex_2": {
+          "first": 77286,
+          "second": 77249,
+          "net": 37
+        },
+        "complex_3": {
+          "first": 77426,
+          "second": 77305,
+          "net": 121
+        },
+        "complex_4": {
+          "first": 77538,
+          "second": 77014,
+          "net": 524
+        },
+        "complex_5": {
+          "first": 77546,
+          "second": 77927,
+          "net": -381
+        },
+        "complex_6": {
+          "first": 76848,
+          "second": 77397,
+          "net": -549
+        },
+        "complex_7": {
+          "first": 77327,
+          "second": 77360,
+          "net": -33
+        },
+        "complex_8": {
+          "first": 77186,
+          "second": 77137,
+          "net": 49
+        }
+      },
+      "client_elapsed_seconds": 30.020667049,
+      "command_audit": {
+        "passed": true,
+        "server_counts": {
+          "info": 1.0,
+          "lpop": 618568.0,
+          "rpush": 618513.0
+        },
+        "client_counts": {
+          "RPUSH": 618513,
+          "LPOP": 618568
+        }
+      },
+      "bounded": {
+        "baseline": 8192,
+        "maximum_guard": 16384,
+        "minimum_guard": 4096,
+        "observed_push_min": 7487,
+        "observed_push_max": 8802,
+        "all_final_counts": {
+          "complex_1": 8369,
+          "complex_2": 8229,
+          "complex_3": 8313,
+          "complex_4": 8716,
+          "complex_5": 7811,
+          "complex_6": 7643,
+          "complex_7": 8159,
+          "complex_8": 8241
+        }
+      }
+    }
+  }
+]

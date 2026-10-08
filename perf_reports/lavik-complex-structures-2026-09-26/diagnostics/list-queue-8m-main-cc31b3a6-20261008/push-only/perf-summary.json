@@ -1,0 +1,1334 @@
+[
+  {
+    "size": 8388608,
+    "kind": "list",
+    "operation": "RPUSH_LPOP",
+    "version": "main",
+    "samples": 14736,
+    "sampled_worker_ns": 148848483360,
+    "samples_per_thread": {
+      "stacks-1603193.txt": 2359,
+      "stacks-1603189.txt": 635,
+      "stacks-1603191.txt": 633,
+      "stacks-1603187.txt": 699,
+      "stacks-1603192.txt": 635,
+      "stacks-1603197.txt": 714,
+      "stacks-1603194.txt": 722,
+      "stacks-1603198.txt": 2384,
+      "stacks-1603196.txt": 729,
+      "stacks-1603188.txt": 2277,
+      "stacks-1603190.txt": 631,
+      "stacks-1603195.txt": 2318,
+      "stacks-1603199.txt": 0
+    },
+    "inclusive_categories_pct": {
+      "splice": 0.9839847991313789,
+      "release": 0.753257328990228,
+      "directory_apply": 2.198697068403909,
+      "cow_array": 0.9704125950054289,
+      "allocate": 3.203040173724213,
+      "copy": 1.6015200868621065,
+      "rank_lookup": 0.04750271444082519,
+      "ordered_page_read": 0.04750271444082519
+    },
+    "self_categories_pct": {
+      "cow_array": 0.3325190010857763,
+      "allocate": 1.974755700325733,
+      "copy": 1.5608034744842563,
+      "splice": 0.11536373507057546,
+      "rank_lookup": 0.04071661237785016,
+      "directory_apply": 0.12214983713355049,
+      "ordered_page_read": 0.013572204125950055,
+      "release": 0.013572204125950055
+    },
+    "top_self": [
+      {
+        "symbol": "CycleNow",
+        "sampled_ns": 39555555160,
+        "share_pct": 26.574375678610206
+      },
+      {
+        "symbol": "PollStorage",
+        "sampled_ns": 6292929230,
+        "share_pct": 4.227741585233442
+      },
+      {
+        "symbol": "handle_softirqs",
+        "sampled_ns": 3848484810,
+        "share_pct": 2.5855048859934855
+      },
+      {
+        "symbol": "__normal_iterator",
+        "sampled_ns": 3656565620,
+        "share_pct": 2.45656894679696
+      },
+      {
+        "symbol": "do_syscall_64",
+        "sampled_ns": 3242424210,
+        "share_pct": 2.1783387622149837
+      },
+      {
+        "symbol": "finish_task_switch.isra.0",
+        "sampled_ns": 2717171690,
+        "share_pct": 1.8254614549402823
+      },
+      {
+        "symbol": "_raw_spin_unlock_irqrestore",
+        "sampled_ns": 2676767650,
+        "share_pct": 1.7983170466883822
+      },
+      {
+        "symbol": "mi_page_malloc_zero",
+        "sampled_ns": 2545454520,
+        "share_pct": 1.710097719869707
+      },
+      {
+        "symbol": "__memmove_avx512_unaligned_erms",
+        "sampled_ns": 2181818160,
+        "share_pct": 1.4657980456026058
+      },
+      {
+        "symbol": "nvme_pcie_qpair_process_completions",
+        "sampled_ns": 1808080790,
+        "share_pct": 1.2147122692725298
+      },
+      {
+        "symbol": "io_uring_submit_and_get_events",
+        "sampled_ns": 1797979780,
+        "share_pct": 1.207926167209555
+      },
+      {
+        "symbol": "Poll",
+        "sampled_ns": 1545454530,
+        "share_pct": 1.038273615635179
+      },
+      {
+        "symbol": "_mm_crc32_u64",
+        "sampled_ns": 1414141400,
+        "share_pct": 0.9500542888165038
+      },
+      {
+        "symbol": "DrainCrossCore",
+        "sampled_ns": 1393939380,
+        "share_pct": 0.9364820846905537
+      },
+      {
+        "symbol": "WriteRecordLocked",
+        "sampled_ns": 1181818170,
+        "share_pct": 0.7939739413680782
+      },
+      {
+        "symbol": "ReapCompletions",
+        "sampled_ns": 1070707060,
+        "share_pct": 0.7193268186753529
+      },
+      {
+        "symbol": "get",
+        "sampled_ns": 1050505040,
+        "share_pct": 0.7057546145494028
+      },
+      {
+        "symbol": "BusyPoll",
+        "sampled_ns": 1040404030,
+        "share_pct": 0.6989685124864278
+      },
+      {
+        "symbol": "__find_if<__gnu_cxx::__normal_iterator<const std::byte*, std::span<const std::byte> >, __gnu_cxx::__ops::_Iter_negate<lavik::storage::IsZero(std::span<const std::byte>)::<lambda(std::byte)> > >",
+        "sampled_ns": 878787870,
+        "share_pct": 0.5903908794788274
+      },
+      {
+        "symbol": "spdk_nvme_qpair_process_completions",
+        "sampled_ns": 818181810,
+        "share_pct": 0.5496742671009772
+      },
+      {
+        "symbol": "Release",
+        "sampled_ns": 777777770,
+        "share_pct": 0.5225298588490771
+      },
+      {
+        "symbol": "srso_alias_safe_ret",
+        "sampled_ns": 767676760,
+        "share_pct": 0.5157437567861021
+      },
+      {
+        "symbol": "io_cqring_wait",
+        "sampled_ns": 767676760,
+        "share_pct": 0.5157437567861021
+      },
+      {
+        "symbol": "__do_sys_io_uring_enter",
+        "sampled_ns": 727272720,
+        "share_pct": 0.48859934853420195
+      },
+      {
+        "symbol": "operator()",
+        "sampled_ns": 727272720,
+        "share_pct": 0.48859934853420195
+      },
+      {
+        "symbol": "Extend",
+        "sampled_ns": 707070700,
+        "share_pct": 0.4750271444082519
+      },
+      {
+        "symbol": "fget",
+        "sampled_ns": 696969690,
+        "share_pct": 0.46824104234527686
+      },
+      {
+        "symbol": "RunOnce",
+        "sampled_ns": 696969690,
+        "share_pct": 0.46824104234527686
+      },
+      {
+        "symbol": "load",
+        "sampled_ns": 636363630,
+        "share_pct": 0.42752442996742673
+      },
+      {
+        "symbol": "CommitGroupedOrderedMutationLocked",
+        "sampled_ns": 555555550,
+        "share_pct": 0.3732356134636265
+      }
+    ],
+    "top_inclusive": [
+      {
+        "symbol": "RunWorker",
+        "sampled_ns": 148666665180,
+        "share_pct": 99.87785016286645
+      },
+      {
+        "symbol": "Run",
+        "sampled_ns": 148666665180,
+        "share_pct": 99.87785016286645
+      },
+      {
+        "symbol": "operator()",
+        "sampled_ns": 148666665180,
+        "share_pct": 99.87785016286645
+      },
+      {
+        "symbol": "__clone3",
+        "sampled_ns": 148646463160,
+        "share_pct": 99.8642779587405
+      },
+      {
+        "symbol": "start_thread",
+        "sampled_ns": 148646463160,
+        "share_pct": 99.8642779587405
+      },
+      {
+        "symbol": "execute_native_thread_routine",
+        "sampled_ns": 148646463160,
+        "share_pct": 99.8642779587405
+      },
+      {
+        "symbol": "RunOnce",
+        "sampled_ns": 148494948010,
+        "share_pct": 99.76248642779588
+      },
+      {
+        "symbol": "BusyPoll",
+        "sampled_ns": 77030302260,
+        "share_pct": 51.75081433224756
+      },
+      {
+        "symbol": "DrainReadyUntil",
+        "sampled_ns": 51858585340,
+        "share_pct": 34.83984799131379
+      },
+      {
+        "symbol": "ResumeReady",
+        "sampled_ns": 51434342920,
+        "share_pct": 34.554831704668835
+      },
+      {
+        "symbol": "resume",
+        "sampled_ns": 51242423730,
+        "share_pct": 34.42589576547231
+      },
+      {
+        "symbol": "CycleNow",
+        "sampled_ns": 41121211710,
+        "share_pct": 27.626221498371336
+      },
+      {
+        "symbol": "entry_SYSCALL_64_after_hwframe",
+        "sampled_ns": 28212120930,
+        "share_pct": 18.95358306188925
+      },
+      {
+        "symbol": "do_syscall_64",
+        "sampled_ns": 28050504770,
+        "share_pct": 18.84500542888165
+      },
+      {
+        "symbol": "Flush",
+        "sampled_ns": 25333333080,
+        "share_pct": 17.019543973941367
+      },
+      {
+        "symbol": "Submit",
+        "sampled_ns": 24949494700,
+        "share_pct": 16.761672095548317
+      },
+      {
+        "symbol": "io_uring_submit_and_get_events",
+        "sampled_ns": 24525252280,
+        "share_pct": 16.476655808903367
+      },
+      {
+        "symbol": "x64_sys_call",
+        "sampled_ns": 24242424000,
+        "share_pct": 16.286644951140065
+      },
+      {
+        "symbol": "__x64_sys_io_uring_enter",
+        "sampled_ns": 24212120970,
+        "share_pct": 16.26628664495114
+      },
+      {
+        "symbol": "__do_sys_io_uring_enter",
+        "sampled_ns": 23606060370,
+        "share_pct": 15.859120521172638
+      },
+      {
+        "symbol": "__io_issue_sqe",
+        "sampled_ns": 15929292770,
+        "share_pct": 10.701682953311618
+      },
+      {
+        "symbol": "PollStorage",
+        "sampled_ns": 15919191760,
+        "share_pct": 10.694896851248643
+      },
+      {
+        "symbol": "io_submit_sqes",
+        "sampled_ns": 13565656430,
+        "share_pct": 9.113735070575462
+      },
+      {
+        "symbol": "io_submit_sqe",
+        "sampled_ns": 13151515020,
+        "share_pct": 8.835504885993485
+      },
+      {
+        "symbol": "io_issue_sqe",
+        "sampled_ns": 12919191790,
+        "share_pct": 8.67942453854506
+      },
+      {
+        "symbol": "WriteRecordLocked",
+        "sampled_ns": 11616161500,
+        "share_pct": 7.804017372421281
+      },
+      {
+        "symbol": "Poll",
+        "sampled_ns": 11383838270,
+        "share_pct": 7.6479370249728555
+      },
+      {
+        "symbol": "io_send",
+        "sampled_ns": 10010100910,
+        "share_pct": 6.725027144408252
+      },
+      {
+        "symbol": "sock_sendmsg",
+        "sampled_ns": 9838383740,
+        "share_pct": 6.609663409337676
+      },
+      {
+        "symbol": "handle_softirqs",
+        "sampled_ns": 9686868590,
+        "share_pct": 6.507871878393051
+      }
+    ],
+    "raw": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-perf-maincc31b3a6-push8m-list-8388608-rpush_lpop-r4-20261008",
+    "notes": "25-second 99Hz task-clock samples across existing workers, with inline frames. Shares include polling, kernel and background work; inclusive categories overlap. Independent diagnostic run, not clean-QPS comparison. Qualified enclosing functions are retained separately in physical; inline index categories recognize unique unqualified DWARF names.",
+    "physical": {
+      "samples": 14736,
+      "sampled_worker_ns": 148848483360,
+      "inclusive_categories_pct": {
+        "allocate": 2.44299674267101,
+        "directory_apply": 2.232627578718784,
+        "cow_array": 1.710097719869707,
+        "splice": 0.9839847991313789,
+        "ordered_page_read": 2.3615635179153096,
+        "copy": 1.506514657980456,
+        "decode": 0.9025515743756786
+      },
+      "top_self": [
+        {
+          "symbol": "bycorf::Worker::RunOnce(bool)",
+          "sampled_ns": 41494949080,
+          "share_pct": 27.877307274701412
+        },
+        {
+          "symbol": "[unknown]",
+          "sampled_ns": 34979797630,
+          "share_pct": 23.500271444082518
+        },
+        {
+          "symbol": "bycorf::Worker::PollStorage() [clone .part.0]",
+          "sampled_ns": 11282828170,
+          "share_pct": 7.5800760043431055
+        },
+        {
+          "symbol": "bycorf::Worker::DrainCrossCore()",
+          "sampled_ns": 3151515120,
+          "share_pct": 2.1172638436482085
+        },
+        {
+          "symbol": "absl::lts_20250512::crc_internal::(anonymous namespace)::CRC32AcceleratedX86ARMCombinedMultipleStreams<3ul, 0ul, (absl::lts_20250512::crc_internal::(anonymous namespace)::CutoffStrategy)0>::Extend(unsigned int*, void const*, unsigned long) const",
+          "sampled_ns": 2424242400,
+          "share_pct": 1.6286644951140066
+        },
+        {
+          "symbol": "_mi_theap_malloc_zero",
+          "sampled_ns": 2333333310,
+          "share_pct": 1.5675895765472312
+        },
+        {
+          "symbol": "__memmove_avx512_unaligned_erms",
+          "sampled_ns": 2181818160,
+          "share_pct": 1.4657980456026058
+        },
+        {
+          "symbol": "bycorf::IoUringBackend::ReapCompletions()",
+          "sampled_ns": 2040404020,
+          "share_pct": 1.3707926167209554
+        },
+        {
+          "symbol": "nvme_pcie_qpair_process_completions",
+          "sampled_ns": 1858585840,
+          "share_pct": 1.248642779587405
+        },
+        {
+          "symbol": "io_uring_submit_and_get_events",
+          "sampled_ns": 1797979780,
+          "share_pct": 1.207926167209555
+        },
+        {
+          "symbol": "lavik::storage::StorageEngine::Impl::WriteRecordLocked(lavik::storage::StorageEngine::Impl::WriteRecordLocked(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::RecordWriteRequest const&, std::shared_ptr<std::vector<lavik::storage::ExtentRef, std::allocator<lavik::storage::ExtentRef> > const>, std::unique_ptr<std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> >, std::default_delete<std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> > > >)::_ZN5lavik7storage13StorageEngine4Impl17WriteRecordLockedERNS2_11WorkerStoreERKNS2_18RecordWriteRequestESt10shared_ptrIKSt6vectorINS0_9ExtentRefESaISA_EEESt10unique_ptrIS9_INS0_13RetiredRecordESaISG_EESt14default_deleteISI_EE.Frame*) [clone .actor]",
+          "sampled_ns": 1656565640,
+          "share_pct": 1.1129207383279045
+        },
+        {
+          "symbol": "lavik::storage::NextRecordOffset(std::byte const*, unsigned int, unsigned int)",
+          "sampled_ns": 1090909080,
+          "share_pct": 0.7328990228013029
+        },
+        {
+          "symbol": "spdk_nvme_qpair_process_completions",
+          "sampled_ns": 949494940,
+          "share_pct": 0.6378935939196525
+        },
+        {
+          "symbol": "lavik::storage::OrderedGroupDirectory::FindIndex(unsigned long) const",
+          "sampled_ns": 929292920,
+          "share_pct": 0.6243213897937026
+        },
+        {
+          "symbol": "lavik::storage::StorageEngine::Impl::CommitGroupedOrderedMutationLocked(lavik::storage::StorageEngine::Impl::CommitGroupedOrderedMutationLocked(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::WorkerStore::PartitionStore&, unsigned char, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::Digest const&, std::shared_ptr<lavik::storage::GroupedObject const>, lavik::storage::OrderedCollectionMutationPlan, unsigned long, lavik::storage::TxShardWrites*, lavik::storage::ReplicationCommandAppend*, lavik::storage::MutationPrecondition const*, lavik::storage::StorageEngine::Impl::SortedSetMemberMutation*)::_ZN5lavik7storage13StorageEngine4Impl34CommitGroupedOrderedMutationLockedERNS2_11WorkerStoreERNS3_14PartitionStoreEhSt17basic_string_viewIcSt11char_traitsIcEERKNS0_6DigestESt10shared_ptrIKNS0_13GroupedObjectEENS0_29OrderedCollectionMutationPlanEmPNS0_13TxShardWritesEPNS0_24ReplicationCommandAppendEPKNS0_20MutationPreconditionEPNS2_23SortedSetMemberMutationE.Frame*) [clone .actor] [clone .lto_priv.0]",
+          "sampled_ns": 898989890,
+          "share_pct": 0.6039630836047775
+        },
+        {
+          "symbol": "mi_free",
+          "sampled_ns": 898989890,
+          "share_pct": 0.6039630836047775
+        },
+        {
+          "symbol": "bycorf::Worker::Flush()",
+          "sampled_ns": 727272720,
+          "share_pct": 0.48859934853420195
+        },
+        {
+          "symbol": "lavik::(anonymous namespace)::RedisService::Serve(lavik::(anonymous namespace)::RedisService::Serve(bycorf::TcpStream&, lavik::ConnectionContext&)::_ZN5lavik12_GLOBAL__N_112RedisService5ServeERN6bycorf9TcpStreamERNS_17ConnectionContextE.Frame*) [clone .actor]",
+          "sampled_ns": 636363630,
+          "share_pct": 0.42752442996742673
+        },
+        {
+          "symbol": "lavik::storage::StorageEngine::Impl::ExecuteGroupedListLocked(lavik::storage::StorageEngine::Impl::ExecuteGroupedListLocked(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::WorkerStore::PartitionStore&, unsigned char, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::Digest const&, lavik::storage::ListOperation const&, std::shared_ptr<lavik::storage::GroupedObject const>, lavik::storage::TxShardWrites*, lavik::storage::ReplicationCommandAppend*, lavik::storage::MutationPrecondition const*, lavik::storage::StorageEngine::Impl::PreparedOrderedMutation*)::_ZN5lavik7storage13StorageEngine4Impl24ExecuteGroupedListLockedERNS2_11WorkerStoreERNS3_14PartitionStoreEhSt17basic_string_viewIcSt11char_traitsIcEERKNS0_6DigestERKNS0_13ListOperationESt10shared_ptrIKNS0_13GroupedObjectEEPNS0_13TxShardWritesEPNS0_24ReplicationCommandAppendEPKNS0_20MutationPreconditionEPNS2_23PreparedOrderedMutationE.Frame*) [clone .actor] [clone .lto_priv.0]",
+          "sampled_ns": 585858580,
+          "share_pct": 0.3935939196525516
+        },
+        {
+          "symbol": "lavik::storage::GroupedObject::FindRecord(lavik::storage::GroupedRecordId) const",
+          "sampled_ns": 565656560,
+          "share_pct": 0.3800217155266015
+        },
+        {
+          "symbol": "lavik::storage::StorageEngine::Impl::FlushPendingBlocks(lavik::storage::StorageEngine::Impl::FlushPendingBlocks(lavik::storage::StorageEngine::Impl::WorkerStore*)::_ZN5lavik7storage13StorageEngine4Impl18FlushPendingBlocksEPNS2_11WorkerStoreE.Frame*) [clone .actor]",
+          "sampled_ns": 545454540,
+          "share_pct": 0.36644951140065146
+        },
+        {
+          "symbol": "__memset_avx512_unaligned_erms",
+          "sampled_ns": 474747470,
+          "share_pct": 0.31894679695982625
+        },
+        {
+          "symbol": "lavik::CowArray<unsigned long, 32ul>::Set(unsigned long, unsigned long const&)",
+          "sampled_ns": 424242420,
+          "share_pct": 0.28501628664495116
+        },
+        {
+          "symbol": "lavik::storage::StorageEngine::Impl::ExecuteListLocked(lavik::storage::StorageEngine::Impl::ExecuteListLocked(unsigned char, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::Digest const&, lavik::storage::ListOperation const&, lavik::storage::TxShardWrites*, lavik::storage::ReplicationCommandAppend*, lavik::storage::MutationPrecondition const*)::_ZN5lavik7storage13StorageEngine4Impl17ExecuteListLockedEhSt17basic_string_viewIcSt11char_traitsIcEERKNS0_6DigestERKNS0_13ListOperationEPNS0_13TxShardWritesEPNS0_24ReplicationCommandAppendEPKNS0_20MutationPreconditionE.Frame*) [clone .actor] [clone .lto_priv.0]",
+          "sampled_ns": 414141410,
+          "share_pct": 0.2782301845819761
+        },
+        {
+          "symbol": "lavik::storage::StorageEngine::Impl::LoadOrderedGroup(lavik::storage::StorageEngine::Impl::LoadOrderedGroup<lavik::storage::LoadedOrderedGroup, lavik::storage::StorageEngine::Impl::LoadOrderedGroupSnapshot(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::WorkerStore::PartitionStore&, unsigned char, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::Digest const&, std::shared_ptr<lavik::storage::GroupedObject const>, unsigned long, bool)::{lambda(std::basic_string_view<char, std::char_traits<char> >, unsigned long, lavik::storage::OrderedGroupEntry const&, lavik::storage::StorageEngine::Impl::LoadedValue&&)#1}>(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::WorkerStore::PartitionStore&, unsigned char, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::Digest const&, std::shared_ptr<lavik::storage::GroupedObject const>, unsigned long, bool, lavik::storage::StorageEngine::Impl::LoadOrderedGroupSnapshot(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::WorkerStore::PartitionStore&, unsigned char, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::Digest const&, std::shared_ptr<lavik::storage::GroupedObject const>, unsigned long, bool)::{lambda(std::basic_string_view<char, std::char_traits<char> >, unsigned long, lavik::storage::OrderedGroupEntry const&, lavik::storage::StorageEngine::Impl::LoadedValue&&)#1})::_ZN5lavik7storage13StorageEngine4Impl16LoadOrderedGroupINS0_18LoadedOrderedGroupEZNS2_24LoadOrderedGroupSnapshotERNS2_11WorkerStoreERNS5_14PartitionStoreEhSt17basic_string_viewIcSt11char_traitsIcEERKNS0_6DigestESt10shared_ptrIKNS0_13GroupedObjectEEmbEUlSC_mRKNS0_17OrderedGroupEntryEONS2_11LoadedValueEE_EEN6bycorf4TaskIN4absl12lts_202505128StatusOrIT_EEEES6_S8_hSC_SF_SJ_mbT0_.Frame*) [clone .actor]",
+          "sampled_ns": 404040400,
+          "share_pct": 0.2714440825190011
+        },
+        {
+          "symbol": "bycorf::Worker::DrainReadyUntil(long)",
+          "sampled_ns": 404040400,
+          "share_pct": 0.2714440825190011
+        },
+        {
+          "symbol": "lavik::storage::StorageEngine::Impl::CommitTxWrites(lavik::storage::StorageEngine::Impl::CommitTxWrites(unsigned long, std::vector<lavik::storage::TxShardWrites*, std::allocator<lavik::storage::TxShardWrites*> >, lavik::storage::RelocationDurabilityFence*)::_ZN5lavik7storage13StorageEngine4Impl14CommitTxWritesEmSt6vectorIPNS0_13TxShardWritesESaIS5_EEPNS0_25RelocationDurabilityFenceE.Frame*) [clone .actor]",
+          "sampled_ns": 393939390,
+          "share_pct": 0.26465798045602607
+        },
+        {
+          "symbol": "lavik::DispatchCommandImpl(lavik::DispatchCommandImpl(lavik::ConnectionContext&, lavik::CommandRequest&, lavik::ReplyBuilder&)::_ZN5lavik19DispatchCommandImplERNS_17ConnectionContextERNS_14CommandRequestERNS_12ReplyBuilderE.Frame*) [clone .actor]",
+          "sampled_ns": 383838380,
+          "share_pct": 0.25787187839305103
+        },
+        {
+          "symbol": "lavik::CowArray<lavik::storage::OrderedGroupEntry, 32ul>::Set(unsigned long, lavik::storage::OrderedGroupEntry const&)",
+          "sampled_ns": 383838380,
+          "share_pct": 0.25787187839305103
+        },
+        {
+          "symbol": "lavik::CowArray<lavik::storage::OrderedGroupEntry, 32ul>::Release(lavik::CowArray<lavik::storage::OrderedGroupEntry, 32ul>::Node*) [clone .part.0] [clone .lto_priv.0]",
+          "sampled_ns": 383838380,
+          "share_pct": 0.25787187839305103
+        }
+      ],
+      "top_inclusive": [
+        {
+          "symbol": "bycorf::Server::RunWorker(unsigned int, bycorf::Worker&)",
+          "sampled_ns": 148666665180,
+          "share_pct": 99.87785016286645
+        },
+        {
+          "symbol": "clone3",
+          "sampled_ns": 148646463160,
+          "share_pct": 99.8642779587405
+        },
+        {
+          "symbol": "bycorf::Runtime::Impl::Start(unsigned int, std::function<int (unsigned int, bycorf::Worker&)>, bool, std::span<unsigned int const, 18446744073709551615ul>)::{lambda()#1}::operator()() const",
+          "sampled_ns": 148646463160,
+          "share_pct": 99.8642779587405
+        },
+        {
+          "symbol": "start_thread",
+          "sampled_ns": 148646463160,
+          "share_pct": 99.8642779587405
+        },
+        {
+          "symbol": "execute_native_thread_routine",
+          "sampled_ns": 148646463160,
+          "share_pct": 99.8642779587405
+        },
+        {
+          "symbol": "bycorf::Worker::RunOnce(bool)",
+          "sampled_ns": 148494948010,
+          "share_pct": 99.76248642779588
+        },
+        {
+          "symbol": "bycorf::Worker::DrainReadyUntil(long)",
+          "sampled_ns": 51858585340,
+          "share_pct": 34.83984799131379
+        },
+        {
+          "symbol": "bycorf::Worker::ResumeReady(bycorf::Worker::ReadyTask, bycorf::TaskClass) [clone .isra.0]",
+          "sampled_ns": 51434342920,
+          "share_pct": 34.554831704668835
+        },
+        {
+          "symbol": "[unknown]",
+          "sampled_ns": 34989898640,
+          "share_pct": 23.507057546145493
+        },
+        {
+          "symbol": "bycorf::Worker::Flush()",
+          "sampled_ns": 25333333080,
+          "share_pct": 17.019543973941367
+        },
+        {
+          "symbol": "io_uring_submit_and_get_events",
+          "sampled_ns": 24525252280,
+          "share_pct": 16.476655808903367
+        },
+        {
+          "symbol": "bycorf::Worker::PollStorage() [clone .part.0]",
+          "sampled_ns": 15434343280,
+          "share_pct": 10.369163952225842
+        },
+        {
+          "symbol": "lavik::storage::StorageEngine::Impl::WriteRecordLocked(lavik::storage::StorageEngine::Impl::WriteRecordLocked(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::RecordWriteRequest const&, std::shared_ptr<std::vector<lavik::storage::ExtentRef, std::allocator<lavik::storage::ExtentRef> > const>, std::unique_ptr<std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> >, std::default_delete<std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> > > >)::_ZN5lavik7storage13StorageEngine4Impl17WriteRecordLockedERNS2_11WorkerStoreERKNS2_18RecordWriteRequestESt10shared_ptrIKSt6vectorINS0_9ExtentRefESaISA_EEESt10unique_ptrIS9_INS0_13RetiredRecordESaISG_EESt14default_deleteISI_EE.Frame*) [clone .actor]",
+          "sampled_ns": 11515151400,
+          "share_pct": 7.736156351791531
+        },
+        {
+          "symbol": "bycorf::IoUringBackend::Wait(int)",
+          "sampled_ns": 6313131250,
+          "share_pct": 4.241313789359392
+        },
+        {
+          "symbol": "__io_uring_get_cqe",
+          "sampled_ns": 6111111050,
+          "share_pct": 4.105591748099892
+        },
+        {
+          "symbol": "_io_uring_get_cqe",
+          "sampled_ns": 6101010040,
+          "share_pct": 4.098805646036916
+        },
+        {
+          "symbol": "std::_Function_handler<absl::lts_20250512::Status (lavik::storage::GroupedObjectVersion const&), lavik::storage::StorageEngine::Impl::CommitGroupedOrderedMutationLocked(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::WorkerStore::PartitionStore&, unsigned char, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::Digest const&, std::shared_ptr<lavik::storage::GroupedObject const>, lavik::storage::OrderedCollectionMutationPlan, unsigned long, lavik::storage::TxShardWrites*, lavik::storage::ReplicationCommandAppend*, lavik::storage::MutationPrecondition const*, lavik::storage::StorageEngine::Impl::SortedSetMemberMutation*)::{lambda(lavik::storage::GroupedObjectVersion const&)#1}>::_M_invoke(std::_Any_data const&, lavik::storage::GroupedObjectVersion const&)",
+          "sampled_ns": 5626262570,
+          "share_pct": 3.77985884907709
+        },
+        {
+          "symbol": "lavik::storage::StorageEngine::Impl::CommitGroupedOrderedMutationLocked(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::WorkerStore::PartitionStore&, unsigned char, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::Digest const&, std::shared_ptr<lavik::storage::GroupedObject const>, lavik::storage::OrderedCollectionMutationPlan, unsigned long, lavik::storage::TxShardWrites*, lavik::storage::ReplicationCommandAppend*, lavik::storage::MutationPrecondition const*, lavik::storage::StorageEngine::Impl::SortedSetMemberMutation*)::{lambda(lavik::storage::GroupedObjectVersion const&)#1}::operator()(lavik::storage::GroupedObjectVersion const&) const [clone .lto_priv.0]",
+          "sampled_ns": 5616161560,
+          "share_pct": 3.773072747014115
+        },
+        {
+          "symbol": "lavik::storage::StorageEngine::Impl::ExecuteGroupedListLocked(lavik::storage::StorageEngine::Impl::ExecuteGroupedListLocked(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::WorkerStore::PartitionStore&, unsigned char, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::Digest const&, lavik::storage::ListOperation const&, std::shared_ptr<lavik::storage::GroupedObject const>, lavik::storage::TxShardWrites*, lavik::storage::ReplicationCommandAppend*, lavik::storage::MutationPrecondition const*, lavik::storage::StorageEngine::Impl::PreparedOrderedMutation*)::_ZN5lavik7storage13StorageEngine4Impl24ExecuteGroupedListLockedERNS2_11WorkerStoreERNS3_14PartitionStoreEhSt17basic_string_viewIcSt11char_traitsIcEERKNS0_6DigestERKNS0_13ListOperationESt10shared_ptrIKNS0_13GroupedObjectEEPNS0_13TxShardWritesEPNS0_24ReplicationCommandAppendEPKNS0_20MutationPreconditionEPNS2_23PreparedOrderedMutationE.Frame*) [clone .actor] [clone .lto_priv.0]",
+          "sampled_ns": 4040404000,
+          "share_pct": 2.7144408251900107
+        },
+        {
+          "symbol": "spdk_nvme_qpair_process_completions",
+          "sampled_ns": 3666666630,
+          "share_pct": 2.4633550488599347
+        },
+        {
+          "symbol": "lavik::storage::StorageEngine::Impl::CommitGroupedOrderedMutationLocked(lavik::storage::StorageEngine::Impl::CommitGroupedOrderedMutationLocked(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::WorkerStore::PartitionStore&, unsigned char, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::Digest const&, std::shared_ptr<lavik::storage::GroupedObject const>, lavik::storage::OrderedCollectionMutationPlan, unsigned long, lavik::storage::TxShardWrites*, lavik::storage::ReplicationCommandAppend*, lavik::storage::MutationPrecondition const*, lavik::storage::StorageEngine::Impl::SortedSetMemberMutation*)::_ZN5lavik7storage13StorageEngine4Impl34CommitGroupedOrderedMutationLockedERNS2_11WorkerStoreERNS3_14PartitionStoreEhSt17basic_string_viewIcSt11char_traitsIcEERKNS0_6DigestESt10shared_ptrIKNS0_13GroupedObjectEENS0_29OrderedCollectionMutationPlanEmPNS0_13TxShardWritesEPNS0_24ReplicationCommandAppendEPKNS0_20MutationPreconditionEPNS2_23SortedSetMemberMutationE.Frame*) [clone .actor] [clone .lto_priv.0]",
+          "sampled_ns": 3636363600,
+          "share_pct": 2.44299674267101
+        },
+        {
+          "symbol": "lavik::storage::StorageEngine::Impl::LoadOrderedGroup(lavik::storage::StorageEngine::Impl::LoadOrderedGroup<lavik::storage::LoadedOrderedGroup, lavik::storage::StorageEngine::Impl::LoadOrderedGroupSnapshot(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::WorkerStore::PartitionStore&, unsigned char, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::Digest const&, std::shared_ptr<lavik::storage::GroupedObject const>, unsigned long, bool)::{lambda(std::basic_string_view<char, std::char_traits<char> >, unsigned long, lavik::storage::OrderedGroupEntry const&, lavik::storage::StorageEngine::Impl::LoadedValue&&)#1}>(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::WorkerStore::PartitionStore&, unsigned char, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::Digest const&, std::shared_ptr<lavik::storage::GroupedObject const>, unsigned long, bool, lavik::storage::StorageEngine::Impl::LoadOrderedGroupSnapshot(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::WorkerStore::PartitionStore&, unsigned char, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::Digest const&, std::shared_ptr<lavik::storage::GroupedObject const>, unsigned long, bool)::{lambda(std::basic_string_view<char, std::char_traits<char> >, unsigned long, lavik::storage::OrderedGroupEntry const&, lavik::storage::StorageEngine::Impl::LoadedValue&&)#1})::_ZN5lavik7storage13StorageEngine4Impl16LoadOrderedGroupINS0_18LoadedOrderedGroupEZNS2_24LoadOrderedGroupSnapshotERNS2_11WorkerStoreERNS5_14PartitionStoreEhSt17basic_string_viewIcSt11char_traitsIcEERKNS0_6DigestESt10shared_ptrIKNS0_13GroupedObjectEEmbEUlSC_mRKNS0_17OrderedGroupEntryEONS2_11LoadedValueEE_EEN6bycorf4TaskIN4absl12lts_202505128StatusOrIT_EEEES6_S8_hSC_SF_SJ_mbT0_.Frame*) [clone .actor]",
+          "sampled_ns": 3484848450,
+          "share_pct": 2.3412052117263844
+        },
+        {
+          "symbol": "bycorf::Worker::DrainCrossCore()",
+          "sampled_ns": 3353535320,
+          "share_pct": 2.252985884907709
+        },
+        {
+          "symbol": "lavik::storage::OrderedGroupDirectory::Apply(lavik::storage::OrderedCollectionRoot const&, unsigned long, std::span<lavik::storage::RecoveredOrderedGroup const, 18446744073709551615ul>, unsigned long, std::span<lavik::storage::RecoveredGroupedRecord const, 18446744073709551615ul>) const",
+          "sampled_ns": 3323232290,
+          "share_pct": 2.232627578718784
+        },
+        {
+          "symbol": "lavik::storage::StorageEngine::Impl::LoadValueLocal(lavik::storage::StorageEngine::Impl::LoadValueLocal(lavik::storage::StorageEngine::Impl::WorkerStore&, unsigned char, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::RecordLocation, unsigned long, lavik::ReadLatencyTrace*, std::optional<unsigned long>)::_ZN5lavik7storage13StorageEngine4Impl14LoadValueLocalERNS2_11WorkerStoreEhSt17basic_string_viewIcSt11char_traitsIcEENS0_14RecordLocationEmPNS_16ReadLatencyTraceESt8optionalImE.Frame*) [clone .actor]",
+          "sampled_ns": 2959595930,
+          "share_pct": 1.988327904451683
+        },
+        {
+          "symbol": "absl::lts_20250512::crc_internal::ExtendCrc32cInternal(absl::lts_20250512::crc32c_t, std::basic_string_view<char, std::char_traits<char> >)",
+          "sampled_ns": 2797979770,
+          "share_pct": 1.8797502714440826
+        },
+        {
+          "symbol": "absl::lts_20250512::crc_internal::(anonymous namespace)::CRC32AcceleratedX86ARMCombinedMultipleStreams<3ul, 0ul, (absl::lts_20250512::crc_internal::(anonymous namespace)::CutoffStrategy)0>::Extend(unsigned int*, void const*, unsigned long) const",
+          "sampled_ns": 2555555530,
+          "share_pct": 1.7168838219326819
+        },
+        {
+          "symbol": "lavik::storage::StorageEngine::Impl::FlushPendingBlocks(lavik::storage::StorageEngine::Impl::FlushPendingBlocks(lavik::storage::StorageEngine::Impl::WorkerStore*)::_ZN5lavik7storage13StorageEngine4Impl18FlushPendingBlocksEPNS2_11WorkerStoreE.Frame*) [clone .actor]",
+          "sampled_ns": 2484848460,
+          "share_pct": 1.6693811074918568
+        },
+        {
+          "symbol": "bycorf::IoUringBackend::ReapCompletions()",
+          "sampled_ns": 2434343410,
+          "share_pct": 1.6354505971769815
+        },
+        {
+          "symbol": "lavik::storage::StorageEngine::Impl::ExecuteListLocked(lavik::storage::StorageEngine::Impl::ExecuteListLocked(unsigned char, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::Digest const&, lavik::storage::ListOperation const&, lavik::storage::TxShardWrites*, lavik::storage::ReplicationCommandAppend*, lavik::storage::MutationPrecondition const*)::_ZN5lavik7storage13StorageEngine4Impl17ExecuteListLockedEhSt17basic_string_viewIcSt11char_traitsIcEERKNS0_6DigestERKNS0_13ListOperationEPNS0_13TxShardWritesEPNS0_24ReplicationCommandAppendEPKNS0_20MutationPreconditionE.Frame*) [clone .actor] [clone .lto_priv.0]",
+          "sampled_ns": 2434343410,
+          "share_pct": 1.6354505971769815
+        }
+      ]
+    }
+  },
+  {
+    "size": 8388608,
+    "kind": "list",
+    "operation": "RPUSH_LPOP",
+    "version": "pushopt",
+    "samples": 15104,
+    "sampled_worker_ns": 152565655040,
+    "samples_per_thread": {
+      "stacks-1603884.txt": 655,
+      "stacks-1603893.txt": 0,
+      "stacks-1603882.txt": 2316,
+      "stacks-1603891.txt": 748,
+      "stacks-1603888.txt": 758,
+      "stacks-1603885.txt": 665,
+      "stacks-1603881.txt": 739,
+      "stacks-1603886.txt": 666,
+      "stacks-1603887.txt": 2382,
+      "stacks-1603883.txt": 659,
+      "stacks-1603892.txt": 2372,
+      "stacks-1603890.txt": 762,
+      "stacks-1603889.txt": 2382
+    },
+    "inclusive_categories_pct": {
+      "release": 0.8275953389830508,
+      "allocate": 3.058792372881356,
+      "copy": 1.2314618644067796,
+      "directory_apply": 2.6416843220338984,
+      "cow_array": 1.1321504237288136,
+      "splice": 0.9732521186440678,
+      "rank_lookup": 0.1059322033898305,
+      "ordered_page_read": 0.033103813559322036
+    },
+    "self_categories_pct": {
+      "allocate": 1.8140889830508475,
+      "copy": 1.1851165254237288,
+      "splice": 0.1059322033898305,
+      "cow_array": 0.4038665254237288,
+      "ordered_page_read": 0.01986228813559322,
+      "release": 0.013241525423728813,
+      "rank_lookup": 0.04634533898305085,
+      "directory_apply": 0.11255296610169492
+    },
+    "top_self": [
+      {
+        "symbol": "CycleNow",
+        "sampled_ns": 39868686470,
+        "share_pct": 26.132150423728813
+      },
+      {
+        "symbol": "PollStorage",
+        "sampled_ns": 6232323170,
+        "share_pct": 4.085010593220339
+      },
+      {
+        "symbol": "handle_softirqs",
+        "sampled_ns": 3959595920,
+        "share_pct": 2.5953389830508473
+      },
+      {
+        "symbol": "do_syscall_64",
+        "sampled_ns": 3959595920,
+        "share_pct": 2.5953389830508473
+      },
+      {
+        "symbol": "__normal_iterator",
+        "sampled_ns": 3535353500,
+        "share_pct": 2.3172669491525424
+      },
+      {
+        "symbol": "finish_task_switch.isra.0",
+        "sampled_ns": 3060606030,
+        "share_pct": 2.0060911016949152
+      },
+      {
+        "symbol": "_raw_spin_unlock_irqrestore",
+        "sampled_ns": 2717171690,
+        "share_pct": 1.7809851694915255
+      },
+      {
+        "symbol": "mi_page_malloc_zero",
+        "sampled_ns": 2303030280,
+        "share_pct": 1.5095338983050848
+      },
+      {
+        "symbol": "nvme_pcie_qpair_process_completions",
+        "sampled_ns": 2040404020,
+        "share_pct": 1.33739406779661
+      },
+      {
+        "symbol": "Poll",
+        "sampled_ns": 1797979780,
+        "share_pct": 1.1784957627118644
+      },
+      {
+        "symbol": "__memmove_avx512_unaligned_erms",
+        "sampled_ns": 1565656550,
+        "share_pct": 1.0262182203389831
+      },
+      {
+        "symbol": "DrainCrossCore",
+        "sampled_ns": 1505050490,
+        "share_pct": 0.9864936440677966
+      },
+      {
+        "symbol": "io_uring_submit_and_get_events",
+        "sampled_ns": 1373737360,
+        "share_pct": 0.9004237288135594
+      },
+      {
+        "symbol": "_mm_crc32_u64",
+        "sampled_ns": 1252525240,
+        "share_pct": 0.8209745762711864
+      },
+      {
+        "symbol": "WriteRecordLocked",
+        "sampled_ns": 1202020190,
+        "share_pct": 0.7878707627118644
+      },
+      {
+        "symbol": "BusyPoll",
+        "sampled_ns": 1101010090,
+        "share_pct": 0.7216631355932204
+      },
+      {
+        "symbol": "get",
+        "sampled_ns": 1090909080,
+        "share_pct": 0.715042372881356
+      },
+      {
+        "symbol": "Release",
+        "sampled_ns": 868686860,
+        "share_pct": 0.569385593220339
+      },
+      {
+        "symbol": "io_cqring_wait",
+        "sampled_ns": 838383830,
+        "share_pct": 0.5495233050847458
+      },
+      {
+        "symbol": "ReapCompletions",
+        "sampled_ns": 777777770,
+        "share_pct": 0.5097987288135594
+      },
+      {
+        "symbol": "__do_sys_io_uring_enter",
+        "sampled_ns": 777777770,
+        "share_pct": 0.5097987288135594
+      },
+      {
+        "symbol": "Extend",
+        "sampled_ns": 777777770,
+        "share_pct": 0.5097987288135594
+      },
+      {
+        "symbol": "srso_alias_safe_ret",
+        "sampled_ns": 767676760,
+        "share_pct": 0.503177966101695
+      },
+      {
+        "symbol": "__find_if<__gnu_cxx::__normal_iterator<const std::byte*, std::span<const std::byte> >, __gnu_cxx::__ops::_Iter_negate<lavik::storage::IsZero(std::span<const std::byte>)::<lambda(std::byte)> > >",
+        "sampled_ns": 747474740,
+        "share_pct": 0.4899364406779661
+      },
+      {
+        "symbol": "spdk_nvme_qpair_process_completions",
+        "sampled_ns": 717171710,
+        "share_pct": 0.4700741525423729
+      },
+      {
+        "symbol": "load",
+        "sampled_ns": 646464640,
+        "share_pct": 0.423728813559322
+      },
+      {
+        "symbol": "operator()",
+        "sampled_ns": 626262620,
+        "share_pct": 0.4104872881355932
+      },
+      {
+        "symbol": "CommitGroupedOrderedMutationLocked",
+        "sampled_ns": 585858580,
+        "share_pct": 0.3840042372881356
+      },
+      {
+        "symbol": "RunOnce",
+        "sampled_ns": 575757570,
+        "share_pct": 0.3773834745762712
+      },
+      {
+        "symbol": "__memset_avx512_unaligned_erms",
+        "sampled_ns": 555555550,
+        "share_pct": 0.3641419491525424
+      }
+    ],
+    "top_inclusive": [
+      {
+        "symbol": "operator()",
+        "sampled_ns": 152414139890,
+        "share_pct": 99.90068855932203
+      },
+      {
+        "symbol": "RunWorker",
+        "sampled_ns": 152404038880,
+        "share_pct": 99.89406779661017
+      },
+      {
+        "symbol": "Run",
+        "sampled_ns": 152404038880,
+        "share_pct": 99.89406779661017
+      },
+      {
+        "symbol": "__clone3",
+        "sampled_ns": 152393937870,
+        "share_pct": 99.88744703389831
+      },
+      {
+        "symbol": "start_thread",
+        "sampled_ns": 152393937870,
+        "share_pct": 99.88744703389831
+      },
+      {
+        "symbol": "execute_native_thread_routine",
+        "sampled_ns": 152393937870,
+        "share_pct": 99.88744703389831
+      },
+      {
+        "symbol": "RunOnce",
+        "sampled_ns": 152070705550,
+        "share_pct": 99.67558262711864
+      },
+      {
+        "symbol": "BusyPoll",
+        "sampled_ns": 77797979020,
+        "share_pct": 50.99311440677966
+      },
+      {
+        "symbol": "DrainReadyUntil",
+        "sampled_ns": 52494948970,
+        "share_pct": 34.40810381355932
+      },
+      {
+        "symbol": "ResumeReady",
+        "sampled_ns": 51909090390,
+        "share_pct": 34.02409957627118
+      },
+      {
+        "symbol": "resume",
+        "sampled_ns": 51747474230,
+        "share_pct": 33.918167372881356
+      },
+      {
+        "symbol": "CycleNow",
+        "sampled_ns": 41515151100,
+        "share_pct": 27.211334745762713
+      },
+      {
+        "symbol": "entry_SYSCALL_64_after_hwframe",
+        "sampled_ns": 30878787570,
+        "share_pct": 20.23967161016949
+      },
+      {
+        "symbol": "do_syscall_64",
+        "sampled_ns": 30646464340,
+        "share_pct": 20.08739406779661
+      },
+      {
+        "symbol": "Flush",
+        "sampled_ns": 27141413870,
+        "share_pct": 17.78998940677966
+      },
+      {
+        "symbol": "Submit",
+        "sampled_ns": 26777777510,
+        "share_pct": 17.551641949152543
+      },
+      {
+        "symbol": "io_uring_submit_and_get_events",
+        "sampled_ns": 26222221960,
+        "share_pct": 17.1875
+      },
+      {
+        "symbol": "x64_sys_call",
+        "sampled_ns": 26212120950,
+        "share_pct": 17.180879237288135
+      },
+      {
+        "symbol": "__x64_sys_io_uring_enter",
+        "sampled_ns": 26070706810,
+        "share_pct": 17.088188559322035
+      },
+      {
+        "symbol": "__do_sys_io_uring_enter",
+        "sampled_ns": 25626262370,
+        "share_pct": 16.796875
+      },
+      {
+        "symbol": "__io_issue_sqe",
+        "sampled_ns": 17090908920,
+        "share_pct": 11.202330508474576
+      },
+      {
+        "symbol": "PollStorage",
+        "sampled_ns": 16353535190,
+        "share_pct": 10.719014830508474
+      },
+      {
+        "symbol": "io_submit_sqes",
+        "sampled_ns": 14898989750,
+        "share_pct": 9.765625
+      },
+      {
+        "symbol": "io_submit_sqe",
+        "sampled_ns": 14343434200,
+        "share_pct": 9.401483050847459
+      },
+      {
+        "symbol": "io_issue_sqe",
+        "sampled_ns": 13999999860,
+        "share_pct": 9.176377118644067
+      },
+      {
+        "symbol": "WriteRecordLocked",
+        "sampled_ns": 12474747350,
+        "share_pct": 8.176641949152541
+      },
+      {
+        "symbol": "Poll",
+        "sampled_ns": 11747474630,
+        "share_pct": 7.699947033898305
+      },
+      {
+        "symbol": "io_send",
+        "sampled_ns": 11191919080,
+        "share_pct": 7.335805084745763
+      },
+      {
+        "symbol": "sock_sendmsg",
+        "sampled_ns": 11040403930,
+        "share_pct": 7.236493644067797
+      },
+      {
+        "symbol": "inet_sendmsg",
+        "sampled_ns": 10464646360,
+        "share_pct": 6.859110169491525
+      }
+    ],
+    "raw": "/mnt/dev/lavik-complex-refresh-20261004/perf_reports/lavik-complex-structures-2026-09-26/raw/lavik-perf-pushopta519271b-push8m-list-8388608-rpush_lpop-r4-20261008",
+    "notes": "25-second 99Hz task-clock samples across existing workers, with inline frames. Shares include polling, kernel and background work; inclusive categories overlap. Independent diagnostic run, not clean-QPS comparison. Qualified enclosing functions are retained separately in physical; inline index categories recognize unique unqualified DWARF names.",
+    "physical": {
+      "samples": 15104,
+      "sampled_worker_ns": 152565655040,
+      "inclusive_categories_pct": {
+        "allocate": 2.3238877118644066,
+        "directory_apply": 2.6814088983050848,
+        "cow_array": 1.9994703389830508,
+        "ordered_page_read": 1.7809851694915255,
+        "splice": 0.9732521186440678,
+        "copy": 1.0858050847457628,
+        "decode": 0.4899364406779661
+      },
+      "top_self": [
+        {
+          "symbol": "bycorf::Worker::RunOnce(bool)",
+          "sampled_ns": 41646464230,
+          "share_pct": 27.297404661016948
+        },
+        {
+          "symbol": "[unknown]",
+          "sampled_ns": 38101009720,
+          "share_pct": 24.973516949152543
+        },
+        {
+          "symbol": "bycorf::Worker::PollStorage() [clone .part.0]",
+          "sampled_ns": 11313131200,
+          "share_pct": 7.415254237288136
+        },
+        {
+          "symbol": "bycorf::Worker::DrainCrossCore()",
+          "sampled_ns": 3171717140,
+          "share_pct": 2.078919491525424
+        },
+        {
+          "symbol": "absl::lts_20250512::crc_internal::(anonymous namespace)::CRC32AcceleratedX86ARMCombinedMultipleStreams<3ul, 0ul, (absl::lts_20250512::crc_internal::(anonymous namespace)::CutoffStrategy)0>::Extend(unsigned int*, void const*, unsigned long) const",
+          "sampled_ns": 2303030280,
+          "share_pct": 1.5095338983050848
+        },
+        {
+          "symbol": "_mi_theap_malloc_zero",
+          "sampled_ns": 2181818160,
+          "share_pct": 1.430084745762712
+        },
+        {
+          "symbol": "nvme_pcie_qpair_process_completions",
+          "sampled_ns": 2080808060,
+          "share_pct": 1.3638771186440677
+        },
+        {
+          "symbol": "bycorf::IoUringBackend::ReapCompletions()",
+          "sampled_ns": 1707070690,
+          "share_pct": 1.1189088983050848
+        },
+        {
+          "symbol": "lavik::storage::StorageEngine::Impl::WriteRecordLocked(lavik::storage::StorageEngine::Impl::WriteRecordLocked(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::RecordWriteRequest const&, std::shared_ptr<std::vector<lavik::storage::ExtentRef, std::allocator<lavik::storage::ExtentRef> > const>, std::unique_ptr<std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> >, std::default_delete<std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> > > >)::_ZN5lavik7storage13StorageEngine4Impl17WriteRecordLockedERNS2_11WorkerStoreERKNS2_18RecordWriteRequestESt10shared_ptrIKSt6vectorINS0_9ExtentRefESaISA_EEESt10unique_ptrIS9_INS0_13RetiredRecordESaISG_EESt14default_deleteISI_EE.Frame*) [clone .actor]",
+          "sampled_ns": 1626262610,
+          "share_pct": 1.0659427966101696
+        },
+        {
+          "symbol": "__memmove_avx512_unaligned_erms",
+          "sampled_ns": 1565656550,
+          "share_pct": 1.0262182203389831
+        },
+        {
+          "symbol": "io_uring_submit_and_get_events",
+          "sampled_ns": 1373737360,
+          "share_pct": 0.9004237288135594
+        },
+        {
+          "symbol": "lavik::storage::NextRecordOffset(std::byte const*, unsigned int, unsigned int)",
+          "sampled_ns": 1090909080,
+          "share_pct": 0.715042372881356
+        },
+        {
+          "symbol": "spdk_nvme_qpair_process_completions",
+          "sampled_ns": 939393930,
+          "share_pct": 0.6157309322033898
+        },
+        {
+          "symbol": "lavik::storage::StorageEngine::Impl::CommitGroupedOrderedMutationLocked(lavik::storage::StorageEngine::Impl::CommitGroupedOrderedMutationLocked(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::WorkerStore::PartitionStore&, unsigned char, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::Digest const&, std::shared_ptr<lavik::storage::GroupedObject const>, lavik::storage::OrderedCollectionMutationPlan, unsigned long, lavik::storage::TxShardWrites*, lavik::storage::ReplicationCommandAppend*, lavik::storage::MutationPrecondition const*, lavik::storage::StorageEngine::Impl::SortedSetMemberMutation*)::_ZN5lavik7storage13StorageEngine4Impl34CommitGroupedOrderedMutationLockedERNS2_11WorkerStoreERNS3_14PartitionStoreEhSt17basic_string_viewIcSt11char_traitsIcEERKNS0_6DigestESt10shared_ptrIKNS0_13GroupedObjectEENS0_29OrderedCollectionMutationPlanEmPNS0_13TxShardWritesEPNS0_24ReplicationCommandAppendEPKNS0_20MutationPreconditionEPNS2_23SortedSetMemberMutationE.Frame*) [clone .actor] [clone .lto_priv.0]",
+          "sampled_ns": 818181810,
+          "share_pct": 0.536281779661017
+        },
+        {
+          "symbol": "lavik::storage::StorageEngine::Impl::FlushPendingBlocks(lavik::storage::StorageEngine::Impl::FlushPendingBlocks(lavik::storage::StorageEngine::Impl::WorkerStore*)::_ZN5lavik7storage13StorageEngine4Impl18FlushPendingBlocksEPNS2_11WorkerStoreE.Frame*) [clone .actor]",
+          "sampled_ns": 797979790,
+          "share_pct": 0.5230402542372882
+        },
+        {
+          "symbol": "lavik::storage::OrderedGroupDirectory::FindIndex(unsigned long) const",
+          "sampled_ns": 777777770,
+          "share_pct": 0.5097987288135594
+        },
+        {
+          "symbol": "bycorf::Worker::Flush()",
+          "sampled_ns": 737373730,
+          "share_pct": 0.4833156779661017
+        },
+        {
+          "symbol": "mi_free",
+          "sampled_ns": 686868680,
+          "share_pct": 0.4502118644067797
+        },
+        {
+          "symbol": "lavik::storage::StorageEngine::Impl::ExecuteGroupedListLocked(lavik::storage::StorageEngine::Impl::ExecuteGroupedListLocked(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::WorkerStore::PartitionStore&, unsigned char, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::Digest const&, lavik::storage::ListOperation const&, std::shared_ptr<lavik::storage::GroupedObject const>, lavik::storage::TxShardWrites*, lavik::storage::ReplicationCommandAppend*, lavik::storage::MutationPrecondition const*, lavik::storage::StorageEngine::Impl::PreparedOrderedMutation*)::_ZN5lavik7storage13StorageEngine4Impl24ExecuteGroupedListLockedERNS2_11WorkerStoreERNS3_14PartitionStoreEhSt17basic_string_viewIcSt11char_traitsIcEERKNS0_6DigestERKNS0_13ListOperationESt10shared_ptrIKNS0_13GroupedObjectEEPNS0_13TxShardWritesEPNS0_24ReplicationCommandAppendEPKNS0_20MutationPreconditionEPNS2_23PreparedOrderedMutationE.Frame*) [clone .actor] [clone .lto_priv.0]",
+          "sampled_ns": 606060600,
+          "share_pct": 0.3972457627118644
+        },
+        {
+          "symbol": "lavik::CowArray<lavik::storage::OrderedGroupEntry, 32ul>::Set(unsigned long, lavik::storage::OrderedGroupEntry const&)",
+          "sampled_ns": 595959590,
+          "share_pct": 0.390625
+        },
+        {
+          "symbol": "lavik::DispatchCommand(lavik::DispatchCommand(lavik::ConnectionContext&, lavik::CommandRequest&, lavik::ReplyBuilder&)::_ZN5lavik15DispatchCommandERNS_17ConnectionContextERNS_14CommandRequestERNS_12ReplyBuilderE.Frame*) [clone .actor]",
+          "sampled_ns": 575757570,
+          "share_pct": 0.3773834745762712
+        },
+        {
+          "symbol": "__memset_avx512_unaligned_erms",
+          "sampled_ns": 555555550,
+          "share_pct": 0.3641419491525424
+        },
+        {
+          "symbol": "lavik::(anonymous namespace)::RedisService::Serve(lavik::(anonymous namespace)::RedisService::Serve(bycorf::TcpStream&, lavik::ConnectionContext&)::_ZN5lavik12_GLOBAL__N_112RedisService5ServeERN6bycorf9TcpStreamERNS_17ConnectionContextE.Frame*) [clone .actor]",
+          "sampled_ns": 535353530,
+          "share_pct": 0.3509004237288136
+        },
+        {
+          "symbol": "bycorf::Worker::DrainReadyUntil(long)",
+          "sampled_ns": 484848480,
+          "share_pct": 0.3177966101694915
+        },
+        {
+          "symbol": "lavik::ExecuteSingleListCommandImpl(lavik::ExecuteSingleListCommandImpl(lavik::CommandRequest const&, lavik::storage::Digest const*, lavik::storage::TxShardWrites*, lavik::ReplyBuilder&)::_ZN5lavik28ExecuteSingleListCommandImplERKNS_14CommandRequestEPKNS_7storage6DigestEPNS3_13TxShardWritesERNS_12ReplyBuilderE.Frame*) [clone .actor] [clone .lto_priv.0]",
+          "sampled_ns": 474747470,
+          "share_pct": 0.3111758474576271
+        },
+        {
+          "symbol": "lavik::storage::GroupedObject::FindRecord(lavik::storage::GroupedRecordId) const",
+          "sampled_ns": 474747470,
+          "share_pct": 0.3111758474576271
+        },
+        {
+          "symbol": "lavik::CowArray<unsigned long, 32ul>::Set(unsigned long, unsigned long const&)",
+          "sampled_ns": 444444440,
+          "share_pct": 0.2913135593220339
+        },
+        {
+          "symbol": "lavik::storage::StorageEngine::Impl::LoadOrderedGroup(lavik::storage::StorageEngine::Impl::LoadOrderedGroup<lavik::storage::LoadedOrderedGroup, lavik::storage::StorageEngine::Impl::LoadOrderedGroupSnapshot(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::WorkerStore::PartitionStore&, unsigned char, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::Digest const&, std::shared_ptr<lavik::storage::GroupedObject const>, unsigned long, bool)::{lambda(std::basic_string_view<char, std::char_traits<char> >, unsigned long, lavik::storage::OrderedGroupEntry const&, lavik::storage::StorageEngine::Impl::LoadedValue&&)#1}>(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::WorkerStore::PartitionStore&, unsigned char, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::Digest const&, std::shared_ptr<lavik::storage::GroupedObject const>, unsigned long, bool, lavik::storage::StorageEngine::Impl::LoadOrderedGroupSnapshot(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::WorkerStore::PartitionStore&, unsigned char, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::Digest const&, std::shared_ptr<lavik::storage::GroupedObject const>, unsigned long, bool)::{lambda(std::basic_string_view<char, std::char_traits<char> >, unsigned long, lavik::storage::OrderedGroupEntry const&, lavik::storage::StorageEngine::Impl::LoadedValue&&)#1})::_ZN5lavik7storage13StorageEngine4Impl16LoadOrderedGroupINS0_18LoadedOrderedGroupEZNS2_24LoadOrderedGroupSnapshotERNS2_11WorkerStoreERNS5_14PartitionStoreEhSt17basic_string_viewIcSt11char_traitsIcEERKNS0_6DigestESt10shared_ptrIKNS0_13GroupedObjectEEmbEUlSC_mRKNS0_17OrderedGroupEntryEONS2_11LoadedValueEE_EEN6bycorf4TaskIN4absl12lts_202505128StatusOrIT_EEEES6_S8_hSC_SF_SJ_mbT0_.Frame*) [clone .actor]",
+          "sampled_ns": 414141410,
+          "share_pct": 0.2714512711864407
+        },
+        {
+          "symbol": "lavik::storage::OrderedGroupDirectory::FindRank(unsigned long) const",
+          "sampled_ns": 404040400,
+          "share_pct": 0.2648305084745763
+        },
+        {
+          "symbol": "lavik::storage::StorageEngine::Impl::DrainTxCommitQueue(lavik::storage::StorageEngine::Impl::DrainTxCommitQueue(lavik::storage::StorageEngine::Impl::WorkerStore*)::_ZN5lavik7storage13StorageEngine4Impl18DrainTxCommitQueueEPNS2_11WorkerStoreE.Frame*) [clone .actor] [clone .lto_priv.0]",
+          "sampled_ns": 404040400,
+          "share_pct": 0.2648305084745763
+        }
+      ],
+      "top_inclusive": [
+        {
+          "symbol": "bycorf::Server::RunWorker(unsigned int, bycorf::Worker&)",
+          "sampled_ns": 152404038880,
+          "share_pct": 99.89406779661017
+        },
+        {
+          "symbol": "clone3",
+          "sampled_ns": 152393937870,
+          "share_pct": 99.88744703389831
+        },
+        {
+          "symbol": "bycorf::Runtime::Impl::Start(unsigned int, std::function<int (unsigned int, bycorf::Worker&)>, bool, std::span<unsigned int const, 18446744073709551615ul>)::{lambda()#1}::operator()() const",
+          "sampled_ns": 152393937870,
+          "share_pct": 99.88744703389831
+        },
+        {
+          "symbol": "start_thread",
+          "sampled_ns": 152393937870,
+          "share_pct": 99.88744703389831
+        },
+        {
+          "symbol": "execute_native_thread_routine",
+          "sampled_ns": 152393937870,
+          "share_pct": 99.88744703389831
+        },
+        {
+          "symbol": "bycorf::Worker::RunOnce(bool)",
+          "sampled_ns": 152070705550,
+          "share_pct": 99.67558262711864
+        },
+        {
+          "symbol": "bycorf::Worker::DrainReadyUntil(long)",
+          "sampled_ns": 52494948970,
+          "share_pct": 34.40810381355932
+        },
+        {
+          "symbol": "bycorf::Worker::ResumeReady(bycorf::Worker::ReadyTask, bycorf::TaskClass) [clone .isra.0]",
+          "sampled_ns": 51909090390,
+          "share_pct": 34.02409957627118
+        },
+        {
+          "symbol": "[unknown]",
+          "sampled_ns": 38101009720,
+          "share_pct": 24.973516949152543
+        },
+        {
+          "symbol": "bycorf::Worker::Flush()",
+          "sampled_ns": 27141413870,
+          "share_pct": 17.78998940677966
+        },
+        {
+          "symbol": "io_uring_submit_and_get_events",
+          "sampled_ns": 26222221960,
+          "share_pct": 17.1875
+        },
+        {
+          "symbol": "bycorf::Worker::PollStorage() [clone .part.0]",
+          "sampled_ns": 15727272570,
+          "share_pct": 10.30852754237288
+        },
+        {
+          "symbol": "lavik::storage::StorageEngine::Impl::WriteRecordLocked(lavik::storage::StorageEngine::Impl::WriteRecordLocked(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::RecordWriteRequest const&, std::shared_ptr<std::vector<lavik::storage::ExtentRef, std::allocator<lavik::storage::ExtentRef> > const>, std::unique_ptr<std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> >, std::default_delete<std::vector<lavik::storage::RetiredRecord, std::allocator<lavik::storage::RetiredRecord> > > >)::_ZN5lavik7storage13StorageEngine4Impl17WriteRecordLockedERNS2_11WorkerStoreERKNS2_18RecordWriteRequestESt10shared_ptrIKSt6vectorINS0_9ExtentRefESaISA_EEESt10unique_ptrIS9_INS0_13RetiredRecordESaISG_EESt14default_deleteISI_EE.Frame*) [clone .actor]",
+          "sampled_ns": 12313131190,
+          "share_pct": 8.070709745762711
+        },
+        {
+          "symbol": "bycorf::IoUringBackend::Wait(int)",
+          "sampled_ns": 6858585790,
+          "share_pct": 4.4954978813559325
+        },
+        {
+          "symbol": "__io_uring_get_cqe",
+          "sampled_ns": 6696969630,
+          "share_pct": 4.389565677966102
+        },
+        {
+          "symbol": "_io_uring_get_cqe",
+          "sampled_ns": 6666666600,
+          "share_pct": 4.369703389830509
+        },
+        {
+          "symbol": "lavik::storage::StorageEngine::Impl::CommitGroupedOrderedMutationLocked(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::WorkerStore::PartitionStore&, unsigned char, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::Digest const&, std::shared_ptr<lavik::storage::GroupedObject const>, lavik::storage::OrderedCollectionMutationPlan, unsigned long, lavik::storage::TxShardWrites*, lavik::storage::ReplicationCommandAppend*, lavik::storage::MutationPrecondition const*, lavik::storage::StorageEngine::Impl::SortedSetMemberMutation*)::{lambda(lavik::storage::GroupedObjectVersion const&)#1}::operator()(lavik::storage::GroupedObjectVersion const&) const [clone .lto_priv.0]",
+          "sampled_ns": 6353535290,
+          "share_pct": 4.164459745762712
+        },
+        {
+          "symbol": "std::_Function_handler<absl::lts_20250512::Status (lavik::storage::GroupedObjectVersion const&), lavik::storage::StorageEngine::Impl::CommitGroupedOrderedMutationLocked(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::WorkerStore::PartitionStore&, unsigned char, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::Digest const&, std::shared_ptr<lavik::storage::GroupedObject const>, lavik::storage::OrderedCollectionMutationPlan, unsigned long, lavik::storage::TxShardWrites*, lavik::storage::ReplicationCommandAppend*, lavik::storage::MutationPrecondition const*, lavik::storage::StorageEngine::Impl::SortedSetMemberMutation*)::{lambda(lavik::storage::GroupedObjectVersion const&)#1}>::_M_invoke(std::_Any_data const&, lavik::storage::GroupedObjectVersion const&)",
+          "sampled_ns": 6353535290,
+          "share_pct": 4.164459745762712
+        },
+        {
+          "symbol": "lavik::storage::OrderedGroupDirectory::Apply(lavik::storage::OrderedCollectionRoot const&, unsigned long, std::span<lavik::storage::RecoveredOrderedGroup const, 18446744073709551615ul>, unsigned long, std::span<lavik::storage::RecoveredGroupedRecord const, 18446744073709551615ul>) const",
+          "sampled_ns": 4090909050,
+          "share_pct": 2.6814088983050848
+        },
+        {
+          "symbol": "spdk_nvme_qpair_process_completions",
+          "sampled_ns": 3898989860,
+          "share_pct": 2.555614406779661
+        },
+        {
+          "symbol": "lavik::storage::StorageEngine::Impl::ExecuteGroupedListLocked(lavik::storage::StorageEngine::Impl::ExecuteGroupedListLocked(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::WorkerStore::PartitionStore&, unsigned char, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::Digest const&, lavik::storage::ListOperation const&, std::shared_ptr<lavik::storage::GroupedObject const>, lavik::storage::TxShardWrites*, lavik::storage::ReplicationCommandAppend*, lavik::storage::MutationPrecondition const*, lavik::storage::StorageEngine::Impl::PreparedOrderedMutation*)::_ZN5lavik7storage13StorageEngine4Impl24ExecuteGroupedListLockedERNS2_11WorkerStoreERNS3_14PartitionStoreEhSt17basic_string_viewIcSt11char_traitsIcEERKNS0_6DigestERKNS0_13ListOperationESt10shared_ptrIKNS0_13GroupedObjectEEPNS0_13TxShardWritesEPNS0_24ReplicationCommandAppendEPKNS0_20MutationPreconditionEPNS2_23PreparedOrderedMutationE.Frame*) [clone .actor] [clone .lto_priv.0]",
+          "sampled_ns": 3797979760,
+          "share_pct": 2.489406779661017
+        },
+        {
+          "symbol": "lavik::storage::StorageEngine::Impl::CommitGroupedOrderedMutationLocked(lavik::storage::StorageEngine::Impl::CommitGroupedOrderedMutationLocked(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::WorkerStore::PartitionStore&, unsigned char, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::Digest const&, std::shared_ptr<lavik::storage::GroupedObject const>, lavik::storage::OrderedCollectionMutationPlan, unsigned long, lavik::storage::TxShardWrites*, lavik::storage::ReplicationCommandAppend*, lavik::storage::MutationPrecondition const*, lavik::storage::StorageEngine::Impl::SortedSetMemberMutation*)::_ZN5lavik7storage13StorageEngine4Impl34CommitGroupedOrderedMutationLockedERNS2_11WorkerStoreERNS3_14PartitionStoreEhSt17basic_string_viewIcSt11char_traitsIcEERKNS0_6DigestESt10shared_ptrIKNS0_13GroupedObjectEENS0_29OrderedCollectionMutationPlanEmPNS0_13TxShardWritesEPNS0_24ReplicationCommandAppendEPKNS0_20MutationPreconditionEPNS2_23SortedSetMemberMutationE.Frame*) [clone .actor] [clone .lto_priv.0]",
+          "sampled_ns": 3656565620,
+          "share_pct": 2.3967161016949152
+        },
+        {
+          "symbol": "bycorf::Worker::DrainCrossCore()",
+          "sampled_ns": 3535353500,
+          "share_pct": 2.3172669491525424
+        },
+        {
+          "symbol": "lavik::storage::StorageEngine::Impl::FlushPendingBlocks(lavik::storage::StorageEngine::Impl::FlushPendingBlocks(lavik::storage::StorageEngine::Impl::WorkerStore*)::_ZN5lavik7storage13StorageEngine4Impl18FlushPendingBlocksEPNS2_11WorkerStoreE.Frame*) [clone .actor]",
+          "sampled_ns": 2848484820,
+          "share_pct": 1.8670550847457628
+        },
+        {
+          "symbol": "lavik::storage::StorageEngine::Impl::SalvageBlockRecords(lavik::storage::StorageEngine::Impl::SalvageBlockRecords(lavik::storage::StorageEngine::Impl::WorkerStore&, unsigned long, lavik::storage::BlockState&, unsigned int, unsigned long, std::shared_ptr<absl::lts_20250512::flat_hash_set<unsigned long, absl::lts_20250512::hash_internal::Hash<unsigned long>, std::equal_to<unsigned long>, std::allocator<unsigned long> > const>, bool)::_ZN5lavik7storage13StorageEngine4Impl19SalvageBlockRecordsERNS2_11WorkerStoreEmRNS0_10BlockStateEjmSt10shared_ptrIKN4absl12lts_2025051213flat_hash_setImNS9_13hash_internal4HashImEESt8equal_toImESaImEEEEb.Frame*) [clone .actor]",
+          "sampled_ns": 2777777750,
+          "share_pct": 1.820709745762712
+        },
+        {
+          "symbol": "lavik::storage::StorageEngine::Impl::LoadOrderedGroup(lavik::storage::StorageEngine::Impl::LoadOrderedGroup<lavik::storage::LoadedOrderedGroup, lavik::storage::StorageEngine::Impl::LoadOrderedGroupSnapshot(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::WorkerStore::PartitionStore&, unsigned char, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::Digest const&, std::shared_ptr<lavik::storage::GroupedObject const>, unsigned long, bool)::{lambda(std::basic_string_view<char, std::char_traits<char> >, unsigned long, lavik::storage::OrderedGroupEntry const&, lavik::storage::StorageEngine::Impl::LoadedValue&&)#1}>(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::WorkerStore::PartitionStore&, unsigned char, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::Digest const&, std::shared_ptr<lavik::storage::GroupedObject const>, unsigned long, bool, lavik::storage::StorageEngine::Impl::LoadOrderedGroupSnapshot(lavik::storage::StorageEngine::Impl::WorkerStore&, lavik::storage::StorageEngine::Impl::WorkerStore::PartitionStore&, unsigned char, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::Digest const&, std::shared_ptr<lavik::storage::GroupedObject const>, unsigned long, bool)::{lambda(std::basic_string_view<char, std::char_traits<char> >, unsigned long, lavik::storage::OrderedGroupEntry const&, lavik::storage::StorageEngine::Impl::LoadedValue&&)#1})::_ZN5lavik7storage13StorageEngine4Impl16LoadOrderedGroupINS0_18LoadedOrderedGroupEZNS2_24LoadOrderedGroupSnapshotERNS2_11WorkerStoreERNS5_14PartitionStoreEhSt17basic_string_viewIcSt11char_traitsIcEERKNS0_6DigestESt10shared_ptrIKNS0_13GroupedObjectEEmbEUlSC_mRKNS0_17OrderedGroupEntryEONS2_11LoadedValueEE_EEN6bycorf4TaskIN4absl12lts_202505128StatusOrIT_EEEES6_S8_hSC_SF_SJ_mbT0_.Frame*) [clone .actor]",
+          "sampled_ns": 2656565630,
+          "share_pct": 1.7412605932203389
+        },
+        {
+          "symbol": "absl::lts_20250512::crc_internal::ExtendCrc32cInternal(absl::lts_20250512::crc32c_t, std::basic_string_view<char, std::char_traits<char> >)",
+          "sampled_ns": 2656565630,
+          "share_pct": 1.7412605932203389
+        },
+        {
+          "symbol": "lavik::storage::StorageEngine::Impl::ExecuteListLocked(lavik::storage::StorageEngine::Impl::ExecuteListLocked(unsigned char, std::basic_string_view<char, std::char_traits<char> >, lavik::storage::Digest const&, lavik::storage::ListOperation const&, lavik::storage::TxShardWrites*, lavik::storage::ReplicationCommandAppend*, lavik::storage::MutationPrecondition const*)::_ZN5lavik7storage13StorageEngine4Impl17ExecuteListLockedEhSt17basic_string_viewIcSt11char_traitsIcEERKNS0_6DigestERKNS0_13ListOperationEPNS0_13TxShardWritesEPNS0_24ReplicationCommandAppendEPKNS0_20MutationPreconditionE.Frame*) [clone .actor] [clone .lto_priv.0]",
+          "sampled_ns": 2585858560,
+          "share_pct": 1.694915254237288
+        },
+        {
+          "symbol": "absl::lts_20250512::crc_internal::(anonymous namespace)::CRC32AcceleratedX86ARMCombinedMultipleStreams<3ul, 0ul, (absl::lts_20250512::crc_internal::(anonymous namespace)::CutoffStrategy)0>::Extend(unsigned int*, void const*, unsigned long) const",
+          "sampled_ns": 2434343410,
+          "share_pct": 1.595603813559322
+        },
+        {
+          "symbol": "_mi_theap_malloc_zero",
+          "sampled_ns": 2303030280,
+          "share_pct": 1.5095338983050848
+        }
+      ]
+    }
+  }
+]

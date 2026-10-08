@@ -1,0 +1,105 @@
+{
+  "product": "lavik-maincc31b3a6-pop8m-list-8388608-rpush_lpop-r6-20261008",
+  "type": "list",
+  "logical_bytes": 8388608,
+  "field_bytes": 1024,
+  "entries_per_key": 8192,
+  "keys": 8,
+  "operation": "RPUSH_LPOP",
+  "connections": 320,
+  "qps": 58336.1514979,
+  "p50_ms": 4.013962,
+  "p99_ms": 20.236001,
+  "p999_ms": 25.825244,
+  "requests": 1750371,
+  "seconds": 30,
+  "elapsed_seconds": 31.276283856015652,
+  "commands": {
+    "RPUSH": {
+      "count": 874459,
+      "qps": 29143.8630454,
+      "p50_ms": 3.985875,
+      "p99_ms": 20.197242,
+      "p999_ms": 25.777006
+    },
+    "LPOP": {
+      "count": 875912,
+      "qps": 29192.2884525,
+      "p50_ms": 4.044138,
+      "p99_ms": 20.273112,
+      "p999_ms": 25.861208
+    }
+  },
+  "key_counts": {
+    "complex_1": {
+      "first": 109296,
+      "second": 109515,
+      "net": -219
+    },
+    "complex_2": {
+      "first": 109430,
+      "second": 109379,
+      "net": 51
+    },
+    "complex_3": {
+      "first": 109136,
+      "second": 109346,
+      "net": -210
+    },
+    "complex_4": {
+      "first": 109553,
+      "second": 109132,
+      "net": 421
+    },
+    "complex_5": {
+      "first": 109873,
+      "second": 110458,
+      "net": -585
+    },
+    "complex_6": {
+      "first": 108794,
+      "second": 109526,
+      "net": -732
+    },
+    "complex_7": {
+      "first": 109434,
+      "second": 109487,
+      "net": -53
+    },
+    "complex_8": {
+      "first": 108943,
+      "second": 109069,
+      "net": -126
+    }
+  },
+  "client_elapsed_seconds": 30.004910421,
+  "command_audit": {
+    "passed": true,
+    "server_counts": {
+      "info": 1.0,
+      "rpush": 874459.0,
+      "lpop": 875912.0
+    },
+    "client_counts": {
+      "RPUSH": 874459,
+      "LPOP": 875912
+    }
+  },
+  "bounded": {
+    "baseline": 8192,
+    "maximum_guard": 16384,
+    "minimum_guard": 4096,
+    "observed_push_min": 7417,
+    "observed_push_max": 8963,
+    "all_final_counts": {
+      "complex_1": 7973,
+      "complex_2": 8243,
+      "complex_3": 7982,
+      "complex_4": 8613,
+      "complex_5": 7607,
+      "complex_6": 7460,
+      "complex_7": 8139,
+      "complex_8": 8066
+    }
+  }
+}

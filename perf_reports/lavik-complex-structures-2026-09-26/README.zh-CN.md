@@ -12,7 +12,7 @@
 
 其中 1 点因随机增删后的长度越过预设范围而留空；原始计数与失败原因保留，未挑选重跑。详见[混合写校验说明](diagnostics/main-c55e52c9-20261008/mixed-writes.md)。
 
-[本轮测量与验证](diagnostics/main-c55e52c9-20261008/README.md) · [新增四库随机增删](diagnostics/main-c55e52c9-20261008/mixed-writes.md) · [与上一轮 main 的观测对比](diagnostics/main-c55e52c9-20261008/previous-main-comparison.md)。#288 已合并，当前 Lavik 曲线均来自合并后的 main；历史 PR 结果保留原始实测提交。 · [#289：ZRANK 与 List push/pop 三轮对照](diagnostics/pr289-c8f128dc-20261008/README.md)（独立 PR 测试，不替换 main 曲线）。
+[本轮测量与验证](diagnostics/main-c55e52c9-20261008/README.md) · [新增四库随机增删](diagnostics/main-c55e52c9-20261008/mixed-writes.md) · [与上一轮 main 的观测对比](diagnostics/main-c55e52c9-20261008/previous-main-comparison.md)。#288 已合并，当前 Lavik 曲线均来自合并后的 main；历史 PR 结果保留原始实测提交。 · [#289：ZRANK 与 List push/pop 三轮对照](diagnostics/pr289-c8f128dc-20261008/README.md)（独立 PR 测试，不替换 main 曲线）。 · #289 已合并为 main `cc31b3a6`；[8 MiB RPUSH/LPOP：合并后复测及三种优化尝试](diagnostics/list-queue-8m-main-cc31b3a6-20261008/README.md)（专项测试，未替换全量曲线；候选均因性能取舍未提 PR）。
 
 吞吐图固定命令、每 key 的 payload 大小、元素大小和 key 数；横轴为连接数，纵轴为 QPS。批量导入图显示完成固定数据量所需的秒数。只保留当前 main 和后续未合并 PR；原有命令图的三库保留同负载历史实测，新增随机增删图的四库全部重测。
 

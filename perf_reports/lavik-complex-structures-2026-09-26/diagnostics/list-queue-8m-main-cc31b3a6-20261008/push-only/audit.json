@@ -1,0 +1,50 @@
+{
+  "passed": true,
+  "checks": [
+    "binary SHA256",
+    "source commit",
+    "identical production CMakeCache",
+    "same per-pair process/client seeds",
+    "zero client failures",
+    "client/server command counts",
+    "exact per-key final cardinality",
+    "50/50 command mix",
+    "bounded sizes",
+    "clean server shutdown"
+  ],
+  "summary": {
+    "pairs": [
+      {
+        "round": 4,
+        "qps_ratio": 0.9772552160922853,
+        "p99_ratio": 1.1228655267432572
+      },
+      {
+        "round": 5,
+        "qps_ratio": 0.8792515004028304,
+        "p99_ratio": 0.8098696946117222
+      },
+      {
+        "round": 6,
+        "qps_ratio": 0.7116003309502598,
+        "p99_ratio": 3.168056598681922
+      }
+    ],
+    "qps_ratio_median": 0.8792515004028304,
+    "p99_ratio_median": 1.1228655267432572,
+    "versions": {
+      "main": {
+        "qps": 49785.5513288,
+        "p99_ms": 49.078502
+      },
+      "pushopt": {
+        "qps": 41207.6453192,
+        "p99_ms": 66.258928
+      }
+    },
+    "audited_commands": 8143409,
+    "clean_paired_commands": 8143409,
+    "exploratory": 0,
+    "paired_observations": 6
+  }
+}

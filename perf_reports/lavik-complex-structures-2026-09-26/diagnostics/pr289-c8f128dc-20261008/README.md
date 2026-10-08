@@ -1,5 +1,7 @@
 # PR #289：ZRANK 与 List push/pop 对照（2026-10-08）
 
+> 合并状态补充（2026-10-08）：#289 已合并为 main `cc31b3a6`，其代码树与下文测试的 `c8f128dc` 相同。下文保留原始 PR/base 测量口径；合并后 8 MiB RPUSH/LPOP 的复测与三种优化尝试见 [专项报告](../list-queue-8m-main-cc31b3a6-20261008/README.md)。
+
 [主报告](../../README.zh-CN.md) · [PR #289](https://github.com/eloqdata/lavik/pull/289) · [逐轮数据](repeats.json) · [汇总 CSV](summary.csv) · [逐点 CSV](observations.csv)
 
 **实测版本：main `c55e52c98d785dec9603d33ddcf55eab299eb11e`，PR `c8f128dc5eb1a9d52d1d64f53657e6e3c9215616`。PR 的共同祖先就是这份 main，比较包含该 PR 的全部改动。**

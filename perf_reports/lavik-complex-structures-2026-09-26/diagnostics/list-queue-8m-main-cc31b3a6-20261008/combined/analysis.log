@@ -1,0 +1,40 @@
+WAIT_FOR_HOST_LOCK queue8m-analysis-and-final-audit 1598538 1791457881.545349
+HOST_LOCK_ACQUIRED queue8m-analysis-and-final-audit 1598538 1791457881.5453894
+{
+  "pairs": [
+    {
+      "round": 4,
+      "qps_ratio": 1.0363645524539684,
+      "p99_ratio": 2.2773260625241982
+    },
+    {
+      "round": 5,
+      "qps_ratio": 1.1943870124831,
+      "p99_ratio": 1.6530172346463514
+    },
+    {
+      "round": 6,
+      "qps_ratio": 1.1799358063129861,
+      "p99_ratio": 1.5320736433946585
+    }
+  ],
+  "qps_ratio_median": 1.1799358063129861,
+  "p99_ratio_median": 1.6530172346463514,
+  "versions": {
+    "main": {
+      "qps": 53905.3148914,
+      "p99_ms": 24.647155
+    },
+    "queueopt": {
+      "qps": 60437.4813378,
+      "p99_ms": 45.835683
+    }
+  },
+  "audited_commands": 15024834,
+  "clean_paired_commands": 10382180,
+  "exploratory": 3,
+  "paired_observations": 6
+}
+list RPUSH_LPOP main samples 12763 inclusive {'allocate': 2.914675233095667, 'copy': 1.1282613805531614, 'release': 0.681657917417535, 'directory_apply': 1.9744574159680326, 'splice': 0.8540311838909347, 'cow_array': 0.8618663323669984, 'ordered_page_read': 0.06268118780850897, 'rank_lookup': 0.08618663323669984} self {'allocate': 1.739402961686124, 'copy': 1.0812504896967798, 'directory_apply': 0.12536237561701793, 'cow_array': 0.32124108751860847, 'splice': 0.11752722714095432, 'rank_lookup': 0.03917574238031811, 'ordered_page_read': 0.015670296952127242, 'release': 0.023505445428190865}
+list RPUSH_LPOP queueopt samples 14274 inclusive {'allocate': 3.5589183130166737, 'release': 0.7566204287515763, 'copy': 1.422166176264537, 'directory_apply': 2.760263416001121, 'cow_array': 1.4571948998178506, 'splice': 1.0508617065994115, 'rank_lookup': 0.07005744710662744, 'ordered_page_read': 0.042034468263976464} self {'allocate': 2.0877119237774977, 'copy': 1.338097239736584, 'cow_array': 0.4343561720610901, 'directory_apply': 0.0980804259492784, 'splice': 0.06305170239596469, 'rank_lookup': 0.021017234131988232, 'ordered_page_read': 0.021017234131988232}
+ALL_QUEUE8M_ANALYSIS_COMPLETE

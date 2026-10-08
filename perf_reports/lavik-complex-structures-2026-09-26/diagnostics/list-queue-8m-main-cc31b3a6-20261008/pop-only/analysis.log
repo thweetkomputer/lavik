@@ -1,0 +1,40 @@
+WAIT_FOR_HOST_LOCK queue8m-analysis-and-final-audit 1609842 1791459057.184586
+HOST_LOCK_ACQUIRED queue8m-analysis-and-final-audit 1609842 1791459057.184626
+{
+  "pairs": [
+    {
+      "round": 4,
+      "qps_ratio": 1.5889650656714878,
+      "p99_ratio": 0.5634210517588243
+    },
+    {
+      "round": 5,
+      "qps_ratio": 1.128839455132498,
+      "p99_ratio": 1.7019667572508903
+    },
+    {
+      "round": 6,
+      "qps_ratio": 1.0479078272792919,
+      "p99_ratio": 2.1782192538930985
+    }
+  ],
+  "qps_ratio_median": 1.128839455132498,
+  "p99_ratio_median": 1.7019667572508903,
+  "versions": {
+    "main": {
+      "qps": 57799.1356727,
+      "p99_ms": 20.87192
+    },
+    "popopt": {
+      "qps": 63270.9669772,
+      "p99_ms": 38.394207
+    }
+  },
+  "audited_commands": 10372906,
+  "clean_paired_commands": 10372906,
+  "exploratory": 0,
+  "paired_observations": 6
+}
+list RPUSH_LPOP main samples 13751 inclusive {'allocate': 3.0761399170969383, 'release': 0.9090247981964948, 'copy': 1.4326230819576757, 'directory_apply': 2.4361864591666063, 'cow_array': 0.9962911788233583, 'rank_lookup': 0.07999418224129154, 'splice': 0.9672023852810705, 'ordered_page_read': 0.021816595156715874} self {'allocate': 1.9634935641044289, 'copy': 1.3744454948731002, 'cow_array': 0.34179332412188207, 'splice': 0.06544978547014763, 'directory_apply': 0.14544396771143916, 'rank_lookup': 0.03636099192785979, 'release': 0.014544396771143917}
+list RPUSH_LPOP popopt samples 13318 inclusive {'allocate': 3.2812734644841566, 'release': 0.6532512389247634, 'directory_apply': 2.3577113680732844, 'splice': 0.9085448265505331, 'cow_array': 1.0887520648746059, 'copy': 1.5617960654752967, 'ordered_page_read': 0.03003453972067878, 'rank_lookup': 0.09761225409220604} self {'allocate': 1.997296891425139, 'copy': 1.4716924463132603, 'directory_apply': 0.12013815888271512, 'cow_array': 0.4129749211593332, 'release': 0.007508634930169695, 'ordered_page_read': 0.007508634930169695, 'splice': 0.08259498423186665, 'rank_lookup': 0.03003453972067878}
+ALL_POP8M_ANALYSIS_COMPLETE

@@ -1,0 +1,61 @@
+Note: Google Test filter = GroupedOrderedWriteE2e.*:GroupedListWriteE2e.*
+[==========] Running 16 tests from 2 test suites.
+[----------] Global test environment set-up.
+[----------] 3 tests from GroupedListWriteE2e
+[ RUN      ] GroupedListWriteE2e.RangeReadsFitReplyBudgetAndKeepRankOrder
+[       OK ] GroupedListWriteE2e.RangeReadsFitReplyBudgetAndKeepRankOrder (4056 ms)
+[ RUN      ] GroupedListWriteE2e.RangeReadFailureJoinsStartedPages
+/mnt/dev/lavik-complex-next-20261004/tests/grouped/ordered_write_e2e_test.cpp:113: Skipped
+requires read and partial batch start failure injection
+
+[  SKIPPED ] GroupedListWriteE2e.RangeReadFailureJoinsStartedPages (0 ms)
+[ RUN      ] GroupedListWriteE2e.SuspendedReadersReleaseWorkerState
+/mnt/dev/lavik-complex-next-20261004/tests/grouped/ordered_write_e2e_test.cpp:156: Skipped
+requires grouped List read gate
+
+[  SKIPPED ] GroupedListWriteE2e.SuspendedReadersReleaseWorkerState (0 ms)
+[----------] 3 tests from GroupedListWriteE2e (4056 ms total)
+
+[----------] 13 tests from GroupedOrderedWriteE2e
+[ RUN      ] GroupedOrderedWriteE2e.ListPointSetOnlyRewritesTargetAndNeighbours
+[       OK ] GroupedOrderedWriteE2e.ListPointSetOnlyRewritesTargetAndNeighbours (778 ms)
+[ RUN      ] GroupedOrderedWriteE2e.ListEndSplitsWrapGrowAndRetireWithoutRewritingMiddle
+[       OK ] GroupedOrderedWriteE2e.ListEndSplitsWrapGrowAndRetireWithoutRewritingMiddle (1204 ms)
+[ RUN      ] GroupedOrderedWriteE2e.ListReadIntervalsAcrossPagesAndRecovery
+[       OK ] GroupedOrderedWriteE2e.ListReadIntervalsAcrossPagesAndRecovery (356 ms)
+[ RUN      ] GroupedOrderedWriteE2e.ListCommandSurfaceAndEmptyRecreation
+[       OK ] GroupedOrderedWriteE2e.ListCommandSurfaceAndEmptyRecreation (433 ms)
+[ RUN      ] GroupedOrderedWriteE2e.LargeListItemUsesExtentsWithoutRewritingAllPages
+[       OK ] GroupedOrderedWriteE2e.LargeListItemUsesExtentsWithoutRewritingAllPages (584 ms)
+[ RUN      ] GroupedOrderedWriteE2e.FailedListBatchCannotLeakIntoLaterExecCommand
+/mnt/dev/lavik-complex-next-20261004/tests/grouped/ordered_write_e2e_test.cpp:1116: Skipped
+requires Debug/fault command-local auxiliary hook
+
+[  SKIPPED ] GroupedOrderedWriteE2e.FailedListBatchCannotLeakIntoLaterExecCommand (0 ms)
+[ RUN      ] GroupedOrderedWriteE2e.SortedSetPointUpdateOnlyRewritesNearbyPages
+[       OK ] GroupedOrderedWriteE2e.SortedSetPointUpdateOnlyRewritesNearbyPages (689 ms)
+[ RUN      ] GroupedOrderedWriteE2e.SortedSetCrossEndMovesDoNotRewriteMiddlePages
+[       OK ] GroupedOrderedWriteE2e.SortedSetCrossEndMovesDoNotRewriteMiddlePages (1027 ms)
+[ RUN      ] GroupedOrderedWriteE2e.ExpirationOnlyChangesRootsForAllCollectionTypes
+[       OK ] GroupedOrderedWriteE2e.ExpirationOnlyChangesRootsForAllCollectionTypes (836 ms)
+[ RUN      ] GroupedOrderedWriteE2e.SortedSetRemovalPopAndStoreCommandSurface
+[       OK ] GroupedOrderedWriteE2e.SortedSetRemovalPopAndStoreCommandSurface (342 ms)
+[ RUN      ] GroupedOrderedWriteE2e.LargeSortedSetMemberUsesExtents
+[       OK ] GroupedOrderedWriteE2e.LargeSortedSetMemberUsesExtents (1088 ms)
+[ RUN      ] GroupedOrderedWriteE2e.GeoUsesGroupedSortedSetAndStoreSurvivesRecovery
+[       OK ] GroupedOrderedWriteE2e.GeoUsesGroupedSortedSetAndStoreSurvivesRecovery (421 ms)
+[ RUN      ] GroupedOrderedWriteE2e.FailedSortedSetBatchCannotLeakIntoLaterExecCommand
+/mnt/dev/lavik-complex-next-20261004/tests/grouped/ordered_write_e2e_test.cpp:1594: Skipped
+requires Debug/fault command-local auxiliary hook
+
+[  SKIPPED ] GroupedOrderedWriteE2e.FailedSortedSetBatchCannotLeakIntoLaterExecCommand (0 ms)
+[----------] 13 tests from GroupedOrderedWriteE2e (7765 ms total)
+
+[----------] Global test environment tear-down
+[==========] 16 tests from 2 test suites ran. (11822 ms total)
+[  PASSED  ] 12 tests.
+[  SKIPPED ] 4 tests, listed below:
+[  SKIPPED ] GroupedListWriteE2e.RangeReadFailureJoinsStartedPages
+[  SKIPPED ] GroupedListWriteE2e.SuspendedReadersReleaseWorkerState
+[  SKIPPED ] GroupedOrderedWriteE2e.FailedListBatchCannotLeakIntoLaterExecCommand
+[  SKIPPED ] GroupedOrderedWriteE2e.FailedSortedSetBatchCannotLeakIntoLaterExecCommand

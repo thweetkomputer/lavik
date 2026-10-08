@@ -1,0 +1,11 @@
+[0/2] Re-checking globbed directories...
+[1/3] Building CXX object CMakeFiles/lavik_module.dir/src/storage/engine/grouped/list.cpp.o
+/mnt/dev/lavik-complex-next-20261004/src/storage/engine/grouped/list.cpp: In member function ‘bycorf::Task<absl::lts_20250512::StatusOr<lavik::storage::ListResult> > lavik::storage::StorageEngine::Impl::ExecuteGroupedListLocked(WorkerStore&, WorkerStore::PartitionStore&, uint8_t, std::string_view, const lavik::storage::Digest&, const lavik::storage::ListOperation&, lavik::storage::GroupedObject::Handle, lavik::storage::TxShardWrites*, lavik::storage::ReplicationCommandAppend*, const lavik::storage::MutationPrecondition*, PreparedOrderedMutation*)’:
+/mnt/dev/lavik-complex-next-20261004/src/storage/engine/grouped/list.cpp:400:23: warning: possibly dangling reference to a temporary [-Wdangling-reference]
+  400 |           const auto& route = directory.groups()[i + j];
+      |                       ^~~~~
+/mnt/dev/lavik-complex-next-20261004/src/storage/engine/grouped/list.cpp:400:55: note: the temporary was destroyed at the end of the full expression ‘(& directory)->lavik::storage::OrderedGroupDirectory::groups().lavik::storage::OrderedGroupDirectory::GroupsView::operator[]((i + j))’
+  400 |           const auto& route = directory.groups()[i + j];
+      |                                                       ^
+[2/3] Linking CXX static library liblavik_module.a
+[3/3] Linking CXX executable lavik

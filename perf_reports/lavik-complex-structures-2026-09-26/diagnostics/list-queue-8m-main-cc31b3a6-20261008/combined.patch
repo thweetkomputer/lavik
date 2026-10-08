@@ -1,0 +1,163 @@
+diff --git a/docs/architecture/09-grouped-collections.md b/docs/architecture/09-grouped-collections.md
+index 4808981cb..07e3d92b2 100644
+--- a/docs/architecture/09-grouped-collections.md
++++ b/docs/architecture/09-grouped-collections.md
+@@ -375,10 +375,11 @@ of read-buffer accounting. Indexed reads retain their direct single-page path.
+ Read-only operations retain shared
+ key intent and an immutable routing view, release worker store state before
+ page I/O, and validate population and physical record lifetime in the page
+-loader. Push, pop and indexed replacement load the affected interval and its
+-immediate link neighbours; an equal-sized indexed replacement only needs its
+-target page. Pivot and position searches consume one page at a time and retain
+-only the result; insertion reloads the located interval.
++loader. Push, pop and indexed replacement load the affected interval, with
++neighbour payloads when their links may change. Tail pushes, pops that leave
++their single affected page nonempty, and equal-sized indexed replacements
++need only their target page. Pivot and position searches consume one page at a
++time and retain only the result; insertion reloads the located interval.
+ Value removals, trimming and within-list moves retain the needed logical
+ contents before forming a replacement interval. Only changed snapshots enter
+ the writer, and admitted reply buffers retain their charge across owner hops.
+diff --git a/include/lavik/storage/detail/grouped/collection.h b/include/lavik/storage/detail/grouped/collection.h
+index 19dfdd096..ed0e6306c 100644
+--- a/include/lavik/storage/detail/grouped/collection.h
++++ b/include/lavik/storage/detail/grouped/collection.h
+@@ -578,6 +578,9 @@ struct OrderedCollectionMutationPlan {
+ // storage primitive for List push/pop/insert/remove and Sorted Set insertion,
+ // deletion or score repositioning. The caller supplies all intersected pages
+ // plus their immediate neighbours; only changed complete pages are returned.
++// List neighbours may be omitted when their links remain unchanged, including
++// tail pushes (even with a split) and pops that leave the touched page nonempty
++// without splitting it at a smaller target size.
+ // Replacing one List item with the same byte length at the default page target
+ // needs only its containing page, because its size and links stay unchanged.
+ // Noncontiguous List removals or a Sorted Set reposition may be expressed as
+diff --git a/src/storage/engine/grouped/collection.cpp b/src/storage/engine/grouped/collection.cpp
+index f257ba703..4c237e7f8 100644
+--- a/src/storage/engine/grouped/collection.cpp
++++ b/src/storage/engine/grouped/collection.cpp
+@@ -1751,9 +1751,15 @@ absl::StatusOr<OrderedCollectionMutationPlan> PlanOrderedCollectionSplice(
+     }
+   }
+   for (std::size_t i = required_begin; i < required_end; ++i) {
+-    if (!loaded.contains(groups[i].id_))
++    if (!loaded.contains(groups[i].id_)) {
++      // List values have no cross-page ordering constraint. The directory
++      // already validates links; require a neighbour's payload only if its
++      // link actually changes after the split/removal below.
++      if (root.kind_ == OrderedCollectionKind::kList && (i < begin || i >= end))
++        continue;
+       return absl::InvalidArgumentError("ordered splice needs adjacent pages");
+-    if (i != required_begin) {
++    }
++    if (i != required_begin && loaded.contains(groups[i - 1].id_)) {
+       auto boundary = ValidateOrderedGroupBoundary(loaded.at(groups[i - 1].id_),
+                                                    loaded.at(groups[i].id_));
+       if (!boundary.ok()) return boundary;
+@@ -1838,14 +1844,18 @@ absl::StatusOr<OrderedCollectionMutationPlan> PlanOrderedCollectionSplice(
+     plan.writes_.push_back(Retired(root, groups[i].id_));
+   if (begin == 0)
+     plan.root_.first_group_ = new_first;
+-  else if (loaded.at(previous).next_ != new_first) {
++  else if (groups[begin - 1].next_ != new_first) {
++    if (!loaded.contains(previous))
++      return absl::InvalidArgumentError("ordered splice needs previous page");
+     auto& neighbour = loaded.at(previous);
+     neighbour.next_ = new_first;
+     plan.writes_.push_back(std::move(neighbour));
+   }
+   if (end == groups.size())
+     plan.root_.last_group_ = new_last;
+-  else if (loaded.at(next).previous_ != new_last) {
++  else if (groups[end].previous_ != new_last) {
++    if (!loaded.contains(next))
++      return absl::InvalidArgumentError("ordered splice needs next page");
+     auto& neighbour = loaded.at(next);
+     neighbour.previous_ = new_last;
+     plan.writes_.push_back(std::move(neighbour));
+diff --git a/src/storage/engine/grouped/list.cpp b/src/storage/engine/grouped/list.cpp
+index b2a3ed68c..ee4198983 100644
+--- a/src/storage/engine/grouped/list.cpp
++++ b/src/storage/engine/grouped/list.cpp
+@@ -309,10 +309,18 @@ Task<absl::StatusOr<ListResult>> StorageEngine::Impl::ExecuteGroupedListLocked(
+   std::size_t begin_page = first->group_index_;
+   std::size_t end_page = last->group_index_ + 1;
+   if (!read_only) {
+-    // Links belong to their complete page snapshots. A split/removal can
+-    // change either neighbour, so pin its logical contents in the same plan.
+-    if (begin_page != 0) --begin_page;
+-    if (end_page != directory.groups().size()) ++end_page;
++    // Tail insertion retains the old tail's identity even when it splits, so
++    // its predecessor cannot change. A pop that leaves its one touched page
++    // nonempty also preserves both links. Avoid reading/decoding neighbours
++    // in these cases; page retirement still needs their complete snapshots.
++    const bool append = rank == count && erase_count == 0;
++    const bool partial_pop =
++        (operation.kind_ == ListOperationKind::kPopLeft ||
++         operation.kind_ == ListOperationKind::kPopRight) &&
++        begin_page + 1 == end_page &&
++        erase_count < directory.groups()[begin_page].item_count_;
++    if (!append && !partial_pop && begin_page != 0) --begin_page;
++    if (!partial_pop && end_page != directory.groups().size()) ++end_page;
+   }
+   GroupedScratchBudget page_budget;
+   for (std::size_t i = begin_page; i < end_page; ++i) {
+diff --git a/tests/grouped/collection_test.cpp b/tests/grouped/collection_test.cpp
+index 22b4a01be..d0666dcda 100644
+--- a/tests/grouped/collection_test.cpp
++++ b/tests/grouped/collection_test.cpp
+@@ -889,6 +889,31 @@ TEST(GroupedCollectionTest,
+         auto plan = PlanOrderedCollectionSplice(
+             *directory, Loaded(split->groups_), rank, count, insertions, 104);
+         ASSERT_TRUE(plan.ok()) << plan.status();
++        // Repeat each splice with only touched pages and neighbours whose
++        // links change. This includes tail splits, partial pops, retirement,
++        // middle edits and whole-key deletion, using the full plan as oracle.
++        const auto first =
++            directory->FindRank(std::min(rank, original.size() - 1));
++        const auto last =
++            count == 0 ? first : directory->FindRank(rank + count - 1);
++        auto minimal = Loaded(split->groups_);
++        std::erase_if(minimal, [&](const auto& page) {
++          const auto index = *directory->FindIndex(page.snapshot_.id_);
++          return (index < first->group_index_ || index > last->group_index_) &&
++                 std::none_of(plan->writes_.begin(), plan->writes_.end(),
++                              [&](const auto& write) {
++                                return write.id_ == page.snapshot_.id_;
++                              });
++        });
++        auto local = PlanOrderedCollectionSplice(*directory, std::move(minimal),
++                                                 rank, count, insertions, 104);
++        ASSERT_TRUE(local.ok()) << local.status();
++        EXPECT_EQ(local->root_, plan->root_);
++        EXPECT_EQ(local->delete_key_, plan->delete_key_);
++        ASSERT_EQ(local->writes_.size(), plan->writes_.size());
++        for (std::size_t i = 0; i < plan->writes_.size(); ++i)
++          EXPECT_EQ(EncodeOrderedGroup(local->writes_[i]),
++                    EncodeOrderedGroup(plan->writes_[i]));
+         EXPECT_EQ(plan->expected_sequence_, 1);
+         if (expected.empty()) {
+           EXPECT_TRUE(plan->delete_key_);
+@@ -946,10 +971,10 @@ TEST(GroupedCollectionTest, SameSizeListReplacementNeedsOnlyItsOwnPage) {
+     EXPECT_EQ(page.entries_[rank % 2].value_, "change");
+     EXPECT_EQ(page.entries_[1 - rank % 2], pages[index].entries_[1 - rank % 2]);
+   }
+-  // Growth still requires neighbours for splitting; stale pages must never
+-  // pass through the shortcut even when the replacement has the same size.
++  // A split that changes the next page's link still requires that neighbour;
++  // stale pages must never pass even when the replacement has the same size.
+   EXPECT_EQ(PlanOrderedCollectionSplice(*directory, Loaded({pages[1]}), 2, 1,
+-                                        {{.value_ = "longer!"}})
++                                        {{.value_ = "longer!"}}, 100)
+                 .status()
+                 .code(),
+             absl::StatusCode::kInvalidArgument);
+@@ -981,7 +1006,7 @@ TEST(GroupedCollectionTest, SpliceRejectsStaleMissingDuplicateAndInvalidInput) {
+   auto missing = Loaded(split->groups_);
+   missing.erase(missing.begin() + 1);
+   EXPECT_FALSE(
+-      PlanOrderedCollectionSplice(*directory, std::move(missing), 0, 1, {})
++      PlanOrderedCollectionSplice(*directory, std::move(missing), 0, 2, {})
+           .ok());
+   auto duplicate = Loaded(split->groups_);
+   duplicate.push_back(duplicate.front());
