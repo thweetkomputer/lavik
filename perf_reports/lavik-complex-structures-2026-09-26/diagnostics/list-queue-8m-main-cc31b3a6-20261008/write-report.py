@@ -27,5 +27,5 @@ for name,title,path,label in experiments:
 lines+=['','## 范围与复现','','这是 c320、8 MiB/key 的 RPUSH/LPOP 专项实验，不代表其他并发或大小的收益；没有用这些结果替换四系统全量 main 曲线。最新合并状态已补充到原 #289 报告。命令、冻结二进制 SHA、相同种子验证、原始 INFO、客户端结果、编译及测试日志随报告保存；原始大体积 perf.data 留在测试主机，仓库保留采样命令和符号摘要。测试后六块 NVMe 均恢复内核驱动，hugepages 归零，未遗留服务进程。','']
 (W/'README.md').write_text('\n'.join(lines))
 with (W/'summary.csv').open('w') as f:
- writer=csv.DictWriter(f,fieldnames=list(summary_rows[0]));writer.writeheader();writer.writerows(summary_rows)
+ writer=csv.DictWriter(f,fieldnames=list(summary_rows[0]),lineterminator='\n');writer.writeheader();writer.writerows(summary_rows)
 (W/'summary.json').write_text(json.dumps(summary_rows,indent=2)+'\n')
