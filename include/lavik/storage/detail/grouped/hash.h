@@ -16,7 +16,6 @@
 
 #pragma once
 
-#if !defined(LAVIK_BUILDING_STORAGE_FOUNDATION)
 #include <algorithm>
 #include <array>
 #include <cassert>
@@ -43,12 +42,6 @@
 #include "lavik/storage/detail/hash_codec.h"
 #include "lavik/storage/scan_hash_map.h"
 
-#endif
-
-#if defined(LAVIK_NATIVE_STORAGE_FOUNDATION) && \
-    !defined(LAVIK_BUILDING_STORAGE_FOUNDATION)
-#include "lavik/storage/foundation_import.h"
-#else
 namespace lavik::storage {
 
 // Shared auxiliary identity: Hash prefixes use the HIGH bits of the persisted
@@ -342,5 +335,3 @@ absl::StatusOr<HashGroupMutationPlan> PlanHashGroupMutation(
     std::size_t target_bytes = kCollectionGroupTargetBytes);
 
 }  // namespace lavik::storage
-
-#endif  // LAVIK_NATIVE_STORAGE_FOUNDATION

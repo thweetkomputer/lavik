@@ -16,7 +16,6 @@
 
 #pragma once
 
-#if !defined(LAVIK_BUILDING_STORAGE_FOUNDATION)
 #include <algorithm>
 #include <array>
 #include <bit>
@@ -37,12 +36,6 @@
 #include "lavik/memory.h"
 #include "lavik/retained_allocator.h"
 
-#endif
-
-#if defined(LAVIK_NATIVE_STORAGE_FOUNDATION) && \
-    !defined(LAVIK_BUILDING_STORAGE_FOUNDATION)
-#include "lavik/storage/foundation_import.h"
-#else
 namespace lavik {
 
 // Owner-thread copy-on-write array. A single variable-capacity chunk is the
@@ -431,5 +424,3 @@ class CowArray {
 };
 
 }  // namespace lavik
-
-#endif  // LAVIK_NATIVE_STORAGE_FOUNDATION

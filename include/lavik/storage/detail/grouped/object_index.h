@@ -16,7 +16,6 @@
 
 #pragma once
 
-#if !defined(LAVIK_BUILDING_STORAGE_FOUNDATION)
 #include <functional>
 #include <memory>
 #include <span>
@@ -28,12 +27,6 @@
 #include "lavik/storage/detail/grouped/hash.h"
 #include "lavik/storage/detail/record_index.h"
 
-#endif
-
-#if defined(LAVIK_NATIVE_STORAGE_FOUNDATION) && \
-    !defined(LAVIK_BUILDING_STORAGE_FOUNDATION)
-#include "lavik/storage/foundation_import.h"
-#else
 namespace lavik::storage {
 
 // An object directory belongs to a physical root version in one population,
@@ -337,5 +330,3 @@ class GroupedObjectIndex {
 };
 
 }  // namespace lavik::storage
-
-#endif  // LAVIK_NATIVE_STORAGE_FOUNDATION

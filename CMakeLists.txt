@@ -36,11 +36,9 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND
   set(LAVIK_IMPORT_STD ON)
 endif()
 message(STATUS "Lavik import std: ${LAVIK_IMPORT_STD}")
-# The storage-module prototype exports legacy dependency definitions that GCC
-# 15.2 cannot serialize (TU-local entities in Abseil). Keep it opt-in, independent
-# of the standard-library import path used by ordinary implementation files.
+# Keep the optional native storage API experiment independent of the
+# standard-library import path used by ordinary implementation files.
 option(LAVIK_NATIVE_STORAGE_MODULE "Use the native storage API and private implementation partition" OFF)
-option(LAVIK_NATIVE_STORAGE_FOUNDATION "Import shared storage data structures" OFF)
 
 set(LAVIK_VERSION_SUFFIX "-dev" CACHE STRING
     "Lavik prerelease suffix, such as -dev or -beta.1 (empty for a release)")
@@ -420,16 +418,6 @@ if (LAVIK_NATIVE_STORAGE_MODULE)
   if (NOT CMAKE_BUILD_TYPE STREQUAL "Debug" OR LAVIK_ENABLE_OPT OR LAVIK_KERNEL_BYPASS)
     message(FATAL_ERROR "The native module experiment requires Debug, OPT/bypass OFF")
   endif()
-  if (LAVIK_NATIVE_STORAGE_FOUNDATION)
-    add_library(lavik_storage_foundation OBJECT)
-    target_sources(lavik_storage_foundation PUBLIC
-      FILE_SET storage_foundation TYPE CXX_MODULES FILES src/storage/storage_foundation.cppm)
-    target_include_directories(lavik_storage_foundation PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
-    target_compile_definitions(lavik_storage_foundation PUBLIC LAVIK_NATIVE_STORAGE_FOUNDATION=1)
-    target_link_libraries(lavik_storage_foundation PUBLIC bycorf::core absl::statusor mimalloc-static)
-    target_compile_options(lavik_storage_foundation PRIVATE
-      $<$<CXX_COMPILER_ID:Clang>:-fmodules-reduced-bmi>)
-  endif()
   # Native class definitions emit code here that can call Data implementations.
   # Put those objects in the Data archive to avoid a circular static-library
   # dependency while keeping the public BMI independent of private state.
@@ -447,9 +435,6 @@ if (LAVIK_NATIVE_STORAGE_MODULE)
   target_link_libraries(lavik_storage_api PUBLIC bycorf::core absl::statusor mimalloc-static)
   target_compile_options(lavik_storage_api PRIVATE
     $<$<CXX_COMPILER_ID:Clang>:-fmodules-reduced-bmi>)
-  if (LAVIK_NATIVE_STORAGE_FOUNDATION)
-    target_link_libraries(lavik_storage_api PUBLIC lavik_storage_foundation)
-  endif()
 endif()
 
 add_library(lavik_module
@@ -592,9 +577,6 @@ target_include_directories(lavik_module
 
 if (LAVIK_NATIVE_STORAGE_MODULE)
   target_link_libraries(lavik_module PUBLIC lavik_storage_api)
-  if (LAVIK_NATIVE_STORAGE_FOUNDATION)
-    target_link_libraries(lavik_module PUBLIC lavik_storage_foundation)
-  endif()
   set_property(TARGET lavik_module PROPERTY CXX_SCAN_FOR_MODULES ON)
   target_sources(lavik_module PRIVATE
     FILE_SET storage_private TYPE CXX_MODULES FILES src/storage/engine/storage_impl.cppm)

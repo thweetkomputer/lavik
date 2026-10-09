@@ -16,7 +16,6 @@
 
 #pragma once
 
-#if !defined(LAVIK_BUILDING_STORAGE_FOUNDATION)
 #include <cassert>
 #include <cstddef>
 #include <limits>
@@ -28,12 +27,6 @@
 #include <thread>
 #endif
 
-#endif
-
-#if defined(LAVIK_NATIVE_STORAGE_FOUNDATION) && \
-    !defined(LAVIK_BUILDING_STORAGE_FOUNDATION)
-#include "lavik/storage/foundation_import.h"
-#else
 namespace lavik {
 namespace local_shared_detail {
 
@@ -248,5 +241,3 @@ LocalSharedPtr<T> MakeLocalShared(Args&&... args) {
 }
 
 }  // namespace lavik
-
-#endif  // LAVIK_NATIVE_STORAGE_FOUNDATION

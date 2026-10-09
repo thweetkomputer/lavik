@@ -11,7 +11,6 @@
  * The complete license text is in third_party/valkey/COPYING.
  */
 
-#if !defined(LAVIK_BUILDING_STORAGE_FOUNDATION)
 #include <mimalloc.h>
 
 #include <cstddef>
@@ -25,12 +24,6 @@
 
 #include "lavik/memory.h"
 
-#endif
-
-#if defined(LAVIK_NATIVE_STORAGE_FOUNDATION) && \
-    !defined(LAVIK_BUILDING_STORAGE_FOUNDATION)
-#include "lavik/storage/foundation_import.h"
-#else
 namespace lavik {
 
 // Identifies which worker owns a retained allocation and whether an enclosing
@@ -181,5 +174,3 @@ void DestroyRetainedObject(RetainedAllocationDomain domain,
 }
 
 }  // namespace lavik
-
-#endif  // LAVIK_NATIVE_STORAGE_FOUNDATION

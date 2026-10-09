@@ -16,7 +16,6 @@
 
 #pragma once
 
-#if !defined(LAVIK_BUILDING_STORAGE_FOUNDATION)
 #include <cstddef>
 #include <cstdint>
 #include <optional>
@@ -24,12 +23,6 @@
 
 #include "absl/status/status.h"
 
-#endif
-
-#if defined(LAVIK_NATIVE_STORAGE_FOUNDATION) && \
-    !defined(LAVIK_BUILDING_STORAGE_FOUNDATION)
-#include "lavik/storage/foundation_import.h"
-#else
 namespace lavik {
 
 class RetainedMemoryCharge;
@@ -257,5 +250,3 @@ void RecordMemoryRejection() noexcept;
 std::string HumanReadableMemory(std::uint64_t bytes);
 
 }  // namespace lavik
-
-#endif  // LAVIK_NATIVE_STORAGE_FOUNDATION

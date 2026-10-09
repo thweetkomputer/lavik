@@ -16,7 +16,6 @@
 
 #pragma once
 
-#if !defined(LAVIK_BUILDING_STORAGE_FOUNDATION)
 #include <cassert>
 #include <cstdint>
 #include <limits>
@@ -25,12 +24,6 @@
 #include "lavik/storage/format.h"
 #include "lavik/storage/scan_hash_map.h"
 
-#endif
-
-#if defined(LAVIK_NATIVE_STORAGE_FOUNDATION) && \
-    !defined(LAVIK_BUILDING_STORAGE_FOUNDATION)
-#include "lavik/storage/foundation_import.h"
-#else
 namespace lavik::storage {
 
 class RecordIndexValue;
@@ -586,5 +579,3 @@ inline bool IsNewer(const RecordLocation& candidate,
 }
 
 }  // namespace lavik::storage
-
-#endif  // LAVIK_NATIVE_STORAGE_FOUNDATION

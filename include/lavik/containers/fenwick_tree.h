@@ -16,7 +16,6 @@
 
 #pragma once
 
-#if !defined(LAVIK_BUILDING_STORAGE_FOUNDATION)
 #include <algorithm>
 #include <bit>
 #include <cassert>
@@ -30,12 +29,6 @@
 #include "absl/numeric/int128.h"
 #include "lavik/containers/cow_array.h"
 
-#endif
-
-#if defined(LAVIK_NATIVE_STORAGE_FOUNDATION) && \
-    !defined(LAVIK_BUILDING_STORAGE_FOUNDATION)
-#include "lavik/storage/foundation_import.h"
-#else
 namespace lavik {
 
 // Copy-on-write Fenwick tree over counts of ordered groups. Maps an element
@@ -199,5 +192,3 @@ class FenwickTree {
 };
 
 }  // namespace lavik
-
-#endif  // LAVIK_NATIVE_STORAGE_FOUNDATION

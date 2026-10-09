@@ -16,7 +16,6 @@
 
 #pragma once
 
-#if !defined(LAVIK_BUILDING_STORAGE_FOUNDATION)
 #include <array>
 #include <cstddef>
 #include <cstdint>
@@ -36,12 +35,6 @@
 #include "lavik/storage/detail/grouped/hash.h"
 #include "lavik/storage/format.h"
 
-#endif
-
-#if defined(LAVIK_NATIVE_STORAGE_FOUNDATION) && \
-    !defined(LAVIK_BUILDING_STORAGE_FOUNDATION)
-#include "lavik/storage/foundation_import.h"
-#else
 namespace lavik::storage {
 
 // Sets use Hash prefix routing. Ordered pages hold List ranks, Sorted Set
@@ -610,5 +603,3 @@ absl::StatusOr<OrderedCollectionMutationPlan> PlanOrderedCollectionSplice(
     std::size_t target_bytes = kCollectionGroupTargetBytes);
 
 }  // namespace lavik::storage
-
-#endif  // LAVIK_NATIVE_STORAGE_FOUNDATION

@@ -16,15 +16,8 @@
 
 #pragma once
 
-#if !defined(LAVIK_BUILDING_STORAGE_FOUNDATION)
 #include <cstddef>
 
-#endif
-
-#if defined(LAVIK_NATIVE_STORAGE_FOUNDATION) && \
-    !defined(LAVIK_BUILDING_STORAGE_FOUNDATION)
-#include "lavik/storage/foundation_import.h"
-#else
 namespace lavik::storage {
 
 // All collection kinds share the same size policy. Promotion leaves room for
@@ -41,5 +34,3 @@ inline constexpr std::size_t kCompactWorkspaceInputBytes = 16 * 1024;
 inline constexpr std::size_t kCompactWorkspaceInputEntries = 1024;
 
 }  // namespace lavik::storage
-
-#endif  // LAVIK_NATIVE_STORAGE_FOUNDATION

@@ -16,7 +16,6 @@
  * Valkey runtime dependencies and generic callbacks with Lavik-owned entries.
  */
 
-#if !defined(LAVIK_BUILDING_STORAGE_FOUNDATION)
 #include <mimalloc.h>
 
 #if defined(__SSE2__)
@@ -46,12 +45,6 @@
 #include "lavik/retained_allocator.h"
 #include "lavik/storage/format.h"
 
-#endif
-
-#if defined(LAVIK_NATIVE_STORAGE_FOUNDATION) && \
-    !defined(LAVIK_BUILDING_STORAGE_FOUNDATION)
-#include "lavik/storage/foundation_import.h"
-#else
 namespace lavik::storage {
 
 // Worker-local backing store for compact hash-table entry handles. Small pages
@@ -2805,5 +2798,3 @@ const std::byte* ScanHashMap<Value, MaxBucketExponent,
 }
 
 }  // namespace lavik::storage
-
-#endif  // LAVIK_NATIVE_STORAGE_FOUNDATION

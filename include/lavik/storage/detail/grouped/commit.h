@@ -16,19 +16,12 @@
 
 #pragma once
 
-#if !defined(LAVIK_BUILDING_STORAGE_FOUNDATION)
 #include <atomic>
 #include <cstdint>
 #include <limits>
 #include <memory>
 #include <utility>
 
-#endif
-
-#if defined(LAVIK_NATIVE_STORAGE_FOUNDATION) && \
-    !defined(LAVIK_BUILDING_STORAGE_FOUNDATION)
-#include "lavik/storage/foundation_import.h"
-#else
 namespace lavik::storage {
 
 // An incremental successor inherits untouched groups from this decision.
@@ -75,5 +68,3 @@ struct GroupedCommitDependency {
 };
 
 }  // namespace lavik::storage
-
-#endif  // LAVIK_NATIVE_STORAGE_FOUNDATION
