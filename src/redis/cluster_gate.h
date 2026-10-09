@@ -41,10 +41,16 @@
 #include "lavik/command.h"
 #include "lavik/tx/transaction.h"
 
+#if defined(LAVIK_NATIVE_STORAGE_MODULE)
+#include "lavik/storage/engine.h"
+#endif
+
 namespace lavik {
 
 namespace storage {
+#if !defined(LAVIK_NATIVE_STORAGE_MODULE)
 class MutationPrecondition;
+#endif
 }  // namespace storage
 
 // Context carried by a transaction's shard validator. It lives on the

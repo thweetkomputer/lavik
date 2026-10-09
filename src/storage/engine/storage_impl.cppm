@@ -14,13 +14,10 @@
  * limitations under the License.
  */
 
-#pragma once
-
+module;
 #include "impl_dependencies.h"
 
-#if defined(LAVIK_NATIVE_STORAGE_MODULE)
-import :impl;
-#include "impl_macros.h"
-#else
+module lavik.storage:impl;
+import lavik.storage;
+
 #include "impl_declarations.inc"
-#endif

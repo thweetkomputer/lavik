@@ -14,13 +14,11 @@
  * limitations under the License.
  */
 
-#pragma once
+module;
+#include "lavik/storage/engine_dependencies.h"
 
-#include "impl_dependencies.h"
+export module lavik.storage;
 
-#if defined(LAVIK_NATIVE_STORAGE_MODULE)
-import :impl;
-#include "impl_macros.h"
-#else
-#include "impl_declarations.inc"
-#endif
+export {
+#include "lavik/storage/engine_declarations.inc"
+}

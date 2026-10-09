@@ -16,11 +16,8 @@
 
 #pragma once
 
-#include "impl_dependencies.h"
-
-#if defined(LAVIK_NATIVE_STORAGE_MODULE)
-import :impl;
-#include "impl_macros.h"
+#if LAVIK_FAULTS_ENABLED
+#define LAVIK_MAYBE_FAIL_TX_WRITE(key) ::lavik::storage::MaybeFailTxWrite(key)
 #else
-#include "impl_declarations.inc"
+#define LAVIK_MAYBE_FAIL_TX_WRITE(key) false
 #endif

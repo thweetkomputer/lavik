@@ -14,10 +14,23 @@
  * limitations under the License.
  */
 
+#if defined(LAVIK_NATIVE_STORAGE_MODULE)
+module;
+#include "../impl_dependencies.h"
+#endif
+
 #include <type_traits>
 
+#if !defined(LAVIK_NATIVE_STORAGE_MODULE)
 #include "../impl.h"
+#endif
 #include "dependency_test_hook.h"
+
+#if defined(LAVIK_NATIVE_STORAGE_MODULE)
+module lavik.storage;
+import :impl;
+#include "../impl_macros.h"
+#endif
 
 namespace lavik::storage {
 

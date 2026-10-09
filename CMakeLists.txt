@@ -14,6 +14,14 @@
 
 cmake_minimum_required(VERSION 3.20)
 
+option(LAVIK_NATIVE_STORAGE_MODULE "Experiment with a native storage API and private implementation partition" OFF)
+option(LAVIK_NATIVE_STORAGE_PCH "Reuse the original dependency PCH in native implementation units" ON)
+option(LAVIK_WIDE_PCH "Control: precompile storage headers across the Data target" OFF)
+if (LAVIK_NATIVE_STORAGE_MODULE)
+  cmake_minimum_required(VERSION 3.28)
+  set(CMAKE_CXX_SCAN_FOR_MODULES OFF)
+endif()
+
 project(lavik VERSION 0.1.0 LANGUAGES C CXX)
 
 set(LAVIK_VERSION_SUFFIX "-dev" CACHE STRING
@@ -383,6 +391,30 @@ if (CMAKE_CXX_COMPILER_ID MATCHES "Clang|GNU")
     -Wall -Wextra -Wpedantic)
 endif()
 
+if (LAVIK_NATIVE_STORAGE_MODULE)
+  if (NOT CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR
+      CMAKE_CXX_COMPILER_VERSION VERSION_LESS 20 OR
+      NOT CMAKE_BUILD_TYPE STREQUAL "Debug" OR LAVIK_ENABLE_OPT OR LAVIK_KERNEL_BYPASS)
+    message(FATAL_ERROR "The native module experiment requires Clang 20+, Debug, OPT/bypass OFF")
+  endif()
+  # Native class definitions emit code here that can call Data implementations.
+  # Put those objects in the Data archive to avoid a circular static-library
+  # dependency while keeping the public BMI independent of private state.
+  add_library(lavik_storage_api OBJECT)
+  target_sources(lavik_storage_api PUBLIC
+    FILE_SET storage_api TYPE CXX_MODULES FILES src/storage/storage.cppm)
+  target_include_directories(lavik_storage_api PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+  target_compile_definitions(lavik_storage_api PUBLIC
+    LAVIK_NATIVE_STORAGE_MODULE=1
+    $<$<BOOL:${LAVIK_KERNEL_BYPASS}>:LAVIK_KERNEL_BYPASS=1>
+    LAVIK_ASAN_BUILD=$<BOOL:${LAVIK_ASAN_BUILD}>
+    LAVIK_ENABLE_TRACE=$<BOOL:${LAVIK_ENABLE_TRACE}>
+    LAVIK_ENABLE_CROSS_CORE_HOP_COUNT=$<BOOL:${LAVIK_ENABLE_CROSS_CORE_HOP_COUNT}>
+    LAVIK_ENABLE_TEST_FAULTS=$<BOOL:${LAVIK_ENABLE_TEST_FAULTS}>)
+  target_link_libraries(lavik_storage_api PUBLIC bycorf::core absl::statusor mimalloc-static)
+  target_compile_options(lavik_storage_api PRIVATE -fmodules-reduced-bmi)
+endif()
+
 add_library(lavik_module
   src/cluster/bootstrap.cpp
   src/cluster/authority.cpp
@@ -433,6 +465,7 @@ add_library(lavik_module
   src/storage/engine/grouped/lifecycle.cpp
   src/storage/engine/grouped/object_index.cpp
   src/storage/engine/hash_tree.cpp
+  src/storage/hash_read.cpp
   src/storage/engine/indirect_key.cpp
   src/storage/engine/init.cpp
   src/storage/engine/list_api.cpp
@@ -498,6 +531,33 @@ target_precompile_headers(lavik_module PRIVATE
   ${CMAKE_CURRENT_SOURCE_DIR}/include/lavik/pch.h
 )
 
+if (LAVIK_WIDE_PCH)
+  if (LAVIK_NATIVE_STORAGE_MODULE)
+    message(FATAL_ERROR "The wide PCH is a separate textual control")
+  endif()
+  target_precompile_headers(lavik_module PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/pch.h)
+endif()
+if (LAVIK_NATIVE_STORAGE_MODULE)
+  target_link_libraries(lavik_module PUBLIC lavik_storage_api)
+  set_property(TARGET lavik_module PROPERTY CXX_SCAN_FOR_MODULES ON)
+  target_sources(lavik_module PRIVATE
+    FILE_SET storage_private TYPE CXX_MODULES FILES src/storage/engine/storage_impl.cppm)
+  set_source_files_properties(src/storage/engine/storage_impl.cppm PROPERTIES
+    SKIP_PRECOMPILE_HEADERS ON COMPILE_OPTIONS "-fmodules-reduced-bmi")
+  if (NOT LAVIK_NATIVE_STORAGE_PCH)
+    get_target_property(native_sources lavik_module SOURCES)
+    foreach(source IN LISTS native_sources)
+      if (source MATCHES "\\.cpp$")
+        file(READ "${CMAKE_CURRENT_SOURCE_DIR}/${source}" source_text)
+        if (source_text MATCHES "import :impl;")
+          set_source_files_properties(${source} PROPERTIES SKIP_PRECOMPILE_HEADERS ON)
+        endif()
+      endif()
+    endforeach()
+  endif()
+endif()
+
+
 target_compile_features(lavik_module PUBLIC cxx_std_23)
 target_compile_definitions(lavik_module PUBLIC
   $<$<BOOL:${LAVIK_KERNEL_BYPASS}>:LAVIK_KERNEL_BYPASS=1>
@@ -543,6 +603,10 @@ add_executable(lavik
 )
 target_precompile_headers(lavik REUSE_FROM lavik_module)
 target_link_libraries(lavik PRIVATE lavik::module)
+if (LAVIK_NATIVE_STORAGE_MODULE)
+  set_property(TARGET lavik PROPERTY CXX_SCAN_FOR_MODULES ON)
+endif()
+
 
 if (CMAKE_CXX_COMPILER_ID MATCHES "Clang|GNU")
   if (LAVIK_ENABLE_OPT)

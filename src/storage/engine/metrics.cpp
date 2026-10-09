@@ -14,13 +14,26 @@
  * limitations under the License.
  */
 
+#if defined(LAVIK_NATIVE_STORAGE_MODULE)
+module;
+#include "impl_dependencies.h"
+#endif
+
 #include <sys/statvfs.h>
 
 #include <algorithm>
 #include <cstddef>
 #include <cstdint>
 
+#if !defined(LAVIK_NATIVE_STORAGE_MODULE)
 #include "impl.h"
+#endif
+
+#if defined(LAVIK_NATIVE_STORAGE_MODULE)
+module lavik.storage;
+import :impl;
+#include "impl_macros.h"
+#endif
 
 namespace lavik::storage {
 

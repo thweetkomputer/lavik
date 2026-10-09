@@ -14,14 +14,27 @@
  * limitations under the License.
  */
 
+#if defined(LAVIK_NATIVE_STORAGE_MODULE)
+module;
+#include "impl_dependencies.h"
+#endif
+
 #include <atomic>
 #include <cstdlib>
 #include <optional>
 
+#if !defined(LAVIK_NATIVE_STORAGE_MODULE)
 #include "impl.h"
+#endif
 #include "lavik/fault_pause.h"
 #include "lavik/memory.h"
 #include "lavik/replication_command.h"
+
+#if defined(LAVIK_NATIVE_STORAGE_MODULE)
+module lavik.storage;
+import :impl;
+#include "impl_macros.h"
+#endif
 
 namespace lavik::storage {
 namespace {

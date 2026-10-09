@@ -14,16 +14,29 @@
  * limitations under the License.
  */
 
+#if defined(LAVIK_NATIVE_STORAGE_MODULE)
+module;
+#include "../impl_dependencies.h"
+#endif
+
 #include <cmath>
 #include <map>
 #include <set>
 #include <type_traits>
 
+#if !defined(LAVIK_NATIVE_STORAGE_MODULE)
 #include "../impl.h"
+#endif
 #include "lavik/glob.h"
 #include "lavik/random_sample.h"
 #include "lavik/storage/detail/grouped/scratch.h"
 #include "lavik/storage/detail/ordered_compact_codec.h"
+
+#if defined(LAVIK_NATIVE_STORAGE_MODULE)
+module lavik.storage;
+import :impl;
+#include "../impl_macros.h"
+#endif
 
 namespace lavik::storage {
 namespace {
