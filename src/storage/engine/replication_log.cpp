@@ -14,11 +14,6 @@
  * limitations under the License.
  */
 
-#if defined(LAVIK_NATIVE_STORAGE_MODULE)
-module;
-#include "impl_dependencies.h"
-#endif
-
 #if !defined(LAVIK_IMPORT_STD)
 #include <atomic>
 #endif
@@ -27,18 +22,10 @@ module;
 #include <optional>
 #endif
 
-#if !defined(LAVIK_NATIVE_STORAGE_MODULE)
 #include "impl.h"
-#endif
 #include "lavik/fault_pause.h"
 #include "lavik/memory.h"
 #include "lavik/replication_command.h"
-
-#if defined(LAVIK_NATIVE_STORAGE_MODULE)
-module lavik.storage;
-import :impl;
-#include "impl_macros.h"
-#endif
 
 #if defined(LAVIK_IMPORT_STD)
 #include "lavik/std_import.h"

@@ -14,27 +14,14 @@
  * limitations under the License.
  */
 
-#if defined(LAVIK_NATIVE_STORAGE_MODULE)
-module;
-#include "../impl_dependencies.h"
-#endif
-
 #if !defined(LAVIK_IMPORT_STD)
 #include <charconv>
 #endif
 
-#if !defined(LAVIK_NATIVE_STORAGE_MODULE)
 #include "../impl.h"
-#endif
 #include "absl/container/inlined_vector.h"
 #include "dependency_guard.h"
 #include "lavik/storage/detail/grouped/scratch.h"
-
-#if defined(LAVIK_NATIVE_STORAGE_MODULE)
-module lavik.storage;
-import :impl;
-#include "../impl_macros.h"
-#endif
 
 #if defined(LAVIK_IMPORT_STD)
 #include "lavik/std_import.h"

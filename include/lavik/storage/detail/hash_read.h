@@ -24,15 +24,9 @@
 #include "absl/status/statusor.h"
 #include "lavik/storage/detail/grouped/hash.h"
 
-#if defined(LAVIK_NATIVE_STORAGE_MODULE)
-#include "lavik/storage/engine.h"
-#endif
-
 namespace lavik::storage {
 
-#if !defined(LAVIK_NATIVE_STORAGE_MODULE)
 struct HashResult;
-#endif
 
 // Scans a group whose envelope and physical identity the loader has verified;
 // field_count must be that envelope's count, and field must route to this

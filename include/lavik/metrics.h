@@ -28,16 +28,10 @@
 #include "bycorf/runtime/task.h"
 #include "lavik/command.h"
 
-#if defined(LAVIK_NATIVE_STORAGE_MODULE)
-#include "lavik/storage/engine.h"
-#endif
-
 namespace lavik {
 
 namespace storage {
-#if !defined(LAVIK_NATIVE_STORAGE_MODULE)
 class StorageEngine;
-#endif
 }  // namespace storage
 
 inline constexpr std::array<std::uint64_t, 31> kCommandLatencyBucketUpperUs{

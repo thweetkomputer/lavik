@@ -22,9 +22,6 @@ set(CMAKE_CXX_SCAN_FOR_MODULES OFF)
 if (CMAKE_VERSION VERSION_LESS 4.3 AND NOT DEFINED CMAKE_EXPERIMENTAL_CXX_IMPORT_STD)
   set(CMAKE_EXPERIMENTAL_CXX_IMPORT_STD "d0edc3af-4c50-42ea-a356-e2862fe7a444")
 endif()
-if (NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
-  set(CMAKE_BUILD_TYPE Debug CACHE STRING "Build type" FORCE)
-endif()
 project(lavik VERSION 0.1.0 LANGUAGES C CXX)
 
 # GCC owns the experimental import path; other compilers keep textual headers.
@@ -36,9 +33,6 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND
   set(LAVIK_IMPORT_STD ON)
 endif()
 message(STATUS "Lavik import std: ${LAVIK_IMPORT_STD}")
-# Keep the optional native storage API experiment independent of the
-# standard-library import path used by ordinary implementation files.
-option(LAVIK_NATIVE_STORAGE_MODULE "Use the native storage API and private implementation partition" OFF)
 
 set(LAVIK_VERSION_SUFFIX "-dev" CACHE STRING
     "Lavik prerelease suffix, such as -dev or -beta.1 (empty for a release)")
@@ -66,7 +60,7 @@ set(CMAKE_C_EXTENSIONS ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 option(LAVIK_ENABLE_WERROR "Treat warnings as errors" OFF)
-option(LAVIK_ENABLE_OPT "Enable aggressive optimization" OFF)
+option(LAVIK_ENABLE_OPT "Enable aggressive optimization" ON)
 option(LAVIK_STATIC_CXX_RUNTIME
   "Link the GNU C++ and compiler runtimes statically" ON)
 set(LAVIK_MARCH "native" CACHE STRING
@@ -409,34 +403,6 @@ if (CMAKE_CXX_COMPILER_ID MATCHES "Clang|GNU")
     -Wall -Wextra -Wpedantic)
 endif()
 
-if (LAVIK_NATIVE_STORAGE_MODULE)
-  if (NOT CMAKE_CXX_COMPILER_ID MATCHES "^(Clang|GNU)$" OR
-      (CMAKE_CXX_COMPILER_ID STREQUAL "Clang" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 20) OR
-      (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 15))
-    message(FATAL_ERROR "The native module experiment requires Clang 20+ or GCC 15+")
-  endif()
-  if (NOT CMAKE_BUILD_TYPE STREQUAL "Debug" OR LAVIK_ENABLE_OPT OR LAVIK_KERNEL_BYPASS)
-    message(FATAL_ERROR "The native module experiment requires Debug, OPT/bypass OFF")
-  endif()
-  # Native class definitions emit code here that can call Data implementations.
-  # Put those objects in the Data archive to avoid a circular static-library
-  # dependency while keeping the public BMI independent of private state.
-  add_library(lavik_storage_api OBJECT)
-  target_sources(lavik_storage_api PUBLIC
-    FILE_SET storage_api TYPE CXX_MODULES FILES src/storage/storage.cppm)
-  target_include_directories(lavik_storage_api PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
-  target_compile_definitions(lavik_storage_api PUBLIC
-    LAVIK_NATIVE_STORAGE_MODULE=1
-    $<$<BOOL:${LAVIK_KERNEL_BYPASS}>:LAVIK_KERNEL_BYPASS=1>
-    LAVIK_ASAN_BUILD=$<BOOL:${LAVIK_ASAN_BUILD}>
-    LAVIK_ENABLE_TRACE=$<BOOL:${LAVIK_ENABLE_TRACE}>
-    LAVIK_ENABLE_CROSS_CORE_HOP_COUNT=$<BOOL:${LAVIK_ENABLE_CROSS_CORE_HOP_COUNT}>
-    LAVIK_ENABLE_TEST_FAULTS=$<BOOL:${LAVIK_ENABLE_TEST_FAULTS}>)
-  target_link_libraries(lavik_storage_api PUBLIC bycorf::core absl::statusor mimalloc-static)
-  target_compile_options(lavik_storage_api PRIVATE
-    $<$<CXX_COMPILER_ID:Clang>:-fmodules-reduced-bmi>)
-endif()
-
 add_library(lavik_module
   src/cluster/bootstrap.cpp
   src/cluster/authority.cpp
@@ -487,7 +453,6 @@ add_library(lavik_module
   src/storage/engine/grouped/lifecycle.cpp
   src/storage/engine/grouped/object_index.cpp
   src/storage/engine/hash_tree.cpp
-  src/storage/hash_read.cpp
   src/storage/engine/indirect_key.cpp
   src/storage/engine/init.cpp
   src/storage/engine/list_api.cpp
@@ -543,50 +508,13 @@ add_library(lavik_module
 
 add_library(lavik::module ALIAS lavik_module)
 
-if (LAVIK_NATIVE_STORAGE_MODULE)
-  # Clang 21 rejects a conditional global module fragment when importing std.
-  # Generate native-only copies with an unconditional fragment; keep the source
-  # files usable by the ordinary header build. Track edits for regeneration and
-  # preserve each source's relative quoted-include lookup directory.
-  get_target_property(storage_sources lavik_module SOURCES)
-  set(storage_compile_sources)
-  foreach(source IN LISTS storage_sources)
-    file(READ "${CMAKE_CURRENT_SOURCE_DIR}/${source}" source_text)
-    if (source_text MATCHES "import :impl;")
-      set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS
-        "${CMAKE_CURRENT_SOURCE_DIR}/${source}")
-      string(REPLACE "#if defined(LAVIK_NATIVE_STORAGE_MODULE)\nmodule;"
-        "module;\n#if defined(LAVIK_NATIVE_STORAGE_MODULE)" source_text "${source_text}")
-      set(native_source "${CMAKE_CURRENT_BINARY_DIR}/native_sources/${source}")
-      file(CONFIGURE OUTPUT "${native_source}" CONTENT "${source_text}" @ONLY)
-      get_filename_component(source_dir "${CMAKE_CURRENT_SOURCE_DIR}/${source}" DIRECTORY)
-      set_source_files_properties("${native_source}" PROPERTIES INCLUDE_DIRECTORIES "${source_dir}")
-      list(APPEND storage_compile_sources "${native_source}")
-    else()
-      list(APPEND storage_compile_sources "${source}")
-    endif()
-  endforeach()
-  set_property(TARGET lavik_module PROPERTY SOURCES "${storage_compile_sources}")
-endif()
-
 target_include_directories(lavik_module
   PUBLIC
     ${LAVIK_GENERATED_INCLUDE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
-if (LAVIK_NATIVE_STORAGE_MODULE)
-  target_link_libraries(lavik_module PUBLIC lavik_storage_api)
-  set_property(TARGET lavik_module PROPERTY CXX_SCAN_FOR_MODULES ON)
-  target_sources(lavik_module PRIVATE
-    FILE_SET storage_private TYPE CXX_MODULES FILES src/storage/engine/storage_impl.cppm)
-  set_source_files_properties(src/storage/engine/storage_impl.cppm PROPERTIES
-    SKIP_PRECOMPILE_HEADERS ON
-    COMPILE_OPTIONS "$<$<CXX_COMPILER_ID:Clang>:-fmodules-reduced-bmi>")
-endif()
-
-
-if (NOT LAVIK_IMPORT_STD AND NOT LAVIK_NATIVE_STORAGE_MODULE)
+if (NOT LAVIK_IMPORT_STD)
   target_precompile_headers(lavik_module PRIVATE include/lavik/pch.h)
 endif()
 
@@ -634,12 +562,8 @@ add_executable(lavik
   app/mimalloc_new_delete.cpp
 )
 target_link_libraries(lavik PRIVATE lavik::module)
-if (LAVIK_NATIVE_STORAGE_MODULE)
-  set_property(TARGET lavik PROPERTY CXX_SCAN_FOR_MODULES ON)
-endif()
 
-
-if (NOT LAVIK_IMPORT_STD AND NOT LAVIK_NATIVE_STORAGE_MODULE)
+if (NOT LAVIK_IMPORT_STD)
   target_precompile_headers(lavik REUSE_FROM lavik_module)
 endif()
 

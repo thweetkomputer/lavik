@@ -35,19 +35,13 @@
 #include "lavik/lease_deadline.h"
 #include "lavik/replication_group.h"
 
-#if defined(LAVIK_NATIVE_STORAGE_MODULE)
-#include "lavik/storage/engine.h"
-#endif
-
 namespace bycorf {
 class TlsContext;
 class Worker;
 }  // namespace bycorf
 
 namespace lavik::storage {
-#if !defined(LAVIK_NATIVE_STORAGE_MODULE)
 class StorageEngine;
-#endif
 }  // namespace lavik::storage
 
 namespace lavik {

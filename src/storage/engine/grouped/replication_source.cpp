@@ -14,26 +14,13 @@
  * limitations under the License.
  */
 
-#if defined(LAVIK_NATIVE_STORAGE_MODULE)
-module;
-#include "../impl_dependencies.h"
-#endif
-
 #if !defined(LAVIK_IMPORT_STD)
 #include <type_traits>
 #endif
 
-#if !defined(LAVIK_NATIVE_STORAGE_MODULE)
 #include "../impl.h"
-#endif
 #include "lavik/storage/detail/collection_compact_stream.h"
 #include "lavik/storage/detail/stream_records.h"
-
-#if defined(LAVIK_NATIVE_STORAGE_MODULE)
-module lavik.storage;
-import :impl;
-#include "../impl_macros.h"
-#endif
 
 #if defined(LAVIK_IMPORT_STD)
 #include "lavik/std_import.h"
