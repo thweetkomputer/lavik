@@ -17,15 +17,29 @@
 #pragma once
 
 #if !defined(LAVIK_BUILDING_STORAGE_FOUNDATION)
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <array>
+#endif
 #include <cstddef>
 #include <cstdint>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <optional>
+#include <span>
+#include <string>
+#include <string_view>
+#include <variant>
+#include <vector>
+#endif
 
 #include "absl/container/flat_hash_set.h"
 #include "absl/status/statusor.h"
 #include "lavik/containers/cow_array.h"
 #include "lavik/containers/cow_map.h"
 #include "lavik/containers/fenwick_tree.h"
-#include "lavik/std_import.h"
 #include "lavik/storage/detail/collection_limits.h"
 #include "lavik/storage/detail/grouped/hash.h"
 #include "lavik/storage/format.h"

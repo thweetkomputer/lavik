@@ -2,14 +2,26 @@
  * SPDX-License-Identifier: Apache-2.0 */
 #include "lavik/meta/raft.h"
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <algorithm>
+#include <chrono>
+#endif
 #include <cstdlib>
 #include <cstring>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <future>
+#include <stdexcept>
+#include <string_view>
+#endif
 
 #include "absl/strings/str_cat.h"
 #include "lavik/meta/identity_verifier.h"
 #include "lavik/meta/raft_bridge.h"
 #include "lavik/meta/state_machine.h"
-#include "lavik/std_import.h"
 #include "spdlog/spdlog.h"
 
 namespace lavik::meta {

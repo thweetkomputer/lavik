@@ -18,7 +18,12 @@
 
 #include <time.h>
 
+#if defined(LAVIK_IMPORT_STD)
 #include "lavik/std_import.h"
+#else
+#include <chrono>
+#include <exception>
+#endif
 
 #if !defined(__linux__) || !defined(CLOCK_BOOTTIME)
 #error "finite cluster leases require Linux CLOCK_BOOTTIME"

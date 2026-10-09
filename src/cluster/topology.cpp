@@ -16,12 +16,21 @@
 
 #include "lavik/cluster/topology.h"
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <algorithm>
+#endif
 #include <cassert>
 #include <cstddef>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <utility>
+#endif
 
 #include "absl/status/status.h"
 #include "absl/strings/str_cat.h"
-#include "lavik/std_import.h"
 #include "lavik/storage/format.h"
 
 namespace lavik::cluster {

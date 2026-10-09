@@ -19,9 +19,17 @@ module;
 #include "impl_dependencies.h"
 #endif
 
-#include <cstdlib>
-
+#if defined(LAVIK_IMPORT_STD)
 #include "lavik/std_import.h"
+#else
+#include <atomic>
+#endif
+#include <cstdlib>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <optional>
+#endif
 
 #if !defined(LAVIK_NATIVE_STORAGE_MODULE)
 #include "impl.h"

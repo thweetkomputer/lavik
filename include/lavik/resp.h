@@ -18,10 +18,17 @@
 
 #include <cstddef>
 #include <cstdint>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <string>
+#include <string_view>
+#include <utility>
+#include <vector>
+#endif
 
 #include "absl/status/statusor.h"
 #include "lavik/resp_version.h"
-#include "lavik/std_import.h"
 
 namespace lavik {
 

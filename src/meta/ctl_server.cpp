@@ -22,10 +22,31 @@
 #include <sys/un.h>
 #include <unistd.h>
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <algorithm>
+#include <chrono>
+#include <coroutine>
+#endif
 #include <cstddef>
 #include <cstdio>
 #include <cstring>
 #include <ctime>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <exception>
+#include <future>
+#include <limits>
+#include <mutex>
+#include <optional>
+#include <stdexcept>
+#include <string>
+#include <string_view>
+#include <utility>
+#include <vector>
+#endif
 
 #include "absl/strings/str_cat.h"
 #include "bycorf/io/storage.h"
@@ -55,7 +76,6 @@
 #include "lavik/meta/raft.h"
 #include "lavik/meta/state_machine.h"
 #include "lavik/numeric_endpoint.h"
-#include "lavik/std_import.h"
 #include "spdlog/spdlog.h"
 
 namespace lavik::meta {

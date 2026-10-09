@@ -16,12 +16,24 @@
 
 #pragma once
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <algorithm>
+#endif
 #include <cstddef>
 #include <cstring>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <optional>
+#include <span>
+#include <string>
+#include <string_view>
+#endif
 
 #include "absl/status/status.h"
 #include "absl/status/statusor.h"
-#include "lavik/std_import.h"
 
 namespace lavik::storage {
 

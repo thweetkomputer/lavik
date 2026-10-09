@@ -28,10 +28,38 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <algorithm>
+#include <array>
+#include <atomic>
+#endif
 #include <cassert>
 #include <cerrno>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <charconv>
+#include <chrono>
+#include <coroutine>
+#endif
 #include <cstdlib>
 #include <cstring>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <deque>
+#include <limits>
+#include <map>
+#include <mutex>
+#include <new>
+#include <optional>
+#include <string>
+#include <utility>
+#include <variant>
+#include <vector>
+#endif
 
 #include "../../replication/log_block.h"
 #include "../ring_buffer.h"
@@ -46,7 +74,6 @@
 #include "lavik/fault_injection.h"
 #include "lavik/memory.h"
 #include "lavik/replication_history.h"
-#include "lavik/std_import.h"
 #include "lavik/storage/detail/compact_write.h"
 #include "lavik/storage/detail/grouped/object_index.h"
 #include "lavik/storage/detail/hash_codec.h"

@@ -2,8 +2,17 @@
 // SPDX-License-Identifier: Apache-2.0
 #pragma once
 
-#include "lavik/numeric_endpoint.h"
+#if defined(LAVIK_IMPORT_STD)
 #include "lavik/std_import.h"
+#else
+#include <algorithm>
+#include <charconv>
+#include <optional>
+#include <string>
+#include <string_view>
+#endif
+
+#include "lavik/numeric_endpoint.h"
 
 namespace lavik {
 

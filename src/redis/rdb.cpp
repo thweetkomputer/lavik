@@ -4,16 +4,41 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <algorithm>
+#include <array>
+#include <bit>
+#endif
 #include <cassert>
 #include <cerrno>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <charconv>
+#endif
 #include <cmath>
 #include <cstdint>
 #include <cstring>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <limits>
+#include <map>
+#include <memory>
+#include <optional>
+#include <set>
+#include <string>
+#include <string_view>
+#include <utility>
+#include <variant>
+#include <vector>
+#endif
 
 #include "absl/container/node_hash_map.h"
 #include "absl/strings/str_cat.h"
 #include "lavik/memory.h"
-#include "lavik/std_import.h"
 #include "lavik/storage/detail/stream_records.h"
 #include "lavik/storage/format.h"
 #include "rdb_record_spool.h"

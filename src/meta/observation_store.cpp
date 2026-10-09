@@ -16,10 +16,28 @@
 
 #include "lavik/meta/observation_store.h"
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <algorithm>
+#include <array>
+#endif
 #include <cassert>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <deque>
+#include <limits>
+#include <map>
+#include <optional>
+#include <string>
+#include <type_traits>
+#include <utility>
+#include <variant>
+#include <vector>
+#endif
 
 #include "lavik/meta/encoding.h"
-#include "lavik/std_import.h"
 
 namespace lavik::meta {
 

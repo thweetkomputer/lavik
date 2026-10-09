@@ -19,7 +19,30 @@
 #include <sys/socket.h>
 #include <unistd.h>
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <algorithm>
+#include <array>
+#include <atomic>
+#endif
 #include <cerrno>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <charconv>
+#include <chrono>
+#include <deque>
+#include <future>
+#include <limits>
+#include <map>
+#include <optional>
+#include <set>
+#include <span>
+#include <string_view>
+#include <utility>
+#include <vector>
+#endif
 
 #include "absl/strings/match.h"
 #include "bycorf/net/tcp_listener.h"
@@ -35,7 +58,6 @@
 #include "lavik/numeric_endpoint.h"
 #include "lavik/password_authenticator.h"
 #include "lavik/resp.h"
-#include "lavik/std_import.h"
 #include "lavik/version.h"
 
 namespace lavik::meta {

@@ -21,11 +21,16 @@
 // topology-owned MetaFailoverTransition carries election and execution state.
 
 #include <cstdint>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <string>
+#include <string_view>
+#endif
 
 #include "absl/status/statusor.h"
 #include "lavik/meta/commands.h"
 #include "lavik/meta/topology_store.h"
-#include "lavik/std_import.h"
 
 namespace lavik::meta {
 

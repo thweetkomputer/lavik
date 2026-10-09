@@ -16,8 +16,13 @@
 
 #include "lavik/tx/transaction.h"
 
-#include "bycorf/runtime/worker.h"
+#if defined(LAVIK_IMPORT_STD)
 #include "lavik/std_import.h"
+#else
+#include <algorithm>
+#endif
+
+#include "bycorf/runtime/worker.h"
 #include "lavik/tx/tx_shard.h"
 
 namespace lavik::tx {

@@ -16,7 +16,23 @@
 
 #include "string_command.h"
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <algorithm>
+#include <bit>
+#endif
 #include <cmath>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <limits>
+#include <new>
+#include <optional>
+#include <stdexcept>
+#include <string_view>
+#include <vector>
+#endif
 
 #include "absl/strings/str_cat.h"
 #include "bycorf/runtime/cross_core.h"
@@ -25,7 +41,6 @@
 #include "lavik/memory.h"
 #include "lavik/redis_parse.h"
 #include "lavik/resp.h"
-#include "lavik/std_import.h"
 #include "lavik/storage/format.h"
 #include "lavik/tx/transaction.h"
 #include "lavik/tx/tx_shard.h"

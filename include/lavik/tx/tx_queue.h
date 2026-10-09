@@ -17,9 +17,19 @@
 #pragma once
 
 #include <cassert>
-#include <cstdint>
-
+#if defined(LAVIK_IMPORT_STD)
 #include "lavik/std_import.h"
+#else
+#include <coroutine>
+#endif
+#include <cstdint>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <deque>
+#include <span>
+#endif
+
 #include "lavik/tx/fingerprint.h"
 
 namespace lavik::tx {

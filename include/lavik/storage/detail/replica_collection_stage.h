@@ -16,8 +16,13 @@
 
 #pragma once
 
-#include "lavik/memory.h"
+#if defined(LAVIK_IMPORT_STD)
 #include "lavik/std_import.h"
+#else
+#include <optional>
+#endif
+
+#include "lavik/memory.h"
 #include "lavik/storage/detail/collection_compact_stream.h"
 #include "lavik/storage/engine.h"
 #include "lavik/tx/tx_shard.h"

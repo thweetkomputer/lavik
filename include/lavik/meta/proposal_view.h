@@ -3,13 +3,21 @@
 #pragma once
 
 #include <cstdint>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <optional>
+#include <string>
+#include <string_view>
+#include <utility>
+#include <vector>
+#endif
 
 #include "lavik/meta/audit_store.h"
 #include "lavik/meta/committed_cursor.h"
 #include "lavik/meta/observation_facts_view.h"
 #include "lavik/meta/operation_store.h"
 #include "lavik/meta/policy_store.h"
-#include "lavik/std_import.h"
 
 namespace lavik::meta {
 

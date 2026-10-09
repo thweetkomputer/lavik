@@ -20,7 +20,11 @@
 #include "replication_internal.h"
 
 #if LAVIK_FAULTS_ENABLED
+#if defined(LAVIK_IMPORT_STD)
 #include "lavik/std_import.h"
+#else
+#include <fstream>
+#endif
 #endif
 
 namespace lavik {

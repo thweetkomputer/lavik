@@ -16,15 +16,33 @@
 
 #include "lavik/cluster/control_transport.h"
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <algorithm>
+#include <array>
+#include <chrono>
+#include <coroutine>
+#endif
 #include <cstddef>
 #include <cstdint>
 #include <cstring>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <limits>
+#include <memory>
+#include <span>
+#include <string>
+#include <string_view>
+#include <type_traits>
+#include <utility>
+#endif
 
 #include "absl/status/status.h"
 #include "absl/status/statusor.h"
 #include "bycorf/io/storage.h"
 #include "bycorf/runtime/worker.h"
-#include "lavik/std_import.h"
 
 namespace lavik::cluster::control {
 namespace {

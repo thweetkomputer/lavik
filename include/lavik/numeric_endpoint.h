@@ -23,9 +23,22 @@
 
 #include <arpa/inet.h>
 
-#include <cstdint>
-
+#if defined(LAVIK_IMPORT_STD)
 #include "lavik/std_import.h"
+#else
+#include <array>
+#include <charconv>
+#endif
+#include <cstdint>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <limits>
+#include <optional>
+#include <string>
+#include <string_view>
+#include <system_error>
+#endif
 
 namespace lavik {
 

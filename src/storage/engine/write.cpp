@@ -19,9 +19,14 @@ module;
 #include "impl_dependencies.h"
 #endif
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <exception>
+#endif
+
 #include "absl/strings/str_cat.h"
 #include "grouped/dependency_test_hook.h"
-#include "lavik/std_import.h"
 #if !defined(LAVIK_NATIVE_STORAGE_MODULE)
 #include "impl.h"
 #endif

@@ -16,8 +16,15 @@
 
 #include "lavik/meta/automatic_failover_detector.h"
 
-#include "absl/status/status.h"
+#if defined(LAVIK_IMPORT_STD)
 #include "lavik/std_import.h"
+#else
+#include <algorithm>
+#include <limits>
+#include <utility>
+#endif
+
+#include "absl/status/status.h"
 
 namespace lavik::meta {
 namespace {

@@ -16,11 +16,23 @@
 
 #pragma once
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <atomic>
+#include <chrono>
+#endif
 #include <cstdint>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <memory>
+#include <span>
+#include <vector>
+#endif
 
 #include "bycorf/net/tcp_stream.h"
 #include "lavik/cluster/meta_client.h"
-#include "lavik/std_import.h"
 
 namespace lavik::cluster::detail {
 

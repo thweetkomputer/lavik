@@ -16,9 +16,19 @@
 
 #include "lavik/logging.h"
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <exception>
+#include <filesystem>
+#include <limits>
+#include <memory>
+#include <string>
+#include <vector>
+#endif
+
 #include "absl/status/status.h"
 #include "absl/strings/str_cat.h"
-#include "lavik/std_import.h"
 #include "spdlog/sinks/rotating_file_sink.h"
 #include "spdlog/sinks/stdout_color_sinks.h"
 #include "spdlog/spdlog.h"

@@ -16,10 +16,38 @@
 
 #include "blocking_wait.h"
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <algorithm>
+#endif
 #include <cassert>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <chrono>
+#endif
 #include <cmath>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <coroutine>
+#endif
 #include <cstddef>
 #include <cstdint>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <deque>
+#include <iterator>
+#include <memory>
+#include <optional>
+#include <string>
+#include <string_view>
+#include <tuple>
+#include <utility>
+#include <vector>
+#endif
 
 #include "absl/container/flat_hash_map.h"
 #include "absl/hash/hash.h"
@@ -32,7 +60,6 @@
 #include "lavik/cluster/runtime.h"
 #include "lavik/metrics.h"
 #include "lavik/resp.h"
-#include "lavik/std_import.h"
 #include "lavik/storage/engine.h"
 
 namespace lavik {

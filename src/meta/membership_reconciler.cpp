@@ -16,6 +16,17 @@
 
 #include "lavik/meta/membership_reconciler.h"
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <algorithm>
+#include <atomic>
+#include <bit>
+#include <chrono>
+#include <future>
+#include <stdexcept>
+#endif
+
 #include "absl/strings/escaping.h"
 #include "absl/strings/str_cat.h"
 #include "bycorf/io/storage.h"
@@ -28,7 +39,6 @@
 #include "lavik/meta/raft.h"
 #include "lavik/meta/state_machine.h"
 #include "lavik/numeric_endpoint.h"
-#include "lavik/std_import.h"
 #include "spdlog/spdlog.h"
 
 namespace lavik::meta {

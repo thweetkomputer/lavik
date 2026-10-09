@@ -16,8 +16,20 @@
 
 #include "function_catalog.h"
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <algorithm>
+#include <array>
+#include <atomic>
+#endif
 #include <cassert>
 #include <cstdlib>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <memory>
+#endif
 
 #include "absl/strings/str_cat.h"
 #include "bycorf/runtime/cross_core.h"
@@ -25,7 +37,6 @@
 #include "lavik/fault_injection.h"
 #include "lavik/rdb.h"
 #include "lavik/replication_command.h"
-#include "lavik/std_import.h"
 
 namespace lavik {
 namespace {

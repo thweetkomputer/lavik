@@ -28,8 +28,24 @@
 // for AuthorityGuard on a request path. Wire mapping
 // (MOVED/CLUSTERDOWN/CROSSSLOT/LOADING text) lives in the Redis layer.
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <atomic>
+#include <chrono>
+#endif
 #include <cstddef>
 #include <cstdint>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <memory>
+#include <mutex>
+#include <optional>
+#include <span>
+#include <string>
+#include <string_view>
+#endif
 
 #include "absl/container/flat_hash_map.h"
 #include "absl/container/inlined_vector.h"
@@ -38,7 +54,6 @@
 #include "lavik/cluster/lease_clock.h"
 #include "lavik/cluster/topology.h"
 #include "lavik/lease_deadline.h"
-#include "lavik/std_import.h"
 
 namespace lavik::cluster {
 

@@ -16,12 +16,24 @@
 
 #include "lavik/storage/detail/grouped/collection.h"
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <algorithm>
+#include <bit>
+#endif
 #include <cmath>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <limits>
+#include <map>
+#include <utility>
+#endif
 
 #include "absl/container/flat_hash_map.h"
 #include "absl/container/inlined_vector.h"
 #include "absl/numeric/int128.h"
-#include "lavik/std_import.h"
 #include "lavik/storage/detail/stream_records.h"
 
 namespace lavik::storage {

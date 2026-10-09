@@ -16,10 +16,17 @@
 
 #include "lavik/cluster/authority.h"
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <algorithm>
+#include <limits>
+#include <utility>
+#endif
+
 #include "absl/status/status.h"
 #include "absl/strings/str_cat.h"
 #include "lavik/metrics.h"
-#include "lavik/std_import.h"
 
 namespace lavik::cluster {
 

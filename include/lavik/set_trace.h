@@ -16,10 +16,13 @@
 
 #pragma once
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <chrono>
+#endif
 #include <cstddef>
 #include <cstdint>
-
-#include "lavik/std_import.h"
 
 #ifndef LAVIK_ENABLE_TRACE
 #define LAVIK_ENABLE_TRACE 0

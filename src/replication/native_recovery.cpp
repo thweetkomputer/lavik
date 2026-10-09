@@ -16,7 +16,12 @@
 
 #include "native_recovery.h"
 
+#if defined(LAVIK_IMPORT_STD)
 #include "lavik/std_import.h"
+#else
+#include <algorithm>
+#include <limits>
+#endif
 
 namespace lavik::detail {
 namespace {

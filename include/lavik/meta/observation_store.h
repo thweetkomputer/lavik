@@ -67,12 +67,21 @@
 
 #include <cstddef>
 #include <cstdint>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <memory>
+#include <mutex>
+#include <optional>
+#include <string>
+#include <variant>
+#include <vector>
+#endif
 
 #include "absl/status/status.h"
 #include "lavik/cluster/control_protocol.h"
 #include "lavik/meta/commands.h"
 #include "lavik/meta/operation_store.h"
-#include "lavik/std_import.h"
 
 namespace lavik::meta {
 

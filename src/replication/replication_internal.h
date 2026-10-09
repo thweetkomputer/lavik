@@ -30,12 +30,44 @@
 #include <sys/socket.h>
 #include <unistd.h>
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <algorithm>
+#include <array>
+#include <atomic>
+#include <bitset>
+#endif
 #include <cassert>
 #include <cerrno>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <charconv>
+#include <chrono>
+#endif
 #include <cstddef>
 #include <cstdint>
 #include <cstdlib>
 #include <cstring>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <deque>
+#include <functional>
+#include <limits>
+#include <memory>
+#include <mutex>
+#include <new>
+#include <optional>
+#include <string>
+#include <string_view>
+#include <system_error>
+#include <thread>
+#include <tuple>
+#include <utility>
+#include <vector>
+#endif
 
 #include "../redis/blocking_wait.h"
 #include "../redis/function_catalog.h"
@@ -67,7 +99,6 @@
 #include "lavik/replication_group.h"
 #include "lavik/replication_history.h"
 #include "lavik/resp.h"
-#include "lavik/std_import.h"
 #include "lavik/storage/engine.h"
 #include "native_recovery.h"
 #include "native_reparent.h"

@@ -16,8 +16,25 @@
 
 #include "lavik/cluster/meta_control.h"
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <algorithm>
+#endif
 #include <cstddef>
 #include <cstdint>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <map>
+#include <memory>
+#include <optional>
+#include <set>
+#include <string>
+#include <string_view>
+#include <utility>
+#include <vector>
+#endif
 
 #include "absl/status/status.h"
 #include "absl/status/statusor.h"
@@ -28,7 +45,6 @@
 #include "lavik/cluster/topology.h"
 #include "lavik/numeric_endpoint.h"
 #include "lavik/replication_group.h"
-#include "lavik/std_import.h"
 
 namespace lavik::cluster {
 namespace {

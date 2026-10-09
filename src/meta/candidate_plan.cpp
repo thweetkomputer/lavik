@@ -16,11 +16,22 @@
 
 #include "lavik/meta/candidate_plan.h"
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <algorithm>
+#endif
 #include <cstddef>
 #include <cstdint>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <tuple>
+#include <utility>
+#include <vector>
+#endif
 
 #include "absl/numeric/int128.h"
-#include "lavik/std_import.h"
 
 namespace lavik::meta {
 namespace {

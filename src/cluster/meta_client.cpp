@@ -19,9 +19,33 @@
 #include <sys/socket.h>
 #include <unistd.h>
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <algorithm>
+#include <atomic>
+#include <chrono>
+#include <condition_variable>
+#endif
 #include <cstddef>
 #include <cstdint>
 #include <cstring>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <deque>
+#include <limits>
+#include <memory>
+#include <mutex>
+#include <optional>
+#include <span>
+#include <string>
+#include <string_view>
+#include <type_traits>
+#include <utility>
+#include <variant>
+#include <vector>
+#endif
 
 #include "absl/cleanup/cleanup.h"
 #include "absl/status/status.h"
@@ -41,7 +65,6 @@
 #include "lavik/metrics.h"
 #include "lavik/numeric_endpoint.h"
 #include "lavik/replication.h"
-#include "lavik/std_import.h"
 #include "spdlog/spdlog.h"
 
 namespace lavik::cluster {

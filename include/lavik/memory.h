@@ -19,9 +19,14 @@
 #if !defined(LAVIK_BUILDING_STORAGE_FOUNDATION)
 #include <cstddef>
 #include <cstdint>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <optional>
+#include <string>
+#endif
 
 #include "absl/status/status.h"
-#include "lavik/std_import.h"
 
 #endif
 

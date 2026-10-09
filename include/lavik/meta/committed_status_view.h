@@ -22,10 +22,15 @@
 // current identity/topology rather than retained history.
 
 #include <cstdint>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <string>
+#include <vector>
+#endif
 
 #include "lavik/meta/identity_store.h"
 #include "lavik/meta/topology_store.h"
-#include "lavik/std_import.h"
 
 namespace lavik::meta {
 

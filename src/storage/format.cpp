@@ -18,13 +18,24 @@
 
 #include <sys/random.h>
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <algorithm>
+#include <array>
+#include <bit>
+#endif
 #include <cassert>
 #include <cerrno>
 #include <cstdlib>
 #include <cstring>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <type_traits>
+#endif
 
 #include "absl/crc/crc32c.h"
-#include "lavik/std_import.h"
 
 namespace lavik::storage {
 namespace {

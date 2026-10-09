@@ -16,8 +16,34 @@
 
 #include "lavik/meta/automatic_failover_reconciler.h"
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <algorithm>
+#include <array>
+#include <atomic>
+#include <charconv>
+#include <chrono>
+#endif
 #include <cstdlib>
 #include <cstring>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <future>
+#include <limits>
+#include <map>
+#include <mutex>
+#include <optional>
+#include <ranges>
+#include <set>
+#include <stdexcept>
+#include <string>
+#include <string_view>
+#include <system_error>
+#include <utility>
+#include <vector>
+#endif
 
 #include "absl/status/status.h"
 #include "bycorf/io/storage.h"
@@ -29,7 +55,6 @@
 #include "lavik/meta/hash.h"
 #include "lavik/meta/observation_store.h"
 #include "lavik/meta/policy_store.h"
-#include "lavik/std_import.h"
 #include "spdlog/spdlog.h"
 
 namespace lavik::meta {

@@ -18,9 +18,13 @@
 
 #include <cassert>
 #include <cstdint>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <span>
+#endif
 
 #include "absl/container/flat_hash_map.h"
-#include "lavik/std_import.h"
 #include "lavik/tx/fingerprint.h"
 
 namespace lavik::tx {

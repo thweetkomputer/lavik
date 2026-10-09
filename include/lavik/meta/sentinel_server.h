@@ -16,14 +16,25 @@
 
 #pragma once
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <atomic>
+#include <chrono>
+#endif
 #include <cstddef>
 #include <cstdint>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <memory>
+#include <string>
+#endif
 
 #include "absl/status/statusor.h"
 #include "bycorf/runtime/foreign_executor.h"
 #include "bycorf/runtime/task.h"
 #include "lavik/meta/coordinator.h"
-#include "lavik/std_import.h"
 
 namespace bycorf {
 class TcpStream;

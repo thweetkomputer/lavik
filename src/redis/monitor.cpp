@@ -21,9 +21,31 @@
 #include <sys/time.h>
 #include <sys/uio.h>
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <algorithm>
+#include <atomic>
+#endif
 #include <cassert>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <chrono>
+#endif
 #include <cstddef>
 #include <cstdint>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <deque>
+#include <memory>
+#include <span>
+#include <string>
+#include <string_view>
+#include <utility>
+#include <vector>
+#endif
 
 #include "absl/container/inlined_vector.h"
 #include "absl/strings/match.h"
@@ -35,7 +57,6 @@
 #include "lavik/command.h"
 #include "lavik/command_table.h"
 #include "lavik/session.h"
-#include "lavik/std_import.h"
 
 namespace lavik {
 using namespace bycorf;

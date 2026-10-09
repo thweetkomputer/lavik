@@ -16,9 +16,16 @@
 
 #pragma once
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <span>
+#include <string>
+#include <vector>
+#endif
+
 #include "lavik/replication.h"
 #include "lavik/replication_history.h"
-#include "lavik/std_import.h"
 
 namespace lavik::detail {
 

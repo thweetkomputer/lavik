@@ -16,9 +16,17 @@
 
 #include "lavik/storage/detail/grouped/sorted_rewrite.h"
 
-#include <cmath>
-
+#if defined(LAVIK_IMPORT_STD)
 #include "lavik/std_import.h"
+#else
+#include <bit>
+#endif
+#include <cmath>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <limits>
+#endif
 
 namespace lavik::storage {
 namespace {

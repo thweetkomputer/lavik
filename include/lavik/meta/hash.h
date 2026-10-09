@@ -22,9 +22,13 @@
 #include <openssl/sha.h>
 
 #include <cstdlib>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <string_view>
+#endif
 
 #include "lavik/meta/commands.h"
-#include "lavik/std_import.h"
 
 namespace lavik::meta {
 

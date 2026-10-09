@@ -16,8 +16,13 @@
 
 #pragma once
 
-#include "lavik/command.h"
+#if defined(LAVIK_IMPORT_STD)
 #include "lavik/std_import.h"
+#else
+#include <span>
+#endif
+
+#include "lavik/command.h"
 
 namespace lavik {
 

@@ -16,15 +16,38 @@
 
 #include "lavik/meta/cluster_create.h"
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <algorithm>
+#endif
 #include <cctype>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <charconv>
+#include <chrono>
+#endif
 #include <cstdint>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <limits>
+#include <optional>
+#include <set>
+#include <sstream>
+#include <string>
+#include <string_view>
+#include <tuple>
+#include <utility>
+#include <vector>
+#endif
 
 #include "absl/status/status.h"
 #include "lavik/CLI11.hpp"
 #include "lavik/client_endpoint.h"
 #include "lavik/meta/cluster_status.h"
 #include "lavik/numeric_endpoint.h"
-#include "lavik/std_import.h"
 #include "openssl/rand.h"
 
 namespace lavik::meta {

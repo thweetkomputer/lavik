@@ -18,14 +18,31 @@
 
 #include <openssl/evp.h>
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <algorithm>
+#include <array>
+#endif
 #include <cstddef>
 #include <cstdint>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <limits>
+#include <memory>
+#include <optional>
+#include <set>
+#include <string>
+#include <tuple>
+#include <utility>
+#include <vector>
+#endif
 
 #include "absl/status/status.h"
 #include "absl/status/statusor.h"
 #include "lavik/memory.h"
 #include "lavik/population_manifest_format.h"
-#include "lavik/std_import.h"
 
 namespace lavik {
 namespace {

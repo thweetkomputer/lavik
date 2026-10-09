@@ -16,12 +16,18 @@
 
 #include "lavik/meta/identity_store.h"
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <limits>
+#include <set>
+#endif
+
 #include "absl/strings/str_cat.h"
 #include "lavik/client_endpoint.h"
 #include "lavik/cluster/control_protocol.h"
 #include "lavik/meta/identity_verifier.h"
 #include "lavik/numeric_endpoint.h"
-#include "lavik/std_import.h"
 
 namespace lavik::meta {
 namespace {

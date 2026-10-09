@@ -16,13 +16,34 @@
 
 #include "lavik/meta/coordinator.h"
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <algorithm>
+#include <chrono>
+#include <condition_variable>
+#endif
 #include <cstdio>
 #include <ctime>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <deque>
+#include <exception>
+#include <limits>
+#include <map>
+#include <mutex>
+#include <ranges>
+#include <stdexcept>
+#include <system_error>
+#include <type_traits>
+#include <utility>
+#include <variant>
+#endif
 
 #include "lavik/client_endpoint.h"
 #include "lavik/meta/raft.h"
 #include "lavik/meta/state_machine.h"
-#include "lavik/std_import.h"
 #include "spdlog/spdlog.h"
 
 namespace lavik::meta {

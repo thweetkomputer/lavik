@@ -19,10 +19,42 @@
 #include <arpa/inet.h>
 #include <sys/socket.h>
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <algorithm>
+#include <array>
+#include <atomic>
+#endif
 #include <cerrno>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <chrono>
+#endif
 #include <cstddef>
 #include <cstdint>
 #include <cstring>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <deque>
+#include <exception>
+#include <future>
+#include <iterator>
+#include <limits>
+#include <map>
+#include <memory>
+#include <optional>
+#include <set>
+#include <span>
+#include <string>
+#include <string_view>
+#include <type_traits>
+#include <utility>
+#include <variant>
+#include <vector>
+#endif
 
 #include "absl/status/status.h"
 #include "absl/status/statusor.h"
@@ -44,7 +76,6 @@
 #include "lavik/meta/observation_store.h"
 #include "lavik/meta/raft.h"
 #include "lavik/numeric_endpoint.h"
-#include "lavik/std_import.h"
 #include "spdlog/spdlog.h"
 
 namespace lavik::meta {

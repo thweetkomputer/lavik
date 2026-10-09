@@ -16,9 +16,17 @@
 
 #include "lavik/meta/commands.h"
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <algorithm>
+#include <limits>
+#include <utility>
+#include <vector>
+#endif
+
 #include "absl/strings/str_cat.h"
 #include "lavik/meta/value_codec.h"
-#include "lavik/std_import.h"
 
 namespace lavik::meta {
 namespace {

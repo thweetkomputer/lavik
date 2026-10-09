@@ -16,8 +16,27 @@
 
 #include "lavik/meta/control_projector.h"
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <algorithm>
+#include <array>
+#endif
 #include <cstddef>
 #include <cstdint>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <limits>
+#include <map>
+#include <optional>
+#include <set>
+#include <string>
+#include <string_view>
+#include <tuple>
+#include <utility>
+#include <vector>
+#endif
 
 #include "absl/status/status.h"
 #include "absl/status/statusor.h"
@@ -30,7 +49,6 @@
 #include "lavik/meta/population_manifest_store.h"
 #include "lavik/meta/state_apply.h"
 #include "lavik/numeric_endpoint.h"
-#include "lavik/std_import.h"
 
 namespace lavik::meta {
 namespace {

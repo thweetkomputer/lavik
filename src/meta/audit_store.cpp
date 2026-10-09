@@ -16,9 +16,19 @@
 
 #include "lavik/meta/audit_store.h"
 
-#include <cstdlib>
-
+#if defined(LAVIK_IMPORT_STD)
 #include "lavik/std_import.h"
+#else
+#include <algorithm>
+#endif
+#include <cstdlib>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <string>
+#include <utility>
+#endif
+
 #include "spdlog/spdlog.h"
 
 namespace lavik::meta {

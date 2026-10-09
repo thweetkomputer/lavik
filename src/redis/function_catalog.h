@@ -16,9 +16,16 @@
 
 #pragma once
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <optional>
+#include <string>
+#include <vector>
+#endif
+
 #include "absl/status/statusor.h"
 #include "bycorf/runtime/task.h"
-#include "lavik/std_import.h"
 #include "lavik/storage/engine.h"
 #include "lua_eval.h"
 

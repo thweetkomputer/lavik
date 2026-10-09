@@ -16,8 +16,13 @@
 
 #include "lavik/meta/proposal_executor.h"
 
-#include "absl/status/status.h"
+#if defined(LAVIK_IMPORT_STD)
 #include "lavik/std_import.h"
+#else
+#include <utility>
+#endif
+
+#include "absl/status/status.h"
 
 namespace lavik::meta {
 

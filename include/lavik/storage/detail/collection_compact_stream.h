@@ -16,12 +16,25 @@
 
 #pragma once
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <array>
+#endif
 #include <cstddef>
 #include <cstdint>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <functional>
+#include <optional>
+#include <string>
+#include <string_view>
+#include <utility>
+#endif
 
 #include "absl/status/status.h"
 #include "absl/status/statusor.h"
-#include "lavik/std_import.h"
 #include "lavik/storage/collection_page.h"
 #include "lavik/storage/detail/collection_limits.h"
 #include "lavik/storage/detail/stream_records.h"

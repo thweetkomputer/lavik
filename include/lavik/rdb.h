@@ -17,9 +17,18 @@
 #pragma once
 
 #include <cstdint>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <memory>
+#include <optional>
+#include <span>
+#include <string>
+#include <string_view>
+#include <vector>
+#endif
 
 #include "absl/status/statusor.h"
-#include "lavik/std_import.h"
 #include "lavik/storage/engine.h"
 
 namespace lavik::rdb {

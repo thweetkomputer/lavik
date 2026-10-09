@@ -19,9 +19,32 @@
 #include <sys/socket.h>
 #include <sys/uio.h>
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <algorithm>
+#include <atomic>
+#endif
 #include <cassert>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <coroutine>
+#endif
 #include <cstddef>
 #include <cstdint>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <deque>
+#include <limits>
+#include <memory>
+#include <span>
+#include <string>
+#include <string_view>
+#include <utility>
+#include <vector>
+#endif
 
 #include "absl/container/flat_hash_map.h"
 #include "absl/container/flat_hash_set.h"
@@ -33,7 +56,6 @@
 #include "lavik/glob.h"
 #include "lavik/memory.h"
 #include "lavik/resp.h"
-#include "lavik/std_import.h"
 
 namespace lavik {
 using namespace bycorf;

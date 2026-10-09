@@ -25,14 +25,38 @@
 #include <sys/uio.h>
 #include <unistd.h>
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <algorithm>
+#include <array>
+#include <atomic>
+#endif
 #include <cassert>
 #include <cctype>
 #include <cerrno>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <chrono>
+#endif
 #include <csignal>
 #include <cstddef>
 #include <cstdint>
 #include <cstdlib>
 #include <cstring>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <limits>
+#include <memory>
+#include <mutex>
+#include <optional>
+#include <span>
+#include <string>
+#include <string_view>
+#include <utility>
+#endif
 
 #include "absl/container/inlined_vector.h"
 #include "absl/strings/match.h"
@@ -65,7 +89,6 @@
 #include "lavik/resp.h"
 #include "lavik/session.h"
 #include "lavik/slowlog.h"
-#include "lavik/std_import.h"
 #include "lavik/storage/engine.h"
 #include "lavik/tx/tx_shard.h"
 #include "lavik/version.h"

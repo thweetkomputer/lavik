@@ -16,10 +16,23 @@
 
 #include "lavik/resp.h"
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <algorithm>
+#endif
 #include <cassert>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <charconv>
+#include <limits>
+#include <new>
+#include <stdexcept>
+#include <string_view>
+#endif
 
 #include "absl/strings/str_cat.h"
-#include "lavik/std_import.h"
 
 namespace lavik {
 

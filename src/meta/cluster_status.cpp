@@ -16,13 +16,32 @@
 
 #include "lavik/meta/cluster_status.h"
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <algorithm>
+#include <array>
+#include <charconv>
+#include <chrono>
+#endif
 #include <cstddef>
 #include <cstdint>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <limits>
+#include <optional>
+#include <string>
+#include <string_view>
+#include <thread>
+#include <tuple>
+#include <utility>
+#include <vector>
+#endif
 
 #include "absl/status/status.h"
 #include "lavik/meta/topology_store.h"
 #include "lavik/numeric_endpoint.h"
-#include "lavik/std_import.h"
 
 namespace lavik::meta {
 namespace {

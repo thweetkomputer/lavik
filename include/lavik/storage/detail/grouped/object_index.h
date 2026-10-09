@@ -17,7 +17,16 @@
 #pragma once
 
 #if !defined(LAVIK_BUILDING_STORAGE_FOUNDATION)
+#if defined(LAVIK_IMPORT_STD)
 #include "lavik/std_import.h"
+#else
+#include <functional>
+#include <memory>
+#include <span>
+#include <string_view>
+#include <variant>
+#endif
+
 #include "lavik/storage/detail/grouped/collection.h"
 #include "lavik/storage/detail/grouped/commit.h"
 #include "lavik/storage/detail/grouped/hash.h"

@@ -16,14 +16,30 @@
 
 #pragma once
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <atomic>
+#endif
 #include <cassert>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <coroutine>
+#endif
 #include <cstdint>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <optional>
+#include <span>
+#include <vector>
+#endif
 
 #include "absl/container/inlined_vector.h"
 #include "absl/status/statusor.h"
 #include "bycorf/runtime/cross_core.h"
 #include "bycorf/runtime/task.h"
-#include "lavik/std_import.h"
 #include "lavik/storage/format.h"
 #include "lavik/tx/fingerprint.h"
 #include "lavik/tx/tx_queue.h"

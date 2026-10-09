@@ -16,11 +16,19 @@
 
 #pragma once
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <charconv>
+#endif
 #include <cstdint>
 #include <cstdlib>
 #include <cstring>
-
+#if defined(LAVIK_IMPORT_STD)
 #include "lavik/std_import.h"
+#else
+#include <string_view>
+#endif
 
 // All fault sites use this single build policy. The explicit test-server option
 // also enables faults in optimized sanitizer builds; package builds disable it.

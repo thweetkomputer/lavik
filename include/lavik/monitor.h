@@ -17,10 +17,17 @@
 #pragma once
 
 #include <cstdint>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <memory>
+#include <span>
+#include <string>
+#include <string_view>
+#endif
 
 #include "absl/status/status.h"
 #include "bycorf/runtime/task.h"
-#include "lavik/std_import.h"
 
 namespace bycorf {
 class TcpStream;

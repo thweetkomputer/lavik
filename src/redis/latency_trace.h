@@ -22,11 +22,21 @@
 // Keep diagnostic helpers and their thread-local state out of disabled builds,
 // independently of dead-code elimination. Prometheus metrics are separate.
 #if LAVIK_ENABLE_TRACE
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <algorithm>
+#include <array>
+#endif
 #include <cstddef>
 #include <cstdint>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <string_view>
+#endif
 
 #include "bycorf/runtime/worker.h"
-#include "lavik/std_import.h"
 #include "spdlog/spdlog.h"
 
 namespace lavik::trace {

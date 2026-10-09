@@ -16,7 +16,25 @@
 
 #include "set_command.h"
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <algorithm>
+#include <charconv>
+#endif
 #include <cstdint>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <limits>
+#include <optional>
+#include <span>
+#include <stdexcept>
+#include <string>
+#include <string_view>
+#include <utility>
+#include <vector>
+#endif
 
 #include "absl/container/flat_hash_set.h"
 #include "absl/status/status.h"
@@ -28,7 +46,6 @@
 #include "lavik/command_table.h"
 #include "lavik/memory.h"
 #include "lavik/resp.h"
-#include "lavik/std_import.h"
 #include "lavik/storage/engine.h"
 #include "lavik/tx/transaction.h"
 

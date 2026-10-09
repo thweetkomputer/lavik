@@ -3,7 +3,14 @@
 
 #include "lavik/meta/observation_facts_view.h"
 
+#if defined(LAVIK_IMPORT_STD)
 #include "lavik/std_import.h"
+#else
+#include <algorithm>
+#include <limits>
+#include <tuple>
+#include <utility>
+#endif
 
 namespace lavik::meta {
 

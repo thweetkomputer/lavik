@@ -16,7 +16,24 @@
 
 #pragma once
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <array>
+#include <chrono>
+#endif
 #include <cstdint>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <memory>
+#include <optional>
+#include <span>
+#include <string>
+#include <string_view>
+#include <utility>
+#include <vector>
+#endif
 
 #include "absl/status/status.h"
 #include "absl/status/statusor.h"
@@ -25,7 +42,6 @@
 #include "lavik/client_mode.h"
 #include "lavik/lease_deadline.h"
 #include "lavik/replication_group.h"
-#include "lavik/std_import.h"
 
 #if defined(LAVIK_NATIVE_STORAGE_MODULE)
 #include "lavik/storage/engine.h"

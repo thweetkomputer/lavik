@@ -19,12 +19,24 @@
 #include <sys/resource.h>
 #include <sys/uio.h>
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <algorithm>
+#endif
 #include <cstddef>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <limits>
+#include <new>
+#include <optional>
+#include <vector>
+#endif
 
 #include "bycorf/io/spdk_storage.h"
 #include "bycorf/runtime/cross_core.h"
 #include "bycorf/runtime/worker.h"
-#include "lavik/std_import.h"
 #include "spdlog/spdlog.h"
 
 namespace lavik::storage {

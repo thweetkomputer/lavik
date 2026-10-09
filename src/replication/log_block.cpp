@@ -16,10 +16,20 @@
 
 #include "log_block.h"
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <algorithm>
+#endif
 #include <cassert>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <limits>
+#include <utility>
+#endif
 
 #include "lavik/memory.h"
-#include "lavik/std_import.h"
 
 namespace lavik::detail {
 namespace {

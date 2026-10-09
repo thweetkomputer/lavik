@@ -95,7 +95,28 @@
 // because this is the proposal entry point. Apply never reads a clock; it
 // copies the injected text into the audit record.
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <atomic>
+#include <chrono>
+#include <condition_variable>
+#include <coroutine>
+#endif
 #include <cstdint>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <deque>
+#include <functional>
+#include <map>
+#include <memory>
+#include <mutex>
+#include <optional>
+#include <string>
+#include <thread>
+#include <vector>
+#endif
 
 #include "absl/status/status.h"
 #include "absl/status/statusor.h"
@@ -111,7 +132,6 @@
 #include "lavik/meta/raft.h"
 #include "lavik/meta/state_apply.h"
 #include "lavik/meta/workflow_views.h"
-#include "lavik/std_import.h"
 
 namespace lavik::meta {
 

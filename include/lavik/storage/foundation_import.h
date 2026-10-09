@@ -16,8 +16,13 @@
 
 #pragma once
 
-// Import std before the foundation so consumers resolve shared standard-library
-// types through the same module.
+// Clang 20 with libstdc++ 13 rejects an inferred lifetimebound attribute on
+// std::as_const when <utility> is first deserialized from the foundation BMI.
+// Parse its declarations before importing to avoid that declaration merge bug.
+#if defined(LAVIK_IMPORT_STD)
 #include "lavik/std_import.h"
+#else
+#include <utility>
+#endif
 
 import lavik.storage.foundation;

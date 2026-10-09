@@ -16,14 +16,27 @@
 
 #include "cluster_command.h"
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <algorithm>
+#endif
 #include <cstddef>
 #include <cstdint>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <memory>
+#include <string>
+#include <string_view>
+#include <utility>
+#include <vector>
+#endif
 
 #include "absl/strings/str_cat.h"
 #include "lavik/cluster/runtime.h"
 #include "lavik/cluster/topology.h"
 #include "lavik/resp.h"
-#include "lavik/std_import.h"
 #include "lavik/storage/format.h"
 
 namespace lavik {

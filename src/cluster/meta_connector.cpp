@@ -16,12 +16,20 @@
 
 #include "lavik/cluster/meta_connector.h"
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <algorithm>
+#include <array>
+#include <chrono>
+#include <optional>
+#endif
+
 #include "bycorf/io/storage.h"
 #include "bycorf/net/tcp_connect.h"
 #include "bycorf/runtime/sync.h"
 #include "bycorf/runtime/worker.h"
 #include "lavik/metrics.h"
-#include "lavik/std_import.h"
 
 namespace lavik::cluster::detail {
 namespace {

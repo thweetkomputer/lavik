@@ -16,11 +16,21 @@
 
 #pragma once
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <chrono>
+#include <map>
+#include <memory>
+#include <optional>
+#include <string>
+#include <vector>
+#endif
+
 #include "bycorf/io/storage.h"
 #include "bycorf/runtime/sync.h"
 #include "bycorf/runtime/worker.h"
 #include "lavik/meta/coordinator.h"
-#include "lavik/std_import.h"
 
 namespace lavik::meta::detail {
 

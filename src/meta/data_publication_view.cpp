@@ -2,8 +2,16 @@
  * SPDX-License-Identifier: Apache-2.0 */
 #include "lavik/meta/data_publication_view.h"
 
-#include "lavik/meta/state_apply.h"
+#if defined(LAVIK_IMPORT_STD)
 #include "lavik/std_import.h"
+#else
+#include <algorithm>
+#include <limits>
+#include <set>
+#include <utility>
+#endif
+
+#include "lavik/meta/state_apply.h"
 
 namespace lavik::meta {
 namespace {

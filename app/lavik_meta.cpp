@@ -26,9 +26,32 @@
 #include <signal.h>
 #include <unistd.h>
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <algorithm>
+#include <atomic>
+#include <chrono>
+#endif
 #include <cstdint>
 #include <cstdio>
 #include <cstring>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <exception>
+#include <fstream>
+#include <functional>
+#include <future>
+#include <iterator>
+#include <memory>
+#include <span>
+#include <stdexcept>
+#include <string>
+#include <string_view>
+#include <thread>
+#include <vector>
+#endif
 
 #include "absl/status/status.h"
 #include "absl/status/statusor.h"
@@ -53,7 +76,6 @@
 #include "lavik/meta/shutdown_signals.h"
 #include "lavik/meta/state_machine.h"
 #include "lavik/numeric_endpoint.h"
-#include "lavik/std_import.h"
 #include "lavik/version.h"
 #include "spdlog/sinks/stdout_color_sinks.h"
 #include "spdlog/spdlog.h"

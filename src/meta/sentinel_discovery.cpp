@@ -16,7 +16,13 @@
 
 #include "lavik/meta/sentinel_discovery.h"
 
+#if defined(LAVIK_IMPORT_STD)
 #include "lavik/std_import.h"
+#else
+#include <algorithm>
+#include <string>
+#include <utility>
+#endif
 
 namespace lavik::meta {
 namespace {

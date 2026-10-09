@@ -18,11 +18,22 @@
 
 #include <poll.h>
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <algorithm>
+#endif
 #include <cerrno>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <chrono>
+#include <string>
+#include <utility>
+#endif
 
 #include "lavik/cluster/meta_client.h"
 #include "lavik/numeric_endpoint.h"
-#include "lavik/std_import.h"
 #include "spdlog/spdlog.h"
 
 namespace lavik::cluster {

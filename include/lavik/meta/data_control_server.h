@@ -21,8 +21,26 @@
 // return the committed Meta directory; only the reconciler installed through
 // MetaCoordinator::RunAsLeader may create authority-bearing sessions.
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <chrono>
+#endif
 #include <cstddef>
 #include <cstdint>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <deque>
+#include <functional>
+#include <map>
+#include <memory>
+#include <optional>
+#include <span>
+#include <string>
+#include <string_view>
+#include <vector>
+#endif
 
 #include "absl/status/status.h"
 #include "absl/status/statusor.h"
@@ -31,7 +49,6 @@
 #include "lavik/meta/coordinator.h"
 #include "lavik/meta/data_control_runtime_status.h"
 #include "lavik/meta/raft.h"
-#include "lavik/std_import.h"
 
 namespace bycorf {
 struct Connection;

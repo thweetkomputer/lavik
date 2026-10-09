@@ -83,12 +83,21 @@
 // MetaFailureClass::kFailStop.
 
 #include <cstdint>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <map>
+#include <optional>
+#include <ranges>
+#include <string>
+#include <string_view>
+#include <vector>
+#endif
 
 #include "absl/status/status.h"
 #include "absl/status/statusor.h"
 #include "lavik/meta/commands.h"
 #include "lavik/meta/encoding.h"
-#include "lavik/std_import.h"
 
 namespace lavik::meta {
 

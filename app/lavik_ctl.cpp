@@ -20,15 +20,36 @@
 
 #include <signal.h>
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <algorithm>
+#endif
 #include <cctype>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <charconv>
+#include <chrono>
+#endif
 #include <cstdio>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <fstream>
+#include <iostream>
+#include <stdexcept>
+#include <string>
+#include <string_view>
+#include <utility>
+#include <vector>
+#endif
 
 #include "absl/status/status.h"
 #include "lavik/meta/admin_client.h"
 #include "lavik/meta/cluster_create.h"
 #include "lavik/meta/cluster_status.h"
 #include "lavik/numeric_endpoint.h"
-#include "lavik/std_import.h"
 #include "lavik/version.h"
 
 namespace {

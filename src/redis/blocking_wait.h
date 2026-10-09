@@ -16,14 +16,30 @@
 
 #pragma once
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <atomic>
+#include <chrono>
+#endif
 #include <cstdint>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <functional>
+#include <memory>
+#include <optional>
+#include <string>
+#include <string_view>
+#include <utility>
+#include <vector>
+#endif
 
 #include "absl/status/status.h"
 #include "absl/status/statusor.h"
 #include "bycorf/runtime/task.h"
 #include "lavik/cluster/authority.h"
 #include "lavik/command.h"
-#include "lavik/std_import.h"
 
 namespace lavik {
 

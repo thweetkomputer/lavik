@@ -4,8 +4,19 @@
 
 #include <netdb.h>
 
-#include "lavik/client_endpoint.h"
+#if defined(LAVIK_IMPORT_STD)
 #include "lavik/std_import.h"
+#else
+#include <atomic>
+#include <chrono>
+#include <map>
+#include <memory>
+#include <set>
+#include <string>
+#include <thread>
+#endif
+
+#include "lavik/client_endpoint.h"
 
 namespace lavik {
 

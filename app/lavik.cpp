@@ -18,12 +18,20 @@
 
 #include <cstddef>
 #include <cstdint>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <iostream>
+#include <limits>
+#include <string>
+#include <utility>
+#include <vector>
+#endif
 
 #include "lavik/CLI11.hpp"
 #include "lavik/config.h"
 #include "lavik/logging.h"
 #include "lavik/server.h"
-#include "lavik/std_import.h"
 #include "lavik/version.h"
 
 int main(int argc, char** argv) {
