@@ -17,64 +17,9 @@
 #pragma once
 
 #if !defined(LAVIK_BUILDING_STORAGE_FOUNDATION)
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <algorithm>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <array>
-#endif
 #include <cassert>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <compare>
-#endif
 #include <cstddef>
 #include <cstdint>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <map>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <memory>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <optional>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <span>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <stdexcept>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <string>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <string_view>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <vector>
-#endif
 
 #include "absl/container/flat_hash_set.h"
 #include "absl/functional/function_ref.h"
@@ -83,6 +28,7 @@
 #include "lavik/containers/cow_map.h"
 #include "lavik/local_shared_ptr.h"
 #include "lavik/memory.h"
+#include "lavik/std_import.h"
 #include "lavik/storage/detail/collection_limits.h"
 #include "lavik/storage/detail/hash_codec.h"
 #include "lavik/storage/scan_hash_map.h"

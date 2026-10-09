@@ -19,11 +19,7 @@ module;
 #include "../impl_dependencies.h"
 #endif
 
-#if defined(LAVIK_IMPORT_STD)
 #include "lavik/std_import.h"
-#else
-#include <charconv>
-#endif
 
 #if !defined(LAVIK_NATIVE_STORAGE_MODULE)
 #include "../impl.h"

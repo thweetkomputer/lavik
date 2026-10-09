@@ -16,98 +16,8 @@
 
 #include "lavik/meta/automatic_failover_reconciler.h"
 
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <algorithm>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <array>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <atomic>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <charconv>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <chrono>
-#endif
 #include <cstdlib>
 #include <cstring>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <future>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <limits>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <map>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <mutex>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <optional>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <ranges>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <set>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <stdexcept>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <string>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <string_view>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <system_error>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <utility>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <vector>
-#endif
 
 #include "absl/status/status.h"
 #include "bycorf/io/storage.h"
@@ -119,6 +29,7 @@
 #include "lavik/meta/hash.h"
 #include "lavik/meta/observation_store.h"
 #include "lavik/meta/policy_store.h"
+#include "lavik/std_import.h"
 #include "spdlog/spdlog.h"
 
 namespace lavik::meta {

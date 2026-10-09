@@ -20,21 +20,8 @@ module;
 #endif
 
 #include <cmath>
-#if defined(LAVIK_IMPORT_STD)
+
 #include "lavik/std_import.h"
-#else
-#include <map>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <set>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <type_traits>
-#endif
 
 #if !defined(LAVIK_NATIVE_STORAGE_MODULE)
 #include "../impl.h"

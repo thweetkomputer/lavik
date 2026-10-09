@@ -16,11 +16,7 @@
 
 #include "native_reparent.h"
 
-#if defined(LAVIK_IMPORT_STD)
 #include "lavik/std_import.h"
-#else
-#include <algorithm>
-#endif
 
 namespace lavik::detail {
 

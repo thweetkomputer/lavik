@@ -16,24 +16,10 @@
 
 #include "lavik/storage/detail/hash_read.h"
 
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <algorithm>
-#endif
 #include <cassert>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <limits>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <string>
-#endif
 
 #include "lavik/memory.h"
+#include "lavik/std_import.h"
 #include "lavik/storage/detail/hash_codec.h"
 #include "lavik/storage/engine.h"
 

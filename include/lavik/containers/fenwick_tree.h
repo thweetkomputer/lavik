@@ -17,38 +17,14 @@
 #pragma once
 
 #if !defined(LAVIK_BUILDING_STORAGE_FOUNDATION)
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <algorithm>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <bit>
-#endif
 #include <cassert>
 #include <cstddef>
 #include <cstdint>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <span>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <utility>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <vector>
-#endif
 
 #include "absl/container/inlined_vector.h"
 #include "absl/numeric/int128.h"
 #include "lavik/containers/cow_array.h"
+#include "lavik/std_import.h"
 
 #endif
 

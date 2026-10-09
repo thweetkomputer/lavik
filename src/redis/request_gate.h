@@ -16,18 +16,10 @@
 
 #pragma once
 
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <atomic>
-#endif
 #include <cassert>
 #include <cstdint>
-#if defined(LAVIK_IMPORT_STD)
+
 #include "lavik/std_import.h"
-#else
-#include <memory>
-#endif
 
 namespace lavik {
 

@@ -16,69 +16,9 @@
 
 #pragma once
 
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <array>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <atomic>
-#endif
 #include <cassert>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <chrono>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <coroutine>
-#endif
 #include <cstddef>
 #include <cstdint>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <functional>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <map>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <memory>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <optional>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <span>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <string>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <string_view>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <vector>
-#endif
 
 #include "absl/status/statusor.h"
 #include "bycorf/runtime/task.h"
@@ -86,6 +26,7 @@
 #include "lavik/memory.h"
 #include "lavik/read_trace.h"
 #include "lavik/set_trace.h"
+#include "lavik/std_import.h"
 #include "lavik/storage/buffer_pool.h"
 #include "lavik/storage/collection_page.h"
 #include "lavik/storage/format.h"

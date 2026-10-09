@@ -17,33 +17,9 @@
 #include "lavik/meta/policy_store.h"
 
 #include <cctype>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <limits>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <map>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <string>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <utility>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <variant>
-#endif
 
 #include "absl/strings/str_cat.h"
+#include "lavik/std_import.h"
 
 namespace lavik::meta {
 namespace {

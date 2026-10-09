@@ -16,26 +16,7 @@
 
 #include "lavik/storage/detail/stream_records.h"
 
-#if defined(LAVIK_IMPORT_STD)
 #include "lavik/std_import.h"
-#else
-#include <algorithm>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <limits>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <map>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <set>
-#endif
 
 namespace lavik::storage {
 namespace {

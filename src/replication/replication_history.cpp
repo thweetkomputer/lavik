@@ -16,36 +16,12 @@
 
 #include "lavik/replication_history.h"
 
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <algorithm>
-#endif
 #include <cassert>
 #include <cstring>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <deque>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <limits>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <optional>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <utility>
-#endif
 
 #include "lavik/memory.h"
 #include "lavik/retained_allocator.h"
+#include "lavik/std_import.h"
 #include "lavik/storage/format.h"
 #include "log_block.h"
 

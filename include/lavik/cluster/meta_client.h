@@ -20,54 +20,15 @@
 // only volatile discovery/session state: a restart begins fenced and learns a
 // complete projection from the current Meta leader before acquiring a lease.
 
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <chrono>
-#endif
 #include <cstddef>
 #include <cstdint>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <functional>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <memory>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <optional>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <span>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <string>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <string_view>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <vector>
-#endif
 
 #include "absl/status/status.h"
 #include "absl/status/statusor.h"
 #include "bycorf/net/service.h"
 #include "lavik/cluster/control_protocol.h"
 #include "lavik/replication.h"
+#include "lavik/std_import.h"
 
 namespace bycorf {
 class TlsContext;

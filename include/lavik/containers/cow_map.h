@@ -17,53 +17,14 @@
 #pragma once
 
 #if !defined(LAVIK_BUILDING_STORAGE_FOUNDATION)
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <algorithm>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <array>
-#endif
 #include <cassert>
 #include <cstddef>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <limits>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <optional>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <span>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <stdexcept>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <type_traits>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <utility>
-#endif
 
 #include "absl/status/statusor.h"
 #include "lavik/local_shared_ptr.h"
 #include "lavik/memory.h"
 #include "lavik/retained_allocator.h"
+#include "lavik/std_import.h"
 
 #endif
 

@@ -19,13 +19,9 @@
 #if !defined(LAVIK_BUILDING_STORAGE_FOUNDATION)
 #include <cassert>
 #include <cstdint>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <limits>
-#endif
 
 #include "lavik/memory.h"
+#include "lavik/std_import.h"
 #include "lavik/storage/format.h"
 #include "lavik/storage/scan_hash_map.h"
 

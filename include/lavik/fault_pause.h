@@ -21,15 +21,10 @@
 #if LAVIK_FAULTS_ENABLED
 #include <unistd.h>
 
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <chrono>
-#endif
-
 #include "absl/status/status.h"
 #include "bycorf/io/storage.h"
 #include "bycorf/runtime/worker.h"
+#include "lavik/std_import.h"
 #include "spdlog/spdlog.h"
 
 namespace lavik::fault_injection {

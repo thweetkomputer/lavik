@@ -41,42 +41,13 @@
 //     comma-separated order real Redis 7.2 uses (s_down first, then role).
 
 #include <cstdint>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <map>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <memory>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <optional>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <string>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <string_view>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <vector>
-#endif
 
 #include "lavik/client_endpoint.h"
 #include "lavik/meta/automatic_failover_detector.h"
 #include "lavik/meta/committed_status_view.h"
 #include "lavik/meta/data_control_runtime_status.h"
 #include "lavik/resp.h"
+#include "lavik/std_import.h"
 
 namespace lavik::meta {
 

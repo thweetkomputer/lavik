@@ -16,16 +16,7 @@
 
 #pragma once
 
-#if defined(LAVIK_IMPORT_STD)
 #include "lavik/std_import.h"
-#else
-#include <array>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <string_view>
-#endif
 
 namespace lavik {
 

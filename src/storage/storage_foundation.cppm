@@ -19,8 +19,8 @@ module;
 
 export module lavik.storage.foundation;
 
-// Keep these existing types in the global C++ ABI: textual control builds and
-// non-storage libraries still define their out-of-line functions. Export the
+// Keep these existing types in the global C++ ABI: non-storage libraries
+// still define their out-of-line functions. Export the
 // definitions themselves so consumers can use them without reparsing headers.
 #define LAVIK_BUILDING_STORAGE_FOUNDATION 1
 export extern "C++" {

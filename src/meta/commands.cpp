@@ -16,29 +16,9 @@
 
 #include "lavik/meta/commands.h"
 
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <algorithm>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <limits>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <utility>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <vector>
-#endif
-
 #include "absl/strings/str_cat.h"
 #include "lavik/meta/value_codec.h"
+#include "lavik/std_import.h"
 
 namespace lavik::meta {
 namespace {

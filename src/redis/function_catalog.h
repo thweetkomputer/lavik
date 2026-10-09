@@ -16,24 +16,9 @@
 
 #pragma once
 
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <optional>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <string>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <vector>
-#endif
-
 #include "absl/status/statusor.h"
 #include "bycorf/runtime/task.h"
+#include "lavik/std_import.h"
 #include "lavik/storage/engine.h"
 #include "lua_eval.h"
 

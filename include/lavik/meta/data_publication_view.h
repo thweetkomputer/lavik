@@ -2,32 +2,6 @@
  * SPDX-License-Identifier: Apache-2.0 */
 #pragma once
 
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <optional>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <span>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <string_view>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <utility>
-#endif
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
-#include <vector>
-#endif
-
 #include "lavik/meta/committed_cursor.h"
 #include "lavik/meta/identity_store.h"
 #include "lavik/meta/observation_store.h"
@@ -35,6 +9,7 @@
 #include "lavik/meta/policy_store.h"
 #include "lavik/meta/population_manifest_store.h"
 #include "lavik/meta/topology_store.h"
+#include "lavik/std_import.h"
 
 namespace lavik::meta {
 struct MetaStores;

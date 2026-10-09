@@ -16,11 +16,7 @@
 
 #include "lavik/meta/value_codec.h"
 
-#if defined(LAVIK_IMPORT_STD)
 #include "lavik/std_import.h"
-#else
-#include <string>
-#endif
 
 namespace lavik::meta {
 
