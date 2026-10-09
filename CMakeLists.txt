@@ -2370,8 +2370,5 @@ foreach(target IN LISTS lavik_targets)
       AND NOT target STREQUAL "lavik_lua")
     set_target_properties(${target} PROPERTIES
       CXX_SCAN_FOR_MODULES ON CXX_MODULE_STD ON DISABLE_PRECOMPILE_HEADERS ON)
-    # Existing local vendor adaptations still use this compatibility define.
-    # It is not a user-facing switch, and first-party code never branches on it.
-    target_compile_definitions(${target} PRIVATE LAVIK_IMPORT_STD=1)
   endif()
 endforeach()
