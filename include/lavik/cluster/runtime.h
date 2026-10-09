@@ -23,8 +23,16 @@
 // node controller own their documented synchronized/worker-affine state.
 
 #include <cstdint>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <memory>
+#endif
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <string>
+#endif
 
 #include "lavik/client_mode.h"
 #include "lavik/cluster/node_control.h"

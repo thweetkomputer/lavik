@@ -1,7 +1,15 @@
 /* Copyright (C) 2026 EloqData Inc.
  * SPDX-License-Identifier: Apache-2.0 */
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <algorithm>
+#endif
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <set>
+#endif
 
 #include "absl/strings/escaping.h"
 #include "absl/strings/str_cat.h"

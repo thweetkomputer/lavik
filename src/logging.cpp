@@ -16,12 +16,36 @@
 
 #include "lavik/logging.h"
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <exception>
+#endif
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <filesystem>
+#endif
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <limits>
+#endif
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <memory>
+#endif
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <string>
+#endif
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <vector>
+#endif
 
 #include "absl/status/status.h"
 #include "absl/strings/str_cat.h"

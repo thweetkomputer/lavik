@@ -16,14 +16,38 @@
 
 #pragma once
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <array>
+#endif
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <atomic>
+#endif
 #include <cstddef>
 #include <cstdint>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <functional>
+#endif
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <memory>
+#endif
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <string>
+#endif
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <string_view>
+#endif
 
 #include "bycorf/runtime/task.h"
 #include "lavik/command.h"

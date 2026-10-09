@@ -16,10 +16,18 @@
 
 #include "lavik/rdb_collection.h"
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <bit>
+#endif
 #include <cmath>
 #include <cstring>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <limits>
+#endif
 
 #include "rdb_stream_encoder.h"
 

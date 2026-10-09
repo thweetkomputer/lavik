@@ -16,14 +16,33 @@
 
 #pragma once
 
+#if !defined(LAVIK_BUILDING_STORAGE_FOUNDATION)
 #include <cstddef>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <string>
+#endif
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <string_view>
+#endif
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <vector>
+#endif
 
 #include "absl/status/statusor.h"
 #include "lavik/storage/format.h"
 
+#endif
+
+#if defined(LAVIK_NATIVE_STORAGE_FOUNDATION) && \
+    !defined(LAVIK_BUILDING_STORAGE_FOUNDATION)
+#include "lavik/storage/foundation_import.h"
+#else
 namespace lavik::storage {
 
 inline constexpr std::size_t kHashValueHeaderBytes = 32;
@@ -86,3 +105,5 @@ absl::StatusOr<std::size_t> AppendHashEntrySize(std::size_t encoded_bytes,
                                                 std::size_t max_bytes);
 
 }  // namespace lavik::storage
+
+#endif  // LAVIK_NATIVE_STORAGE_FOUNDATION

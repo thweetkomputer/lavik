@@ -11,19 +11,54 @@
  * The complete license text is in third_party/valkey/COPYING.
  */
 
+#if !defined(LAVIK_BUILDING_STORAGE_FOUNDATION)
 #include <mimalloc.h>
 
 #include <cstddef>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <exception>
+#endif
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <limits>
+#endif
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <memory>
+#endif
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <new>
+#endif
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <optional>
+#endif
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <type_traits>
+#endif
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <utility>
+#endif
 
 #include "lavik/memory.h"
 
+#endif
+
+#if defined(LAVIK_NATIVE_STORAGE_FOUNDATION) && \
+    !defined(LAVIK_BUILDING_STORAGE_FOUNDATION)
+#include "lavik/storage/foundation_import.h"
+#else
 namespace lavik {
 
 // Identifies which worker owns a retained allocation and whether an enclosing
@@ -174,3 +209,5 @@ void DestroyRetainedObject(RetainedAllocationDomain domain,
 }
 
 }  // namespace lavik
+
+#endif  // LAVIK_NATIVE_STORAGE_FOUNDATION

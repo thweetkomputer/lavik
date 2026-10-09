@@ -21,7 +21,11 @@ module;
 
 #include <sys/statvfs.h>
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <algorithm>
+#endif
 #include <cstddef>
 #include <cstdint>
 

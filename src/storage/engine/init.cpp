@@ -19,7 +19,11 @@ module;
 #include "impl_dependencies.h"
 #endif
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <thread>
+#endif
 
 #include "absl/strings/str_cat.h"
 #include "device_affinity.h"

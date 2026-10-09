@@ -16,8 +16,16 @@
 
 #include "lavik/meta/topology_store.h"
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <algorithm>
+#endif
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <set>
+#endif
 
 #include "absl/strings/str_cat.h"
 

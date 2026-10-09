@@ -3,9 +3,21 @@
 
 #include "lavik/meta/failover_views.h"
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <algorithm>
+#endif
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <mutex>
+#endif
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <utility>
+#endif
 
 #include "lavik/meta/failover.h"
 #include "lavik/meta/hash.h"

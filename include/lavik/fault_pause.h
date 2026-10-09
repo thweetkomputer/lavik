@@ -21,7 +21,11 @@
 #if LAVIK_FAULTS_ENABLED
 #include <unistd.h>
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <chrono>
+#endif
 
 #include "absl/status/status.h"
 #include "bycorf/io/storage.h"

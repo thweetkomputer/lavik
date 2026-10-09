@@ -19,11 +19,23 @@ module;
 #include "impl_dependencies.h"
 #endif
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <charconv>
+#endif
 #include <cmath>
 #include <cstdlib>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <random>
+#endif
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <set>
+#endif
 
 #include "absl/container/flat_hash_map.h"
 #include "absl/container/flat_hash_set.h"

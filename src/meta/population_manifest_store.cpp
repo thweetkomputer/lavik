@@ -16,7 +16,11 @@
 
 #include "lavik/meta/population_manifest_store.h"
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <algorithm>
+#endif
 
 #include "lavik/meta/hash.h"
 #include "lavik/population_manifest_format.h"

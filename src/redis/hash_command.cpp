@@ -16,8 +16,16 @@
 
 #include "hash_command.h"
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <charconv>
+#endif
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <limits>
+#endif
 
 #include "cluster_gate.h"
 #include "lavik/resp.h"

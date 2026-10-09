@@ -24,8 +24,16 @@
 // I/O and owns no mutable state.
 
 #include <cstddef>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <string>
+#endif
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <string_view>
+#endif
 
 #include "absl/status/statusor.h"
 #include "lavik/cluster/control_protocol.h"

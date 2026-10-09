@@ -16,17 +16,44 @@
 
 #pragma once
 
+#if !defined(LAVIK_BUILDING_STORAGE_FOUNDATION)
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <functional>
+#endif
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <memory>
+#endif
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <span>
+#endif
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <string_view>
+#endif
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <variant>
+#endif
 
 #include "lavik/storage/detail/grouped/collection.h"
 #include "lavik/storage/detail/grouped/commit.h"
 #include "lavik/storage/detail/grouped/hash.h"
 #include "lavik/storage/detail/record_index.h"
 
+#endif
+
+#if defined(LAVIK_NATIVE_STORAGE_FOUNDATION) && \
+    !defined(LAVIK_BUILDING_STORAGE_FOUNDATION)
+#include "lavik/storage/foundation_import.h"
+#else
 namespace lavik::storage {
 
 // An object directory belongs to a physical root version in one population,
@@ -330,3 +357,5 @@ class GroupedObjectIndex {
 };
 
 }  // namespace lavik::storage
+
+#endif  // LAVIK_NATIVE_STORAGE_FOUNDATION

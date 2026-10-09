@@ -16,26 +16,77 @@
 
 #pragma once
 
+#if !defined(LAVIK_BUILDING_STORAGE_FOUNDATION)
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <algorithm>
+#endif
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <array>
+#endif
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <bit>
+#endif
 #include <cassert>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <compare>
+#endif
 #include <cstddef>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <iterator>
+#endif
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <limits>
+#endif
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <memory>
+#endif
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <span>
+#endif
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <type_traits>
+#endif
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <utility>
+#endif
 #ifndef NDEBUG
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <thread>
+#endif
 #endif
 
 #include "absl/status/statusor.h"
 #include "lavik/memory.h"
 #include "lavik/retained_allocator.h"
 
+#endif
+
+#if defined(LAVIK_NATIVE_STORAGE_FOUNDATION) && \
+    !defined(LAVIK_BUILDING_STORAGE_FOUNDATION)
+#include "lavik/storage/foundation_import.h"
+#else
 namespace lavik {
 
 // Owner-thread copy-on-write array. A single variable-capacity chunk is the
@@ -424,3 +475,5 @@ class CowArray {
 };
 
 }  // namespace lavik
+
+#endif  // LAVIK_NATIVE_STORAGE_FOUNDATION

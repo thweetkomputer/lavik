@@ -16,11 +16,23 @@
 
 #include "lavik/storage/detail/collection_compact_stream.h"
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <algorithm>
+#endif
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <bit>
+#endif
 #include <cmath>
 #include <cstring>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <limits>
+#endif
 
 #include "lavik/storage/detail/grouped/hash.h"
 #include "lavik/storage/detail/stream_records.h"

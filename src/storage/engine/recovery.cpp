@@ -21,8 +21,16 @@ module;
 
 #include <mimalloc.h>
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <memory>
+#endif
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <tuple>
+#endif
 
 #if !defined(LAVIK_NATIVE_STORAGE_MODULE)
 #include "impl.h"

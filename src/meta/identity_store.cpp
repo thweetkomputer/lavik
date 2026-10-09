@@ -16,8 +16,16 @@
 
 #include "lavik/meta/identity_store.h"
 
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <limits>
+#endif
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <set>
+#endif
 
 #include "absl/strings/str_cat.h"
 #include "lavik/client_endpoint.h"

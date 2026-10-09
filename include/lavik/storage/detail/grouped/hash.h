@@ -16,20 +16,65 @@
 
 #pragma once
 
+#if !defined(LAVIK_BUILDING_STORAGE_FOUNDATION)
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <algorithm>
+#endif
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <array>
+#endif
 #include <cassert>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <compare>
+#endif
 #include <cstddef>
 #include <cstdint>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <map>
+#endif
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <memory>
+#endif
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <optional>
+#endif
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <span>
+#endif
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <stdexcept>
+#endif
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <string>
+#endif
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <string_view>
+#endif
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <vector>
+#endif
 
 #include "absl/container/flat_hash_set.h"
 #include "absl/functional/function_ref.h"
@@ -42,6 +87,12 @@
 #include "lavik/storage/detail/hash_codec.h"
 #include "lavik/storage/scan_hash_map.h"
 
+#endif
+
+#if defined(LAVIK_NATIVE_STORAGE_FOUNDATION) && \
+    !defined(LAVIK_BUILDING_STORAGE_FOUNDATION)
+#include "lavik/storage/foundation_import.h"
+#else
 namespace lavik::storage {
 
 // Shared auxiliary identity: Hash prefixes use the HIGH bits of the persisted
@@ -335,3 +386,5 @@ absl::StatusOr<HashGroupMutationPlan> PlanHashGroupMutation(
     std::size_t target_bytes = kCollectionGroupTargetBytes);
 
 }  // namespace lavik::storage
+
+#endif  // LAVIK_NATIVE_STORAGE_FOUNDATION

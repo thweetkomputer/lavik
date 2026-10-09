@@ -16,17 +16,44 @@
 
 #pragma once
 
+#if !defined(LAVIK_BUILDING_STORAGE_FOUNDATION)
 #include <cassert>
 #include <cstddef>
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <limits>
+#endif
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <memory>
+#endif
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <type_traits>
+#endif
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
 #include <utility>
-
-#ifndef NDEBUG
-#include <thread>
 #endif
 
+#ifndef NDEBUG
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#else
+#include <thread>
+#endif
+#endif
+
+#endif
+
+#if defined(LAVIK_NATIVE_STORAGE_FOUNDATION) && \
+    !defined(LAVIK_BUILDING_STORAGE_FOUNDATION)
+#include "lavik/storage/foundation_import.h"
+#else
 namespace lavik {
 namespace local_shared_detail {
 
@@ -241,3 +268,5 @@ LocalSharedPtr<T> MakeLocalShared(Args&&... args) {
 }
 
 }  // namespace lavik
+
+#endif  // LAVIK_NATIVE_STORAGE_FOUNDATION
