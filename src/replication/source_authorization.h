@@ -16,21 +16,13 @@
 
 #pragma once
 
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
 #include <algorithm>
 #include <chrono>
-#endif
 #include <cstddef>
 #include <cstdint>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
 #include <memory>
 #include <optional>
 #include <vector>
-#endif
 
 #include "absl/status/status.h"
 #include "absl/status/statusor.h"

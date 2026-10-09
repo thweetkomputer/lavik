@@ -18,23 +18,15 @@
 
 #include <fcntl.h>
 
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
 #include <algorithm>
 #include <array>
-#endif
 #include <cerrno>
 #include <cstdio>
 #include <cstring>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
 #include <memory>
 #include <optional>
 #include <string>
 #include <vector>
-#endif
 
 #include "absl/status/statusor.h"
 #include "lavik/memory.h"

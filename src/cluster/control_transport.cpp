@@ -16,9 +16,7 @@
 
 #include "lavik/cluster/control_transport.h"
 
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <algorithm>
 #include <array>
 #include <chrono>
@@ -27,9 +25,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <cstring>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <limits>
 #include <memory>
 #include <span>
@@ -43,6 +39,10 @@
 #include "absl/status/statusor.h"
 #include "bycorf/io/storage.h"
 #include "bycorf/runtime/worker.h"
+
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#endif
 
 namespace lavik::cluster::control {
 namespace {

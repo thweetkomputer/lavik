@@ -3,14 +3,16 @@
 
 #include "lavik/meta/admin_views.h"
 
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <algorithm>
 #endif
 
 #include "lavik/meta/failover.h"
 #include "lavik/meta/state_machine.h"
+
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#endif
 
 namespace lavik::meta {
 namespace {

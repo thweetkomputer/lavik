@@ -17,20 +17,12 @@
 #ifndef LAVIK_RANDOM_SAMPLE_H_
 #define LAVIK_RANDOM_SAMPLE_H_
 
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
 #include <algorithm>
-#endif
 #include <cstdint>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
 #include <numeric>
 #include <random>
 #include <unordered_set>
 #include <vector>
-#endif
 
 namespace lavik {
 

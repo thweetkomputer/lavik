@@ -25,20 +25,13 @@
 #include <arm_neon.h>
 #endif
 
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
 #include <algorithm>
 #include <array>
 #include <bit>
-#endif
 #include <cassert>
 #include <cstddef>
 #include <cstdint>
 #include <cstring>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
 #include <limits>
 #include <memory>
 #include <new>
@@ -47,7 +40,6 @@
 #include <type_traits>
 #include <utility>
 #include <vector>
-#endif
 
 #include "absl/container/inlined_vector.h"
 #include "lavik/memory.h"

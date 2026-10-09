@@ -25,9 +25,7 @@
 #include <sys/uio.h>
 #include <unistd.h>
 
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <algorithm>
 #include <array>
 #include <atomic>
@@ -35,9 +33,7 @@
 #include <cassert>
 #include <cctype>
 #include <cerrno>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <chrono>
 #endif
 #include <csignal>
@@ -45,9 +41,7 @@
 #include <cstdint>
 #include <cstdlib>
 #include <cstring>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <limits>
 #include <memory>
 #include <mutex>
@@ -95,6 +89,10 @@
 #include "lua_eval.h"
 #include "request_gate.h"
 #include "spdlog/spdlog.h"
+
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#endif
 
 namespace lavik {
 using namespace bycorf;

@@ -16,16 +16,12 @@
 
 #include "lavik/cluster/meta_control.h"
 
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <algorithm>
 #endif
 #include <cstddef>
 #include <cstdint>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <map>
 #include <memory>
 #include <optional>
@@ -45,6 +41,10 @@
 #include "lavik/cluster/topology.h"
 #include "lavik/numeric_endpoint.h"
 #include "lavik/replication_group.h"
+
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#endif
 
 namespace lavik::cluster {
 namespace {

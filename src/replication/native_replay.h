@@ -16,14 +16,10 @@
 
 #pragma once
 
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
 #include <memory>
 #include <span>
 #include <string>
 #include <vector>
-#endif
 
 #include "lavik/replication_command.h"
 #include "lavik/replication_history.h"

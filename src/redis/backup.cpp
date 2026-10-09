@@ -16,29 +16,21 @@
 
 #include "backup.h"
 
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <atomic>
 #endif
 #include <cassert>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <chrono>
 #endif
 #include <climits>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <condition_variable>
 #endif
 #include <cstddef>
 #include <cstdint>
 #include <cstdlib>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <deque>
 #include <filesystem>
 #include <memory>
@@ -66,6 +58,10 @@
 #include "lavik/resp.h"
 #include "lua_eval.h"
 #include "spdlog/spdlog.h"
+
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#endif
 
 namespace lavik {
 namespace {

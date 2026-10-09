@@ -20,17 +20,10 @@
 // deliberately separate from control_protocol: framing/codecs stay usable in
 // pure tests, while this module owns Bycorf socket reads and writes.
 
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
 #include <array>
 #include <chrono>
-#endif
 #include <cstddef>
 #include <cstdint>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
 #include <deque>
 #include <functional>
 #include <memory>
@@ -38,7 +31,6 @@
 #include <string>
 #include <string_view>
 #include <utility>
-#endif
 
 #include "absl/status/status.h"
 #include "absl/status/statusor.h"

@@ -23,16 +23,12 @@
 
 #include <cctype>
 #include <cerrno>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <charconv>
 #endif
 #include <cstdint>
 #include <cstring>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <fstream>
 #include <limits>
 #include <mutex>
@@ -49,6 +45,10 @@
 #include "absl/strings/str_split.h"
 #include "bycorf/runtime/cross_core.h"
 #include "lavik/numeric_endpoint.h"
+
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#endif
 
 namespace lavik {
 namespace {

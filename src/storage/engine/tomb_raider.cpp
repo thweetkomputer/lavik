@@ -20,9 +20,7 @@ module;
 #endif
 
 #include <ctime>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <optional>
 #endif
 
@@ -34,6 +32,10 @@ module;
 module lavik.storage;
 import :impl;
 #include "impl_macros.h"
+#endif
+
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
 #endif
 
 namespace lavik::storage {

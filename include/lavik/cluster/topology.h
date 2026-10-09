@@ -28,18 +28,11 @@
 // transport details: it answers "which group/node owns slot S, and is that
 // authority currently safe to serve" and nothing more.
 
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
 #include <array>
 #include <atomic>
-#endif
 #include <cassert>
 #include <cstddef>
 #include <cstdint>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
 #include <limits>
 #include <memory>
 #include <mutex>
@@ -48,7 +41,6 @@
 #include <string_view>
 #include <utility>
 #include <vector>
-#endif
 
 #include "absl/container/inlined_vector.h"
 #include "absl/status/statusor.h"

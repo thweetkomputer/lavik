@@ -19,17 +19,13 @@
 #include <sys/socket.h>
 #include <unistd.h>
 
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <algorithm>
 #include <array>
 #include <atomic>
 #endif
 #include <cerrno>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <charconv>
 #include <chrono>
 #include <deque>
@@ -59,6 +55,10 @@
 #include "lavik/password_authenticator.h"
 #include "lavik/resp.h"
 #include "lavik/version.h"
+
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#endif
 
 namespace lavik::meta {
 namespace {

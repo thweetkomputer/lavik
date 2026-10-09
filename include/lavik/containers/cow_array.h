@@ -17,36 +17,20 @@
 #pragma once
 
 #if !defined(LAVIK_BUILDING_STORAGE_FOUNDATION)
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
 #include <algorithm>
 #include <array>
 #include <bit>
-#endif
 #include <cassert>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
 #include <compare>
-#endif
 #include <cstddef>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
 #include <iterator>
 #include <limits>
 #include <memory>
 #include <span>
 #include <type_traits>
 #include <utility>
-#endif
 #ifndef NDEBUG
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
 #include <thread>
-#endif
 #endif
 
 #include "absl/status/statusor.h"

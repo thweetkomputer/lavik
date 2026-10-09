@@ -14,16 +14,12 @@
  * limitations under the License.
  */
 
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <algorithm>
 #include <charconv>
 #endif
 #include <cstring>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <iterator>
 #include <limits>
 #include <new>
@@ -33,6 +29,10 @@
 #include "absl/strings/match.h"
 #include "lavik/memory.h"
 #include "lavik/replication_command.h"
+
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#endif
 
 namespace lavik {
 namespace {

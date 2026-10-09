@@ -36,8 +36,11 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND
   set(LAVIK_IMPORT_STD ON)
 endif()
 message(STATUS "Lavik import std: ${LAVIK_IMPORT_STD}")
-option(LAVIK_NATIVE_STORAGE_MODULE "Use the native storage API and private implementation partition" ${LAVIK_IMPORT_STD})
-option(LAVIK_NATIVE_STORAGE_FOUNDATION "Import shared storage data structures" ${LAVIK_IMPORT_STD})
+# The storage-module prototype exports legacy dependency definitions that GCC
+# 15.2 cannot serialize (TU-local entities in Abseil). Keep it opt-in, independent
+# of the standard-library import path used by ordinary implementation files.
+option(LAVIK_NATIVE_STORAGE_MODULE "Use the native storage API and private implementation partition" OFF)
+option(LAVIK_NATIVE_STORAGE_FOUNDATION "Import shared storage data structures" OFF)
 
 set(LAVIK_VERSION_SUFFIX "-dev" CACHE STRING
     "Lavik prerelease suffix, such as -dev or -beta.1 (empty for a release)")
@@ -2387,7 +2390,7 @@ if (LAVIK_IMPORT_STD)
     if (target MATCHES "^lavik" AND
         target_type MATCHES "^(EXECUTABLE|STATIC_LIBRARY|SHARED_LIBRARY|OBJECT_LIBRARY)$"
         AND NOT target STREQUAL "lavik_lua")
-      target_compile_definitions(${target} PUBLIC LAVIK_IMPORT_STD=1)
+      target_compile_definitions(${target} PRIVATE LAVIK_IMPORT_STD=1)
       set_target_properties(${target} PROPERTIES
         CXX_SCAN_FOR_MODULES ON CXX_MODULE_STD ON DISABLE_PRECOMPILE_HEADERS ON)
     endif()

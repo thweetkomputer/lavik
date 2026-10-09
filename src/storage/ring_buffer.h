@@ -16,23 +16,15 @@
 
 #pragma once
 
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
 #include <algorithm>
-#endif
 #include <cassert>
 #include <cstddef>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
 #include <limits>
 #include <memory>
 #include <stdexcept>
 #include <type_traits>
 #include <utility>
 #include <vector>
-#endif
 
 namespace lavik::storage {
 

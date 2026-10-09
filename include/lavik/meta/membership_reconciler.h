@@ -16,15 +16,11 @@
 
 #pragma once
 
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
 #include <memory>
 #include <optional>
 #include <string>
 #include <variant>
 #include <vector>
-#endif
 
 #include "lavik/meta/coordinator.h"
 #include "lavik/meta/raft.h"

@@ -4,9 +4,6 @@
 
 #include <netdb.h>
 
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
 #include <atomic>
 #include <chrono>
 #include <map>
@@ -14,7 +11,6 @@
 #include <set>
 #include <string>
 #include <thread>
-#endif
 
 #include "lavik/client_endpoint.h"
 

@@ -16,16 +16,12 @@
 
 #include "string_command.h"
 
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <algorithm>
 #include <bit>
 #endif
 #include <cmath>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <limits>
 #include <new>
 #include <optional>
@@ -44,6 +40,10 @@
 #include "lavik/storage/format.h"
 #include "lavik/tx/transaction.h"
 #include "lavik/tx/tx_shard.h"
+
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#endif
 
 namespace lavik {
 

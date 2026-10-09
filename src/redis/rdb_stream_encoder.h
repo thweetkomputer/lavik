@@ -16,14 +16,10 @@
 
 #pragma once
 
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
 #include <array>
 #include <memory>
 #include <optional>
 #include <string>
-#endif
 
 #include "lavik/storage/collection_page.h"
 #include "lavik/storage/detail/stream_records.h"

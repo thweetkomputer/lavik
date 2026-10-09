@@ -19,25 +19,19 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <algorithm>
 #include <array>
 #include <atomic>
 #endif
 #include <cassert>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <charconv>
 #endif
 #include <cstddef>
 #include <cstdint>
 #include <cstdlib>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <limits>
 #include <string>
 #include <string_view>
@@ -49,6 +43,10 @@
 #include "lavik/fault_injection.h"
 #include "mimalloc-stats.h"
 #include "mimalloc.h"
+
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#endif
 
 namespace lavik {
 namespace {

@@ -16,18 +16,14 @@
 
 #include "lavik/meta/cluster_create_reconciler.h"
 
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <algorithm>
 #include <array>
 #include <atomic>
 #include <chrono>
 #endif
 #include <cstdint>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <future>
 #include <string>
 #include <string_view>
@@ -47,6 +43,10 @@
 #include "lavik/meta/population_manifest_store.h"
 #include "lavik/meta/raft.h"
 #include "spdlog/spdlog.h"
+
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#endif
 
 namespace lavik::meta {
 namespace {

@@ -26,9 +26,7 @@
 #include <signal.h>
 #include <unistd.h>
 
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <algorithm>
 #include <atomic>
 #include <chrono>
@@ -36,9 +34,7 @@
 #include <cstdint>
 #include <cstdio>
 #include <cstring>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <exception>
 #include <fstream>
 #include <functional>
@@ -79,6 +75,10 @@
 #include "lavik/version.h"
 #include "spdlog/sinks/stdout_color_sinks.h"
 #include "spdlog/spdlog.h"
+
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#endif
 
 namespace {
 

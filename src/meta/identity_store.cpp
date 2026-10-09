@@ -16,9 +16,7 @@
 
 #include "lavik/meta/identity_store.h"
 
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <limits>
 #include <set>
 #endif
@@ -28,6 +26,10 @@
 #include "lavik/cluster/control_protocol.h"
 #include "lavik/meta/identity_verifier.h"
 #include "lavik/numeric_endpoint.h"
+
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#endif
 
 namespace lavik::meta {
 namespace {

@@ -16,17 +16,13 @@
 
 #include "lavik/meta/state_machine.h"
 
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <algorithm>
 #include <array>
 #endif
 #include <cstdlib>
 #include <cstring>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <optional>
 #include <string>
 #include <type_traits>
@@ -38,6 +34,10 @@
 #include "lavik/meta/cluster_create.h"
 #include "lavik/meta/commands.h"
 #include "spdlog/spdlog.h"
+
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#endif
 
 namespace lavik::meta {
 namespace {

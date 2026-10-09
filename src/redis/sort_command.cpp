@@ -16,16 +16,12 @@
 
 #include "sort_command.h"
 
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <algorithm>
 #include <charconv>
 #endif
 #include <cstring>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <limits>
 #include <map>
 #include <memory>
@@ -49,6 +45,10 @@
 #include "lavik/storage/format.h"
 #include "lavik/tx/transaction.h"
 #include "zset_command.h"
+
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#endif
 
 namespace lavik {
 using namespace bycorf;

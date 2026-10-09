@@ -16,12 +16,14 @@
 
 #include "lavik/meta/data_control_runtime_status.h"
 
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <algorithm>
 #include <limits>
 #include <utility>
+#endif
+
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
 #endif
 
 namespace lavik::meta {

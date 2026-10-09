@@ -1,8 +1,6 @@
 /* Copyright (C) 2026 EloqData Inc.
  * SPDX-License-Identifier: Apache-2.0 */
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <algorithm>
 #include <set>
 #endif
@@ -10,6 +8,10 @@
 #include "absl/strings/escaping.h"
 #include "absl/strings/str_cat.h"
 #include "lavik/meta/sentinel_discovery.h"
+
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#endif
 
 namespace lavik::meta {
 namespace {

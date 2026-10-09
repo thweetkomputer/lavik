@@ -16,15 +16,11 @@
 
 #pragma once
 
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
 #include <algorithm>
 #include <span>
 #include <string>
 #include <string_view>
 #include <vector>
-#endif
 
 #include "absl/status/statusor.h"
 #include "lavik/replication_group.h"

@@ -18,22 +18,14 @@
 
 #include <cctype>
 #include <cerrno>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
 #include <charconv>
-#endif
 #include <cmath>
 #include <cstdint>
 #include <cstdio>
 #include <cstdlib>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
 #include <limits>
 #include <string>
 #include <string_view>
-#endif
 
 namespace lavik {
 

@@ -18,9 +18,7 @@
 
 #include <cstddef>
 #include <cstdint>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <iostream>
 #include <limits>
 #include <string>
@@ -33,6 +31,10 @@
 #include "lavik/logging.h"
 #include "lavik/server.h"
 #include "lavik/version.h"
+
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#endif
 
 int main(int argc, char** argv) {
   // Compile-time defaults make THP and eager commit effective during

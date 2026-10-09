@@ -95,18 +95,11 @@
 // because this is the proposal entry point. Apply never reads a clock; it
 // copies the injected text into the audit record.
 
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
 #include <atomic>
 #include <chrono>
 #include <condition_variable>
 #include <coroutine>
-#endif
 #include <cstdint>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
 #include <deque>
 #include <functional>
 #include <map>
@@ -116,7 +109,6 @@
 #include <string>
 #include <thread>
 #include <vector>
-#endif
 
 #include "absl/status/status.h"
 #include "absl/status/statusor.h"

@@ -19,9 +19,7 @@
 #include <sys/socket.h>
 #include <unistd.h>
 
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <algorithm>
 #include <atomic>
 #include <chrono>
@@ -30,9 +28,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <cstring>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <deque>
 #include <limits>
 #include <memory>
@@ -66,6 +62,10 @@
 #include "lavik/numeric_endpoint.h"
 #include "lavik/replication.h"
 #include "spdlog/spdlog.h"
+
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#endif
 
 namespace lavik::cluster {
 namespace {

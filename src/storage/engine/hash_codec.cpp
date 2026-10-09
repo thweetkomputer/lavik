@@ -16,10 +16,12 @@
 
 #include "lavik/storage/detail/hash_codec.h"
 
+#if !defined(LAVIK_IMPORT_STD)
+#include <limits>
+#endif
+
 #if defined(LAVIK_IMPORT_STD)
 #include "lavik/std_import.h"
-#else
-#include <limits>
 #endif
 
 namespace lavik::storage {

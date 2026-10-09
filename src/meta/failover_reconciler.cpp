@@ -16,9 +16,7 @@
 
 #include "lavik/meta/failover_reconciler.h"
 
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <algorithm>
 #include <array>
 #include <atomic>
@@ -27,9 +25,7 @@
 #endif
 #include <cstdlib>
 #include <cstring>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <future>
 #include <limits>
 #include <map>
@@ -54,6 +50,10 @@
 #include "lavik/meta/candidate_plan.h"
 #include "lavik/meta/failover.h"
 #include "spdlog/spdlog.h"
+
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#endif
 
 namespace lavik::meta {
 namespace {

@@ -20,9 +20,6 @@
 // This is observational only: lease authorization never reads it back.
 
 #include <cstdint>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
 #include <map>
 #include <mutex>
 #include <optional>
@@ -30,7 +27,6 @@
 #include <string>
 #include <string_view>
 #include <vector>
-#endif
 
 #include "lavik/cluster/control_protocol.h"
 #include "lavik/meta/commands.h"

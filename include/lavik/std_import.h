@@ -16,32 +16,8 @@
 
 #pragma once
 
-// Keep C compatibility names and macros available before importing std.
-// Legacy dependencies include these wrappers; parsing them after an import
-// triggers declaration-merging failures in Clang 21 with libstdc++ 15.
-// Bycorf uses the ATOMIC_* macros, which are not exported by named modules.
-#include <atomic>
-#include <cassert>
-#include <cctype>
-#include <cerrno>
-#include <cfenv>
-#include <cfloat>
-#include <cinttypes>
-#include <climits>
-#include <clocale>
-#include <cmath>
-#include <csetjmp>
-#include <csignal>
-#include <cstdarg>
-#include <cstddef>
-#include <cstdint>
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
-#include <ctime>
-#include <cuchar>
-#include <cwchar>
-#include <cwctype>
-#include <version>
-
+// Include this only in implementation files, after all textual dependencies.
+// GCC 15 can merge previously parsed standard headers into std, but rejects
+// definitions first encountered in a header after importing std. Public headers
+// therefore keep their textual standard-library dependencies.
 import std;

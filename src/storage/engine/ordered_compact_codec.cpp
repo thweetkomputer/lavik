@@ -16,19 +16,19 @@
 
 #include "lavik/storage/detail/ordered_compact_codec.h"
 
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <bit>
 #endif
 #include <cmath>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <limits>
 #endif
 
 #include "lavik/storage/detail/stream_records.h"
+
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#endif
 
 namespace lavik::storage {
 namespace {

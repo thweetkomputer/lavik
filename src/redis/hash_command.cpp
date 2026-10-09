@@ -16,15 +16,17 @@
 
 #include "hash_command.h"
 
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <charconv>
 #include <limits>
 #endif
 
 #include "cluster_gate.h"
 #include "lavik/resp.h"
+
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#endif
 
 namespace lavik {
 

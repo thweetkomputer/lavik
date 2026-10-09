@@ -19,21 +19,13 @@
 #if !defined(LAVIK_BUILDING_STORAGE_FOUNDATION)
 #include <cassert>
 #include <cstddef>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
 #include <limits>
 #include <memory>
 #include <type_traits>
 #include <utility>
-#endif
 
 #ifndef NDEBUG
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
 #include <thread>
-#endif
 #endif
 
 #endif

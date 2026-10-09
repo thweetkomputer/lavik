@@ -16,18 +16,14 @@
 
 #include "function_catalog.h"
 
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <algorithm>
 #include <array>
 #include <atomic>
 #endif
 #include <cassert>
 #include <cstdlib>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <memory>
 #endif
 
@@ -37,6 +33,10 @@
 #include "lavik/fault_injection.h"
 #include "lavik/rdb.h"
 #include "lavik/replication_command.h"
+
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#endif
 
 namespace lavik {
 namespace {

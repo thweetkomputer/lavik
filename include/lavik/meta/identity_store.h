@@ -67,15 +67,11 @@
 // equal states serialize to equal bytes.
 
 #include <cstdint>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
 #include <map>
 #include <optional>
 #include <string>
 #include <string_view>
 #include <vector>
-#endif
 
 #include "absl/status/status.h"
 #include "absl/status/statusor.h"

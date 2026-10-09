@@ -16,9 +16,7 @@
 
 #include "lavik/command_table.h"
 
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <charconv>
 #include <limits>
 #include <optional>
@@ -27,6 +25,10 @@
 #include "absl/status/statusor.h"
 #include "absl/strings/str_cat.h"
 #include "lavik/redis_parse.h"
+
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#endif
 
 namespace lavik {
 

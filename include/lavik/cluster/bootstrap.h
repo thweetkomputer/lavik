@@ -16,13 +16,9 @@
 
 #pragma once
 
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
 #include <optional>
 #include <string>
 #include <vector>
-#endif
 
 #include "absl/status/statusor.h"
 #include "lavik/cluster/control_protocol.h"

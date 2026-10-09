@@ -16,18 +16,11 @@
 
 #pragma once
 
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
 #include <array>
 #include <atomic>
-#endif
 #include <cassert>
 #include <cstddef>
 #include <cstdint>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
 #include <functional>
 #include <memory>
 #include <mutex>
@@ -37,7 +30,6 @@
 #include <string_view>
 #include <utility>
 #include <vector>
-#endif
 
 #include "absl/status/statusor.h"
 #include "bycorf/runtime/task.h"

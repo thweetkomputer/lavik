@@ -30,18 +30,10 @@
 // for requests without a captured admission, so non-cluster behavior is
 // unchanged. Definitions live in src/redis/command.cpp.
 
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
 #include <atomic>
-#endif
 #include <cstdint>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
 #include <memory>
 #include <span>
-#endif
 
 #include "absl/status/status.h"
 #include "lavik/cluster/authority.h"

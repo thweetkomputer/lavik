@@ -18,9 +18,7 @@
 
 #include <sys/random.h>
 
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <algorithm>
 #include <array>
 #endif
@@ -29,9 +27,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <cstring>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <limits>
 #include <optional>
 #include <span>
@@ -44,6 +40,10 @@
 
 #include "absl/status/status.h"
 #include "absl/status/statusor.h"
+
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#endif
 
 namespace lavik::cluster::control {
 namespace {

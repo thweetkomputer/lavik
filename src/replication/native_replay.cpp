@@ -16,9 +16,7 @@
 
 #include "native_replay.h"
 
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <algorithm>
 #include <charconv>
 #include <limits>
@@ -27,6 +25,10 @@
 #endif
 
 #include "lavik/storage/format.h"
+
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#endif
 
 namespace lavik::detail {
 

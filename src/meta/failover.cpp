@@ -16,16 +16,12 @@
 
 #include "lavik/meta/failover.h"
 
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <algorithm>
 #endif
 #include <cstddef>
 #include <cstdint>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <limits>
 #include <optional>
 #include <string>
@@ -40,6 +36,10 @@
 #include "lavik/meta/coordinator.h"
 #include "lavik/meta/encoding.h"
 #include "lavik/meta/hash.h"
+
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#endif
 
 namespace lavik::meta {
 namespace {

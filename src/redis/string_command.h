@@ -17,13 +17,9 @@
 #pragma once
 
 #include <cstdint>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
 #include <span>
 #include <string>
 #include <vector>
-#endif
 
 #include "lavik/command.h"
 #include "lavik/storage/engine.h"

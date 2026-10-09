@@ -21,16 +21,9 @@
 // return the committed Meta directory; only the reconciler installed through
 // MetaCoordinator::RunAsLeader may create authority-bearing sessions.
 
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
 #include <chrono>
-#endif
 #include <cstddef>
 #include <cstdint>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
 #include <deque>
 #include <functional>
 #include <map>
@@ -40,7 +33,6 @@
 #include <string>
 #include <string_view>
 #include <vector>
-#endif
 
 #include "absl/status/status.h"
 #include "absl/status/statusor.h"

@@ -19,13 +19,9 @@
 #include <mimalloc.h>
 
 #include <cstddef>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
 #include <exception>
 #include <limits>
 #include <type_traits>
-#endif
 
 #include "lavik/memory.h"
 

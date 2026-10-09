@@ -16,9 +16,7 @@
 
 #include "lavik/storage/detail/grouped/object_index.h"
 
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <algorithm>
 #include <array>
 #include <bit>
@@ -26,6 +24,10 @@
 #endif
 
 #include "lavik/local_shared_ptr.h"
+
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#endif
 
 namespace lavik::storage {
 namespace {

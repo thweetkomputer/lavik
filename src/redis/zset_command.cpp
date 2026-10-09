@@ -16,9 +16,7 @@
 
 #include "zset_command.h"
 
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <algorithm>
 #include <array>
 #include <bit>
@@ -29,9 +27,7 @@
 #include <cstdint>
 #include <cstdio>
 #include <cstring>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <limits>
 #include <map>
 #include <numbers>
@@ -51,6 +47,10 @@
 #include "lavik/resp.h"
 #include "lavik/storage/detail/ordered_compact_codec.h"
 #include "lavik/tx/transaction.h"
+
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#endif
 
 namespace lavik {
 namespace {

@@ -18,26 +18,20 @@
 
 #include <openssl/evp.h>
 
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <algorithm>
 #include <array>
 #include <atomic>
 #endif
 #include <cctype>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <charconv>
 #include <chrono>
 #endif
 #include <cmath>
 #include <cstddef>
 #include <cstdint>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <limits>
 #include <memory>
 #include <mutex>
@@ -63,6 +57,10 @@ int luaopen_cjson(lua_State* state);
 int luaopen_cmsgpack(lua_State* state);
 int luaopen_struct(lua_State* state);
 }
+
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#endif
 
 namespace lavik {
 namespace {

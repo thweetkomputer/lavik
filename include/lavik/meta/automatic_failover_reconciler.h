@@ -22,18 +22,10 @@
 // BeginUncontrolledFailover command. Timers, pending proposals, and admission
 // records are deliberately process-local and are discarded at demotion.
 
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
 #include <chrono>
-#endif
 #include <cstdint>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
 #include <functional>
 #include <memory>
-#endif
 
 #include "absl/status/statusor.h"
 #include "bycorf/runtime/foreign_executor.h"

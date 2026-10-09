@@ -19,6 +19,10 @@ module;
 
 export module lavik.storage.foundation;
 
+#if defined(LAVIK_IMPORT_STD)
+import std;
+#endif
+
 // Keep these existing types in the global C++ ABI: non-storage libraries
 // still define their out-of-line functions. Export the
 // definitions themselves so consumers can use them without reparsing headers.

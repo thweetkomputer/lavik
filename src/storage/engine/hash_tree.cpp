@@ -19,16 +19,12 @@ module;
 #include "impl_dependencies.h"
 #endif
 
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <charconv>
 #endif
 #include <cmath>
 #include <cstdlib>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <random>
 #include <set>
 #endif
@@ -51,6 +47,10 @@ module;
 module lavik.storage;
 import :impl;
 #include "impl_macros.h"
+#endif
+
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
 #endif
 
 namespace lavik::storage {

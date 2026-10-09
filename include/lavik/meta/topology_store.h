@@ -85,21 +85,13 @@
 // Pre-release stores use no migration; an older development data directory
 // must be rebuilt.
 
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
 #include <array>
-#endif
 #include <cstdint>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
 #include <map>
 #include <optional>
 #include <string>
 #include <string_view>
 #include <vector>
-#endif
 
 #include "absl/status/status.h"
 #include "absl/status/statusor.h"

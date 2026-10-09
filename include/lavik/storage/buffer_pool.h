@@ -17,21 +17,13 @@
 #pragma once
 
 #include <cassert>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
 #include <coroutine>
-#endif
 #include <cstddef>
 #include <cstdint>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
 #include <deque>
 #include <optional>
 #include <span>
 #include <vector>
-#endif
 
 #include "absl/status/statusor.h"
 #include "bycorf/io/storage.h"

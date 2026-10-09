@@ -16,9 +16,7 @@
 
 #include "lavik/meta/identity_verifier.h"
 
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <array>
 #include <charconv>
 #include <limits>
@@ -30,6 +28,10 @@
 #include "lavik/meta/commands.h"
 #include "lavik/meta/encoding.h"
 #include "lavik/numeric_endpoint.h"
+
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#endif
 
 namespace lavik::meta {
 namespace {

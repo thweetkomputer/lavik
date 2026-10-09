@@ -16,9 +16,7 @@
 
 #include "replica_applied_frontier.h"
 
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <algorithm>
 #include <limits>
 #include <string>
@@ -26,6 +24,10 @@
 
 #include "absl/status/status.h"
 #include "absl/strings/str_cat.h"
+
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#endif
 
 namespace lavik::detail {
 

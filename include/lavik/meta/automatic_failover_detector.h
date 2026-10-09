@@ -23,16 +23,12 @@
 
 #include <cstddef>
 #include <cstdint>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
 #include <map>
 #include <mutex>
 #include <optional>
 #include <string>
 #include <string_view>
 #include <vector>
-#endif
 
 #include "absl/status/statusor.h"
 #include "lavik/meta/owner_serviceability.h"

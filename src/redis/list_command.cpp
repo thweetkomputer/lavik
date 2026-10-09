@@ -16,15 +16,11 @@
 
 #include "list_command.h"
 
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <algorithm>
 #endif
 #include <cerrno>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <charconv>
 #include <chrono>
 #endif
@@ -32,9 +28,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <cstdlib>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <limits>
 #include <memory>
 #include <string>
@@ -54,6 +48,10 @@
 #include "lavik/storage/engine.h"
 #include "lavik/tx/transaction.h"
 #include "lavik/tx/tx_shard.h"
+
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#endif
 
 namespace lavik {
 using namespace bycorf;

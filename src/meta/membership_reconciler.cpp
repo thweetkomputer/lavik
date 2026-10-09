@@ -16,9 +16,7 @@
 
 #include "lavik/meta/membership_reconciler.h"
 
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <algorithm>
 #include <atomic>
 #include <bit>
@@ -40,6 +38,10 @@
 #include "lavik/meta/state_machine.h"
 #include "lavik/numeric_endpoint.h"
 #include "spdlog/spdlog.h"
+
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#endif
 
 namespace lavik::meta {
 namespace {

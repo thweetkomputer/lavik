@@ -16,18 +16,14 @@
 
 #include "stream_command.h"
 
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <algorithm>
 #include <atomic>
 #include <charconv>
 #include <chrono>
 #endif
 #include <cstdint>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <limits>
 #include <map>
 #include <optional>
@@ -45,6 +41,10 @@
 #include "lavik/resp.h"
 #include "lavik/storage/detail/stream_records.h"
 #include "lavik/tx/tx_shard.h"
+
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#endif
 
 namespace lavik {
 namespace {

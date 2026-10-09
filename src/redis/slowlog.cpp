@@ -18,9 +18,7 @@
 
 #include <sys/time.h>
 
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <algorithm>
 #include <atomic>
 #endif
@@ -28,9 +26,7 @@
 #include <cmath>
 #include <cstddef>
 #include <cstdint>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <iterator>
 #include <limits>
 #include <memory>
@@ -44,6 +40,10 @@
 #include "absl/strings/str_cat.h"
 #include "bycorf/runtime/cross_core.h"
 #include "bycorf/runtime/cycle_clock.h"
+
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#endif
 
 namespace lavik {
 namespace {

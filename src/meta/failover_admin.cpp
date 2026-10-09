@@ -16,9 +16,7 @@
 
 #include "lavik/meta/failover_admin.h"
 
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <algorithm>
 #include <array>
 #include <charconv>
@@ -26,9 +24,7 @@
 #endif
 #include <cstddef>
 #include <cstdint>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <limits>
 #include <string>
 #include <string_view>
@@ -39,6 +35,10 @@
 #include "lavik/meta/admin_client.h"
 #include "lavik/meta/cluster_status.h"
 #include "openssl/rand.h"
+
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#endif
 
 namespace lavik::meta {
 namespace {

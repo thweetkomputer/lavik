@@ -2,15 +2,11 @@
  * SPDX-License-Identifier: Apache-2.0 */
 #pragma once
 
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
 #include <optional>
 #include <span>
 #include <string_view>
 #include <utility>
 #include <vector>
-#endif
 
 #include "lavik/meta/committed_cursor.h"
 #include "lavik/meta/identity_store.h"

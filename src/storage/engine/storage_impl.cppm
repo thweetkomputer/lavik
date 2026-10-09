@@ -20,4 +20,8 @@ module;
 module lavik.storage:impl;
 import lavik.storage;
 
+#if defined(LAVIK_IMPORT_STD)
+import std;
+#endif
+
 #include "impl_declarations.inc"

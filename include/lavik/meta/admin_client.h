@@ -20,13 +20,9 @@
 // protocol. Direct administration and cluster discovery share endpoint
 // validation, partial I/O, TLS identity checks, response limits, and deadlines.
 
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
 #include <chrono>
 #include <string>
 #include <string_view>
-#endif
 
 #include "absl/status/status.h"
 #include "absl/status/statusor.h"

@@ -19,6 +19,10 @@ module;
 
 export module lavik.storage;
 
+#if defined(LAVIK_IMPORT_STD)
+import std;
+#endif
+
 export {
 #include "lavik/storage/engine_declarations.inc"
 }

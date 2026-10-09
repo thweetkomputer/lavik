@@ -16,9 +16,7 @@
 
 #include "lavik/metrics.h"
 
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <algorithm>
 #include <array>
 #include <atomic>
@@ -26,9 +24,7 @@
 #include <cassert>
 #include <cstddef>
 #include <cstdint>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
+#if !defined(LAVIK_IMPORT_STD)
 #include <memory>
 #include <string>
 #include <string_view>
@@ -44,6 +40,10 @@
 #include "lavik/command_table.h"
 #include "lavik/memory.h"
 #include "lavik/storage/engine.h"
+
+#if defined(LAVIK_IMPORT_STD)
+#include "lavik/std_import.h"
+#endif
 
 namespace lavik {
 namespace {

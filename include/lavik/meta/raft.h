@@ -2,16 +2,9 @@
  * SPDX-License-Identifier: Apache-2.0 */
 #pragma once
 
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
 #include <atomic>
 #include <condition_variable>
-#endif
 #include <cstdint>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
 #include <exception>
 #include <functional>
 #include <map>
@@ -20,7 +13,6 @@
 #include <string>
 #include <thread>
 #include <vector>
-#endif
 
 #include "absl/status/statusor.h"
 

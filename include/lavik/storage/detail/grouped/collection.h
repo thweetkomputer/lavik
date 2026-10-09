@@ -17,23 +17,15 @@
 #pragma once
 
 #if !defined(LAVIK_BUILDING_STORAGE_FOUNDATION)
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
 #include <array>
-#endif
 #include <cstddef>
 #include <cstdint>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
 #include <optional>
 #include <span>
 #include <string>
 #include <string_view>
 #include <variant>
 #include <vector>
-#endif
 
 #include "absl/container/flat_hash_set.h"
 #include "absl/status/statusor.h"

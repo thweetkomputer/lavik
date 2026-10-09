@@ -22,26 +22,15 @@
 
 #include <mimalloc.h>
 
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
 #include <algorithm>
 #include <array>
 #include <atomic>
 #include <bit>
-#endif
 #include <cassert>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
 #include <compare>
-#endif
 #include <cstddef>
 #include <cstdint>
 #include <cstring>
-#if defined(LAVIK_IMPORT_STD)
-#include "lavik/std_import.h"
-#else
 #include <exception>
 #include <functional>
 #include <iterator>
@@ -59,7 +48,6 @@
 #include <utility>
 #include <variant>
 #include <vector>
-#endif
 
 #include "absl/container/flat_hash_set.h"
 #include "absl/container/inlined_vector.h"
