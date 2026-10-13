@@ -1,0 +1,93 @@
+============== Configuration values: ==============
+server = 10.84.1.4
+port = 6379
+uri = 
+unix socket = (null)
+address family = Unspecified
+protocol = redis
+tls = no
+cert = (null)
+key = (null)
+cacert = (null)
+tls_skip_verify = no
+sni = (null)
+out_file = (null)
+client_stats = (null)
+run_count = 1
+debug = 0
+requests = 0
+rate_limit = 0
+clients = 40
+threads = 16
+test_time = 10
+ratio = 1:10
+pipeline = 1
+transaction = no
+data_size = 1024
+data_offset = 0
+random_data = no
+data_size_range = 0-0
+data_size_list = 
+data_size_pattern = R
+expiry_range = 0-0
+data_import = (null)
+data_verify = no
+verify_only = no
+generate_keys = no
+key_prefix = 
+key_minimum = 1
+key_maximum = 10000000
+key_pattern = R:R
+key_stddev = 0.000000
+key_median = 0.000000
+reconnect_interval = 0
+retry_on_error = no
+max_retries = -1
+retry_backoff_ms = 0
+retry_backoff_factor = 0.000000
+retry_on = 
+max_retry_queue = 0
+failed_keys_file = 
+connection_timeout = 0
+connection_stage_timeout = 30
+thread_conn_start_min_jitter_micros = 0
+thread_conn_start_max_jitter_micros = 0
+multi_key_get = 0
+authenticate = 
+select-db = 0
+no-expiry = no
+wait-ratio = 0:0
+num-slaves = 0-0
+wait-timeout = 0-0
+json-out-file = /opt/benchmark/release010/memory/memory/redis/io4/warmup.json
+print-all-runs = no
+prometheus-port = -1
+prometheus-bind-addr = 127.0.0.1
+prometheus-run-labels = 
+prometheus-latency-buckets = default
+===================================================
+Json file /opt/benchmark/release010/memory/memory/redis/io4/warmup.json created...
+Writing results to stdout
+[RUN #1] Preparing benchmark client...
+[RUN #1] Launching threads now...
+[RUN #1 10%,   1 secs] 16 threads 40 conns:      432972 ops,  432793 (avg:  432793) ops/sec, 437.05MB/sec (avg: 437.05MB/sec),  1.48 (avg:  1.48) msec latency[RUN #1 20%,   2 secs] 16 threads 40 conns:      871443 ops,  435682 (avg:  434242) ops/sec, 439.97MB/sec (avg: 438.52MB/sec),  1.47 (avg:  1.47) msec latency[RUN #1 30%,   3 secs] 16 threads 40 conns:     1299506 ops,  427988 (avg:  432162) ops/sec, 432.20MB/sec (avg: 436.42MB/sec),  1.49 (avg:  1.48) msec latency[RUN #1 40%,   4 secs] 16 threads 40 conns:     1727252 ops,  427677 (avg:  431042) ops/sec, 431.89MB/sec (avg: 435.28MB/sec),  1.50 (avg:  1.48) msec latency[RUN #1 50%,   5 secs] 16 threads 40 conns:     2156702 ops,  429372 (avg:  430709) ops/sec, 433.60MB/sec (avg: 434.95MB/sec),  1.49 (avg:  1.48) msec latency[RUN #1 60%,   6 secs] 16 threads 40 conns:     2590592 ops,  433818 (avg:  431226) ops/sec, 438.09MB/sec (avg: 435.47MB/sec),  1.47 (avg:  1.48) msec latency[RUN #1 70%,   7 secs] 16 threads 40 conns:     3027763 ops,  437101 (avg:  432065) ops/sec, 441.41MB/sec (avg: 436.32MB/sec),  1.46 (avg:  1.48) msec latency[RUN #1 80%,   8 secs] 16 threads 40 conns:     3461248 ops,  433410 (avg:  432233) ops/sec, 437.67MB/sec (avg: 436.49MB/sec),  1.47 (avg:  1.48) msec latency[RUN #1 90%,   9 secs] 16 threads 40 conns:     3895586 ops,  434264 (avg:  432458) ops/sec, 438.54MB/sec (avg: 436.71MB/sec),  1.47 (avg:  1.48) msec latency[RUN #1 100%,  10 secs]  8 threads 40 conns:     4328418 ops,  434264 (avg:  432638) ops/sec, 438.54MB/sec (avg: 436.90MB/sec),  1.47 (avg:  1.48) msec latency[RUN #1 100%,  10 secs]  0 threads 40 conns:     4328544 ops,  434264 (avg:  432627) ops/sec, 438.54MB/sec (avg: 436.88MB/sec),  1.47 (avg:  1.48) msec latency
+
+
+CPU Utilization Summary
+  Total CPU time:   76.284s  (user 17.522s, sys 58.761s)
+  Wall time:        10.016s
+  Cores used:       7.616   (avg 47.6% across 16 worker threads)
+  Peak utilization: 767.4%
+Saving JSON output file: /opt/benchmark/release010/memory/memory/redis/io4/warmup.json
+Json file closed.
+16        Threads
+40        Connections per thread
+10        Seconds
+
+
+ALL STATS
+============================================================================================================================================
+Type         Ops/sec     Hits/sec   Misses/sec    Avg. Latency     p50 Latency     p99 Latency   p99.9 Latency  p99.99 Latency       KB/sec 
+--------------------------------------------------------------------------------------------------------------------------------------------
+Gets       432489.94    432489.94         0.00         1.47846         1.19900         2.71900         3.74300         7.64700    447227.98 
+Totals     432489.94    432489.94         0.00         1.47846         1.19900         2.71900         3.74300         7.64700    894455.96 

@@ -1,0 +1,78 @@
+# Lavik v0.1.0：Redis / Valkey GET 与 SET
+
+[English](README.md) | **简体中文**
+
+测试日期：2026-10-13。使用下载的 **Lavik v0.1.0 标准 x86_64 正式包**，重新测量 Redis 8.8.0、Valkey 9.1.0 对照。**110 个正式测量点**均使用 1,000 万条 key、每条 1,024 B value。Lavik 在灌入、预热、测量期间始终开启 defrag；没有复用历史对照数据。
+
+Lavik GET 峰值为 **1140.5k QPS**（1280 连接，p99.9 **7.679 ms**）；SET 峰值为 **955.4k QPS**（1280 连接，p99.9 **10.559 ms**）。这些是单次测量结果。在表中各产品的峰值点，Lavik 的 GET/SET 吞吐更高，p99.9 延迟也高于两个对照；完整曲线展示不同并发下的表现。
+
+## 10M keys × 1 KiB：吞吐与延迟
+
+![10M throughput](memory-qps.png)
+
+| Command | System | Threads¹ | Connections | QPS | Avg ms | p50 ms | p99 ms | p99.9 ms | p99.99 ms |
+|---|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| GET | Lavik 0.1.0 SPDK | 16 | 1280 | 1,140,483 | 1.122 | 1.039 | 3.967 | 7.679 | 31.487 |
+| GET | Redis 8.8.0 | 16 | 1280 | 1,019,880 | 1.254 | 1.095 | 4.415 | 6.975 | 13.631 |
+| GET | Valkey 9.1.0 | 16 | 1280 | 961,722 | 1.330 | 1.119 | 4.383 | 7.199 | 14.847 |
+| SET | Lavik 0.1.0 SPDK | 16 | 1280 | 955,414 | 1.339 | 1.119 | 4.543 | 10.559 | 43.775 |
+| SET | Redis 8.8.0 | 16 | 1280 | 928,242 | 1.379 | 1.159 | 4.479 | 7.199 | 15.487 |
+| SET | Valkey 9.1.0 | 8 | 1280 | 804,951 | 1.590 | 1.455 | 4.095 | 7.583 | 15.295 |
+
+![10M p99.9](memory-p999.png)
+
+Redis/Valkey 每个命令选择单个峰值最高的 I/O 线程配置，展示该配置的完整连接数曲线；延迟图使用相同选择。表中是各产品的实测峰值点。¹ Lavik 为数据 worker 数，Redis/Valkey 为 I/O 线程数。
+
+## I/O 线程扫描
+
+![I/O threads](iothread-scaling.png)
+
+| System | I/O threads | Peak GET QPS @ connections | Peak SET QPS @ connections |
+|---|---:|---:|---:|
+| Redis 8.8.0 | 1 | 157,073 @ 320 | 146,331 @ 320 |
+| Redis 8.8.0 | 2 | 159,837 @ 640 | 147,882 @ 320 |
+| Redis 8.8.0 | 4 | 439,070 @ 1280 | 404,721 @ 640 |
+| Redis 8.8.0 | 8 | 854,878 @ 1280 | 838,300 @ 1280 |
+| Redis 8.8.0 | 16 | 1,019,880 @ 1280 | 928,242 @ 1280 |
+| Valkey 9.1.0 | 1 | 158,131 @ 320 | 145,078 @ 160 |
+| Valkey 9.1.0 | 2 | 160,905 @ 320 | 149,623 @ 640 |
+| Valkey 9.1.0 | 4 | 441,615 @ 640 | 408,896 @ 1280 |
+| Valkey 9.1.0 | 8 | 860,629 @ 1280 | 804,951 @ 1280 |
+| Valkey 9.1.0 | 16 | 961,722 @ 1280 | 750,593 @ 1280 |
+
+## 硬件与部署
+
+| 项目 | 配置 |
+|---|---|
+| 服务端 | Azure Standard_L16aos_v4，Japan West / zone 2；AMD EPYC 9V74；16 逻辑核 / 8 物理核；Linux 内存 125.8 GiB |
+| 客户端 | Azure Standard_F32als_v6；AMD EPYC 9V74；32 物理核；Linux 内存 62.8 GiB；压测进程限制到 CPU 0–15 |
+| 系统 | 两端均为 Ubuntu 24.04、Linux 6.17.0-1022-azure；本批未重启 |
+| 网络 | 客户端 10.84.0.5 → 服务端 10.84.1.4:6379；mlx5 加速路径；kernel TCP |
+| 服务端 CPU | 全产品使用 CPU 0–15；Lavik 16 workers；Redis/Valkey 1/2/4/8/16 I/O 线程 |
+| Lavik 存储 | 六张专用本地 NVMe，每张 1,919,850,381,312 B；SPDK/VFIO；8 GiB hugepages |
+| Redis/Valkey 存储 | 数据驻 DRAM；关闭 AOF、自动快照；校验后的 RDB 仅用于各线程配置间重置基线 |
+
+## 方法与边界
+
+- 方法沿用 [beta.1 对比报告](../lavik-v0.1.0-beta.1-spdk-vs-peers-2026-09-18/README.zh-CN.md)中的 Redis/Valkey 10M 组；本批不包含 1B 存储分层、Dragonfly 或 Garnet。
+- 顺序为 Lavik SPDK → Redis → Valkey。任一时刻只运行一个被测数据库和一个压测客户端；本组不改变服务端 CPU/IRQ 策略。编译在正式测量前完成。
+- 使用 `lavik-v0.1.0-linux-x86_64.tar.gz`；源码 `feb61224e414c5653fd09560e20c9d214db1e3ac`；可执行文件 SHA-256 `7bf8d204a137678cee0e1a621b02661181373fbbfe1366bc1c201942b9dcf420`；GCC 13 Release / x86-64-v2。未重新编译 Lavik，也未添加源码补丁。压缩包校验与发布的 SHA-256 一致。
+- Lavik 使用 16 个固定 worker；busy-poll 20 µs；前台/后台预算 1000/10 µs；后台保底 1%；SPDK completion cap=16、foreground pre-poll=5 µs；关闭 metrics listener。`defrag-paused=no`、每设备最多 8 个 relocation、block/record sleep 均为 0。Tomb Raider interval 按本组原报告保留为 0：它控制 tombstone 扫描，不是 defrag 开关。每个正式点前及前后快照均核验 defrag。
+- 清盘前按序列号、PCI、namespace、容量核验六张临时盘，排除系统盘和开发盘。独立灌入新的 10M 数据集；Lavik 干净停止后，盘交还内核并释放 hugepage 预留。
+- Redis/Valkey 使用发布的 8.8.0 / 9.1.0 tag 编译，分配器为 jemalloc 5.3.0。各自新灌数据并生成 SHA 校验的 RDB；每档 I/O 线程从该基线启动。AOF、自动快照关闭，其他配置保留产品默认值。
+- memtier 2.5.1：16 线程、pipeline=1、不限速；十进制 key 1..10,000,000、无前缀；均匀随机 GET 或覆盖 SET；value=1,024 B。连接数 80/160/320/640/1280，每点 30 秒，每档服务端配置先 GET 预热 10 秒。按原 10M 方法保留默认相关客户端随机种子。
+- 每档服务端配置前后核验精确 DBSIZE 和五个样本 value 长度。全部正式 GET miss=0，全部正式点连接错误=0。延迟为完整测量窗口的客户端分位数；服务端 CPU 采样包围额外的准备/INFO 工作，只作诊断。
+- 每点仅测一次，未估计置信区间或运行间波动；产品按顺序而非交错执行。线程职责不同，Lavik 持久化与纯内存对照的保证也不同。此次客户端型号、CPU 以及 Lavik 构建与历史报告存在差异，不能将跨报告的变化全部归因于 Lavik 代码。
+
+## 证据与离线复现
+
+[全部 110 个测量点](results.csv) · [校验结果](validation.json) · [发布元数据](release.json) · [二进制身份](binaries.json) · [服务端清单](server-inventory.json) · [客户端清单](client-inventory.json) · [原始证据清单](SHA256SUMS)
+
+`evidence/` 包含采集脚本、每点命令数组、memtier JSON/文本、测量前后宿主/INFO 快照、配置前后精确记录数及样本长度、驱动切换和干净停止状态。不包含私钥、下载的可执行文件或生成的数据库。
+
+```sh
+python3 perf_reports/lavik-v0.1.0-redis-valkey-2026-10-13/verify_results.py
+python3 perf_reports/lavik-v0.1.0-redis-valkey-2026-10-13/build_assets.py
+```
+
+校验脚本使用 Python 3.11+，可离线执行；绘图需要 Matplotlib 3.11.2，导出 SVG、PNG。采集脚本针对这批宿主，包含对六张白名单临时盘的清理步骤，不可对任意磁盘直接运行。
