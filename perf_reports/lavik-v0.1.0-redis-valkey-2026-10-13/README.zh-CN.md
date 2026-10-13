@@ -66,7 +66,7 @@ Redis/Valkey 每个命令选择单个峰值最高的 I/O 线程配置，展示�
 
 ## 证据与离线复现
 
-[全部 110 个测量点](results.csv) · [校验结果](validation.json) · [发布元数据](release.json) · [二进制身份](binaries.json) · [服务端清单](server-inventory.json) · [客户端清单](client-inventory.json) · [原始证据清单](SHA256SUMS)
+[全部 110 个测量点](results.csv) · [校验结果](validation.json) · [发布元数据](release.json) · [二进制身份](binaries.json) · [服务端清单](server-inventory.json) · [客户端清单](client-inventory.json) · [网络路径](network-path.json) · [原始证据清单](SHA256SUMS)
 
 `evidence/` 包含采集脚本、每点命令数组、memtier JSON/文本、测量前后宿主/INFO 快照、配置前后精确记录数及样本长度、驱动切换和干净停止状态。不包含私钥、下载的可执行文件或生成的数据库。
 

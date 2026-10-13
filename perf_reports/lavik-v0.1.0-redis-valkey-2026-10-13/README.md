@@ -66,7 +66,7 @@ For each Redis/Valkey command, select one I/O-thread configuration by its measur
 
 ## Evidence and offline reproduction
 
-[All 110 points](results.csv) · [Validation](validation.json) · [Release](release.json) · [Binary identity](binaries.json) · [Server inventory](server-inventory.json) · [Client inventory](client-inventory.json) · [Raw evidence manifest](SHA256SUMS)
+[All 110 points](results.csv) · [Validation](validation.json) · [Release](release.json) · [Binary identity](binaries.json) · [Server inventory](server-inventory.json) · [Client inventory](client-inventory.json) · [Network path](network-path.json) · [Raw evidence manifest](SHA256SUMS)
 
 The `evidence/` directory contains acquisition scripts, per-point command arrays, memtier JSON/text, enclosing-window host/INFO snapshots, before/after exact counts and sampled value lengths, driver changes and clean-stop status. Private keys, executable downloads and generated databases are excluded.
 
