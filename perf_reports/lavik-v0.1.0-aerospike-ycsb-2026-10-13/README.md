@@ -110,7 +110,7 @@ Lavik is the unmodified standard release package: `v0.1.0 / feb61224e414c5653fd0
 | Aerospike | 2026-10-13T09:54:41Z – 2026-10-13T10:35:42Z | 8 |
 | Lavik | 2026-10-13T10:39:09Z – 2026-10-13T11:20:04Z | 8 |
 
-At completion the original CPU/IRQ policy is restored, Lavik has stopped cleanly, and Aerospike has recovered with its final data verified. These counts describe the end of the YCSB matrix.
+At completion the original CPU/IRQ policy is restored, Lavik has stopped cleanly, and Aerospike has recovered with its final data verified. These counts describe the end of the YCSB matrix. After complete evidence archival and offline verification, the six scratch devices were rebuilt with authorization for the subsequent latest-peer and Lavik 1B batch; the YCSB datasets are no longer retained.
 
 ## Evidence and reproduction
 

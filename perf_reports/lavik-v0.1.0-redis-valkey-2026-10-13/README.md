@@ -2,6 +2,8 @@
 
 **English** | [简体中文](README.zh-CN.md)
 
+> This report preserves the initial Redis 8.8.0 / Valkey 9.1.0 experiment. See the [latest Redis 8.10.2 / Valkey 9.1.2 and Lavik 1B report](../lavik-v0.1.0-spdk-vs-latest-2026-10-13/README.md) for the updated batch.
+
 Test date: 2026-10-13. The downloaded **Lavik v0.1.0 standard x86_64 release** was tested against freshly measured Redis 8.8.0 and Valkey 9.1.0 controls. All **110 formal points** use 10 million keys with 1,024-byte values. Lavik defrag stayed enabled throughout loading, warmup and measurement. No historical control results are reused.
 
 Lavik's peak GET was **1140.5k QPS** at 1280 connections (p99.9 **7.679 ms**); peak SET was **955.4k QPS** at 1280 connections (p99.9 **10.559 ms**). These are single-run observations. At the peak points in the table, Lavik has higher throughput and higher p99.9 latency than both peers for GET and SET; the full curves show how this changes with concurrency.
