@@ -4,7 +4,7 @@
 """Render the committed benchmark CSV in the previous report's visual style.
 
 Requires Matplotlib 3.11.x. Run from any directory; no benchmark host, raw
-devices, or executable downloads are needed to regenerate the three figures.
+devices, or executable downloads are needed to regenerate the one figure.
 """
 
 import csv
@@ -178,14 +178,11 @@ def main():
                          "axes.labelcolor": "#17202A", "svg.fonttype": "none",
                          "svg.hashsalt": "lavik-release010-20261013", "hatch.linewidth": .8})
     rows = read_rows()
-    for group in ["memory"]:
-        comparisons(rows, group)
-        comparisons(rows, group, metric="p999_ms")
-    thread_scaling(rows)
+    comparisons(rows, "memory")
     (ROOT / "chart-SHA256SUMS").write_text("".join(
         hashlib.file_digest(path.open("rb"), "sha256").hexdigest() + "  " + path.name + "\n"
         for path in sorted(ROOT.iterdir()) if path.suffix in [".svg", ".png"]))
-    print("Validated 110 rows; rendered three figures as SVG and PNG")
+    print("Validated 110 rows; rendered one figure as SVG and PNG")
 
 
 if __name__ == "__main__":

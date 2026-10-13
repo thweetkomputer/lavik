@@ -2,13 +2,17 @@
 
 **English** | [简体中文](README.zh-CN.md)
 
-Test date: 2026-10-13. The downloaded **Lavik v0.1.0 standard x86_64 release** was tested against freshly measured Redis 8.10.2 and Valkey 9.1.2 controls. The fresh batch contains **122 formal points**: 110 with 10 million keys and 12 Lavik-only points with one billion keys; values are 1,024 bytes. Lavik defrag stayed enabled throughout loading, warmup and measurement. No historical control results are reused.
+Test date: 2026-10-13. The downloaded **Lavik v0.1.0 standard x86_64 release** was tested against freshly measured Redis 8.10.2 and Valkey 9.1.2 controls. This report presents **120 formal points**: 110 with 10 million keys and 10 Lavik-only points with one billion keys; values are 1,024 bytes. Lavik defrag stayed enabled throughout loading, warmup and measurement. No historical control results are reused.
 
-In the 10M group, Lavik's peak GET was **1145.8k QPS** at 1280 connections (p99.9 **7.135 ms**); peak SET was **972.0k QPS** at 1280 connections (p99.9 **7.199 ms**). These are single-run observations. The table pairs each peak throughput with its measured latency; the full curves show how both change with concurrency.
+In the 10M group, Lavik's peak GET was **1145.8k QPS** at 1280 connections (p99.9 **7.135 ms**); peak SET was **972.0k QPS** at 1280 connections (p99.9 **7.199 ms**). These are single-run observations. The table pairs each peak throughput with its measured latency; the chart shows throughput across connection counts.
+
+## Throughput: Lavik 10M / 1B versus Redis / Valkey
+
+![Lavik 10M / 1B, Redis and Valkey throughput](combined-qps.png)
+
+All four series cover 80–1280 connections. The 10M group uses 30 seconds per point and default client seeds; the 1B group uses 60 seconds and distinct client seeds. Dataset size, duration and seed settings differ.
 
 ## 10M keys × 1 KiB: throughput and latency
-
-![10M throughput](memory-qps.png)
 
 | Command | System | Threads¹ | Connections | QPS | Avg ms | p50 ms | p99 ms | p99.9 ms | p99.99 ms |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
@@ -19,13 +23,9 @@ In the 10M group, Lavik's peak GET was **1145.8k QPS** at 1280 connections (p99.
 | SET | Redis 8.10.2 | 16 | 1280 | 951,053 | 1.346 | 1.135 | 4.511 | 7.231 | 15.359 |
 | SET | Valkey 9.1.2 | 8 | 1280 | 808,103 | 1.583 | 1.455 | 4.047 | 7.199 | 14.143 |
 
-![10M p99.9](memory-p999.png)
-
-For each Redis/Valkey command, select one I/O-thread configuration by its measured peak and show its complete connection sweep. The latency plot uses the same selection. The table gives each product’s measured peak point. ¹ Lavik counts data workers; Redis/Valkey count I/O threads.
+For each Redis/Valkey command, select one I/O-thread configuration by its measured peak and show its complete connection sweep. The table gives each product’s measured peak point. ¹ Lavik counts data workers; Redis/Valkey count I/O threads.
 
 ## 1B keys × 1 KiB: Lavik storage group
-
-![1B throughput](storage-qps.png)
 
 | Command | Connections | QPS | Avg ms | p99 ms | p99.9 ms | p99.99 ms |
 |---|---:|---:|---:|---:|---:|---:|
@@ -34,38 +34,17 @@ For each Redis/Valkey command, select one I/O-thread configuration by its measur
 | GET | 320 | 789,314 | 0.405 | 1.295 | 2.975 | 4.319 |
 | GET | 640 | 1,069,126 | 0.598 | 3.119 | 4.511 | 6.143 |
 | GET | 1280 | 1,050,461 | 1.218 | 4.319 | 7.007 | 14.463 |
-| GET | 2560 | 891,921 | 2.869 | 7.967 | 17.535 | 34.047 |
 | SET | 80 | 425,907 | 0.188 | 1.423 | 2.655 | 3.647 |
 | SET | 160 | 557,486 | 0.287 | 2.527 | 4.127 | 6.975 |
 | SET | 320 | 671,340 | 0.476 | 3.663 | 5.695 | 8.319 |
 | SET | 640 | 757,742 | 0.844 | 4.927 | 7.711 | 17.663 |
 | SET | 1280 | 817,113 | 1.566 | 6.815 | 11.007 | 20.863 |
-| SET | 2560 | 743,749 | 3.441 | 13.887 | 38.143 | 104.447 |
 
-![1B p99.9](storage-p999.png)
-
-The 1B GET peak is 1,069,126 QPS at 640 connections; SET peaks at 817,113 QPS with 1280 connections. At 2,560 connections throughput is lower for both commands, while p99.9 rises to 17.535 ms (GET) and 38.143 ms (SET). These are observations from this single sweep.
+The 1B GET peak is 1,069,126 QPS at 640 connections; SET peaks at 817,113 QPS with 1280 connections. These are observations from this single sweep.
 
 Full-batch acquisition span (including per-point setup/snapshots): 2026-10-13 11:33:05 UTC – 2026-10-13 13:12:17 UTC
 
 
-
-## I/O-thread sweep
-
-![I/O threads](iothread-scaling.png)
-
-| System | I/O threads | Peak GET QPS @ connections | Peak SET QPS @ connections |
-|---|---:|---:|---:|
-| Redis 8.10.2 | 1 | 157,466 @ 320 | 147,582 @ 320 |
-| Redis 8.10.2 | 2 | 158,822 @ 320 | 147,128 @ 320 |
-| Redis 8.10.2 | 4 | 440,300 @ 1280 | 402,259 @ 640 |
-| Redis 8.10.2 | 8 | 850,654 @ 1280 | 834,803 @ 1280 |
-| Redis 8.10.2 | 16 | 1,018,735 @ 1280 | 951,053 @ 1280 |
-| Valkey 9.1.2 | 1 | 155,865 @ 320 | 145,659 @ 320 |
-| Valkey 9.1.2 | 2 | 160,146 @ 320 | 147,781 @ 640 |
-| Valkey 9.1.2 | 4 | 440,759 @ 640 | 406,973 @ 1280 |
-| Valkey 9.1.2 | 8 | 861,809 @ 1280 | 808,103 @ 1280 |
-| Valkey 9.1.2 | 16 | 970,288 @ 1280 | 800,528 @ 1280 |
 
 ## Hardware and deployment
 
@@ -88,13 +67,13 @@ Full-batch acquisition span (including per-point setup/snapshots): 2026-10-13 11
 - The six disks are matched by serial, PCI address, namespace and capacity before clearing. OS and workspace disks are excluded. Independent 10M and 1B Lavik datasets are loaded, clearing the six scratch devices between them. SPDK controllers are returned to the kernel after the clean Lavik stop; the hugepage reservation is released before subsequent tests.
 - Redis/Valkey are built from their pinned 8.10.2 / 9.1.2 release commits with jemalloc 5.3.0. Each product loads a fresh 10M dataset and saves a hash-verified RDB. Each I/O-thread configuration starts from that baseline, with AOF and scheduled snapshots disabled. Other settings retain product defaults.
 - 10M group: memtier 2.5.1, 16 client threads, pipeline 1, no rate limit; decimal keys 1..10,000,000 without prefixes; uniform random GET or overwriting SET, 1,024 B values. Connections 80/160/320/640/1280; 30 seconds per point; 10-second GET warmup per server configuration. The original 10M method's default correlated client seeds are retained.
-- The 1B group uses decimal keys 1..1,000,000,000, uniformly random GET or overwriting SET, and 80/160/320/640/1280/2560 connections, 60 seconds per point, distinct client seeds, and no extra GET warmup, following the original storage-group method. Shutdown checkpoint is enabled. The 1.024 TB raw value payload excludes keys and storage/index overhead.
+- The 1B group uses decimal keys 1..1,000,000,000, uniformly random GET or overwriting SET, and 80/160/320/640/1280 connections, 60 seconds per point, distinct client seeds, and no extra GET warmup, following the original storage-group method. Shutdown checkpoint is enabled. The 1.024 TB raw value payload excludes keys and storage/index overhead.
 - Exact DBSIZE and five sampled value lengths are checked before and after each server configuration. All measured GETs have zero misses; all formal points have zero connection errors. The latency percentiles are whole-window client measurements. Server CPU columns enclose setup/INFO overhead and are diagnostics, not exact-window CPU utilization.
 - Each point is measured once; confidence intervals and run-to-run variability are not estimated. Products run sequentially, not interleaved. Thread roles differ, and Lavik persistence differs from the memory-only peer configurations. The new client CPU/model and release build differ from historical reports, so historical performance changes cannot be attributed solely to Lavik code.
 
 ## Evidence and offline reproduction
 
-[All 122 points](results.csv) · [Validation](validation.json) · [Release](release.json) · [Peer build identity](evidence/builds.json) · [Version selection](latest-release-selection.json) · [Server inventory](server-inventory.json) · [Client inventory](client-inventory.json) · [Network path](network-path.json) · [Raw evidence manifest](SHA256SUMS)
+[All 120 points](results.csv) · [Validation](validation.json) · [Release](release.json) · [Peer build identity](evidence/builds.json) · [Version selection](latest-release-selection.json) · [Server inventory](server-inventory.json) · [Client inventory](client-inventory.json) · [Network path](network-path.json) · [Raw evidence manifest](SHA256SUMS)
 
 The `evidence/` directory contains acquisition scripts, per-point command arrays, memtier JSON/text, enclosing-window host/INFO snapshots, before/after exact counts and sampled value lengths, driver changes and clean-stop status. Private keys, executable downloads and generated databases are excluded.
 

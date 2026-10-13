@@ -13,7 +13,7 @@ def expectations():
         for kind in ['GET','SET']:
             for c in CONNS:yield parent/f'{kind.lower()}-c{c}', 'memory',system,threads,kind,c,10**7,30
     for kind in ['GET','SET']:
-        for c in CONNS+[2560]:yield R/'storage/lavik-spdk'/f'{kind.lower()}-c{c}','storage','lavik-spdk',16,kind,c,10**9,60
+        for c in CONNS:yield R/'storage/lavik-spdk'/f'{kind.lower()}-c{c}','storage','lavik-spdk',16,kind,c,10**9,60
 
 def load(partial=False):
     rows=[];missing=[]
@@ -68,11 +68,11 @@ def load(partial=False):
         rows.append(r)
     if not partial:
         assert not missing,missing
-        assert len(rows)==122
+        assert len(rows)==120
         assert (R/'COMPLETE').is_file()
         builds=json.loads((R/'builds.json').read_text())
         assert builds['builds_finished_before_formal_tests']
-        experiment=json.loads((R/'EXPERIMENT.json').read_text())
+        experiment=json.loads((REPORT/'report-scope.json').read_text())
         assert builds['utc'] < experiment['utc']
         for root,keys in [(R/'memory/lavik-spdk',10**7),(R/'storage/lavik-spdk',10**9),(R/'memory/redis',10**7),(R/'memory/valkey',10**7)]:
             fill=json.loads((root/'fill.json').read_text())['ALL STATS']
@@ -136,12 +136,12 @@ def main():
     if rows:
         with (REPORT/'results.csv').open('w') as f:
             writer=csv.DictWriter(f,fieldnames=list(rows[0]),lineterminator='\n');writer.writeheader();writer.writerows(rows)
-    (REPORT/'validation.json').write_text(json.dumps({'formal_points':len(rows),'expected_points':122,'missing':missing,'all_present_validated_points_have_zero_connection_errors_and_get_misses':True},indent=2)+'\n')
+    (REPORT/'validation.json').write_text(json.dumps({'formal_points':len(rows),'expected_points':120,'missing':missing,'all_present_validated_points_have_zero_connection_errors_and_get_misses':True},indent=2)+'\n')
     for group in ['memory','storage']:
         for kind in ['GET','SET']:
             for system in NAMES:
                 selection=[r for r in rows if r['group']==group and r['workload']==kind and r['system']==system]
                 if selection:
                     best=max(selection,key=lambda r:r['qps']); print(group,kind,system,best['server_threads'],best['connections'],round(best['qps']),best['p999_ms'])
-    print('Validated formal points:',len(rows),'/ 122')
+    print('Validated formal points:',len(rows),'/ 120')
 if __name__=='__main__':main()

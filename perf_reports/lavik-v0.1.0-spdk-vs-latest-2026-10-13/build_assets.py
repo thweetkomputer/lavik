@@ -4,7 +4,7 @@
 """Render the committed benchmark CSV in the previous report's visual style.
 
 Requires Matplotlib 3.11.x. Run from any directory; no benchmark host, raw
-devices, or executable downloads are needed to regenerate the five figures.
+devices, or executable downloads are needed to regenerate the combined figure.
 """
 
 import csv
@@ -41,7 +41,7 @@ def read_rows():
                     for connections in CONNECTIONS:
                         expected.add((group, system, threads, workload, connections))
     for workload in ["GET", "SET"]:
-        for connections in CONNECTIONS + [2560]:
+        for connections in CONNECTIONS:
             expected.add(("storage", "lavik-spdk", 16, workload, connections))
     observed = set()
     for row in rows:
@@ -56,7 +56,7 @@ def read_rows():
         assert row["value_bytes"] == 1024 and int(row["connection_errors"]) == 0
         assert row["keys"] == (10**7 if row["group"] == "memory" else 10**9)
         assert row["test_seconds"] == (30 if row["group"] == "memory" else 60)
-    assert observed == expected and len(rows) == 122
+    assert observed == expected and len(rows) == 120
     return rows
 
 
@@ -99,7 +99,7 @@ def style_axis(ax, title, connections, *, metric="qps", maximum=None):
 
 
 def save(fig, name, footer):
-    fig.text(.045, .045, footer, fontsize=11.5, color="#566573")
+    fig.text(.045, .032, footer, fontsize=11.5, color="#566573")
     for extension in ["svg", "png"]:
         # Omit wall-clock metadata and fix SVG IDs for reproducible review diffs.
         fig.savefig(ROOT / f"{name}.{extension}", dpi=150,
@@ -110,74 +110,32 @@ def save(fig, name, footer):
     plt.close(fig)
 
 
-def comparisons(rows, group, *, metric="qps"):
-    assert group in ["memory", "storage"]
-    systems = ["lavik-spdk", "redis", "valkey"] if group == "memory" else ["lavik-spdk"]
-    connections = CONNECTIONS if group == "memory" else CONNECTIONS + [2560]
-    throughput = metric == "qps"
-    title = "Lavik SPDK versus tuned in-memory Redis and Valkey"
-    if not throughput:
-        title = "p99.9 latency · Lavik SPDK, Redis, and Valkey"
-    if group == "storage":
-        title = "Lavik SPDK · 1.024 TB value payload" if throughput else "p99.9 latency · Lavik SPDK · 1B keys"
-    subtitle = "10M keys × 1 KiB · 30 s/run" if group == "memory" else "1B keys × 1 KiB · 60 s/run · distinct client seeds"
-    fig, axes = frame(title, subtitle + " · 16 memtier threads · pipeline 1")
-    selected = {(system, workload): series(rows, group, system, workload)
-                for system in systems for workload in ["GET", "SET"]}
-    peak = max(r[metric] for values in selected.values() for r in values)
-    maximum = math.ceil(peak / 200_000) * 200_000 if throughput else peak * 1.12
-    labels = []
-    for system in systems:
-        if system == "lavik-spdk":
-            label = "Lavik SPDK · 16 workers"
-        elif system in ["redis", "valkey"]:
-            get = selected[system, "GET"][0]["server_threads"]
-            put = selected[system, "SET"][0]["server_threads"]
-            counts = str(get) if get == put else f"GET {get} / SET {put}"
-            label = f"{NAMES[system]} · {counts} I/O threads"
-        else:
-            label = NAMES[system]
-        labels.append(label)
-    handles = [Patch(facecolor=COLORS[s], edgecolor="white", hatch=HATCHES[s], label=label)
-               if throughput else Line2D([], [], color=COLORS[s], marker=["s", "^", "D"][i], label=label)
-               for i, (s, label) in enumerate(zip(systems, labels))]
-    fig.legend(handles=handles, loc="upper center", bbox_to_anchor=(.52, .88), ncol=3,
+def combined_throughput(rows):
+    specs = [
+        ("memory", "lavik-spdk", "Lavik v0.1.0 · 10M keys · 16 workers", "#1473E6", "///"),
+        ("storage", "lavik-spdk", "Lavik v0.1.0 · 1B keys · 16 workers", "#168F8C", "\\\\"),
+        ("memory", "redis", "Redis 8.10.2 · 10M keys · 16 I/O threads", "#E97827", ".."),
+        ("memory", "valkey", "Valkey 9.1.2 · 10M keys · GET 16 / SET 8 I/O threads", "#C84C8A", "xx"),
+    ]
+    fig, axes = frame("Lavik 10M / 1B keys versus Redis and Valkey",
+                      "1 KiB values · 16 memtier threads · pipeline 1 · Lavik SPDK / peers in DRAM")
+    selected = {(group, system, workload): series(rows, group, system, workload)
+                for group, system, *_ in specs for workload in ["GET", "SET"]}
+    maximum = math.ceil(max(r["qps"] for values in selected.values() for r in values) / 200_000) * 200_000
+    handles = [Patch(facecolor=color, edgecolor="white", hatch=hatch, label=label)
+               for _, _, label, color, hatch in specs]
+    fig.legend(handles=handles, loc="upper center", bbox_to_anchor=(.52, .885), ncol=2,
                frameon=False, fontsize=11.5, handlelength=2.6, columnspacing=2.7)
     for ax, workload in zip(axes, ["GET", "SET"]):
-        style_axis(ax, workload + (" throughput" if throughput else " p99.9"), connections,
-                   metric=metric, maximum=maximum)
-        for index, system in enumerate(systems):
-            values = [r[metric] for r in selected[system, workload]]
-            if throughput:
-                ax.bar([x + (index - (len(systems) - 1) / 2) * .235 for x in range(len(connections))], values,
-                       width=.21 if group == "memory" else .45, color=COLORS[system], edgecolor="white", linewidth=.5,
-                       hatch=HATCHES[system])
-            else:
-                ax.plot(range(len(connections)), values, color=COLORS[system],
-                        marker=["s", "^", "D"][index], linewidth=2.6, markersize=6)
-        ax.set_xlim(-.55, len(connections) - .45)
-    footer = "Lavik v0.1.0 · six NVMe via SPDK · Redis 8.10.2 / Valkey 9.1.2 in DRAM · defrag enabled"
-    if group == "storage":
-        footer = "Lavik v0.1.0 · six NVMe devices via SPDK · defrag enabled · single run per point"
-    save(fig, group + ("-qps" if throughput else "-p999"), footer)
-
-
-def thread_scaling(rows):
-    fig, axes = frame("Redis and Valkey I/O-thread scaling",
-                      "10M keys × 1 KiB · 30 s/run · 16 memtier threads · pipeline 1", thread_grid=True)
-    handles = [Line2D([], [], color=color, linestyle=style, marker="o", label=f"{n} thread" + ("s" if n != 1 else ""))
-               for n, color, style in zip(THREADS, THREAD_COLORS, THREAD_STYLES)]
-    fig.legend(handles=handles, loc="upper center", bbox_to_anchor=(.52, .88), ncol=5,
-               frameon=False, fontsize=12, handlelength=3)
-    for ax, (system, version, workload) in zip(axes, [("redis", "8.10.2", "GET"), ("redis", "8.10.2", "SET"),
-                                                     ("valkey", "9.1.2", "GET"), ("valkey", "9.1.2", "SET")]):
-        style_axis(ax, f"{NAMES[system]} {version} · {workload}", CONNECTIONS, maximum=math.ceil(max(r["qps"] for r in rows if r["system"] in ["redis","valkey"])/200_000)*200_000)
-        for n, color, style in zip(THREADS, THREAD_COLORS, THREAD_STYLES):
-            values = [r["qps"] for r in series(rows, "memory", system, workload, n)]
-            ax.plot(range(len(CONNECTIONS)), values, color=color, linestyle=style, linewidth=2.4,
-                    marker="o", markersize=5, markeredgecolor="white", markeredgewidth=.6)
-        ax.set_xlim(-.08, len(CONNECTIONS) - .92)
-    save(fig, "iothread-scaling", "Zero-baseline QPS · lines connect ordered connection-count categories; they do not imply interpolation")
+        style_axis(ax, workload + " throughput", CONNECTIONS, maximum=maximum)
+        for index, (group, system, _, color, hatch) in enumerate(specs):
+            values = selected[group, system, workload]
+            assert [r["connections"] for r in values] == CONNECTIONS
+            ax.bar([x + (index - 1.5) * .20 for x in range(len(CONNECTIONS))],
+                   [r["qps"] for r in values], width=.18, color=color,
+                   edgecolor="white", linewidth=.5, hatch=hatch)
+        ax.set_xlim(-.55, len(CONNECTIONS) - .45)
+    save(fig, "combined-qps", "10M: 30 s, default client seeds · 1B: 60 s, distinct client seeds · Lavik defrag enabled · single run per point")
 
 
 def main():
@@ -186,14 +144,11 @@ def main():
                          "axes.labelcolor": "#17202A", "svg.fonttype": "none",
                          "svg.hashsalt": "lavik-release010-20261013", "hatch.linewidth": .8})
     rows = read_rows()
-    for group in ["memory", "storage"]:
-        comparisons(rows, group)
-        comparisons(rows, group, metric="p999_ms")
-    thread_scaling(rows)
+    combined_throughput(rows)
     (ROOT / "chart-SHA256SUMS").write_text("".join(
         hashlib.file_digest(path.open("rb"), "sha256").hexdigest() + "  " + path.name + "\n"
         for path in sorted(ROOT.iterdir()) if path.suffix in [".svg", ".png"]))
-    print("Validated 122 rows; rendered five figures as SVG and PNG")
+    print("Validated 120 rows; rendered one combined figure as SVG and PNG")
 
 
 if __name__ == "__main__":

@@ -21,26 +21,7 @@ Lavik's peak GET was **1140.5k QPS** at 1280 connections (p99.9 **7.679 ms**); p
 | SET | Redis 8.8.0 | 16 | 1280 | 928,242 | 1.379 | 1.159 | 4.479 | 7.199 | 15.487 |
 | SET | Valkey 9.1.0 | 8 | 1280 | 804,951 | 1.590 | 1.455 | 4.095 | 7.583 | 15.295 |
 
-![10M p99.9](memory-p999.png)
-
-For each Redis/Valkey command, select one I/O-thread configuration by its measured peak and show its complete connection sweep. The latency plot uses the same selection. The table gives each product’s measured peak point. ¹ Lavik counts data workers; Redis/Valkey count I/O threads.
-
-## I/O-thread sweep
-
-![I/O threads](iothread-scaling.png)
-
-| System | I/O threads | Peak GET QPS @ connections | Peak SET QPS @ connections |
-|---|---:|---:|---:|
-| Redis 8.8.0 | 1 | 157,073 @ 320 | 146,331 @ 320 |
-| Redis 8.8.0 | 2 | 159,837 @ 640 | 147,882 @ 320 |
-| Redis 8.8.0 | 4 | 439,070 @ 1280 | 404,721 @ 640 |
-| Redis 8.8.0 | 8 | 854,878 @ 1280 | 838,300 @ 1280 |
-| Redis 8.8.0 | 16 | 1,019,880 @ 1280 | 928,242 @ 1280 |
-| Valkey 9.1.0 | 1 | 158,131 @ 320 | 145,078 @ 160 |
-| Valkey 9.1.0 | 2 | 160,905 @ 320 | 149,623 @ 640 |
-| Valkey 9.1.0 | 4 | 441,615 @ 640 | 408,896 @ 1280 |
-| Valkey 9.1.0 | 8 | 860,629 @ 1280 | 804,951 @ 1280 |
-| Valkey 9.1.0 | 16 | 961,722 @ 1280 | 750,593 @ 1280 |
+For each Redis/Valkey command, select one I/O-thread configuration by its measured peak and show its complete connection sweep. The table gives each product’s measured peak point. ¹ Lavik counts data workers; Redis/Valkey count I/O threads.
 
 ## Hardware and deployment
 
