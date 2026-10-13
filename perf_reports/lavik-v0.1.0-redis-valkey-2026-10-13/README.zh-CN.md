@@ -76,3 +76,14 @@ python3 perf_reports/lavik-v0.1.0-redis-valkey-2026-10-13/build_assets.py
 ```
 
 校验脚本使用 Python 3.11+，可离线执行；绘图需要 Matplotlib 3.11.2，导出 SVG、PNG。采集脚本针对这批宿主，包含对六张白名单临时盘的清理步骤，不可对任意磁盘直接运行。
+
+## Redis / Valkey 持久化配置
+
+灌入、预热和正式测量期间均关闭周期性 RDB 与 AOF。显式配置已保存为 [redis-valkey-persistence.conf](redis-valkey-persistence.conf)：
+
+```conf
+save ""
+appendonly no
+```
+
+采集命令通过等效参数 `--save "" --appendonly no` 应用配置；完整命令见 `evidence/memory/{redis,valkey}/io*/server-command.json`。每个产品首次灌入 10M 数据后，仅在正式窗口之外手动执行一次 `SAVE`，生成经校验的 RDB 基线，供切换 I/O 线程数时重启恢复。启动时读取该基线不会开启周期性快照。正式测量期间的写入仅在内存中完成。

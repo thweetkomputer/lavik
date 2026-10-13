@@ -76,3 +76,14 @@ python3 perf_reports/lavik-v0.1.0-redis-valkey-2026-10-13/build_assets.py
 ```
 
 The verifier uses Python 3.11+ and runs offline. Figures require Matplotlib 3.11.2 and are exported as SVG and PNG. Acquisition scripts are host-specific and can erase only the six explicitly allowlisted scratch devices; do not run them on arbitrary disks.
+
+## Redis / Valkey persistence configuration
+
+Periodic RDB snapshots and AOF are both disabled throughout load, warmup and measurement. The explicit settings are committed in [redis-valkey-persistence.conf](redis-valkey-persistence.conf):
+
+```conf
+save ""
+appendonly no
+```
+
+The acquisition commands apply the equivalent `--save "" --appendonly no`; full commands are archived under `evidence/memory/{redis,valkey}/io*/server-command.json`. One manual `SAVE` runs after each product’s initial 10M fill, outside every formal window, to create the validated RDB baseline used when restarting with another I/O-thread count. Reading that baseline at startup does not enable periodic snapshots. Measured writes are memory-only.
