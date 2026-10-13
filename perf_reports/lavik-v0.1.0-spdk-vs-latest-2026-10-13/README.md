@@ -4,7 +4,7 @@
 
 Test date: 2026-10-13. The downloaded **Lavik v0.1.0 standard x86_64 release** was tested against freshly measured Redis 8.10.2 and Valkey 9.1.2 controls. This report presents **120 formal points**: 110 with 10 million keys and 10 Lavik-only points with one billion keys; values are 1,024 bytes. Lavik defrag stayed enabled throughout loading, warmup and measurement. No historical control results are reused.
 
-In the 10M group, Lavik's peak GET was **1145.8k QPS** at 1280 connections (p99.9 **7.135 ms**); peak SET was **972.0k QPS** at 1280 connections (p99.9 **7.199 ms**). These are single-run observations. The table pairs each peak throughput with its measured latency; the chart shows throughput across connection counts.
+In the 10M group, Lavik's peak GET was **1145.8k QPS** at 1280 connections (p99.9 **7.135 ms**); peak SET was **972.0k QPS** at 1280 connections (p99.9 **7.199 ms**). These are single-run observations. The summary figure pairs each peak throughput with its measured latency; the chart shows throughput across connection counts.
 
 ## Throughput: Lavik 10M / 1B versus Redis / Valkey
 
@@ -18,33 +18,11 @@ All four series cover 80–1280 connections. The 10M group uses 30 seconds per p
 
 Latency is client-observed p99.9 over each full measurement window, in milliseconds; lower is better. The I/O-thread configurations match the throughput chart. The connection axis uses a log₂ scale.
 
-## 10M keys × 1 KiB: throughput and latency
+## Peak throughput and corresponding latency
 
-| Command | System | Threads¹ | Connections | QPS | Avg ms | p50 ms | p99 ms | p99.9 ms | p99.99 ms |
-|---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| GET | Lavik 0.1.0 SPDK | 16 | 1280 | 1,145,772 | 1.117 | 1.031 | 3.999 | 7.135 | 17.919 |
-| GET | Redis 8.10.2 | 16 | 1280 | 1,018,735 | 1.256 | 1.087 | 4.415 | 7.103 | 13.567 |
-| GET | Valkey 9.1.2 | 16 | 1280 | 970,288 | 1.319 | 1.119 | 4.415 | 7.455 | 16.319 |
-| SET | Lavik 0.1.0 SPDK | 16 | 1280 | 971,950 | 1.317 | 1.119 | 4.479 | 7.199 | 15.487 |
-| SET | Redis 8.10.2 | 16 | 1280 | 951,053 | 1.346 | 1.135 | 4.511 | 7.231 | 15.359 |
-| SET | Valkey 9.1.2 | 8 | 1280 | 808,103 | 1.583 | 1.455 | 4.047 | 7.199 | 14.143 |
+![Peak throughput and corresponding latency for all four groups](peak-summary.png)
 
-For each Redis/Valkey command, select one I/O-thread configuration by its measured peak and show its complete connection sweep. The table gives each product’s measured peak point. ¹ Lavik counts data workers; Redis/Valkey count I/O threads.
-
-## 1B keys × 1 KiB: Lavik storage group
-
-| Command | Connections | QPS | Avg ms | p99 ms | p99.9 ms | p99.99 ms |
-|---|---:|---:|---:|---:|---:|---:|
-| GET | 80 | 385,514 | 0.207 | 0.343 | 0.439 | 0.959 |
-| GET | 160 | 579,203 | 0.276 | 0.543 | 0.735 | 1.351 |
-| GET | 320 | 789,314 | 0.405 | 1.295 | 2.975 | 4.319 |
-| GET | 640 | 1,069,126 | 0.598 | 3.119 | 4.511 | 6.143 |
-| GET | 1280 | 1,050,461 | 1.218 | 4.319 | 7.007 | 14.463 |
-| SET | 80 | 425,907 | 0.188 | 1.423 | 2.655 | 3.647 |
-| SET | 160 | 557,486 | 0.287 | 2.527 | 4.127 | 6.975 |
-| SET | 320 | 671,340 | 0.476 | 3.663 | 5.695 | 8.319 |
-| SET | 640 | 757,742 | 0.844 | 4.927 | 7.711 | 17.663 |
-| SET | 1280 | 817,113 | 1.566 | 6.815 | 11.007 | 20.863 |
+Each row shows the measured throughput peak for one system and dataset; its connection count and latency come from the same measurement point. Redis/Valkey curves use one I/O-thread configuration per command, selected by its peak QPS. Threads count data workers for Lavik and I/O threads for Redis/Valkey.
 
 The 1B GET peak is 1,069,126 QPS at 640 connections; SET peaks at 817,113 QPS with 1280 connections. These are observations from this single sweep.
 
