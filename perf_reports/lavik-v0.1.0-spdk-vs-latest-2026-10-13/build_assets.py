@@ -4,7 +4,7 @@
 """Render the committed benchmark CSV in the previous report's visual style.
 
 Requires Matplotlib 3.11.x. Run from any directory; no benchmark host, raw
-devices, or executable downloads are needed to regenerate the three report figures.
+devices, or executable downloads are needed to regenerate the two report figures.
 """
 
 import csv
@@ -158,44 +158,6 @@ def combined_comparison(rows, metric="qps"):
     save(fig, "combined-qps" if throughput else "combined-p999", "10M: 30 s, default client seeds · 1B: 60 s, distinct client seeds · Lavik defrag enabled · single run per point")
 
 
-def peak_summary(rows):
-    specs = [("memory", "lavik-spdk", "Lavik 0.1.0 SPDK", "10M", "#1473E6"),
-             ("storage", "lavik-spdk", "Lavik 0.1.0 SPDK", "1B", "#168F8C"),
-             ("memory", "redis", "Redis 8.10.2", "10M", "#E97827"),
-             ("memory", "valkey", "Valkey 9.1.2", "10M", "#C84C8A")]
-    cells = []
-    colors = []
-    for workload in ["GET", "SET"]:
-        for group, system, label, keys, color in specs:
-            point = max(series(rows, group, system, workload), key=lambda r: r["qps"])
-            cells.append([workload, label, keys, str(point["server_threads"]),
-                          f'{point["connections"]:,}', f'{point["qps"]:,.0f}',
-                          *[f'{point[k]:.3f}' for k in ["avg_ms", "p50_ms", "p99_ms", "p999_ms"]]])
-            colors.append(color)
-    fig = plt.figure(figsize=(17, 6.8), facecolor="white")
-    fig.text(.035, .94, "Peak throughput and its measured latency", fontsize=24, weight="bold")
-    fig.text(.035, .875, "Lavik 10M / 1B keys · Redis / Valkey 10M keys · 1 KiB values · latency in milliseconds", fontsize=13, color="#566573")
-    ax = fig.add_axes([.03, .24, .94, .57]); ax.axis("off")
-    table = ax.table(cellText=cells,
-                     colLabels=["Command", "System", "Keys", "Threads¹", "Connections", "QPS", "Avg ms", "p50 ms", "p99 ms", "p99.9 ms"],
-                     colWidths=[.075, .19, .05, .072, .105, .105, .078, .075, .075, .075],
-                     cellLoc="right", colLoc="right", bbox=[0, 0, 1, 1])
-    table.auto_set_font_size(False); table.set_fontsize(11.5)
-    for (row, col), cell in table.get_celld().items():
-        cell.set_edgecolor("white"); cell.set_linewidth(1.5)
-        cell.PAD = .09
-        if row == 0:
-            cell.set_facecolor("#17202A"); cell.get_text().set_color("white"); cell.get_text().set_weight("bold")
-        else:
-            cell.set_facecolor("#EDF3F8" if row <= 4 else "#F4F5F7")
-            if col in [1, 2]:cell.get_text().set_color(colors[row-1]); cell.get_text().set_weight("bold")
-            if col == 5:cell.get_text().set_weight("bold")
-        if col in [0, 1, 2]:cell.get_text().set_ha("left")
-    fig.text(.035, .165, "Each row is the measured peak QPS point for that system, dataset and command; latency comes from the same point.", fontsize=11.5, color="#566573")
-    fig.text(.035, .115, "¹ Lavik: data workers; Redis / Valkey: I/O threads. Single run per point; Lavik defrag enabled.", fontsize=11.5, color="#566573")
-    save(fig, "peak-summary", "10M: 30 s, default client seeds · 1B: 60 s, distinct client seeds")
-
-
 def main():
     """Validate the committed rows and regenerate SVG/PNG report assets."""
     plt.rcParams.update({"font.family": "DejaVu Sans", "text.color": "#17202A",
@@ -204,11 +166,10 @@ def main():
     rows = read_rows()
     combined_comparison(rows)
     combined_comparison(rows, "p999_ms")
-    peak_summary(rows)
     (ROOT / "chart-SHA256SUMS").write_text("".join(
         hashlib.file_digest(path.open("rb"), "sha256").hexdigest() + "  " + path.name + "\n"
         for path in sorted(ROOT.iterdir()) if path.suffix in [".svg", ".png"]))
-    print("Validated 120 rows; rendered three report figures as SVG and PNG")
+    print("Validated 120 rows; rendered two report figures as SVG and PNG")
 
 
 if __name__ == "__main__":

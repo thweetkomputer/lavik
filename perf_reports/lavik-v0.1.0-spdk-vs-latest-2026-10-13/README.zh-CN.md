@@ -1,10 +1,10 @@
-# Lavik v0.1.0：最新版 Redis / Valkey 对比与 1.024 TB 数据测试
+# Lavik v0.1.0：最新版 Redis / Valkey 对比与 1TB 数据测试
 
 [English](README.md) | **简体中文**
 
 测试日期：2026-10-13。使用下载的 **Lavik v0.1.0 标准 x86_64 正式包**，重新测量 Redis 8.10.2、Valkey 9.1.2 对照。本报告的 **120 个正式测量点**包含 110 个 1,000 万 key 对比点，以及 10 个 Lavik 单独运行的 10 亿 key 点；每条 value 均为 1,024 B。Lavik 在灌入、预热、测量期间始终开启 defrag；没有复用历史对照数据。
 
-10M 组的 Lavik GET 峰值为 **1145.8k QPS**（1280 连接，p99.9 **7.135 ms**）；SET 峰值为 **972.0k QPS**（1280 连接，p99.9 **7.199 ms**）。这些是单次测量结果。汇总图将各峰值吞吐与该点的实测延迟配对；图中展示吞吐随连接数的变化。
+10M 组的 Lavik GET 峰值为 **1145.8k QPS**（1280 连接，p99.9 **7.135 ms**）；SET 峰值为 **972.0k QPS**（1280 连接，p99.9 **7.199 ms**）。这些是单次测量结果。图中展示吞吐和 p99.9 延迟随连接数的变化。
 
 ## 吞吐对比：Lavik 10M / 1B 与 Redis / Valkey
 
@@ -17,12 +17,6 @@
 ![Lavik 10M / 1B, Redis and Valkey p99.9 latency](combined-p999.png)
 
 延迟为客户端完整测量窗口的 p99.9，单位为毫秒，越低越好。使用与吞吐图相同的 I/O 线程配置；横轴为 log₂ 连接数刻度。
-
-## 峰值吞吐与对应延迟汇总
-
-![Peak throughput and corresponding latency for all four groups](peak-summary.png)
-
-每行对应一个产品及数据规模的实测吞吐峰值，连接数和延迟均取自同一个测量点。Redis/Valkey 的折线使用各命令峰值最高的单个 I/O 线程配置。Lavik 的 Threads 为数据 worker 数，Redis/Valkey 为 I/O 线程数。
 
 1B GET 峰值为 1,069,126 QPS（640 连接），SET 峰值为 817,113 QPS（1280 连接）。这些仅描述本次单轮扫描。
 

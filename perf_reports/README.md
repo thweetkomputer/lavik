@@ -24,7 +24,7 @@ Each report provides an English `README.md` and a Simplified Chinese
 
 | Report | Test date | English | 简体中文 |
 |---|---|---|---|
-| v0.1.0 release: latest Redis 8.10.2 / Valkey 9.1.2 and Lavik 1.024 TB, defrag enabled | 2026-10-13 | [English](lavik-v0.1.0-spdk-vs-latest-2026-10-13/README.md) | [简体中文](lavik-v0.1.0-spdk-vs-latest-2026-10-13/README.zh-CN.md) |
+| v0.1.0 release: latest Redis 8.10.2 / Valkey 9.1.2 and Lavik 1TB, defrag enabled | 2026-10-13 | [English](lavik-v0.1.0-spdk-vs-latest-2026-10-13/README.md) | [简体中文](lavik-v0.1.0-spdk-vs-latest-2026-10-13/README.zh-CN.md) |
 | v0.1.0 release: Aerospike YCSB, defrag enabled | 2026-10-13 | [English](lavik-v0.1.0-aerospike-ycsb-2026-10-13/README.md) | [简体中文](lavik-v0.1.0-aerospike-ycsb-2026-10-13/README.zh-CN.md) |
 | v0.1.0 initial batch: Redis 8.8.0 / Valkey 9.1.0 (historical controls) | 2026-10-13 | [English](lavik-v0.1.0-redis-valkey-2026-10-13/README.md) | [简体中文](lavik-v0.1.0-redis-valkey-2026-10-13/README.zh-CN.md) |
 | SPDK 48-hour online stability | 2026-08-15 | [English](lavik-spdk-48h-stability-2026-08-15/README.md) | [简体中文](lavik-spdk-48h-stability-2026-08-15/README.zh-CN.md) |

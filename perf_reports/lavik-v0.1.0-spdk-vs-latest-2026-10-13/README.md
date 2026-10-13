@@ -1,10 +1,10 @@
-# Lavik v0.1.0: latest Redis / Valkey and a 1.024 TB dataset
+# Lavik v0.1.0: latest Redis / Valkey and a 1TB dataset
 
 **English** | [简体中文](README.zh-CN.md)
 
 Test date: 2026-10-13. The downloaded **Lavik v0.1.0 standard x86_64 release** was tested against freshly measured Redis 8.10.2 and Valkey 9.1.2 controls. This report presents **120 formal points**: 110 with 10 million keys and 10 Lavik-only points with one billion keys; values are 1,024 bytes. Lavik defrag stayed enabled throughout loading, warmup and measurement. No historical control results are reused.
 
-In the 10M group, Lavik's peak GET was **1145.8k QPS** at 1280 connections (p99.9 **7.135 ms**); peak SET was **972.0k QPS** at 1280 connections (p99.9 **7.199 ms**). These are single-run observations. The summary figure pairs each peak throughput with its measured latency; the chart shows throughput across connection counts.
+In the 10M group, Lavik's peak GET was **1145.8k QPS** at 1280 connections (p99.9 **7.135 ms**); peak SET was **972.0k QPS** at 1280 connections (p99.9 **7.199 ms**). These are single-run observations. The charts show throughput and p99.9 latency across connection counts.
 
 ## Throughput: Lavik 10M / 1B versus Redis / Valkey
 
@@ -17,12 +17,6 @@ All four series cover 80–1280 connections. The 10M group uses 30 seconds per p
 ![Lavik 10M / 1B, Redis and Valkey p99.9 latency](combined-p999.png)
 
 Latency is client-observed p99.9 over each full measurement window, in milliseconds; lower is better. The I/O-thread configurations match the throughput chart. The connection axis uses a log₂ scale.
-
-## Peak throughput and corresponding latency
-
-![Peak throughput and corresponding latency for all four groups](peak-summary.png)
-
-Each row shows the measured throughput peak for one system and dataset; its connection count and latency come from the same measurement point. Redis/Valkey curves use one I/O-thread configuration per command, selected by its peak QPS. Threads count data workers for Lavik and I/O threads for Redis/Valkey.
 
 The 1B GET peak is 1,069,126 QPS at 640 connections; SET peaks at 817,113 QPS with 1280 connections. These are observations from this single sweep.
 
