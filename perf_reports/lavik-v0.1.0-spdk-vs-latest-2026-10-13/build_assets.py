@@ -4,7 +4,7 @@
 """Render the committed benchmark CSV in the previous report's visual style.
 
 Requires Matplotlib 3.11.x. Run from any directory; no benchmark host, raw
-devices, or executable downloads are needed to regenerate the combined figure.
+devices, or executable downloads are needed to regenerate the two combined figures.
 """
 
 import csv
@@ -110,32 +110,52 @@ def save(fig, name, footer):
     plt.close(fig)
 
 
-def combined_throughput(rows):
+def combined_comparison(rows, metric="qps"):
+    throughput = metric == "qps"
     specs = [
         ("memory", "lavik-spdk", "Lavik v0.1.0 · 10M keys · 16 workers", "#1473E6", "///"),
         ("storage", "lavik-spdk", "Lavik v0.1.0 · 1B keys · 16 workers", "#168F8C", "\\\\"),
         ("memory", "redis", "Redis 8.10.2 · 10M keys · 16 I/O threads", "#E97827", ".."),
         ("memory", "valkey", "Valkey 9.1.2 · 10M keys · GET 16 / SET 8 I/O threads", "#C84C8A", "xx"),
     ]
-    fig, axes = frame("Lavik 10M / 1B keys versus Redis and Valkey",
+    fig, axes = frame("Lavik 10M / 1B keys versus Redis and Valkey" if throughput else
+                      "p99.9 latency · Lavik 10M / 1B, Redis and Valkey",
                       "1 KiB values · 16 memtier threads · pipeline 1 · Lavik SPDK / peers in DRAM")
     selected = {(group, system, workload): series(rows, group, system, workload)
                 for group, system, *_ in specs for workload in ["GET", "SET"]}
-    maximum = math.ceil(max(r["qps"] for values in selected.values() for r in values) / 200_000) * 200_000
+    peak = max(r[metric] for values in selected.values() for r in values)
+    maximum = math.ceil(peak / 200_000) * 200_000 if throughput else math.ceil(peak / 2) * 2
+    markers = ["o", "s", "^", "D"]
+    styles = ["-", "--", "-.", ":"]
     handles = [Patch(facecolor=color, edgecolor="white", hatch=hatch, label=label)
-               for _, _, label, color, hatch in specs]
+               if throughput else Line2D([], [], color=color, marker=markers[i],
+                                        linestyle=styles[i], linewidth=2.6, label=label)
+               for i, (_, _, label, color, hatch) in enumerate(specs)]
     fig.legend(handles=handles, loc="upper center", bbox_to_anchor=(.52, .885), ncol=2,
                frameon=False, fontsize=11.5, handlelength=2.6, columnspacing=2.7)
     for ax, workload in zip(axes, ["GET", "SET"]):
-        style_axis(ax, workload + " throughput", CONNECTIONS, maximum=maximum)
+        style_axis(ax, workload + (" throughput" if throughput else " p99.9 latency"),
+                   CONNECTIONS, metric=metric, maximum=maximum)
         for index, (group, system, _, color, hatch) in enumerate(specs):
             values = selected[group, system, workload]
             assert [r["connections"] for r in values] == CONNECTIONS
-            ax.bar([x + (index - 1.5) * .20 for x in range(len(CONNECTIONS))],
-                   [r["qps"] for r in values], width=.18, color=color,
-                   edgecolor="white", linewidth=.5, hatch=hatch)
-        ax.set_xlim(-.55, len(CONNECTIONS) - .45)
-    save(fig, "combined-qps", "10M: 30 s, default client seeds · 1B: 60 s, distinct client seeds · Lavik defrag enabled · single run per point")
+            if throughput:
+                ax.bar([x + (index - 1.5) * .20 for x in range(len(CONNECTIONS))],
+                       [r[metric] for r in values], width=.18, color=color,
+                       edgecolor="white", linewidth=.5, hatch=hatch)
+            else:
+                ax.plot(CONNECTIONS, [r[metric] for r in values], color=color,
+                        marker=markers[index], linestyle=styles[index], linewidth=2.6,
+                        markersize=7, markeredgecolor="white", markeredgewidth=.6)
+        if throughput:
+            ax.set_xlim(-.55, len(CONNECTIONS) - .45)
+        else:
+            ax.set_xscale("log", base=2)
+            ax.set_xticks(CONNECTIONS, [f"{n:,}" for n in CONNECTIONS])
+            ax.set_xlim(70, 1460)
+            ax.set_xlabel("Concurrent connections (log₂ scale)", fontsize=13, weight="bold", labelpad=13)
+            ax.yaxis.set_major_locator(MultipleLocator(2))
+    save(fig, "combined-qps" if throughput else "combined-p999", "10M: 30 s, default client seeds · 1B: 60 s, distinct client seeds · Lavik defrag enabled · single run per point")
 
 
 def main():
@@ -144,11 +164,12 @@ def main():
                          "axes.labelcolor": "#17202A", "svg.fonttype": "none",
                          "svg.hashsalt": "lavik-release010-20261013", "hatch.linewidth": .8})
     rows = read_rows()
-    combined_throughput(rows)
+    combined_comparison(rows)
+    combined_comparison(rows, "p999_ms")
     (ROOT / "chart-SHA256SUMS").write_text("".join(
         hashlib.file_digest(path.open("rb"), "sha256").hexdigest() + "  " + path.name + "\n"
         for path in sorted(ROOT.iterdir()) if path.suffix in [".svg", ".png"]))
-    print("Validated 120 rows; rendered one combined figure as SVG and PNG")
+    print("Validated 120 rows; rendered two combined figures as SVG and PNG")
 
 
 if __name__ == "__main__":

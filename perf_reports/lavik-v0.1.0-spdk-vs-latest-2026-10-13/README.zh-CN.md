@@ -12,6 +12,12 @@
 
 四组均展示 80–1280 连接。10M 组每点 30 秒，使用默认客户端随机种子；1B 组每点 60 秒，使用独立客户端随机种子。数据规模、时长及随机种子设置存在差异。
 
+## p99.9 延迟对比
+
+![Lavik 10M / 1B, Redis and Valkey p99.9 latency](combined-p999.png)
+
+延迟为客户端完整测量窗口的 p99.9，单位为毫秒，越低越好。使用与吞吐图相同的 I/O 线程配置；横轴为 log₂ 连接数刻度。
+
 ## 10M keys × 1 KiB：吞吐与延迟
 
 | Command | System | Threads¹ | Connections | QPS | Avg ms | p50 ms | p99 ms | p99.9 ms | p99.99 ms |
