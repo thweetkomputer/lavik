@@ -1913,7 +1913,7 @@ Task<absl::Status> RedisService::HandoffReplicationConnection(
 
 Task<absl::Status> RedisService::Serve(TcpStream& stream,
                                        ConnectionContext& ctx) {
-  ctx.command_args_storage_.byte_spare_ = &byte_spares_[ThisWorker().id()];
+  ctx.command_args_storage_.byte_spare_ = &byte_spares_[ThisWorker().id_];
   RequestInputBuffer input(stream);
   RespCommandParser parser(client_query_buffer_limit(),
                            &ctx.command_args_storage_);
