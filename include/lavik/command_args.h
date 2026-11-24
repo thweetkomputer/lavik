@@ -191,7 +191,8 @@ class CommandArgs {
   }
 
   absl::InlinedVector<OffsetAndLength, 8> args;
-  absl::InlinedVector<char, 256> bytes;
+  static constexpr std::size_t kInlineBytes = 256;
+  absl::InlinedVector<char, kInlineBytes> bytes;
 
   [[gnu::always_inline]] operator CommandArgsView() const {
     return {args, bytes.data()};
@@ -288,6 +289,18 @@ inline std::vector<std::string> CopyCommandArgs(
   return {args.begin(), args.end()};
 }
 
+// The Data server may recycle a completed connection slot's byte allocation on
+// its owning worker. Standalone protocol users supply no spare.
+class CommandByteSpare {
+ public:
+  using Bytes = decltype(CommandArgs::bytes);
+  virtual ~CommandByteSpare() = default;
+  // Preserve the assembled prefix and its offsets if cached capacity fits.
+  virtual void TryGrow(Bytes& bytes, std::size_t additional) noexcept = 0;
+  // May take the overflow allocation. The caller clears the slot afterwards.
+  virtual void Offer(Bytes& bytes) noexcept = 0;
+};
+
 class CommandArgsHandle;
 
 // Never relocate a live slot: its offsets and inline bytes must survive parser,
@@ -295,6 +308,8 @@ class CommandArgsHandle;
 // object; concurrent commands own separate heap objects. Parsing may grow
 // buffers; completed requests are read-only.
 struct CommandArgsStorage : CommandArgs {
+  // The optional spare must outlive this storage and run on its owner worker.
+  CommandByteSpare* byte_spare_ = nullptr;
   CommandArgsStorage() = default;
   ~CommandArgsStorage() { assert(!borrowed_); }
   CommandArgsStorage(const CommandArgsStorage&) = delete;
@@ -348,10 +363,19 @@ class CommandArgsHandle {
     storage.borrowed_ = true;
     return CommandArgsHandle(&storage);
   }
-  // Clears borrowed storage (including both overflow heaps), or deletes an
-  // independently owned object. Additional pipeline/MULTI objects are not
-  // cached.
+  // Clears borrowed storage, offering its byte overflow to the owner, or
+  // deletes an independently owned object. Additional pipeline/MULTI objects
+  // are not cached.
   void Reset() noexcept;
+  // Preserve packed offsets when a received bulk fragment outgrows its slot.
+  void AppendBulkBytes(std::string_view value) {
+    auto& args = Get();
+    if (value.size() > args.bytes.capacity() - args.bytes.size() &&
+        storage_->byte_spare_ != nullptr) {
+      storage_->byte_spare_->TryGrow(args.bytes, value.size());
+    }
+    args.AppendLast(value);
+  }
   [[gnu::always_inline]] bool HasStorage() const noexcept {
     return storage_ != nullptr;
   }
@@ -421,6 +445,9 @@ inline void CommandArgsHandle::Reset() noexcept {
   auto* slot = std::exchange(storage_, nullptr);
   if (slot == nullptr) return;
   if (slot->borrowed_) {
+    if (slot->byte_spare_ != nullptr &&
+        slot->bytes.capacity() > CommandArgs::kInlineBytes)
+      slot->byte_spare_->Offer(slot->bytes);
     slot->clear();
     slot->borrowed_ = false;
   } else {

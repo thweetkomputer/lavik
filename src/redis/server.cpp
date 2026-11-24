@@ -88,6 +88,7 @@
 #include "lavik/version.h"
 #include "lua_eval.h"
 #include "request_gate.h"
+#include "resp_byte_spare.h"
 #include "spdlog/spdlog.h"
 
 namespace lavik {
@@ -526,6 +527,7 @@ class RedisService final : public TcpService, public ClientLimit {
       std::optional<absl::Status>* deferred_read_error);
   Task<absl::Status> ImportRdb();
   Task<absl::Status> MonitorRuntimeHealth(Worker& worker);
+  Task<absl::Status> TrimRespByteSpare(Worker& worker);
 
   class RequestGuard {
    public:
@@ -582,6 +584,7 @@ class RedisService final : public TcpService, public ClientLimit {
   // result without making a worker take a mutex. Neither flag is reset.
   absl::Status replication_quiesce_status_;
   RequestGate request_gate_;
+  std::unique_ptr<RespByteSpare[]> byte_spares_;
   Server* server_ = nullptr;
 };
 
@@ -651,6 +654,7 @@ void RedisService::Prepare(unsigned thread_count) {
   // barrier. Global data-worker IDs remain the contiguous prefix [0, N).
   thread_count = storage_->worker_count();
   request_gate_.Prepare(thread_count);
+  byte_spares_ = std::make_unique<RespByteSpare[]>(thread_count);
   PrepareMonitor(thread_count);
   PreparePubSub(thread_count);
   recovery_ready_barrier_ = std::make_unique<CoroutineBarrier>(thread_count);
@@ -947,6 +951,7 @@ Task<absl::Status> RedisService::Run(Worker& worker, ServiceContext ctx) {
       worker.SpawnBackground(RunRdbBackupScheduler(worker));
     }
   }
+  worker.SpawnBackground(TrimRespByteSpare(worker));
   replication_->StorageReady(worker);
   co_return co_await TcpService::Run(worker, ctx);
 }
@@ -1368,6 +1373,15 @@ ResponseWriteAwaiter WriteOrBatchReply(TcpStream& stream,
 
 bool ShutdownRequested() {
   return g_shutdown_requested.load(std::memory_order_acquire);
+}
+
+Task<absl::Status> RedisService::TrimRespByteSpare(Worker& worker) {
+  while (!worker.stop_requested()) {
+    auto slept = co_await SleepFor(worker, std::chrono::seconds(1));
+    if (!slept.ok()) break;
+    byte_spares_[worker.id()].Tick();
+  }
+  co_return absl::OkStatus();
 }
 
 Task<absl::Status> RedisService::MonitorRuntimeHealth(Worker& worker) {
@@ -1899,6 +1913,7 @@ Task<absl::Status> RedisService::HandoffReplicationConnection(
 
 Task<absl::Status> RedisService::Serve(TcpStream& stream,
                                        ConnectionContext& ctx) {
+  ctx.command_args_storage_.byte_spare_ = &byte_spares_[ThisWorker().id()];
   RequestInputBuffer input(stream);
   RespCommandParser parser(client_query_buffer_limit(),
                            &ctx.command_args_storage_);
