@@ -24,7 +24,8 @@ class alignas(64) RespByteSpare final : public CommandByteSpare {
     // Copy the existing prefix before replacing its backing allocation. The
     // incoming payload is appended directly into the spare by the parser.
     spare_.assign(bytes.begin(), bytes.end());
-    bytes = std::move(spare_);
+    bytes.clear();
+    bytes.swap(spare_);
   }
 
   void Offer(Bytes& bytes) noexcept override {
@@ -41,7 +42,7 @@ class alignas(64) RespByteSpare final : public CommandByteSpare {
       credit_.Adopt(&*reservation, kMaxBytes);
     }
     bytes.resize(0);  // Abseil clear() would free the backing allocation.
-    spare_ = std::move(bytes);
+    spare_.swap(bytes);
     recently_returned_ = true;
   }
 
