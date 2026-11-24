@@ -29,9 +29,9 @@ class alignas(64) RespByteSpare final : public CommandByteSpare {
 
   void Offer(Bytes& bytes) noexcept override {
     constexpr std::size_t kMaxBytes = 4 * 1024;
-    if (spare_.capacity() > CommandArgs::kInlineBytes ||
-        bytes.capacity() <= CommandArgs::kInlineBytes ||
-        bytes.capacity() > kMaxBytes)
+    // Keep the larger eligible return so varying key lengths can hit the
+    // same spare on subsequent requests.
+    if (bytes.capacity() <= spare_.capacity() || bytes.capacity() > kMaxBytes)
       return;
     // Admit one worker cache budget per burst. Keeping the credit while the
     // vector is on loan avoids touching admission counters on every SET.
