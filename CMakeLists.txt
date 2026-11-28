@@ -219,10 +219,18 @@ target_include_directories(lavik_http_client PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/
 target_link_libraries(lavik_http_client PUBLIC bycorf::core absl::statusor absl::strings)
 
 find_package(LibXml2 REQUIRED)
+add_library(lavik_object_store_protocol STATIC src/object_store/protocol_common.cpp)
+target_link_libraries(lavik_object_store_protocol PRIVATE absl::statusor absl::strings LibXml2::LibXml2)
+
 add_library(lavik_s3_client STATIC src/object_store/s3_client.cpp)
 add_library(lavik::s3_client ALIAS lavik_s3_client)
 target_link_libraries(lavik_s3_client PUBLIC lavik::http_client
-  PRIVATE OpenSSL::Crypto LibXml2::LibXml2 absl::time)
+  PRIVATE lavik_object_store_protocol OpenSSL::Crypto LibXml2::LibXml2 absl::time)
+
+add_library(lavik_azure_blob_client STATIC src/object_store/azure_blob_client.cpp)
+add_library(lavik::azure_blob_client ALIAS lavik_azure_blob_client)
+target_link_libraries(lavik_azure_blob_client PUBLIC lavik::http_client
+  PRIVATE lavik_object_store_protocol OpenSSL::Crypto LibXml2::LibXml2 absl::time)
 
 add_library(lavik_sync_transport STATIC src/net/sync_stream.cpp)
 target_include_directories(lavik_sync_transport PUBLIC
@@ -774,7 +782,7 @@ if (BUILD_TESTING)
   # Local protocol test with disposable RustFS and Azurite services.
   add_executable(lavik_object_store_probe EXCLUDE_FROM_ALL
     tests/object_store/probe.cpp)
-  target_link_libraries(lavik_object_store_probe PRIVATE lavik::s3_client)
+  target_link_libraries(lavik_object_store_probe PRIVATE lavik::s3_client lavik::azure_blob_client)
 
   include(FetchContent)
 
@@ -803,6 +811,11 @@ if (BUILD_TESTING)
   target_include_directories(lavik_s3_protocol_test PRIVATE src/object_store)
   target_link_libraries(lavik_s3_protocol_test PRIVATE lavik::s3_client absl::time GTest::gtest_main)
   add_test(NAME lavik_s3_protocol COMMAND lavik_s3_protocol_test)
+
+  add_executable(lavik_azure_blob_protocol_test tests/object_store/azure_blob_protocol_test.cpp)
+  target_include_directories(lavik_azure_blob_protocol_test PRIVATE src/object_store)
+  target_link_libraries(lavik_azure_blob_protocol_test PRIVATE lavik::azure_blob_client absl::time GTest::gtest_main)
+  add_test(NAME lavik_azure_blob_protocol COMMAND lavik_azure_blob_protocol_test)
 
   if (UNIX)
     # These policies must never share module/PCH inline definitions: each

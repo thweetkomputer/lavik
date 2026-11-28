@@ -30,6 +30,7 @@
 #include "absl/strings/str_cat.h"
 #include "absl/time/clock.h"
 #include "absl/time/time.h"
+#include "protocol_common.h"
 #include "s3_protocol.h"
 
 namespace lavik::object_store {
@@ -38,44 +39,7 @@ using net::HttpMethod;
 using net::HttpRequest;
 using net::HttpResponse;
 
-constexpr char kHex[] = "0123456789ABCDEF";
-
-std::string Encode(std::string_view value, bool keep_slashes = false) {
-  std::string encoded;
-  for (unsigned char c : value) {
-    if (absl::ascii_isalnum(c) || c == '-' || c == '_' || c == '.' ||
-        c == '~' || (keep_slashes && c == '/')) {
-      encoded += static_cast<char>(c);
-    } else {
-      encoded += '%';
-      encoded += kHex[c >> 4];
-      encoded += kHex[c & 15];
-    }
-  }
-  return encoded;
-}
-
-// ListObjectsV2 encoding-type=url applies to keys, not continuation tokens.
-// '+' is a literal byte in URI encoding.
-absl::StatusOr<std::string> DecodeKey(std::string_view encoded) {
-  std::string key;
-  for (size_t i = 0; i < encoded.size(); ++i) {
-    if (encoded[i] != '%') {
-      key += encoded[i];
-      continue;
-    }
-    if (encoded.size() - i < 3)
-      return absl::DataLossError("truncated URL-encoded S3 key");
-    const char* digits = encoded.data() + i + 1;
-    unsigned char byte;
-    auto [end, ec] = std::from_chars(digits, digits + 2, byte, 16);
-    if (ec != std::errc{} || end != digits + 2)
-      return absl::DataLossError("invalid URL-encoded S3 key");
-    key += static_cast<char>(byte);
-    i += 2;
-  }
-  return key;
-}
+using internal::Encode;
 
 absl::StatusOr<std::string> Sha256Hex(std::string_view bytes) {
   unsigned char digest[32];
@@ -105,55 +69,16 @@ absl::StatusOr<std::string> Signature(std::string_view secret,
   return absl::BytesToHexString(key);
 }
 
-absl::Status CheckResponse(unsigned status, unsigned expected) {
-  if (status == expected) return absl::OkStatus();
-  const auto message = absl::StrCat("S3 returned HTTP ", status);
-  switch (status) {
-    case 400:
-      return absl::InvalidArgumentError(message);
-    case 401:
-    case 403:
-      return absl::PermissionDeniedError(message);
-    case 404:
-      return absl::NotFoundError(message);
-    case 409:
-      return absl::AbortedError(message);
-    case 412:
-      return absl::FailedPreconditionError(message);
-    case 429:
-      return absl::ResourceExhaustedError(message);
-    default:
-      return status >= 500 ? absl::UnavailableError(message)
-                           : absl::UnknownError(message);
-  }
-}
-
-bool IsElement(xmlNodePtr node, const char* name) {
-  return node && node->type == XML_ELEMENT_NODE &&
-         xmlStrEqual(node->name, BAD_CAST name);
-}
-
 absl::StatusOr<std::string> Field(xmlNodePtr parent, const char* name,
                                   bool required = true) {
-  std::string value;
-  bool seen = false;
-  for (auto* child = parent->children; child; child = child->next) {
-    if (!IsElement(child, name)) continue;
-    if (seen)
-      return absl::DataLossError(absl::StrCat("duplicate S3 field ", name));
-    seen = true;
-    for (auto* part = child->children; part; part = part->next) {
-      if (part->type == XML_COMMENT_NODE) continue;
-      if (part->type != XML_TEXT_NODE && part->type != XML_CDATA_SECTION_NODE)
-        return absl::DataLossError(absl::StrCat("invalid S3 field ", name));
-      value += reinterpret_cast<const char*>(part->content);
-    }
-  }
-  if (required && (!seen || value.empty()))
+  auto field = internal::Child(parent, name, required);
+  if (!field.ok()) return field.status();
+  if (!*field) return std::string{};
+  auto value = internal::FieldText(*field);
+  if (value.ok() && required && value->empty())
     return absl::DataLossError(absl::StrCat("missing S3 field ", name));
   return value;
 }
-
 }  // namespace
 
 absl::StatusOr<S3ListPage> internal::ParseListPage(std::string_view body,
@@ -282,7 +207,7 @@ bycorf::Task<absl::StatusOr<HttpResponse>> S3Client::Send(
   const unsigned expected = request.method_ == HttpMethod::kDelete ? 204 : 200;
   auto response = co_await http_.Send(std::move(request), options_);
   if (!response.ok()) co_return response.status();
-  status = CheckResponse(response->status_, expected);
+  status = internal::CheckResponse("S3", response->status_, expected);
   if (!status.ok()) co_return status;
   co_return std::move(response);
 }

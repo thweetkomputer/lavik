@@ -10,18 +10,10 @@ import secrets
 import subprocess
 import time
 from contextlib import contextmanager
-from datetime import datetime, timedelta, timezone
 from http.client import HTTPConnection, HTTPException
-from urllib.parse import urlsplit
 
 import boto3
-from azure.storage.blob import (
-    BlobSasPermissions,
-    BlobServiceClient,
-    ContainerSasPermissions,
-    generate_blob_sas,
-    generate_container_sas,
-)
+from azure.storage.blob import BlobServiceClient
 from botocore.config import Config
 
 
@@ -61,22 +53,16 @@ def service(image, port, credentials, ready_path, ready_statuses, *command):
         )
 
 
-def run_probe(binary, provider, port, urls):
-    targets = []
-    for url in urls:
-        parsed = urlsplit(url)
-        if parsed.hostname != "127.0.0.1" or parsed.port != port or not parsed.query:
-            raise ValueError("expected signed loopback URL")
-        targets.append(f"{parsed.path}?{parsed.query}")
+def run_probe(binary, provider, port, container, account, secret):
     subprocess.run(
         [binary, provider, str(port)],
-        input="\n".join(targets) + "\n",
+        input=f"{container}\n{account}\n{secret}\n",
         text=True,
         check=True,
         timeout=45,
     )
     print(
-        f"{provider}: binary PUT/GET, overwrite, stale If-Match, prefix listing and DELETE passed",
+        f"{provider}: signed binary PUT/GET, conditional overwrite, paginated prefix list, signature rejection and DELETE passed",
         flush=True,
     )
 
@@ -108,17 +94,7 @@ def rustfs(binary):
         )
         bucket = "lavik-probe"
         client.create_bucket(Bucket=bucket)
-        subprocess.run(
-            [binary, "s3", str(port)],
-            input=f"{bucket}\n{key}\n{secret}\n",
-            text=True,
-            check=True,
-            timeout=45,
-        )
-        print(
-            "s3: signed binary PUT/GET, conditional overwrite, paginated prefix list, signature rejection and DELETE passed",
-            flush=True,
-        )
+        run_probe(binary, "s3", port, bucket, key, secret)
 
 
 def azurite(binary):
@@ -141,26 +117,7 @@ def azurite(binary):
             use_env_settings=False,
         )
         container = client.create_container("lavik-probe")
-        blob = container.get_blob_client("blocks/1001_8192")
-        sas = generate_blob_sas(
-            account,
-            container.container_name,
-            blob.blob_name,
-            account_key=key,
-            permission=BlobSasPermissions(read=True, write=True, delete=True),
-            expiry=datetime.now(timezone.utc) + timedelta(minutes=5),
-        )
-        listing = generate_container_sas(
-            account,
-            container.container_name,
-            account_key=key,
-            permission=ContainerSasPermissions(list=True),
-            expiry=datetime.now(timezone.utc) + timedelta(minutes=5),
-        )
-        list_url = (
-            f"{container.url}?restype=container&comp=list&prefix=blocks%2F&{listing}"
-        )
-        run_probe(binary, "azure", port, [f"{blob.url}?{sas}"] * 3 + [list_url])
+        run_probe(binary, "azure", port, container.container_name, account, key)
 
 
 if __name__ == "__main__":
