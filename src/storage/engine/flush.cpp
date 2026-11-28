@@ -221,6 +221,7 @@ Task<absl::Status> StorageEngine::Impl::FlushPendingBlocks(WorkerStore* store) {
     std::uint64_t allocation_epoch_ = 0;
     std::uint16_t write_buffer_id_ = 0;
     std::uint8_t slot_ = 0;
+    BlockKind kind_;
     StagedRecordBatch staged_records_;
   };
 
@@ -339,6 +340,7 @@ Task<absl::Status> StorageEngine::Impl::FlushPendingBlocks(WorkerStore* store) {
           .allocation_epoch_ = state->allocation_epoch_,
           .write_buffer_id_ = staging_state.write_buffer_id_,
           .slot_ = slot,
+          .kind_ = header.kind_,
           .staged_records_ = {},
       });
       if (auto found = store->staged_records_.find(block_id);
@@ -474,6 +476,20 @@ Task<absl::Status> StorageEngine::Impl::FlushPendingBlocks(WorkerStore* store) {
         co_await bycorf::Fdatasync(*store->worker_, store->files_[file_id]);
     if (!synced.ok()) {
       co_return co_await fail_flush(synced);
+    }
+
+    if (options_.record_block_flush_ && pending->kind_ == BlockKind::kRecords) {
+      // New appends start beyond this padded boundary. The header and this
+      // prefix stay pinned until the flusher releases its staging slot.
+      RecordBlockFlush snapshot{
+          pending->block_id_, pending->durable_bytes_,
+          std::span<const std::byte, kBlockHeaderSlotBytes>(
+              staging.data_ + pending->slot_ * kBlockHeaderSlotBytes,
+              kBlockHeaderSlotBytes),
+          std::span<const std::byte>(staging.data_ + pending->durable_bytes_,
+                                     write_bytes - pending->durable_bytes_)};
+      auto published = co_await options_.record_block_flush_(snapshot);
+      if (!published.ok()) co_return co_await fail_flush(std::move(published));
     }
 
     co_await store->store_state_mutex_.Lock();

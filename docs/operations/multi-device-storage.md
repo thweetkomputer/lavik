@@ -17,8 +17,8 @@ limitations under the License.
 # Multi-Device Storage
 
 Lavik can use multiple local files or raw block devices for online data.
-Object storage remains a backup/restore target rather than part of the active
-write path.
+The storage engine also exposes a [single-block object mirror](../architecture/16-record-block-objects.md)
+for embedders. Its restore target is a free data slot on an offline raw device.
 
 ## Configuration
 

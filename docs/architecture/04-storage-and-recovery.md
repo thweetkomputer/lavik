@@ -507,6 +507,10 @@ state, before engine-wide storage objects are released.
 
 ## Runtime read, write, and flush flows
 
+An optional [record block publisher](16-record-block-objects.md) receives each
+ordinary block's immutable flush snapshot after local header sync. The writer
+retains its staging slot until the asynchronous publication completes.
+
 ### Append and index publication
 
 Logical mutations funnel through `AppendLocked`. The partition's mutation

@@ -512,6 +512,13 @@ add_library(lavik_module
 
 add_library(lavik::module ALIAS lavik_module)
 
+add_library(lavik_record_block_objects STATIC
+  src/object_store/record_block_objects.cpp
+  src/object_store/record_block_install.cpp)
+add_library(lavik::record_block_objects ALIAS lavik_record_block_objects)
+target_link_libraries(lavik_record_block_objects PUBLIC lavik::module
+  lavik::s3_client lavik::azure_blob_client)
+
 target_include_directories(lavik_module
   PUBLIC
     ${LAVIK_GENERATED_INCLUDE_DIR}
@@ -780,6 +787,8 @@ if (BUILD_TESTING)
   set_tests_properties(lavik_http_client_protocol PROPERTIES TIMEOUT 20)
 
   # Local protocol test with disposable RustFS and Azurite services.
+  add_executable(lavik_record_block_probe EXCLUDE_FROM_ALL tests/object_store/record_block_probe.cpp)
+  target_link_libraries(lavik_record_block_probe PRIVATE lavik::record_block_objects)
   add_executable(lavik_object_store_probe EXCLUDE_FROM_ALL
     tests/object_store/probe.cpp)
   target_link_libraries(lavik_object_store_probe PRIVATE lavik::s3_client lavik::azure_blob_client)
@@ -811,6 +820,11 @@ if (BUILD_TESTING)
   target_include_directories(lavik_s3_protocol_test PRIVATE src/object_store)
   target_link_libraries(lavik_s3_protocol_test PRIVATE lavik::s3_client absl::time GTest::gtest_main)
   add_test(NAME lavik_s3_protocol COMMAND lavik_s3_protocol_test)
+
+  add_executable(lavik_record_block_objects_test tests/object_store/record_block_objects_test.cpp)
+  target_include_directories(lavik_record_block_objects_test PRIVATE src/object_store)
+  target_link_libraries(lavik_record_block_objects_test PRIVATE lavik::record_block_objects GTest::gtest_main)
+  add_test(NAME lavik_record_block_objects COMMAND lavik_record_block_objects_test)
 
   add_executable(lavik_azure_blob_protocol_test tests/object_store/azure_blob_protocol_test.cpp)
   target_include_directories(lavik_azure_blob_protocol_test PRIVATE src/object_store)

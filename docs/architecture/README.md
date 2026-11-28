@@ -29,6 +29,7 @@ references rather than current architecture.
 | System composition | Process lifecycle, runtime dependency, cross-cutting flows, and integrations | [System overview](01-overview.md) |
 | S3 object storage client | Bucket-scoped SigV4 object operations, conditional writes and paginated prefix listing | [S3 object storage client](14-s3-object-client.md) |
 | Azure Blob client | Container-scoped Shared Key object operations, conditional writes and paginated prefix listing | [Azure Blob client](15-azure-blob-client.md) |
+| Ordinary block flush objects | Per-allocation flush upload and offline installation on a raw device | [Ordinary block flush objects](16-record-block-objects.md) |
 | Outbound HTTP | Worker-owned HTTP and HTTPS client exchanges, deadlines and response framing | [Outbound HTTP client](13-outbound-http.md) |
 | Request and Redis serving | TCP/TLS sessions, RESP2/RESP3 negotiation, command dispatch, connection state, Lua/Functions, Pub/Sub, replies, and command handlers | [Request and Redis serving](02-request-serving.md) |
 | Function catalog | Process-global Function ownership, hidden staging, crash-durable catalog commits, startup recovery, and replication integration | [Function catalog](07-function-catalog.md) |
@@ -102,6 +103,7 @@ architecture update.
 | Cluster data plane has topology, finite authority, node-controller, Meta-client/session, failover observation, and Redis gate boundaries | `include/lavik/cluster/`, `src/cluster/`, `src/redis/cluster_command.cpp`, `src/redis/command.cpp`, `src/redis/server.cpp` |
 | Meta control plane separates deterministic committed state with a topology-owned single-Data-cluster lifecycle and per-Group failover transitions, pure node projection, volatile observations, leader-scoped publishing/reconciliation, authenticated administration, an independent Sentinel Discovery Entry answering leader-only topology queries and notifications from committed authority and fresh source evidence, atomic initial creation, stable cluster status, manifest-bootstrapped initial membership, and the C++/Go Raft boundary | `include/lavik/meta/`, `src/meta/`, `app/lavik_meta.cpp`, `app/lavik_ctl.cpp` |
 | The S3 adapter signs object requests for the same authority and request target used by the HTTP transport | `include/lavik/object_store/s3_client.h`, `src/object_store/s3_client.cpp` |
+| A single record block restores from a contiguous chain of flush objects into a caller-selected physical slot | `src/storage/engine/flush.cpp`, `include/lavik/object_store/record_block_objects.h`, `src/object_store/record_block_install.cpp` |
 | The Azure adapter signs the encoded blob path and the decoded list query for its configured storage account | `include/lavik/object_store/azure_blob_client.h`, `src/object_store/azure_blob_client.cpp` |
 | Lavik's outbound HTTP client uses worker-owned Bycorf streams for HTTP/1.1 and HTTPS | `include/lavik/net/http_client.h`, `src/net/http_client.cpp` |
 | Bycorf is a pinned runtime submodule | `.gitmodules`, `CMakeLists.txt`, `bycorf/include/bycorf/`, `bycorf/src/` |

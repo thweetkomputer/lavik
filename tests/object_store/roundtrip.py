@@ -8,9 +8,11 @@ import base64
 import os
 import secrets
 import subprocess
+import tempfile
 import time
-from contextlib import contextmanager
+from contextlib import ExitStack, contextmanager
 from http.client import HTTPConnection, HTTPException
+from pathlib import Path
 
 import boto3
 from azure.storage.blob import BlobServiceClient
@@ -53,21 +55,65 @@ def service(image, port, credentials, ready_path, ready_statuses, *command):
         )
 
 
-def run_probe(binary, provider, port, container, account, secret):
-    subprocess.run(
-        [binary, provider, str(port)],
-        input=f"{container}\n{account}\n{secret}\n",
-        text=True,
-        check=True,
-        timeout=45,
-    )
-    print(
-        f"{provider}: signed binary PUT/GET, conditional overwrite, paginated prefix list, signature rejection and DELETE passed",
-        flush=True,
-    )
+@contextmanager
+def raw_test_devices():
+    # Use fresh loop devices for every run. A private node avoids changing the
+    # permissions on a shared /dev/loopN, even while another test is running.
+    with tempfile.TemporaryDirectory() as directory, ExitStack() as cleanup:
+        nodes = []
+        privileged = [] if os.geteuid() == 0 else ["sudo", "-n"]
+        for name in ("source", "target"):
+            image = Path(directory) / f"{name}.img"
+            with image.open("xb") as f:
+                f.truncate(128 * 1024 * 1024)
+            loop = subprocess.check_output(
+                [*privileged, "losetup", "--find", "--show", image], text=True
+            ).strip()
+            cleanup.callback(
+                subprocess.run, [*privileged, "losetup", "-d", loop], check=True
+            )
+            device = os.stat(loop).st_rdev
+            node = Path(directory) / name
+            subprocess.run(
+                [
+                    *privileged,
+                    "mknod",
+                    "-m",
+                    "666",
+                    node,
+                    "b",
+                    str(os.major(device)),
+                    str(os.minor(device)),
+                ],
+                check=True,
+            )
+            nodes.append(node)
+        yield nodes
 
 
-def rustfs(binary):
+def run_probe(binary, provider, port, container, account, secret, raw_blocks):
+    with ExitStack() as cleanup:
+        devices = cleanup.enter_context(raw_test_devices()) if raw_blocks else []
+        subprocess.run(
+            [binary, provider, str(port), *devices],
+            input=f"{container}\n{account}\n{secret}\n",
+            text=True,
+            check=True,
+            timeout=60 if raw_blocks else 45,
+        )
+    if raw_blocks:
+        print(
+            f"{provider}: three flushes, gap and CRC checks, relocated raw-device cold recovery passed",
+            flush=True,
+        )
+    else:
+        print(
+            f"{provider}: signed binary PUT/GET, conditional overwrite, paginated prefix list, signature rejection and DELETE passed",
+            flush=True,
+        )
+
+
+def rustfs(binary, raw_blocks):
     key = secrets.token_hex(12).upper()
     secret = secrets.token_hex(24)
     with service(
@@ -94,10 +140,10 @@ def rustfs(binary):
         )
         bucket = "lavik-probe"
         client.create_bucket(Bucket=bucket)
-        run_probe(binary, "s3", port, bucket, key, secret)
+        run_probe(binary, "s3", port, bucket, key, secret, raw_blocks)
 
 
-def azurite(binary):
+def azurite(binary, raw_blocks):
     account = "lavikprobe"
     key = base64.b64encode(secrets.token_bytes(32)).decode()
     with service(
@@ -117,15 +163,24 @@ def azurite(binary):
             use_env_settings=False,
         )
         container = client.create_container("lavik-probe")
-        run_probe(binary, "azure", port, container.container_name, account, key)
+        run_probe(
+            binary, "azure", port, container.container_name, account, key, raw_blocks
+        )
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("binary", help="path to lavik_object_store_probe")
+    parser.add_argument(
+        "binary", help="path to the object client or record block probe"
+    )
     parser.add_argument("--provider", choices=("s3", "azure", "both"), default="both")
+    parser.add_argument(
+        "--raw-blocks",
+        action="store_true",
+        help="run lavik_record_block_probe on two new loop devices",
+    )
     args = parser.parse_args()
     if args.provider in ("s3", "both"):
-        rustfs(args.binary)
+        rustfs(args.binary, args.raw_blocks)
     if args.provider in ("azure", "both"):
-        azurite(args.binary)
+        azurite(args.binary, args.raw_blocks)

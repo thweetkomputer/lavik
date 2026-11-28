@@ -35,3 +35,24 @@ tests run offline.
 
 Pass `--provider s3` or `--provider azure` to run one service. Each run
 generates its own credentials and removes its containers on exit.
+
+## Restore a flushed block on raw devices
+
+The record-block probe runs three real flushes of the same allocation. It
+downloads the block, checks rejection of a bad header and a missing middle
+fragment, installs the valid image at a different physical slot, and reads
+all three records after a cold storage startup.
+
+The driver allocates two disposable Linux loop devices per provider. Run it
+on a host with Docker, loop device support, and root access for `losetup` and
+`mknod` (via noninteractive sudo when running as a regular user). The
+temporary directory must allow private device nodes.
+
+```sh
+cmake --build build --target lavik_record_block_objects_test lavik_record_block_probe
+ctest --test-dir build -R '^lavik_record_block_objects$' --output-on-failure
+/tmp/lavik-object-store-venv/bin/python tests/object_store/roundtrip.py --raw-blocks build/lavik_record_block_probe
+```
+
+The offline protocol test simulates a lost PUT acknowledgement and checks
+retry bytes, allocation identity, and terminal failure.

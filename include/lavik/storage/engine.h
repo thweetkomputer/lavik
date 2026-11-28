@@ -45,6 +45,7 @@
 #include "lavik/storage/format.h"
 #include "lavik/storage/packed_values.h"
 #include "lavik/storage/read_flight.h"
+#include "lavik/storage/record_block_flush.h"
 #include "lavik/storage/sorted_set.h"
 
 namespace bycorf {
@@ -114,6 +115,12 @@ struct StorageEngineOptions {
   // releases the queued work.
   bool defrag_paused_ = false;
   RegisteredBufferPoolOptions buffers_{};
+  // Optional ordinary-block mirror, invoked after both local syncs and before
+  // flush completion. Calls are serialized per worker, with no store lock
+  // held. Owners select the source allocation and provide worker-local state.
+  // A terminal error latches the writer's existing flush failure.
+  std::function<bycorf::Task<absl::Status>(RecordBlockFlush)>
+      record_block_flush_;
 };
 
 // Runtime pacing for the worker-local expiration/index-maintenance coroutine.

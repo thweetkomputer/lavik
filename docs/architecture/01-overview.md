@@ -64,7 +64,9 @@ and Bycorf's [network architecture](../../bycorf/docs/architecture/networking.md
 The [outbound HTTP client](13-outbound-http.md) runs HTTP and HTTPS exchanges
 on the calling Bycorf worker. The [S3](14-s3-object-client.md) and
 [Azure Blob](15-azure-blob-client.md) clients use this transport for signed
-object reads, conditional writes, deletion and prefix listing.
+object reads, conditional writes, deletion and prefix listing. The
+[record block publisher](16-record-block-objects.md) can use either provider
+to transfer one allocation’s flushes to an offline raw-device restore.
 
 A separate `lavik-meta` executable runs the [Raft-backed meta control
 plane](08-meta-control-plane.md). It owns committed cluster metadata,
